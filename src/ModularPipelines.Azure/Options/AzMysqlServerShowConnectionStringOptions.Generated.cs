@@ -38,6 +38,18 @@ public record AzMysqlServerShowConnectionStringOptions : AzOptions
     [CliOption("--database-name", ShortForm = "-d")]
     public string? DatabaseName { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server.  Default: {server}.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
+
     [Obsolete("Use DatabaseName instead.")]
     public string? DatabaseNameValue
     {

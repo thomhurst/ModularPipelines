@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "http-settings", "create")]
-public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayHttpSettingsCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--port")] string Port,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayHttpSettingsCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name used for the affinity cookie.
     /// </summary>
@@ -29,8 +39,8 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of authentication certificates (Names and IDs) to associate with the HTTP settings. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--auth-certs")]
-    public bool? AuthCerts { get; set; }
+    [CliOption("--auth-certs", GroupValues = true)]
+    public IEnumerable<string>? AuthCerts { get; set; }
 
     /// <summary>
     /// Time in seconds after a backend server is removed during which on open connection remains active. Range from 0 (Disabled) to 3600.
@@ -41,13 +51,13 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable cookie-based affinity. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--cookie-based-affinity")]
-    public bool? CookieBasedAffinity { get; set; }
+    [CliOption("--cookie-based-affinity")]
+    public string? CookieBasedAffinity { get; set; }
 
     /// <summary>
     /// Whether the probe is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-probe")]
+    [CliOption("--enable-probe")]
     public bool? EnableProbe { get; set; }
 
     /// <summary>
@@ -59,13 +69,13 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// <summary>
     /// Whether to pick host header should be picked from the host name of the backend server.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--host-name-from-backend-pool")]
+    [CliOption("--host-name-from-backend-pool")]
     public bool? HostNameFromBackendPool { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -83,20 +93,44 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
     /// <summary>
     /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.  Default: Http.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--host-name-from- backend-pool` is required when this field is set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--root-certs")]
-    public bool? RootCerts { get; set; }
+    [CliOption("--root-certs", GroupValues = true)]
+    public IEnumerable<string>? RootCerts { get; set; }
 
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Enable or disable dedicated connection per backend server. Default is set to false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--dedicated-backend-connection", ShortForm = "--dedicated-connection")]
+    public bool? DedicatedBackendConnection { get; set; }
+
+    /// <summary>
+    /// Specify an SNI value to match the common name of the certificate on the backend. By default, the application gateway uses the incoming request’s host header as the SNI. Default value is null.
+    /// </summary>
+    [CliFlag("--sni-name")]
+    public bool? SniName { get; set; }
+
+    /// <summary>
+    /// Verify or skip both chain and expiry validations of the certificate on the backend server. Default is set to true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
+    /// </summary>
+    [CliOption("--validate-cert-ce", ShortForm = "--validate-cert-chain-and-expiry")]
+    public bool? ValidateCertCe { get; set; }
+
+    /// <summary>
+    /// When enabled, verifies if the Common Name of the certificate provided by the backend server matches the Server Name Indication (SNI) value. Default value is true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
+    /// </summary>
+    [CliOption("--validate-sni")]
+    public bool? ValidateSni { get; set; }
 
     [Obsolete("Use AffinityCookieName instead.")]
     public string? AffinityCookieNameValue

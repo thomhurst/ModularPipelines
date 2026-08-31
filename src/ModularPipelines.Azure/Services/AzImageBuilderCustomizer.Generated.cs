@@ -44,7 +44,7 @@ public class AzImageBuilderCustomizer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzImageBuilderCustomizerAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class AzImageBuilderCustomizer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzImageBuilderCustomizerRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -59,7 +59,7 @@ public class AzPolicyEnrollment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPolicyEnrollmentDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class AzPolicyEnrollment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPolicyEnrollmentShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class AzPolicyEnrollment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPolicyEnrollmentUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

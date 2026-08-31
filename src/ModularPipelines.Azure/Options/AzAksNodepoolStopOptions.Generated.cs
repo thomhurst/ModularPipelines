@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "stop")]
-public record AzAksNodepoolStopOptions : AzOptions
+public record AzAksNodepoolStopOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksNodepoolStopOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Send custom headers. When specified, format should be
     /// </summary>

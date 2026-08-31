@@ -18,8 +18,40 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "availability-set", "create")]
-public record AzVmAvailabilitySetCreateOptions : AzOptions
+public record AzVmAvailabilitySetCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzVmAvailabilitySetCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    public bool? AdditionalEvents { get; set; }
+
+    /// <summary>
+    /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    public bool? AllInstanceDown { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    public bool? EnableReboot { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    public bool? EnableRedeploy { get; set; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -51,10 +83,16 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     public string? Ppg { get; set; }
 
     /// <summary>
+    /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
+    /// </summary>
+    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
+    public bool? ScheduledEventsApiVersion { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Contained VMs should use unmanaged disks.

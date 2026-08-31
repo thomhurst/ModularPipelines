@@ -52,6 +52,16 @@ public interface IAzSshkey
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieve information about an SSH public key.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowAsync(AzSshKeyShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Update an SSH public key resource.
     /// </summary>
     /// <param name="options">The command options.</param>

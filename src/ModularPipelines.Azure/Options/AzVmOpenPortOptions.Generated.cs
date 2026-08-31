@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "open-port")]
-public record AzVmOpenPortOptions : AzOptions
+public record AzVmOpenPortOptions(
+    [property: CliOption("--port")] string Port
+) : AzOptions
 {
+    public AzVmOpenPortOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allow inbound traffic on the subnet instead of the NIC.
     /// </summary>
@@ -37,6 +44,24 @@ public record AzVmOpenPortOptions : AzOptions
     /// </summary>
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the virtual machine to open inbound traffic on.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use NsgName instead.")]
     public string? NsgNameValue

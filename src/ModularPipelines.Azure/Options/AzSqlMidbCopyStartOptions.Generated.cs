@@ -18,12 +18,55 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "copy", "start")]
-public record AzSqlMidbCopyStartOptions : AzOptions
+public record AzSqlMidbCopyStartOptions(
+    [property: CliOption("--dest-mi")] string DestMi
+) : AzOptions
 {
+    public AzSqlMidbCopyStartOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Name of the resource group to copy the managed database to. If unspecified, defaults to the origin resource group.
+    /// </summary>
+    [CliOption("--dest-resource-group", ShortForm = "--dest-rg")]
+    public string? DestResourceGroup { get; set; }
+
+    /// <summary>
+    /// Id of the subscription to move the managed database to. If unspecified, defaults to the origin subscription id.
+    /// </summary>
+    [CliOption("--dest-sub-id", ShortForm = "--dest-subscription-id")]
+    public string? DestSubId { get; set; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

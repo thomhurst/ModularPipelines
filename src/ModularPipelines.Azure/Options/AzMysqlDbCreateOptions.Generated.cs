@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "db", "create")]
-public record AzMysqlDbCreateOptions : AzOptions
+public record AzMysqlDbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
+    public AzMysqlDbCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The charset of the database.
     /// </summary>

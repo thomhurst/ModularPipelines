@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "create")]
-public record AzEventhubsNamespaceCreateOptions : AzOptions
+public record AzEventhubsNamespaceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventhubsNamespaceCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
@@ -59,8 +67,14 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// List of KeyVaultProperties objects.
     /// </summary>
-    [CliFlag("--encryption-config")]
-    public bool? EncryptionConfig { get; set; }
+    [CliOption("--encryption-config", GroupValues = true)]
+    public IEnumerable<string>? EncryptionConfig { get; set; }
+
+    /// <summary>
+    /// A list of regions where replicas of the namespace are maintained Object.
+    /// </summary>
+    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether
@@ -75,27 +89,57 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
+    /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
+    /// </summary>
+    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    public bool? MaxLag { get; set; }
+
+    /// <summary>
     /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if
     /// </summary>
     [CliFlag("--maximum-throughput-units")]
     public bool? MaximumThroughputUnits { get; set; }
 
     /// <summary>
+    /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2.
+    /// </summary>
+    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    public string? MinTls { get; set; }
+
+    /// <summary>
+    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    public string? PublicNetwork { get; set; }
+
+    /// <summary>
     /// Namespace SKU.  Allowed values: Basic, Premium, Standard.  Default: Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enabling this property creates a Standard EventHubs Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// Enable System Assigned Identity.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// List of User Assigned Identity ids.
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
 }

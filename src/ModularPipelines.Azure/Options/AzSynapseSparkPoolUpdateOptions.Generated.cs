@@ -35,7 +35,115 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The delay time whose unit is minute.
+    /// </summary>
+    [CliFlag("--delay")]
+    public bool? Delay { get; set; }
+
+    /// <summary>
+    /// The flag of enabling auto pause.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-pause")]
+    public bool? EnableAutoPause { get; set; }
+
+    /// <summary>
+    /// The flag of enabling auto scale.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-scale")]
+    public bool? EnableAutoScale { get; set; }
+
+    /// <summary>
+    /// The max node count.
+    /// </summary>
+    [CliFlag("--max-node-count")]
+    public bool? MaxNodeCount { get; set; }
+
+    /// <summary>
+    /// The min node count.
+    /// </summary>
+    [CliFlag("--min-node-count")]
+    public bool? MinNodeCount { get; set; }
+
+    /// <summary>
+    /// List of workspace packages name.
+    /// </summary>
+    [CliOption("--package", GroupValues = true)]
+    public IEnumerable<string>? Package { get; set; }
+
+    /// <summary>
+    /// Package action must be specified when you add or remove a workspace package from a Apache Spark pool.  Allowed values: Add, Remove.
+    /// </summary>
+    [CliOption("--package-action")]
+    public string? PackageAction { get; set; }
+
+    /// <summary>
+    /// Indicates whether Dynamic Executor Allocation is enabled or not. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-dynamic-exec")]
+    public bool? EnableDynamicExec { get; set; }
+
+    /// <summary>
+    /// The maximum number of executors alloted.
+    /// </summary>
+    [CliFlag("--max-executors")]
+    public bool? MaxExecutors { get; set; }
+
+    /// <summary>
+    /// The minimum number of executors alloted.
+    /// </summary>
+    [CliFlag("--min-executors")]
+    public bool? MinExecutors { get; set; }
+
+    /// <summary>
+    /// The library requirements file.
+    /// </summary>
+    [CliFlag("--library-requirements")]
+    public bool? LibraryRequirements { get; set; }
+
+    /// <summary>
+    /// Absolute path of Spark pool properties configuration file.
+    /// </summary>
+    [CliFlag("--spark-config-file-path")]
+    public bool? SparkConfigFilePath { get; set; }
+
+    /// <summary>
+    /// The number of node.
+    /// </summary>
+    [CliFlag("--node-count")]
+    public bool? NodeCount { get; set; }
+
+    /// <summary>
+    /// The level of compute power that each node in the Big Data pool has.. Allowed values: Large, Medium, None, Small, XLarge, XXLarge,
+    /// </summary>
+    [CliOption("--node-size")]
+    public string? NodeSize { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--workspace-name")]
+    public bool? WorkspaceName { get; set; }
 
 }

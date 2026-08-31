@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "lock", "list")]
-public record AzGroupLockListOptions : AzOptions
+public record AzGroupLockListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzGroupLockListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// A query filter to use to restrict the results.
     /// </summary>

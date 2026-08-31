@@ -18,12 +18,41 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "create")]
-public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
+public record AzNetappfilesAccountBackupVaultBackupCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--backup-name", ShortForm = "-n")] string BackupName,
+    [property: CliOption("--backup-vault-name", ShortForm = "-v")] string BackupVaultName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--volume-resource-id")] string VolumeResourceId
+) : AzOptions
 {
+    public AzNetappfilesAccountBackupVaultBackupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Label for backup.
+    /// </summary>
+    [CliFlag("--label")]
+    public bool? Label { get; set; }
+
+    /// <summary>
+    /// The name of the snapshot.
+    /// </summary>
+    [CliOption("--snapshot-name")]
+    public string? SnapshotName { get; set; }
+
+    /// <summary>
+    /// Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--use-existing-snapshot")]
+    public bool? UseExistingSnapshot { get; set; }
 
 }

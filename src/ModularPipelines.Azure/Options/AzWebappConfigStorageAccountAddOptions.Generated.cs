@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "add")]
-public record AzWebappConfigStorageAccountAddOptions : AzOptions
+public record AzWebappConfigStorageAccountAddOptions(
+    [property: SecretValue, CliOption("--access-key", ShortForm = "-k")] string AccessKey,
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--custom-id", ShortForm = "-i")] string CustomId,
+    [property: CliOption("--share-name", ShortForm = "--sn")] string ShareName,
+    [property: CliOption("--storage-type", ShortForm = "-t")] string StorageType
+) : AzOptions
 {
+    public AzWebappConfigStorageAccountAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
     /// </summary>
@@ -37,6 +49,24 @@ public record AzWebappConfigStorageAccountAddOptions : AzOptions
     /// </summary>
     [CliFlag("--slot-setting")]
     public bool? SlotSetting { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use MountPath instead.")]
     public string? MountPathValue

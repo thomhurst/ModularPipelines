@@ -18,19 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "webhook", "update")]
-public record AzAcrWebhookUpdateOptions : AzOptions
+public record AzAcrWebhookUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrWebhookUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated list of actions that trigger the webhook to post notifications.  Allowed values: chart_delete, chart_push, delete, push, quarantine.
     /// </summary>
-    [CliFlag("--actions")]
-    public bool? Actions { get; set; }
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// Space-separated custom headers in 'key[=value]' format that will be added to the webhook notifications. Use '' to clear existing headers.
     /// </summary>
-    [CliFlag("--headers")]
-    public bool? Headers { get; set; }
+    [CliOption("--headers", GroupValues = true)]
+    public IEnumerable<string>? Headers { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -41,26 +49,50 @@ public record AzAcrWebhookUpdateOptions : AzOptions
     /// <summary>
     /// The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means events for all repositories.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Indicates whether the webhook is enabled.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The service URI for the webhook to post notifications.
     /// </summary>
     [CliFlag("--uri")]
     public bool? Uri { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

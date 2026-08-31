@@ -18,8 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "event-subscription", "create")]
-public record AzEventgridDomainEventSubscriptionCreateOptions : AzOptions
+public record AzEventgridDomainEventSubscriptionCreateOptions(
+    [property: CliOption("--domain-name")] string DomainName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridDomainEventSubscriptionCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The Azure Active Directory Application Id or Uri to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
+    /// </summary>
+    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
+    public bool? AadAppId { get; set; }
+
+    /// <summary>
+    /// The Azure Active Directory Tenant Id to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
+    /// </summary>
+    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
+    public bool? AadTenantId { get; set; }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>
@@ -41,14 +62,14 @@ public record AzEventgridDomainEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// The type of the destination endpoint.  Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook.  Default: webhook.
     /// </summary>
-    [CliFlag("--endpoint-type")]
-    public bool? EndpointType { get; set; }
+    [CliOption("--endpoint-type")]
+    public string? EndpointType { get; set; }
 
     /// <summary>
     /// The schema in which events should be delivered for this event subscription. By default, events will be delivered in the same schema in which they are published (based on the corresponding topic's input schema).  Allowed values: cloudeventschemav1_0, custominputschema, eventgridschema.
     /// </summary>
-    [CliFlag("--event-delivery-schema")]
-    public bool? EventDeliverySchema { get; set; }
+    [CliOption("--event-delivery-schema")]
+    public string? EventDeliverySchema { get; set; }
 
     /// <summary>
     /// Event time to live (in minutes). Must be a number between 1 and 1440.  Default: 1440.
@@ -65,8 +86,8 @@ public record AzEventgridDomainEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// Maximum number of delivery attempts. Must be a number between 1 and 30.  Default: 30.
@@ -79,6 +100,54 @@ public record AzEventgridDomainEventSubscriptionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--max-events-per-batch")]
     public bool? MaxEventsPerBatch { get; set; }
+
+    /// <summary>
+    /// Preferred batch size in kilobytes. Must be a number between 1 and 1024.
+    /// </summary>
+    [CliFlag("--pref-batch-size-kb", ShortForm = "--preferred-batch-size-in-kilobytes")]
+    public bool? PrefBatchSizeKb { get; set; }
+
+    /// <summary>
+    /// Storage queue message time to live in seconds.
+    /// </summary>
+    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
+    public bool? Qttl { get; set; }
+
+    /// <summary>
+    /// An advanced filter enables filtering of events based on a specific event property.
+    /// </summary>
+    [CliFlag("--advanced-filter")]
+    public bool? AdvancedFilter { get; set; }
+
+    /// <summary>
+    /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
+
+    /// <summary>
+    /// A space-separated list of event types (e.g.,
+    /// </summary>
+    [CliOption("--included-event-types", GroupValues = true)]
+    public IEnumerable<string>? IncludedEventTypes { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-begins-with")]
+    public bool? SubjectBeginsWith { get; set; }
+
+    /// <summary>
+    /// Specify to indicate whether the subject fields should be compared in a case sensitive manner. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--subject-case-sensitive")]
+    public bool? SubjectCaseSensitive { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-ends-with")]
+    public bool? SubjectEndsWith { get; set; }
 
     [Obsolete("Use DeadletterEndpoint instead.")]
     public string? DeadletterEndpointValue

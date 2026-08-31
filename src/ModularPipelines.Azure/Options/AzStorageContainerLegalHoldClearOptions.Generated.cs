@@ -18,8 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "legal-hold", "clear")]
-public record AzStorageContainerLegalHoldClearOptions : AzOptions
+public record AzStorageContainerLegalHoldClearOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--tags", GroupValues = true)] IEnumerable<string> Tags
+) : AzOptions
 {
+    public AzStorageContainerLegalHoldClearOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
+    /// <summary>
+    /// When enabled, new blocks can be written to both Append and Block Blobs while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--allow-protected-append-writes-all", ShortForm = "--w-all")]
+    public bool? AllowProtectedAppendWritesAll { get; set; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

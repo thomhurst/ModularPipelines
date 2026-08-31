@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "encryption", "add")]
-public record AzServicebusNamespaceEncryptionAddOptions : AzOptions
+public record AzServicebusNamespaceEncryptionAddOptions(
+    [property: CliOption("--encryption-config", GroupValues = true)] IEnumerable<string> EncryptionConfig,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzServicebusNamespaceEncryptionAddOptions()
+        : this(default(IEnumerable<string>)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption).  Allowed values: false, true.
     /// </summary>

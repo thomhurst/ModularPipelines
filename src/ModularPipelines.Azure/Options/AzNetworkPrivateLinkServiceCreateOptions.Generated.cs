@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-link-service", "create")]
-public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
+public record AzNetworkPrivateLinkServiceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkPrivateLinkServiceCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated list of subscription IDs to auto-approve. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--auto-approval")]
-    public bool? AutoApproval { get; set; }
+    [CliOption("--auto-approval", GroupValues = true)]
+    public IEnumerable<string>? AutoApproval { get; set; }
 
     /// <summary>
     /// The destination IP address of the private link service.
@@ -41,20 +49,20 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Enable proxy protocol for private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-proxy-protocol")]
+    [CliOption("--enable-proxy-protocol")]
     public bool? EnableProxyProtocol { get; set; }
 
     /// <summary>
     /// Space-separated list of FQDNs.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--fqdns")]
-    public bool? Fqdns { get; set; }
+    [CliOption("--fqdns", GroupValues = true)]
+    public IEnumerable<string>? Fqdns { get; set; }
 
     /// <summary>
     /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb-name`.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--lb-frontend-ip-configs")]
-    public bool? LbFrontendIpConfigs { get; set; }
+    [CliOption("--lb-frontend-ip-configs", GroupValues = true)]
+    public IEnumerable<string>? LbFrontendIpConfigs { get; set; }
 
     /// <summary>
     /// Name of the load balancer to retrieve frontend IP configs from. Ignored if a frontend IP configuration ID is supplied.
@@ -71,7 +79,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -83,8 +91,44 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--visibility")]
-    public bool? Visibility { get; set; }
+    [CliOption("--visibility", GroupValues = true)]
+    public IEnumerable<string>? Visibility { get; set; }
+
+    /// <summary>
+    /// An array of private link service IP configurations.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ip-configurations")]
+    public IEnumerable<string>? IpConfigurations { get; set; }
+
+    /// <summary>
+    /// Static private IP address to use.
+    /// </summary>
+    [CliFlag("--private-ip-address")]
+    public bool? PrivateIpAddress { get; set; }
+
+    /// <summary>
+    /// IP version of the private IP address.  Allowed values: IPv4, IPv6.  Default: IPv4.
+    /// </summary>
+    [CliOption("--private-ip-address-version")]
+    public string? PrivateIpAddressVersion { get; set; }
+
+    /// <summary>
+    /// Private IP address allocation method.  Allowed values: Dynamic,
+    /// </summary>
+    [CliOption("--private-ip-allocation-method")]
+    public string? PrivateIpAllocationMethod { get; set; }
+
+    /// <summary>
+    /// Name or ID of subnet to use. If name provided, also supply `--vnet-name`.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
 
     [Obsolete("Use EdgeZone instead.")]
     public string? EdgeZoneValue

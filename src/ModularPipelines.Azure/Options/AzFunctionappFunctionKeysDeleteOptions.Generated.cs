@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "function", "keys", "delete")]
-public record AzFunctionappFunctionKeysDeleteOptions : AzOptions
+public record AzFunctionappFunctionKeysDeleteOptions(
+    [property: CliOption("--key-name")] string KeyName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzFunctionappFunctionKeysDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the Function.
     /// </summary>

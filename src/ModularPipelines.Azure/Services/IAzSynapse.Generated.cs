@@ -27,6 +27,11 @@ public interface IAzSynapse
     AzSynapseActivityRun ActivityRun => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az ad-only-auth sub-commands.
+    /// </summary>
+    AzSynapseAdOnlyAuth AdOnlyAuth => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az data-flow sub-commands.
     /// </summary>
     AzSynapseDataFlow DataFlow => throw new System.NotSupportedException();

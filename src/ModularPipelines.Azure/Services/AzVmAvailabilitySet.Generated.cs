@@ -33,6 +33,36 @@ public class AzVmAvailabilitySet
     #region Commands
 
     /// <summary>
+    /// Cancel the migration operation on an
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CancelMigrationToVmssAsync(
+        AzVmAvailabilitySetCancelMigrationToVmssOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetCancelMigrationToVmssOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Convert an Azure Availability Set to contain VMs with managed
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ConvertAsync(
+        AzVmAvailabilitySetConvertOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetConvertOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new Flexible Virtual Machine Scale Set and
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -59,7 +89,22 @@ public class AzVmAvailabilitySet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete an availability set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzVmAvailabilitySetDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,6 +123,51 @@ public class AzVmAvailabilitySet
     }
 
     /// <summary>
+    /// List all available virtual machine sizes that can be used to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSizesAsync(
+        AzVmAvailabilitySetListSizesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetListSizesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get information about an availability set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzVmAvailabilitySetShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Start migration operation on an Availability
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartMigrationToVmssAsync(
+        AzVmAvailabilitySetStartMigrationToVmssOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetStartMigrationToVmssOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update an Azure Availability Set.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +180,21 @@ public class AzVmAvailabilitySet
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Validate that the Virtual Machines in the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ValidateMigrationToVmssAsync(
+        AzVmAvailabilitySetValidateMigrationToVmssOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmAvailabilitySetValidateMigrationToVmssOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

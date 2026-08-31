@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "rule-set", "remove")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions(
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>

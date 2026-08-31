@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "file", "delete")]
-public record AzBatchNodeFileDeleteOptions : AzOptions
+public record AzBatchNodeFileDeleteOptions(
+    [property: CliOption("--file-path")] string FilePath,
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
+    public AzBatchNodeFileDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
     /// </summary>
@@ -31,5 +41,24 @@ public record AzBatchNodeFileDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

@@ -77,6 +77,11 @@ public interface IAzKeyvault
     AzKeyvaultSecurityDomain SecurityDomain => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az setting sub-commands.
+    /// </summary>
+    AzKeyvaultSetting Setting => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Check that the given name is valid and is not already in use.
     /// </summary>
     /// <param name="options">The command options.</param>

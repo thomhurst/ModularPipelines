@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "ad-admin", "delete")]
-public record AzSynapseSqlAdAdminDeleteOptions : AzOptions
+public record AzSynapseSqlAdAdminDeleteOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseSqlAdAdminDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

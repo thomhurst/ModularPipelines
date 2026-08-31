@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-scripts", "delete")]
-public record AzDeploymentScriptsDeleteOptions : AzOptions
+public record AzDeploymentScriptsDeleteOptions(
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzDeploymentScriptsDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

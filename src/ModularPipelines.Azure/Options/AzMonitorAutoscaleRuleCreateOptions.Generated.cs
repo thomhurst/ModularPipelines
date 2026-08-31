@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "create")]
-public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
+public record AzMonitorAutoscaleRuleCreateOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--condition")] string Condition,
+    [property: CliOption("--scale")] string Scale
+) : AzOptions
 {
+    public AzMonitorAutoscaleRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The number of minutes that must elapse before another scaling event can occur.  Default: 5.
     /// </summary>
@@ -37,6 +46,36 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--timegrain")]
     public bool? Timegrain { get; set; }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
     [Obsolete("Use ProfileName instead.")]
     public string? ProfileNameValue

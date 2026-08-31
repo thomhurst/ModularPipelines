@@ -18,12 +18,47 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "create")]
-public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
+public record AzNetworkLbOutboundRuleCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--address-pool", ShortForm = "--backend-address-pool")] string AddressPool,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
+    public AzNetworkLbOutboundRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The number of outbound ports to be used for
+    /// </summary>
+    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
+    public bool? AllocatedOutboundPorts { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The List of frontend IP configuration IDs or names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--frontend-ip-configs", GroupValues = true)]
+    public IEnumerable<string>? FrontendIpConfigs { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection.
+    /// </summary>
+    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public bool? IdleTimeout { get; set; }
 
 }

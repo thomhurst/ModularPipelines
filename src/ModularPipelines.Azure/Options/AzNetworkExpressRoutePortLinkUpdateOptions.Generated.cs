@@ -18,13 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "link", "update")]
-public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
+public record AzNetworkExpressRoutePortLinkUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--port-name")] string PortName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkExpressRoutePortLinkUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Enable/Disable administrative state of an ExpressRoute Link. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--admin-state")]
-    public bool? AdminState { get; set; }
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
 
     /// <summary>
     /// Resource ID.
@@ -35,8 +44,56 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The connectivity association key (CAK) ID that stored in the
+    /// </summary>
+    [CliFlag("--macsec-cak-secret-identifier")]
+    public bool? MacsecCakSecretIdentifier { get; set; }
+
+    /// <summary>
+    /// Cipher Method.  Allowed values: GcmAes128, GcmAes256,
+    /// </summary>
+    [CliOption("--macsec-cipher")]
+    public string? MacsecCipher { get; set; }
+
+    /// <summary>
+    /// The connectivity key name (CKN) that stored in the KeyVault.
+    /// </summary>
+    [CliFlag("--macsec-ckn-secret-identifier")]
+    public bool? MacsecCknSecretIdentifier { get; set; }
+
+    /// <summary>
+    /// Sci mode.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--macsec-sci-state")]
+    public string? MacsecSciState { get; set; }
 
     [Obsolete("Use Ids instead.")]
     public string? IdsValue

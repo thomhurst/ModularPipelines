@@ -18,78 +18,131 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "export-policy", "update")]
-public record AzNetappfilesVolumeExportPolicyUpdateOptions : AzOptions
+public record AzNetappfilesVolumeExportPolicyUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-v")] string Name,
+    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-index")] string RuleIndex
+) : AzOptions
 {
+    public AzNetappfilesVolumeExportPolicyUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Allows CIFS protocol.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--cifs")]
+    [CliOption("--cifs")]
     public bool? Cifs { get; set; }
 
     /// <summary>
     /// Kerberos5 Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5-read-only")]
+    [CliOption("--kerberos5-read-only")]
     public bool? Kerberos5ReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5 Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5-read-write")]
+    [CliOption("--kerberos5-read-write")]
     public bool? Kerberos5ReadWrite { get; set; }
 
     /// <summary>
     /// Kerberos5i Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5i-read-only")]
+    [CliOption("--kerberos5i-read-only")]
     public bool? Kerberos5iReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5i Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5i-read-write")]
+    [CliOption("--kerberos5i-read-write")]
     public bool? Kerberos5iReadWrite { get; set; }
 
     /// <summary>
     /// Kerberos5p Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5p-read-only")]
+    [CliOption("--kerberos5p-read-only")]
     public bool? Kerberos5pReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5p Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5p-read-write")]
+    [CliOption("--kerberos5p-read-write")]
     public bool? Kerberos5pReadWrite { get; set; }
 
     /// <summary>
     /// Allows NFSv3 protocol. Enable only for NFSv3 type volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--nfsv3")]
+    [CliOption("--nfsv3")]
     public bool? Nfsv3 { get; set; }
 
     /// <summary>
     /// Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--nfsv41")]
+    [CliOption("--nfsv41")]
     public bool? Nfsv41 { get; set; }
 
     /// <summary>
     /// Read only access.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--unix-read-only")]
+    [CliOption("--unix-read-only")]
     public bool? UnixReadOnly { get; set; }
 
     /// <summary>
     /// Read and write access.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--unix-read-write")]
+    [CliOption("--unix-read-write")]
     public bool? UnixReadWrite { get; set; }
+
+    /// <summary>
+    /// Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names.
+    /// </summary>
+    [CliFlag("--allowed-clients")]
+    public bool? AllowedClients { get; set; }
+
+    /// <summary>
+    /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non- root users can change ownership of files that they own. Allowed values: Restricted, Unrestricted.
+    /// </summary>
+    [CliOption("--chown-mode")]
+    public string? ChownMode { get; set; }
+
+    /// <summary>
+    /// Has root access to volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--has-root-access")]
+    public bool? HasRootAccess { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

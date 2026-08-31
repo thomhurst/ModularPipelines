@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchLocation
 {
     private readonly ICommandContext _command;
+    private AzBatchLocationQuotas? _quotas;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchLocation"/> class.
@@ -29,6 +30,15 @@ public class AzBatchLocation
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az quotas sub-commands.
+    /// </summary>
+    public AzBatchLocationQuotas Quotas => _quotas ??= new AzBatchLocationQuotas(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,7 @@ public class AzBatchLocation
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchLocationListSkusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

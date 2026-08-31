@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "dns-alias", "set")]
-public record AzSqlServerDnsAliasSetOptions : AzOptions
+public record AzSqlServerDnsAliasSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--original-server")] string OriginalServer
+) : AzOptions
 {
+    public AzSqlServerDnsAliasSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the original resource group.
     /// </summary>
@@ -31,6 +39,24 @@ public record AzSqlServerDnsAliasSetOptions : AzOptions
     /// </summary>
     [CliOption("--original-subscription-id")]
     public string? OriginalSubscriptionId { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
     [Obsolete("Use OriginalResourceGroup instead.")]
     public string? OriginalResourceGroupValue

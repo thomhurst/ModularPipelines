@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "setting", "remove")]
-public record AzSfClusterSettingRemoveOptions : AzOptions
+public record AzSfClusterSettingRemoveOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfClusterSettingRemoveOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Parameter name.
     /// </summary>
@@ -31,6 +39,12 @@ public record AzSfClusterSettingRemoveOptions : AzOptions
     /// </summary>
     [CliFlag("--section")]
     public bool? Section { get; set; }
+
+    /// <summary>
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example:
+    /// </summary>
+    [CliFlag("--settings-section", ShortForm = "--settings-section-description")]
+    public bool? SettingsSection { get; set; }
 
     [Obsolete("Use Parameter instead.")]
     public string? ParameterValue

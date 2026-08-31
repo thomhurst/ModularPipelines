@@ -41,14 +41,17 @@ internal partial class Az : IAz
         IAzBicep bicep,
         IAzBilling billing,
         IAzBot bot,
+        IAzCache cache,
         IAzCapacity capacity,
         IAzCloud cloud,
         IAzCognitiveservices cognitiveservices,
         IAzComputefleet computefleet,
+        IAzComputeRecommender computeRecommender,
         IAzConnection connection,
         IAzContainer container,
         IAzContainerapp containerapp,
         IAzCosmosdb cosmosdb,
+        IAzDataBoundary dataBoundary,
         IAzDataboxedge databoxedge,
         IAzDeployment deployment,
         IAzDeploymentscripts deploymentscripts,
@@ -126,14 +129,17 @@ internal partial class Az : IAz
         Bicep = bicep;
         Billing = billing;
         Bot = bot;
+        Cache = cache;
         Capacity = capacity;
         Cloud = cloud;
         Cognitiveservices = cognitiveservices;
         Computefleet = computefleet;
+        ComputeRecommender = computeRecommender;
         Connection = connection;
         Container = container;
         Containerapp = containerapp;
         Cosmosdb = cosmosdb;
+        DataBoundary = dataBoundary;
         Databoxedge = databoxedge;
         Deployment = deployment;
         Deploymentscripts = deploymentscripts;
@@ -244,6 +250,9 @@ internal partial class Az : IAz
     public IAzBot Bot { get; }
 
     /// <inheritdoc />
+    public IAzCache Cache { get; }
+
+    /// <inheritdoc />
     public IAzCapacity Capacity { get; }
 
     /// <inheritdoc />
@@ -256,6 +265,9 @@ internal partial class Az : IAz
     public IAzComputefleet Computefleet { get; }
 
     /// <inheritdoc />
+    public IAzComputeRecommender ComputeRecommender { get; }
+
+    /// <inheritdoc />
     public IAzConnection Connection { get; }
 
     /// <inheritdoc />
@@ -266,6 +278,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzCosmosdb Cosmosdb { get; }
+
+    /// <inheritdoc />
+    public IAzDataBoundary DataBoundary { get; }
 
     /// <inheritdoc />
     public IAzDataboxedge Databoxedge { get; }

@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "cache", "create")]
-public record AzAcrCacheCreateOptions : AzOptions
+public record AzAcrCacheCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--source-repo", ShortForm = "-s")] string SourceRepo,
+    [property: CliOption("--target-repo", ShortForm = "-t")] string TargetRepo
+) : AzOptions
 {
+    public AzAcrCacheCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the credential set.
     /// </summary>

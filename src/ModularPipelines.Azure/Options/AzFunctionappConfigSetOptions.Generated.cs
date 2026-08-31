@@ -35,8 +35,8 @@ public record AzFunctionappConfigSetOptions : AzOptions
     /// <summary>
     /// Set the Ftps state value for an app. Default value is 'AllAllowed'. Allowed values: AllAllowed, Disabled, FtpsOnly.
     /// </summary>
-    [CliFlag("--ftps-state")]
-    public bool? FtpsState { get; set; }
+    [CliOption("--ftps-state")]
+    public string? FtpsState { get; set; }
 
     /// <summary>
     /// Provide site configuration list in a format of either `key=value` pair or `@&lt;json_file&gt;`. PowerShell and Windows Command Prompt users should use a JSON file to provide these configurations to avoid compatibility issues with escape characters.
@@ -151,6 +151,24 @@ public record AzFunctionappConfigSetOptions : AzOptions
     /// </summary>
     [CliOption("--web-sockets-enabled")]
     public bool? WebSocketsEnabled { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use GenericConfigurations instead.")]
     public string? GenericConfigurationsValue

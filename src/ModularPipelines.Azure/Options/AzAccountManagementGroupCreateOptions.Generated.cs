@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "create")]
-public record AzAccountManagementGroupCreateOptions : AzOptions
+public record AzAccountManagementGroupCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAccountManagementGroupCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Sets the display name of the management group. If null, the group name is set as the display name.
     /// </summary>

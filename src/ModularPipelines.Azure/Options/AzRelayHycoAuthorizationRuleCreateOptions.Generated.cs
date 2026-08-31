@@ -18,12 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "authorization-rule", "create")]
-public record AzRelayHycoAuthorizationRuleCreateOptions : AzOptions
+public record AzRelayHycoAuthorizationRuleCreateOptions(
+    [property: CliOption("--hybrid-connection-name")] string HybridConnectionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzRelayHycoAuthorizationRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rights")]
-    public bool? Rights { get; set; }
+    [CliOption("--rights", GroupValues = true)]
+    public IEnumerable<string>? Rights { get; set; }
 
 }

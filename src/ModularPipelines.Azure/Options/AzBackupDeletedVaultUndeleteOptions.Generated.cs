@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupDeletedVaultUndeleteOptions : AzOptions
 {
     /// <summary>
+    /// ID of the deleted vault.
+    /// </summary>
+    [CliOption("--deleted-vault-id", ShortForm = "--ids")]
+    public string? DeletedVaultId { get; set; }
+
+    /// <summary>
     /// Location of the deleted vault.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]

@@ -18,12 +18,104 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "customizer", "add")]
-public record AzImageBuilderCustomizerAddOptions : AzOptions
+public record AzImageBuilderCustomizerAddOptions(
+    [property: CliOption("--customizer-name")] string CustomizerName,
+    [property: CliOption("--type", ShortForm = "-t")] string Type
+) : AzOptions
 {
+    public AzImageBuilderCustomizerAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
     [CliFlag("--defer")]
     public bool? Defer { get; set; }
+
+    /// <summary>
+    /// The absolute destination path where the file specified in --file- source will be downloaded to in the image.
+    /// </summary>
+    [CliFlag("--dest-path")]
+    public bool? DestPath { get; set; }
+
+    /// <summary>
+    /// The URI of the file to be downloaded into the image. It can be a github link, SAS URI for Azure Storage, etc.
+    /// </summary>
+    [CliOption("--file-source")]
+    public string? FileSource { get; set; }
+
+    /// <summary>
+    /// Space-separated list of valid exit codes, as integers.
+    /// </summary>
+    [CliOption("--exit-codes", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string>? ExitCodes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the image template.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Space-separated list of inline script lines to customize the image with.
+    /// </summary>
+    [CliOption("--inline-script", GroupValues = true)]
+    public IEnumerable<string>? InlineScript { get; set; }
+
+    /// <summary>
+    /// URL of script to customize the image with. The URL must be publicly accessible.
+    /// </summary>
+    [CliOption("--script-url")]
+    public string? ScriptUrl { get; set; }
+
+    /// <summary>
+    /// Command to verify that restart succeeded.
+    /// </summary>
+    [CliFlag("--restart-check-command")]
+    public bool? RestartCheckCommand { get; set; }
+
+    /// <summary>
+    /// Command to execute the restart operation.
+    /// </summary>
+    [CliFlag("--restart-command")]
+    public bool? RestartCommand { get; set; }
+
+    /// <summary>
+    /// Restart timeout specified as a string consisting of a magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours).  Default: 5m.
+    /// </summary>
+    [CliFlag("--restart-timeout")]
+    public bool? RestartTimeout { get; set; }
+
+    /// <summary>
+    /// Space delimited filters to select updates to apply. Omit or specify empty array to use the default (no filter).
+    /// </summary>
+    [CliFlag("--filters")]
+    public bool? Filters { get; set; }
+
+    /// <summary>
+    /// Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field.
+    /// </summary>
+    [CliFlag("--search-criteria")]
+    public bool? SearchCriteria { get; set; }
+
+    /// <summary>
+    /// Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000).
+    /// </summary>
+    [CliFlag("--update-limit")]
+    public bool? UpdateLimit { get; set; }
 
 }

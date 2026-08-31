@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "show")]
-public record AzAcrRepositoryShowOptions : AzOptions
+public record AzAcrRepositoryShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrRepositoryShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>

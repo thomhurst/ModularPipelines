@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "github-actions", "remove")]
-public record AzFunctionappDeploymentGithubActionsRemoveOptions : AzOptions
+public record AzFunctionappDeploymentGithubActionsRemoveOptions(
+    [property: CliOption("--repo")] string Repo
+) : AzOptions
 {
+    public AzFunctionappDeploymentGithubActionsRemoveOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The branch to which the workflow file will be added.  Default: master.
     /// </summary>
@@ -31,6 +38,36 @@ public record AzFunctionappDeploymentGithubActionsRemoveOptions : AzOptions
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// Interactively log in with Github to retrieve the Personal Access Token.
+    /// </summary>
+    [CliFlag("--login-with-github")]
+    public bool? LoginWithGithub { get; set; }
+
+    /// <summary>
+    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the-command-line.
+    /// </summary>
+    [CliFlag("--token")]
+    public bool? Token { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -83,8 +84,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--microsoft-entra-auth")]
-    public bool? MicrosoftEntraAuth { get; set; }
+    [CliOption("--microsoft-entra-auth")]
+    public string? MicrosoftEntraAuth { get; set; }
 
     /// <summary>
     /// The number of nodes for elastic cluster.
@@ -95,8 +96,9 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Whether password authentication is enabled.  Allowed values:
     /// </summary>
-    [CliFlag("--password-auth")]
-    public bool? PasswordAuth { get; set; }
+    [SecretValue]
+    [CliOption("--password-auth")]
+    public string? PasswordAuth { get; set; }
 
     /// <summary>
     /// Performance tier of the server.
@@ -113,8 +115,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -131,8 +133,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -143,8 +145,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
@@ -167,8 +169,56 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable high availability feature.  Allowed values:
     /// </summary>
-    [CliFlag("--zonal-resiliency")]
-    public bool? ZonalResiliency { get; set; }
+    [CliOption("--zonal-resiliency")]
+    public string? ZonalResiliency { get; set; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use BackupIdentity instead.")]
     public string? BackupIdentityValue

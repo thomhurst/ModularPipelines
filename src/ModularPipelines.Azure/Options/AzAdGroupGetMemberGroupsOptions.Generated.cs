@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "get-member-groups")]
-public record AzAdGroupGetMemberGroupsOptions : AzOptions
+public record AzAdGroupGetMemberGroupsOptions(
+    [property: CliOption("--group", ShortForm = "-g")] string Group
+) : AzOptions
 {
+    public AzAdGroupGetMemberGroupsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// True to specify that only security groups that the entity is a member of should be returned; false to specify that all groups and directory roles that the entity is a member of should be returned.  Allowed values: false, true.
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "create")]
-public record AzSqlServerCreateOptions : AzOptions
+public record AzSqlServerCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSqlServerCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The administrator login password (required forserver creation).
     /// </summary>
@@ -45,6 +53,12 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? EnableAdOnlyAuth { get; set; }
 
     /// <summary>
+    /// Set whether public network access to server is allowed or not. When false,only connections made through Private Links can reach this server.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e")]
+    public bool? EnablePublicNetwork { get; set; }
+
+    /// <summary>
     /// Display name of the Azure AD administrator user, group or application.
     /// </summary>
     [CliFlag("--external-admin-name")]
@@ -63,10 +77,16 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? ExternalAdminSid { get; set; }
 
     /// <summary>
+    /// The federated client id used in cross tenant
+    /// </summary>
+    [CliFlag("--federated-client-id", ShortForm = "--fid")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned,
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
@@ -83,8 +103,8 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -93,10 +113,28 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The ID of the primary user managed identity.
+    /// </summary>
+    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    public string? Pid { get; set; }
+
+    /// <summary>
+    /// Set whether outbound network access to server is restricted or not. When true,the outbound connections from the server will be restricted.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--restrict-outbound-network-access", ShortForm = "-r")]
+    public bool? RestrictOutboundNetworkAccess { get; set; }
+
+    /// <summary>
+    /// Specify the number of days to retain soft deleted server (0-7). Set to 0 to disable soft delete. Set to 1-7 days to enable soft delete with the specified retention period. During the retention period, the server can be restored using az sql server restore.
+    /// </summary>
+    [CliFlag("--sdrd", ShortForm = "--soft-delete-retention-days")]
+    public bool? Sdrd { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.

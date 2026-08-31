@@ -33,6 +33,21 @@ public class AzPostgresFlexibleServerDeploy
     #region Commands
 
     /// <summary>
+    /// Run an existing workflow in your github repository.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RunAsync(
+        AzPostgresFlexibleServerDeployRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create GitHub Actions workflow file for PostgreSQL
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,7 +59,7 @@ public class AzPostgresFlexibleServerDeploy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDeploySetupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,8 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "destination", "create")]
-public record AzEventgridPartnerDestinationCreateOptions : AzOptions
+public record AzEventgridPartnerDestinationCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerDestinationCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') which is the expiration time of the partner destination. If this timer expires and the partner destination was never activated, the partner destination and corresponding channel are deleted.
+    /// </summary>
+    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
+    public bool? ActExpDate { get; set; }
+
+    /// <summary>
+    /// Endpoint context associated with this partner destination.
+    /// </summary>
+    [CliFlag("--ed-serv-cont", ShortForm = "--endpoint-service-context")]
+    public bool? EdServCont { get; set; }
+
     /// <summary>
     /// Endpoint Base URL of the partner destination.
     /// </summary>
@@ -33,9 +54,15 @@ public record AzEventgridPartnerDestinationCreateOptions : AzOptions
     public bool? MessageForActivation { get; set; }
 
     /// <summary>
+    /// The immutable ID of the corresponding partner registration.
+    /// </summary>
+    [CliFlag("--partner-registration-immutable-id", ShortForm = "--pr-id")]
+    public bool? PartnerRegistrationImmutableId { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

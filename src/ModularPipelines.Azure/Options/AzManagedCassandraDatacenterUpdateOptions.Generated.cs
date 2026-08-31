@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "update")]
-public record AzManagedCassandraDatacenterUpdateOptions : AzOptions
+public record AzManagedCassandraDatacenterUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzManagedCassandraDatacenterUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates the Key Uri of the customer key to use for encryption of the backup storage account.
     /// </summary>

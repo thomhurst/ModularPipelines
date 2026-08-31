@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "validate")]
-public record AzStaticwebappBackendsValidateOptions : AzOptions
+public record AzStaticwebappBackendsValidateOptions(
+    [property: CliOption("--backend-resource-id")] string BackendResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStaticwebappBackendsValidateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Region of the backend resource.
     /// </summary>

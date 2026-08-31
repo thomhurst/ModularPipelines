@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "create")]
-public record AzBatchAccountCreateOptions : AzOptions
+public record AzBatchAccountCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchAccountCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Full path to the versioned secret. Example https://mykeyvault.v ault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
     /// </summary>
@@ -29,8 +38,8 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch,
     /// </summary>
-    [CliFlag("--encryption-key-source")]
-    public bool? EncryptionKeySource { get; set; }
+    [CliOption("--encryption-key-source")]
+    public string? EncryptionKeySource { get; set; }
 
     /// <summary>
     /// The KeyVault name or resource ID to be used for an account with a pool allocation mode of 'User Subscription'.
@@ -47,8 +56,8 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values:
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The storage account name or resource ID to be used for auto storage.
@@ -59,8 +68,20 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags in 'key[=value]' format.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity on the batch services account.
+    /// </summary>
+    [CliFlag("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Resource ID of the user assigned identity for the batch services account.
+    /// </summary>
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     [Obsolete("Use Keyvault instead.")]
     public string? KeyvaultValue

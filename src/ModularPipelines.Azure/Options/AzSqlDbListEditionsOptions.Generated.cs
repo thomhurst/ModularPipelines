@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "list-editions")]
-public record AzSqlDbListEditionsOptions : AzOptions
+public record AzSqlDbListEditionsOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
+    public AzSqlDbListEditionsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If specified, show only results that are available in the specified region.
     /// </summary>
@@ -29,7 +36,31 @@ public record AzSqlDbListEditionsOptions : AzOptions
     /// <summary>
     /// List of additional details to include in output.  Allowed values: max-size.
     /// </summary>
-    [CliFlag("--show-details", ShortForm = "-d")]
-    public bool? ShowDetails { get; set; }
+    [CliOption("--show-details", ShortForm = "-d", GroupValues = true)]
+    public IEnumerable<string>? ShowDetails { get; set; }
+
+    /// <summary>
+    /// Number of DTUs to search for. If unspecified, all DTU sizes are shown.
+    /// </summary>
+    [CliFlag("--dtu")]
+    public bool? Dtu { get; set; }
+
+    /// <summary>
+    /// Edition to search for. If unspecified, all editions are shown.
+    /// </summary>
+    [CliFlag("--edition", ShortForm = "-e")]
+    public bool? Edition { get; set; }
+
+    /// <summary>
+    /// Service objective to search for. If unspecified, all service objectives are shown.
+    /// </summary>
+    [CliFlag("--service-objective")]
+    public bool? ServiceObjective { get; set; }
+
+    /// <summary>
+    /// Number of vcores to search for. If unspecified, all vcore sizes are shown.
+    /// </summary>
+    [CliFlag("--vcores")]
+    public bool? Vcores { get; set; }
 
 }

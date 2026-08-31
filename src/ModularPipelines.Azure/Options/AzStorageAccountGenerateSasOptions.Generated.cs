@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "generate-sas")]
-public record AzStorageAccountGenerateSasOptions : AzOptions
+public record AzStorageAccountGenerateSasOptions(
+    [property: CliOption("--expiry")] string Expiry,
+    [property: CliOption("--permissions")] string Permissions,
+    [property: CliOption("--resource-types")] string ResourceTypes,
+    [property: CliOption("--services")] string Services
+) : AzOptions
 {
+    public AzStorageAccountGenerateSasOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A predefined encryption scope used to encrypt the data on the service.
     /// </summary>
@@ -43,5 +54,37 @@ public record AzStorageAccountGenerateSasOptions : AzOptions
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
+
+    /// <summary>
+    /// Storage account name. Must be used in conjunction with either storage account key or a SAS token. Environment Variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
 }

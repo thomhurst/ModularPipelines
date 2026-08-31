@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "network-rule", "remove")]
-public record AzAcrNetworkRuleRemoveOptions : AzOptions
+public record AzAcrNetworkRuleRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrNetworkRuleRemoveOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// IPv4/IPv6 address or CIDR range.
     /// </summary>

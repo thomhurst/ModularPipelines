@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "update")]
-public record AzIotDpsLinkedHubUpdateOptions : AzOptions
+public record AzIotDpsLinkedHubUpdateOptions(
+    [property: CliOption("--dps-name")] string DpsName,
+    [property: CliOption("--linked-hub")] string LinkedHub
+) : AzOptions
 {
+    public AzIotDpsLinkedHubUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allocation weight of the IoT hub.
     /// </summary>

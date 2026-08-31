@@ -27,9 +27,19 @@ public interface IAzAppservice
     AzAppserviceAse Ase => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az hybrid-connection sub-commands.
+    /// </summary>
+    AzAppserviceHybridConnection HybridConnection => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az plan sub-commands.
     /// </summary>
     AzAppservicePlan Plan => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az vnet-integration sub-commands.
+    /// </summary>
+    AzAppserviceVnetIntegration VnetIntegration => throw new System.NotSupportedException();
 
     /// <summary>
     /// List regions where a plan sku is available.

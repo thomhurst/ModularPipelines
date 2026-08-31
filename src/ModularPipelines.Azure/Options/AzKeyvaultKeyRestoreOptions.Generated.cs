@@ -23,13 +23,67 @@ public record AzKeyvaultKeyRestoreOptions : AzOptions
     /// <summary>
     /// Local key backup from which to restore key.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the Vault or HSM. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// Name of the blob container which contains the backup.
+    /// </summary>
+    [CliOption("--backup-folder")]
+    public string? BackupFolder { get; set; }
+
+    /// <summary>
+    /// Name of the key. (Only for restoring from storage account).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// The SAS token pointing to an Azure Blob storage container.
+    /// </summary>
+    [CliFlag("--storage-container-SAS-token", ShortForm = "-t")]
+    public bool? StorageContainerSasToken { get; set; }
+
+    /// <summary>
+    /// Name of Blob Container.
+    /// </summary>
+    [CliOption("--blob-container-name")]
+    public string? BlobContainerName { get; set; }
+
+    /// <summary>
+    /// Name of Azure Storage Account.
+    /// </summary>
+    [CliOption("--storage-account-name")]
+    public string? StorageAccountName { get; set; }
+
+    /// <summary>
+    /// Azure Blob storage container Uri. If specified, all other 'Storage Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--storage-resource-uri", ShortForm = "-u")]
+    public bool? StorageResourceUri { get; set; }
 
 }

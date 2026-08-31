@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "region", "add")]
-public record AzKeyvaultRegionAddOptions : AzOptions
+public record AzKeyvaultRegionAddOptions(
+    [property: CliOption("--hsm-name")] string HsmName,
+    [property: CliOption("--region", ShortForm = "-r")] string Region
+) : AzOptions
 {
+    public AzKeyvaultRegionAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

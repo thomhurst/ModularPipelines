@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "create")]
-public record AzAdGroupCreateOptions : AzOptions
+public record AzAdGroupCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--mail-nickname")] string MailNickname
+) : AzOptions
 {
+    public AzAdGroupCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Group description.
     /// </summary>

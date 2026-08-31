@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "delete")]
-public record AzGroupDeleteOptions : AzOptions
+public record AzGroupDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzGroupDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The resource types you want to force delete.  Allowed values: Microsoft.Compute/virtualMachineScaleSets,
     /// </summary>

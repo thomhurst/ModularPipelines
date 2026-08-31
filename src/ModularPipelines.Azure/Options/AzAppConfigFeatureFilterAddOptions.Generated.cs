@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "feature", "filter", "add")]
-public record AzAppConfigFeatureFilterAddOptions : AzOptions
+public record AzAppConfigFeatureFilterAddOptions(
+    [property: CliOption("--filter-name")] string FilterName
+) : AzOptions
 {
+    public AzAppConfigFeatureFilterAddOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the
     /// </summary>
@@ -29,8 +37,9 @@ public record AzAppConfigFeatureFilterAddOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
@@ -47,8 +56,8 @@ public record AzAppConfigFeatureFilterAddOptions : AzOptions
     /// <summary>
     /// Space-separated filter parameters in 'name[=value]' format. The value must be an escaped JSON string.
     /// </summary>
-    [CliFlag("--filter-parameters")]
-    public bool? FilterParameters { get; set; }
+    [CliOption("--filter-parameters", GroupValues = true)]
+    public IEnumerable<string>? FilterParameters { get; set; }
 
     /// <summary>
     /// Zero-based index in the list of filters where you want to insert the new filter. If no index is specified or index is invalid, filter will be added to the end of the list.

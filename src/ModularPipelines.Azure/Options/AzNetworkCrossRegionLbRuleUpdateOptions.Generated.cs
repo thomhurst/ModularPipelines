@@ -18,12 +18,93 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "rule", "update")]
-public record AzNetworkCrossRegionLbRuleUpdateOptions : AzOptions
+public record AzNetworkCrossRegionLbRuleUpdateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkCrossRegionLbRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// ID or name of the backend address pools. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--backend-pool-name")]
+    public string? BackendPoolName { get; set; }
+
+    /// <summary>
+    /// The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".
+    /// </summary>
+    [CliFlag("--backend-port")]
+    public bool? BackendPort { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// The name of ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
+    /// </summary>
+    [CliFlag("--frontend-port")]
+    public bool? FrontendPort { get; set; }
+
+    /// <summary>
+    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol.
+    /// </summary>
+    [CliOption("--load-distribution")]
+    public string? LoadDistribution { get; set; }
+
+    /// <summary>
+    /// The ID or Name of an existing probe to associate with this rule.
+    /// </summary>
+    [CliOption("--probe", ShortForm = "--probe-name")]
+    public string? Probe { get; set; }
+
+    /// <summary>
+    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
 }

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "adaptive-application-controls", "show")]
-public record AzSecurityAdaptiveApplicationControlsShowOptions : AzOptions
+public record AzSecurityAdaptiveApplicationControlsShowOptions(
+    [property: CliOption("--group-name")] string GroupName
+) : AzOptions
 {
+    public AzSecurityAdaptiveApplicationControlsShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location of the resource. Possible values are "centralsus", "westeurope". Please use "list" operation to get all resources and locations.
     /// </summary>

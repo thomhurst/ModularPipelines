@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger", "delete")]
-public record AzSynapseTriggerDeleteOptions : AzOptions
+public record AzSynapseTriggerDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseTriggerDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

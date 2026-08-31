@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "disconnect")]
-public record AzStaticwebappDisconnectOptions : AzOptions
+public record AzStaticwebappDisconnectOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStaticwebappDisconnectOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

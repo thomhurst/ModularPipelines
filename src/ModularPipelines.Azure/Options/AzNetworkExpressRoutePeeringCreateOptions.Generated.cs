@@ -18,12 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "create")]
-public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
+public record AzNetworkExpressRoutePeeringCreateOptions(
+    [property: CliOption("--circuit-name")] string CircuitName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkExpressRoutePeeringCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -35,8 +43,8 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// <summary>
     /// BGP peering type for the circuit.  Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering. Allowed values: AzurePrivatePeering, AzurePublicPeering,
     /// </summary>
-    [CliFlag("--peering-type")]
-    public bool? PeeringType { get; set; }
+    [CliOption("--peering-type")]
+    public string? PeeringType { get; set; }
 
     /// <summary>
     /// /30(ipv4) or /126(ipv6) subnet used to configure IP addresses for primary interface.
@@ -61,6 +69,42 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// </summary>
     [CliOption("--vlan-id")]
     public string? VlanId { get; set; }
+
+    /// <summary>
+    /// Space-separated list of prefixes to be advertised through the BGP peering.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--advertised-public-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AdvertisedPublicPrefixes { get; set; }
+
+    /// <summary>
+    /// Autonomous system number of the customer.
+    /// </summary>
+    [CliFlag("--customer-asn")]
+    public bool? CustomerAsn { get; set; }
+
+    /// <summary>
+    /// The IP version to update Microsoft Peering settings for. Allowed values: IPv4, IPv6. Default: IPv4.  Default: IPv4.
+    /// </summary>
+    [CliOption("--ip-version")]
+    public string? IpVersion { get; set; }
+
+    /// <summary>
+    /// Integer representing the legacy mode of the peering.
+    /// </summary>
+    [CliFlag("--legacy-mode")]
+    public bool? LegacyMode { get; set; }
+
+    /// <summary>
+    /// Name or ID of a route filter to apply to the peering settings.
+    /// </summary>
+    [CliOption("--route-filter")]
+    public string? RouteFilter { get; set; }
+
+    /// <summary>
+    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC,
+    /// </summary>
+    [CliOption("--routing-registry-name")]
+    public string? RoutingRegistryName { get; set; }
 
     [Obsolete("Use VlanId instead.")]
     public string? VlanIdValue

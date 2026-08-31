@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime", "self-hosted", "create")]
-public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions : AzOptions
+public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseIntegrationRuntimeSelfHostedCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The integration runtime description.
     /// </summary>

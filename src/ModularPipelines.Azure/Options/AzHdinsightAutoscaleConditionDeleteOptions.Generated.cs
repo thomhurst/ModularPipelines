@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "delete")]
-public record AzHdinsightAutoscaleConditionDeleteOptions : AzOptions
+public record AzHdinsightAutoscaleConditionDeleteOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzHdinsightAutoscaleConditionDeleteOptions()
+        : this(default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

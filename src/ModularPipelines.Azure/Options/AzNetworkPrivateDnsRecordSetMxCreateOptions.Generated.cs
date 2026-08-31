@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "mx", "create")]
-public record AzNetworkPrivateDnsRecordSetMxCreateOptions : AzOptions
+public record AzNetworkPrivateDnsRecordSetMxCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkPrivateDnsRecordSetMxCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>

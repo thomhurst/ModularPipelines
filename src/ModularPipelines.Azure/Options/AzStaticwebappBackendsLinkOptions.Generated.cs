@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "link")]
-public record AzStaticwebappBackendsLinkOptions : AzOptions
+public record AzStaticwebappBackendsLinkOptions(
+    [property: CliOption("--backend-resource-id")] string BackendResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStaticwebappBackendsLinkOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Region of the backend resource.
     /// </summary>

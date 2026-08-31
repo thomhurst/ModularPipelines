@@ -18,8 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "create")]
-public record AzSfManagedServiceCreateOptions : AzOptions
+public record AzSfManagedServiceCreateOptions(
+    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-type", ShortForm = "--type")] string ServiceType,
+    [property: CliOption("--state")] string State
+) : AzOptions
 {
+    public AzSfManagedServiceCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Specify the activation mode of the service package.
+    /// </summary>
+    [CliFlag("--activation-mode", ShortForm = "--service-package-activation-mode")]
+    public bool? ActivationMode { get; set; }
+
     /// <summary>
     /// Specify the default cost for a move. Higher costs make it less likely that the Cluster
     /// </summary>
@@ -45,16 +63,34 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     public bool? InstanceCount { get; set; }
 
     /// <summary>
+    /// Specify the definition on how long StandBy replicas should be maintained before being removed, represented in
+    /// </summary>
+    [CliFlag("--keep-duration", ShortForm = "--stand-by-replica-keep-duration")]
+    public bool? KeepDuration { get; set; }
+
+    /// <summary>
     /// Specify the lower bound of the partition key range that should be split between the partition ‘Count’ This is only used with
     /// </summary>
     [CliFlag("--low-key")]
     public bool? LowKey { get; set; }
 
     /// <summary>
+    /// Specify the minimum percentage of
+    /// </summary>
+    [CliFlag("--min-inst-pct", ShortForm = "--min-instance-percentage")]
+    public bool? MinInstPct { get; set; }
+
+    /// <summary>
     /// Specify the minimum number of instances that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node.
     /// </summary>
     [CliFlag("--min-instance-count")]
     public bool? MinInstanceCount { get; set; }
+
+    /// <summary>
+    /// Specify the min replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--min-replica", ShortForm = "--min-replica-set-size")]
+    public bool? MinReplica { get; set; }
 
     /// <summary>
     /// Specify the number of partitions. This is only used with
@@ -81,9 +117,33 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     public bool? PlacementConstraints { get; set; }
 
     /// <summary>
+    /// Specify the duration for which replicas can stay InBuild before reporting that build is stuck, represented in
+    /// </summary>
+    [CliFlag("--plcmt-time-limit", ShortForm = "--service-placement-time-limit")]
+    public bool? PlcmtTimeLimit { get; set; }
+
+    /// <summary>
+    /// Specify the maximum duration for which a partition is allowed to be in a state of quorum loss, represented in
+    /// </summary>
+    [CliFlag("--quorum-loss-wait", ShortForm = "--quorum-loss-wait-duration")]
+    public bool? QuorumLossWait { get; set; }
+
+    /// <summary>
+    /// Specify the duration between when a replica goes down and when a new replica is created, represented in
+    /// </summary>
+    [CliFlag("--replica-restart-wait", ShortForm = "--replica-restart-wait-duration")]
+    public bool? ReplicaRestartWait { get; set; }
+
+    /// <summary>
     /// Space-separated
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specify the target replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--target-replica", ShortForm = "--target-replica-set-size")]
+    public bool? TargetReplica { get; set; }
 
 }

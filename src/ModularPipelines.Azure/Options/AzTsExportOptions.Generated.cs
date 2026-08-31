@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ts", "export")]
-public record AzTsExportOptions : AzOptions
+public record AzTsExportOptions(
+    [property: CliOption("--output-folder")] string OutputFolder
+) : AzOptions
 {
+    public AzTsExportOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the template spec.
     /// </summary>

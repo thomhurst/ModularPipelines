@@ -22,7 +22,9 @@ public class AzAppservice : IAzAppservice
 {
     private readonly ICommandContext _command;
     private AzAppserviceAse? _ase;
+    private AzAppserviceHybridConnection? _hybridConnection;
     private AzAppservicePlan? _plan;
+    private AzAppserviceVnetIntegration? _vnetIntegration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppservice"/> class.
@@ -40,9 +42,19 @@ public class AzAppservice : IAzAppservice
     public AzAppserviceAse Ase => _ase ??= new AzAppserviceAse(_command);
 
     /// <summary>
+    /// az hybrid-connection sub-commands.
+    /// </summary>
+    public AzAppserviceHybridConnection HybridConnection => _hybridConnection ??= new AzAppserviceHybridConnection(_command);
+
+    /// <summary>
     /// az plan sub-commands.
     /// </summary>
     public AzAppservicePlan Plan => _plan ??= new AzAppservicePlan(_command);
+
+    /// <summary>
+    /// az vnet-integration sub-commands.
+    /// </summary>
+    public AzAppserviceVnetIntegration VnetIntegration => _vnetIntegration ??= new AzAppserviceVnetIntegration(_command);
 
     #endregion
 
@@ -60,7 +72,7 @@ public class AzAppservice : IAzAppservice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAppserviceListLocationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

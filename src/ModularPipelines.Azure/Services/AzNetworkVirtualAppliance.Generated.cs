@@ -26,6 +26,7 @@ public class AzNetworkVirtualAppliance
     private AzNetworkVirtualApplianceInboundSecurityRule? _inboundSecurityRule;
     private AzNetworkVirtualApplianceMigration? _migration;
     private AzNetworkVirtualApplianceSite? _site;
+    private AzNetworkVirtualApplianceSku? _sku;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVirtualAppliance"/> class.
@@ -62,6 +63,11 @@ public class AzNetworkVirtualAppliance
     /// </summary>
     public AzNetworkVirtualApplianceSite Site => _site ??= new AzNetworkVirtualApplianceSite(_command);
 
+    /// <summary>
+    /// az sku sub-commands.
+    /// </summary>
+    public AzNetworkVirtualApplianceSku Sku => _sku ??= new AzNetworkVirtualApplianceSku(_command);
+
     #endregion
 
     #region Commands
@@ -78,7 +84,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>

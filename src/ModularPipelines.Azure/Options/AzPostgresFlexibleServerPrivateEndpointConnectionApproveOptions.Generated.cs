@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "private-endpoint-connection", "approve")]
-public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions : AzOptions
+public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions(
+    [property: CliOption("--description")] string Description
+) : AzOptions
 {
+    public AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The identifier of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
     /// </summary>
@@ -31,6 +38,24 @@ public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions : 
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
     [Obsolete("Use Id instead.")]
     public string? IdValue

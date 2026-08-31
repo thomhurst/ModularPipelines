@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "config", "appsettings", "list")]
-public record AzLogicappConfigAppsettingsListOptions : AzOptions
+public record AzLogicappConfigAppsettingsListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzLogicappConfigAppsettingsListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

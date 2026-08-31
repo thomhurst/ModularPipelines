@@ -29,8 +29,8 @@ public record AzContainerappConnectionUpdateFabricSqlOptions : AzOptions
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, go, java, none, php, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the containerapp connection.
@@ -77,8 +77,8 @@ public record AzContainerappConnectionUpdateFabricSqlOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the container app. Required if '--id' is not specified.None.
@@ -91,6 +91,18 @@ public record AzContainerappConnectionUpdateFabricSqlOptions : AzOptions
     /// </summary>
     [CliOption("--vault-id")]
     public string? VaultId { get; set; }
+
+    /// <summary>
+    /// The flag to use system assigned identity auth info. No additional parameters are needed.
+    /// </summary>
+    [CliFlag("--system-identity")]
+    public bool? SystemIdentity { get; set; }
+
+    /// <summary>
+    /// The user assigned identity auth info.
+    /// </summary>
+    [CliFlag("--user-identity")]
+    public bool? UserIdentity { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

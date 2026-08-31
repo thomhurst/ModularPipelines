@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "replica", "create")]
-public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
+public record AzPostgresFlexibleServerReplicaCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source-server")] string SourceServer
+) : AzOptions
 {
+    public AzPostgresFlexibleServerReplicaCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
@@ -83,8 +92,8 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Storage type for the read replica. Allowed value is PremiumV2_LRS. Default is for the read replica to match storage type of the primary server.  Allowed values:
     /// </summary>
-    [CliFlag("--storage-type")]
-    public bool? StorageType { get; set; }
+    [CliOption("--storage-type")]
+    public string? StorageType { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
@@ -95,8 +104,8 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable,

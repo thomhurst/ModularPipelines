@@ -18,12 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "policy", "create")]
-public record AzBackupPolicyCreateOptions : AzOptions
+public record AzBackupPolicyCreateOptions(
+    [property: CliOption("--backup-management-type")] string BackupManagementType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy")] string Policy,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
+    public AzBackupPolicyCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
 
 }

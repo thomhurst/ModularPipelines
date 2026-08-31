@@ -18,12 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "check-name")]
-public record AzKeyvaultCheckNameOptions : AzOptions
+public record AzKeyvaultCheckNameOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzKeyvaultCheckNameOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Type of resource.  Allowed values: hsm.  Default: hsm.
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

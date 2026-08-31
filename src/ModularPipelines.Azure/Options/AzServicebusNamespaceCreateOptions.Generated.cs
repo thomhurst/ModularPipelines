@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "create")]
-public record AzServicebusNamespaceCreateOptions : AzOptions
+public record AzServicebusNamespaceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzServicebusNamespaceCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Number of message units. This property is only applicable to namespaces of Premium SKU. Allowed values: 1, 16, 2, 4, 8.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Service Bus.  Allowed values: false, true.
@@ -41,8 +49,14 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// List of KeyVaultProperties objects.
     /// </summary>
-    [CliFlag("--encryption-config")]
-    public bool? EncryptionConfig { get; set; }
+    [CliOption("--encryption-config", GroupValues = true)]
+    public IEnumerable<string>? EncryptionConfig { get; set; }
+
+    /// <summary>
+    /// A list of regions where replicas of the namespace are maintained
+    /// </summary>
+    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether Infrastructure
@@ -57,27 +71,63 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
+    /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
+    /// </summary>
+    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    public bool? MaxLag { get; set; }
+
+    /// <summary>
+    /// The minimum TLS version for the cluster to support, e.g. 1.2. Allowed values: 1.0, 1.1, 1.2.
+    /// </summary>
+    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    public string? MinTls { get; set; }
+
+    /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4.
+    /// </summary>
+    [CliFlag("--premium-messaging-partitions", ShortForm = "--premium-partitions")]
+    public bool? PremiumMessagingPartitions { get; set; }
+
+    /// <summary>
+    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then
+    /// </summary>
+    [CliFlag("--public-network", ShortForm = "--public-network-access")]
+    public bool? PublicNetwork { get; set; }
+
+    /// <summary>
     /// Namespace SKU.  Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enabling this property creates a
     /// </summary>
     [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// Enable System Assigned Identity. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// List of User Assigned Identity ids.
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
 }

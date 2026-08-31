@@ -23,6 +23,7 @@ public class AzSynapseSqlPool
     private readonly ICommandContext _command;
     private AzSynapseSqlPoolAuditPolicy? _auditPolicy;
     private AzSynapseSqlPoolClassification? _classification;
+    private AzSynapseSqlPoolTde? _tde;
     private AzSynapseSqlPoolThreatPolicy? _threatPolicy;
 
     /// <summary>
@@ -46,6 +47,11 @@ public class AzSynapseSqlPool
     public AzSynapseSqlPoolClassification Classification => _classification ??= new AzSynapseSqlPoolClassification(_command);
 
     /// <summary>
+    /// az tde sub-commands.
+    /// </summary>
+    public AzSynapseSqlPoolTde Tde => _tde ??= new AzSynapseSqlPoolTde(_command);
+
+    /// <summary>
     /// az threat-policy sub-commands.
     /// </summary>
     public AzSynapseSqlPoolThreatPolicy ThreatPolicy => _threatPolicy ??= new AzSynapseSqlPoolThreatPolicy(_command);
@@ -66,7 +72,7 @@ public class AzSynapseSqlPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,6 +91,51 @@ public class AzSynapseSqlPool
     }
 
     /// <summary>
+    /// List all deleted SQL pools.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeletedAsync(
+        AzSynapseSqlPoolListDeletedOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all SQL pools.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSynapseSqlPoolListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Pause a SQL pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PauseAsync(
+        AzSynapseSqlPoolPauseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolPauseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new SQL pool by restoring from a backup.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -96,7 +147,52 @@ public class AzSynapseSqlPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Resume a SQL pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ResumeAsync(
+        AzSynapseSqlPoolResumeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolResumeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Generate a connection string to a SQL pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowConnectionStringAsync(
+        AzSynapseSqlPoolShowConnectionStringOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get a SQL pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSynapseSqlPoolShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -112,6 +208,21 @@ public class AzSynapseSqlPool
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseSqlPoolUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of a SQL pool is
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzSynapseSqlPoolWaitOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

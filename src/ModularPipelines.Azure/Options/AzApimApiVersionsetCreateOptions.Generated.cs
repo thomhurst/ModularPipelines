@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "create")]
-public record AzApimApiVersionsetCreateOptions : AzOptions
+public record AzApimApiVersionsetCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--versioning-scheme")] string VersioningScheme
+) : AzOptions
 {
+    public AzApimApiVersionsetCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Description of API Version Set.
     /// </summary>

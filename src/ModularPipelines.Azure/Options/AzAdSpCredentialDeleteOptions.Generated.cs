@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "credential", "delete")]
-public record AzAdSpCredentialDeleteOptions : AzOptions
+public record AzAdSpCredentialDeleteOptions(
+    [property: CliOption("--id")] string Id,
+    [property: CliOption("--key-id")] string KeyId
+) : AzOptions
 {
+    public AzAdSpCredentialDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Operate on certificate credentials.
     /// </summary>

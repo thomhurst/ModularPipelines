@@ -30,6 +30,12 @@ public record AzAcrTaskCreateOptions(
     }
 
     /// <summary>
+    /// The name of the agent pool.
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliFlag("--arg")]
@@ -68,14 +74,26 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
     public IEnumerable<string>? Image { get; set; }
+
+    /// <summary>
+    /// Indicates whether the task resource is a system task. The name of the task must be 'quicktask'. Only applicable to CMK enabled registry.
+    /// </summary>
+    [CliFlag("--is-system-task")]
+    public bool? IsSystemTask { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry.
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
@@ -92,8 +110,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -198,6 +216,18 @@ public record AzAcrTaskCreateOptions(
     /// </summary>
     [CliOption("--source-trigger-name")]
     public string? SourceTriggerName { get; set; }
+
+    /// <summary>
+    /// The full URL of the endpoint to receive base image update trigger notifications.
+    /// </summary>
+    [CliFlag("--update-trigger-endpoint")]
+    public bool? UpdateTriggerEndpoint { get; set; }
+
+    /// <summary>
+    /// Indicates whether to include metadata about the base image trigger in the payload alongwith the update trigger token, when a notification is sent.  Allowed values: Default, Token.  Default: Default.
+    /// </summary>
+    [CliOption("--update-trigger-payload-type")]
+    public string? UpdateTriggerPayloadType { get; set; }
 
     [Obsolete("Use AssignIdentity instead.")]
     public IEnumerable<string>? AssignIdentityValue

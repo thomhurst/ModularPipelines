@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "premium-ingress", "add")]
-public record AzContainerappEnvPremiumIngressAddOptions : AzOptions
+public record AzContainerappEnvPremiumIngressAddOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workload-profile-name", ShortForm = "-w")] string WorkloadProfileName
+) : AzOptions
 {
+    public AzContainerappEnvPremiumIngressAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Limit of http headers per request. Default 100, minimum 1.
     /// </summary>
@@ -37,5 +45,17 @@ public record AzContainerappEnvPremiumIngressAddOptions : AzOptions
     /// </summary>
     [CliFlag("--termination-grace-period", ShortForm = "-t")]
     public bool? TerminationGracePeriod { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the managed environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

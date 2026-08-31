@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "update")]
-public record AzPostgresFlexibleServerMigrationUpdateOptions : AzOptions
+public record AzPostgresFlexibleServerMigrationUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPostgresFlexibleServerMigrationUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Cancel the data migration for all the databases.
     /// </summary>
@@ -37,5 +44,23 @@ public record AzPostgresFlexibleServerMigrationUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--setup-replication")]
     public bool? SetupReplication { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Migration target server name.
+    /// </summary>
+    [CliFlag("--server-name", ShortForm = "-s")]
+    public bool? ServerName { get; set; }
 
 }

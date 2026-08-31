@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "create")]
-public record AzDeploymentMgCreateOptions : AzOptions
+public record AzDeploymentMgCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    public AzDeploymentMgCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Instruct the command to run deployment What-If before executing the deployment. It then prompts you to acknowledge resource changes before it continues.
     /// </summary>
@@ -27,10 +35,16 @@ public record AzDeploymentMgCreateOptions : AzOptions
     public bool? ConfirmWithWhatIf { get; set; }
 
     /// <summary>
+    /// Support to handle extended template content including multiline and comments in deployment.
+    /// </summary>
+    [CliFlag("--handle-extended-json-format", ShortForm = "-j")]
+    public bool? HandleExtendedJsonFormat { get; set; }
+
+    /// <summary>
     /// The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.  Allowed values: Complete, Incremental.  Default: Incremental.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// The deployment name.
@@ -89,8 +103,8 @@ public record AzDeploymentMgCreateOptions : AzOptions
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values: Provider,
     /// </summary>
-    [CliFlag("--validation-level")]
-    public bool? ValidationLevel { get; set; }
+    [CliOption("--validation-level")]
+    public string? ValidationLevel { get; set; }
 
     /// <summary>
     /// Instruct the command to run deployment What-If.
@@ -101,14 +115,14 @@ public record AzDeploymentMgCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results. Applicable when --confirm-with-what-if is set.  Allowed values: Create, Delete, Deploy, Ignore, Modify,
     /// </summary>
-    [CliFlag("--what-if-exclude-change-types", ShortForm = "-x")]
-    public bool? WhatIfExcludeChangeTypes { get; set; }
+    [CliOption("--what-if-exclude-change-types", ShortForm = "-x", GroupValues = true)]
+    public IEnumerable<string>? WhatIfExcludeChangeTypes { get; set; }
 
     /// <summary>
     /// The format of What-If results. Applicable when `--confirm-with-what-if` is set.  Allowed values: FullResourcePayloads, ResourceIdOnly.
     /// </summary>
-    [CliFlag("--what-if-result-format", ShortForm = "-r")]
-    public bool? WhatIfResultFormat { get; set; }
+    [CliOption("--what-if-result-format", ShortForm = "-r")]
+    public string? WhatIfResultFormat { get; set; }
 
     [Obsolete("Use QueryString instead.")]
     public string? QueryStringValue

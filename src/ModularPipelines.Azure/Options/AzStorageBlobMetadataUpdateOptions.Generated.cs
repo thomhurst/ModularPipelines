@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,8 @@ public record AzStorageBlobMetadataUpdateOptions : AzOptions
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// The full endpoint URL to the Blob, including SAS token and snapshot if used. This could be either the primary endpoint, or the secondary endpoint depending on the current `location_mode`.
@@ -47,8 +48,8 @@ public record AzStorageBlobMetadataUpdateOptions : AzOptions
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// The blob name.
@@ -67,5 +68,68 @@ public record AzStorageBlobMetadataUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
+    /// </summary>
+    [CliFlag("--if-match")]
+    public bool? IfMatch { get; set; }
+
+    /// <summary>
+    /// Commence only if modified since supplied UTC datetime (Y-m-d'T'H:M'Z').
+    /// </summary>
+    [CliFlag("--if-modified-since")]
+    public bool? IfModifiedSince { get; set; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag does not match the value specified. Specify the wildcard character (*) to perform the operation only if the resource does not exist, and fail the operation if it does exist.
+    /// </summary>
+    [CliFlag("--if-none-match")]
+    public bool? IfNoneMatch { get; set; }
+
+    /// <summary>
+    /// Commence only if unmodified since supplied UTC datetime (Y-m-d'T'H:M'Z').
+    /// </summary>
+    [CliFlag("--if-unmodified-since")]
+    public bool? IfUnmodifiedSince { get; set; }
+
+    /// <summary>
+    /// Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
+    /// </summary>
+    [CliFlag("--tags-condition")]
+    public bool? TagsCondition { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

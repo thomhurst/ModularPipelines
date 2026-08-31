@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "list")]
-public record AzStorageAccountBlobServicePropertiesCorsRuleListOptions : AzOptions
+public record AzStorageAccountBlobServicePropertiesCorsRuleListOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
+    public AzStorageAccountBlobServicePropertiesCorsRuleListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

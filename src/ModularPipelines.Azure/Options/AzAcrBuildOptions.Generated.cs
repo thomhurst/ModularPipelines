@@ -18,13 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "build")]
-public record AzAcrBuildOptions : AzOptions
+public record AzAcrBuildOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrBuildOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The name of the agent pool.
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
     /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Build argument in '--build-arg name[=value]' format. Multiples are supported by passing '--build-arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
@@ -35,14 +48,20 @@ public record AzAcrBuildOptions : AzOptions
     /// <summary>
     /// The relative path of the the docker file to the source code root folder. Default to 'Dockerfile'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry.
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -71,8 +90,8 @@ public record AzAcrBuildOptions : AzOptions
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -89,8 +108,8 @@ public record AzAcrBuildOptions : AzOptions
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
     /// </summary>
-    [CliFlag("--source-acr-auth-id")]
-    public bool? SourceAcrAuthId { get; set; }
+    [CliOption("--source-acr-auth-id")]
+    public string? SourceAcrAuthId { get; set; }
 
     /// <summary>
     /// The name of the target build stage.

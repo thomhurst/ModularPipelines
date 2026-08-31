@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "update")]
-public record AzAksUpdateOptions : AzOptions
+public record AzAksUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Comma-separated list of aad group object IDs that will be set as cluster admin.
     /// </summary>
@@ -35,20 +43,20 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
     /// </summary>
-    [CliFlag("--acns-advanced-networkpolicies")]
-    public bool? AcnsAdvancedNetworkpolicies { get; set; }
+    [CliOption("--acns-advanced-networkpolicies")]
+    public string? AcnsAdvancedNetworkpolicies { get; set; }
 
     /// <summary>
     /// Set the datapath acceleration mode for Azure Container Networking Solution (ACNS) Performance. Valid values are 'BpfVeth' and 'None'.  Allowed values:
     /// </summary>
-    [CliFlag("--acns-datapath-acceleration-mode")]
-    public bool? AcnsDatapathAccelerationMode { get; set; }
+    [CliOption("--acns-datapath-acceleration-mode")]
+    public string? AcnsDatapathAccelerationMode { get; set; }
 
     /// <summary>
     /// Set transit encryption type for ACNS security.  Allowed values: None,
     /// </summary>
-    [CliFlag("--acns-transit-encryption-type")]
-    public bool? AcnsTransitEncryptionType { get; set; }
+    [CliOption("--acns-transit-encryption-type")]
+    public string? AcnsTransitEncryptionType { get; set; }
 
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
@@ -95,14 +103,14 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
     /// </summary>
-    [CliFlag("--auto-upgrade-channel")]
-    public bool? AutoUpgradeChannel { get; set; }
+    [CliOption("--auto-upgrade-channel")]
+    public string? AutoUpgradeChannel { get; set; }
 
     /// <summary>
     /// Define the comma separated nodepool list to install azure container storage.
     /// </summary>
-    [CliFlag("--azure-container-storage-nodepools")]
-    public bool? AzureContainerStorageNodepools { get; set; }
+    [CliOption("--azure-container-storage-nodepools")]
+    public string? AzureContainerStorageNodepools { get; set; }
 
     /// <summary>
     /// Identifier of Azure Key Vault key.
@@ -113,8 +121,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Network Access of Azure Key Vault. Allowed values: Private, Public.
     /// </summary>
-    [CliFlag("--azure-keyvault-kms-key-vault-network-access")]
-    public bool? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
+    [CliOption("--azure-keyvault-kms-key-vault-network-access")]
+    public string? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
 
     /// <summary>
     /// Resource ID of Azure Key Vault.
@@ -131,8 +139,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.
     /// </summary>
-    [CliFlag("--bootstrap-artifact-source")]
-    public bool? BootstrapArtifactSource { get; set; }
+    [CliOption("--bootstrap-artifact-source")]
+    public string? BootstrapArtifactSource { get; set; }
 
     /// <summary>
     /// Configure container registry resource ID. Must use "Cache" as bootstrap artifact source.
@@ -141,10 +149,22 @@ public record AzAksUpdateOptions : AzOptions
     public string? BootstrapContainerRegistryResourceId { get; set; }
 
     /// <summary>
+    /// Path to a file containing up to 10 blank line separated certificates. Only valid for Linux nodes.
+    /// </summary>
+    [CliOption("--ca-certs", ShortForm = "--custom-ca-trust-certificates")]
+    public string? CaCerts { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of key=value pairs for configuring cluster autoscaler. Pass an empty string to clear the profile.
+    /// </summary>
+    [CliOption("--ca-profile", ShortForm = "--cluster-autoscaler-profile", GroupValues = true)]
+    public IEnumerable<string>? CaProfile { get; set; }
+
+    /// <summary>
     /// Set azure container storage version, the latest version will be installed by default.  Allowed values: 1, 2.
     /// </summary>
-    [CliFlag("--container-storage-version")]
-    public bool? ContainerStorageVersion { get; set; }
+    [CliOption("--container-storage-version")]
+    public string? ContainerStorageVersion { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Microsoft
@@ -187,6 +207,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--disable-ai-toolchain-operator")]
     public bool? DisableAiToolchainOperator { get; set; }
+
+    /// <summary>
+    /// Disable Gateway API based ingress on App
+    /// </summary>
+    [CliFlag("--disable-app-routing-istio", ShortForm = "--disable-ari")]
+    public bool? DisableAppRoutingIstio { get; set; }
 
     /// <summary>
     /// Disable azure container storage or any one of the storage pool types. Can be used as a flag (defaults to True) or with a storagepool type value: azureDisk, ephemeralDisk, elasticSan, all (to disable all storage pools).
@@ -235,6 +261,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--disable-container-network-logs")]
     public bool? DisableContainerNetworkLogs { get; set; }
+
+    /// <summary>
+    /// Disable collection of Azure Monitor managed Prometheus control plane metrics. Leaves Azure Monitor metrics enabled.
+    /// </summary>
+    [CliFlag("--disable-control-plane-metrics", ShortForm = "--disable-cp-metrics")]
+    public bool? DisableControlPlaneMetrics { get; set; }
 
     /// <summary>
     /// Disable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal.
@@ -381,6 +413,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableApiServerVnetIntegration { get; set; }
 
     /// <summary>
+    /// Enable Gateway API based ingress on App Routing via Istio without service mesh functionality.
+    /// </summary>
+    [CliFlag("--enable-app-routing-istio", ShortForm = "--enable-ari")]
+    public bool? EnableAppRoutingIstio { get; set; }
+
+    /// <summary>
     /// Enable azure container storage. Can be used as a flag (defaults to True) or with a storage pool type value: (azureDisk, ephemeralDisk, elasticSan).
     /// </summary>
     [CliFlag("--enable-azure-container-storage")]
@@ -427,6 +465,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--enable-container-network-logs")]
     public bool? EnableContainerNetworkLogs { get; set; }
+
+    /// <summary>
+    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane-apiserver and controlplane- etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor- metrics).
+    /// </summary>
+    [CliFlag("--enable-control-plane-metrics", ShortForm = "--enable-cp-metrics")]
+    public bool? EnableControlPlaneMetrics { get; set; }
 
     /// <summary>
     /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost- analysis.
@@ -569,14 +613,14 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Set ephemeral disk volume type for azure container storage.  Allowed values:
     /// </summary>
-    [CliFlag("--ephemeral-disk-nvme-perf-tier")]
-    public bool? EphemeralDiskNvmePerfTier { get; set; }
+    [CliOption("--ephemeral-disk-nvme-perf-tier")]
+    public string? EphemeralDiskNvmePerfTier { get; set; }
 
     /// <summary>
     /// Set ephemeral disk volume type for azure container storage.  Allowed values:
     /// </summary>
-    [CliFlag("--ephemeral-disk-volume-type")]
-    public bool? EphemeralDiskVolumeType { get; set; }
+    [CliOption("--ephemeral-disk-volume-type")]
+    public string? EphemeralDiskVolumeType { get; set; }
 
     /// <summary>
     /// Specify DNS server for Windows gmsa on cluster.
@@ -629,8 +673,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values:
     /// </summary>
-    [CliFlag("--k8s-support-plan")]
-    public bool? K8sSupportPlan { get; set; }
+    [CliOption("--k8s-support-plan")]
+    public string? K8sSupportPlan { get; set; }
 
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e. g.'=namespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
@@ -647,8 +691,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration.
     /// </summary>
-    [CliFlag("--load-balancer-backend-pool-type")]
-    public bool? LoadBalancerBackendPoolType { get; set; }
+    [CliOption("--load-balancer-backend-pool-type")]
+    public string? LoadBalancerBackendPoolType { get; set; }
 
     /// <summary>
     /// Load balancer idle timeout in minutes.
@@ -725,14 +769,14 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// The network dataplane to use.  Allowed values: azure, cilium.
     /// </summary>
-    [CliFlag("--network-dataplane")]
-    public bool? NetworkDataplane { get; set; }
+    [CliOption("--network-dataplane")]
+    public string? NetworkDataplane { get; set; }
 
     /// <summary>
     /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none.
     /// </summary>
-    [CliFlag("--network-plugin")]
-    public bool? NetworkPlugin { get; set; }
+    [CliOption("--network-plugin")]
+    public string? NetworkPlugin { get; set; }
 
     /// <summary>
     /// Update the mode of a network plugin to migrate to a different pod networking setup.
@@ -743,8 +787,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Update Network Policy Engine.  Allowed values: azure, calico, cilium, none.
     /// </summary>
-    [CliFlag("--network-policy")]
-    public bool? NetworkPolicy { get; set; }
+    [CliOption("--network-policy")]
+    public string? NetworkPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -757,6 +801,18 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--node-os-upgrade-channel")]
     public bool? NodeOsUpgradeChannel { get; set; }
+
+    /// <summary>
+    /// The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None".  Allowed values: Auto, None.
+    /// </summary>
+    [CliOption("--node-provisioning-default-pools")]
+    public string? NodeProvisioningDefaultPools { get; set; }
+
+    /// <summary>
+    /// Set the node provisioning mode of the cluster. Valid values are "Auto" and "Manual". For more information on "Auto" mode see aka.ms/aks/nap.  Allowed values:
+    /// </summary>
+    [CliOption("--node-provisioning-mode")]
+    public string? NodeProvisioningMode { get; set; }
 
     /// <summary>
     /// The node labels for all node pool. See https://aka.ms/node-labels for syntax of labels.
@@ -773,14 +829,14 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Restriction level on the managed node resource group.  Allowed values:
     /// </summary>
-    [CliFlag("--nrg-lockdown-restriction-level")]
-    public bool? NrgLockdownRestrictionLevel { get; set; }
+    [CliOption("--nrg-lockdown-restriction-level")]
+    public string? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
     /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting.
     /// </summary>
-    [CliFlag("--outbound-type")]
-    public bool? OutboundType { get; set; }
+    [CliOption("--outbound-type")]
+    public string? OutboundType { get; set; }
 
     /// <summary>
     /// Update the pod CIDR for a cluster. Used when updating a cluster from Azure CNI to
@@ -803,8 +859,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster.  Allowed values: automatic, base.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Set storage pool name for azure container storage.
@@ -815,8 +871,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Set ephemeral disk storage pool option for azure container storage.  Allowed values: NVMe, Temp, all.
     /// </summary>
-    [CliFlag("--storage-pool-option")]
-    public bool? StoragePoolOption { get; set; }
+    [CliOption("--storage-pool-option")]
+    public string? StoragePoolOption { get; set; }
 
     /// <summary>
     /// Set storage pool size for azure container storage.
@@ -827,8 +883,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Set azure disk type storage pool sku for azure container storage.  Allowed values:
     /// </summary>
-    [CliFlag("--storage-pool-sku")]
-    public bool? StoragePoolSku { get; set; }
+    [CliOption("--storage-pool-sku")]
+    public string? StoragePoolSku { get; set; }
 
     /// <summary>
     /// The tags of the managed cluster. The managed cluster instance and all resources managed by the cloud provider will be tagged.
@@ -942,8 +998,6 @@ public record AzAksUpdateOptions : AzOptions
         get => IfMatch;
         set => IfMatch = value;
     }
-
-
 
     [Obsolete("Use EnableApiServerVnetIntegration instead.")]
     public bool? EnableApiserverVnetIntegration

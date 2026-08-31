@@ -18,13 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "create")]
-public record AzSqlDbCreateOptions : AzOptions
+public record AzSqlDbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
+    public AzSqlDbCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Assign identity for database. Allowed values: false, true.
     /// </summary>
-    [CliOption("--assign-identity", ShortForm = "-i")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ShortForm = "-i", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentityValues { get; set; }
 
     /// <summary>
     /// Availability zone.
@@ -33,10 +42,28 @@ public record AzSqlDbCreateOptions : AzOptions
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// </summary>
+    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    public string? BackupStorageRedundancy { get; set; }
+
+    /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
     /// </summary>
     [CliFlag("--encryption-protector")]
     public bool? EncryptionProtector { get; set; }
+
+    /// <summary>
+    /// Specifies the database encryption protector key auto rotation flag. Can be either true, false or null.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--encryption-protector-auto-rotation", ShortForm = "--epauto")]
+    public bool? EncryptionProtectorAutoRotation { get; set; }
+
+    /// <summary>
+    /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause,
+    /// </summary>
+    [CliOption("--exhaustion-behavior", ShortForm = "--free-limit-exhaustion-behavior")]
+    public string? ExhaustionBehavior { get; set; }
 
     /// <summary>
     /// The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
@@ -45,10 +72,22 @@ public record AzSqlDbCreateOptions : AzOptions
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
+    /// Whether or not the database uses free monthly limits. Allowed on one database in a subscription. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--free-limit", ShortForm = "--use-free-limit")]
+    public bool? FreeLimit { get; set; }
+
+    /// <summary>
+    /// The number of high availability replicas to provision for the database. Only settable for
+    /// </summary>
+    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
+    public bool? HaReplicas { get; set; }
+
+    /// <summary>
     /// The list of AKV keys for the SQL
     /// </summary>
-    [CliFlag("--keys")]
-    public bool? Keys { get; set; }
+    [CliOption("--keys", GroupValues = true)]
+    public IEnumerable<string>? Keys { get; set; }
 
     /// <summary>
     /// Create a ledger database, in which the integrity of all data is protected by the ledger feature. All tables in the ledger database must be ledger tables. Note: the value of this property cannot be changed after the database has been created.
@@ -59,8 +98,8 @@ public record AzSqlDbCreateOptions : AzOptions
     /// <summary>
     /// The license type to apply for this database.``LicenseIncluded`` if you need a license, or ``BasePrice``if you have a license and are eligible for the Azure HybridBenefit.  Allowed values: BasePrice,
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
 
     /// <summary>
     /// Specified maintenance configuration id or name for this resource.
@@ -83,20 +122,26 @@ public record AzSqlDbCreateOptions : AzOptions
     /// <summary>
     /// Specifies type of enclave for this resource.  Allowed values:
     /// </summary>
-    [CliFlag("--preferred-enclave-type")]
-    public bool? PreferredEnclaveType { get; set; }
+    [CliOption("--preferred-enclave-type")]
+    public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
     /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.  Allowed values:
     /// </summary>
-    [CliFlag("--read-scale")]
-    public bool? ReadScale { get; set; }
+    [CliOption("--read-scale")]
+    public string? ReadScale { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The list of user assigned identity for the SQL Database.
+    /// </summary>
+    [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
+    public IEnumerable<string>? Umi { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -109,5 +154,60 @@ public record AzSqlDbCreateOptions : AzOptions
     /// </summary>
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// Collation of the metadata catalog.  Allowed values:
+    /// </summary>
+    [CliOption("--catalog-collation")]
+    public string? CatalogCollation { get; set; }
+
+    /// <summary>
+    /// The collation of the database.
+    /// </summary>
+    [CliFlag("--collation")]
+    public bool? Collation { get; set; }
+
+    /// <summary>
+    /// The name of the sample schema to apply when creating thisdatabase.  Allowed values:
+    /// </summary>
+    [CliOption("--sample-name")]
+    public string? SampleName { get; set; }
+
+    /// <summary>
+    /// The name or resource id of the elastic pool to create the database in.
+    /// </summary>
+    [CliOption("--elastic-pool")]
+    public string? ElasticPool { get; set; }
+
+    /// <summary>
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1,
+    /// </summary>
+    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
+    public bool? ServiceLevelObjective { get; set; }
+
+    /// <summary>
+    /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
+    /// </summary>
+    [CliFlag("--auto-pause-delay")]
+    public bool? AutoPauseDelay { get; set; }
+
+    /// <summary>
+    /// The compute model of the database.  Allowed values:
+    /// </summary>
+    [CliOption("--compute-model")]
+    public string? ComputeModel { get; set; }
+
+    /// <summary>
+    /// Minimal capacity that database will always have allocated, if not paused.
+    /// </summary>
+    [CliFlag("--min-capacity")]
+    public bool? MinCapacity { get; set; }
+
+    [Obsolete("Use AssignIdentityValues instead.")]
+    public bool? AssignIdentity
+    {
+        get => bool.TryParse(AssignIdentityValues?.FirstOrDefault(), out var value) ? value : null;
+        set => AssignIdentityValues = value == true ? ["true"] : value == false ? ["false"] : null;
+    }
 
 }

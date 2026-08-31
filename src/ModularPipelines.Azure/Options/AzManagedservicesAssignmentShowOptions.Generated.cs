@@ -18,12 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "assignment", "show")]
-public record AzManagedservicesAssignmentShowOptions : AzOptions
+public record AzManagedservicesAssignmentShowOptions(
+    [property: CliOption("--assignment")] string Assignment
+) : AzOptions
 {
+    public AzManagedservicesAssignmentShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Tells whether to return registration definition details also along with registration assignment details.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-definition")]
+    [CliOption("--include-definition")]
     public bool? IncludeDefinition { get; set; }
 
     /// <summary>

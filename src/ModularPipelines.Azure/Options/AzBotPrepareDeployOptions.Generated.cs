@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "prepare-deploy")]
-public record AzBotPrepareDeployOptions : AzOptions
+public record AzBotPrepareDeployOptions(
+    [property: CliOption("--lang")] string Lang
+) : AzOptions
 {
+    public AzBotPrepareDeployOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The directory to place the generated deployment files in. Defaults to the current directory the command is called from.
     /// </summary>

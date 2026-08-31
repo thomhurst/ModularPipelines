@@ -18,8 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "certificate", "add")]
-public record AzSfApplicationCertificateAddOptions : AzOptions
+public record AzSfApplicationCertificateAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfApplicationCertificateAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The folder of the new certificate file to be created.
+    /// </summary>
+    [CliFlag("--cert-out-folder", ShortForm = "--certificate-output-folder")]
+    public bool? CertOutFolder { get; set; }
+
+    /// <summary>
+    /// The subject name of the certificate to be created.
+    /// </summary>
+    [CliFlag("--cert-subject-name", ShortForm = "--certificate-subject-name")]
+    public bool? CertSubjectName { get; set; }
+
     /// <summary>
     /// The existing certificate file path for the primary cluster certificate.
     /// </summary>

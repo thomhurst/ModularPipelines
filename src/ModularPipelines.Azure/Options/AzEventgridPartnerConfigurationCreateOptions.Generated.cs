@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "configuration", "create")]
-public record AzEventgridPartnerConfigurationCreateOptions : AzOptions
+public record AzEventgridPartnerConfigurationCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerConfigurationCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Add authorized partner information. Multiple authorized partners can be specified by using more than one `--authorized-partner` argument.
     /// </summary>
@@ -27,9 +34,15 @@ public record AzEventgridPartnerConfigurationCreateOptions : AzOptions
     public bool? AuthorizedPartner { get; set; }
 
     /// <summary>
+    /// Time used to validate the authorization expiration time for each authorized partner. If
+    /// </summary>
+    [CliFlag("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    public bool? DefaultMaximumExpirationTimeInDays { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

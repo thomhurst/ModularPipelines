@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "certificate", "list")]
-public record AzContainerappEnvCertificateListOptions : AzOptions
+public record AzContainerappEnvCertificateListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappEnvCertificateListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name or resource id of the certificate.
     /// </summary>
@@ -31,6 +39,18 @@ public record AzContainerappEnvCertificateListOptions : AzOptions
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    /// <summary>
+    /// List managed certificates only.
+    /// </summary>
+    [CliFlag("--managed-certificates-only", ShortForm = "-m")]
+    public bool? ManagedCertificatesOnly { get; set; }
+
+    /// <summary>
+    /// List private-key certificates only.
+    /// </summary>
+    [CliFlag("--private-key-certificates-only", ShortForm = "-p")]
+    public bool? PrivateKeyCertificatesOnly { get; set; }
 
     /// <summary>
     /// Thumbprint of the certificate.

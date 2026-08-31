@@ -32,6 +32,30 @@ public record AzResourceLockListOptions : AzOptions
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
 
+    /// <summary>
+    /// Provider namespace (Ex: 'Microsoft.Provider').
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// The parent path (Ex: 'resA/myA/resB/myB').
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliFlag("--resource", ShortForm = "--resource-name")]
+    public bool? Resource { get; set; }
+
+    /// <summary>
+    /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
+
     [Obsolete("Use FilterString instead.")]
     public string? FilterStringValue
     {

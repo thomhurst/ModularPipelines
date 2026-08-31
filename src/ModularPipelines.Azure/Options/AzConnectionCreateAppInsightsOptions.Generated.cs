@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "app-insights")]
-public record AzConnectionCreateAppInsightsOptions : AzOptions
+public record AzConnectionCreateAppInsightsOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzConnectionCreateAppInsightsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the app insights. Required if '--target-id' is not specified.
     /// </summary>
@@ -29,8 +36,8 @@ public record AzConnectionCreateAppInsightsOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -61,6 +68,18 @@ public record AzConnectionCreateAppInsightsOptions : AzOptions
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
+
+    /// <summary>
+    /// The resource group which contains the app insights. Required if '--target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
     [Obsolete("Use AppInsights instead.")]
     public string? AppInsightsValue

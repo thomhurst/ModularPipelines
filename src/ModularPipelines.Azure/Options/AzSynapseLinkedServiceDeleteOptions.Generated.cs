@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "linked-service", "delete")]
-public record AzSynapseLinkedServiceDeleteOptions : AzOptions
+public record AzSynapseLinkedServiceDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseLinkedServiceDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "unregister")]
-public record AzProviderUnregisterOptions : AzOptions
+public record AzProviderUnregisterOptions(
+    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
+) : AzOptions
 {
+    public AzProviderUnregisterOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Wait for unregistration to finish.
     /// </summary>

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "show")]
-public record AzPolicyAssignmentShowOptions : AzOptions
+public record AzPolicyAssignmentShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyAssignmentShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Additional properties to include in output.
     /// </summary>
@@ -35,8 +42,8 @@ public record AzPolicyAssignmentShowOptions : AzOptions
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

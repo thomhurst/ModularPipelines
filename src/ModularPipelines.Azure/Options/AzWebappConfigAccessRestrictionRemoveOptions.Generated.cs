@@ -23,8 +23,8 @@ public record AzWebappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// Allow or deny access.  Allowed values: Allow, Deny.  Default:
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// IP address or CIDR range (optional comma separated list of up to 8 ranges).
@@ -73,6 +73,24 @@ public record AzWebappConfigAccessRestrictionRemoveOptions : AzOptions
     /// </summary>
     [CliFlag("--vnet-name")]
     public bool? VnetName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use RuleName instead.")]
     public string? RuleNameValue

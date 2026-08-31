@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "upsert_scope")]
-public record AzSecurityAlertsSuppressionRuleUpsertScopeOptions : AzOptions
+public record AzSecurityAlertsSuppressionRuleUpsertScopeOptions(
+    [property: CliOption("--field")] string Field,
+    [property: CliOption("--rule-name")] string RuleName
+) : AzOptions
 {
+    public AzSecurityAlertsSuppressionRuleUpsertScopeOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A list of strings to scope the suppression rule by.
     /// </summary>
-    [CliFlag("--any-of")]
-    public bool? AnyOf { get; set; }
+    [CliOption("--any-of", GroupValues = true)]
+    public IEnumerable<string>? AnyOf { get; set; }
 
     /// <summary>
     /// The string to scope the suppression rule by.

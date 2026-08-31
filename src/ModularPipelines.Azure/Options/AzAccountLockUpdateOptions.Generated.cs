@@ -23,14 +23,14 @@ public record AzAccountLockUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
     /// </summary>
-    [CliFlag("--lock-type", ShortForm = "-t")]
-    public bool? LockType { get; set; }
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string? LockType { get; set; }
 
     /// <summary>
     /// Name of the lock.

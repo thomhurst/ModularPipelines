@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "list")]
-public record AzStaticwebappUsersListOptions : AzOptions
+public record AzStaticwebappUsersListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStaticwebappUsersListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.  Default: all.
     /// </summary>

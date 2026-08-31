@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "set")]
-public record AzVmssExtensionSetOptions : AzOptions
+public record AzVmssExtensionSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher")] string Publisher,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vmss-name")] string VmssName
+) : AzOptions
 {
+    public AzVmssExtensionSetOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>
@@ -37,6 +47,12 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// </summary>
     [CliFlag("--force-update")]
     public bool? ForceUpdate { get; set; }
+
+    /// <summary>
+    /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--no-auto-upgrade")]
+    public bool? NoAutoUpgrade { get; set; }
 
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
@@ -59,8 +75,8 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// <summary>
     /// Space-separated list of extension names after which this extension should be provisioned. These extensions must already be set on the vm.
     /// </summary>
-    [CliFlag("--provision-after-extensions")]
-    public bool? ProvisionAfterExtensions { get; set; }
+    [CliOption("--provision-after-extensions", GroupValues = true)]
+    public IEnumerable<string>? ProvisionAfterExtensions { get; set; }
 
     /// <summary>
     /// Extension settings in JSON format. A JSON file path is also accepted.

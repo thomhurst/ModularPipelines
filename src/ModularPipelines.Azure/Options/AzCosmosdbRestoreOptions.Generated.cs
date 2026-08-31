@@ -18,13 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "restore")]
-public record AzCosmosdbRestoreOptions : AzOptions
+public record AzCosmosdbRestoreOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--restore-timestamp", ShortForm = "-t")] string RestoreTimestamp,
+    [property: CliOption("--target-database-account-name", ShortForm = "-n")] string TargetDatabaseAccountName
+) : AzOptions
 {
+    public AzCosmosdbRestoreOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Assign system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Add a database and its collection names to restore.
@@ -53,8 +64,8 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// Sets public network access in server to either Enabled or Disabled.  Allowed values: DISABLED,
     /// </summary>
-    [CliFlag("--public-network-access", ShortForm = "-p")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access", ShortForm = "-p")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// This is the location of the source account where backups are located. Provide this value if the source and target are in different locations.

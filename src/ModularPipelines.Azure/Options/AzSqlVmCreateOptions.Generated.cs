@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "create")]
-public record AzSqlVmCreateOptions : AzOptions
+public record AzSqlVmCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSqlVmCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// SQL IaaS Agent Least Privilege Mode. Updates from sysadmin to specific permissions used per feature.  Allowed values:
     /// </summary>
-    [CliFlag("--least-privilege-mode")]
-    public bool? LeastPrivilegeMode { get; set; }
+    [CliOption("--least-privilege-mode")]
+    public string? LeastPrivilegeMode { get; set; }
 
     /// <summary>
     /// Location. If not provided, virtual machine should be in the same region of resource group.You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -33,9 +41,195 @@ public record AzSqlVmCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
+    /// SQL Server management type. If NoAgent selected, please provide --image-sku and --offer-type.  Allowed values: Full, LightWeight, NoAgent.  Default: LightWeight.
+    /// </summary>
+    [CliOption("--sql-mgmt-type")]
+    public string? SqlMgmtType { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Enable or disable R services (SQL 2016 onwards).  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-r-services")]
+    public bool? EnableRServices { get; set; }
+
+    /// <summary>
+    /// Password for encryption on backup.
+    /// </summary>
+    [CliFlag("--backup-pwd")]
+    public bool? BackupPwd { get; set; }
+
+    /// <summary>
+    /// Backup schedule type.  Allowed values: Automated, Manual.
+    /// </summary>
+    [CliOption("--backup-schedule-type")]
+    public string? BackupScheduleType { get; set; }
+
+    /// <summary>
+    /// Include system databases on backup.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--backup-system-dbs")]
+    public bool? BackupSystemDbs { get; set; }
+
+    /// <summary>
+    /// Enable or disable autobackup on SQL virtual machine. If any backup settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-backup")]
+    public bool? EnableAutoBackup { get; set; }
+
+    /// <summary>
+    /// Enable encryption for backup on SQL virtual machine.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-encryption")]
+    public bool? EnableEncryption { get; set; }
+
+    /// <summary>
+    /// Duration of the time window of a given day during which full backups can take place. 1-23 hours.
+    /// </summary>
+    [CliFlag("--full-backup-duration")]
+    public bool? FullBackupDuration { get; set; }
+
+    /// <summary>
+    /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily,
+    /// </summary>
+    [CliOption("--full-backup-frequency")]
+    public string? FullBackupFrequency { get; set; }
+
+    /// <summary>
+    /// Start time of a given day during which full backups can take place. 0-23 hours.
+    /// </summary>
+    [CliFlag("--full-backup-start-hour")]
+    public bool? FullBackupStartHour { get; set; }
+
+    /// <summary>
+    /// Frequency of log backups. 5-60 minutes.
+    /// </summary>
+    [CliFlag("--log-backup-frequency")]
+    public bool? LogBackupFrequency { get; set; }
+
+    /// <summary>
+    /// Retention period of backup. 1-30 days.
+    /// </summary>
+    [CliFlag("--retention-period")]
+    public bool? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Storage account key where backup will be taken to.
+    /// </summary>
+    [CliFlag("--sa-key")]
+    public bool? SaKey { get; set; }
+
+    /// <summary>
+    /// Storage account url where backup will be taken to.
+    /// </summary>
+    [CliFlag("--storage-account")]
+    public bool? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday,
+    /// </summary>
+    [CliOption("--day-of-week")]
+    public string? DayOfWeek { get; set; }
+
+    /// <summary>
+    /// Enable or disable autopatching on SQL virtual machine. If any autopatching settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-patching")]
+    public bool? EnableAutoPatching { get; set; }
+
+    /// <summary>
+    /// Duration of patching. 30-180 minutes.
+    /// </summary>
+    [CliFlag("--maintenance-window-duration")]
+    public bool? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Hour of the day when patching is initiated. Local VM time 0-23 hours.
+    /// </summary>
+    [CliFlag("--maintenance-window-start-hour")]
+    public bool? MaintenanceWindowStartHour { get; set; }
+
+    /// <summary>
+    /// Credential name.
+    /// </summary>
+    [CliFlag("--credential-name")]
+    public bool? CredentialName { get; set; }
+
+    /// <summary>
+    /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-key-vault-credential")]
+    public bool? EnableKeyVaultCredential { get; set; }
+
+    /// <summary>
+    /// Azure Key Vault url.
+    /// </summary>
+    [CliFlag("--key-vault")]
+    public bool? KeyVault { get; set; }
+
+    /// <summary>
+    /// Service principal name to access key vault.
+    /// </summary>
+    [CliFlag("--sp-name")]
+    public bool? SpName { get; set; }
+
+    /// <summary>
+    /// Service principal name secret to access key vault.
+    /// </summary>
+    [CliFlag("--sp-secret")]
+    public bool? SpSecret { get; set; }
+
+    /// <summary>
+    /// SQL Server connectivity option.  Allowed values: LOCAL,
+    /// </summary>
+    [CliOption("--connectivity-type")]
+    public string? ConnectivityType { get; set; }
+
+    /// <summary>
+    /// SQL Server port.
+    /// </summary>
+    [CliFlag("--port")]
+    public bool? Port { get; set; }
+
+    /// <summary>
+    /// SQL Server sysadmin login password.
+    /// </summary>
+    [CliFlag("--sql-auth-update-pwd")]
+    public bool? SqlAuthUpdatePwd { get; set; }
+
+    /// <summary>
+    /// SQL Server sysadmin login to create.
+    /// </summary>
+    [CliFlag("--sql-auth-update-username")]
+    public bool? SqlAuthUpdateUsername { get; set; }
+
+    /// <summary>
+    /// SQL image offer. Examples include SQL2008R2-WS2008,
+    /// </summary>
+    [CliFlag("--image-offer")]
+    public bool? ImageOffer { get; set; }
+
+    /// <summary>
+    /// SQL image sku.  Allowed values: Developer, Enterprise,
+    /// </summary>
+    [CliOption("--image-sku")]
+    public string? ImageSku { get; set; }
+
+    /// <summary>
+    /// SQL Server license type.  Allowed values: AHUB, DR, PAYG.
+    /// </summary>
+    [CliOption("--license-type", ShortForm = "-i")]
+    public string? LicenseType { get; set; }
+
+    /// <summary>
+    /// SQL Server workload type.  Allowed values: DW, GENERAL, OLTP.
+    /// </summary>
+    [CliOption("--sql-workload-type")]
+    public string? SqlWorkloadType { get; set; }
 
 }

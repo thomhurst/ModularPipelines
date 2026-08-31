@@ -22,6 +22,16 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzProvider
 {
     /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    AzProviderOperation Operation => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az permission sub-commands.
+    /// </summary>
+    AzProviderPermission Permission => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets all resource providers for a subscription.
     /// </summary>
     /// <param name="options">The command options.</param>

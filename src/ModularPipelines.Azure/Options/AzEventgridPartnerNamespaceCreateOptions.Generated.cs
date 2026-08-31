@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "create")]
-public record AzEventgridPartnerNamespaceCreateOptions : AzOptions
+public record AzEventgridPartnerNamespaceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-registration-id")] string PartnerRegistrationId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerNamespaceCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -27,9 +36,15 @@ public record AzEventgridPartnerNamespaceCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
+    /// This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.  Allowed values: ChannelNameHeader, SourceEventAttribute.  Default:
+    /// </summary>
+    [CliOption("--partner-topic-routing-mode", ShortForm = "--route-mode")]
+    public string? PartnerTopicRoutingMode { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

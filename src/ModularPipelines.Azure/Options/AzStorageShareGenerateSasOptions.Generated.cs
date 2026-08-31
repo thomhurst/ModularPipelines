@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,13 +19,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "generate-sas")]
-public record AzStorageShareGenerateSasOptions : AzOptions
+public record AzStorageShareGenerateSasOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStorageShareGenerateSasOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Indicates that this command return the SAS signed with the user delegation key. The expiry parameter and '--auth-mode login' are required if this argument is specified.
+    /// </summary>
+    [CliFlag("--as-user")]
+    public bool? AsUser { get; set; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
     /// </summary>
     [CliFlag("--auth-mode")]
     public bool? AuthMode { get; set; }
+
+    /// <summary>
+    /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
+    /// </summary>
+    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// Response header value for Cache-Control when resource is accessed using this shared access signature.
@@ -77,8 +97,8 @@ public record AzStorageShareGenerateSasOptions : AzOptions
     /// <summary>
     /// The permissions the SAS grants. Allowed values: (c)reate (d)elete (l)ist (r)ead (w)rite. Do not use if a stored access policy is referenced with --id that specifies this value. Can be combined.
     /// </summary>
-    [CliFlag("--permissions")]
-    public bool? Permissions { get; set; }
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
 
     /// <summary>
     /// The name of a stored access policy within the share's ACL.
@@ -91,6 +111,44 @@ public record AzStorageShareGenerateSasOptions : AzOptions
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
+
+    /// <summary>
+    /// Specifies the Entra ID of the user that is authorized to use the resulting SAS URL. The resulting SAS URL must be used in conjunction with an Entra ID token that has been issued to the user specified in this value.
+    /// </summary>
+    [CliFlag("--user-delegation-oid")]
+    public bool? UserDelegationOid { get; set; }
+
+    /// <summary>
+    /// The delegated user tenant id in Azure AD. This parameter can only be specified when using OAuth.
+    /// </summary>
+    [CliFlag("--user-delegation-tid")]
+    public bool? UserDelegationTid { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--file-endpoint")]
+    public bool? FileEndpoint { get; set; }
 
     [Obsolete("Use PolicyName instead.")]
     public string? PolicyNameValue

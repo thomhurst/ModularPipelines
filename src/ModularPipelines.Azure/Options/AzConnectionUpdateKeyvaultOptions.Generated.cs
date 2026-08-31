@@ -23,8 +23,8 @@ public record AzConnectionUpdateKeyvaultOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -61,6 +61,18 @@ public record AzConnectionUpdateKeyvaultOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The service principal auth info.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The user account auth info.
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

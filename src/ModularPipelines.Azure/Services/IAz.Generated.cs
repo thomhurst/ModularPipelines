@@ -96,6 +96,11 @@ public partial interface IAz
     IAzBot Bot => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the cache sub-domain service.
+    /// </summary>
+    IAzCache Cache => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the capacity sub-domain service.
     /// </summary>
     IAzCapacity Capacity => throw new System.NotSupportedException();
@@ -116,6 +121,11 @@ public partial interface IAz
     IAzComputefleet Computefleet => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the computerecommender sub-domain service.
+    /// </summary>
+    IAzComputeRecommender ComputeRecommender => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the connection sub-domain service.
     /// </summary>
     IAzConnection Connection => throw new System.NotSupportedException();
@@ -134,6 +144,11 @@ public partial interface IAz
     /// Gets the cosmosdb sub-domain service.
     /// </summary>
     IAzCosmosdb Cosmosdb => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the databoundary sub-domain service.
+    /// </summary>
+    IAzDataBoundary DataBoundary => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the databoxedge sub-domain service.

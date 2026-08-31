@@ -21,10 +21,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzSignalr : IAzSignalr
 {
     private readonly ICommandContext _command;
+    private AzSignalrCors? _cors;
     private AzSignalrCustomCertificate? _customCertificate;
     private AzSignalrCustomDomain? _customDomain;
+    private AzSignalrIdentity? _identity;
+    private AzSignalrKey? _key;
     private AzSignalrNetworkRule? _networkRule;
     private AzSignalrReplica? _replica;
+    private AzSignalrUpstream? _upstream;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSignalr"/> class.
@@ -37,6 +41,11 @@ public class AzSignalr : IAzSignalr
     #region Sub-command Groups
 
     /// <summary>
+    /// az cors sub-commands.
+    /// </summary>
+    public AzSignalrCors Cors => _cors ??= new AzSignalrCors(_command);
+
+    /// <summary>
     /// az custom-certificate sub-commands.
     /// </summary>
     public AzSignalrCustomCertificate CustomCertificate => _customCertificate ??= new AzSignalrCustomCertificate(_command);
@@ -47,6 +56,16 @@ public class AzSignalr : IAzSignalr
     public AzSignalrCustomDomain CustomDomain => _customDomain ??= new AzSignalrCustomDomain(_command);
 
     /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzSignalrIdentity Identity => _identity ??= new AzSignalrIdentity(_command);
+
+    /// <summary>
+    /// az key sub-commands.
+    /// </summary>
+    public AzSignalrKey Key => _key ??= new AzSignalrKey(_command);
+
+    /// <summary>
     /// az network-rule sub-commands.
     /// </summary>
     public AzSignalrNetworkRule NetworkRule => _networkRule ??= new AzSignalrNetworkRule(_command);
@@ -55,6 +74,11 @@ public class AzSignalr : IAzSignalr
     /// az replica sub-commands.
     /// </summary>
     public AzSignalrReplica Replica => _replica ??= new AzSignalrReplica(_command);
+
+    /// <summary>
+    /// az upstream sub-commands.
+    /// </summary>
+    public AzSignalrUpstream Upstream => _upstream ??= new AzSignalrUpstream(_command);
 
     #endregion
 
@@ -72,7 +96,22 @@ public class AzSignalr : IAzSignalr
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Deletes a SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzSignalrDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,6 +127,66 @@ public class AzSignalr : IAzSignalr
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Restart an existing SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestartAsync(
+        AzSignalrRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrRestartOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSignalrShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Start an existing SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartAsync(
+        AzSignalrStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrStartOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Stop an existing SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopAsync(
+        AzSignalrStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSignalrStopOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,8 +36,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Type of the Microsoft Entra administrator.  Allowed values: Group, ServicePrincipal, Unknown, User.
     /// </summary>
-    [CliFlag("--admin-type", ShortForm = "-t")]
-    public bool? AdminType { get; set; }
+    [CliOption("--admin-type", ShortForm = "-t")]
+    public string? AdminType { get; set; }
 
     /// <summary>
     /// Allow primary and standby in the same zone when multi-zone capacity is unavailable.
@@ -83,8 +84,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
@@ -113,8 +114,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--microsoft-entra-auth")]
-    public bool? MicrosoftEntraAuth { get; set; }
+    [CliOption("--microsoft-entra-auth")]
+    public string? MicrosoftEntraAuth { get; set; }
 
     /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
@@ -131,8 +132,9 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether password authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--password-auth")]
-    public bool? PasswordAuth { get; set; }
+    [SecretValue]
+    [CliOption("--password-auth")]
+    public string? PasswordAuth { get; set; }
 
     /// <summary>
     /// Performance tier of the server.
@@ -173,8 +175,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.  Default: 128.
@@ -185,8 +187,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set
     /// </summary>
-    [CliFlag("--storage-type")]
-    public bool? StorageType { get; set; }
+    [CliOption("--storage-type")]
+    public string? StorageType { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
@@ -197,8 +199,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
@@ -233,14 +235,26 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable high availability feature.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--zonal-resiliency")]
-    public bool? ZonalResiliency { get; set; }
+    [CliOption("--zonal-resiliency")]
+    public string? ZonalResiliency { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
+
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: wornoutsalami6.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
     [Obsolete("Use BackupIdentity instead.")]
     public string? BackupIdentityValue

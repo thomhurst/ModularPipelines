@@ -23,8 +23,8 @@ public record AzFunctionappConfigAppsettingsSetOptions : AzOptions
     /// <summary>
     /// Space-separated appsettings in KEY=VALUE format. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--settings")]
-    public bool? Settings { get; set; }
+    [CliOption("--settings", GroupValues = true)]
+    public IEnumerable<string>? Settings { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -35,8 +35,26 @@ public record AzFunctionappConfigAppsettingsSetOptions : AzOptions
     /// <summary>
     /// Space-separated appsettings in KEY=VALUE format. Use @{file} to load from a file. Given setting are added to the configuration and marked as Deployment slot setting by default.
     /// </summary>
-    [CliFlag("--slot-settings")]
-    public bool? SlotSettings { get; set; }
+    [CliOption("--slot-settings", GroupValues = true)]
+    public IEnumerable<string>? SlotSettings { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

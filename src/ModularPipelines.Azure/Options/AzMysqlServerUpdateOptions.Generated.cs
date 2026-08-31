@@ -35,8 +35,8 @@ public record AzMysqlServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--auto-grow")]
-    public bool? AutoGrow { get; set; }
+    [CliOption("--auto-grow")]
+    public string? AutoGrow { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
@@ -47,8 +47,14 @@ public record AzMysqlServerUpdateOptions : AzOptions
     /// <summary>
     /// Set the minimal TLS version for connections to server when SSL is enabled. Default is TLSEnforcementDisabled.  Allowed values: TLS1_0, TLS1_1, TLS1_2, TLSEnforcementDisabled.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
+
+    /// <summary>
+    /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
+    /// </summary>
+    [CliOption("--public", ShortForm = "--public-network-access")]
+    public string? Public { get; set; }
 
     /// <summary>
     /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples:
@@ -59,8 +65,8 @@ public record AzMysqlServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable ssl enforcement for connections to server. Default is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--ssl-enforcement")]
-    public bool? SslEnforcement { get; set; }
+    [CliOption("--ssl-enforcement")]
+    public string? SslEnforcement { get; set; }
 
     /// <summary>
     /// The storage capacity of the server (unit is megabytes). Minimum 5120 and increases in 1024 increments. Default is 5120.
@@ -71,8 +77,50 @@ public record AzMysqlServerUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use SkuName instead.")]
     public string? SkuNameValue

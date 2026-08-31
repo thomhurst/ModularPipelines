@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "update")]
-public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The category of the saved search. This helps the user to find a saved search faster.
     /// </summary>
@@ -33,6 +42,18 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     public bool? DisplayName { get; set; }
 
     /// <summary>
+    /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for
+    /// </summary>
+    [CliFlag("--fa", ShortForm = "--func-alias")]
+    public bool? Fa { get; set; }
+
+    /// <summary>
+    /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
+    /// </summary>
+    [CliFlag("--fp", ShortForm = "--func-param")]
+    public bool? Fp { get; set; }
+
+    /// <summary>
     /// The query expression for the saved search.
     /// </summary>
     [CliOption("--saved-query", ShortForm = "-q")]
@@ -41,8 +62,8 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use SavedQuery instead.")]
     public string? SavedQueryValue

@@ -18,18 +18,49 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "download")]
-public record AzKeyvaultSecretDownloadOptions : AzOptions
+public record AzKeyvaultSecretDownloadOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
+    public AzKeyvaultSecretDownloadOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Encoding of the secret. By default, will look for the 'file-encoding' tag on the secret. Otherwise will assume 'utf-8'.  Allowed values: ascii, base64, hex, utf-16be, utf-16le, utf-8.
     /// </summary>
-    [CliFlag("--encoding", ShortForm = "-e")]
-    public bool? Encoding { get; set; }
+    [CliOption("--encoding", ShortForm = "-e")]
+    public string? Encoding { get; set; }
 
     /// <summary>
     /// Overwrite the file if it exists.
     /// </summary>
     [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
+
+    /// <summary>
+    /// Id of the secret. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the secret. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Key Vault. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// The secret version. If omitted, uses the latest version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

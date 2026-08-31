@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "restore")]
-public record AzSynapseSqlPoolRestoreOptions : AzOptions
+public record AzSynapseSqlPoolRestoreOptions(
+    [property: CliOption("--dest-name", ShortForm = "--destination-name")] string DestName
+) : AzOptions
 {
+    public AzSynapseSqlPoolRestoreOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The performance level.
     /// </summary>
@@ -29,7 +36,49 @@ public record AzSynapseSqlPoolRestoreOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The SQL pool name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--workspace-name")]
+    public bool? WorkspaceName { get; set; }
+
+    /// <summary>
+    /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database in the same server. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
+    /// </summary>
+    [CliFlag("--deleted-time")]
+    public bool? DeletedTime { get; set; }
+
+    /// <summary>
+    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or
+    /// </summary>
+    [CliFlag("--time", ShortForm = "-t")]
+    public bool? Time { get; set; }
+
+    /// <summary>
+    /// The Storage Account Type.  Allowed values: GRS, LRS.
+    /// </summary>
+    [CliOption("--storage-type")]
+    public string? StorageType { get; set; }
 
 }

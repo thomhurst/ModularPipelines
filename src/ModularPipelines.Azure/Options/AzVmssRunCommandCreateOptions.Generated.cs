@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "create")]
-public record AzVmssRunCommandCreateOptions : AzOptions
+public record AzVmssRunCommandCreateOptions(
+    [property: CliOption("--instance-id")] string InstanceId,
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vmss-name")] string VmssName
+) : AzOptions
 {
+    public AzVmssRunCommandCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>
@@ -95,8 +105,8 @@ public record AzVmssRunCommandCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.

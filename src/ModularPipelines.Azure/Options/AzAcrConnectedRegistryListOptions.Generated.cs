@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "list")]
-public record AzAcrConnectedRegistryListOptions : AzOptions
+public record AzAcrConnectedRegistryListOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrConnectedRegistryListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Used to remove all children from the list.
     /// </summary>

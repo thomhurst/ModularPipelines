@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "check-acr")]
-public record AzAksCheckAcrOptions : AzOptions
+public record AzAksCheckAcrOptions(
+    [property: CliOption("--acr")] string Acr,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksCheckAcrOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of a specific node to perform acr pull test checks. If not specified, it will be checked on a random node.
     /// </summary>

@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "enable-addons")]
-public record AzAksEnableAddonsOptions : AzOptions
+public record AzAksEnableAddonsOptions(
+    [property: CliOption("--addons", ShortForm = "-a")] string Addons,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksEnableAddonsOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Resource ID of Azure Monitor Private Link scope for
     /// </summary>
@@ -85,6 +94,36 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// </summary>
     [CliOption("--workspace-resource-id")]
     public string? WorkspaceResourceId { get; set; }
+
+    /// <summary>
+    /// Resource Id of an existing Application Gateway to use with AGIC. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-id")]
+    public string? AppgwId { get; set; }
+
+    /// <summary>
+    /// Name of the application gateway to create/use in the node resource group. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-name")]
+    public string? AppgwName { get; set; }
+
+    /// <summary>
+    /// Subnet CIDR to use for a new subnet created to deploy the Application Gateway. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-subnet-cidr")]
+    public string? AppgwSubnetCidr { get; set; }
+
+    /// <summary>
+    /// Resource Id of an existing Subnet used to deploy the Application Gateway. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-subnet-id")]
+    public string? AppgwSubnetId { get; set; }
+
+    /// <summary>
+    /// Specify the namespace, which AGIC should watch. This could be a single string value, or a comma-separated list of namespaces.
+    /// </summary>
+    [CliFlag("--appgw-watch-namespace")]
+    public bool? AppgwWatchNamespace { get; set; }
 
     [Obsolete("Use AmplsResourceId instead.")]
     public string? AmplsResourceIdValue

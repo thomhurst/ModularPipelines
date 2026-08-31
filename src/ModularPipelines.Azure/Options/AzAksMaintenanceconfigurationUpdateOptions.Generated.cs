@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "maintenanceconfiguration", "update")]
-public record AzAksMaintenanceconfigurationUpdateOptions : AzOptions
+public record AzAksMaintenanceconfigurationUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksMaintenanceconfigurationUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The maintenance configuration json file.
     /// </summary>
@@ -65,8 +74,8 @@ public record AzAksMaintenanceconfigurationUpdateOptions : AzOptions
     /// <summary>
     /// Choose either 'Daily', 'Weekly', 'AbsoluteMonthly' or 'RelativeMonthly' for your maintenance schedule. For default maintenance configuration, only 'Weekly' is supported.  Allowed values: AbsoluteMonthly, Daily, RelativeMonthly, Weekly.
     /// </summary>
-    [CliFlag("--schedule-type")]
-    public bool? ScheduleType { get; set; }
+    [CliOption("--schedule-type")]
+    public string? ScheduleType { get; set; }
 
     /// <summary>
     /// The date the maintenance configuration activates. If not specified, the maintenance window will be active right away. Supported for all configuration types, including default.".
@@ -95,8 +104,8 @@ public record AzAksMaintenanceconfigurationUpdateOptions : AzOptions
     /// <summary>
     /// Specify on which instance of the allowed days specified in '-- day-of-week' the maintenance occurs. Applicable to relative monthly schedule type only. Not applicable to default maintenance configuration.  Allowed values: First, Fourth,
     /// </summary>
-    [CliFlag("--week-index")]
-    public bool? WeekIndex { get; set; }
+    [CliOption("--week-index")]
+    public string? WeekIndex { get; set; }
 
     /// <summary>
     /// A day in week on which maintenance is allowed (legacy timeInWeek format, default config only). See examples for the maintenanceWindow alternative.

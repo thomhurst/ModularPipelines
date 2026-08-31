@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "update")]
-public record AzIotDpsPolicyUpdateOptions : AzOptions
+public record AzIotDpsPolicyUpdateOptions(
+    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName,
+    [property: CliOption("--pn", ShortForm = "--policy-name")] string Pn
+) : AzOptions
 {
+    public AzIotDpsPolicyUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
@@ -41,8 +49,8 @@ public record AzIotDpsPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values:
     /// </summary>
-    [CliFlag("--rights", ShortForm = "-r")]
-    public bool? Rights { get; set; }
+    [CliOption("--rights", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string>? Rights { get; set; }
 
     /// <summary>
     /// Secondary SAS key value. Set to empty string in order to regenerate a new secondary key.

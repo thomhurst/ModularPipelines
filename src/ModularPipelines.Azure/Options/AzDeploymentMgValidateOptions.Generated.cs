@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "validate")]
-public record AzDeploymentMgValidateOptions : AzOptions
+public record AzDeploymentMgValidateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    public AzDeploymentMgValidateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Support to handle extended template content including multiline and comments in deployment.
+    /// </summary>
+    [CliFlag("--handle-extended-json-format", ShortForm = "-j")]
+    public bool? HandleExtendedJsonFormat { get; set; }
+
     /// <summary>
     /// The deployment name.
     /// </summary>
@@ -65,8 +79,8 @@ public record AzDeploymentMgValidateOptions : AzOptions
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values: Provider,
     /// </summary>
-    [CliFlag("--validation-level")]
-    public bool? ValidationLevel { get; set; }
+    [CliOption("--validation-level")]
+    public string? ValidationLevel { get; set; }
 
     [Obsolete("Use QueryString instead.")]
     public string? QueryStringValue

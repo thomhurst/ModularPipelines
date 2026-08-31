@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "event-subscription", "update")]
-public record AzEventgridSystemTopicEventSubscriptionUpdateOptions : AzOptions
+public record AzEventgridSystemTopicEventSubscriptionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--system-topic-name")] string SystemTopicName
+) : AzOptions
 {
+    public AzEventgridSystemTopicEventSubscriptionUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where
     /// </summary>
@@ -41,14 +50,50 @@ public record AzEventgridSystemTopicEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// The type of the destination endpoint. Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook.
     /// </summary>
-    [CliFlag("--endpoint-type")]
-    public bool? EndpointType { get; set; }
+    [CliOption("--endpoint-type")]
+    public string? EndpointType { get; set; }
 
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Storage queue message time to live in seconds.
+    /// </summary>
+    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
+    public bool? Qttl { get; set; }
+
+    /// <summary>
+    /// An advanced filter enables filtering of events based on a specific event property.
+    /// </summary>
+    [CliFlag("--advanced-filter")]
+    public bool? AdvancedFilter { get; set; }
+
+    /// <summary>
+    /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
+
+    /// <summary>
+    /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and
+    /// </summary>
+    [CliOption("--included-event-types", GroupValues = true)]
+    public IEnumerable<string>? IncludedEventTypes { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-begins-with")]
+    public bool? SubjectBeginsWith { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-ends-with")]
+    public bool? SubjectEndsWith { get; set; }
 
     [Obsolete("Use DeadletterEndpoint instead.")]
     public string? DeadletterEndpointValue

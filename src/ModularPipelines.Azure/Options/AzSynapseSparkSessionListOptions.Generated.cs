@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "session", "list")]
-public record AzSynapseSparkSessionListOptions : AzOptions
+public record AzSynapseSparkSessionListOptions(
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseSparkSessionListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Optional parameter specifying which index the list should begin from.
     /// </summary>

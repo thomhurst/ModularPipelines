@@ -18,12 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "update")]
-public record AzIotHubCertificateUpdateOptions : AzOptions
+public record AzIotHubCertificateUpdateOptions(
+    [property: CliOption("--etag", ShortForm = "-e")] string Etag,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--path", ShortForm = "-p")] string Path
+) : AzOptions
 {
+    public AzIotHubCertificateUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A boolean indicating whether or not the certificate is verified. Allowed values: false, true.
     /// </summary>
     [CliOption("--verified", ShortForm = "-v")]
     public bool? Verified { get; set; }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliFlag("--hub-name")]
+    public bool? HubName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

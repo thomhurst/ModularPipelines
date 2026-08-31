@@ -29,8 +29,8 @@ public record AzMapsAccountUpdateOptions : AzOptions
     /// <summary>
     /// Get or Set Kind property.  Allowed values: Gen1, Gen2.
     /// </summary>
-    [CliFlag("--kind")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Sets the resources to be used for Managed Identities based operations for the Map account resource.
@@ -41,7 +41,43 @@ public record AzMapsAccountUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The identity type.  Allowed values: None, SystemAssigned,
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupN ame}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{iden tityName}'. Expected value: json-string/@json-file.
+    /// </summary>
+    [CliOption("--user-identities", GroupValues = true)]
+    public IEnumerable<string>? UserIdentities { get; set; }
+
+    /// <summary>
+    /// The name of the maps account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Resource group name.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the SKU, in standard format (such as S0).  Allowed values: G2, S0, S1.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
 }

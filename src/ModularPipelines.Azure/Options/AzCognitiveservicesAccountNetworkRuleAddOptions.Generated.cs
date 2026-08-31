@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "network-rule", "add")]
-public record AzCognitiveservicesAccountNetworkRuleAddOptions : AzOptions
+public record AzCognitiveservicesAccountNetworkRuleAddOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzCognitiveservicesAccountNetworkRuleAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// IPv4 address or CIDR range.
     /// </summary>

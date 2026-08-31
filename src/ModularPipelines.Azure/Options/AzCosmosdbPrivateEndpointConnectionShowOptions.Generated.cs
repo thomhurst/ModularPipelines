@@ -32,6 +32,24 @@ public record AzCosmosdbPrivateEndpointConnectionShowOptions : AzOptions
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
+    /// <summary>
+    /// Name of the Cosmos DB database account. Required if --connection-id is not specified.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The resource group name of specified Cosmos DB account. Required if
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
     [Obsolete("Use Id instead.")]
     public string? IdValue
     {

@@ -18,8 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "create")]
-public record AzRestorePointCreateOptions : AzOptions
+public record AzRestorePointCreateOptions(
+    [property: CliOption("--collection-name")] string CollectionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzRestorePointCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Consistency mode of the restore point. Can be specified in the input while creating a restore point. For now, only
+    /// </summary>
+    [CliFlag("--consistency-mode")]
+    public bool? ConsistencyMode { get; set; }
+
     /// <summary>
     /// Customer managed data disk encryption set resource id.
     /// </summary>
@@ -35,8 +50,14 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
     /// </summary>
-    [CliFlag("--exclude-disks")]
-    public bool? ExcludeDisks { get; set; }
+    [CliOption("--exclude-disks", GroupValues = true)]
+    public IEnumerable<string>? ExcludeDisks { get; set; }
+
+    /// <summary>
+    /// This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point.
+    /// </summary>
+    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
+    public bool? IaDuration { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

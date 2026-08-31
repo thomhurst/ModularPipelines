@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "get-credentials")]
-public record AzAksNamespaceGetCredentialsOptions : AzOptions
+public record AzAksNamespaceGetCredentialsOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksNamespaceGetCredentialsOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// If specified, overwrite the default context name.
     /// </summary>
@@ -29,8 +38,8 @@ public record AzAksNamespaceGetCredentialsOptions : AzOptions
     /// <summary>
     /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Overwrite any existing cluster entry with the same name.

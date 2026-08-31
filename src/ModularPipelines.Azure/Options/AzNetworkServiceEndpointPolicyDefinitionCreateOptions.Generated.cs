@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "service-endpoint", "policy-definition", "create")]
-public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions : AzOptions
+public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkServiceEndpointPolicyDefinitionCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Description of the policy definition.
     /// </summary>
@@ -29,7 +38,7 @@ public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -41,8 +50,8 @@ public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of service resources the definition applies to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--service-resources")]
-    public bool? ServiceResources { get; set; }
+    [CliOption("--service-resources", GroupValues = true)]
+    public IEnumerable<string>? ServiceResources { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

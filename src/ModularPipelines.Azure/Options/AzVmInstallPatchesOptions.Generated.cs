@@ -18,19 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "install-patches")]
-public record AzVmInstallPatchesOptions : AzOptions
+public record AzVmInstallPatchesOptions(
+    [property: CliOption("--maximum-duration")] string MaximumDuration,
+    [property: CliOption("--reboot-setting")] string RebootSetting
+) : AzOptions
 {
+    public AzVmInstallPatchesOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated list of classifications to include for Linux VM.  Allowed values: Critical, Other, Security.
     /// </summary>
-    [CliFlag("--classifications-to-include-linux")]
-    public bool? ClassificationsToIncludeLinux { get; set; }
+    [CliOption("--classifications-to-include-linux", GroupValues = true)]
+    public IEnumerable<string>? ClassificationsToIncludeLinux { get; set; }
 
     /// <summary>
     /// Space-separated list of classifications to include for Windows VM.  Allowed values: Critical, Definition, FeaturePack, Security, ServicePack, Tools, UpdateRollUp,
     /// </summary>
-    [CliFlag("--classifications-to-include-win")]
-    public bool? ClassificationsToIncludeWin { get; set; }
+    [CliOption("--classifications-to-include-win", GroupValues = true)]
+    public IEnumerable<string>? ClassificationsToIncludeWin { get; set; }
 
     /// <summary>
     /// Filter out KBs that don't have a reboot behavior of 'NeverReboots' when this is set. Applicable to Windows VM only.  Allowed values: false, true.
@@ -41,14 +49,14 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// Space-separated list of KBs to exclude in the patch operation. Applicable to Windows VM only.
     /// </summary>
-    [CliFlag("--kb-numbers-to-exclude")]
-    public bool? KbNumbersToExclude { get; set; }
+    [CliOption("--kb-numbers-to-exclude", GroupValues = true)]
+    public IEnumerable<string>? KbNumbersToExclude { get; set; }
 
     /// <summary>
     /// Space-separated list of KBs to include in the patch operation. Applicable to Windows VM only.
     /// </summary>
-    [CliFlag("--kb-numbers-to-include")]
-    public bool? KbNumbersToInclude { get; set; }
+    [CliOption("--kb-numbers-to-include", GroupValues = true)]
+    public IEnumerable<string>? KbNumbersToInclude { get; set; }
 
     /// <summary>
     /// ISO 8601 time value for install patch that were published on or before this given max published date. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
@@ -65,13 +73,31 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// Space-separated list of packages to exclude in the patch operation. Format: packageName_packageVersion. Applicable to Linux VM only.
     /// </summary>
-    [CliFlag("--package-name-masks-to-exclude")]
-    public bool? PackageNameMasksToExclude { get; set; }
+    [CliOption("--package-name-masks-to-exclude", GroupValues = true)]
+    public IEnumerable<string>? PackageNameMasksToExclude { get; set; }
 
     /// <summary>
     /// Space-separated list of packages to include in the patch operation. Format: packageName_packageVersion. Applicable to Linux VM only.
     /// </summary>
-    [CliFlag("--package-name-masks-to-include")]
-    public bool? PackageNameMasksToInclude { get; set; }
+    [CliOption("--package-name-masks-to-include", GroupValues = true)]
+    public IEnumerable<string>? PackageNameMasksToInclude { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

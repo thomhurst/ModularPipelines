@@ -18,13 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "create")]
-public record AzEventgridDomainCreateOptions : AzOptions
+public record AzEventgridDomainCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridDomainCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The managed identity type for the resource. Will be deprecated and replaced by --mi-system-assigned-identity in future.  Allowed values: noidentity, systemassigned.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
     /// <summary>
     /// List of inbound IP rules.
     /// </summary>
-    [CliFlag("--inbound-ip-rules")]
-    public bool? InboundIpRules { get; set; }
+    [CliOption("--inbound-ip-rules", GroupValues = true)]
+    public IEnumerable<string>? InboundIpRules { get; set; }
 
     /// <summary>
     /// When input-schema is specified as customeventschema, this parameter can be used to specify input mappings based on default values. You can use this parameter when your custom schema does not include a field that corresponds to one of the three fields supported by this parameter. Specify space separated mappings in 'key=value' format. Allowed key names are 'subject', 'eventtype', 'dataversion'. The corresponding value names should specify the default values to be used for the mapping and they will be used only when the published event doesn't have a valid mapping for a particular field.
@@ -57,16 +71,28 @@ public record AzEventgridDomainCreateOptions : AzOptions
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
+    /// Add user assigned identities when identityType is user or mixed. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--mi-user-assigned` argument.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
+
+    /// <summary>
+    /// The Sku name of the resource.  Allowed values: basic, premium.  Default: Basic.
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use InputMappingDefaultValues instead.")]
     public string? InputMappingDefaultValuesValue

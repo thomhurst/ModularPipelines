@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "update")]
-public record AzStaticwebappUpdateOptions : AzOptions
+public record AzStaticwebappUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStaticwebappUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
@@ -35,14 +42,32 @@ public record AzStaticwebappUpdateOptions : AzOptions
     /// <summary>
     /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free,
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The target branch in the repository.
+    /// </summary>
+    [CliFlag("--branch", ShortForm = "-b")]
+    public bool? Branch { get; set; }
+
+    /// <summary>
+    /// URL for the repository of the static site.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
+    /// </summary>
+    [CliFlag("--token", ShortForm = "-t")]
+    public bool? Token { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

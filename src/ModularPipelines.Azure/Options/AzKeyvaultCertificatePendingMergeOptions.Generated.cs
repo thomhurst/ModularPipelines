@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "pending", "merge")]
-public record AzKeyvaultCertificatePendingMergeOptions : AzOptions
+public record AzKeyvaultCertificatePendingMergeOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
+    public AzKeyvaultCertificatePendingMergeOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create certificate in disabled state.  Allowed values: false, true.
     /// </summary>
@@ -29,7 +38,7 @@ public record AzKeyvaultCertificatePendingMergeOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

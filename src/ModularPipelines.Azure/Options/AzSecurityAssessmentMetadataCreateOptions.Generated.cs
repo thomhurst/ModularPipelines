@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment-metadata", "create")]
-public record AzSecurityAssessmentMetadataCreateOptions : AzOptions
+public record AzSecurityAssessmentMetadataCreateOptions(
+    [property: CliOption("--description")] string Description,
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--severity")] string Severity
+) : AzOptions
 {
+    public AzSecurityAssessmentMetadataCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Detailed string that will help users to understand the different ways to mitigate or fix the security issue.
     /// </summary>

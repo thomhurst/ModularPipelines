@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "connection", "create", "confluent-cloud")]
-public record AzWebappConnectionCreateConfluentCloudOptions : AzOptions
+public record AzWebappConnectionCreateConfluentCloudOptions(
+    [property: CliOption("--bootstrap-server")] string BootstrapServer,
+    [property: CliOption("--kafka-key")] string KafkaKey,
+    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
+    [property: CliOption("--schema-key")] string SchemaKey,
+    [property: CliOption("--schema-registry")] string SchemaRegistry,
+    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
+) : AzOptions
 {
+    public AzWebappConnectionCreateConfluentCloudOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
@@ -29,8 +42,8 @@ public record AzWebappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The client type used on the webapp.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -59,8 +72,8 @@ public record AzWebappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the webapp. Required if '-- source-id' is not specified.None.

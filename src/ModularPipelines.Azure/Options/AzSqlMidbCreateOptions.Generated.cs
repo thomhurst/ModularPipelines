@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "create")]
-public record AzSqlMidbCreateOptions : AzOptions
+public record AzSqlMidbCreateOptions(
+    [property: CliOption("--managed-instance", ShortForm = "--mi")] string ManagedInstance,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSqlMidbCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The collation of the Azure SQL Managed Database collation to use, e.g.: SQL_Latin1_General_CP1_CI_AS or
     /// </summary>
@@ -29,8 +38,8 @@ public record AzSqlMidbCreateOptions : AzOptions
     /// <summary>
     /// Create a ledger database, in which the integrity of all data is protected by the ledger feature. All tables in the ledger database must be ledger tables. Note: the value of this property cannot be changed after the database has been created.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--ledger-on")]
-    public bool? LedgerOn { get; set; }
+    [CliOption("--ledger-on")]
+    public string? LedgerOn { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -41,7 +50,7 @@ public record AzSqlMidbCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

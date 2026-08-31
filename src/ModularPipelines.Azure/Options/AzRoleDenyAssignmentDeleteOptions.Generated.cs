@@ -35,8 +35,8 @@ public record AzRoleDenyAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscriptions/0 0000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

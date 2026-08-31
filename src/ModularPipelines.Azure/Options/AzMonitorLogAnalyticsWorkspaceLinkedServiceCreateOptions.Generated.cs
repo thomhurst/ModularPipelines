@@ -18,12 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
-public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
+    [property: CliOption("--linked-service-name", ShortForm = "-n")] string LinkedServiceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -31,6 +40,18 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions : AzOptio
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
+
+    /// <summary>
+    /// The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require read access.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
+
+    /// <summary>
+    /// The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require write access.
+    /// </summary>
+    [CliOption("--write-access-resource-id")]
+    public string? WriteAccessResourceId { get; set; }
 
     [Obsolete("Use Tags instead.")]
     public string? TagsValue

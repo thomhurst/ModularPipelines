@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-sub-definitions")]
-public record AzMonitorMetricsListSubDefinitionsOptions : AzOptions
+public record AzMonitorMetricsListSubDefinitionsOptions(
+    [property: CliOption("--region")] string Region
+) : AzOptions
 {
+    public AzMonitorMetricsListSubDefinitionsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Metric namespace where the metrics you want reside.
     /// </summary>

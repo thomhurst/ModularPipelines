@@ -26,4 +26,64 @@ public record AzNetworkPublicIpPrefixWaitOptions : AzOptions
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the public IP prefix.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
+
+    /// <summary>
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
+    /// </summary>
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
+
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
+
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
+
 }

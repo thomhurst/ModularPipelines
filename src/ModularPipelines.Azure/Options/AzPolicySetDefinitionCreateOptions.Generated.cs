@@ -18,12 +18,61 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "set-definition", "create")]
-public record AzPolicySetDefinitionCreateOptions : AzOptions
+public record AzPolicySetDefinitionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicySetDefinitionCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The management group.
     /// </summary>
     [CliFlag("--management-group")]
     public bool? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// The metadata describing groups of policy definition references within the policy set definition.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--definition-groups")]
+    public bool? DefinitionGroups { get; set; }
+
+    /// <summary>
+    /// An array of policy definition references.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--definitions")]
+    public IEnumerable<string>? Definitions { get; set; }
+
+    /// <summary>
+    /// Policy set definition description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy set definition.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy set definition metadata.  Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy set definition parameter definitions.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
+
+    /// <summary>
+    /// The policy set definition version.
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
 }

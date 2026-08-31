@@ -18,19 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "copy")]
-public record AzSqlDbCopyOptions : AzOptions
+public record AzSqlDbCopyOptions(
+    [property: CliOption("--dest-name")] string DestName
+) : AzOptions
 {
+    public AzSqlDbCopyOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--assign-identity", ShortForm = "-i")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ShortForm = "-i", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentityValues { get; set; }
 
     /// <summary>
     /// Availability zone.
     /// </summary>
     [CliFlag("--availability-zone")]
     public bool? AvailabilityZone { get; set; }
+
+    /// <summary>
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// </summary>
+    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// Name of the resource group to create the copy in. If unspecified, defaults to the origin resource group.
@@ -51,22 +64,34 @@ public record AzSqlDbCopyOptions : AzOptions
     public bool? EncryptionProtector { get; set; }
 
     /// <summary>
+    /// Specifies the database encryption protector key auto rotation flag. Can be either true, false or null.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--encryption-protector-auto-rotation", ShortForm = "--epauto")]
+    public bool? EncryptionProtectorAutoRotation { get; set; }
+
+    /// <summary>
     /// The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
     /// </summary>
     [CliFlag("--federated-client-id")]
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
+    /// The number of high availability replicas to provision for the database. Only settable for
+    /// </summary>
+    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
+    public bool? HaReplicas { get; set; }
+
+    /// <summary>
     /// The list of AKV keys for the SQL Database.
     /// </summary>
-    [CliFlag("--keys")]
-    public bool? Keys { get; set; }
+    [CliOption("--keys", GroupValues = true)]
+    public IEnumerable<string>? Keys { get; set; }
 
     /// <summary>
     /// The license type to apply for this database.``LicenseIncluded`` if you need a license, or ``BasePrice``if you have a license and are eligible for the Azure HybridBenefit. Allowed values: BasePrice, LicenseIncluded.
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -77,26 +102,93 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Specifies type of enclave for this resource. Allowed values: Default, VBS.
     /// </summary>
-    [CliFlag("--preferred-enclave-type")]
-    public bool? PreferredEnclaveType { get; set; }
+    [CliOption("--preferred-enclave-type")]
+    public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
     /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--read-scale")]
-    public bool? ReadScale { get; set; }
+    [CliOption("--read-scale")]
+    public string? ReadScale { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The list of user assigned identity for the SQL
+    /// </summary>
+    [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
+    public IEnumerable<string>? Umi { get; set; }
 
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified. Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// The name or resource id of the elastic pool to create the database in.
+    /// </summary>
+    [CliOption("--elastic-pool")]
+    public string? ElasticPool { get; set; }
+
+    /// <summary>
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8,
+    /// </summary>
+    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
+    public bool? ServiceLevelObjective { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
+
+    /// <summary>
+    /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
+    /// </summary>
+    [CliFlag("--auto-pause-delay")]
+    public bool? AutoPauseDelay { get; set; }
+
+    /// <summary>
+    /// The compute model of the database.  Allowed values: Provisioned, Serverless.
+    /// </summary>
+    [CliOption("--compute-model")]
+    public string? ComputeModel { get; set; }
+
+    /// <summary>
+    /// Minimal capacity that database will always have allocated, if not paused.
+    /// </summary>
+    [CliFlag("--min-capacity")]
+    public bool? MinCapacity { get; set; }
+
+    [Obsolete("Use AssignIdentityValues instead.")]
+    public bool? AssignIdentity
+    {
+        get => bool.TryParse(AssignIdentityValues?.FirstOrDefault(), out var value) ? value : null;
+        set => AssignIdentityValues = value == true ? ["true"] : value == false ? ["false"] : null;
+    }
 
     [Obsolete("Use DestResourceGroup instead.")]
     public string? DestResourceGroupValue

@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "vnet-rule", "create")]
-public record AzMysqlServerVnetRuleCreateOptions : AzOptions
+public record AzMysqlServerVnetRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
+    public AzMysqlServerVnetRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>

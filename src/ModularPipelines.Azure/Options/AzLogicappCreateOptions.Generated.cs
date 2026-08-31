@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "create")]
-public record AzLogicappCreateOptions : AzOptions
+public record AzLogicappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account", ShortForm = "-s")] string StorageAccount
+) : AzOptions
 {
+    public AzLogicappCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the existing App Insights project to be added to the logic app. Must be in the same resource group.
     /// </summary>
@@ -77,14 +86,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
     /// </summary>
-    [CliFlag("--domain-name-scope")]
-    public bool? DomainNameScope { get; set; }
+    [CliOption("--domain-name-scope")]
+    public string? DomainNameScope { get; set; }
 
     /// <summary>
     /// The functions version for logic app.  Allowed values: 4.
     /// </summary>
-    [CliFlag("--functions-version", ShortForm = "-v")]
-    public bool? FunctionsVersion { get; set; }
+    [CliOption("--functions-version", ShortForm = "-v")]
+    public string? FunctionsVersion { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS. Allowed values: false, true.
@@ -101,14 +110,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// The runtime version for logic app.  Allowed values: ~14, ~16, ~18.
     /// </summary>
-    [CliFlag("--runtime-version")]
-    public bool? RuntimeVersion { get; set; }
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use AppInsights instead.")]
     public string? AppInsightsValue

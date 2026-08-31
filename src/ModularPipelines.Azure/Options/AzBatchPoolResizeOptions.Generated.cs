@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "resize")]
-public record AzBatchPoolResizeOptions : AzOptions
+public record AzBatchPoolResizeOptions(
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
+    public AzBatchPoolResizeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Stop the pool resize operation.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzBatchPoolResizeOptions : AzOptions
     /// <summary>
     /// When nodes may be removed from the pool, if the pool size is decreasing.  Allowed values: requeue, retaineddata, taskcompletion, terminate.
     /// </summary>
-    [CliFlag("--node-deallocation-option")]
-    public bool? NodeDeallocationOption { get; set; }
+    [CliOption("--node-deallocation-option")]
+    public string? NodeDeallocationOption { get; set; }
 
     /// <summary>
     /// The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). ISO-8601 duration format.
@@ -49,5 +57,24 @@ public record AzBatchPoolResizeOptions : AzOptions
     /// </summary>
     [CliFlag("--target-low-priority-nodes")]
     public bool? TargetLowPriorityNodes { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// The Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// The Batch account name. Only needed Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

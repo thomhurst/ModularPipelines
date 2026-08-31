@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "encryption", "set")]
-public record AzAmsAccountEncryptionSetOptions : AzOptions
+public record AzAmsAccountEncryptionSetOptions(
+    [property: CliOption("--key-type")] string KeyType
+) : AzOptions
 {
+    public AzAmsAccountEncryptionSetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The current key used to encrypt the Media Services account, including the key version.
     /// </summary>
@@ -43,6 +50,24 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     /// </summary>
     [CliFlag("--user-assigned")]
     public bool? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use KeyIdentifier instead.")]
     public string? KeyIdentifierValue

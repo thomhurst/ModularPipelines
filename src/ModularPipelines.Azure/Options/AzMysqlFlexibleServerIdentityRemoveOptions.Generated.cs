@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "identity", "remove")]
-public record AzMysqlFlexibleServerIdentityRemoveOptions : AzOptions
+public record AzMysqlFlexibleServerIdentityRemoveOptions(
+    [property: CliOption("--identity", ShortForm = "-n", GroupValues = true)] IEnumerable<string> Identity,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
+    public AzMysqlFlexibleServerIdentityRemoveOptions()
+        : this(default(IEnumerable<string>)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

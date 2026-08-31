@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "create")]
-public record AzStaticwebappCreateOptions : AzOptions
+public record AzStaticwebappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStaticwebappCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location of your Azure Functions code. For example, '/api' represents a folder called 'api'.
     /// </summary>
@@ -53,14 +61,44 @@ public record AzStaticwebappCreateOptions : AzOptions
     /// <summary>
     /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free, Standard.  Default: Free.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The target branch in the repository.
+    /// </summary>
+    [CliFlag("--branch", ShortForm = "-b")]
+    public bool? Branch { get; set; }
+
+    /// <summary>
+    /// Use azure credentials to create an Azure Dev Ops personal access token.
+    /// </summary>
+    [CliFlag("--login-with-ado")]
+    public bool? LoginWithAdo { get; set; }
+
+    /// <summary>
+    /// Interactively log in with Github to retrieve the Personal
+    /// </summary>
+    [CliFlag("--login-with-github")]
+    public bool? LoginWithGithub { get; set; }
+
+    /// <summary>
+    /// URL for the repository of the static site.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
+    /// </summary>
+    [CliFlag("--token", ShortForm = "-t")]
+    public bool? Token { get; set; }
 
     [Obsolete("Use OutputLocation instead.")]
     public string? OutputLocationValue

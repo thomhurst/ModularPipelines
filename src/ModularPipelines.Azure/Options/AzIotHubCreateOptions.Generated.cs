@@ -18,8 +18,124 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "create")]
-public record AzIotHubCreateOptions : AzOptions
+public record AzIotHubCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzIotHubCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The number of times the IoT hub will attempt to deliver a cloud-to-device message to a device, between 1 and 100.
+    /// </summary>
+    [CliFlag("--c2d-max-delivery-count", ShortForm = "--cdd")]
+    public bool? C2dMaxDeliveryCount { get; set; }
+
+    /// <summary>
+    /// The amount of time a message is available for the device to consume before it is expired by IoT Hub, between 1 and 48 hours.
+    /// </summary>
+    [CliFlag("--c2d-ttl", ShortForm = "--ct")]
+    public bool? C2dTtl { get; set; }
+
+    /// <summary>
+    /// A boolean indicating whether or not to disable all device (including Edge devices but excluding modules) scoped SAS keys for authentication.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--dds", ShortForm = "--disable-device-sas")]
+    public bool? Dds { get; set; }
+
+    /// <summary>
+    /// A boolean indicating whether or not to disable IoT hub scoped SAS keys for authentication.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-local-auth", ShortForm = "--dla")]
+    public bool? DisableLocalAuth { get; set; }
+
+    /// <summary>
+    /// A boolean indicating whether or not to disable module-scoped SAS keys for authentication.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-module-sas", ShortForm = "--dms")]
+    public bool? DisableModuleSas { get; set; }
+
+    /// <summary>
+    /// Enforce data residency for this IoT Hub by disabling cross-region disaster recovery. This property is immutable once set on the resource. Only available in select regions.
+    /// </summary>
+    [CliFlag("--edr", ShortForm = "--enforce-data-residency")]
+    public bool? Edr { get; set; }
+
+    /// <summary>
+    /// The name of the root container where you upload files. The container need not exist but should be creatable using the connectionString specified.
+    /// </summary>
+    [CliOption("--fc", ShortForm = "--fileupload-storage-container-name")]
+    public string? Fc { get; set; }
+
+    /// <summary>
+    /// The connection string for the Azure Storage account to which files are uploaded.
+    /// </summary>
+    [CliFlag("--fcs", ShortForm = "--fileupload-storage-connectionstring")]
+    public bool? Fcs { get; set; }
+
+    /// <summary>
+    /// The number of times the IoT hub attempts to deliver a message on the feedback queue, between 1 and 100.  Default: 10.
+    /// </summary>
+    [CliFlag("--fd", ShortForm = "--feedback-max-delivery-count")]
+    public bool? Fd { get; set; }
+
+    /// <summary>
+    /// The lock duration for the feedback queue, between 5 and 300 seconds.  Default: 5.
+    /// </summary>
+    [CliFlag("--feedback-lock-duration", ShortForm = "--fld")]
+    public bool? FeedbackLockDuration { get; set; }
+
+    /// <summary>
+    /// The period of time for which the IoT hub will maintain the feedback for expiration or delivery of cloud-to-device messages, between 1 and 48 hours.  Default: 1.
+    /// </summary>
+    [CliFlag("--feedback-ttl", ShortForm = "--ft")]
+    public bool? FeedbackTtl { get; set; }
+
+    /// <summary>
+    /// The lock duration for the file upload notifications queue, between 5 and 300 seconds.  Default: 5.
+    /// </summary>
+    [CliFlag("--fileupload-notification-lock-duration", ShortForm = "--fnld")]
+    public bool? FileuploadNotificationLockDuration { get; set; }
+
+    /// <summary>
+    /// The number of times the IoT hub will attempt to deliver a file notification message, between 1 and 100.  Default: 10.
+    /// </summary>
+    [CliFlag("--fileupload-notification-max-delivery-count", ShortForm = "--fnd")]
+    public bool? FileuploadNotificationMaxDeliveryCount { get; set; }
+
+    /// <summary>
+    /// The amount of time a file upload notification is available for the service to consume before it is expired by IoT Hub, between 1 and 48 hours.  Default: 1.
+    /// </summary>
+    [CliFlag("--fileupload-notification-ttl", ShortForm = "--fnt")]
+    public bool? FileuploadNotificationTtl { get; set; }
+
+    /// <summary>
+    /// A boolean indicating whether to log information about uploaded files to the messages/servicebound/filenotifications IoT Hub endpoint.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--fileupload-notifications", ShortForm = "--fn")]
+    public bool? FileuploadNotifications { get; set; }
+
+    /// <summary>
+    /// The amount of time a SAS URI generated by IoT Hub is valid before it expires, between 1 and 24 hours.  Default: 1.
+    /// </summary>
+    [CliFlag("--fileupload-sas-ttl", ShortForm = "--fst")]
+    public bool? FileuploadSasTtl { get; set; }
+
+    /// <summary>
+    /// The authentication type for the Azure Storage account to which files are uploaded.  Allowed values: identityBased, keyBased.
+    /// </summary>
+    [CliOption("--fileupload-storage-auth-type", ShortForm = "--fsa")]
+    public string? FileuploadStorageAuthType { get; set; }
+
+    /// <summary>
+    /// The managed identity to use for file upload authentication. Use '[system]' to refer to the system-assigned managed identity or a resource ID to refer to a user-assigned managed identity.
+    /// </summary>
+    [CliOption("--fileupload-storage-identity", ShortForm = "--fsi")]
+    public string? FileuploadStorageIdentity { get; set; }
+
     /// <summary>
     /// Location of your IoT Hub. Default is the location of target resource group.
     /// </summary>
@@ -35,8 +151,14 @@ public record AzIotHubCreateOptions : AzOptions
     /// <summary>
     /// Enable user-assigned managed identities for this hub. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// Specify the minimum TLS version to support for this hub. Can be set to "1.0" or "1.2". For example, minimum TLS version set to "1.2" results in clients that use a TLS version below 1.2 to be rejected.
+    /// </summary>
+    [CliFlag("--min-tls-version", ShortForm = "--mintls")]
+    public bool? MinTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -49,6 +171,12 @@ public record AzIotHubCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--partition-count")]
     public bool? PartitionCount { get; set; }
+
+    /// <summary>
+    /// Specifies how long this IoT hub will maintain device-to-cloud events, between 1 and 7 days.  Default: 1.
+    /// </summary>
+    [CliFlag("--rd", ShortForm = "--retention-day")]
+    public bool? Rd { get; set; }
 
     /// <summary>
     /// Role to assign to the hub's system-assigned managed identity.
@@ -65,14 +193,14 @@ public record AzIotHubCreateOptions : AzOptions
     /// <summary>
     /// Pricing tier for Azure IoT Hub. Note that only one free IoT hub instance (F1) is allowed in each subscription. Exception will be thrown if free instances exceed one.  Allowed values: B1, B2, B3, F1, S1, S2, S3.  Default: S1.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Units in your IoT Hub.  Default: 1.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,13 +19,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "download-batch")]
-public record AzStorageFileDownloadBatchOptions : AzOptions
+public record AzStorageFileDownloadBatchOptions(
+    [property: CliOption("--destination", ShortForm = "-d")] string Destination,
+    [property: CliOption("--source", ShortForm = "-s")] string Source
+) : AzOptions
 {
+    public AzStorageFileDownloadBatchOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
     /// </summary>
     [CliFlag("--auth-mode")]
     public bool? AuthMode { get; set; }
+
+    /// <summary>
+    /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
+    /// </summary>
+    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
@@ -61,6 +76,45 @@ public record AzStorageFileDownloadBatchOptions : AzOptions
     /// </summary>
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
+
+    /// <summary>
+    /// The maximum number of parallel connections to use. Default value is 1.  Default: 1.
+    /// </summary>
+    [CliFlag("--max-connections")]
+    public bool? MaxConnections { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--file-endpoint")]
+    public bool? FileEndpoint { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
     [Obsolete("Use Snapshot instead.")]
     public string? SnapshotValue

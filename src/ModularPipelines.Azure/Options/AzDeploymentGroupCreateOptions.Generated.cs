@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "group", "create")]
-public record AzDeploymentGroupCreateOptions : AzOptions
+public record AzDeploymentGroupCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzDeploymentGroupCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Auxiliary subscriptions which will be used during deployment across tenants.
+    /// </summary>
+    [CliFlag("--aux-subs")]
+    public bool? AuxSubs { get; set; }
+
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>
@@ -33,10 +46,16 @@ public record AzDeploymentGroupCreateOptions : AzOptions
     public bool? ConfirmWithWhatIf { get; set; }
 
     /// <summary>
+    /// Support to handle extended template content including multiline and comments in deployment.
+    /// </summary>
+    [CliFlag("--handle-extended-json-format", ShortForm = "-j")]
+    public bool? HandleExtendedJsonFormat { get; set; }
+
+    /// <summary>
     /// The deployment mode.  Allowed values: Complete, Incremental.  Default: Incremental.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// The deployment name.
@@ -101,8 +120,8 @@ public record AzDeploymentGroupCreateOptions : AzOptions
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values: Provider,
     /// </summary>
-    [CliFlag("--validation-level")]
-    public bool? ValidationLevel { get; set; }
+    [CliOption("--validation-level")]
+    public string? ValidationLevel { get; set; }
 
     /// <summary>
     /// Instruct the command to run deployment What-If.
@@ -113,14 +132,14 @@ public record AzDeploymentGroupCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results. Applicable when --confirm-with-what-if is set.  Allowed values: Create, Delete, Deploy, Ignore, Modify,
     /// </summary>
-    [CliFlag("--what-if-exclude-change-types", ShortForm = "-x")]
-    public bool? WhatIfExcludeChangeTypes { get; set; }
+    [CliOption("--what-if-exclude-change-types", ShortForm = "-x", GroupValues = true)]
+    public IEnumerable<string>? WhatIfExcludeChangeTypes { get; set; }
 
     /// <summary>
     /// The format of What-If results. Applicable when `--confirm-with-what-if` is set.  Allowed values: FullResourcePayloads, ResourceIdOnly.
     /// </summary>
-    [CliFlag("--what-if-result-format", ShortForm = "-r")]
-    public bool? WhatIfResultFormat { get; set; }
+    [CliOption("--what-if-result-format", ShortForm = "-r")]
+    public string? WhatIfResultFormat { get; set; }
 
     [Obsolete("Use QueryString instead.")]
     public string? QueryStringValue

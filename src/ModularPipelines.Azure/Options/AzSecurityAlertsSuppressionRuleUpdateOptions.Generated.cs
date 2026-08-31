@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "update")]
-public record AzSecurityAlertsSuppressionRuleUpdateOptions : AzOptions
+public record AzSecurityAlertsSuppressionRuleUpdateOptions(
+    [property: CliOption("--alert-type")] string AlertType,
+    [property: CliOption("--reason")] string Reason,
+    [property: CliOption("--rule-name")] string RuleName,
+    [property: CliOption("--state")] string State
+) : AzOptions
 {
+    public AzSecurityAlertsSuppressionRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Any comment regarding the rule.
     /// </summary>

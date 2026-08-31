@@ -18,12 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "add")]
-public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions(
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--private-dns-zone")] string PrivateDnsZone,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkPrivateEndpointDnsZoneGroupAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

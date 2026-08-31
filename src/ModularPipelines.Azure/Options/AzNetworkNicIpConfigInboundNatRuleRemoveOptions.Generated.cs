@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "remove")]
-public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions : AzOptions
+public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions(
+    [property: CliOption("--inbound-nat-rule")] string InboundNatRule,
+    [property: CliOption("--ip-config-name", ShortForm = "-n")] string IpConfigName,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkNicIpConfigInboundNatRuleRemoveOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the load balancer.
     /// </summary>
@@ -29,7 +39,7 @@ public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     [Obsolete("Use LbName instead.")]

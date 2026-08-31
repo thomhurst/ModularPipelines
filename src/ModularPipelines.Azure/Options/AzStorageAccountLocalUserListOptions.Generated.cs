@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "local-user", "list")]
-public record AzStorageAccountLocalUserListOptions : AzOptions
+public record AzStorageAccountLocalUserListOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStorageAccountLocalUserListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// When specified, only local user names starting with the filter will be listed. Default value is None.
     /// </summary>

@@ -18,13 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "create")]
-public record AzSigImageVersionCreateOptions : AzOptions
+public record AzSigImageVersionCreateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSigImageVersionCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicate whether or not removing this gallery image version from replicated regions is allowed.
     /// </summary>
     [CliFlag("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
+
+    /// <summary>
+    /// Indicate whether or not the deletion is blocked for this gallery image version if its end of life has not expired.
+    /// </summary>
+    [CliFlag("--block-delete-before-eol", ShortForm = "--block-deletion-before-end-of-life")]
+    public bool? BlockDeleteBeforeEol { get; set; }
 
     /// <summary>
     /// Logical unit numbers (space- delimited) of data disk snapshots.
@@ -45,10 +61,22 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public bool? DataVhdsLuns { get; set; }
 
     /// <summary>
+    /// Names or IDs (space- delimited) of storage accounts of source VHD
+    /// </summary>
+    [CliFlag("--data-vhds-sa", ShortForm = "--data-vhds-storage-accounts")]
+    public bool? DataVhdsSa { get; set; }
+
+    /// <summary>
     /// Source VHD
     /// </summary>
     [CliOption("--data-vhds-uris")]
     public string? DataVhdsUris { get; set; }
+
+    /// <summary>
+    /// The end of life date, e.g. '2020-12-31'.
+    /// </summary>
+    [CliFlag("--end-of-life-date")]
+    public bool? EndOfLifeDate { get; set; }
 
     /// <summary>
     /// The flag means that if it is set to true, people deploying VMs with version omitted will not use this version.
@@ -121,6 +149,12 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    /// <summary>
+    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region.
+    /// </summary>
+    [CliFlag("--target-edge-zone-encryption", ShortForm = "--zone-encryption")]
+    public bool? TargetEdgeZoneEncryption { get; set; }
 
     /// <summary>
     /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.

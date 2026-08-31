@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "create")]
-public record AzNetworkExpressRouteCreateOptions : AzOptions
+public record AzNetworkExpressRouteCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkExpressRouteCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allow classic operations. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
@@ -29,7 +37,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Enable global reach on the circuit.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-global-reach")]
+    [CliOption("--allow-global-reach")]
     public bool? AllowGlobalReach { get; set; }
 
     /// <summary>
@@ -53,7 +61,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -71,20 +79,20 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.
     /// </summary>
-    [CliFlag("--sku-family")]
-    public bool? SkuFamily { get; set; }
+    [CliOption("--sku-family")]
+    public string? SkuFamily { get; set; }
 
     /// <summary>
     /// SKU Tier of ExpressRoute circuit.  Allowed values: Basic, Local, Premium, Standard.  Default: Standard.  Allowed values: Basic, Local, Premium, Standard.  Default: Standard.
     /// </summary>
-    [CliFlag("--sku-tier")]
-    public bool? SkuTier { get; set; }
+    [CliOption("--sku-tier")]
+    public string? SkuTier { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use ExpressRoutePort instead.")]
     public string? ExpressRoutePortValue

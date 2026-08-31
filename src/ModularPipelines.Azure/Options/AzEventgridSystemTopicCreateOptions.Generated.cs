@@ -18,8 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "create")]
-public record AzEventgridSystemTopicCreateOptions : AzOptions
+public record AzEventgridSystemTopicCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source")] string Source,
+    [property: CliOption("--topic-type")] string TopicType
+) : AzOptions
 {
+    public AzEventgridSystemTopicCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The managed identity type for the resource. Will be deprecated and replaced by --mi-system-assigned-identity in future.  Allowed values: noidentity, systemassigned.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
     /// </summary>
@@ -33,9 +49,15 @@ public record AzEventgridSystemTopicCreateOptions : AzOptions
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
+    /// Add user assigned identities when identityType is user or mixed. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--mi-user-assigned` argument.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

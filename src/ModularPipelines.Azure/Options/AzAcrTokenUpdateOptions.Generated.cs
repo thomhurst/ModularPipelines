@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "update")]
-public record AzAcrTokenUpdateOptions : AzOptions
+public record AzAcrTokenUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTokenUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzAcrTokenUpdateOptions : AzOptions
     /// <summary>
     /// The status of the token.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

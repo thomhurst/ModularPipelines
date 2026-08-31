@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsNamespaceApplicationGroup
 {
     private readonly ICommandContext _command;
+    private AzEventhubsNamespaceApplicationGroupPolicy? _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespaceApplicationGroup"/> class.
@@ -29,6 +30,15 @@ public class AzEventhubsNamespaceApplicationGroup
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az policy sub-commands.
+    /// </summary>
+    public AzEventhubsNamespaceApplicationGroupPolicy Policy => _policy ??= new AzEventhubsNamespaceApplicationGroupPolicy(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,67 @@ public class AzEventhubsNamespaceApplicationGroup
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceApplicationGroupCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete an ApplicationGroup for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzEventhubsNamespaceApplicationGroupDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceApplicationGroupDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List a list of application groups for a
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzEventhubsNamespaceApplicationGroupListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get an ApplicationGroup for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventhubsNamespaceApplicationGroupShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceApplicationGroupShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update an ApplicationGroup for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzEventhubsNamespaceApplicationGroupUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceApplicationGroupUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

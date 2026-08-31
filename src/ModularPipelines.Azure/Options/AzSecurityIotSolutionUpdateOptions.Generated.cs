@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-solution", "update")]
-public record AzSecurityIotSolutionUpdateOptions : AzOptions
+public record AzSecurityIotSolutionUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--solution-name")] string SolutionName
+) : AzOptions
 {
+    public AzSecurityIotSolutionUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Resource display name.
     /// </summary>

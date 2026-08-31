@@ -18,13 +18,40 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "slot", "create")]
-public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
+public record AzFunctionappDeploymentSlotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
+    public AzFunctionappDeploymentSlotCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Source slot to clone configurations from. Use function app's name to refer to the production slot.
     /// </summary>
     [CliOption("--configuration-source")]
     public string? ConfigurationSource { get; set; }
+
+    /// <summary>
+    /// Container image, e.g. publisher/image-name:tag.
+    /// </summary>
+    [CliFlag("--deployment-container-image-name")]
+    public bool? DeploymentContainerImageName { get; set; }
+
+    /// <summary>
+    /// The container registry server password.
+    /// </summary>
+    [CliFlag("--docker-registry-server-password")]
+    public bool? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server username.
+    /// </summary>
+    [CliFlag("--docker-registry-server-user")]
+    public bool? DockerRegistryServerUser { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.

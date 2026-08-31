@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "invite")]
-public record AzStaticwebappUsersInviteOptions : AzOptions
+public record AzStaticwebappUsersInviteOptions(
+    [property: CliOption("--authentication-provider")] string AuthenticationProvider,
+    [property: CliOption("--domain")] string Domain,
+    [property: CliOption("--invitation-expiration-in-hours")] string InvitationExpirationInHours,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--roles")] string Roles,
+    [property: CliOption("--user-details")] string UserDetails
+) : AzOptions
 {
+    public AzStaticwebappUsersInviteOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

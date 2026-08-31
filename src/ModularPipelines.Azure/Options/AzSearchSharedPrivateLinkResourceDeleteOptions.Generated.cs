@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "shared-private-link-resource", "delete")]
-public record AzSearchSharedPrivateLinkResourceDeleteOptions : AzOptions
+public record AzSearchSharedPrivateLinkResourceDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
+    public AzSearchSharedPrivateLinkResourceDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

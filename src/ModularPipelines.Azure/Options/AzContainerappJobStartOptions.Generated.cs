@@ -38,6 +38,66 @@ public record AzContainerappJobStartOptions : AzOptions
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
 
+    /// <summary>
+    /// A Managed Identity to authenticate with the registry server instead of username/password. Use a resource ID or 'system' for user-defined and system-defined identities, respectively. The registry must be an ACR. If possible, an 'acrpull' role assignment will be created for the identity automatically.
+    /// </summary>
+    [CliOption("--registry-identity")]
+    public string? RegistryIdentity { get; set; }
+
+    /// <summary>
+    /// A list of container startup command argument(s). Space-separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--args", GroupValues = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--command", GroupValues = true)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Name of the container.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
+    /// </summary>
+    [CliFlag("--cpu")]
+    public bool? Cpu { get; set; }
+
+    /// <summary>
+    /// A list of environment variable(s) for the container. Space-separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
+    /// </summary>
+    [CliOption("--env-vars", GroupValues = true)]
+    public IEnumerable<string>? EnvVars { get; set; }
+
+    /// <summary>
+    /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
+    /// </summary>
+    [CliFlag("--memory")]
+    public bool? Memory { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Container Apps Job. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
     [Obsolete("Use Yaml instead.")]
     public string? YamlValue
     {

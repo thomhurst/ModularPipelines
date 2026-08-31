@@ -39,6 +39,12 @@ public record AzLockListOptions : AzOptions
     public bool? Parent { get; set; }
 
     /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "create")]
-public record AzStorageAccountOrPolicyCreateOptions : AzOptions
+public record AzStorageAccountOrPolicyCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
+    public AzStorageAccountOrPolicyCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The destination storage account name or resource Id. Apply
     /// </summary>
@@ -67,6 +74,36 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// </summary>
     [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
+
+    /// <summary>
+    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
+    /// </summary>
+    [CliFlag("--min-creation-time", ShortForm = "-t")]
+    public bool? MinCreationTime { get; set; }
+
+    /// <summary>
+    /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
+    /// </summary>
+    [CliFlag("--prefix", ShortForm = "--prefix-match")]
+    public bool? Prefix { get; set; }
+
+    /// <summary>
+    /// The destination storage container name. Required when no
+    /// </summary>
+    [CliFlag("--dcont", ShortForm = "--destination-container")]
+    public bool? Dcont { get; set; }
+
+    /// <summary>
+    /// Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.
+    /// </summary>
+    [CliFlag("--rule-id")]
+    public bool? RuleId { get; set; }
+
+    /// <summary>
+    /// The source storage container name. Required when no --policy provided.
+    /// </summary>
+    [CliOption("--scont", ShortForm = "--source-container")]
+    public string? Scont { get; set; }
 
     [Obsolete("Use DestinationAccount instead.")]
     public string? DestinationAccountValue

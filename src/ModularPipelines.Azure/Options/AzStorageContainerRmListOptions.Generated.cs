@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "list")]
-public record AzStorageContainerRmListOptions : AzOptions
+public record AzStorageContainerRmListOptions(
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
+    public AzStorageContainerRmListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Include soft deleted containers when specified.
     /// </summary>

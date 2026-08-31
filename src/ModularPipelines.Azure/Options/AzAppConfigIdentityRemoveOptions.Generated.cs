@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "identity", "remove")]
-public record AzAppConfigIdentityRemoveOptions : AzOptions
+public record AzAppConfigIdentityRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAppConfigIdentityRemoveOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Accept system-assigned or user-assigned managed identities separated by spaces. Use '[system]' to refer to system-assigned managed identity, '[all]' for all managed identities or a resource ID to refer user- assigned managed identity. If this argument is not provided or this argument is provided without any value, system-assigned managed identity will be removed by default.
     /// </summary>

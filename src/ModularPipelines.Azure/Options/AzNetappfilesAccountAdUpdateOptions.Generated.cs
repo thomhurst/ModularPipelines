@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "ad", "update")]
-public record AzNetappfilesAccountAdUpdateOptions : AzOptions
+public record AzNetappfilesAccountAdUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--active-directory-id")] string ActiveDirectoryId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetappfilesAccountAdUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume.
     /// </summary>
@@ -29,7 +38,7 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -47,8 +56,14 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// If enabled, AES encryption will be enabled for SMB communication. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--aes-encryption")]
+    [CliOption("--aes-encryption")]
     public bool? AesEncryption { get; set; }
+
+    /// <summary>
+    /// If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--allow-local-ldap-users", ShortForm = "--allow-local-nfs-users-with-ldap")]
+    public bool? AllowLocalLdapUsers { get; set; }
 
     /// <summary>
     /// Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -71,13 +86,13 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--encrypt-dc-connections")]
+    [CliOption("--encrypt-dc-connections")]
     public bool? EncryptDcConnections { get; set; }
 
     /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be secured via TLS.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ldap-over-tls")]
+    [CliOption("--ldap-over-tls")]
     public bool? LdapOverTls { get; set; }
 
     /// <summary>
@@ -89,7 +104,7 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be signed. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ldap-signing")]
+    [CliOption("--ldap-signing")]
     public bool? LdapSigning { get; set; }
 
     /// <summary>
@@ -117,6 +132,12 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     public bool? SecurityOperators { get; set; }
 
     /// <summary>
+    /// When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory
+    /// </summary>
+    [CliFlag("--server-root-ca-cert", ShortForm = "--server-root-ca-certificate")]
+    public bool? ServerRootCaCert { get; set; }
+
+    /// <summary>
     /// The Active Directory site the service will limit Domain
     /// </summary>
     [CliFlag("--site")]
@@ -133,6 +154,30 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--username")]
     public bool? Username { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
     [Obsolete("Use AdName instead.")]
     public string? AdNameValue

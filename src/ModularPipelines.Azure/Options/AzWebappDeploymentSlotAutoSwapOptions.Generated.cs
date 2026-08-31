@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "auto-swap")]
-public record AzWebappDeploymentSlotAutoSwapOptions : AzOptions
+public record AzWebappDeploymentSlotAutoSwapOptions(
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
+    public AzWebappDeploymentSlotAutoSwapOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Target slot to auto swap.  Default: production.
     /// </summary>
@@ -31,5 +38,23 @@ public record AzWebappDeploymentSlotAutoSwapOptions : AzOptions
     /// </summary>
     [CliFlag("--disable")]
     public bool? Disable { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the webapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

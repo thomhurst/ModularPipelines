@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "vnet-rule", "create")]
-public record AzSqlServerVnetRuleCreateOptions : AzOptions
+public record AzSqlServerVnetRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
+    public AzSqlServerVnetRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>

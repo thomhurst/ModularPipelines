@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "address-pool", "add")]
-public record AzNetworkNicIpConfigAddressPoolAddOptions : AzOptions
+public record AzNetworkNicIpConfigAddressPoolAddOptions(
+    [property: CliOption("--address-pool")] string AddressPool,
+    [property: CliOption("--ip-config-name", ShortForm = "-n")] string IpConfigName,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkNicIpConfigAddressPoolAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of an application gateway containing the address pool (Omit if supplying an address pool ID).
     /// </summary>

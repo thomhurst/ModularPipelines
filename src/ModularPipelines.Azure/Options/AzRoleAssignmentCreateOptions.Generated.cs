@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "assignment", "create")]
-public record AzRoleAssignmentCreateOptions : AzOptions
+public record AzRoleAssignmentCreateOptions(
+    [property: CliOption("--role")] string Role,
+    [property: CliOption("--scope")] string Scope
+) : AzOptions
 {
+    public AzRoleAssignmentCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>
@@ -35,8 +43,26 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Use with --assignee-object-id to avoid errors caused by propagation latency in Microsoft Graph.  Allowed values: ForeignGroup, Group, ServicePrincipal, User.
     /// </summary>
-    [CliFlag("--assignee-principal-type")]
-    public bool? AssigneePrincipalType { get; set; }
+    [CliOption("--assignee-principal-type")]
+    public string? AssigneePrincipalType { get; set; }
+
+    /// <summary>
+    /// Condition under which the user can be granted permission.
+    /// </summary>
+    [CliFlag("--condition")]
+    public bool? Condition { get; set; }
+
+    /// <summary>
+    /// Version of the condition syntax. If --condition is specified without --condition-version, default to 2.0.
+    /// </summary>
+    [CliFlag("--condition-version")]
+    public bool? ConditionVersion { get; set; }
+
+    /// <summary>
+    /// Description of role assignment.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// A GUID for the role assignment. It must be unique and different for each role assignment. If omitted, a new GUID is generated.

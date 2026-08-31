@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "identity", "assign")]
-public record AzServicebusNamespaceIdentityAssignOptions : AzOptions
+public record AzServicebusNamespaceIdentityAssignOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzServicebusNamespaceIdentityAssignOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// System Assigned Identity.  Allowed values: false, true.
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "create")]
-public record AzNetworkCrossRegionLbCreateOptions : AzOptions
+public record AzNetworkCrossRegionLbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkCrossRegionLbCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
@@ -53,14 +61,38 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    /// <summary>
+    /// IP allocation method.  Allowed values:
+    /// </summary>
+    [CliOption("--address-allocation", ShortForm = "--public-ip-address-allocation")]
+    public string? AddressAllocation { get; set; }
+
+    /// <summary>
+    /// Name or ID of the public IP address, or '' for none. Uses existing resource if available or will create a new resource with defaults if omitted.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// Globally unique DNS name for a new public
+    /// </summary>
+    [CliFlag("--public-ip-dns-name")]
+    public bool? PublicIpDnsName { get; set; }
+
+    /// <summary>
+    /// Used to created a new public ip for the load balancer, a.k.a public facing Load balancer.
+    /// </summary>
+    [CliFlag("--public-ip-zone")]
+    public bool? PublicIpZone { get; set; }
 
     [Obsolete("Use BackendPoolName instead.")]
     public string? BackendPoolNameValue

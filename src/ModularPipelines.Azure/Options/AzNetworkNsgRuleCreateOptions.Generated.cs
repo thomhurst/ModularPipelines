@@ -18,13 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nsg", "rule", "create")]
-public record AzNetworkNsgRuleCreateOptions : AzOptions
+public record AzNetworkNsgRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--nsg-name")] string NsgName,
+    [property: CliOption("--priority")] string Priority,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkNsgRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Network traffic is allowed or denied.  Allowed values: Allow, Deny.  Default: Allow.
     /// </summary>
-    [CliFlag("--access")]
-    public bool? Access { get; set; }
+    [CliOption("--access")]
+    public string? Access { get; set; }
 
     /// <summary>
     /// Description for this rule. Restricted to 140 chars.
@@ -35,20 +45,56 @@ public record AzNetworkNsgRuleCreateOptions : AzOptions
     /// <summary>
     /// Direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.  Allowed values: Inbound, Outbound.  Default: Inbound.
     /// </summary>
-    [CliFlag("--direction")]
-    public bool? Direction { get; set; }
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Network protocol this rule applies to.  Allowed values: *, Ah, Esp, Icmp, Tcp, Udp.  Default: *.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes or IP ranges. Alternatively, specify ONE of 'VirtualNetwork', 'AzureLoadBalancer', 'Internet' or '*' to match all IPs. Besides, it also supports all available Service Tags like 'ApiManagement', 'SqlManagement', 'AzureMonitor', etc.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Default: ['*'].
+    /// </summary>
+    [CliOption("--destination-address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? DestinationAddressPrefixes { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security group names or IDs. Limited by backend server, temporarily this argument only supports one application security group name or ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--destination-asgs", GroupValues = true)]
+    public IEnumerable<string>? DestinationAsgs { get; set; }
+
+    /// <summary>
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Default: ['80'].
+    /// </summary>
+    [CliOption("--destination-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? DestinationPortRanges { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes or IP ranges. Alternatively, specify ONE of 'VirtualNetwork', 'AzureLoadBalancer', 'Internet' or '*' to match all IPs. Besides, it also supports all available Service Tags like 'ApiManagement', 'SqlManagement', 'AzureMonitor', etc.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Default: ['*'].
+    /// </summary>
+    [CliOption("--source-address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? SourceAddressPrefixes { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security group names or IDs. Limited by backend server, temporarily this argument only supports one application security group name or ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--source-asgs", GroupValues = true)]
+    public IEnumerable<string>? SourceAsgs { get; set; }
+
+    /// <summary>
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Default: ['*'].
+    /// </summary>
+    [CliOption("--source-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? SourcePortRanges { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

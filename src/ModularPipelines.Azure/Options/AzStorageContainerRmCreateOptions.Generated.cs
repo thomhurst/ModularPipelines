@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "create")]
-public record AzStorageContainerRmCreateOptions : AzOptions
+public record AzStorageContainerRmCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
+    public AzStorageContainerRmCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-vlw")]
+    public bool? EnableVlw { get; set; }
+
     /// <summary>
     /// Throw an exception if the container already exists.
     /// </summary>
@@ -29,14 +43,14 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// Specify whether data in the container may be accessed publicly.  Allowed values: blob, container, off.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -47,8 +61,20 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     /// <summary>
     /// Enable NFSv3 squash on blob container. Allowed values: AllSquash, NoRootSquash,
     /// </summary>
-    [CliFlag("--root-squash")]
-    public bool? RootSquash { get; set; }
+    [CliOption("--root-squash")]
+    public string? RootSquash { get; set; }
+
+    /// <summary>
+    /// Default the container to use specified encryption scope for all writes.
+    /// </summary>
+    [CliFlag("--default-encryption-scope", ShortForm = "-d")]
+    public bool? DefaultEncryptionScope { get; set; }
+
+    /// <summary>
+    /// Block override of encryption scope from the container default.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--deny-encryption-scope-override", ShortForm = "--deny-override")]
+    public bool? DenyEncryptionScopeOverride { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

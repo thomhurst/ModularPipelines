@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "non-compliance-message", "delete")]
-public record AzPolicyAssignmentNonComplianceMessageDeleteOptions : AzOptions
+public record AzPolicyAssignmentNonComplianceMessageDeleteOptions(
+    [property: CliOption("--message", ShortForm = "-m")] string Message,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyAssignmentNonComplianceMessageDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The policy definition reference ID.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzPolicyAssignmentNonComplianceMessageDeleteOptions : AzOptions
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "import")]
-public record AzAcrImportOptions : AzOptions
+public record AzAcrImportOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--source")] string Source
+) : AzOptions
 {
+    public AzAcrImportOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Overwrite the existing tag of the image to be imported.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzAcrImportOptions : AzOptions
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Do not wait for the import to complete and return immediately after queuing the import.

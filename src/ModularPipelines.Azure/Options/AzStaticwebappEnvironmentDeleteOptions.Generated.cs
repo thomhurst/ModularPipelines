@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "environment", "delete")]
-public record AzStaticwebappEnvironmentDeleteOptions : AzOptions
+public record AzStaticwebappEnvironmentDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStaticwebappEnvironmentDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the environment of static site.  Default: default.
     /// </summary>

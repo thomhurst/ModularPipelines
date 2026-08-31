@@ -19,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "container-group-profile", "create")]
-public record AzContainerContainerGroupProfileCreateOptions : AzOptions
+public record AzContainerContainerGroupProfileCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerContainerGroupProfileCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The command line to run when the container is started, e.g. '/bin/bash -c myscript.sh'.
     /// </summary>
@@ -30,8 +37,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// A list of config map key-value pairs for the container. Space-separated values in 'key=value' format.
     /// </summary>
-    [CliFlag("--config-map")]
-    public bool? ConfigMap { get; set; }
+    [CliOption("--config-map", GroupValues = true)]
+    public IEnumerable<string>? ConfigMap { get; set; }
 
     /// <summary>
     /// The required number of CPU cores of the containers, accurate to one decimal place.  Default: 1.
@@ -42,8 +49,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// A list of environment variable for the container. Space- separated values in 'key=value' format.
     /// </summary>
-    [CliFlag("--environment-variables", ShortForm = "-e")]
-    public bool? EnvironmentVariables { get; set; }
+    [CliOption("--environment-variables", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string>? EnvironmentVariables { get; set; }
 
     /// <summary>
     /// The path to the input file.
@@ -60,8 +67,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The IP address type of the container group.  Allowed values:
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -90,14 +97,14 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The OS type of the containers.  Allowed values: Linux, Windows.  Default: Linux.
     /// </summary>
-    [CliFlag("--os-type")]
-    public bool? OsType { get; set; }
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
     /// <summary>
     /// A list of ports to open. Space-separated list of ports.
     /// </summary>
-    [CliFlag("--ports")]
-    public bool? Ports { get; set; }
+    [CliOption("--ports", GroupValues = true)]
+    public IEnumerable<string>? Ports { get; set; }
 
     /// <summary>
     /// The priority of the container group.
@@ -108,21 +115,21 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The network protocol to use.  Allowed values: TCP, UDP.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Restart policy for all containers within the container group. Allowed values: Always, Never, OnFailure.
     /// </summary>
-    [CliFlag("--restart-policy")]
-    public bool? RestartPolicy { get; set; }
+    [CliOption("--restart-policy")]
+    public string? RestartPolicy { get; set; }
 
     /// <summary>
     /// Space-separated secrets in 'key=value' format.
     /// </summary>
     [SecretValue]
-    [CliFlag("--secrets")]
-    public bool? Secrets { get; set; }
+    [CliOption("--secrets", GroupValues = true)]
+    public IEnumerable<string>? Secrets { get; set; }
 
     /// <summary>
     /// The path within the container where the secrets volume should be mounted. Must not contain colon ':'.
@@ -133,8 +140,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// A list of secure environment variable for the container. Space-separated values in 'key=value' format.
     /// </summary>
-    [CliFlag("--secure-environment-variables")]
-    public bool? SecureEnvironmentVariables { get; set; }
+    [CliOption("--secure-environment-variables", GroupValues = true)]
+    public IEnumerable<string>? SecureEnvironmentVariables { get; set; }
 
     /// <summary>
     /// The SKU of the container group.
@@ -147,6 +154,138 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// The storage account access key used to access the Azure File share.
+    /// </summary>
+    [CliFlag("--azure-file-volume-account-key")]
+    public bool? AzureFileVolumeAccountKey { get; set; }
+
+    /// <summary>
+    /// The name of the storage account that contains the Azure File share.
+    /// </summary>
+    [CliOption("--azure-file-volume-account-name")]
+    public string? AzureFileVolumeAccountName { get; set; }
+
+    /// <summary>
+    /// The path within the container where the azure file volume should be mounted. Must not contain colon ':'.
+    /// </summary>
+    [CliOption("--azure-file-volume-mount-path")]
+    public string? AzureFileVolumeMountPath { get; set; }
+
+    /// <summary>
+    /// The name of the Azure File share to be mounted as a volume.
+    /// </summary>
+    [CliOption("--azure-file-volume-share-name")]
+    public string? AzureFileVolumeShareName { get; set; }
+
+    /// <summary>
+    /// A List of security context capabilities to be added.
+    /// </summary>
+    [CliOption("--add-capabilities", GroupValues = true)]
+    public IEnumerable<string>? AddCapabilities { get; set; }
+
+    /// <summary>
+    /// Allow whether a process can gain more privileges than its parent process.
+    /// </summary>
+    [CliFlag("--allow-escalation")]
+    public bool? AllowEscalation { get; set; }
+
+    /// <summary>
+    /// The CCE policy for the confidential container group.
+    /// </summary>
+    [CliFlag("--cce-policy")]
+    public bool? CcePolicy { get; set; }
+
+    /// <summary>
+    /// A List of security context capabilities to be dropped.
+    /// </summary>
+    [CliOption("--drop-capabilities", GroupValues = true)]
+    public IEnumerable<string>? DropCapabilities { get; set; }
+
+    /// <summary>
+    /// The flag to determine if the container permissions is elevated to Privileged.
+    /// </summary>
+    [CliFlag("--privileged")]
+    public bool? Privileged { get; set; }
+
+    /// <summary>
+    /// Set the User UID for the container.
+    /// </summary>
+    [CliFlag("--run-as-group")]
+    public bool? RunAsGroup { get; set; }
+
+    /// <summary>
+    /// Set the User GID for the container.
+    /// </summary>
+    [CliFlag("--run-as-user")]
+    public bool? RunAsUser { get; set; }
+
+    /// <summary>
+    /// A base64 encoded string containing the contents of the JSON in the seccomp profile.
+    /// </summary>
+    [CliFlag("--seccomp-profile")]
+    public bool? SeccompProfile { get; set; }
+
+    /// <summary>
+    /// The target directory path in the git repository. Must not contain '..'.  Default: ..
+    /// </summary>
+    [CliFlag("--gitrepo-dir")]
+    public bool? GitrepoDir { get; set; }
+
+    /// <summary>
+    /// The path within the container where the git repo volume should be mounted. Must not contain colon ':'.
+    /// </summary>
+    [CliOption("--gitrepo-mount-path")]
+    public string? GitrepoMountPath { get; set; }
+
+    /// <summary>
+    /// The commit hash for the specified revision.
+    /// </summary>
+    [CliFlag("--gitrepo-revision")]
+    public bool? GitrepoRevision { get; set; }
+
+    /// <summary>
+    /// The URL of a git repository to be mounted as a volume.
+    /// </summary>
+    [CliOption("--gitrepo-url")]
+    public string? GitrepoUrl { get; set; }
+
+    /// <summary>
+    /// The identity with access to the container registry.
+    /// </summary>
+    [CliFlag("--acr-identity")]
+    public bool? AcrIdentity { get; set; }
+
+    /// <summary>
+    /// The container image registry login server.
+    /// </summary>
+    [CliFlag("--registry-login-server")]
+    public bool? RegistryLoginServer { get; set; }
+
+    /// <summary>
+    /// The password to log in container image registry server.
+    /// </summary>
+    [CliFlag("--registry-password")]
+    public bool? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The username to log in container image registry server.
+    /// </summary>
+    [CliFlag("--registry-username")]
+    public bool? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// The Log Analytics workspace name or id. Use the current subscription or use --subscription flag to set the desired subscription.
+    /// </summary>
+    [CliFlag("--log-analytics-workspace")]
+    public bool? LogAnalyticsWorkspace { get; set; }
+
+    /// <summary>
+    /// The Log Analytics workspace key.
+    /// </summary>
+    [CliFlag("--log-analytics-workspace-key")]
+    public bool? LogAnalyticsWorkspaceKey { get; set; }
 
     [Obsolete("Use File instead.")]
     public string? FileValue

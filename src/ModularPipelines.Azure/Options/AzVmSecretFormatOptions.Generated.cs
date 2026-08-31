@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "format")]
-public record AzVmSecretFormatOptions : AzOptions
+public record AzVmSecretFormatOptions(
+    [property: SecretValue, CliOption("--secrets", ShortForm = "-s", GroupValues = true)] IEnumerable<string> Secrets
+) : AzOptions
 {
+    public AzVmSecretFormatOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Windows certificate store names. Default: My.
     /// </summary>

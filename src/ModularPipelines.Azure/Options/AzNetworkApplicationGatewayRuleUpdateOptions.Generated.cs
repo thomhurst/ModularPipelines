@@ -18,12 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rule", "update")]
-public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayRuleUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -35,7 +44,67 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
     /// <summary>
     /// Type of the request routing rule.  Allowed values: Basic,
     /// </summary>
-    [CliFlag("--rule-type")]
-    public bool? RuleType { get; set; }
+    [CliOption("--rule-type")]
+    public string? RuleType { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Name or ID of the backend address pool. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// Name or ID of the HTTP listener. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--http-listener")]
+    public string? HttpListener { get; set; }
+
+    /// <summary>
+    /// Name or ID of the HTTP settings. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--http-settings")]
+    public string? HttpSettings { get; set; }
+
+    /// <summary>
+    /// Name or ID of the redirect configuration to use with the created rule.
+    /// </summary>
+    [CliOption("--redirect-config")]
+    public string? RedirectConfig { get; set; }
+
+    /// <summary>
+    /// Name or ID of the rewrite rule set.
+    /// </summary>
+    [CliOption("--rewrite-rule-set")]
+    public string? RewriteRuleSet { get; set; }
+
+    /// <summary>
+    /// Name or ID of the url path map.
+    /// </summary>
+    [CliOption("--url-path-map")]
+    public string? UrlPathMap { get; set; }
 
 }

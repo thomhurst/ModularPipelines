@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "delete")]
-public record AzAccountManagementGroupDeleteOptions : AzOptions
+public record AzAccountManagementGroupDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAccountManagementGroupDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip registration for resource provider Microsoft.Management.
     /// </summary>

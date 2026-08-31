@@ -18,12 +18,81 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "update")]
-public record AzNetworkLbOutboundRuleUpdateOptions : AzOptions
+public record AzNetworkLbOutboundRuleUpdateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkLbOutboundRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The name or ID of the backend address pool.
+    /// </summary>
+    [CliOption("--address-pool", ShortForm = "--backend-address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// The number of outbound ports to be used for NAT.
+    /// </summary>
+    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
+    public bool? AllocatedOutboundPorts { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The List of frontend IP configuration IDs or names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--frontend-ip-configs", GroupValues = true)]
+    public IEnumerable<string>? FrontendIpConfigs { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection.
+    /// </summary>
+    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public bool? IdleTimeout { get; set; }
+
+    /// <summary>
+    /// The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
 }

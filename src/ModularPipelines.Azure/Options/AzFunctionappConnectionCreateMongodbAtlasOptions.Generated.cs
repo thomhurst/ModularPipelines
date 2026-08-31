@@ -29,8 +29,8 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the functionapp connection.
@@ -71,8 +71,8 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the function app. Required if '
@@ -93,10 +93,22 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     public string? SourceId { get; set; }
 
     /// <summary>
+    /// The resource group which contains the MongoDB Atlas. Required if '--target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
     public string? VaultId { get; set; }
+
+    /// <summary>
+    /// The connection string for secret auth.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

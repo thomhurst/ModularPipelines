@@ -24,11 +24,6 @@ public record AzMonitorAccountIssueCreateOptions(
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
-    public AzMonitorAccountIssueCreateOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Related resource or alert that is to be added to the issue (default: empty - the issue will be created without any related resources or alerts).
     /// </summary>
@@ -70,47 +65,5 @@ public record AzMonitorAccountIssueCreateOptions(
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
-
-    [Obsolete("Use Background instead.")]
-    public string? BackgroundValue
-    {
-        get => Background;
-        set => Background = value;
-    }
-
-    [Obsolete("Use ImpactTime instead.")]
-    public string? ImpactTimeValue
-    {
-        get => ImpactTime;
-        set => ImpactTime = value;
-    }
-
-    [Obsolete("Use Notifications instead.")]
-    public string? NotificationsValue
-    {
-        get => Notifications;
-        set => Notifications = value;
-    }
-
-    [Obsolete("Use Severity instead.")]
-    public string? SeverityValue
-    {
-        get => Severity;
-        set => Severity = value;
-    }
-
-    [Obsolete("Use Status instead.")]
-    public string? StatusValue
-    {
-        get => Status;
-        set => Status = value;
-    }
-
-    [Obsolete("Use Title instead.")]
-    public string? TitleValue
-    {
-        get => Title;
-        set => Title = value;
-    }
 
 }

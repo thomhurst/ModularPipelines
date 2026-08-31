@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-locator", "create")]
-public record AzAmsStreamingLocatorCreateOptions : AzOptions
+public record AzAmsStreamingLocatorCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--asset-name")] string AssetName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--streaming-policy-name")] string StreamingPolicyName
+) : AzOptions
 {
+    public AzAmsStreamingLocatorCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// An alternative media identifier associated with the streaming locator.
     /// </summary>
@@ -47,8 +58,8 @@ public record AzAmsStreamingLocatorCreateOptions : AzOptions
     /// <summary>
     /// A space-separated list of asset filter names and/or account filter names.
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The ISO 8601 DateTime start time (Y-m-d'T'H:M:S'Z') of the streaming locator.

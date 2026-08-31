@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "create")]
-public record AzAcrConnectedRegistryCreateOptions : AzOptions
+public record AzAcrConnectedRegistryCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrConnectedRegistryCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the client access to the repositories in the connected registry. It can be in the format [TOKEN_NAME01] [TOKEN_NAME02]...
     /// </summary>
@@ -47,14 +55,14 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Determine the access it will have when synchronized.  Allowed values: ReadOnly, ReadWrite.  Default: ReadOnly.
     /// </summary>
-    [CliFlag("--mode", ShortForm = "-m")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode", ShortForm = "-m")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// List of artifact pattern for which notifications need to be generated. Use the format "--notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliFlag("--notifications")]
-    public bool? Notifications { get; set; }
+    [CliOption("--notifications", GroupValues = true)]
+    public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
     /// The name of the parent connected registry.

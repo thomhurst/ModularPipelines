@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "item", "list")]
-public record AzBackupItemListOptions : AzOptions
+public record AzBackupItemListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
+    public AzBackupItemListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload, MAB.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
@@ -41,8 +49,8 @@ public record AzBackupItemListOptions : AzOptions
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
 
     [Obsolete("Use ContainerName instead.")]
     public string? ContainerNameValue

@@ -21,6 +21,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzProvider : IAzProvider
 {
     private readonly ICommandContext _command;
+    private AzProviderOperation? _operation;
+    private AzProviderPermission? _permission;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzProvider"/> class.
@@ -29,6 +31,20 @@ public class AzProvider : IAzProvider
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    public AzProviderOperation Operation => _operation ??= new AzProviderOperation(_command);
+
+    /// <summary>
+    /// az permission sub-commands.
+    /// </summary>
+    public AzProviderPermission Permission => _permission ??= new AzProviderPermission(_command);
+
+    #endregion
 
     #region Commands
 
@@ -59,7 +75,7 @@ public class AzProvider : IAzProvider
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderRegisterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,7 +90,7 @@ public class AzProvider : IAzProvider
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,7 +105,7 @@ public class AzProvider : IAzProvider
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderUnregisterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

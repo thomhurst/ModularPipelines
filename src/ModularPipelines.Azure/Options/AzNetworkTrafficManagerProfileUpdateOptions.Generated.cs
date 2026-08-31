@@ -29,31 +29,97 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA, CNAME.
     /// </summary>
-    [CliFlag("--record-type")]
-    public bool? RecordType { get; set; }
+    [CliOption("--record-type")]
+    public string? RecordType { get; set; }
 
     /// <summary>
     /// Routing method.  Allowed values: Geographic, Multivalue, Performance,
     /// </summary>
-    [CliFlag("--routing-method")]
-    public bool? RoutingMethod { get; set; }
+    [CliOption("--routing-method")]
+    public string? RoutingMethod { get; set; }
 
     /// <summary>
     /// Status of the Traffic Manager profile.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// DNS config time-to-live in seconds.
     /// </summary>
     [CliFlag("--ttl")]
     public bool? Ttl { get; set; }
+
+    /// <summary>
+    /// Space-separated list of NAME=VALUE pairs.
+    /// </summary>
+    [CliOption("--custom-headers", GroupValues = true)]
+    public IEnumerable<string>? CustomHeaders { get; set; }
+
+    /// <summary>
+    /// The interval in seconds at which health checks are conducted.
+    /// </summary>
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
+
+    /// <summary>
+    /// The number of consecutive failed health checks tolerated before an endpoint is considered degraded.
+    /// </summary>
+    [CliFlag("--max-failures")]
+    public bool? MaxFailures { get; set; }
+
+    /// <summary>
+    /// Path to monitor. Use ""('""' in PowerShell) for none.
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Port to monitor.
+    /// </summary>
+    [CliFlag("--port")]
+    public bool? Port { get; set; }
+
+    /// <summary>
+    /// Monitor protocol.  Allowed values: HTTP, HTTPS, TCP.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Space-separated list of status codes in MIN-MAX or VAL format.
+    /// </summary>
+    [CliOption("--status-code-ranges", GroupValues = true)]
+    public IEnumerable<string>? StatusCodeRanges { get; set; }
+
+    /// <summary>
+    /// The time in seconds allowed for endpoints to respond to a health check.
+    /// </summary>
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Traffic manager profile name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

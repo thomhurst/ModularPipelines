@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusQueue
 {
     private readonly ICommandContext _command;
+    private AzServicebusQueueAuthorizationRule? _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusQueue"/> class.
@@ -30,7 +31,46 @@ public class AzServicebusQueue
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzServicebusQueueAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusQueueAuthorizationRule(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// Create a Service Bus queue. This operation is idempotent.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzServicebusQueueCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete a queue from the specified namespace in a resource group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzServicebusQueueDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusQueueDeleteOptions(), executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// List the queues within a namespace.
@@ -44,7 +84,37 @@ public class AzServicebusQueue
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusQueueListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get a description for the specified queue.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzServicebusQueueShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusQueueShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a Service Bus queue. This operation is idempotent.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzServicebusQueueUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusQueueUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

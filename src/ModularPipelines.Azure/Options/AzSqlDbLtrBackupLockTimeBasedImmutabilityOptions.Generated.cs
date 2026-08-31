@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "lock-time-based-immutability")]
-public record AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions : AzOptions
+public record AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions(
+    [property: CliOption("--database", ShortForm = "-d")] string Database,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
+    public AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

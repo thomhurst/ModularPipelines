@@ -18,12 +18,98 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "cluster", "create")]
-public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsClusterCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-n")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorLogAnalyticsClusterCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "--type")]
+    public string? IdentityType { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--user-assigned", GroupValues = true)]
+    public IEnumerable<string>? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The name of the key associated with the Log Analytics cluster.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; set; }
+
+    /// <summary>
+    /// Selected key minimum required size.
+    /// </summary>
+    [CliFlag("--key-rsa-size")]
+    public bool? KeyRsaSize { get; set; }
+
+    /// <summary>
+    /// The Key Vault uri which holds they key associated with the
+    /// </summary>
+    [CliOption("--key-vault-uri")]
+    public string? KeyVaultUri { get; set; }
+
+    /// <summary>
+    /// The version of the key associated with the Log Analytics cluster.
+    /// </summary>
+    [CliFlag("--key-version")]
+    public bool? KeyVersion { get; set; }
+
+    /// <summary>
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The cluster's billing type.  Allowed values: Cluster,
+    /// </summary>
+    [CliOption("--billing-type")]
+    public string? BillingType { get; set; }
+
+    /// <summary>
+    /// Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--replication-enabled")]
+    public bool? ReplicationEnabled { get; set; }
+
+    /// <summary>
+    /// The secondary location of the replication. If replication is being enabled, enabled must be provided.
+    /// </summary>
+    [CliFlag("--replication-location")]
+    public bool? ReplicationLocation { get; set; }
+
+    /// <summary>
+    /// The capacity of the SKU. It can be decreased only after 31 days.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
+    /// </summary>
+    [CliOption("--sku-capacity")]
+    public string? SkuCapacity { get; set; }
+
+    /// <summary>
+    /// The name of the SKU.  Allowed values: CapacityReservation.
+    /// </summary>
+    [CliOption("--sku-name")]
+    public string? SkuName { get; set; }
 
 }

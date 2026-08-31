@@ -18,12 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "ipsec-policy", "add")]
-public record AzNetworkVnetGatewayIpsecPolicyAddOptions : AzOptions
+public record AzNetworkVnetGatewayIpsecPolicyAddOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--dh-group")] string DhGroup,
+    [property: CliOption("--ipsec-encryption")] string IpsecEncryption,
+    [property: CliOption("--ipsec-integrity")] string IpsecIntegrity,
+    [property: CliOption("--ike-encryption")] string IkeEncryption,
+    [property: CliOption("--ike-integrity")] string IkeIntegrity,
+    [property: CliOption("--pfs-group")] string PfsGroup,
+    [property: CliOption("--sa-lifetime")] string SaLifetime,
+    [property: CliOption("--sa-max-size")] string SaMaxSize
+) : AzOptions
 {
+    public AzNetworkVnetGatewayIpsecPolicyAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

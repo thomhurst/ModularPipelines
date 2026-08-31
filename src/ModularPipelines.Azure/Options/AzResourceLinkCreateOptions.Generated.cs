@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "create")]
-public record AzResourceLinkCreateOptions : AzOptions
+public record AzResourceLinkCreateOptions(
+    [property: CliOption("--link")] string Link,
+    [property: CliOption("--target")] string Target
+) : AzOptions
 {
+    public AzResourceLinkCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Notes for the link.
     /// </summary>

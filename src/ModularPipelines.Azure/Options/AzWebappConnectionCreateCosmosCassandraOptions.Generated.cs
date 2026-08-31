@@ -35,8 +35,8 @@ public record AzWebappConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// The client type used on the webapp.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the webapp connection.
@@ -83,8 +83,8 @@ public record AzWebappConnectionCreateCosmosCassandraOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the webapp. Required if '-- source-id' is not specified.None.
@@ -111,10 +111,52 @@ public record AzWebappConnectionCreateCosmosCassandraOptions : AzOptions
     public string? TargetId { get; set; }
 
     /// <summary>
+    /// The resource group which contains the cosmos database account. Required if '--target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
     public string? VaultId { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
+
+    /// <summary>
+    /// The service principal auth info.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The flag to use system assigned identity auth info. No additional parameters are needed.
+    /// </summary>
+    [CliFlag("--system-identity")]
+    public bool? SystemIdentity { get; set; }
+
+    /// <summary>
+    /// The user assigned identity auth info.
+    /// </summary>
+    [CliFlag("--user-identity")]
+    public bool? UserIdentity { get; set; }
+
+    /// <summary>
+    /// Connect target service by private endpoint. The private endpoint in source virtual network must be created ahead.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--private-endpoint")]
+    public bool? PrivateEndpoint { get; set; }
+
+    /// <summary>
+    /// Connect target service by service endpoint. Source resource must be in the VNet and target SKU must support service endpoint feature.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--service-endpoint")]
+    public bool? ServiceEndpoint { get; set; }
 
     [Obsolete("Use Account instead.")]
     public string? AccountValue

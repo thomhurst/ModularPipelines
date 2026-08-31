@@ -18,12 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "show")]
-public record AzNetworkWatcherTroubleshootingShowOptions : AzOptions
+public record AzNetworkWatcherTroubleshootingShowOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
+    public AzNetworkWatcherTroubleshootingShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

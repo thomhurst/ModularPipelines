@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,19 +19,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "export")]
-public record AzAppConfigKvExportOptions : AzOptions
+public record AzAppConfigKvExportOptions(
+    [property: CliOption("--destination", ShortForm = "-d")] string Destination
+) : AzOptions
 {
+    public AzAppConfigKvExportOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Preview the result of export operation without making any changes to the App Configuration store.
@@ -89,14 +98,104 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Key-values which contain the specified tags in source AppConfig will be exported. If no tags are specified, all key-values with any tags can be exported. Support space-separated tag filters: key[=value] [key[=value] ...].
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for preview.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Auth mode for connecting to the destination App Configuration store. For details, refer to "--auth-mode" argument.  Allowed values: anonymous, key, login.  Default: key.
+    /// </summary>
+    [CliOption("--dest-auth-mode")]
+    public string? DestAuthMode { get; set; }
+
+    /// <summary>
+    /// Combination of access key and endpoint of the destination store.
+    /// </summary>
+    [CliFlag("--dest-connection-string")]
+    public bool? DestConnectionString { get; set; }
+
+    /// <summary>
+    /// If --dest-auth-mode is "login", provide endpoint URL of the destination App Configuration store.
+    /// </summary>
+    [CliFlag("--dest-endpoint")]
+    public bool? DestEndpoint { get; set; }
+
+    /// <summary>
+    /// Exported KVs will be labeled with this destination label. If neither --dest-label nor --preserve-labels is specified, will assign null label.
+    /// </summary>
+    [CliFlag("--dest-label")]
+    public bool? DestLabel { get; set; }
+
+    /// <summary>
+    /// The name of the destination App Configuration store.
+    /// </summary>
+    [CliOption("--dest-name")]
+    public string? DestName { get; set; }
+
+    /// <summary>
+    /// Exported KVs and feature flags will be assigned with these tags. If no tags are specified, exported KVs and features will retain existing tags. Support space-separated tags: key[=value] [key[=value] ...]. Use  to clear existing tags.
+    /// </summary>
+    [CliOption("--dest-tags", GroupValues = true)]
+    public IEnumerable<string>? DestTags { get; set; }
+
+    /// <summary>
+    /// Flag to preserve labels from source AppConfig. This argument should NOT be specified along with --dest-label.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--preserve-labels")]
+    public bool? PreserveLabels { get; set; }
+
+    /// <summary>
+    /// ARM ID for AppService OR the name of the AppService, assuming it is in the same subscription and resource group as the App Configuration store. Required for AppService arguments.
+    /// </summary>
+    [CliFlag("--appservice-account")]
+    public bool? AppserviceAccount { get; set; }
+
+    /// <summary>
+    /// Export key-values as App Configuration references. For more information, see https://learn.microsoft.com/en-us/azure/app- service/app-service-configuration-references.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--export-as-reference", ShortForm = "-r")]
+    public bool? ExportAsReference { get; set; }
+
+    /// <summary>
+    /// File format exporting to. Required for file arguments. Currently, feature flags are not supported in properties format.  Allowed values: json, properties, yaml.
+    /// </summary>
+    [CliOption("--format")]
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Naming convention to be used for "Feature Management" section of file. Example: pascal = FeatureManagement, camel = featureManagement, underscore = feature_management, hyphen = feature-management.  Allowed values: camel, hyphen, pascal, underscore.  Default: pascal.
+    /// </summary>
+    [CliOption("--naming-convention")]
+    public string? NamingConvention { get; set; }
+
+    /// <summary>
+    /// Local configuration file path. Required for file arguments.
+    /// </summary>
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
+
+    /// <summary>
+    /// Export profile to be used for exporting the key-values. Options 'depth', 'separator', 'naming-convention', 'prefix', 'dest-label' , 'dest-tags' and, 'resolve-keyvault' are not supported when using 'appconfig/kvset' profile.  Allowed values: appconfig/default, appconfig/kvset.  Default: appconfig/default.
+    /// </summary>
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
+
+    /// <summary>
+    /// Resolve the content of key vault reference.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--resolve-keyvault")]
+    public bool? ResolveKeyvault { get; set; }
+
+    /// <summary>
+    /// Delimiter for flattening the key-value pairs to json or yaml file. Required for exporting hierarchical structure. Separator will be ignored for property files and feature flags. Supported values: '.', ',', ';', '-', '_', '__', '/', ':'.
+    /// </summary>
+    [CliOption("--separator")]
+    public string? Separator { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

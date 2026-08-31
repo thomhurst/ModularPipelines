@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "extension", "set")]
-public record AzVmExtensionSetOptions : AzOptions
+public record AzVmExtensionSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher")] string Publisher
+) : AzOptions
 {
+    public AzVmExtensionSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>
@@ -37,6 +45,12 @@ public record AzVmExtensionSetOptions : AzOptions
     /// </summary>
     [CliFlag("--force-update")]
     public bool? ForceUpdate { get; set; }
+
+    /// <summary>
+    /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--no-auto-upgrade")]
+    public bool? NoAutoUpgrade { get; set; }
 
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
@@ -67,6 +81,24 @@ public record AzVmExtensionSetOptions : AzOptions
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string? VmName { get; set; }
 
     [Obsolete("Use ExtensionInstanceName instead.")]
     public string? ExtensionInstanceNameValue

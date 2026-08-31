@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "collection", "show")]
-public record AzRestorePointCollectionShowOptions : AzOptions
+public record AzRestorePointCollectionShowOptions(
+    [property: CliOption("--collection-name")] string CollectionName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzRestorePointCollectionShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Show all contained restore points in the restore point collection.
     /// </summary>

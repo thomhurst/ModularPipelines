@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "update")]
-public record AzBotUpdateOptions : AzOptions
+public record AzBotUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBotUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The key vault key url to enable Customer Managed Keys encryption.
+    /// </summary>
+    [CliOption("--cmk", ShortForm = "--cmk-key-vault-key-url")]
+    public string? Cmk { get; set; }
+
     /// <summary>
     /// Set encryption to Microsoft-Managed Keys.
     /// </summary>
@@ -53,13 +67,31 @@ public record AzBotUpdateOptions : AzOptions
     /// <summary>
     /// The Sku of the bot.  Allowed values: F0, S1.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Azure Application Insights API Key used to read bot analytics data. Provide a key if you want to view analytics about your bot in the Analytics blade.
+    /// </summary>
+    [CliFlag("--ai-api-key", ShortForm = "--app-insights-api-key")]
+    public bool? AiApiKey { get; set; }
+
+    /// <summary>
+    /// Azure Application Insights Application ID used to read bot analytics data. Provide an Id if you want to view analytics about your bot in the Analytics blade.
+    /// </summary>
+    [CliFlag("--ai-app-id", ShortForm = "--app-insights-app-id")]
+    public bool? AiAppId { get; set; }
+
+    /// <summary>
+    /// Azure Application Insights Key used to write bot analytics data. Provide a key if you want to receive bot analytics.
+    /// </summary>
+    [CliFlag("--ai-key", ShortForm = "--app-insights-key")]
+    public bool? AiKey { get; set; }
 
 }

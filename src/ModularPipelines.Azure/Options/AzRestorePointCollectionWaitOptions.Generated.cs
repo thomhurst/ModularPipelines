@@ -23,7 +23,67 @@ public record AzRestorePointCollectionWaitOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation.  Allowed values: restorePoints.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
+    /// The name of the restore point collection.
+    /// </summary>
+    [CliOption("--collection-name", ShortForm = "--restore-point-collection-name")]
+    public string? CollectionName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
+
+    /// <summary>
+    /// Wait until the condition satisfies a custom
+    /// </summary>
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
+
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
+
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
 
 }

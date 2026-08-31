@@ -18,8 +18,25 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-application", "create")]
-public record AzSfManagedApplicationCreateOptions : AzOptions
+public record AzSfManagedApplicationCreateOptions(
+    [property: CliOption("--application-name", ShortForm = "--name")] string ApplicationName,
+    [property: CliOption("--application-type-name", ShortForm = "--type-name")] string ApplicationTypeName,
+    [property: CliOption("--application-type-version", ShortForm = "--version")] string ApplicationTypeVersion,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfManagedApplicationCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example:
+    /// </summary>
+    [CliFlag("--application-parameters", ShortForm = "--parameters")]
+    public bool? ApplicationParameters { get; set; }
+
     /// <summary>
     /// Specify the url of the application package sfpkg file.
     /// </summary>
@@ -29,7 +46,7 @@ public record AzSfManagedApplicationCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

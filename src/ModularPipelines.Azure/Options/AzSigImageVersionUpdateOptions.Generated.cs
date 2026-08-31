@@ -18,13 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "update")]
-public record AzSigImageVersionUpdateOptions : AzOptions
+public record AzSigImageVersionUpdateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSigImageVersionUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicate whether or not removing this gallery image version from replicated regions is allowed.
     /// </summary>
     [CliFlag("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
+
+    /// <summary>
+    /// Indicate whether or not the deletion is blocked for this gallery image version if its end of life has not expired.
+    /// </summary>
+    [CliFlag("--block-delete-before-eol", ShortForm = "--block-deletion-before-end-of-life")]
+    public bool? BlockDeleteBeforeEol { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.
@@ -49,5 +65,29 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-regions")]
     public bool? TargetRegions { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

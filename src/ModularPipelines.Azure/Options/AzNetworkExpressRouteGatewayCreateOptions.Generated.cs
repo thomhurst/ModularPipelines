@@ -18,12 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "create")]
-public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
+public record AzNetworkExpressRouteGatewayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkExpressRouteGatewayCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Configures this gateway to accept traffic from non Virtual WAN networks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-non-vwan-traffic")]
+    [CliOption("--allow-non-vwan-traffic")]
     public bool? AllowNonVwanTraffic { get; set; }
 
     /// <summary>
@@ -35,20 +43,32 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or ID of the virtual hub to associate with the gateway.
     /// </summary>
     [CliOption("--virtual-hub")]
     public string? VirtualHub { get; set; }
+
+    /// <summary>
+    /// Maximum number of scale units deployed for gateway.
+    /// </summary>
+    [CliFlag("--max-val")]
+    public bool? MaxVal { get; set; }
+
+    /// <summary>
+    /// Minimum number of scale units deployed for gateway.  Default: 2.  Default: 2.
+    /// </summary>
+    [CliFlag("--min-val")]
+    public bool? MinVal { get; set; }
 
     [Obsolete("Use VirtualHub instead.")]
     public string? VirtualHubValue

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "source", "config-zip")]
-public record AzFunctionappDeploymentSourceConfigZipOptions : AzOptions
+public record AzFunctionappDeploymentSourceConfigZipOptions(
+    [property: CliOption("--src")] string Src
+) : AzOptions
 {
+    public AzFunctionappDeploymentSourceConfigZipOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>
@@ -37,6 +44,24 @@ public record AzFunctionappDeploymentSourceConfigZipOptions : AzOptions
     /// </summary>
     [CliFlag("--timeout", ShortForm = "-t")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

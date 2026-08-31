@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "show")]
-public record AzAccountManagementGroupShowOptions : AzOptions
+public record AzAccountManagementGroupShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAccountManagementGroupShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If given, lists the children in the first level of hierarchy.
     /// </summary>

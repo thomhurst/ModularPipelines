@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("capacity", "reservation", "group", "create")]
-public record AzCapacityReservationGroupCreateOptions : AzOptions
+public record AzCapacityReservationGroupCreateOptions(
+    [property: CliOption("--capacity-reservation-group", ShortForm = "-n")] string CapacityReservationGroup,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzCapacityReservationGroupCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -29,14 +37,14 @@ public record AzCapacityReservationGroupCreateOptions : AzOptions
     /// <summary>
     /// Space-separated subscription resource IDs or nothing. Specify the settings to enable sharing across subscriptions for the capacity reservation group resource. Specify it to nothing to unsharing.
     /// </summary>
-    [CliFlag("--sharing-profile")]
-    public bool? SharingProfile { get; set; }
+    [CliOption("--sharing-profile", GroupValues = true)]
+    public IEnumerable<string>? SharingProfile { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Availability Zones to use for this capacity reservation group. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.

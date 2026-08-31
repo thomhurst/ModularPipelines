@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "create")]
-public record AzHdinsightCreateOptions : AzOptions
+public record AzHdinsightCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type", ShortForm = "-t")] string Type
+) : AzOptions
 {
+    public AzHdinsightCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -41,7 +50,373 @@ public record AzHdinsightCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The scheduled workernode count.
+    /// </summary>
+    [CliFlag("--autoscale-count", ShortForm = "--autoscale-workernode-count")]
+    public bool? AutoscaleCount { get; set; }
+
+    /// <summary>
+    /// The max workernode count for
+    /// </summary>
+    [CliFlag("--autoscale-max-count", ShortForm = "--autoscale-max-workernode-count")]
+    public bool? AutoscaleMaxCount { get; set; }
+
+    /// <summary>
+    /// The minimal workernode count for
+    /// </summary>
+    [CliFlag("--autoscale-min-count", ShortForm = "--autoscale-min-workernode-count")]
+    public bool? AutoscaleMinCount { get; set; }
+
+    /// <summary>
+    /// The autoscale type.  Allowed values: Load, Schedule.
+    /// </summary>
+    [CliOption("--autoscale-type")]
+    public string? AutoscaleType { get; set; }
+
+    /// <summary>
+    /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday,
+    /// </summary>
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string>? Days { get; set; }
+
+    /// <summary>
+    /// The 24-hour time in the form of xx:xx in days.
+    /// </summary>
+    [CliFlag("--time")]
+    public bool? Time { get; set; }
+
+    /// <summary>
+    /// The timezone for schedule autoscale type. Values from `az hdinsight autoscale list- timezones`.
+    /// </summary>
+    [CliFlag("--timezone")]
+    public bool? Timezone { get; set; }
+
+    /// <summary>
+    /// A space-delimited list of availability zones where cluster will be created.
+    /// </summary>
+    [CliOption("--zones", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
+
+    /// <summary>
+    /// Extra configurations of various components. Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. See also: https://learn.m icrosoft.com/azure/hdinsight/hdin sight-hadoop-customize-cluster- bootstrap.
+    /// </summary>
+    [CliOption("--cluster-configurations")]
+    public string? ClusterConfigurations { get; set; }
+
+    /// <summary>
+    /// The tier of the cluster.  Allowed values: Premium, Standard.
+    /// </summary>
+    [CliOption("--cluster-tier")]
+    public string? ClusterTier { get; set; }
+
+    /// <summary>
+    /// The versions of various Hadoop components, in space-separated versions in 'component=version' format. Example: Spark=2.0 Hadoop=2.7.3 See also: https://le arn.microsoft.com/azure/hdinsight /hdinsight-component- versioning#hadoop-components- available-with-different- hdinsight-versions.
+    /// </summary>
+    [CliOption("--component-version", GroupValues = true)]
+    public IEnumerable<string>? ComponentVersion { get; set; }
+
+    /// <summary>
+    /// Specify to create cluster with Enterprise Security Package. If omitted, creating cluster with Enterprise Security Package will not not allowed.
+    /// </summary>
+    [CliFlag("--esp")]
+    public bool? Esp { get; set; }
+
+    /// <summary>
+    /// Specify to create ESP cluster with HDInsight ID Broker. If omitted, creating ESP cluster with HDInsight ID Broker will not not allowed.
+    /// </summary>
+    [CliFlag("--idbroker")]
+    public bool? Idbroker { get; set; }
+
+    /// <summary>
+    /// The minimal supported TLS version.  Allowed values: 1.2.
+    /// </summary>
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
+
+    /// <summary>
+    /// The HDInsight cluster version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
+
+    /// <summary>
+    /// Indicate whether enable compute isolation or not.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--compute-isolation", ShortForm = "--enable-compute-isolation")]
+    public bool? ComputeIsolation { get; set; }
+
+    /// <summary>
+    /// The dedicated host sku of compute isolation.
+    /// </summary>
+    [CliFlag("--host-sku")]
+    public bool? HostSku { get; set; }
+
+    /// <summary>
+    /// Algorithm identifier for encryption.  Allowed values: RSA-
+    /// </summary>
+    [CliOption("--encryption-algorithm")]
+    public string? EncryptionAlgorithm { get; set; }
+
+    /// <summary>
+    /// Key name that is used for enabling disk encryption.
+    /// </summary>
+    [CliFlag("--encryption-key-name")]
+    public bool? EncryptionKeyName { get; set; }
+
+    /// <summary>
+    /// Key version that is used for enabling disk encryption.
+    /// </summary>
+    [CliFlag("--encryption-key-version")]
+    public bool? EncryptionKeyVersion { get; set; }
+
+    /// <summary>
+    /// Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net.
+    /// </summary>
+    [CliFlag("--encryption-vault-uri")]
+    public bool? EncryptionVaultUri { get; set; }
+
+    /// <summary>
+    /// The domain user account that will have admin privileges on the cluster. Required only when create cluster with Enterprise
+    /// </summary>
+    [CliFlag("--cluster-admin-account")]
+    public bool? ClusterAdminAccount { get; set; }
+
+    /// <summary>
+    /// The domain admin password. Required only when create cluster with Enterprise Security Package.
+    /// </summary>
+    [CliFlag("--cluster-admin-password")]
+    public bool? ClusterAdminPassword { get; set; }
+
+    /// <summary>
+    /// A space-delimited list of Distinguished Names for cluster user groups. Required only when create cluster with Enterprise
+    /// </summary>
+    [CliOption("--cluster-users-group-dns", GroupValues = true)]
+    public IEnumerable<string>? ClusterUsersGroupDns { get; set; }
+
+    /// <summary>
+    /// The name or resource ID of the user's Azure Active Directory Domain Service. Required only when create cluster with
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; set; }
+
+    /// <summary>
+    /// A space-delimited list of LDAPS protocol URLs to communicate with the Active Directory. Required only when create cluster with
+    /// </summary>
+    [CliOption("--ldaps-urls", GroupValues = true)]
+    public IEnumerable<string>? LdapsUrls { get; set; }
+
+    /// <summary>
+    /// Indicates whether enable encryption at host or not. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--encryption-at-host")]
+    public bool? EncryptionAtHost { get; set; }
+
+    /// <summary>
+    /// Indicates whether enable encryption in transit.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--encryption-in-transit")]
+    public bool? EncryptionInTransit { get; set; }
+
+    /// <summary>
+    /// One or more Entra user identities (object ID or user principal name) to associate with the cluster. Multiple values can be separated by spaces or commas.
+    /// </summary>
+    [CliOption("--entra-uid", ShortForm = "--entra-user-identity", GroupValues = true)]
+    public IEnumerable<string>? EntraUid { get; set; }
+
+    /// <summary>
+    /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please
+    /// </summary>
+    [CliFlag("--entra-uinfo", ShortForm = "--entra-user-full-info")]
+    public bool? EntraUinfo { get; set; }
+
+    /// <summary>
+    /// HTTP password for the cluster. Will prompt if not given.
+    /// </summary>
+    [CliFlag("--http-password", ShortForm = "-p")]
+    public bool? HttpPassword { get; set; }
+
+    /// <summary>
+    /// HTTP username for the cluster.
+    /// </summary>
+    [CliFlag("--http-user", ShortForm = "-u")]
+    public bool? HttpUser { get; set; }
+
+    /// <summary>
+    /// The client AAD security group id for Kafka Rest Proxy.
+    /// </summary>
+    [CliFlag("--kafka-client-group-id")]
+    public bool? KafkaClientGroupId { get; set; }
+
+    /// <summary>
+    /// The client AAD security group name for Kafka Rest Proxy.
+    /// </summary>
+    [CliFlag("--kafka-client-group-name")]
+    public bool? KafkaClientGroupName { get; set; }
+
+    /// <summary>
+    /// The name or ID of user assigned identity. Skip this field when assign_identity_type is
+    /// </summary>
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
+
+    /// <summary>
+    /// The name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The name of a virtual network.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// </summary>
+    [CliFlag("--edgenode-size")]
+    public bool? EdgenodeSize { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// </summary>
+    [CliFlag("--headnode-size")]
+    public bool? HeadnodeSize { get; set; }
+
+    /// <summary>
+    /// The number of kafka management node in the cluster.  Default: 2.
+    /// </summary>
+    [CliFlag("--kafka-management-node-count")]
+    public bool? KafkaManagementNodeCount { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// </summary>
+    [CliFlag("--kafka-management-node-size")]
+    public bool? KafkaManagementNodeSize { get; set; }
+
+    /// <summary>
+    /// The number of worker nodes in the cluster.  Default: 3.
+    /// </summary>
+    [CliFlag("--workernode-count", ShortForm = "-c")]
+    public bool? WorkernodeCount { get; set; }
+
+    /// <summary>
+    /// The size of the data disk in GB, e.g. 1023.
+    /// </summary>
+    [CliFlag("--workernode-data-disk-size")]
+    public bool? WorkernodeDataDiskSize { get; set; }
+
+    /// <summary>
+    /// The type of storage account that will be used for the data disks: standard_lrs or premium_lrs.
+    /// </summary>
+    [CliFlag("--workernode-data-disk-storage-account-type")]
+    public bool? WorkernodeDataDiskStorageAccountType { get; set; }
+
+    /// <summary>
+    /// The number of data disks to use per worker node.
+    /// </summary>
+    [CliFlag("--workernode-data-disks-per-node")]
+    public bool? WorkernodeDataDisksPerNode { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// </summary>
+    [CliFlag("--workernode-size")]
+    public bool? WorkernodeSize { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// </summary>
+    [CliFlag("--zookeepernode-size")]
+    public bool? ZookeepernodeSize { get; set; }
+
+    /// <summary>
+    /// Indicate whether enable the private link or not.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-private-link")]
+    public bool? EnablePrivateLink { get; set; }
+
+    /// <summary>
+    /// The direction for the resource provider connection.  Allowed values: External, Managed.
+    /// </summary>
+    [CliOption("--outbound-dependencies-managed-type", ShortForm = "--outbound-managed-type")]
+    public string? OutboundDependenciesManagedType { get; set; }
+
+    /// <summary>
+    /// The private link configurations when creating cluster. Private Link Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. Please see https://github.com/Azure/azure- cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/privatelinkconfiguratio ns.json.
+    /// </summary>
+    [CliOption("--private-link-config", ShortForm = "--private-link-configurations")]
+    public string? PrivateLinkConfig { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ipTag type:
+    /// </summary>
+    [CliFlag("--public-ip-tag-type")]
+    public bool? PublicIpTagType { get; set; }
+
+    /// <summary>
+    /// Gets or sets value of the IpTag associated with the public
+    /// </summary>
+    [CliFlag("--public-ip-tag-value")]
+    public bool? PublicIpTagValue { get; set; }
+
+    /// <summary>
+    /// The resource provider connection type.  Allowed values: Inbound,
+    /// </summary>
+    [CliOption("--resource-provider-connection", ShortForm = "--rp-connection")]
+    public string? ResourceProviderConnection { get; set; }
+
+    /// <summary>
+    /// SSH password for the cluster nodes. If none specified, uses the HTTP password.
+    /// </summary>
+    [CliFlag("--ssh-password", ShortForm = "-P")]
+    public bool? SshPassword { get; set; }
+
+    /// <summary>
+    /// SSH public key for the cluster nodes.
+    /// </summary>
+    [CliFlag("--ssh-public-key", ShortForm = "-K")]
+    public bool? SshPublicKey { get; set; }
+
+    /// <summary>
+    /// SSH username for the cluster nodes.  Default: sshuser.
+    /// </summary>
+    [CliFlag("--ssh-user", ShortForm = "-U")]
+    public bool? SshUser { get; set; }
+
+    /// <summary>
+    /// The name or ID of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// The storage account key. A key can be retrieved automatically if the user has access to the storage account.
+    /// </summary>
+    [CliFlag("--storage-account-key")]
+    public bool? StorageAccountKey { get; set; }
+
+    /// <summary>
+    /// User-assigned managed identity with access to the storage account filesystem. Only required when storage account type is Azure Data Lake Storage Gen2.
+    /// </summary>
+    [CliFlag("--storage-account-managed-identity")]
+    public bool? StorageAccountManagedIdentity { get; set; }
+
+    /// <summary>
+    /// The storage container the cluster will use. Uses the cluster name if none was specified. (WASB only).
+    /// </summary>
+    [CliFlag("--storage-container")]
+    public bool? StorageContainer { get; set; }
+
+    /// <summary>
+    /// The storage filesystem the cluster will use. Uses the cluster name if none was specified. (DFS only).
+    /// </summary>
+    [CliFlag("--storage-filesystem")]
+    public bool? StorageFilesystem { get; set; }
 
 }

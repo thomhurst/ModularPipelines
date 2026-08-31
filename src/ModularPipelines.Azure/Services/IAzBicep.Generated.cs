@@ -122,6 +122,16 @@ public interface IAzBicep
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Forward a raw command to the installed Bicep CLI.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RunAsync(AzBicepRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Capture or validate a snapshot of the resources predicted to be deployed by
     /// </summary>
     /// <param name="options">The command options.</param>

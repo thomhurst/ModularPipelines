@@ -23,7 +23,133 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// A list of regions where replicas of the namespace are maintained.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--locations", GroupValues = true)]
+    public IEnumerable<string>? Locations { get; set; }
+
+    /// <summary>
+    /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas. When the lag exceeds the configured amount, operations on the primary replica will be failed. The allowed values are 0 and 5 minutes to 1 day.
+    /// </summary>
+    [CliOption("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    public string? MaxLag { get; set; }
+
+    /// <summary>
+    /// Properties of BYOK Identity description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--identity")]
+    public bool? Identity { get; set; }
+
+    /// <summary>
+    /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Alternate name for namespace.
+    /// </summary>
+    [CliFlag("--alternate-name")]
+    public bool? AlternateName { get; set; }
+
+    /// <summary>
+    /// List of private endpoint connections. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--connections", ShortForm = "--private-endpoint-connections", GroupValues = true)]
+    public IEnumerable<string>? Connections { get; set; }
+
+    /// <summary>
+    /// This property disables SAS authentication for the Service Bus namespace.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--disable-local-auth")]
+    public bool? DisableLocalAuth { get; set; }
+
+    /// <summary>
+    /// Properties of BYOK Encryption description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--encryption")]
+    public bool? Encryption { get; set; }
+
+    /// <summary>
+    /// The minimum TLS version for the cluster to support, e.g. '1.2'.  Allowed values: 1.0, 1.1, 1.2.
+    /// </summary>
+    [CliOption("--minimum-tls-version")]
+    public string? MinimumTlsVersion { get; set; }
+
+    /// <summary>
+    /// The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4.
+    /// </summary>
+    [CliFlag("--premium-messaging-partitions", ShortForm = "--premium-partitions")]
+    public bool? PremiumMessagingPartitions { get; set; }
+
+    /// <summary>
+    /// This determines if traffic is allowed over public network. By default it is enabled. Allowed values: Disabled, Enabled,
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The namespace name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64.
+    /// </summary>
+    [CliFlag("--capacity")]
+    public bool? Capacity { get; set; }
+
+    /// <summary>
+    /// Name of this SKU.  Allowed values: Basic,
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// The billing tier of this particular SKU. Allowed values: Basic, Premium, Standard.
+    /// </summary>
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
 }

@@ -23,13 +23,31 @@ public record AzNetworkCrossRegionLbShowOptions : AzOptions
     /// <summary>
     /// Controls verbosity of the returned load balancer resource. When set to 'Reduced', read-only back-reference collections (e.g., rules referencing frontendIPConfigurations) are omitted from the response.  Allowed values:
     /// </summary>
-    [CliFlag("--detail-level")]
-    public bool? DetailLevel { get; set; }
+    [CliOption("--detail-level")]
+    public string? DetailLevel { get; set; }
 
     /// <summary>
     /// Expands referenced resources. Default value is None.
     /// </summary>
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

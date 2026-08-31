@@ -22,6 +22,7 @@ public class AzEventgridDomain
 {
     private readonly ICommandContext _command;
     private AzEventgridDomainEventSubscription? _eventSubscription;
+    private AzEventgridDomainKey? _key;
     private AzEventgridDomainTopic? _topic;
 
     /// <summary>
@@ -38,6 +39,11 @@ public class AzEventgridDomain
     /// az event-subscription sub-commands.
     /// </summary>
     public AzEventgridDomainEventSubscription EventSubscription => _eventSubscription ??= new AzEventgridDomainEventSubscription(_command);
+
+    /// <summary>
+    /// az key sub-commands.
+    /// </summary>
+    public AzEventgridDomainKey Key => _key ??= new AzEventgridDomainKey(_command);
 
     /// <summary>
     /// az topic sub-commands.
@@ -60,7 +66,22 @@ public class AzEventgridDomain
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridDomainCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete a domain.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzEventgridDomainDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridDomainDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -76,6 +97,21 @@ public class AzEventgridDomain
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridDomainListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a domain.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventgridDomainShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridDomainShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

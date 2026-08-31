@@ -44,14 +44,17 @@ public static class AzExtensions
         services.TryAddScoped<IAzBicep, AzBicep>();
         services.TryAddScoped<IAzBilling, AzBilling>();
         services.TryAddScoped<IAzBot, AzBot>();
+        services.TryAddScoped<IAzCache, AzCache>();
         services.TryAddScoped<IAzCapacity, AzCapacity>();
         services.TryAddScoped<IAzCloud, AzCloud>();
         services.TryAddScoped<IAzCognitiveservices, AzCognitiveservices>();
         services.TryAddScoped<IAzComputefleet, AzComputefleet>();
+        services.TryAddScoped<IAzComputeRecommender, AzComputeRecommender>();
         services.TryAddScoped<IAzConnection, AzConnection>();
         services.TryAddScoped<IAzContainer, AzContainer>();
         services.TryAddScoped<IAzContainerapp, AzContainerapp>();
         services.TryAddScoped<IAzCosmosdb, AzCosmosdb>();
+        services.TryAddScoped<IAzDataBoundary, AzDataBoundary>();
         services.TryAddScoped<IAzDataboxedge, AzDataboxedge>();
         services.TryAddScoped<IAzDeployment, AzDeployment>();
         services.TryAddScoped<IAzDeploymentscripts, AzDeploymentscripts>();

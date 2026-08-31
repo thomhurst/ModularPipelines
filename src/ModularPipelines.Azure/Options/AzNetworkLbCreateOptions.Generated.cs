@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "create")]
-public record AzNetworkLbCreateOptions : AzOptions
+public record AzNetworkLbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkLbCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
@@ -65,26 +73,74 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// The private IP address version to use.  Allowed values: IPv4, IPv6.  Default: IPv4.
     /// </summary>
-    [CliFlag("--private-ip-address-version")]
-    public bool? PrivateIpAddressVersion { get; set; }
+    [CliOption("--private-ip-address-version")]
+    public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
     /// Load balancer SKU.  Allowed values: Basic, Gateway, Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    /// <summary>
+    /// Name or ID of the public IP address, or '' for none. Uses existing resource if available or will create a new resource with defaults if omitted.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// IP allocation method.  Allowed values: Dynamic, Static.
+    /// </summary>
+    [CliOption("--public-ip-address-allocation")]
+    public string? PublicIpAddressAllocation { get; set; }
+
+    /// <summary>
+    /// Globally unique DNS name for a new public IP.
+    /// </summary>
+    [CliFlag("--public-ip-dns-name")]
+    public bool? PublicIpDnsName { get; set; }
+
+    /// <summary>
+    /// Used to created a new public ip for the load balancer, a.k.a public facing Load balancer.
+    /// </summary>
+    [CliFlag("--public-ip-zone")]
+    public bool? PublicIpZone { get; set; }
+
+    /// <summary>
+    /// Name or ID of a subnet. Uses existing resource or creates new if specified, or none if omitted. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The CIDR address prefix to use when creating a new subnet.
+    /// </summary>
+    [CliFlag("--subnet-address-prefix")]
+    public bool? SubnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The CIDR address prefix to use when creating a new VNet.
+    /// </summary>
+    [CliFlag("--vnet-address-prefix")]
+    public bool? VnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
 
     [Obsolete("Use BackendPoolName instead.")]
     public string? BackendPoolNameValue

@@ -23,8 +23,8 @@ public record AzConnectionUpdateAppInsightsOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -61,6 +61,12 @@ public record AzConnectionUpdateAppInsightsOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

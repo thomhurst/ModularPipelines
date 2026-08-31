@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "subscription", "create")]
-public record AzMonitorDiagnosticSettingsSubscriptionCreateOptions : AzOptions
+public record AzMonitorDiagnosticSettingsSubscriptionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzMonitorDiagnosticSettingsSubscriptionCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The resource Id for the event hub authorization rule.
     /// </summary>

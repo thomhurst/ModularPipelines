@@ -47,8 +47,8 @@ public record AzNetworkPrivateEndpointConnectionShowOptions : AzOptions
     /// <summary>
     /// Type of the resource.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service, Microsoft.App/managedEnvironments,
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
     [Obsolete("Use Id instead.")]
     public string? IdValue

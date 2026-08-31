@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "set")]
-public record AzKeyvaultSecretSetOptions : AzOptions
+public record AzKeyvaultSecretSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
+    public AzKeyvaultSecretSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Description of the secret contents (e.g. password, connection string, etc).
+    /// </summary>
+    [CliOption("--content-type", ShortForm = "--description")]
+    public string? ContentType { get; set; }
+
     /// <summary>
     /// Create secret in disabled state.  Allowed values: false, true.
     /// </summary>
@@ -41,7 +55,25 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Source file encoding. The value is saved as a tag (`file- encoding=&lt;val&gt;`) and used during download to automatically encode the resulting file.  Allowed values: ascii, base64, hex, utf-16be, utf-16le, utf-8.  Default: utf-8.
+    /// </summary>
+    [CliOption("--encoding", ShortForm = "-e")]
+    public string? Encoding { get; set; }
+
+    /// <summary>
+    /// Source file for secret. Use in conjunction with '--encoding'.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Plain text secret value. Cannot be used with '--file' or '-- encoding'.
+    /// </summary>
+    [CliFlag("--value")]
+    public bool? Value { get; set; }
 
 }

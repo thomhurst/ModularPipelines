@@ -18,12 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "firewall-rule", "create")]
-public record AzCosmosdbPostgresFirewallRuleCreateOptions : AzOptions
+public record AzCosmosdbPostgresFirewallRuleCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--firewall-rule-name", ShortForm = "-n")] string FirewallRuleName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--end-ip-address")] string EndIpAddress,
+    [property: CliOption("--start-ip-address")] string StartIpAddress
+) : AzOptions
 {
+    public AzCosmosdbPostgresFirewallRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

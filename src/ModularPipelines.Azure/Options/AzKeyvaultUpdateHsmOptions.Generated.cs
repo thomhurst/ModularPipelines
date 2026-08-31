@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "update-hsm")]
-public record AzKeyvaultUpdateHsmOptions : AzOptions
+public record AzKeyvaultUpdateHsmOptions(
+    [property: CliOption("--hsm-name")] string HsmName
+) : AzOptions
 {
+    public AzKeyvaultUpdateHsmOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.  Allowed values: false, true.
     /// </summary>
@@ -29,8 +36,8 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Enable user-assigned managed identities for managed HSM. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -41,8 +48,8 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values:
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Name of resource group.
@@ -55,6 +62,42 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// </summary>
     [CliFlag("--secondary-locations")]
     public bool? SecondaryLocations { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Bypass traffic for space-separated uses.  Allowed values:
+    /// </summary>
+    [CliOption("--bypass", GroupValues = true)]
+    public IEnumerable<string>? Bypass { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches.  Allowed values:
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

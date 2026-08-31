@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "pricing", "create")]
-public record AzSecurityPricingCreateOptions : AzOptions
+public record AzSecurityPricingCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--tier")] string Tier
+) : AzOptions
 {
+    public AzSecurityPricingCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Pricing extensions.
     /// </summary>

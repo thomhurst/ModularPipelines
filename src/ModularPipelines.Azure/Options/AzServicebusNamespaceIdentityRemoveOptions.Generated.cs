@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "identity", "remove")]
-public record AzServicebusNamespaceIdentityRemoveOptions : AzOptions
+public record AzServicebusNamespaceIdentityRemoveOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzServicebusNamespaceIdentityRemoveOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// System Assigned Identity.  Allowed values: false, true.
     /// </summary>

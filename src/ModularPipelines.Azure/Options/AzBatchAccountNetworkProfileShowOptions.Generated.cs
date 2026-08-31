@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "show")]
-public record AzBatchAccountNetworkProfileShowOptions : AzOptions
+public record AzBatchAccountNetworkProfileShowOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchAccountNetworkProfileShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>

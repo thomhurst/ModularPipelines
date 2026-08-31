@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,14 +24,14 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Allowed values: AllowAnonymous,
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// One or more urls (space-delimited).
     /// </summary>
-    [CliFlag("--allowed-external-redirect-urls")]
-    public bool? AllowedExternalRedirectUrls { get; set; }
+    [CliOption("--allowed-external-redirect-urls", GroupValues = true)]
+    public IEnumerable<string>? AllowedExternalRedirectUrls { get; set; }
 
     /// <summary>
     /// Allowed values: false, true.
@@ -61,6 +62,121 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--token-store")]
     public bool? TokenStore { get; set; }
+
+    /// <summary>
+    /// One or more token audiences (comma- delimited).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--aad-allowed-token-audiences")]
+    public IEnumerable<string>? AadAllowedTokenAudiences { get; set; }
+
+    /// <summary>
+    /// Application ID to integrate AAD organization account Sign-in into your web app.
+    /// </summary>
+    [CliFlag("--aad-client-id")]
+    public bool? AadClientId { get; set; }
+
+    /// <summary>
+    /// AAD application secret.
+    /// </summary>
+    [CliFlag("--aad-client-secret")]
+    public bool? AadClientSecret { get; set; }
+
+    /// <summary>
+    /// Alternative to AAD Client Secret, thumbprint of a certificate used for signing purposes.
+    /// </summary>
+    [CliFlag("--aad-client-secret-certificate-thumbprint", ShortForm = "--thumbprint")]
+    public bool? AadClientSecretCertificateThumbprint { get; set; }
+
+    /// <summary>
+    /// This url can be found in the JSON output returned from your active directory endpoint using your tenantID. The endpoint can be queried from `az cloud show` at "endpoints.activeDirectory". The tenantID can be found using `az account show`. Get the "issuer" from the JSON at `&lt;active directory endpoint&gt;/&lt;tenantId&gt;/.well- known/openid-configuration`.
+    /// </summary>
+    [CliFlag("--aad-token-issuer-url")]
+    public bool? AadTokenIssuerUrl { get; set; }
+
+    /// <summary>
+    /// Application ID to integrate Facebook Sign-in into your web app.
+    /// </summary>
+    [CliFlag("--facebook-app-id")]
+    public bool? FacebookAppId { get; set; }
+
+    /// <summary>
+    /// Facebook Application client secret.
+    /// </summary>
+    [CliFlag("--facebook-app-secret")]
+    public bool? FacebookAppSecret { get; set; }
+
+    /// <summary>
+    /// One or more facebook authentication scopes (comma-delimited).
+    /// </summary>
+    [CliOption("--facebook-oauth-scopes")]
+    public IEnumerable<string>? FacebookOauthScopes { get; set; }
+
+    /// <summary>
+    /// Application ID to integrate Google Sign-in into your web app.
+    /// </summary>
+    [CliFlag("--google-client-id")]
+    public bool? GoogleClientId { get; set; }
+
+    /// <summary>
+    /// Google Application client secret.
+    /// </summary>
+    [CliFlag("--google-client-secret")]
+    public bool? GoogleClientSecret { get; set; }
+
+    /// <summary>
+    /// One or more Google authentication scopes (space-delimited).
+    /// </summary>
+    [CliOption("--google-oauth-scopes", GroupValues = true)]
+    public IEnumerable<string>? GoogleOauthScopes { get; set; }
+
+    /// <summary>
+    /// AAD V2 Application ID to integrate Microsoft account Sign-in into your web app.
+    /// </summary>
+    [CliFlag("--microsoft-account-client-id")]
+    public bool? MicrosoftAccountClientId { get; set; }
+
+    /// <summary>
+    /// AAD V2 Application client secret.
+    /// </summary>
+    [CliFlag("--microsoft-account-client-secret")]
+    public bool? MicrosoftAccountClientSecret { get; set; }
+
+    /// <summary>
+    /// One or more Microsoft authentification scopes (comma-delimited).
+    /// </summary>
+    [CliOption("--microsoft-account-oauth-scopes")]
+    public IEnumerable<string>? MicrosoftAccountOauthScopes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Application ID to integrate Twitter Sign-in into your web app.
+    /// </summary>
+    [CliFlag("--twitter-consumer-key")]
+    public bool? TwitterConsumerKey { get; set; }
+
+    /// <summary>
+    /// Twitter Application client secret.
+    /// </summary>
+    [CliFlag("--twitter-consumer-secret")]
+    public bool? TwitterConsumerSecret { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

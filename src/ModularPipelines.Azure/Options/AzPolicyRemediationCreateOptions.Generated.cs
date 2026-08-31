@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "remediation", "create")]
-public record AzPolicyRemediationCreateOptions : AzOptions
+public record AzPolicyRemediationCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy-assignment", ShortForm = "-a")] string PolicyAssignment
+) : AzOptions
 {
+    public AzPolicyRemediationCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Policy definition reference ID inside the policy set definition. Only required when the policy assignment is assigning a policy set definition.
     /// </summary>
@@ -35,7 +43,43 @@ public record AzPolicyRemediationCreateOptions : AzOptions
     /// <summary>
     /// The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.  Allowed values:
     /// </summary>
-    [CliFlag("--resource-discovery-mode")]
-    public bool? ResourceDiscoveryMode { get; set; }
+    [CliOption("--resource-discovery-mode")]
+    public string? ResourceDiscoveryMode { get; set; }
+
+    /// <summary>
+    /// Provider namespace (Ex: Microsoft.Provider).
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nameB).
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.
+    /// </summary>
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Resource type (Ex: resourceTypeC).
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Name of management group.
+    /// </summary>
+    [CliOption("--management-group", ShortForm = "-m")]
+    public string? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

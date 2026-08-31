@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "update")]
-public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
+public record AzWebappConfigStorageAccountUpdateOptions(
+    [property: CliOption("--custom-id", ShortForm = "-i")] string CustomId
+) : AzOptions
 {
+    public AzWebappConfigStorageAccountUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Storage account access key.
     /// </summary>
@@ -29,14 +36,20 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Storage account name.
     /// </summary>
-    [CliFlag("--account-name", ShortForm = "-a")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
     /// </summary>
     [CliOption("--mount-path", ShortForm = "-m")]
     public string? MountPath { get; set; }
+
+    /// <summary>
+    /// Name of the file share as given in the storage account.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "--sn")]
+    public string? ShareName { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -53,8 +66,26 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Storage type.  Allowed values: AzureBlob, AzureFiles.
     /// </summary>
-    [CliFlag("--storage-type", ShortForm = "-t")]
-    public bool? StorageType { get; set; }
+    [CliOption("--storage-type", ShortForm = "-t")]
+    public string? StorageType { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use MountPath instead.")]
     public string? MountPathValue

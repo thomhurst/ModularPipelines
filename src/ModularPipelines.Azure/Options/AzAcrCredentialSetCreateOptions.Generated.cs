@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "credential-set", "create")]
-public record AzAcrCredentialSetCreateOptions : AzOptions
+public record AzAcrCredentialSetCreateOptions(
+    [property: CliOption("--login-server", ShortForm = "-l")] string LoginServer,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: SecretValue, CliOption("--password-id", ShortForm = "-p")] string PasswordId,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--username-id", ShortForm = "-u")] string UsernameId
+) : AzOptions
 {
+    public AzAcrCredentialSetCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

@@ -33,6 +33,21 @@ public class AzSqlServerTdeKey
     #region Commands
 
     /// <summary>
+    /// Revalidate a server encryption protector.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RevalidateAsync(
+        AzSqlServerTdeKeyRevalidateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerTdeKeyRevalidateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Sets the server's encryption protector. Ensure to create the key
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,7 +59,22 @@ public class AzSqlServerTdeKey
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerTdeKeySetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a server encryption protector.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlServerTdeKeyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerTdeKeyShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

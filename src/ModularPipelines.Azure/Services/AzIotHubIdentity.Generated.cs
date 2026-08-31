@@ -47,5 +47,35 @@ public class AzIotHubIdentity
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubIdentityAssignOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Remove managed identities from an IoT Hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        AzIotHubIdentityRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubIdentityRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the identity properties of an IoT Hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzIotHubIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubIdentityShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

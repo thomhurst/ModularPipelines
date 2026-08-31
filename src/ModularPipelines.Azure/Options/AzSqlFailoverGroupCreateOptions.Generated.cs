@@ -18,19 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "create")]
-public record AzSqlFailoverGroupCreateOptions : AzOptions
+public record AzSqlFailoverGroupCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-server")] string PartnerServer,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
+    public AzSqlFailoverGroupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// List of databases to add to Failover Group.
     /// </summary>
-    [CliFlag("--add-db")]
-    public bool? AddDb { get; set; }
+    [CliOption("--add-db", GroupValues = true)]
+    public IEnumerable<string>? AddDb { get; set; }
 
     /// <summary>
     /// The failover policy of the Failover Group.  Allowed values: Automatic, Manual.  Default: Manual.
     /// </summary>
-    [CliFlag("--failover-policy")]
-    public bool? FailoverPolicy { get; set; }
+    [CliOption("--failover-policy")]
+    public string? FailoverPolicy { get; set; }
 
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with
@@ -47,8 +57,8 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// <summary>
     /// The list of partner server resource id's of the Failover Group.
     /// </summary>
-    [CliFlag("--partner-server-ids")]
-    public bool? PartnerServerIds { get; set; }
+    [CliOption("--partner-server-ids", GroupValues = true)]
+    public IEnumerable<string>? PartnerServerIds { get; set; }
 
     /// <summary>
     /// The resource id of the read only endpoint target server.
@@ -59,14 +69,14 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// <summary>
     /// The policy of the read only endpoint of the Failover Group. Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--ro-failover-policy")]
-    public bool? RoFailoverPolicy { get; set; }
+    [CliOption("--ro-failover-policy")]
+    public string? RoFailoverPolicy { get; set; }
 
     /// <summary>
     /// Databases secondary type on partner server.  Allowed values:
     /// </summary>
-    [CliFlag("--secondary-type")]
-    public bool? SecondaryType { get; set; }
+    [CliOption("--secondary-type")]
+    public string? SecondaryType { get; set; }
 
     [Obsolete("Use PartnerResourceGroup instead.")]
     public string? PartnerResourceGroupValue

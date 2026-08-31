@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "create")]
-public record AzWebappSitecontainersCreateOptions : AzOptions
+public record AzWebappSitecontainersCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzWebappSitecontainersCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the SiteContainer.
     /// </summary>
@@ -51,6 +59,18 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     public bool? RegistryUsername { get; set; }
 
     /// <summary>
+    /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    public bool? Si { get; set; }
+
+    /// <summary>
+    /// Path to a json sitecontainer spec file containing a list of sitecontainers, other sitecontainer input args will be ignored if this arg is provided.
+    /// </summary>
+    [CliOption("--sitecontainers-spec-file", ShortForm = "--ssf", GroupValues = true)]
+    public IEnumerable<string>? SitecontainersSpecFile { get; set; }
+
+    /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
@@ -67,6 +87,12 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-port")]
     public bool? TargetPort { get; set; }
+
+    /// <summary>
+    /// ClientID for the user-maganed identity which will be used for auth while pulling image.
+    /// </summary>
+    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
+    public bool? Ui { get; set; }
 
     [Obsolete("Use ContainerName instead.")]
     public string? ContainerNameValue

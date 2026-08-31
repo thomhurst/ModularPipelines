@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "list")]
-public record AzMonitorAutoscaleRuleListOptions : AzOptions
+public record AzMonitorAutoscaleRuleListOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorAutoscaleRuleListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
     /// </summary>

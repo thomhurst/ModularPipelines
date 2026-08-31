@@ -18,18 +18,30 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "trigger", "create")]
-public record AzCosmosdbSqlTriggerCreateOptions : AzOptions
+public record AzCosmosdbSqlTriggerCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--body", ShortForm = "-b")] string Body,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzCosmosdbSqlTriggerCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The operation of the trigger.  Allowed values: All, Create,
     /// </summary>
-    [CliFlag("--operation")]
-    public bool? Operation { get; set; }
+    [CliOption("--operation")]
+    public string? Operation { get; set; }
 
     /// <summary>
     /// Trigger type.  Allowed values: Post, Pre.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

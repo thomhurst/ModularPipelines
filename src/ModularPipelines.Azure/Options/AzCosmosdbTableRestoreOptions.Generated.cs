@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "restore")]
-public record AzCosmosdbTableRestoreOptions : AzOptions
+public record AzCosmosdbTableRestoreOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--table-name", ShortForm = "-n")] string TableName
+) : AzOptions
 {
+    public AzCosmosdbTableRestoreOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Flag to restore with TTL disabled.
     /// </summary>

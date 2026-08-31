@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "update")]
-public record AzAcrRepositoryUpdateOptions : AzOptions
+public record AzAcrRepositoryUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrRepositoryUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates whether delete operation is allowed.  Allowed values: false, true.
     /// </summary>

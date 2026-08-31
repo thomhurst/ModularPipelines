@@ -18,12 +18,105 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-rule", "update")]
-public record AzNetworkLbInboundNatRuleUpdateOptions : AzOptions
+public record AzNetworkLbInboundNatRuleUpdateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkLbInboundNatRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The name or ID of the backend address pool.
+    /// </summary>
+    [CliOption("--backend-address-pool", ShortForm = "--backend-pool-name")]
+    public string? BackendAddressPool { get; set; }
+
+    /// <summary>
+    /// The port used for the internal endpoint. Acceptable values range from 1 to 65535.
+    /// </summary>
+    [CliFlag("--backend-port")]
+    public bool? BackendPort { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The name of ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
+    /// </summary>
+    [CliFlag("--frontend-port")]
+    public bool? FrontendPort { get; set; }
+
+    /// <summary>
+    /// The port range end for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    /// </summary>
+    [CliFlag("--frontend-port-range-end")]
+    public bool? FrontendPortRangeEnd { get; set; }
+
+    /// <summary>
+    /// The port range start for the external endpoint. This property is used together with
+    /// </summary>
+    [CliFlag("--frontend-port-range-start")]
+    public bool? FrontendPortRangeStart { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    /// </summary>
+    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public bool? IdleTimeout { get; set; }
+
+    /// <summary>
+    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp,
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
 }

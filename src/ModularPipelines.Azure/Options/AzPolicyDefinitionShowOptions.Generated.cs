@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "definition", "show")]
-public record AzPolicyDefinitionShowOptions : AzOptions
+public record AzPolicyDefinitionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyDefinitionShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The management group.
     /// </summary>

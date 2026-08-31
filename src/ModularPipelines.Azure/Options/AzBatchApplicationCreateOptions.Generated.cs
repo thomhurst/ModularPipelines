@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "create")]
-public record AzBatchApplicationCreateOptions : AzOptions
+public record AzBatchApplicationCreateOptions(
+    [property: CliOption("--application-name")] string ApplicationName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchApplicationCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The parameters for the request. Is either a Application type or a IO type. Default value is None.
     /// </summary>

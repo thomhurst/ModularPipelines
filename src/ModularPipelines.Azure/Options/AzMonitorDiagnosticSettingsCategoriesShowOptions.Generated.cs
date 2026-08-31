@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "categories", "show")]
-public record AzMonitorDiagnosticSettingsCategoriesShowOptions : AzOptions
+public record AzMonitorDiagnosticSettingsCategoriesShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
+    public AzMonitorDiagnosticSettingsCategoriesShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

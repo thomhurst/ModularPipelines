@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "set")]
-public record AzBatchAccountNetworkProfileSetOptions : AzOptions
+public record AzBatchAccountNetworkProfileSetOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchAccountNetworkProfileSetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled.  Allowed values: Allow, Deny.
     /// </summary>
-    [CliFlag("--default-action")]
-    public bool? DefaultAction { get; set; }
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
 
     /// <summary>
     /// Name of the batch account to show. If not specified will display currently set account.
@@ -35,8 +42,8 @@ public record AzBatchAccountNetworkProfileSetOptions : AzOptions
     /// <summary>
     /// Network profile to set.  Allowed values: BatchAccount,
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

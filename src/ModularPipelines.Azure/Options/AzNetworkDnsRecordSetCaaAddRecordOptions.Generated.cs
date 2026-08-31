@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "caa", "add-record")]
-public record AzNetworkDnsRecordSetCaaAddRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetCaaAddRecordOptions(
+    [property: CliOption("--flags")] string Flags,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--tag")] string Tag,
+    [property: CliOption("--value")] string Value,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkDnsRecordSetCaaAddRecordOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create the record set only if it does not already exist.
     /// </summary>

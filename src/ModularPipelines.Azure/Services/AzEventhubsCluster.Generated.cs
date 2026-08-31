@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsCluster
 {
     private readonly ICommandContext _command;
+    private AzEventhubsClusterNamespace? _namespace;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsCluster"/> class.
@@ -29,6 +30,15 @@ public class AzEventhubsCluster
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az namespace sub-commands.
+    /// </summary>
+    public AzEventhubsClusterNamespace Namespace => _namespace ??= new AzEventhubsClusterNamespace(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,7 @@ public class AzEventhubsCluster
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsClusterCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,6 +88,21 @@ public class AzEventhubsCluster
     }
 
     /// <summary>
+    /// Get the resource description of the specified Event Hubs Cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventhubsClusterShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsClusterShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update an instance of an Event Hubs Cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +115,21 @@ public class AzEventhubsCluster
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsClusterUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzEventhubsClusterWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsClusterWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "restore", "start")]
-public record AzKeyvaultRestoreStartOptions : AzOptions
+public record AzKeyvaultRestoreStartOptions(
+    [property: CliOption("--backup-folder")] string BackupFolder
+) : AzOptions
 {
+    public AzKeyvaultRestoreStartOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Name of a single key in the backup. When set, only this key will be restored.
+    /// </summary>
+    [CliOption("--key", ShortForm = "--key-name")]
+    public string? Key { get; set; }
+
     /// <summary>
     /// The SAS token pointing to an Azure Blob storage container.
     /// </summary>
@@ -31,5 +44,35 @@ public record AzKeyvaultRestoreStartOptions : AzOptions
     /// </summary>
     [CliOption("--use-managed-identity")]
     public bool? UseManagedIdentity { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
+
+    /// <summary>
+    /// Name of Blob Container.
+    /// </summary>
+    [CliOption("--blob-container-name")]
+    public string? BlobContainerName { get; set; }
+
+    /// <summary>
+    /// Name of Azure Storage Account.
+    /// </summary>
+    [CliOption("--storage-account-name")]
+    public string? StorageAccountName { get; set; }
+
+    /// <summary>
+    /// Azure Blob storage container Uri. If specified all other 'Storage Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--storage-resource-uri")]
+    public bool? StorageResourceUri { get; set; }
 
 }

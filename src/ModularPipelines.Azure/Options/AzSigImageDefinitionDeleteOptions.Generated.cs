@@ -23,7 +23,31 @@ public record AzSigImageDefinitionDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The name of the gallery image definition to be deleted.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string? GalleryImageDefinition { get; set; }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

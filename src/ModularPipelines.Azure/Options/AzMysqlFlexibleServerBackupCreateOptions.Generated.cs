@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "backup", "create")]
-public record AzMysqlFlexibleServerBackupCreateOptions : AzOptions
+public record AzMysqlFlexibleServerBackupCreateOptions(
+    [property: CliOption("--backup-name", ShortForm = "-b")] string BackupName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMysqlFlexibleServerBackupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The required parameters for creating and exporting backup of the given server. Is either a ServerBackupV2 type or a IO[bytes] type. Default value is None.
     /// </summary>

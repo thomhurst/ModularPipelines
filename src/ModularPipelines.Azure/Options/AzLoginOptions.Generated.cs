@@ -63,6 +63,12 @@ public record AzLoginOptions : AzOptions
     public bool? ServicePrincipal { get; set; }
 
     /// <summary>
+    /// Skip the subscription discovery process during login. Requires --tenant. Use with --subscription to fetch a single subscription without listing all.
+    /// </summary>
+    [CliFlag("--skip-sub", ShortForm = "--skip-subscription-discovery")]
+    public bool? SkipSub { get; set; }
+
+    /// <summary>
     /// The Microsoft Entra tenant, must be provided when using a service principal.
     /// </summary>
     [CliFlag("--tenant", ShortForm = "-t")]
@@ -85,5 +91,29 @@ public record AzLoginOptions : AzOptions
     /// </summary>
     [CliFlag("--username", ShortForm = "-u")]
     public bool? Username { get; set; }
+
+    /// <summary>
+    /// Client ID of the user-assigned managed identity.
+    /// </summary>
+    [CliFlag("--client-id")]
+    public bool? ClientId { get; set; }
+
+    /// <summary>
+    /// Log in using managed identity.
+    /// </summary>
+    [CliFlag("--identity", ShortForm = "-i")]
+    public bool? Identity { get; set; }
+
+    /// <summary>
+    /// Object ID of the user-assigned managed identity.
+    /// </summary>
+    [CliFlag("--object-id")]
+    public bool? ObjectId { get; set; }
+
+    /// <summary>
+    /// Resource ID of the user-assigned managed identity.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
 
 }

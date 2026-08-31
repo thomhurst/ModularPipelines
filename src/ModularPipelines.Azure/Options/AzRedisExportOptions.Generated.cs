@@ -18,12 +18,50 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "export")]
-public record AzRedisExportOptions : AzOptions
+public record AzRedisExportOptions(
+    [property: CliOption("--container")] string Container,
+    [property: CliOption("--prefix")] string Prefix
+) : AzOptions
 {
+    public AzRedisExportOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values:
+    /// </summary>
+    [CliOption("--auth-method", ShortForm = "--preferred-data-archive-auth-method")]
+    public string? AuthMethod { get; set; }
+
     /// <summary>
     /// Format of the blob (Currently rdb is the only supported format, with other formats expected in the future).
     /// </summary>
     [CliFlag("--file-format")]
     public bool? FileFormat { get; set; }
+
+    /// <summary>
+    /// SubscriptionId of the storage account.
+    /// </summary>
+    [CliFlag("--storage-sub-id", ShortForm = "--storage-subscription-id")]
+    public bool? StorageSubId { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

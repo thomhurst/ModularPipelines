@@ -23,8 +23,8 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Tags that will be applied to the output artifact once it has been created by the distributor. space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--artifact-tags")]
-    public bool? ArtifactTags { get; set; }
+    [CliOption("--artifact-tags", GroupValues = true)]
+    public IEnumerable<string>? ArtifactTags { get; set; }
 
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
@@ -41,8 +41,68 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Describe how to generate new x.y.z version number for distribution.  Allowed values: Latest, Source.
     /// </summary>
-    [CliFlag("--versioning")]
-    public bool? Versioning { get; set; }
+    [CliOption("--versioning")]
+    public string? Versioning { get; set; }
+
+    /// <summary>
+    /// Name or ID of the customized managed image to be created.
+    /// </summary>
+    [CliOption("--managed-image")]
+    public string? ManagedImage { get; set; }
+
+    /// <summary>
+    /// Location where the customized image will be created. Defaults to resource group's location.
+    /// </summary>
+    [CliFlag("--managed-image-location")]
+    public bool? ManagedImageLocation { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the image template.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name or ID of the existing SIG image definition to create the customized image version with.
+    /// </summary>
+    [CliOption("--gallery-image-definition")]
+    public string? GalleryImageDefinition { get; set; }
+
+    /// <summary>
+    /// Shared image gallery name, if image definition name and not ID was provided.
+    /// </summary>
+    [CliFlag("--gallery-name")]
+    public bool? GalleryName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of regions to replicate the image version into. Defaults to resource group's location.
+    /// </summary>
+    [CliOption("--gallery-replication-regions", GroupValues = true)]
+    public IEnumerable<string>? GalleryReplicationRegions { get; set; }
+
+    /// <summary>
+    /// The output is a VHD distributor.
+    /// </summary>
+    [CliFlag("--is-vhd")]
+    public bool? IsVhd { get; set; }
+
+    /// <summary>
+    /// Optional Azure Storage URI for the distributed VHD blob. Omit to use the default (empty string) in which case VHD would be published to the storage account in the staging resource group.
+    /// </summary>
+    [CliFlag("--vhd-uri")]
+    public bool? VhdUri { get; set; }
 
     [Obsolete("Use OutputName instead.")]
     public string? OutputNameValue

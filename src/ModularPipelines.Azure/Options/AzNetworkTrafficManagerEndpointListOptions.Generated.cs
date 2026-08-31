@@ -18,12 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "endpoint", "list")]
-public record AzNetworkTrafficManagerEndpointListOptions : AzOptions
+public record AzNetworkTrafficManagerEndpointListOptions(
+    [property: CliOption("--profile-name")] string ProfileName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkTrafficManagerEndpointListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

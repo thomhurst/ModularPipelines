@@ -18,19 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-vm")]
-public record AzBackupProtectionEnableForVmOptions : AzOptions
+public record AzBackupProtectionEnableForVmOptions(
+    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
+    [property: CliOption("--vm")] string Vm
+) : AzOptions
 {
+    public AzBackupProtectionEnableForVmOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Option to decide whether to include or exclude the disk or reset any previous settings to default behavior.  Allowed values: exclude, include.
     /// </summary>
-    [CliFlag("--disk-list-setting")]
-    public bool? DiskListSetting { get; set; }
+    [CliOption("--disk-list-setting")]
+    public string? DiskListSetting { get; set; }
 
     /// <summary>
     /// List of disks to be excluded or included.
     /// </summary>
-    [CliFlag("--diskslist")]
-    public bool? Diskslist { get; set; }
+    [CliOption("--diskslist", GroupValues = true)]
+    public IEnumerable<string>? Diskslist { get; set; }
 
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.

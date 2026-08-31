@@ -18,8 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "disable-egress-gateway")]
-public record AzAksMeshDisableEgressGatewayOptions : AzOptions
+public record AzAksMeshDisableEgressGatewayOptions(
+    [property: CliOption("--istio-eg-gtw-name", ShortForm = "--istio-egressgateway-name")] string IstioEgGtwName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksMeshDisableEgressGatewayOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Specify the namespace of the Istio egress gateway.  Default: aks-istio- egress.
+    /// </summary>
+    [CliFlag("--istio-eg-gtw-ns", ShortForm = "--istio-egressgateway-namespace")]
+    public bool? IstioEgGtwNs { get; set; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

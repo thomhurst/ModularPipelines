@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-azurefileshare")]
-public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
+public record AzBackupRestoreRestoreAzurefileshareOptions(
+    [property: CliOption("--resolve-conflict")] string ResolveConflict,
+    [property: CliOption("--restore-mode")] string RestoreMode
+) : AzOptions
 {
+    public AzBackupRestoreRestoreAzurefileshareOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Destination file share to which content will be restored.
     /// </summary>
@@ -33,6 +41,12 @@ public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
     public bool? TargetFolder { get; set; }
 
     /// <summary>
+    /// Resource group of the destination storage account to which the content will be restored, needed if it is different from the vault resource group.
+    /// </summary>
+    [CliOption("--target-resource-group-name", ShortForm = "--target-rg-name")]
+    public string? TargetResourceGroupName { get; set; }
+
+    /// <summary>
     /// Destination storage account to which content will be restored.
     /// </summary>
     [CliFlag("--target-storage-account")]
@@ -43,6 +57,42 @@ public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
+
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string? ItemName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the recovery point.
+    /// </summary>
+    [CliOption("--rp-name", ShortForm = "-r")]
+    public string? RpName { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string? VaultName { get; set; }
 
     [Obsolete("Use TenantId instead.")]
     public string? TenantIdValue

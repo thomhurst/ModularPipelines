@@ -18,12 +18,33 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "test-notifications", "create")]
-public record AzMonitorActionGroupTestNotificationsCreateOptions : AzOptions
+public record AzMonitorActionGroupTestNotificationsCreateOptions(
+    [property: CliOption("--action-group", ShortForm = "--action-group-name")] string ActionGroup,
+    [property: CliOption("--alert-type")] string AlertType,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorActionGroupTestNotificationsCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Add receivers to the action group.
+    /// </summary>
+    [CliFlag("--add-action", ShortForm = "-a")]
+    public bool? AddAction { get; set; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The list of incident receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--incident-receivers", GroupValues = true)]
+    public IEnumerable<string>? IncidentReceivers { get; set; }
 
 }

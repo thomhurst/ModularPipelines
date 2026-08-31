@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "update")]
-public record AzAppConfigUpdateOptions : AzOptions
+public record AzAppConfigUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAppConfigUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Resource ID of the Application Insights resource to link with this App Configuration store.
     /// </summary>
@@ -29,8 +36,14 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
     /// </summary>
-    [CliFlag("--arm-auth-mode")]
-    public bool? ArmAuthMode { get; set; }
+    [CliOption("--arm-auth-mode")]
+    public string? ArmAuthMode { get; set; }
+
+    /// <summary>
+    /// Resource ID of an Azure Front Door profile to link to this App Configuration store. Pass "" to unlink a
+    /// </summary>
+    [CliOption("--azure-front-door-profile")]
+    public string? AzureFrontDoorProfile { get; set; }
 
     /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
@@ -43,6 +56,12 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
+
+    /// <summary>
+    /// When true, requests coming from public networks have permission to access this store while private endpoint is enabled. When false, only requests made through Private Links can reach this store.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e")]
+    public bool? EnablePublicNetwork { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
@@ -59,8 +78,8 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -71,14 +90,38 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The name of the KeyVault key.
+    /// </summary>
+    [CliOption("--encryption-key-name")]
+    public string? EncryptionKeyName { get; set; }
+
+    /// <summary>
+    /// The URI of the KeyVault.
+    /// </summary>
+    [CliOption("--encryption-key-vault")]
+    public string? EncryptionKeyVault { get; set; }
+
+    /// <summary>
+    /// The version of the KeyVault key. Use the latest version by default.
+    /// </summary>
+    [CliFlag("--encryption-key-version")]
+    public bool? EncryptionKeyVersion { get; set; }
+
+    /// <summary>
+    /// Client ID of the managed identity with wrap and unwrap access to encryption key. Use system-assigned managed identity by default.
+    /// </summary>
+    [CliFlag("--identity-client-id")]
+    public bool? IdentityClientId { get; set; }
 
     [Obsolete("Use AppinsightsResource instead.")]
     public string? AppinsightsResourceValue

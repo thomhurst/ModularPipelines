@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "list")]
-public record AzBillingInvoiceListOptions : AzOptions
+public record AzBillingInvoiceListOptions(
+    [property: CliOption("--period-end-date")] string PeriodEndDate,
+    [property: CliOption("--period-start-date")] string PeriodStartDate
+) : AzOptions
 {
+    public AzBillingInvoiceListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>

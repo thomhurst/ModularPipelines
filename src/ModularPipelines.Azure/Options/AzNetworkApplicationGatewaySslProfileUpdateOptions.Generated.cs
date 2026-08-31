@@ -18,12 +18,87 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "ssl-profile", "update")]
-public record AzNetworkApplicationGatewaySslProfileUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewaySslProfileUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkApplicationGatewaySslProfileUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Client authentication configuration of the application gateway resource.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--client-auth-config", ShortForm = "--client-auth-configuration")]
+    public bool? ClientAuthConfig { get; set; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Array of references to application gateway trusted client certificates.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--trusted-client-cert", ShortForm = "--trusted-client-certificates")]
+    public IEnumerable<string>? TrustedClientCert { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// SSL cipher suites to be enabled in the specified order to application gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--cipher-suites")]
+    public bool? CipherSuites { get; set; }
+
+    /// <summary>
+    /// Space-separated list of protocols to disable.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--disabled-protocols", ShortForm = "--disabled-ssl-protocols", GroupValues = true)]
+    public IEnumerable<string>? DisabledProtocols { get; set; }
+
+    /// <summary>
+    /// Minimum version of SSL protocol to be supported on application gateway.  Allowed values: TLSv1_0, TLSv1_1, TLSv1_2,
+    /// </summary>
+    [CliOption("--min-protocol-version")]
+    public string? MinProtocolVersion { get; set; }
+
+    /// <summary>
+    /// Name of SSL policy.  Allowed values:
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; set; }
+
+    /// <summary>
+    /// Type of SSL policy.  Allowed values:
+    /// </summary>
+    [CliOption("--policy-type")]
+    public string? PolicyType { get; set; }
 
 }

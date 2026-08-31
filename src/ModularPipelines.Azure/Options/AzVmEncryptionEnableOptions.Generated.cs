@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "encryption", "enable")]
-public record AzVmEncryptionEnableOptions : AzOptions
+public record AzVmEncryptionEnableOptions(
+    [property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
+) : AzOptions
 {
+    public AzVmEncryptionEnableOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Encrypts-formats data disks instead of encrypting them. Encrypt-formatting is a lot faster than in-place encryption but wipes out the partition getting encrypt- formatted. (Only supported for Linux virtual machines.).
     /// </summary>
@@ -59,8 +66,44 @@ public record AzVmEncryptionEnableOptions : AzOptions
     /// <summary>
     /// Type of volume that the encryption operation is performed on.  Allowed values: ALL, DATA, OS.
     /// </summary>
-    [CliFlag("--volume-type")]
-    public bool? VolumeType { get; set; }
+    [CliOption("--volume-type")]
+    public string? VolumeType { get; set; }
+
+    /// <summary>
+    /// Thumbprint of the AAD app certificate with permissions to write secrets to the key vault.
+    /// </summary>
+    [CliFlag("--aad-client-cert-thumbprint")]
+    public bool? AadClientCertThumbprint { get; set; }
+
+    /// <summary>
+    /// Client ID of an AAD app with permissions to write secrets to the key vault.
+    /// </summary>
+    [CliFlag("--aad-client-id")]
+    public bool? AadClientId { get; set; }
+
+    /// <summary>
+    /// Client secret of the AAD app with permissions to write secrets to the key vault.
+    /// </summary>
+    [CliFlag("--aad-client-secret")]
+    public bool? AadClientSecret { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use EncryptionIdentity instead.")]
     public string? EncryptionIdentityValue

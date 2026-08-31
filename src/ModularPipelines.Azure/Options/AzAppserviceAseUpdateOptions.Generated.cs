@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "ase", "update")]
-public record AzAppserviceAseUpdateOptions : AzOptions
+public record AzAppserviceAseUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAppserviceAseUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// (ASEv3 only) Configure App Service Environment to allow FTP access. This ftpEnabled setting allows you to allow or deny FTP connections on the App Service Environment level. Individual apps will still need to configure FTP access.  Allowed values: false, true.
     /// </summary>

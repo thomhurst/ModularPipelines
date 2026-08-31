@@ -18,12 +18,48 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "order", "create")]
-public record AzDataboxedgeOrderCreateOptions : AzOptions
+public record AzDataboxedgeOrderCreateOptions(
+    [property: CliOption("--device-name", ShortForm = "-d")] string DeviceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--company-name")] string CompanyName,
+    [property: CliOption("--contact-person")] string ContactPerson,
+    [property: CliOption("--email-list")] string EmailList,
+    [property: CliOption("--phone")] string Phone,
+    [property: CliOption("--status")] string Status,
+    [property: CliOption("--address-line1")] string AddressLine1,
+    [property: CliOption("--city")] string City,
+    [property: CliOption("--country")] string Country,
+    [property: CliOption("--postal-code")] string PostalCode,
+    [property: CliOption("--state")] string State
+) : AzOptions
 {
+    public AzDataboxedgeOrderCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Comments related to this status change.
+    /// </summary>
+    [CliFlag("--comments")]
+    public bool? Comments { get; set; }
+
+    /// <summary>
+    /// The address line2.
+    /// </summary>
+    [CliFlag("--address-line2")]
+    public bool? AddressLine2 { get; set; }
+
+    /// <summary>
+    /// The address line3.
+    /// </summary>
+    [CliFlag("--address-line3")]
+    public bool? AddressLine3 { get; set; }
 
 }

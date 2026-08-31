@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "enterprise-edge", "enable")]
-public record AzStaticwebappEnterpriseEdgeEnableOptions : AzOptions
+public record AzStaticwebappEnterpriseEdgeEnableOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStaticwebappEnterpriseEdgeEnableOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Don't try to register the Microsoft.CDN provider. Registration can be done manually with: az provider register --wait
     /// </summary>

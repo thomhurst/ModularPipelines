@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "create")]
-public record AzWebappConfigBackupCreateOptions : AzOptions
+public record AzWebappConfigBackupCreateOptions(
+    [property: CliOption("--container-url")] string ContainerUrl,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
+) : AzOptions
 {
+    public AzWebappConfigBackupCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the backup. If unspecified, the backup will be named with the web app name and a timestamp.
     /// </summary>
@@ -31,6 +40,24 @@ public record AzWebappConfigBackupCreateOptions : AzOptions
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// Connection string for the database in the backup.
+    /// </summary>
+    [CliFlag("--db-connection-string")]
+    public bool? DbConnectionString { get; set; }
+
+    /// <summary>
+    /// Name of the database in the backup.
+    /// </summary>
+    [CliOption("--db-name")]
+    public string? DbName { get; set; }
+
+    /// <summary>
+    /// Type of database in the backup.  Allowed values: LocalMySql,
+    /// </summary>
+    [CliOption("--db-type")]
+    public string? DbType { get; set; }
 
     [Obsolete("Use BackupName instead.")]
     public string? BackupNameValue

@@ -18,12 +18,31 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "configuration", "unauthorize")]
-public record AzEventgridPartnerConfigurationUnauthorizeOptions : AzOptions
+public record AzEventgridPartnerConfigurationUnauthorizeOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerConfigurationUnauthorizeOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') which is the expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration. If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified.
+    /// </summary>
+    [CliOption("--auth-exp-date", ShortForm = "--authorization-expiration-date")]
+    public string? AuthExpDate { get; set; }
+
     /// <summary>
     /// Official name of the partner.
     /// </summary>
     [CliFlag("--partner-name")]
     public bool? PartnerName { get; set; }
+
+    /// <summary>
+    /// The immutable ID of the corresponding partner registration.
+    /// </summary>
+    [CliFlag("--partner-registration-immutable-id", ShortForm = "--pr-id")]
+    public bool? PartnerRegistrationImmutableId { get; set; }
 
 }

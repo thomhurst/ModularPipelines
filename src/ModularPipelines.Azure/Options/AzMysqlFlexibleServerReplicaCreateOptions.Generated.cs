@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "replica", "create")]
-public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
+public record AzMysqlFlexibleServerReplicaCreateOptions(
+    [property: CliOption("--replica-name")] string ReplicaName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source-server")] string SourceServer
+) : AzOptions
 {
+    public AzMysqlFlexibleServerReplicaCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>
@@ -35,14 +44,14 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable Auto scale IOPS configuration for both the source and the newly provisioned replica server to enable faster provisioning.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--faster-provisioning")]
-    public bool? FasterProvisioning { get; set; }
+    [CliOption("--faster-provisioning")]
+    public string? FasterProvisioning { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
@@ -71,8 +80,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Determines the public access.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -95,8 +104,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable,

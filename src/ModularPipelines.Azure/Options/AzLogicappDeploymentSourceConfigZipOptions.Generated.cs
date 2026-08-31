@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "deployment", "source", "config-zip")]
-public record AzLogicappDeploymentSourceConfigZipOptions : AzOptions
+public record AzLogicappDeploymentSourceConfigZipOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--src")] string Src
+) : AzOptions
 {
+    public AzLogicappDeploymentSourceConfigZipOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>

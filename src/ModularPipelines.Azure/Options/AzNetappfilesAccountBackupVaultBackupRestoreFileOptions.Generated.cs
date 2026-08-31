@@ -18,12 +18,56 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "restore-file")]
-public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions : AzOptions
+public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions(
+    [property: CliOption("--destination-volume-id")] string DestinationVolumeId,
+    [property: CliOption("--file-list", GroupValues = true)] IEnumerable<string> FileList
+) : AzOptions
 {
+    public AzNetappfilesAccountBackupVaultBackupRestoreFileOptions()
+        : this(default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Destination folder where the files will be restored. The path name should start with a forward slash. If it is omitted from request then restore is done at the root folder of the destination volume by default.
+    /// </summary>
+    [CliFlag("--restore-file-path")]
+    public bool? RestoreFilePath { get; set; }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// The name of the backup.
+    /// </summary>
+    [CliOption("--backup-name", ShortForm = "-b")]
+    public string? BackupName { get; set; }
+
+    /// <summary>
+    /// The name of the Backup Vault.
+    /// </summary>
+    [CliOption("--backup-vault-name", ShortForm = "-v")]
+    public string? BackupVaultName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

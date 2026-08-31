@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "create")]
-public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
+public record AzMonitorDiagnosticSettingsCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
+    public AzMonitorDiagnosticSettingsCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name or ID an event hub. If none is specified, the default event hub will be selected.
     /// </summary>
@@ -53,8 +61,8 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// The list of metric settings.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--metrics")]
-    public bool? Metrics { get; set; }
+    [CliOption("--metrics", GroupValues = true)]
+    public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// Name or ID of the storage account to send diagnostic logs to.
@@ -67,6 +75,30 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// </summary>
     [CliOption("--workspace")]
     public string? Workspace { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
     [Obsolete("Use EventHub instead.")]
     public string? EventHubValue

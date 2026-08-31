@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "definition", "list")]
-public record AzSynapseRoleDefinitionListOptions : AzOptions
+public record AzSynapseRoleDefinitionListOptions(
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseRoleDefinitionListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Is a Synapse Built-In Role or not.  Allowed values: false, true.
     /// </summary>

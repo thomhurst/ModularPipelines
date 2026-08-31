@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "update")]
-public record AzVmRunCommandUpdateOptions : AzOptions
+public record AzVmRunCommandUpdateOptions(
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
+) : AzOptions
 {
+    public AzVmRunCommandUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>
@@ -95,14 +102,32 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.
     /// </summary>
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the virtual machine.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string? VmName { get; set; }
 
     [Obsolete("Use Parameters instead.")]
     public string? ParametersValue

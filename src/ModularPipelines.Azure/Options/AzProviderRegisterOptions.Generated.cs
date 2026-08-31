@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "register")]
-public record AzProviderRegisterOptions : AzOptions
+public record AzProviderRegisterOptions(
+    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
+) : AzOptions
 {
+    public AzProviderRegisterOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// A value indicating whether authorization is consented or not.
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "reject")]
-public record AzAcrPrivateEndpointConnectionRejectOptions : AzOptions
+public record AzAcrPrivateEndpointConnectionRejectOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
+) : AzOptions
 {
+    public AzAcrPrivateEndpointConnectionRejectOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Rejection description. For example, the reason for rejection.
     /// </summary>

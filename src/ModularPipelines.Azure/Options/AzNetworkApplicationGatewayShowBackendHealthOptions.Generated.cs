@@ -26,4 +26,76 @@ public record AzNetworkApplicationGatewayShowBackendHealthOptions : AzOptions
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
 
+    /// <summary>
+    /// The name or ID of the backend address pool.
+    /// </summary>
+    [CliOption("--address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// The name of the host to send the probe.
+    /// </summary>
+    [CliOption("--host")]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Use host header from HTTP settings.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--host-name-from-http-settings")]
+    public bool? HostNameFromHttpSettings { get; set; }
+
+    /// <summary>
+    /// The name or ID of the HTTP settings.
+    /// </summary>
+    [CliOption("--http-settings")]
+    public string? HttpSettings { get; set; }
+
+    /// <summary>
+    /// Body that must be contained in the health response.
+    /// </summary>
+    [CliFlag("--match-body")]
+    public bool? MatchBody { get; set; }
+
+    /// <summary>
+    /// Space-separated list of allowed ranges of healthy status codes for the health response.
+    /// </summary>
+    [CliOption("--match-status-codes", GroupValues = true)]
+    public IEnumerable<string>? MatchStatusCodes { get; set; }
+
+    /// <summary>
+    /// The relative path of the probe. Valid paths start from "/".
+    /// </summary>
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
+
+    /// <summary>
+    /// The HTTP settings protocol.  Allowed values: Http,
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// The probe timeout in seconds.
+    /// </summary>
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
 }

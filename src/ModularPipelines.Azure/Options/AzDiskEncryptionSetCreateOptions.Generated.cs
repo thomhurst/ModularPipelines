@@ -18,8 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-encryption-set", "create")]
-public record AzDiskEncryptionSetCreateOptions : AzOptions
+public record AzDiskEncryptionSetCreateOptions(
+    [property: CliOption("--disk-encryption-set-name", ShortForm = "-n")] string DiskEncryptionSetName,
+    [property: CliOption("--key-url")] string KeyUrl,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzDiskEncryptionSetCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
+    public bool? AutoRotation { get; set; }
+
     /// <summary>
     /// The type of key used to encrypt the data of
     /// </summary>
@@ -41,7 +56,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -55,6 +70,18 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
+
+    /// <summary>
+    /// Provide this flag to use system assigned identity.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Space separated resource IDs to add user- assigned identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
 
     [Obsolete("Use Location instead.")]
     public string? LocationValue

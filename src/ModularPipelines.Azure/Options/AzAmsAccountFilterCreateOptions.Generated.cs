@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account-filter", "create")]
-public record AzAmsAccountFilterCreateOptions : AzOptions
+public record AzAmsAccountFilterCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAmsAccountFilterCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The first quality (lowest) bitrate to include in the manifest.
     /// </summary>
@@ -31,5 +40,41 @@ public record AzAmsAccountFilterCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tracks")]
     public bool? Tracks { get; set; }
+
+    /// <summary>
+    /// Applies to Video on Demand (VoD). For the Live Streaming presentation, it is silently ignored and applied when the presentation ends and the stream becomes VoD. This is a long value that represents an absolute end point of the presentation, rounded to the closest next GOP start. The unit is the timescale, so an endTimestamp of 1800000000 would be for 3 minutes. Use startTimestamp and endTimestamp to trim the fragments that will be in the playlist (manifest). For example, startTimestamp=40000000 and endTimestamp=100000000 using the default timescale will generate a playlist that contains fragments from between 4 seconds and 10 seconds of the VoD presentation. If a fragment straddles the boundary, the entire fragment will be included in the manifest.
+    /// </summary>
+    [CliFlag("--end-timestamp")]
+    public bool? EndTimestamp { get; set; }
+
+    /// <summary>
+    /// Applies to Live Streaming only. Indicates whether the endTimestamp property must be present. If true, endTimestamp must be specified or a bad request code is returned. Allowed values: false, true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--force-end-timestamp")]
+    public bool? ForceEndTimestamp { get; set; }
+
+    /// <summary>
+    /// Applies to Live Streaming only. This value defines the latest live position that a client can seek to. Using this property, you can delay live playback position and create a server-side buffer for players. The unit for this property is timescale (see below). The maximum live back off duration is 300 seconds (3000000000). For example, a value of 2000000000 means that the latest available content is 20 seconds delayed from the real live edge.
+    /// </summary>
+    [CliFlag("--live-backoff-duration")]
+    public bool? LiveBackoffDuration { get; set; }
+
+    /// <summary>
+    /// Applies to Live Streaming only. Use presentationWindowDuration to apply a sliding window of fragments to include in a playlist. The unit for this property is timescale (see below). For example, set presentationWindowDuration=1200000000 to apply a two-minute sliding window. Media within 2 minutes of the live edge will be included in the playlist. If a fragment straddles the boundary, the entire fragment will be included in the playlist. The minimum presentation window duration is 60 seconds.
+    /// </summary>
+    [CliFlag("--presentation-window-duration")]
+    public bool? PresentationWindowDuration { get; set; }
+
+    /// <summary>
+    /// Applies to Video on Demand (VoD) or Live Streaming. This is a long value that represents an absolute start point of the stream. The value gets rounded to the closest next GOP start. The unit is the timescale, so a startTimestamp of 150000000 would be for 15 seconds. Use startTimestamp and endTimestampp to trim the fragments that will be in the playlist (manifest). For example, startTimestamp=40000000 and endTimestamp=100000000 using the default timescale will generate a playlist that contains fragments from between 4 seconds and 10 seconds of the VoD presentation. If a fragment straddles the boundary, the entire fragment will be included in the manifest.
+    /// </summary>
+    [CliFlag("--start-timestamp")]
+    public bool? StartTimestamp { get; set; }
+
+    /// <summary>
+    /// Applies to all timestamps and durations in a Presentation Time Range, specified as the number of increments in one second. Default is 10000000 - ten million increments in one second, where each increment would be 100 nanoseconds long. For example, if you want to set a startTimestamp at 30 seconds, you would use a value of 300000000 when using the default timescale.
+    /// </summary>
+    [CliFlag("--timescale")]
+    public bool? Timescale { get; set; }
 
 }

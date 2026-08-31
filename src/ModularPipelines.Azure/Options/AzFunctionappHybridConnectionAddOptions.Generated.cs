@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "hybrid-connection", "add")]
-public record AzFunctionappHybridConnectionAddOptions : AzOptions
+public record AzFunctionappHybridConnectionAddOptions(
+    [property: CliOption("--hybrid-connection")] string HybridConnection,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace")] string Namespace,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzFunctionappHybridConnectionAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

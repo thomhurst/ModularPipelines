@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "custom-ip", "prefix", "create")]
-public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
+public record AzNetworkCustomIpPrefixCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkCustomIpPrefixCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The ASN for CIDR advertising. Should be an integer as string.
     /// </summary>
@@ -45,15 +53,21 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     public bool? CipPrefixParent { get; set; }
 
     /// <summary>
+    /// Whether to do express route advertise.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--express-route-advertise", ShortForm = "--is-advertised")]
+    public bool? ExpressRouteAdvertise { get; set; }
+
+    /// <summary>
     /// The Geo for CIDR advertising. Should be an Geo code. Allowed values: AFRI, APAC, AQ, EURO, GLOBAL, LATAM,
     /// </summary>
-    [CliFlag("--geo")]
-    public bool? Geo { get; set; }
+    [CliOption("--geo")]
+    public string? Geo { get; set; }
 
     /// <summary>
     /// Denotes that resource is being created as a Parent CustomIpPrefix.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--is-parent")]
+    [CliOption("--is-parent")]
     public bool? IsParent { get; set; }
 
     /// <summary>
@@ -65,7 +79,7 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -77,13 +91,19 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zone { get; set; }
+
+    /// <summary>
+    /// Type of custom IP prefix. Should be Singular, Parent, or Child.  Allowed values: Child, Parent,
+    /// </summary>
+    [CliOption("--prefix-type")]
+    public string? PrefixType { get; set; }
 
 }

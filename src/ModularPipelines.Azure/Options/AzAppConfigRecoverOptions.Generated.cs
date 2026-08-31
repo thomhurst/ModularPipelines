@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "recover")]
-public record AzAppConfigRecoverOptions : AzOptions
+public record AzAppConfigRecoverOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAppConfigRecoverOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location of the deleted App Configuration store. Can be viewed using command `az appconfig show-deleted`.
     /// </summary>

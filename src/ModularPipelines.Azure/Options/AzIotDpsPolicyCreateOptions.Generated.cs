@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "create")]
-public record AzIotDpsPolicyCreateOptions : AzOptions
+public record AzIotDpsPolicyCreateOptions(
+    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName,
+    [property: CliOption("--pn", ShortForm = "--policy-name")] string Pn,
+    [property: CliOption("--rights", ShortForm = "-r", GroupValues = true)] IEnumerable<string> Rights
+) : AzOptions
 {
+    public AzIotDpsPolicyCreateOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

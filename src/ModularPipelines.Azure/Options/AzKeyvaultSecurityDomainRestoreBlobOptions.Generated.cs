@@ -19,13 +19,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "restore-blob")]
-public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
+public record AzKeyvaultSecurityDomainRestoreBlobOptions(
+    [property: CliOption("--sd-exchange-key")] string SdExchangeKey,
+    [property: CliOption("--sd-file")] string SdFile,
+    [property: CliOption("--sd-file-restore-blob")] string SdFileRestoreBlob,
+    [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys
+) : AzOptions
 {
+    public AzKeyvaultSecurityDomainRestoreBlobOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
     [SecretValue]
-    [CliFlag("--passwords")]
-    public bool? Passwords { get; set; }
+    [CliOption("--passwords", GroupValues = true)]
+    public IEnumerable<string>? Passwords { get; set; }
 
 }

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "show")]
-public record AzIotDpsLinkedHubShowOptions : AzOptions
+public record AzIotDpsLinkedHubShowOptions(
+    [property: CliOption("--dps-name")] string DpsName,
+    [property: CliOption("--linked-hub")] string LinkedHub
+) : AzOptions
 {
+    public AzIotDpsLinkedHubShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

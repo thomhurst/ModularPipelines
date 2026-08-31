@@ -18,18 +18,75 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "listener", "update")]
-public record AzNetworkApplicationGatewayListenerUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayListenerUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayListenerUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--host-names")]
-    public bool? HostNames { get; set; }
+    [CliOption("--host-names", GroupValues = true)]
+    public IEnumerable<string>? HostNames { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name or ID of the frontend IP configuration. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--frontend-ip")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// Name or ID of the frontend port.
+    /// </summary>
+    [CliOption("--frontend-port")]
+    public string? FrontendPort { get; set; }
+
+    /// <summary>
+    /// Name or ID of the SSL certificate to use.
+    /// </summary>
+    [CliOption("--ssl-cert")]
+    public string? SslCert { get; set; }
+
+    /// <summary>
+    /// Name or ID of the SSL profile to use.
+    /// </summary>
+    [CliOption("--ssl-profile-id")]
+    public string? SslProfileId { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

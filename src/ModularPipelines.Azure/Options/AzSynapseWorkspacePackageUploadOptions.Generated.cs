@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace-package", "upload")]
-public record AzSynapseWorkspacePackageUploadOptions : AzOptions
+public record AzSynapseWorkspacePackageUploadOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseWorkspacePackageUploadOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Include this flag to disable progress reporting for the command.
     /// </summary>

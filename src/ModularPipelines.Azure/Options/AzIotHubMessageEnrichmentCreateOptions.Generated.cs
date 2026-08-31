@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "create")]
-public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
+public record AzIotHubMessageEnrichmentCreateOptions(
+    [property: CliOption("--endpoints", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Endpoints,
+    [property: CliOption("--key", ShortForm = "-k")] string Key,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--value", ShortForm = "-v")] string Value
+) : AzOptions
 {
+    public AzIotHubMessageEnrichmentCreateOptions()
+        : this(default(IEnumerable<string>)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

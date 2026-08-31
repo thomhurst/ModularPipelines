@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "create")]
-public record AzSnapshotCreateOptions : AzOptions
+public record AzSnapshotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSnapshotCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Customers can set on
+    /// </summary>
+    [CliFlag("--accelerated-network")]
+    public bool? AcceleratedNetwork { get; set; }
+
     /// <summary>
     /// CPU architecture.
     /// </summary>
@@ -57,6 +71,12 @@ public record AzSnapshotCreateOptions : AzOptions
     public string? EdgeZone { get; set; }
 
     /// <summary>
+    /// This is the ARM id of the source elastic san volume snapshot.
+    /// </summary>
+    [CliFlag("--elastic-san-id", ShortForm = "--elastic-san-resource-id")]
+    public bool? ElasticSanId { get; set; }
+
+    /// <summary>
     /// Encryption type.
     /// </summary>
     [CliFlag("--encryption-type")]
@@ -75,6 +95,12 @@ public record AzSnapshotCreateOptions : AzOptions
     public bool? HyperVGeneration { get; set; }
 
     /// <summary>
+    /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be
+    /// </summary>
+    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
+    public bool? IaDuration { get; set; }
+
+    /// <summary>
     /// Whether a snapshot is incremental.
     /// </summary>
     [CliFlag("--incremental")]
@@ -89,14 +115,20 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Policy for accessing the disk via network.  Allowed values: AllowAll,
     /// </summary>
-    [CliFlag("--network-access-policy")]
-    public bool? NetworkAccessPolicy { get; set; }
+    [CliOption("--network-access-policy")]
+    public string? NetworkAccessPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Customers can set on
+    /// </summary>
+    [CliFlag("--public-network-access")]
+    public bool? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
@@ -107,8 +139,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
@@ -125,8 +157,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use DiskAccess instead.")]
     public string? DiskAccessValue

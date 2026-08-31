@@ -18,13 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "add")]
-public record AzAksNamespaceAddOptions : AzOptions
+public record AzAksNamespaceAddOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--cpu-limit")] string CpuLimit,
+    [property: CliOption("--cpu-request")] string CpuRequest,
+    [property: CliOption("--memory-limit")] string MemoryLimit,
+    [property: CliOption("--memory-request")] string MemoryRequest,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksNamespaceAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always,
     /// </summary>
-    [CliFlag("--adoption-policy")]
-    public bool? AdoptionPolicy { get; set; }
+    [CliOption("--adoption-policy")]
+    public string? AdoptionPolicy { get; set; }
 
     /// <summary>
     /// Send custom headers. When specified, format should be
@@ -41,20 +54,20 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Delete options of a namespace. The default value is Keep. Allowed values: Delete, Keep.
     /// </summary>
-    [CliFlag("--delete-policy")]
-    public bool? DeletePolicy { get; set; }
+    [CliOption("--delete-policy")]
+    public string? DeletePolicy { get; set; }
 
     /// <summary>
     /// Egress policy for the network. The default value is AllowAll. Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
-    [CliFlag("--egress-policy")]
-    public bool? EgressPolicy { get; set; }
+    [CliOption("--egress-policy")]
+    public string? EgressPolicy { get; set; }
 
     /// <summary>
     /// Ingress policy for the network. The default value is AllowSameNamespace.  Allowed values: AllowAll,
     /// </summary>
-    [CliFlag("--ingress-policy")]
-    public bool? IngressPolicy { get; set; }
+    [CliOption("--ingress-policy")]
+    public string? IngressPolicy { get; set; }
 
     /// <summary>
     /// Labels for the managed namespace.

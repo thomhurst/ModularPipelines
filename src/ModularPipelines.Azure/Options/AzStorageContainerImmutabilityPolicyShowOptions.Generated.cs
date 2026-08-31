@@ -18,13 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "show")]
-public record AzStorageContainerImmutabilityPolicyShowOptions : AzOptions
+public record AzStorageContainerImmutabilityPolicyShowOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName
+) : AzOptions
 {
+    public AzStorageContainerImmutabilityPolicyShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
+    /// </summary>
+    [CliFlag("--if-match")]
+    public bool? IfMatch { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

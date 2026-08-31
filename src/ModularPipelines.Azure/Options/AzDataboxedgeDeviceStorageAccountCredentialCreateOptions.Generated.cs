@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,12 +19,56 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account-credential", "create")]
-public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions : AzOptions
+public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions(
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--account-type")] string AccountType,
+    [property: CliOption("--alias")] string Alias,
+    [property: CliOption("--ssl-status")] string SslStatus
+) : AzOptions
 {
+    public AzDataboxedgeDeviceStorageAccountCredentialCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Blob end point for private clouds.
+    /// </summary>
+    [CliFlag("--blob-domain-name")]
+    public bool? BlobDomainName { get; set; }
+
+    /// <summary>
+    /// Connection string for the storage account. Use this string if username and account key are not specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Id of the storage account.
+    /// </summary>
+    [CliOption("--storage-account-id")]
+    public string? StorageAccountId { get; set; }
+
+    /// <summary>
+    /// Username for the storage account.
+    /// </summary>
+    [CliFlag("--user-name")]
+    public bool? UserName { get; set; }
 
 }

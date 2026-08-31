@@ -21,15 +21,45 @@ namespace ModularPipelines.Azure.Options;
 public record AzEventgridSystemTopicUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The managed identity type for the resource. Will be deprecated and replaced by --mi-system-assigned-identity in future.  Allowed values: noidentity, systemassigned.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
+    /// <summary>
     /// Presence of this param indicates that SystemAssigned managed identity will be used.
     /// </summary>
     [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
+    /// Add user assigned identities when identityType is user or mixed. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--mi-user-assigned` argument.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the system topic.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

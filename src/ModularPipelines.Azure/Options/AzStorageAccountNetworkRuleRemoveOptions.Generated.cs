@@ -18,13 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-rule", "remove")]
-public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
+public record AzStorageAccountNetworkRuleRemoveOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
+    public AzStorageAccountNetworkRuleRemoveOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
     /// </summary>
     [CliFlag("--ip-address")]
     public bool? IpAddress { get; set; }
+
+    /// <summary>
+    /// IPv6 address or CIDR range. Can supply a list: --ipv6-address ip1 [ip2]...
+    /// </summary>
+    [CliFlag("--ipv6-address")]
+    public bool? Ipv6Address { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -43,6 +56,18 @@ public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
     /// </summary>
     [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
+
+    /// <summary>
+    /// The resource id to add in network rule.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
+
+    /// <summary>
+    /// The tenant id to add in network rule.
+    /// </summary>
+    [CliFlag("--tenant-id")]
+    public bool? TenantId { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

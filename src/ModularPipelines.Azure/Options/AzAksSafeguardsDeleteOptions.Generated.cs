@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsDeleteOptions : AzOptions
 {
     /// <summary>
+    /// The fully qualified Azure Resource manager identifier of the
+    /// </summary>
+    [CliFlag("--cluster", ShortForm = "-c")]
+    public bool? Cluster { get; set; }
+
+    /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
@@ -29,7 +35,7 @@ public record AzAksSafeguardsDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

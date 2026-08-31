@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "create")]
-public record AzContainerappEnvCreateOptions : AzOptions
+public record AzContainerappEnvCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappEnvCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Boolean indicating if the environment is enabled to have workload profiles.  Allowed values: false, true.  Default:
     /// </summary>
@@ -41,13 +49,103 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable zone redundancy on the environment. Cannot be used without --infrastructure-subnet- resource-id. If used with
     /// </summary>
     [CliFlag("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// The filepath of the certificate file (.pfx or .pem) for the environment's custom domain. To manage certificates for container apps, use `az containerapp env certificate`.
+    /// </summary>
+    [CliFlag("--certificate-file", ShortForm = "--custom-domain-certificate-file")]
+    public bool? CertificateFile { get; set; }
+
+    /// <summary>
+    /// The certificate file password for the environment's custom domain.
+    /// </summary>
+    [CliFlag("--certificate-password", ShortForm = "--custom-domain-certificate-password")]
+    public bool? CertificatePassword { get; set; }
+
+    /// <summary>
+    /// The DNS suffix for the environment's custom domain.
+    /// </summary>
+    [CliFlag("--custom-domain-dns-suffix", ShortForm = "--dns-suffix")]
+    public bool? CustomDomainDnsSuffix { get; set; }
+
+    /// <summary>
+    /// Application Insights connection string used by Dapr to export service to service communication telemetry.
+    /// </summary>
+    [CliFlag("--dapr-connection-string", ShortForm = "-d")]
+    public bool? DaprConnectionString { get; set; }
+
+    /// <summary>
+    /// Logs destination.  Allowed values: azure-monitor, log-analytics, none.  Default: log-analytics.
+    /// </summary>
+    [CliOption("--logs-destination")]
+    public string? LogsDestination { get; set; }
+
+    /// <summary>
+    /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply.
+    /// </summary>
+    [CliFlag("--logs-workspace-id")]
+    public bool? LogsWorkspaceId { get; set; }
+
+    /// <summary>
+    /// Log Analytics workspace key to configure your Log Analytics workspace. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace get-shared-keys" to retrieve the key.
+    /// </summary>
+    [CliFlag("--logs-workspace-key")]
+    public bool? LogsWorkspaceKey { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the storage account used for Azure Monitor. If this value is provided, Azure Monitor Diagnostic Settings will be created automatically.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Boolean indicating if mTLS peer authentication is enabled for the environment.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-mtls")]
+    public bool? EnableMtls { get; set; }
+
+    /// <summary>
+    /// Boolean indicating whether the peer-to-peer traffic encryption is enabled for the environment. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-peer-to-peer-encryption")]
+    public bool? EnablePeerToPeerEncryption { get; set; }
+
+    /// <summary>
+    /// Name for resource group that will contain infrastructure resources. If not provided, a resource group name will be generated.
+    /// </summary>
+    [CliOption("--infrastructure-resource-group", ShortForm = "-i")]
+    public string? InfrastructureResourceGroup { get; set; }
+
+    /// <summary>
+    /// Resource ID of a subnet for infrastructure components and user app containers.
+    /// </summary>
+    [CliOption("--infrastructure-subnet-resource-id", ShortForm = "-s")]
+    public string? InfrastructureSubnetResourceId { get; set; }
+
+    /// <summary>
+    /// Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, therefore must provide infrastructureSubnetResourceId if enabling this property.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--internal-only")]
+    public bool? InternalOnly { get; set; }
+
+    /// <summary>
+    /// IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other
+    /// </summary>
+    [CliFlag("--platform-reserved-cidr")]
+    public bool? PlatformReservedCidr { get; set; }
+
+    /// <summary>
+    /// An IP address from the IP range defined by Platform Reserved CIDR that will be reserved for the internal DNS server.
+    /// </summary>
+    [CliFlag("--platform-reserved-dns-ip")]
+    public bool? PlatformReservedDnsIp { get; set; }
 
 }

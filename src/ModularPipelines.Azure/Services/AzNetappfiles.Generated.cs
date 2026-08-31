@@ -24,7 +24,10 @@ public class AzNetappfiles : IAzNetappfiles
     private AzNetappfilesAccount? _account;
     private AzNetappfilesCache? _cache;
     private AzNetappfilesPool? _pool;
+    private AzNetappfilesQuotaLimit? _quotaLimit;
+    private AzNetappfilesResource? _resource;
     private AzNetappfilesSnapshot? _snapshot;
+    private AzNetappfilesUsage? _usage;
     private AzNetappfilesVolume? _volume;
     private AzNetappfilesVolumeGroup? _volumeGroup;
 
@@ -54,9 +57,24 @@ public class AzNetappfiles : IAzNetappfiles
     public AzNetappfilesPool Pool => _pool ??= new AzNetappfilesPool(_command);
 
     /// <summary>
+    /// az quota-limit sub-commands.
+    /// </summary>
+    public AzNetappfilesQuotaLimit QuotaLimit => _quotaLimit ??= new AzNetappfilesQuotaLimit(_command);
+
+    /// <summary>
+    /// az resource sub-commands.
+    /// </summary>
+    public AzNetappfilesResource Resource => _resource ??= new AzNetappfilesResource(_command);
+
+    /// <summary>
     /// az snapshot sub-commands.
     /// </summary>
     public AzNetappfilesSnapshot Snapshot => _snapshot ??= new AzNetappfilesSnapshot(_command);
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    public AzNetappfilesUsage Usage => _usage ??= new AzNetappfilesUsage(_command);
 
     /// <summary>
     /// az volume sub-commands.
@@ -73,6 +91,66 @@ public class AzNetappfiles : IAzNetappfiles
     #region Commands
 
     /// <summary>
+    /// Check if a file path is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckFilePathAvailabilityAsync(
+        AzNetappfilesCheckFilePathAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Check if a resource name is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameAvailabilityAsync(
+        AzNetappfilesCheckNameAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Check if a quota is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckQuotaAvailabilityAsync(
+        AzNetappfilesCheckQuotaAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Describe a network sibling set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> QueryNetworkSiblingSetAsync(
+        AzNetappfilesQueryNetworkSiblingSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the network features of a network sibling
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -84,7 +162,7 @@ public class AzNetappfiles : IAzNetappfiles
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetappfilesUpdateNetworkSiblingSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

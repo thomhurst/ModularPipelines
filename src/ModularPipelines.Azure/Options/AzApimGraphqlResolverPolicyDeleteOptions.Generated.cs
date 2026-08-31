@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "graphql", "resolver", "policy", "delete")]
-public record AzApimGraphqlResolverPolicyDeleteOptions : AzOptions
+public record AzApimGraphqlResolverPolicyDeleteOptions(
+    [property: CliOption("--resolver-id")] string ResolverId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
+    public AzApimGraphqlResolverPolicyDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// ETag of the Entity.
     /// </summary>

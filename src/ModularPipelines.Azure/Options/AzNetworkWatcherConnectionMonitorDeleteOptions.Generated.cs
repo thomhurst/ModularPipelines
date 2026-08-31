@@ -18,12 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "delete")]
-public record AzNetworkWatcherConnectionMonitorDeleteOptions : AzOptions
+public record AzNetworkWatcherConnectionMonitorDeleteOptions(
+    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
+    public AzNetworkWatcherConnectionMonitorDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

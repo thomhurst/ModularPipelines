@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "invoke-command")]
-public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
+public record AzManagedCassandraClusterInvokeCommandOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--command-name")] string CommandName,
+    [property: CliOption("--host")] string Host,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzManagedCassandraClusterInvokeCommandOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The key="value" of arguments for the command.
     /// </summary>

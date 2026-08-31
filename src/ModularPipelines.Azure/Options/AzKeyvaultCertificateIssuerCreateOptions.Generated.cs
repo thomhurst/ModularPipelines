@@ -18,12 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "create")]
-public record AzKeyvaultCertificateIssuerCreateOptions : AzOptions
+public record AzKeyvaultCertificateIssuerCreateOptions(
+    [property: CliOption("--issuer-name")] string IssuerName,
+    [property: CliOption("--provider-name")] string ProviderName,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
+    public AzKeyvaultCertificateIssuerCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Set issuer to disabled state.  Allowed values: false, true.
     /// </summary>
     [CliOption("--disabled")]
     public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// The issuer account id/username/etc.
+    /// </summary>
+    [CliFlag("--account-id")]
+    public bool? AccountId { get; set; }
+
+    /// <summary>
+    /// The issuer account password/secret/etc.
+    /// </summary>
+    [CliFlag("--password")]
+    public bool? Password { get; set; }
+
+    /// <summary>
+    /// The organization id.
+    /// </summary>
+    [CliFlag("--organization-id")]
+    public bool? OrganizationId { get; set; }
 
 }

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "source", "config")]
-public record AzFunctionappDeploymentSourceConfigOptions : AzOptions
+public record AzFunctionappDeploymentSourceConfigOptions(
+    [property: CliOption("--repo-url", ShortForm = "-u")] string RepoUrl
+) : AzOptions
 {
+    public AzFunctionappDeploymentSourceConfigOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The branch name of the repository.
     /// </summary>
@@ -47,14 +54,32 @@ public record AzFunctionappDeploymentSourceConfigOptions : AzOptions
     /// <summary>
     /// Repository type.  Allowed values: externalgit, git, github, localgit, mercurial.  Default: git.
     /// </summary>
-    [CliFlag("--repository-type")]
-    public bool? RepositoryType { get; set; }
+    [CliOption("--repository-type")]
+    public string? RepositoryType { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline-run", "cancel")]
-public record AzSynapsePipelineRunCancelOptions : AzOptions
+public record AzSynapsePipelineRunCancelOptions(
+    [property: CliOption("--run-id")] string RunId,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapsePipelineRunCancelOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// If true, cancel all the Child pipelines that are triggered by the current pipeline.  Allowed values: false, true.
     /// </summary>

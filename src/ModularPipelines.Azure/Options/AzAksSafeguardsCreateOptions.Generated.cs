@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsCreateOptions : AzOptions
 {
     /// <summary>
+    /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
+    /// </summary>
+    [CliFlag("--cluster", ShortForm = "-c")]
+    public bool? Cluster { get; set; }
+
+    /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
@@ -29,7 +35,7 @@ public record AzAksSafeguardsCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -37,6 +43,24 @@ public record AzAksSafeguardsCreateOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// User defined list of namespaces to exclude from Deployment Safeguards. Deployments in these namespaces will not be checked against any safeguards  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--excluded-namespaces", ShortForm = "--excluded-ns")]
+    public bool? ExcludedNamespaces { get; set; }
+
+    /// <summary>
+    /// The deployment safeguards level. Possible values are Warn and Enforce.  Allowed values: Enforce, Warn.
+    /// </summary>
+    [CliOption("--level")]
+    public string? Level { get; set; }
+
+    /// <summary>
+    /// The pod security standards level.  Allowed values:
+    /// </summary>
+    [CliOption("--pss-level")]
+    public string? PssLevel { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

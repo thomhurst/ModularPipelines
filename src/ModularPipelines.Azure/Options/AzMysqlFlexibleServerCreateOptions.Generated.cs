@@ -23,8 +23,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--accelerated-logs")]
-    public bool? AcceleratedLogs { get; set; }
+    [CliOption("--accelerated-logs")]
+    public string? AcceleratedLogs { get; set; }
 
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
@@ -35,8 +35,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--auto-scale-iops")]
-    public bool? AutoScaleIops { get; set; }
+    [CliOption("--auto-scale-iops")]
+    public string? AutoScaleIops { get; set; }
 
     /// <summary>
     /// The name or resource ID of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -77,14 +77,14 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Enable (ZoneRedundant or SameZone) or disable high availability feature. Allowed values: Disabled, SameZone, ZoneRedundant.  Default: Disabled.
     /// </summary>
-    [CliFlag("--high-availability")]
-    public bool? HighAvailability { get; set; }
+    [CliOption("--high-availability")]
+    public string? HighAvailability { get; set; }
 
     /// <summary>
     /// The name or resource ID of the user assigned identity for data encryption.
@@ -109,6 +109,12 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    /// <summary>
+    /// The patch strategy of maintenance policy. Accepted values: Regular, VirtualCanary. Default value is Regular.  Allowed values: Regular, VirtualCanary.
+    /// </summary>
+    [CliOption("--maintenance-policy-patch-strategy", ShortForm = "--patch-strategy")]
+    public string? MaintenancePolicyPatchStrategy { get; set; }
 
     /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
@@ -149,8 +155,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -173,8 +179,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: Burstable.
@@ -205,6 +211,18 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
+
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: hatefulabalone0.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
     [Obsolete("Use BackupIdentity instead.")]
     public string? BackupIdentityValue

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "set-definition", "delete")]
-public record AzPolicySetDefinitionDeleteOptions : AzOptions
+public record AzPolicySetDefinitionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicySetDefinitionDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The management group.
     /// </summary>

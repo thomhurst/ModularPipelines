@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "schema", "list")]
-public record AzApimApiSchemaListOptions : AzOptions
+public record AzApimApiSchemaListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
+    public AzApimApiSchemaListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Number of records to skip.
     /// </summary>
@@ -31,5 +40,11 @@ public record AzApimApiSchemaListOptions : AzOptions
     /// </summary>
     [CliFlag("--top")]
     public bool? Top { get; set; }
+
+    /// <summary>
+    /// Filter of APIs by displayName.
+    /// </summary>
+    [CliFlag("--filter-display-name")]
+    public bool? FilterDisplayName { get; set; }
 
 }

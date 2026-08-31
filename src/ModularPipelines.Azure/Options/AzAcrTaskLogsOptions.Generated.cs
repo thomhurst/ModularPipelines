@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "logs")]
-public record AzAcrTaskLogsOptions : AzOptions
+public record AzAcrTaskLogsOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskLogsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>

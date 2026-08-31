@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "create")]
-public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
+public record AzNetworkWatcherConnectionMonitorCreateOptions(
+    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
+    [property: CliOption("--endpoint-dest-name")] string EndpointDestName,
+    [property: CliOption("--endpoint-source-name")] string EndpointSourceName,
+    [property: CliOption("--endpoint-source-resource-id")] string EndpointSourceResourceId,
+    [property: CliOption("--test-config-name")] string TestConfigName
+) : AzOptions
 {
+    public AzNetworkWatcherConnectionMonitorCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -29,7 +40,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -41,8 +52,164 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use ''to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Optional notes to be associated with the connection monitor.
+    /// </summary>
+    [CliFlag("--notes")]
+    public bool? Notes { get; set; }
+
+    /// <summary>
+    /// Address of the destination of connection monitor endpoint (IP or domain name).
+    /// </summary>
+    [CliFlag("--endpoint-dest-address")]
+    public bool? EndpointDestAddress { get; set; }
+
+    /// <summary>
+    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage,
+    /// </summary>
+    [CliOption("--endpoint-dest-coverage-level")]
+    public string? EndpointDestCoverageLevel { get; set; }
+
+    /// <summary>
+    /// Resource ID of the destination of connection monitor endpoint.
+    /// </summary>
+    [CliOption("--endpoint-dest-resource-id")]
+    public string? EndpointDestResourceId { get; set; }
+
+    /// <summary>
+    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet,
+    /// </summary>
+    [CliOption("--endpoint-dest-type")]
+    public string? EndpointDestType { get; set; }
+
+    /// <summary>
+    /// Address of the source of connection monitor endpoint (IP or domain name).
+    /// </summary>
+    [CliFlag("--endpoint-source-address")]
+    public bool? EndpointSourceAddress { get; set; }
+
+    /// <summary>
+    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage,
+    /// </summary>
+    [CliOption("--endpoint-source-coverage-level")]
+    public string? EndpointSourceCoverageLevel { get; set; }
+
+    /// <summary>
+    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet,
+    /// </summary>
+    [CliOption("--endpoint-source-type")]
+    public string? EndpointSourceType { get; set; }
+
+    /// <summary>
+    /// Connection monitor output destination type. Currently, only "Workspace" is supported.
+    /// </summary>
+    [CliFlag("--output-type", ShortForm = "--type")]
+    public bool? OutputType { get; set; }
+
+    /// <summary>
+    /// Space-separated list of ids of log analytics workspace.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--workspace-ids", GroupValues = true)]
+    public IEnumerable<string>? WorkspaceIds { get; set; }
+
+    /// <summary>
+    /// The frequency of test evaluation, in seconds.
+    /// </summary>
+    [CliFlag("--frequency")]
+    public bool? Frequency { get; set; }
+
+    /// <summary>
+    /// The HTTP method to use.  Allowed values: Get,
+    /// </summary>
+    [CliOption("--http-method")]
+    public string? HttpMethod { get; set; }
+
+    /// <summary>
+    /// The path component of the URI. For instance, "/dir1/dir2".
+    /// </summary>
+    [CliOption("--http-path")]
+    public string? HttpPath { get; set; }
+
+    /// <summary>
+    /// The port to connect to.
+    /// </summary>
+    [CliFlag("--http-port")]
+    public bool? HttpPort { get; set; }
+
+    /// <summary>
+    /// Space-separated list of HTTP status codes to consider successful. For instance, '2xx 301-304 418'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--http-valid-status-codes", GroupValues = true)]
+    public IEnumerable<string>? HttpValidStatusCodes { get; set; }
+
+    /// <summary>
+    /// Value indicating whether HTTPS is preferred over HTTP in cases where the choice is not explicit.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--https-prefer")]
+    public bool? HttpsPrefer { get; set; }
+
+    /// <summary>
+    /// Value indicating whether path evaluation with trace route should be disabled. false is default.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--icmp-disable-trace-route")]
+    public bool? IcmpDisableTraceRoute { get; set; }
+
+    /// <summary>
+    /// The preferred IP version to use in test evaluation. The connection monitor may choose to use a different version depending on other parameters.  Allowed values: IPv4, IPv6.
+    /// </summary>
+    [CliOption("--preferred-ip-version")]
+    public string? PreferredIpVersion { get; set; }
+
+    /// <summary>
+    /// The protocol to use in test evaluation. Allowed values: Http, Icmp, Tcp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Value indicating whether path evaluation with trace route should be disabled. false is default. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--tcp-disable-trace-route")]
+    public bool? TcpDisableTraceRoute { get; set; }
+
+    /// <summary>
+    /// The port to connect to.
+    /// </summary>
+    [CliFlag("--tcp-port")]
+    public bool? TcpPort { get; set; }
+
+    /// <summary>
+    /// Destination port behavior.  Allowed values:
+    /// </summary>
+    [CliOption("--tcp-port-behavior")]
+    public string? TcpPortBehavior { get; set; }
+
+    /// <summary>
+    /// The maximum percentage of failed checks permitted for a test to evaluate as successful.
+    /// </summary>
+    [CliFlag("--threshold-failed-percent")]
+    public bool? ThresholdFailedPercent { get; set; }
+
+    /// <summary>
+    /// The maximum round-trip time in milliseconds permitted for a test to evaluate as successful.
+    /// </summary>
+    [CliFlag("--threshold-round-trip-time")]
+    public bool? ThresholdRoundTripTime { get; set; }
+
+    /// <summary>
+    /// Value indicating whether test group is disabled. false is default.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--test-group-disable")]
+    public bool? TestGroupDisable { get; set; }
+
+    /// <summary>
+    /// The name of the connection monitor test group.
+    /// </summary>
+    [CliOption("--test-group-name")]
+    public string? TestGroupName { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

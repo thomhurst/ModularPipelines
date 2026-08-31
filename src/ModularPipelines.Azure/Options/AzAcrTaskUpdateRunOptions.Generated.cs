@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "update-run")]
-public record AzAcrTaskUpdateRunOptions : AzOptions
+public record AzAcrTaskUpdateRunOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--run-id")] string RunId
+) : AzOptions
 {
+    public AzAcrTaskUpdateRunOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates whether the run should be archived.  Allowed values: false, true.
     /// </summary>

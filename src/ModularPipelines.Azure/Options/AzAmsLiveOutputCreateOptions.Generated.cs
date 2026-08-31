@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-output", "create")]
-public record AzAmsLiveOutputCreateOptions : AzOptions
+public record AzAmsLiveOutputCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--archive-window-length")] string ArchiveWindowLength,
+    [property: CliOption("--asset-name")] string AssetName,
+    [property: CliOption("--live-event-name")] string LiveEventName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAmsLiveOutputCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The live output description.
     /// </summary>

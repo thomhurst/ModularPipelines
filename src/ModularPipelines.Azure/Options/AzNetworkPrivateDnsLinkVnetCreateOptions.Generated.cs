@@ -18,12 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "link", "vnet", "create")]
-public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
+public record AzNetworkPrivateDnsLinkVnetCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registration-enabled", ShortForm = "-e")] bool RegistrationEnabled,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--virtual-network", ShortForm = "-v")] string VirtualNetwork,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkPrivateDnsLinkVnetCreateOptions()
+        : this(default(string)!, default(bool)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -31,6 +42,12 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
+
+    /// <summary>
+    /// The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.  Allowed values:
+    /// </summary>
+    [CliOption("--resolution-policy")]
+    public string? ResolutionPolicy { get; set; }
 
     [Obsolete("Use Tags instead.")]
     public string? TagsValue

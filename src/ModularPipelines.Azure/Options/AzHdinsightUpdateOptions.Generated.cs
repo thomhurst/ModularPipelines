@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "update")]
-public record AzHdinsightUpdateOptions : AzOptions
+public record AzHdinsightUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzHdinsightUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
@@ -29,7 +37,19 @@ public record AzHdinsightUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The name or ID of user assigned identity. Skip this field when assign_identity_type is SystemAssigned.
+    /// </summary>
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
+
+    /// <summary>
+    /// The type of identity used for the cluster. Allowed values: `None`, `SystemAssigned`, `SystemAssigned,UserAssigned`, `UserAssigned`.
+    /// </summary>
+    [CliOption("--assign-identity-type")]
+    public string? AssignIdentityType { get; set; }
 
 }

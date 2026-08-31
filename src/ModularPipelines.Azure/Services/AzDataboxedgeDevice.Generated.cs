@@ -72,7 +72,7 @@ public class AzDataboxedgeDevice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -103,6 +103,21 @@ public class AzDataboxedgeDevice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceDownloadUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets additional information for the specified
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetExtendedInformationAsync(
+        AzDataboxedgeDeviceGetExtendedInformationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceGetExtendedInformationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -151,6 +166,36 @@ public class AzDataboxedgeDevice
     }
 
     /// <summary>
+    /// Get the properties of the Data Box Edge/Data Box Gateway device.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzDataboxedgeDeviceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get information about the availability of updates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowUpdateSummaryAsync(
+        AzDataboxedgeDeviceShowUpdateSummaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceShowUpdateSummaryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a Data Box Edge/Data Box Gateway resource.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -163,6 +208,21 @@ public class AzDataboxedgeDevice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzDataboxedgeDeviceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeDeviceWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

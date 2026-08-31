@@ -27,6 +27,12 @@ public record AzPolicyAttestationListOptions : AzOptions
     public bool? Filter { get; set; }
 
     /// <summary>
+    /// Resource ID.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-id")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]

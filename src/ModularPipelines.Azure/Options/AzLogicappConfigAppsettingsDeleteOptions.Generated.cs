@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "config", "appsettings", "delete")]
-public record AzLogicappConfigAppsettingsDeleteOptions : AzOptions
+public record AzLogicappConfigAppsettingsDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--setting-names", GroupValues = true)] IEnumerable<string> SettingNames
+) : AzOptions
 {
+    public AzLogicappConfigAppsettingsDeleteOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

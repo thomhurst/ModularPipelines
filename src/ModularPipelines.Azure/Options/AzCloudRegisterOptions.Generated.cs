@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud", "register")]
-public record AzCloudRegisterOptions : AzOptions
+public record AzCloudRegisterOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzCloudRegisterOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// JSON encoded cloud configuration. Use @{file} to load from a file.
     /// </summary>
@@ -89,8 +96,8 @@ public record AzCloudRegisterOptions : AzOptions
     /// <summary>
     /// Profile to use for this cloud. The azure stack profiles `2017-03-09-profile` `2018-03-01-hybrid` `2019-03-01-hybrid` and `2020-09-01-hybrid` have been deprecated and removed. To continue using Azure Stack, please install the Azure CLI `2.66.*` (LTS) version. For more details, refer to: https://learn.microsoft.com/en- us/cli/azure/whats-new- overview#important-notice-for- azure-stack-hub-customers.  Allowed values: latest.
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
     /// <summary>
     /// If specified, the cloud endpoints' auto discovery will be skipped.

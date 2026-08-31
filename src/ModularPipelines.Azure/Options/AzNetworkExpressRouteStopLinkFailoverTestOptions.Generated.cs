@@ -18,12 +18,40 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "stop-link-failover-test")]
-public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
+public record AzNetworkExpressRouteStopLinkFailoverTestOptions(
+    [property: CliOption("--circuit-test-category")] string CircuitTestCategory,
+    [property: CliOption("--is-verified")] bool IsVerified,
+    [property: CliOption("--link-type")] string LinkType,
+    [property: CliOption("--simulation-successful")] bool SimulationSuccessful
+) : AzOptions
 {
+    public AzNetworkExpressRouteStopLinkFailoverTestOptions()
+        : this(default(string)!, default(bool)!, default(string)!, default(bool)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the express route circuit.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

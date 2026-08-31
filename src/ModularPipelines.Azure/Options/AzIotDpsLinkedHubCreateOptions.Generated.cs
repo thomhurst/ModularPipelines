@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "create")]
-public record AzIotDpsLinkedHubCreateOptions : AzOptions
+public record AzIotDpsLinkedHubCreateOptions(
+    [property: CliOption("--dps-name")] string DpsName
+) : AzOptions
 {
+    public AzIotDpsLinkedHubCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allocation weight of the IoT hub.
     /// </summary>
@@ -43,6 +51,25 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Connection string of the IoT hub. Required if hub name is not provided using --hub-name.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliFlag("--hn", ShortForm = "--hub-name")]
+    public bool? Hn { get; set; }
+
+    /// <summary>
+    /// IoT Hub resource group name.
+    /// </summary>
+    [CliFlag("--hrg", ShortForm = "--hub-resource-group")]
+    public bool? Hrg { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

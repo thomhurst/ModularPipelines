@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "import")]
-public record AzFunctionappConfigSslImportOptions : AzOptions
+public record AzFunctionappConfigSslImportOptions(
+    [property: CliOption("--key-vault")] string KeyVault,
+    [property: CliOption("--key-vault-certificate-name")] string KeyVaultCertificateName
+) : AzOptions
 {
+    public AzFunctionappConfigSslImportOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the certificate.
     /// </summary>
@@ -37,6 +45,24 @@ public record AzFunctionappConfigSslImportOptions : AzOptions
     /// </summary>
     [CliOption("--load-to-code")]
     public bool? LoadToCode { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. This is used to set the location of the webspace for the certificate import. If not specified, the location of the resource group will be used. If you have apps in multiple regions/webspaces, you must specify the name of the app to set the location of the webspace for the certificate import.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use CertificateName instead.")]
     public string? CertificateNameValue

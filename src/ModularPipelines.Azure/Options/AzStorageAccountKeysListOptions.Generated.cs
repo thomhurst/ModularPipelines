@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "keys", "list")]
-public record AzStorageAccountKeysListOptions : AzOptions
+public record AzStorageAccountKeysListOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
+    public AzStorageAccountKeysListOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Specify the expanded key types to be listed.  Allowed values: kerb.  Default: kerb.
+    /// </summary>
+    [CliOption("--expand-key-type")]
+    public string? ExpandKeyType { get; set; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "exec")]
-public record AzContainerappExecOptions : AzOptions
+public record AzContainerappExecOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappExecOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the container to ssh into.
     /// </summary>
@@ -37,6 +45,12 @@ public record AzContainerappExecOptions : AzOptions
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
+
+    /// <summary>
+    /// The startup command (bash, zsh, sh, etc.).  Default: sh.
+    /// </summary>
+    [CliFlag("--command")]
+    public bool? Command { get; set; }
 
     [Obsolete("Use Container instead.")]
     public string? ContainerValue

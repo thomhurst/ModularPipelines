@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger-run", "query-by-workspace")]
-public record AzSynapseTriggerRunQueryByWorkspaceOptions : AzOptions
+public record AzSynapseTriggerRunQueryByWorkspaceOptions(
+    [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
+    [property: CliOption("--last-updated-before")] string LastUpdatedBefore,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseTriggerRunQueryByWorkspaceOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
     /// </summary>
@@ -29,13 +38,13 @@ public record AzSynapseTriggerRunQueryByWorkspaceOptions : AzOptions
     /// <summary>
     /// List of filters.
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// List of OrderBy option.
     /// </summary>
-    [CliFlag("--order-by")]
-    public bool? OrderBy { get; set; }
+    [CliOption("--order-by", GroupValues = true)]
+    public IEnumerable<string>? OrderBy { get; set; }
 
 }

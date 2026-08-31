@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "update")]
-public record AzStaticwebappUsersUpdateOptions : AzOptions
+public record AzStaticwebappUsersUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--roles")] string Roles
+) : AzOptions
 {
+    public AzStaticwebappUsersUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook,
     /// </summary>

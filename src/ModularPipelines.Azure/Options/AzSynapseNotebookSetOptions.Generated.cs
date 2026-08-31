@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "notebook", "set")]
-public record AzSynapseNotebookSetOptions : AzOptions
+public record AzSynapseNotebookSetOptions(
+    [property: CliOption("--file")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseNotebookSetOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Number of executors to be allocated in the specified Spark pool for the job.  Default: 2.
     /// </summary>
@@ -29,8 +38,8 @@ public record AzSynapseNotebookSetOptions : AzOptions
     /// <summary>
     /// Number of core and memory to be used for executors allocated in the specified Spark pool for the job.  Allowed values: Large, Medium, Small.  Default: Small.
     /// </summary>
-    [CliFlag("--executor-size")]
-    public bool? ExecutorSize { get; set; }
+    [CliOption("--executor-size")]
+    public string? ExecutorSize { get; set; }
 
     /// <summary>
     /// The folder that this notebook is in. If not specified, this notebook will appear at the root level. Eg: folder/subfolder1.

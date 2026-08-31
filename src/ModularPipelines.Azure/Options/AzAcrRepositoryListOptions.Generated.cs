@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "list")]
-public record AzAcrRepositoryListOptions : AzOptions
+public record AzAcrRepositoryListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrRepositoryListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The password used to log into a container registry.
     /// </summary>

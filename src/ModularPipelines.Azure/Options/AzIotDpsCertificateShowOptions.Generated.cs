@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "certificate", "show")]
-public record AzIotDpsCertificateShowOptions : AzOptions
+public record AzIotDpsCertificateShowOptions(
+    [property: CliOption("--certificate-name", ShortForm = "-n")] string CertificateName,
+    [property: CliOption("--dps-name")] string DpsName
+) : AzOptions
 {
+    public AzIotDpsCertificateShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

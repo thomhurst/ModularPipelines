@@ -18,12 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ppg", "create")]
-public record AzPpgCreateOptions : AzOptions
+public record AzPpgCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzPpgCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliFlag("--intent-vm-sizes")]
     public bool? IntentVmSizes { get; set; }
+
+    /// <summary>
+    /// The type of the proximity placement group. Allowed values: Standard. Allowed values: Standard, Ultra.
+    /// </summary>
+    [CliOption("--ppg-type", ShortForm = "-t")]
+    public string? PpgType { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specifies the Availability Zone where virtual machine, virtual machine scale set or availability set associated with the  proximity placement group can be created.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--zone", ShortForm = "-z")]
+    public bool? Zone { get; set; }
 
 }

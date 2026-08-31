@@ -21,6 +21,18 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappConfigContainerSetOptions : AzOptions
 {
     /// <summary>
+    /// Required CPU in cores from 0.5 to 2.0.
+    /// </summary>
+    [CliFlag("--cpu")]
+    public bool? Cpu { get; set; }
+
+    /// <summary>
+    /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
+    public bool? Dal { get; set; }
+
+    /// <summary>
     /// The Dapr application identifier.
     /// </summary>
     [CliFlag("--dapr-app-id")]
@@ -33,16 +45,76 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     public bool? DaprAppPort { get; set; }
 
     /// <summary>
+    /// Max size of request body http and grpc servers in MB to handle uploading of large files.
+    /// </summary>
+    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
+    public bool? DaprHttpMaxRequestSize { get; set; }
+
+    /// <summary>
+    /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
+    /// </summary>
+    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
+    public bool? DaprHttpReadBufferSize { get; set; }
+
+    /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
     /// </summary>
-    [CliFlag("--dapr-log-level")]
-    public bool? DaprLogLevel { get; set; }
+    [CliOption("--dapr-log-level")]
+    public string? DaprLogLevel { get; set; }
+
+    /// <summary>
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// </summary>
+    [CliFlag("--docker-custom-image-name")]
+    public bool? DockerCustomImageName { get; set; }
+
+    /// <summary>
+    /// The container registry server password.
+    /// </summary>
+    [CliFlag("--docker-registry-server-password")]
+    public bool? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server url.
+    /// </summary>
+    [CliFlag("--docker-registry-server-url")]
+    public bool? DockerRegistryServerUrl { get; set; }
+
+    /// <summary>
+    /// The container registry server username.
+    /// </summary>
+    [CliFlag("--docker-registry-server-user")]
+    public bool? DockerRegistryServerUser { get; set; }
 
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-dapr")]
     public bool? EnableDapr { get; set; }
+
+    /// <summary>
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// </summary>
+    [CliFlag("--image", ShortForm = "-i")]
+    public bool? Image { get; set; }
+
+    /// <summary>
+    /// The maximum number of replicas when create function app on container app.
+    /// </summary>
+    [CliFlag("--max-replicas")]
+    public bool? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// Required memory from 1.0 to 4.0 ending with Gi e.g. 1.0Gi,.
+    /// </summary>
+    [CliFlag("--memory")]
+    public bool? Memory { get; set; }
+
+    /// <summary>
+    /// The minimum number of replicas when create function app on container app.
+    /// </summary>
+    [CliFlag("--min-replicas")]
+    public bool? MinReplicas { get; set; }
 
     /// <summary>
     /// The container registry server password.
@@ -67,6 +139,30 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// The name of the workload profile to run the app on.
+    /// </summary>
+    [CliOption("--workload-profile-name")]
+    public string? WorkloadProfileName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

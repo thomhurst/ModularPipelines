@@ -24,6 +24,8 @@ public class AzCosmosdbSql
     private AzCosmosdbSqlContainer? _container;
     private AzCosmosdbSqlDatabase? _database;
     private AzCosmosdbSqlRestorableContainer? _restorableContainer;
+    private AzCosmosdbSqlRestorableDatabase? _restorableDatabase;
+    private AzCosmosdbSqlRestorableResource? _restorableResource;
     private AzCosmosdbSqlRole? _role;
     private AzCosmosdbSqlStoredProcedure? _storedProcedure;
     private AzCosmosdbSqlTrigger? _trigger;
@@ -55,6 +57,16 @@ public class AzCosmosdbSql
     public AzCosmosdbSqlRestorableContainer RestorableContainer => _restorableContainer ??= new AzCosmosdbSqlRestorableContainer(_command);
 
     /// <summary>
+    /// az restorable-database sub-commands.
+    /// </summary>
+    public AzCosmosdbSqlRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbSqlRestorableDatabase(_command);
+
+    /// <summary>
+    /// az restorable-resource sub-commands.
+    /// </summary>
+    public AzCosmosdbSqlRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbSqlRestorableResource(_command);
+
+    /// <summary>
     /// az role sub-commands.
     /// </summary>
     public AzCosmosdbSqlRole Role => _role ??= new AzCosmosdbSqlRole(_command);
@@ -73,6 +85,25 @@ public class AzCosmosdbSql
     /// az user-defined-function sub-commands.
     /// </summary>
     public AzCosmosdbSqlUserDefinedFunction UserDefinedFunction => _userDefinedFunction ??= new AzCosmosdbSqlUserDefinedFunction(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RetrieveLatestBackupTimeAsync(
+        AzCosmosdbSqlRetrieveLatestBackupTimeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     #endregion
 }

@@ -18,8 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "update")]
-public record AzSfManagedNodeTypeUpdateOptions : AzOptions
+public record AzSfManagedNodeTypeUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfManagedNodeTypeUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Application End port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-end-port", ShortForm = "--application-end-port")]
+    public bool? AppEndPort { get; set; }
+
+    /// <summary>
+    /// Application start port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-start-port", ShortForm = "--application-start-port")]
+    public bool? AppStartPort { get; set; }
+
     /// <summary>
     /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity
     /// </summary>
@@ -53,8 +74,8 @@ public record AzSfManagedNodeTypeUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The size of virtual machines in the pool. All virtual machines in a pool are the same size.

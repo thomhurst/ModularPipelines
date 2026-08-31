@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "functions", "link")]
-public record AzStaticwebappFunctionsLinkOptions : AzOptions
+public record AzStaticwebappFunctionsLinkOptions(
+    [property: CliOption("--function-resource-id")] string FunctionResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStaticwebappFunctionsLinkOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>

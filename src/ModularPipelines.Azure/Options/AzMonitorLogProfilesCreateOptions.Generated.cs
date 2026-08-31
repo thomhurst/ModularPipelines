@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-profiles", "create")]
-public record AzMonitorLogProfilesCreateOptions : AzOptions
+public record AzMonitorLogProfilesCreateOptions(
+    [property: CliOption("--categories", GroupValues = true)] IEnumerable<string> Categories,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--locations", GroupValues = true)] IEnumerable<string> Locations,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--days")] string Days,
+    [property: CliOption("--enabled")] bool Enabled
+) : AzOptions
 {
+    public AzMonitorLogProfilesCreateOptions()
+        : this(default(IEnumerable<string>)!, default(string)!, default(IEnumerable<string>)!, default(string)!, default(string)!, default(bool)!)
+    {
+    }
+
     /// <summary>
     /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource
     /// </summary>
@@ -35,8 +47,8 @@ public record AzMonitorLogProfilesCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use StorageAccountId instead.")]
     public string? StorageAccountIdValue

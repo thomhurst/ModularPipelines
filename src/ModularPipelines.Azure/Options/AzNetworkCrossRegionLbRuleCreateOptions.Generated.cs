@@ -18,12 +18,54 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "rule", "create")]
-public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
+public record AzNetworkCrossRegionLbRuleCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--backend-port")] string BackendPort,
+    [property: CliOption("--frontend-port")] string FrontendPort,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
+    public AzNetworkCrossRegionLbRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// ID or name of the backend address pools. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--backend-pool-name")]
+    public string? BackendPoolName { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// The name of ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol.  Default:
+    /// </summary>
+    [CliOption("--load-distribution")]
+    public string? LoadDistribution { get; set; }
+
+    /// <summary>
+    /// The ID or Name of an existing probe to associate with this rule.
+    /// </summary>
+    [CliOption("--probe", ShortForm = "--probe-name")]
+    public string? Probe { get; set; }
 
 }

@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "local-user", "update")]
-public record AzStorageAccountLocalUserUpdateOptions : AzOptions
+public record AzStorageAccountLocalUserUpdateOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzStorageAccountLocalUserUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates whether shared key exists. Set it to false to remove existing shared key.  Allowed values: false, true.
     /// </summary>
@@ -47,8 +56,8 @@ public record AzStorageAccountLocalUserUpdateOptions : AzOptions
     /// <summary>
     /// The permission scope argument list which includes the permissions, service, and resource_name.The permissions can be a combination of the below possible values: Read(r), Write (w), Delete (d), List (l), and Create (c). The service has possible values: blob, file. The resource-name is the container name or the file share name. Example: --permission- scope permissions=r service=blob resource-name=container1Can specify multiple permission scopes: --permission-scope permissions=rw service=blob resource-name=container1-- permission-scope permissions=rwd service=file resource- name=share2.
     /// </summary>
-    [CliFlag("--permission-scope")]
-    public bool? PermissionScope { get; set; }
+    [CliOption("--permission-scope")]
+    public IEnumerable<string>? PermissionScope { get; set; }
 
     /// <summary>
     /// SSH authorized keys for SFTP. Includes an optional description and key. The key is the base64 encoded SSH public key , with format: `&lt;keyType&gt; &lt;keyData&gt;` e.g. ssh-rsa

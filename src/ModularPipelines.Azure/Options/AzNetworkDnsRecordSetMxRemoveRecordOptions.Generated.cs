@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "mx", "remove-record")]
-public record AzNetworkDnsRecordSetMxRemoveRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetMxRemoveRecordOptions(
+    [property: CliOption("--exchange", ShortForm = "-e")] string Exchange,
+    [property: CliOption("--preference", ShortForm = "-p")] string Preference,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkDnsRecordSetMxRemoveRecordOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Keep the empty record set if the last record is removed.
     /// </summary>

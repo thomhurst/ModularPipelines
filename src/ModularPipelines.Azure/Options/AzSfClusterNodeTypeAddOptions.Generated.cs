@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,13 +19,25 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node-type", "add")]
-public record AzSfClusterNodeTypeAddOptions : AzOptions
+public record AzSfClusterNodeTypeAddOptions(
+    [property: CliOption("--capacity")] string Capacity,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--node-type")] string NodeType,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: SecretValue, CliOption("--vm-password")] string VmPassword,
+    [property: CliOption("--vm-user-name")] string VmUserName
+) : AzOptions
 {
+    public AzSfClusterNodeTypeAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Durability level.  Allowed values: Bronze, Gold, Silver.
     /// </summary>
-    [CliFlag("--durability-level")]
-    public bool? DurabilityLevel { get; set; }
+    [CliOption("--durability-level")]
+    public string? DurabilityLevel { get; set; }
 
     /// <summary>
     /// VM Sku.  Default: Standard_D2_V2.

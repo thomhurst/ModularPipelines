@@ -18,12 +18,59 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "deployment", "create")]
-public record AzCognitiveservicesAccountDeploymentCreateOptions : AzOptions
+public record AzCognitiveservicesAccountDeploymentCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--model-format")] string ModelFormat,
+    [property: CliOption("--model-name")] string ModelName,
+    [property: CliOption("--model-version")] string ModelVersion
+) : AzOptions
 {
+    public AzCognitiveservicesAccountDeploymentCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Capacity value of the Sku of Cognitive Services account/deployment.
+    /// </summary>
+    [CliFlag("--capacity", ShortForm = "--sku-capacity")]
+    public bool? Capacity { get; set; }
+
     /// <summary>
     /// Cognitive Services account deployment name.
     /// </summary>
     [CliFlag("--deployment-name")]
     public bool? DeploymentName { get; set; }
+
+    /// <summary>
+    /// Name of the Sku of Cognitive Services account/deployment.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "--sku-name")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// The name of the standard deployment to use as a spillover when at capacity.
+    /// </summary>
+    [CliOption("--spillover-deployment-name", ShortForm = "--spillover-name")]
+    public string? SpilloverDeploymentName { get; set; }
+
+    /// <summary>
+    /// Cognitive Services account deployment model source.
+    /// </summary>
+    [CliFlag("--model-source")]
+    public bool? ModelSource { get; set; }
+
+    /// <summary>
+    /// Cognitive Services account deployment scale settings capacity.
+    /// </summary>
+    [CliFlag("--scale-capacity", ShortForm = "--scale-settings-capacity")]
+    public bool? ScaleCapacity { get; set; }
+
+    /// <summary>
+    /// Cognitive Services account deployment scale settings scale type.  Allowed values: Manual,
+    /// </summary>
+    [CliOption("--scale-settings-scale-type", ShortForm = "--scale-type")]
+    public string? ScaleSettingsScaleType { get; set; }
 
 }

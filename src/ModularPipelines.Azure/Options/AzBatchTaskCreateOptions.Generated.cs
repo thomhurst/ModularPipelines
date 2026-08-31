@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "create")]
-public record AzBatchTaskCreateOptions : AzOptions
+public record AzBatchTaskCreateOptions(
+    [property: CliOption("--job-id")] string JobId
+) : AzOptions
 {
+    public AzBatchTaskCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Required. You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// The space-separated list of IDs specifying the application packages to be installed. Space-separated application IDs with optional version in 'id[#version]' format.
     /// </summary>
-    [CliFlag("--application-package-references")]
-    public bool? ApplicationPackageReferences { get; set; }
+    [CliOption("--application-package-references", GroupValues = true)]
+    public IEnumerable<string>? ApplicationPackageReferences { get; set; }
 
     /// <summary>
     /// The command line of the task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
@@ -41,14 +49,14 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// A list of environment variable settings for the task. Space- separated values in 'key=value' format.
     /// </summary>
-    [CliFlag("--environment-settings")]
-    public bool? EnvironmentSettings { get; set; }
+    [CliOption("--environment-settings", GroupValues = true)]
+    public IEnumerable<string>? EnvironmentSettings { get; set; }
 
     /// <summary>
     /// The file containing the task(s) to create in JSON(formatted to match REST API request body). When submitting multiple tasks, accepts either an array of tasks or a TaskAddCollectionParamater. If this parameter is specified, all other parameters are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public IEnumerable<string>? JsonFile { get; set; }
 
     /// <summary>
     /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries).
@@ -65,8 +73,8 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// A list of files that the Batch service will download to the compute node before running the command line. Space-separated resource references in filename=httpurl format, with httpurl being any HTTP url with public access or a SAS url with read access.
     /// </summary>
-    [CliFlag("--resource-files")]
-    public bool? ResourceFiles { get; set; }
+    [CliOption("--resource-files", GroupValues = true)]
+    public IEnumerable<string>? ResourceFiles { get; set; }
 
     /// <summary>
     /// The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the
@@ -79,6 +87,25 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// The Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// The Batch account name. Only needed Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     [Obsolete("Use TaskId instead.")]
     public string? TaskIdValue

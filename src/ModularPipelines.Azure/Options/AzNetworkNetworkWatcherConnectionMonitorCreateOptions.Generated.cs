@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "connection-monitor", "create")]
-public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
+public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions(
+    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
+    [property: CliOption("--network-watcher-name")] string NetworkWatcherName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkNetworkWatcherConnectionMonitorCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Value indicating whether connection monitor V1 should be migrated to V2 format.
     /// </summary>
@@ -29,8 +38,56 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Connection monitor location.
+    /// </summary>
+    [CliFlag("--location")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Connection monitor tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--tags")]
+    public bool? Tags { get; set; }
+
+    /// <summary>
+    /// Determines if the connection monitor will start automatically once created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--auto-start")]
+    public bool? AutoStart { get; set; }
+
+    /// <summary>
+    /// List of connection monitor endpoints.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--endpoints", GroupValues = true)]
+    public IEnumerable<string>? Endpoints { get; set; }
+
+    /// <summary>
+    /// Optional notes to be associated with the connection monitor.
+    /// </summary>
+    [CliFlag("--notes")]
+    public bool? Notes { get; set; }
+
+    /// <summary>
+    /// List of connection monitor outputs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--outputs", GroupValues = true)]
+    public IEnumerable<string>? Outputs { get; set; }
+
+    /// <summary>
+    /// List of connection monitor test configurations. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--test-configurations", GroupValues = true)]
+    public IEnumerable<string>? TestConfigurations { get; set; }
+
+    /// <summary>
+    /// List of connection monitor test groups. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--test-groups", GroupValues = true)]
+    public IEnumerable<string>? TestGroups { get; set; }
 
     [Obsolete("Use Migrate instead.")]
     public string? MigrateValue

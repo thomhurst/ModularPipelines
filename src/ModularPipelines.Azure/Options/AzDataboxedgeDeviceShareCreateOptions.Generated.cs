@@ -18,12 +18,60 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "share", "create")]
-public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
+public record AzDataboxedgeDeviceShareCreateOptions(
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--access-protocol")] string AccessProtocol,
+    [property: CliOption("--monitoring-status")] string MonitoringStatus,
+    [property: CliOption("--share-status")] string ShareStatus
+) : AzOptions
 {
+    public AzDataboxedgeDeviceShareCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Azure container mapping for the share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--azure-container-info")]
+    public bool? AzureContainerInfo { get; set; }
+
+    /// <summary>
+    /// List of IP addresses and corresponding access rights on the share(required for NFS protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--client-access-rights", GroupValues = true)]
+    public IEnumerable<string>? ClientAccessRights { get; set; }
+
+    /// <summary>
+    /// Data policy of the share.  Allowed values: Cloud, Local.
+    /// </summary>
+    [CliOption("--data-policy")]
+    public string? DataPolicy { get; set; }
+
+    /// <summary>
+    /// Description for the share.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Details of the refresh job on this share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--refresh-details")]
+    public bool? RefreshDetails { get; set; }
+
+    /// <summary>
+    /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--user-access-rights")]
+    public bool? UserAccessRights { get; set; }
 
 }

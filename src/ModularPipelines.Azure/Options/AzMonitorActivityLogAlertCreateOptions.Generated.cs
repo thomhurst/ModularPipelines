@@ -18,19 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "create")]
-public record AzMonitorActivityLogAlertCreateOptions : AzOptions
+public record AzMonitorActivityLogAlertCreateOptions(
+    [property: CliOption("--activity-log-alert-name", ShortForm = "-n")] string ActivityLogAlertName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorActivityLogAlertCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Add an action group. Accepts space-separated action group identifiers. The identifier can be the action group's name or its resource ID. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--action-group", ShortForm = "-a")]
-    public bool? ActionGroup { get; set; }
+    [CliOption("--action-group", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? ActionGroup { get; set; }
 
     /// <summary>
     /// The list of Activity Log Alert rule conditions. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--all-of")]
-    public bool? AllOf { get; set; }
+    [CliOption("--all-of", GroupValues = true)]
+    public IEnumerable<string>? AllOf { get; set; }
 
     /// <summary>
     /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and
@@ -47,14 +55,14 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// Disable the activity log alert rule after it is created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--disable")]
+    [CliOption("--disable")]
     public bool? Disable { get; set; }
 
     /// <summary>
     /// A list of strings that will be used as prefixes.
     /// </summary>
-    [CliFlag("--scope", ShortForm = "-s")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
     /// The tags of the resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -65,8 +73,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command.
     /// </summary>
-    [CliFlag("--webhook-properties", ShortForm = "-w")]
-    public bool? WebhookProperties { get; set; }
+    [CliOption("--webhook-properties", ShortForm = "-w", GroupValues = true)]
+    public IEnumerable<string>? WebhookProperties { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

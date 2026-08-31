@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "encryption", "rotate-key")]
-public record AzAcrEncryptionRotateKeyOptions : AzOptions
+public record AzAcrEncryptionRotateKeyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrEncryptionRotateKeyOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Client id of managed identity, resource name or id of user assigned identity. Use '[system]' to refer to the system assigned identity.
     /// </summary>

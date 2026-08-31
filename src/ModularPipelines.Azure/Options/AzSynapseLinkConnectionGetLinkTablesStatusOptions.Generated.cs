@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "get-link-tables-status")]
-public record AzSynapseLinkConnectionGetLinkTablesStatusOptions : AzOptions
+public record AzSynapseLinkConnectionGetLinkTablesStatusOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseLinkConnectionGetLinkTablesStatusOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Continuation token to query table status.
     /// </summary>

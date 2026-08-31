@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "delete")]
-public record AzMonitorAutoscaleRuleDeleteOptions : AzOptions
+public record AzMonitorAutoscaleRuleDeleteOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMonitorAutoscaleRuleDeleteOptions()
+        : this(default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
     /// </summary>

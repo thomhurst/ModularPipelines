@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "keys", "set")]
-public record AzFunctionappKeysSetOptions : AzOptions
+public record AzFunctionappKeysSetOptions(
+    [property: CliOption("--key-name")] string KeyName,
+    [property: CliOption("--key-type")] string KeyType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzFunctionappKeysSetOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Value of the new key. If not provided, a value will be generated.
     /// </summary>

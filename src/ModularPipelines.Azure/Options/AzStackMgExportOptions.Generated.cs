@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "export")]
-public record AzStackMgExportOptions : AzOptions
+public record AzStackMgExportOptions(
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    public AzStackMgExportOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The deployment stack resource ID.
     /// </summary>

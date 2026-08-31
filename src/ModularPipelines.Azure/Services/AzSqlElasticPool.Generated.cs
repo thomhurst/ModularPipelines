@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlElasticPool
 {
     private readonly ICommandContext _command;
+    private AzSqlElasticPoolOp? _op;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlElasticPool"/> class.
@@ -29,6 +30,15 @@ public class AzSqlElasticPool
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az op sub-commands.
+    /// </summary>
+    public AzSqlElasticPoolOp Op => _op ??= new AzSqlElasticPoolOp(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,7 @@ public class AzSqlElasticPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlElasticPoolCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -63,6 +73,21 @@ public class AzSqlElasticPool
     }
 
     /// <summary>
+    /// Gets a list of databases in an elastic pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDbsAsync(
+        AzSqlElasticPoolListDbsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlElasticPoolListDbsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List elastic pool editions available for the active
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -74,7 +99,7 @@ public class AzSqlElasticPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlElasticPoolListEditionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,6 +115,21 @@ public class AzSqlElasticPool
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlElasticPoolListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets an elastic pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlElasticPoolShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlElasticPoolShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

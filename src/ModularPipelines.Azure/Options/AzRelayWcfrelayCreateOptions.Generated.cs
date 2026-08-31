@@ -18,24 +18,33 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "create")]
-public record AzRelayWcfrelayCreateOptions : AzOptions
+public record AzRelayWcfrelayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzRelayWcfrelayCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Relay type.  Allowed values: Http, NetTcp.  Allowed values: Http, NetTcp.  Default: NetTcp.
     /// </summary>
-    [CliFlag("--relay-type")]
-    public bool? RelayType { get; set; }
+    [CliOption("--relay-type")]
+    public string? RelayType { get; set; }
 
     /// <summary>
     /// Indicates whether client authorization is required. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-client-authorization", ShortForm = "-c")]
+    [CliOption("--requires-client-authorization", ShortForm = "-c")]
     public bool? RequiresClientAuthorization { get; set; }
 
     /// <summary>
     /// Indicates whether transport security is required.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-transport-security", ShortForm = "-t")]
+    [CliOption("--requires-transport-security", ShortForm = "-t")]
     public bool? RequiresTransportSecurity { get; set; }
 
     /// <summary>

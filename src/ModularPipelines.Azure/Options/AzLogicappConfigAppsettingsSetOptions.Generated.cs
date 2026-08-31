@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "config", "appsettings", "set")]
-public record AzLogicappConfigAppsettingsSetOptions : AzOptions
+public record AzLogicappConfigAppsettingsSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzLogicappConfigAppsettingsSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated app settings in a format of `&lt;name&gt;=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--settings")]
-    public bool? Settings { get; set; }
+    [CliOption("--settings", GroupValues = true)]
+    public IEnumerable<string>? Settings { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -35,8 +43,8 @@ public record AzLogicappConfigAppsettingsSetOptions : AzOptions
     /// <summary>
     /// Space-separated slot app settings in a format of `&lt;name&gt;=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--slot-settings")]
-    public bool? SlotSettings { get; set; }
+    [CliOption("--slot-settings", GroupValues = true)]
+    public IEnumerable<string>? SlotSettings { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

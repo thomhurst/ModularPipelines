@@ -23,7 +23,7 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Automatically resolve the alert.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--auto-mitigate")]
+    [CliOption("--auto-mitigate")]
     public bool? AutoMitigate { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Whether the metric alert rule is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -47,8 +47,8 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--scopes")]
-    public bool? Scopes { get; set; }
+    [CliOption("--scopes", GroupValues = true)]
+    public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
     /// Severity of the alert from 0 (critical) to 4 (verbose).
@@ -59,13 +59,79 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Time over which to aggregate metrics in `##h##m##s` format.
     /// </summary>
     [CliFlag("--window-size")]
     public bool? WindowSize { get; set; }
+
+    /// <summary>
+    /// Add an action group and optional webhook properties to fire when the alert is triggered.
+    /// </summary>
+    [CliFlag("--add-action", ShortForm = "--add-actions")]
+    public bool? AddAction { get; set; }
+
+    /// <summary>
+    /// Space-separated list of action group names to remove. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--remove-actions", GroupValues = true)]
+    public IEnumerable<string>? RemoveActions { get; set; }
+
+    /// <summary>
+    /// Add a condition which triggers the rule.
+    /// </summary>
+    [CliFlag("--add-condition", ShortForm = "--add-conditions")]
+    public bool? AddCondition { get; set; }
+
+    /// <summary>
+    /// Space-separated list of condition names to remove.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--remove-conditions", GroupValues = true)]
+    public IEnumerable<string>? RemoveConditions { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the alert rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -24,6 +24,7 @@ public class AzContainerapp : IAzContainerapp
     private AzContainerappAuth? _auth;
     private AzContainerappCompose? _compose;
     private AzContainerappConnection? _connection;
+    private AzContainerappDapr? _dapr;
     private AzContainerappEnv? _env;
     private AzContainerappGithubAction? _githubAction;
     private AzContainerappHostname? _hostname;
@@ -61,6 +62,11 @@ public class AzContainerapp : IAzContainerapp
     /// az connection sub-commands.
     /// </summary>
     public AzContainerappConnection Connection => _connection ??= new AzContainerappConnection(_command);
+
+    /// <summary>
+    /// az dapr sub-commands.
+    /// </summary>
+    public AzContainerappDapr Dapr => _dapr ??= new AzContainerappDapr(_command);
 
     /// <summary>
     /// az env sub-commands.
@@ -127,6 +133,21 @@ public class AzContainerapp : IAzContainerapp
     #region Commands
 
     /// <summary>
+    /// Open a containerapp in the browser, if possible.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BrowseAsync(
+        AzContainerappBrowseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappBrowseOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a container app.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -138,7 +159,7 @@ public class AzContainerapp : IAzContainerapp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -168,7 +189,7 @@ public class AzContainerapp : IAzContainerapp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappExecOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -184,6 +205,21 @@ public class AzContainerapp : IAzContainerapp
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List usages of subscription level quotas in specific region.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzContainerappListUsagesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -228,7 +264,7 @@ public class AzContainerapp : IAzContainerapp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappUpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

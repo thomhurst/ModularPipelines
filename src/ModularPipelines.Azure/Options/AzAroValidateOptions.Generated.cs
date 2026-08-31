@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "validate")]
-public record AzAroValidateOptions : AzOptions
+public record AzAroValidateOptions(
+    [property: CliOption("--master-subnet")] string MasterSubnet,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--worker-subnet")] string WorkerSubnet
+) : AzOptions
 {
+    public AzAroValidateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Client ID of cluster service principal.
     /// </summary>
@@ -79,6 +89,24 @@ public record AzAroValidateOptions : AzOptions
     /// </summary>
     [CliOption("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
+
+    /// <summary>
+    /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
+    /// </summary>
+    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    public string? AssignClusterIdentity { get; set; }
+
+    /// <summary>
+    /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
+    /// </summary>
+    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
+    public string? AssignPlatformWi { get; set; }
+
+    /// <summary>
+    /// Enable managed identity for this cluster.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-managed-identity", ShortForm = "--enable-mi")]
+    public bool? EnableManagedIdentity { get; set; }
 
     [Obsolete("Use ClusterResourceGroup instead.")]
     public string? ClusterResourceGroupValue

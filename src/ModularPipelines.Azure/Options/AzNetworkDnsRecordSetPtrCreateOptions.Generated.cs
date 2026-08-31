@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "ptr", "create")]
-public record AzNetworkDnsRecordSetPtrCreateOptions : AzOptions
+public record AzNetworkDnsRecordSetPtrCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
+    public AzNetworkDnsRecordSetPtrCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes.
     /// </summary>
@@ -37,6 +46,24 @@ public record AzNetworkDnsRecordSetPtrCreateOptions : AzOptions
     /// </summary>
     [CliOption("--target-resource")]
     public string? TargetResource { get; set; }
+
+    /// <summary>
+    /// A reference to an Azure Traffic Manager Profile resource from where the DNS resource value is taken.
+    /// </summary>
+    [CliFlag("--tm-profile", ShortForm = "--traffic-management-profile")]
+    public bool? TmProfile { get; set; }
+
+    /// <summary>
+    /// The metadata attached to the record set.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The TTL (time-to-live) of the records in the record set.  Default: 3600.
+    /// </summary>
+    [CliFlag("--ttl")]
+    public bool? Ttl { get; set; }
 
     [Obsolete("Use TargetResource instead.")]
     public string? TargetResourceValue

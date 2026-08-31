@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "create")]
-public record AzNetworkVnetCreateOptions : AzOptions
+public record AzNetworkVnetCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkVnetCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam- allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefixes { get; set; }
 
     /// <summary>
     /// The BGP community associated with the virtual network.
@@ -35,7 +43,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// <summary>
     /// Control whether DDoS protection is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ddos-protection")]
+    [CliOption("--ddos-protection")]
     public bool? DdosProtection { get; set; }
 
     /// <summary>
@@ -47,8 +55,8 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of DNS server IP addresses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--dns-servers")]
-    public bool? DnsServers { get; set; }
+    [CliOption("--dns-servers", GroupValues = true)]
+    public IEnumerable<string>? DnsServers { get; set; }
 
     /// <summary>
     /// The name of edge zone.
@@ -59,8 +67,14 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// <summary>
     /// Enable encryption on the virtual network. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-encryption")]
+    [CliOption("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
+
+    /// <summary>
+    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values:
+    /// </summary>
+    [CliOption("--encryption-enforcement-policy", ShortForm = "--encryption-policy")]
+    public string? EncryptionEnforcementPolicy { get; set; }
 
     /// <summary>
     /// The FlowTimeout value (in minutes) for the
@@ -77,20 +91,62 @@ public record AzNetworkVnetCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Private Endpoint VNet Policies.  Allowed values: Basic, Disabled.
+    /// </summary>
+    [CliOption("--pe-vnet-policies", ShortForm = "--private-endpoint-vnet-policies")]
+    public string? PeVnetPolicies { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable VM protection for all subnets in the VNet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vm-protection")]
+    [CliOption("--vm-protection")]
     public bool? VmProtection { get; set; }
+
+    /// <summary>
+    /// A list of IPAM Pools allocating IP address prefixes. If provided, --address-prefixes would be ignored and should not be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    public IEnumerable<string>? IpamAllocations { get; set; }
+
+    /// <summary>
+    /// A configurable list of summarized gateway prefixes advertised for the virtual network.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--sgp", ShortForm = "--summarized-gateway-prefixes")]
+    public bool? Sgp { get; set; }
+
+    /// <summary>
+    /// Name or ID of a network security group (NSG).
+    /// </summary>
+    [CliOption("--network-security-group", ShortForm = "--nsg")]
+    public string? NetworkSecurityGroup { get; set; }
+
+    /// <summary>
+    /// Name of a new subnet to create within the
+    /// </summary>
+    [CliOption("--subnet-name")]
+    public string? SubnetName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of address prefixes in CIDR format for the new subnet. If omitted, automatically reserves a /24 (or as large as available) block within the VNet address space.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--subnet-prefixes", GroupValues = true)]
+    public IEnumerable<string>? SubnetPrefixes { get; set; }
+
+    /// <summary>
+    /// Manage a list of subnets in a Virtual Network (similar to `az network vnet subnet`).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--subnets")]
+    public bool? Subnets { get; set; }
 
     [Obsolete("Use DdosProtectionPlan instead.")]
     public string? DdosProtectionPlanValue

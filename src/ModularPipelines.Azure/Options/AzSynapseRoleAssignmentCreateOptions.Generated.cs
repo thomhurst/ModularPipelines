@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "assignment", "create")]
-public record AzSynapseRoleAssignmentCreateOptions : AzOptions
+public record AzSynapseRoleAssignmentCreateOptions(
+    [property: CliOption("--role")] string Role,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseRoleAssignmentCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Represent a user or service principal. Supported format: object id, user sign-in name, or service principal name.
     /// </summary>
@@ -31,6 +39,12 @@ public record AzSynapseRoleAssignmentCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--assignee-object-id")]
     public bool? AssigneeObjectId { get; set; }
+
+    /// <summary>
+    /// Use with --assignee-object-id to avoid errors caused by propagation latency in AAD Graph.  Allowed values: Group, ServicePrincipal, User.
+    /// </summary>
+    [CliOption("--assignee-principal-type", ShortForm = "--assignee-type")]
+    public string? AssigneePrincipalType { get; set; }
 
     /// <summary>
     /// Custom role assignment id in guid format, if not specified, assignment id will be randomly generated.
@@ -47,13 +61,13 @@ public record AzSynapseRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Item type granted access in the workspace. Using with --item to combine the scope of assignment. Allowed values: bigDataPools, credentials, integrationRuntimes, linkedServices.
     /// </summary>
-    [CliFlag("--item-type")]
-    public bool? ItemType { get; set; }
+    [CliOption("--item-type")]
+    public string? ItemType { get; set; }
 
     /// <summary>
     /// A scope defines the resources or artifacts that the access applies to. Synapse supports hierarchical scopes. Permissions granted at a higher-level scope are inherited by objects at a lower level. In Synapse RBAC, the top-level scope is a workspace. Assigning a role with workspace scope grants permissions to all applicable objects in the workspace.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

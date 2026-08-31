@@ -18,12 +18,63 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "create")]
-public record AzSqlMiLinkCreateOptions : AzOptions
+public record AzSqlMiLinkCreateOptions(
+    [property: CliOption("--instance-name", ShortForm = "--mi")] string InstanceName,
+    [property: CliOption("--link-name", ShortForm = "-n")] string LinkName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSqlMiLinkCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Databases in the distributed availability group
+    /// </summary>
+    [CliFlag("--databases")]
+    public bool? Databases { get; set; }
+
+    /// <summary>
+    /// The link failover mode - can be
+    /// </summary>
+    [CliFlag("--failover-mode")]
+    public bool? FailoverMode { get; set; }
+
+    /// <summary>
+    /// Managed instance side availability group name.
+    /// </summary>
+    [CliFlag("--instance-ag-name", ShortForm = "--instance-availability-group-name")]
+    public bool? InstanceAgName { get; set; }
+
+    /// <summary>
+    /// Managed instance side link role.
+    /// </summary>
+    [CliFlag("--instance-link-role")]
+    public bool? InstanceLinkRole { get; set; }
+
+    /// <summary>
+    /// SQL server side availability group name.
+    /// </summary>
+    [CliFlag("--partner-ag-name", ShortForm = "--partner-availability-group-name")]
+    public bool? PartnerAgName { get; set; }
+
+    /// <summary>
+    /// SQL server side endpoint - IP or
+    /// </summary>
+    [CliFlag("--partner-endpoint")]
+    public bool? PartnerEndpoint { get; set; }
+
+    /// <summary>
+    /// Database seeding mode – can be
+    /// </summary>
+    [CliFlag("--seeding-mode")]
+    public bool? SeedingMode { get; set; }
 
 }

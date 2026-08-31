@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "create")]
-public record AzRedisCreateOptions : AzOptions
+public record AzRedisCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku,
+    [property: CliOption("--vm-size")] string VmSize
+) : AzOptions
 {
+    public AzRedisCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
@@ -41,14 +52,14 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// One or more space separated resource IDs of user assigned identities.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Specifies the TLS version required by clients to connect to cache.  Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliFlag("--minimum-tls-version")]
-    public bool? MinimumTlsVersion { get; set; }
+    [CliOption("--minimum-tls-version")]
+    public string? MinimumTlsVersion { get; set; }
 
     /// <summary>
     /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid.
@@ -89,26 +100,32 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated tenant settings in key[=value] format.
     /// </summary>
-    [CliFlag("--tenant-settings")]
-    public bool? TenantSettings { get; set; }
+    [CliOption("--tenant-settings", GroupValues = true)]
+    public IEnumerable<string>? TenantSettings { get; set; }
 
     /// <summary>
     /// Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using "Preview" update channel get latest Redis updates at least 4 weeks ahead of "Stable" channel caches. Default value is "Stable". Allowed values: Preview, Stable.
     /// </summary>
-    [CliFlag("--update-channel")]
-    public bool? UpdateChannel { get; set; }
+    [CliOption("--update-channel")]
+    public string? UpdateChannel { get; set; }
+
+    /// <summary>
+    /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones,
+    /// </summary>
+    [CliOption("--zonal-allocation", ShortForm = "--zonal-allocation-policy")]
+    public string? ZonalAllocation { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
     [Obsolete("Use SubnetId instead.")]
     public string? SubnetIdValue

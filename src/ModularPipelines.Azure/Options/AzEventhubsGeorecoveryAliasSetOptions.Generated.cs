@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "set")]
-public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions
+public record AzEventhubsGeorecoveryAliasSetOptions(
+    [property: CliOption("--alias", ShortForm = "-a")] string Alias,
+    [property: CliOption("--partner-namespace")] string PartnerNamespace
+) : AzOptions
 {
+    public AzEventhubsGeorecoveryAliasSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Alternate Name for the Alias, when the Namespace name and Alias name are same.
     /// </summary>
@@ -31,5 +39,23 @@ public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

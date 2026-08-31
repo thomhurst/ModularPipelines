@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "packet-capture", "create")]
-public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
+public record AzNetworkWatcherPacketCaptureCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkWatcherPacketCaptureCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Maximum size in bytes of the capture output.  Default: 1073741824.
     /// </summary>
@@ -41,7 +49,7 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -67,6 +75,36 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// </summary>
     [CliOption("--vm")]
     public string? Vm { get; set; }
+
+    /// <summary>
+    /// Space-separated list of VMSS instances to exclude in packet capture.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--exclude", GroupValues = true)]
+    public IEnumerable<string>? Exclude { get; set; }
+
+    /// <summary>
+    /// Space-separated list of VMSS instances to include in packet capture like 0 1 2.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--include", GroupValues = true)]
+    public IEnumerable<string>? Include { get; set; }
+
+    /// <summary>
+    /// Local path on the targeted VM at which to save the packet capture. For Linux VMs, the path must start with `/var/captures`.
+    /// </summary>
+    [CliFlag("--file-path")]
+    public bool? FilePath { get; set; }
+
+    /// <summary>
+    /// Name or ID of a storage account to save the packet capture to.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Fully qualified URI of an existing storage container in which to store the capture file. If not specified, the container `network-watcher-logs` will be created if it does not exist and the capture file will be stored there.
+    /// </summary>
+    [CliFlag("--storage-path")]
+    public bool? StoragePath { get; set; }
 
     [Obsolete("Use Target instead.")]
     public string? TargetValue

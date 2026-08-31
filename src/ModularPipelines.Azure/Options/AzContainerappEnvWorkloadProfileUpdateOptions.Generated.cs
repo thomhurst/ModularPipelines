@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "workload-profile", "update")]
-public record AzContainerappEnvWorkloadProfileUpdateOptions : AzOptions
+public record AzContainerappEnvWorkloadProfileUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workload-profile-name", ShortForm = "-w")] string WorkloadProfileName
+) : AzOptions
 {
+    public AzContainerappEnvWorkloadProfileUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The maximum node count for the workload profile.
     /// </summary>

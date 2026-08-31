@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "sub", "delete")]
-public record AzStackSubDeleteOptions : AzOptions
+public record AzStackSubDeleteOptions(
+    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage
+) : AzOptions
 {
+    public AzStackSubDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--bse", ShortForm = "--bypass-stack-out-of-sync-error")]
+    public bool? Bse { get; set; }
+
     /// <summary>
     /// The deployment stack resource ID.
     /// </summary>
@@ -31,6 +44,12 @@ public record AzStackSubDeleteOptions : AzOptions
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
+    /// </summary>
+    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

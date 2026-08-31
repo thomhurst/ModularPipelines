@@ -23,19 +23,19 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-remote-vnet-traffic")]
+    [CliOption("--allow-remote-vnet-traffic")]
     public bool? AllowRemoteVnetTraffic { get; set; }
 
     /// <summary>
     /// Configures this gateway to accept traffic from remote Virtual WAN networks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-vwan-traffic")]
+    [CliOption("--allow-vwan-traffic")]
     public bool? AllowVwanTraffic { get; set; }
 
     /// <summary>
     /// Whether private IP needs to be enabled on this gateway for connections or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-private-ip")]
+    [CliOption("--enable-private-ip")]
     public bool? EnablePrivateIp { get; set; }
 
     /// <summary>
@@ -47,8 +47,8 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// The gateway type.  Allowed values: ExpressRoute,
     /// </summary>
-    [CliFlag("--gateway-type")]
-    public bool? GatewayType { get; set; }
+    [CliOption("--gateway-type")]
+    public string? GatewayType { get; set; }
 
     /// <summary>
     /// Maximum scale units for auto-scale configuration.
@@ -65,26 +65,32 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Specify a single public IP (name or ID) for an active-standby gateway. Specify two space-separated public IPs for an active-active gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--public-ip-address", ShortForm = "--public-ip-addresses", GroupValues = true)]
+    public IEnumerable<string>? PublicIpAddress { get; set; }
 
     /// <summary>
     /// Indicates if the Express Route Gateway has resiliency model of MultiHomed or SingleHomed. Allowed values: MultiHomed, SingleHomed.
     /// </summary>
-    [CliFlag("--resiliency-model")]
-    public bool? ResiliencyModel { get; set; }
+    [CliOption("--resiliency-model")]
+    public string? ResiliencyModel { get; set; }
 
     /// <summary>
     /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ, ErGwScale, HighPerformance, Standard, UltraPerformance, VpnGw1, VpnGw1AZ, VpnGw2, VpnGw2AZ, VpnGw3, VpnGw3AZ, VpnGw4,
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.
@@ -101,8 +107,134 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// VPN routing type.  Allowed values: PolicyBased,
     /// </summary>
-    [CliFlag("--vpn-type")]
-    public bool? VpnType { get; set; }
+    [CliOption("--vpn-type")]
+    public string? VpnType { get; set; }
+
+    /// <summary>
+    /// The AADAudience ID of the VirtualNetworkGateway.
+    /// </summary>
+    [CliFlag("--aad-audience")]
+    public bool? AadAudience { get; set; }
+
+    /// <summary>
+    /// The AAD Issuer URI of the VirtualNetworkGateway.
+    /// </summary>
+    [CliFlag("--aad-issuer")]
+    public bool? AadIssuer { get; set; }
+
+    /// <summary>
+    /// The AAD Tenant URI of the VirtualNetworkGateway.
+    /// </summary>
+    [CliFlag("--aad-tenant")]
+    public bool? AadTenant { get; set; }
+
+    /// <summary>
+    /// Autonomous System Number to use for the BGP settings.
+    /// </summary>
+    [CliFlag("--asn")]
+    public bool? Asn { get; set; }
+
+    /// <summary>
+    /// IP address to use for BGP peering.
+    /// </summary>
+    [CliFlag("--bgp-peering-address")]
+    public bool? BgpPeeringAddress { get; set; }
+
+    /// <summary>
+    /// Enable BGP (Border Gateway Protocol).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-bgp")]
+    public bool? EnableBgp { get; set; }
+
+    /// <summary>
+    /// Weight (0-100) added to routes learned through BGP peering.
+    /// </summary>
+    [CliFlag("--peer-weight")]
+    public bool? PeerWeight { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the VNet gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Base64 contents of the root certificate file or file path.
+    /// </summary>
+    [CliFlag("--root-cert-data")]
+    public bool? RootCertData { get; set; }
+
+    /// <summary>
+    /// Root certificate name.
+    /// </summary>
+    [CliFlag("--root-cert-name")]
+    public bool? RootCertName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--address-prefix`.
+    /// </summary>
+    [CliOption("--address-prefix", ShortForm = "--address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefix { get; set; }
+
+    /// <summary>
+    /// Protocols to use for connecting.  Allowed values: IkeV2, OpenVPN, SSTP.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--client-protocol")]
+    public string? ClientProtocol { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--custom-routes", GroupValues = true)]
+    public IEnumerable<string>? CustomRoutes { get; set; }
+
+    /// <summary>
+    /// Radius secret to use for authentication.
+    /// </summary>
+    [CliFlag("--radius-secret")]
+    public bool? RadiusSecret { get; set; }
+
+    /// <summary>
+    /// Radius server address to connect to.
+    /// </summary>
+    [CliFlag("--radius-server")]
+    public bool? RadiusServer { get; set; }
 
     [Obsolete("Use GatewayDefaultSite instead.")]
     public string? GatewayDefaultSiteValue

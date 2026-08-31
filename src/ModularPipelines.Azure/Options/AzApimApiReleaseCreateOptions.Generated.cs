@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "release", "create")]
-public record AzApimApiReleaseCreateOptions : AzOptions
+public record AzApimApiReleaseCreateOptions(
+    [property: CliOption("--api-revision")] string ApiRevision,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
+    public AzApimApiReleaseCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// ETag of the Entity.
     /// </summary>

@@ -23,13 +23,13 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     /// <summary>
     /// Allow classic operations.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-classic-operations")]
+    [CliOption("--allow-classic-operations")]
     public bool? AllowClassicOperations { get; set; }
 
     /// <summary>
     /// Enable global reach on the circuit.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-global-reach")]
+    [CliOption("--allow-global-reach")]
     public bool? AllowGlobalReach { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -65,20 +65,62 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     /// <summary>
     /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Allowed values: MeteredData,
     /// </summary>
-    [CliFlag("--sku-family")]
-    public bool? SkuFamily { get; set; }
+    [CliOption("--sku-family")]
+    public string? SkuFamily { get; set; }
 
     /// <summary>
     /// SKU Tier of ExpressRoute circuit.  Allowed values: Basic, Local, Premium, Standard.  Allowed values: Basic, Local, Premium,
     /// </summary>
-    [CliFlag("--sku-tier")]
-    public bool? SkuTier { get; set; }
+    [CliOption("--sku-tier")]
+    public string? SkuTier { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use ExpressRoutePort instead.")]
     public string? ExpressRoutePortValue

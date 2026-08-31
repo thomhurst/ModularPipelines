@@ -18,12 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rewrite-rule", "update")]
-public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-set-name")] string RuleSetName
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayRewriteRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -35,8 +45,8 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-request- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--request-headers")]
-    public bool? RequestHeaders { get; set; }
+    [CliOption("--request-headers", GroupValues = true)]
+    public IEnumerable<string>? RequestHeaders { get; set; }
 
     /// <summary>
     /// Response Header Actions in the Action Set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -47,13 +57,61 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-response- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--response-headers")]
-    public bool? ResponseHeaders { get; set; }
+    [CliOption("--response-headers", GroupValues = true)]
+    public IEnumerable<string>? ResponseHeaders { get; set; }
 
     /// <summary>
     /// Determine the execution order of the rule in the rule set.
     /// </summary>
     [CliFlag("--sequence")]
     public bool? Sequence { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Conditions based on which the action set execution will be evaluated.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--conditions")]
+    public bool? Conditions { get; set; }
+
+    /// <summary>
+    /// If set as true, it will re-evaluate the url path map provided in path based request routing rules using modified path. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-reroute")]
+    public bool? EnableReroute { get; set; }
+
+    /// <summary>
+    /// URL path for url rewrite.
+    /// </summary>
+    [CliOption("--modified-path")]
+    public string? ModifiedPath { get; set; }
+
+    /// <summary>
+    /// Query string for url rewrite.
+    /// </summary>
+    [CliOption("--modified-query-string")]
+    public string? ModifiedQueryString { get; set; }
 
 }

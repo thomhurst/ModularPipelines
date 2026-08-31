@@ -18,12 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "add")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions(
+    [property: CliOption("--match-operator", ShortForm = "--selector-match-operator")] string MatchOperator,
+    [property: CliOption("--match-variable")] string MatchVariable,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--selector")] string Selector
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Index of exclusion. If no index is provided, the default behavior is `append`.
     /// </summary>
     [CliFlag("--index")]
     public bool? Index { get; set; }
+
+    /// <summary>
+    /// The managed rule sets that are associated with the exclusion.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--rule-sets")]
+    public bool? RuleSets { get; set; }
 
 }

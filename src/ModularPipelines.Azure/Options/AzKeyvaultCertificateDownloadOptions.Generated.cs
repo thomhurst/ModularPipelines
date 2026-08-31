@@ -18,12 +18,43 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "download")]
-public record AzKeyvaultCertificateDownloadOptions : AzOptions
+public record AzKeyvaultCertificateDownloadOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
+    public AzKeyvaultCertificateDownloadOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Encoding of the certificate. DER will create a binary DER formatted x509 certificate, and PEM will create a base64 PEM x509 certificate. Allowed values: DER, PEM.  Default: PEM.
     /// </summary>
-    [CliFlag("--encoding", ShortForm = "-e")]
-    public bool? Encoding { get; set; }
+    [CliOption("--encoding", ShortForm = "-e")]
+    public string? Encoding { get; set; }
+
+    /// <summary>
+    /// Id of the certificate. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the certificate. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Key Vault. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// The certificate version. If omitted, uses the latest version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

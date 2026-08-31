@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "list")]
-public record AzDmsProjectTaskListOptions : AzOptions
+public record AzDmsProjectTaskListOptions(
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
+    public AzDmsProjectTaskListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Filters the list by the type of task. For the list of possible types see "az dms check-status".
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "client-certificate", "add")]
-public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
+public record AzSfManagedClusterClientCertificateAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfManagedClusterClientCertificateAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Client certificate common name.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Space-separated list of issuer thumbprints.
     /// </summary>
-    [CliFlag("--issuer-thumbprint")]
-    public bool? IssuerThumbprint { get; set; }
+    [CliOption("--issuer-thumbprint", GroupValues = true)]
+    public IEnumerable<string>? IssuerThumbprint { get; set; }
 
     /// <summary>
     /// Client certificate thumbprint.

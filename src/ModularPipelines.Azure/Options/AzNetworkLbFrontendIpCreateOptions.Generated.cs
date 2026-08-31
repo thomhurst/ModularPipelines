@@ -18,12 +18,99 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "frontend-ip", "create")]
-public record AzNetworkLbFrontendIpCreateOptions : AzOptions
+public record AzNetworkLbFrontendIpCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkLbFrontendIpCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The DDoS protection settings associated with the frontend IP configuration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--ddos-settings")]
+    public bool? DdosSettings { get; set; }
+
+    /// <summary>
+    /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
+    public bool? DefaultOutbound { get; set; }
+
+    /// <summary>
+    /// The reference to gateway load balancer frontend IP.
+    /// </summary>
+    [CliFlag("--gateway-lb")]
+    public bool? GatewayLb { get; set; }
+
+    /// <summary>
+    /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    public IEnumerable<string>? IpamAllocations { get; set; }
+
+    /// <summary>
+    /// Static private IP address to associate with the configuration.
+    /// </summary>
+    [CliFlag("--private-ip-address")]
+    public bool? PrivateIpAddress { get; set; }
+
+    /// <summary>
+    /// Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Allowed values: IPv4, IPv6.  Default: IPv4.
+    /// </summary>
+    [CliOption("--private-ip-address-version", ShortForm = "--private-ipv")]
+    public string? PrivateIpAddressVersion { get; set; }
+
+    /// <summary>
+    /// Name or ID of the existing public IP to associate with the configuration.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// Name or ID of a public IP prefix.
+    /// </summary>
+    [CliOption("--public-ip-prefix")]
+    public string? PublicIpPrefix { get; set; }
+
+    /// <summary>
+    /// Reference to an existing service gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--service-gateway")]
+    public bool? ServiceGateway { get; set; }
+
+    /// <summary>
+    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices,
+    /// </summary>
+    [CliOption("--sharing-scope")]
+    public string? SharingScope { get; set; }
+
+    /// <summary>
+    /// Resource ID.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) associated with the subnet (Omit if supplying a subnet id).
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// A list of availability zones denoting the IP allocated for the resource needs to come from.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zone { get; set; }
 
 }

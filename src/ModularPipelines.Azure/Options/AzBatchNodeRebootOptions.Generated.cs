@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,12 +19,45 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "reboot")]
-public record AzBatchNodeRebootOptions : AzOptions
+public record AzBatchNodeRebootOptions(
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
+    public AzBatchNodeRebootOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A file containing the parameters specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Parameters Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// When to reboot the Compute Node and what to do with currently running Tasks. The default value is requeue. Known values are: "requeue", "terminate", "taskcompletion", and "retaineddata".
+    /// </summary>
+    [CliFlag("--node-reboot-option")]
+    public bool? NodeRebootOption { get; set; }
 
 }

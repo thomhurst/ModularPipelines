@@ -29,6 +29,12 @@ public record AzAcrRunOptions(
     }
 
     /// <summary>
+    /// The name of the agent pool.
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
     [CliOption("--auth-mode")]
@@ -43,8 +49,14 @@ public record AzAcrRunOptions(
     /// <summary>
     /// The task template/definition file path relative to the source context. It can be '-' to pipe a file from the standard input.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry.
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -67,8 +79,8 @@ public record AzAcrRunOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

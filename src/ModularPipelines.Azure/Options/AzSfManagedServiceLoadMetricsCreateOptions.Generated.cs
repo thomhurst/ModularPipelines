@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "load-metrics", "create")]
-public record AzSfManagedServiceLoadMetricsCreateOptions : AzOptions
+public record AzSfManagedServiceLoadMetricsCreateOptions(
+    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--metric-name")] string MetricName,
+    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfManagedServiceLoadMetricsCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the default amount of load, as a number, that this service creates for this metric. Used only for Stateless services.
     /// </summary>

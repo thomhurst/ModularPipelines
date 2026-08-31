@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "command", "invoke")]
-public record AzAksCommandInvokeOptions : AzOptions
+public record AzAksCommandInvokeOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksCommandInvokeOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Command or shell script you want to run.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzAksCommandInvokeOptions : AzOptions
     /// <summary>
     /// Files to be used by the command, use '.' to attach the current folder.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

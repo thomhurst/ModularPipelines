@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "enrollment", "update")]
-public record AzPolicyEnrollmentUpdateOptions : AzOptions
+public record AzPolicyEnrollmentUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyEnrollmentUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
@@ -31,6 +38,72 @@ public record AzPolicyEnrollmentUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default,
+    /// </summary>
+    [CliOption("--assignment-scope-validation", ShortForm = "-v")]
+    public string? AssignmentScopeValidation { get; set; }
+
+    /// <summary>
+    /// The description of the policy enrollment.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy enrollment.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment to enroll.
+    /// </summary>
+    [CliFlag("--policy-assignment", ShortForm = "-a")]
+    public bool? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
+    public bool? PolicyDefinitionReferenceIds { get; set; }
+
+    /// <summary>
+    /// The resource selector list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

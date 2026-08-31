@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "container", "list")]
-public record AzBackupContainerListOptions : AzOptions
+public record AzBackupContainerListOptions(
+    [property: CliOption("--backup-management-type")] string BackupManagementType,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
+    public AzBackupContainerListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Use this flag to list containers in secondary region.
     /// </summary>

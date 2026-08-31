@@ -18,13 +18,81 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "create")]
-public record AzStorageShareRmCreateOptions : AzOptions
+public record AzStorageShareRmCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "--storage-account")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStorageShareRmCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Access tier for specific share. GpV2 account can choose between
+    /// </summary>
+    [CliFlag("--access-tier")]
+    public bool? AccessTier { get; set; }
+
+    /// <summary>
+    /// The authentication protocol that is used for the file share. NFS protocol will be only available for premium file shares (file shares in the FileStorage account type). Can only be specified when creating a share. Allowed values: NFS, SMB.
+    /// </summary>
+    [CliOption("--enabled-protocols")]
+    public string? EnabledProtocols { get; set; }
+
+    /// <summary>
+    /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--metadata")]
+    public string? Metadata { get; set; }
+
+    /// <summary>
+    /// The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account type, please refer to the GetFileServiceUsage API response for the minimum and maximum allowed provisioned storage size.
+    /// </summary>
+    [CliFlag("--quota", ShortForm = "-q")]
+    public bool? Quota { get; set; }
+
+    /// <summary>
+    /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values:
+    /// </summary>
+    [CliOption("--root-squash")]
+    public string? RootSquash { get; set; }
+
+    /// <summary>
+    /// The maximum paid bursting bandwidth for the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 10340 which is the maximum allowed bandwidth for a share.
+    /// </summary>
+    [CliOption("--bursting-max-mibps", ShortForm = "--paid-bursting-max-bandwidth-mibps")]
+    public string? BurstingMaxMibps { get; set; }
+
+    /// <summary>
+    /// Indicates whether paid bursting is enabled for the share. This property is only for file shares created under Files Provisioned v1 SSD account type.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--paid-bursting-enabled")]
+    public bool? PaidBurstingEnabled { get; set; }
+
+    /// <summary>
+    /// The maximum paid bursting IOPS for the share. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 102400 which is the maximum allowed IOPS for a share.
+    /// </summary>
+    [CliOption("--paid-bursting-max-iops")]
+    public string? PaidBurstingMaxIops { get; set; }
+
+    /// <summary>
+    /// The provisioned bandwidth of the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned bandwidth.
+    /// </summary>
+    [CliOption("--provisioned-bandwidth", ShortForm = "--provisioned-bandwidth-mibps")]
+    public string? ProvisionedBandwidth { get; set; }
+
+    /// <summary>
+    /// The provisioned IOPS of the share. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned IOPS.
+    /// </summary>
+    [CliOption("--provisioned-iops")]
+    public string? ProvisionedIops { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

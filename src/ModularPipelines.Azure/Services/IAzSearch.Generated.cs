@@ -22,9 +22,29 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzSearch
 {
     /// <summary>
+    /// az admin-key sub-commands.
+    /// </summary>
+    AzSearchAdminKey AdminKey => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az offering sub-commands.
+    /// </summary>
+    AzSearchOffering Offering => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     AzSearchPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    AzSearchPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az query-key sub-commands.
+    /// </summary>
+    AzSearchQueryKey QueryKey => throw new System.NotSupportedException();
 
     /// <summary>
     /// az service sub-commands.
@@ -35,5 +55,10 @@ public interface IAzSearch
     /// az shared-private-link-resource sub-commands.
     /// </summary>
     AzSearchSharedPrivateLinkResource SharedPrivateLinkResource => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    AzSearchUsage Usage => throw new System.NotSupportedException();
 
 }

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "logs", "show")]
-public record AzContainerappLogsShowOptions : AzOptions
+public record AzContainerappLogsShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappLogsShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the container.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// Log output format.  Allowed values: json, text.  Default: json.
     /// </summary>
-    [CliFlag("--format")]
-    public bool? Format { get; set; }
+    [CliOption("--format")]
+    public string? Format { get; set; }
 
     /// <summary>
     /// The name of the replica. List replicas with 'az containerapp replica list'. A replica may not exist if there is not traffic to your app.
@@ -59,8 +67,8 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// Type of logs to stream.  Allowed values: console, system.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
     [Obsolete("Use Container instead.")]
     public string? ContainerValue

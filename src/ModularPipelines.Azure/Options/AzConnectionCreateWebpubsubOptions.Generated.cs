@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "webpubsub")]
-public record AzConnectionCreateWebpubsubOptions : AzOptions
+public record AzConnectionCreateWebpubsubOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzConnectionCreateWebpubsubOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -57,10 +64,34 @@ public record AzConnectionCreateWebpubsubOptions : AzOptions
     public string? TargetId { get; set; }
 
     /// <summary>
+    /// The resource group which contains the webpubsub. Required if '
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
     /// Name of the webpubsub service. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--webpubsub")]
     public string? Webpubsub { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
+
+    /// <summary>
+    /// The service principal auth info.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The user account auth info.
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

@@ -45,6 +45,12 @@ public record AzContainerappJobUpdateOptions : AzOptions
     public bool? Parallelism { get; set; }
 
     /// <summary>
+    /// Number of replicas that need to complete successfully for execution to succeed.
+    /// </summary>
+    [CliFlag("--rcc", ShortForm = "--replica-completion-count")]
+    public bool? Rcc { get; set; }
+
+    /// <summary>
     /// Maximum number of retries before the replica fails.
     /// </summary>
     [CliFlag("--replica-retry-limit")]
@@ -59,8 +65,8 @@ public record AzContainerappJobUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
@@ -73,6 +79,120 @@ public record AzContainerappJobUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
+
+    /// <summary>
+    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--args", GroupValues = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--command", GroupValues = true)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Name of the container.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
+    /// </summary>
+    [CliFlag("--cpu")]
+    public bool? Cpu { get; set; }
+
+    /// <summary>
+    /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
+    /// </summary>
+    [CliFlag("--memory")]
+    public bool? Memory { get; set; }
+
+    /// <summary>
+    /// Remove all environment variable(s) from container..
+    /// </summary>
+    [CliFlag("--remove-all-env-vars")]
+    public bool? RemoveAllEnvVars { get; set; }
+
+    /// <summary>
+    /// Remove environment variable(s) from container. Space- separated environment variable names.
+    /// </summary>
+    [CliFlag("--remove-env-vars")]
+    public bool? RemoveEnvVars { get; set; }
+
+    /// <summary>
+    /// Replace environment variable(s) in container. Other existing environment variables are removed. Space-separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliOption("--replace-env-vars", GroupValues = true)]
+    public IEnumerable<string>? ReplaceEnvVars { get; set; }
+
+    /// <summary>
+    /// Add or update environment variable(s) in container. Existing environment variables are not modified. Space-separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliOption("--set-env-vars", GroupValues = true)]
+    public IEnumerable<string>? SetEnvVars { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Container Apps Job. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Maximum number of job executions to run per polling interval.
+    /// </summary>
+    [CliFlag("--max-executions")]
+    public bool? MaxExecutions { get; set; }
+
+    /// <summary>
+    /// Minimum number of job executions to run per polling interval.
+    /// </summary>
+    [CliFlag("--min-executions")]
+    public bool? MinExecutions { get; set; }
+
+    /// <summary>
+    /// Interval to check each event source in seconds. Defaults to 30s.
+    /// </summary>
+    [CliFlag("--polling-interval")]
+    public bool? PollingInterval { get; set; }
+
+    /// <summary>
+    /// Scale rule auth parameters. Auth parameters must be in format "{triggerParameter}={secretRef} {triggerParameter}={secretRef} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
+    public bool? ScaleRuleAuth { get; set; }
+
+    /// <summary>
+    /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
+    public bool? ScaleRuleMetadata { get; set; }
+
+    /// <summary>
+    /// The name of the scale rule.
+    /// </summary>
+    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    public string? ScaleRuleName { get; set; }
+
+    /// <summary>
+    /// The type of the scale rule.
+    /// </summary>
+    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
+    public bool? ScaleRuleType { get; set; }
 
     [Obsolete("Use Yaml instead.")]
     public string? YamlValue

@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "site", "create")]
-public record AzNetworkVirtualApplianceSiteCreateOptions : AzOptions
+public record AzNetworkVirtualApplianceSiteCreateOptions(
+    [property: CliOption("--appliance-name")] string ApplianceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkVirtualApplianceSiteCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Address Prefix of Network Virtual Appliance Site.
     /// </summary>
@@ -29,7 +38,25 @@ public record AzNetworkVirtualApplianceSiteCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Flag to control breakout of o365 allow category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--allow")]
+    public bool? Allow { get; set; }
+
+    /// <summary>
+    /// Flag to control breakout of o365 default category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--default")]
+    public bool? Default { get; set; }
+
+    /// <summary>
+    /// Flag to control breakout of o365 optimize category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--optimize")]
+    public bool? Optimize { get; set; }
 
 }

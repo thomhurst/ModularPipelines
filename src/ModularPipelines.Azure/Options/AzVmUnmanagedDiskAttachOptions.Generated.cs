@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "unmanaged-disk", "attach")]
-public record AzVmUnmanagedDiskAttachOptions : AzOptions
+public record AzVmUnmanagedDiskAttachOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
+    public AzVmUnmanagedDiskAttachOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Disk caching policy.  Allowed values: None, ReadOnly,
     /// </summary>
-    [CliFlag("--caching")]
-    public bool? Caching { get; set; }
+    [CliOption("--caching")]
+    public string? Caching { get; set; }
 
     /// <summary>
     /// 0-based logical unit number (LUN). Max value depends on the

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,12 +19,56 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "delete")]
-public record AzBatchNodeDeleteOptions : AzOptions
+public record AzBatchNodeDeleteOptions(
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
+    public AzBatchNodeDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Determines what to do with a Compute Node and its running task(s) after it has been selected for deallocation. The default value is requeue. Known values are: "requeue", "terminate", "taskcompletion", and "retaineddata".
+    /// </summary>
+    [CliFlag("--node-deallocation-option")]
+    public bool? NodeDeallocationOption { get; set; }
+
+    /// <summary>
+    /// A list containing the IDs of the Compute Nodes to be removed from the specified Pool. A maximum of 100 nodes may be removed per request. Required. Space-separated values.
+    /// </summary>
+    [CliOption("--node-list", GroupValues = true)]
+    public IEnumerable<string>? NodeList { get; set; }
+
+    /// <summary>
+    /// The timeout for removal of Compute Nodes to the Pool. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). Expected format is an ISO-8601 duration.
+    /// </summary>
+    [CliFlag("--resize-timeout")]
+    public bool? ResizeTimeout { get; set; }
 
 }

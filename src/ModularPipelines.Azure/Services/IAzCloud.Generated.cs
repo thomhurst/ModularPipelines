@@ -62,6 +62,16 @@ public interface IAzCloud
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Unregister a cloud.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UnregisterAsync(AzCloudUnregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Update the configuration of a cloud.
     /// </summary>
     /// <param name="options">The command options.</param>

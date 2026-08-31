@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "create")]
-public record AzMonitorAutoscaleCreateOptions : AzOptions
+public record AzMonitorAutoscaleCreateOptions(
+    [property: CliOption("--count")] string Count,
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
+    public AzMonitorAutoscaleCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create the autoscale settings in a disabled state.  Allowed values: false, true.
     /// </summary>
@@ -41,8 +49,74 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The maximum number of instances.
+    /// </summary>
+    [CliFlag("--max-count")]
+    public bool? MaxCount { get; set; }
+
+    /// <summary>
+    /// The minimum number of instances.
+    /// </summary>
+    [CliFlag("--min-count")]
+    public bool? MinCount { get; set; }
+
+    /// <summary>
+    /// Add an action to fire when a scaling event occurs.
+    /// </summary>
+    [CliFlag("--action", ShortForm = "-a")]
+    public bool? Action { get; set; }
+
+    /// <summary>
+    /// Send email to subscription administrator on scaling.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--email-administrator")]
+    public bool? EmailAdministrator { get; set; }
+
+    /// <summary>
+    /// Send email to subscription co-administrators on scaling.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--email-coadministrators")]
+    public bool? EmailCoadministrators { get; set; }
+
+    /// <summary>
+    /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be P100D).
+    /// </summary>
+    [CliFlag("--scale-look-ahead-time")]
+    public bool? ScaleLookAheadTime { get; set; }
+
+    /// <summary>
+    /// The predictive autoscale mode.  Allowed values: Disabled, Enabled,
+    /// </summary>
+    [CliOption("--scale-mode")]
+    public string? ScaleMode { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

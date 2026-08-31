@@ -18,12 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "address", "add")]
-public record AzNetworkCrossRegionLbAddressPoolAddressAddOptions : AzOptions
+public record AzNetworkCrossRegionLbAddressPoolAddressAddOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--pool-name")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--frontend-ip", ShortForm = "--frontend-ip-address")] string FrontendIp
+) : AzOptions
 {
+    public AzNetworkCrossRegionLbAddressPoolAddressAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.  Allowed values: Down, None, Up.
+    /// </summary>
+    [CliOption("--admin-state", GroupValues = true)]
+    public IEnumerable<string>? AdminState { get; set; }
 
 }

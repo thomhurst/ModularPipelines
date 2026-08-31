@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,5 +26,282 @@ public record AzBatchPoolCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resour ceGroups/{resourceGroupName}/providers/Microsoft.
+    /// </summary>
+    [CliOption("--application-package-references", GroupValues = true)]
+    public IEnumerable<string>? ApplicationPackageReferences { get; set; }
+
+    /// <summary>
+    /// A formula for the desired number of Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true. The formula is checked for validity before the Pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see 'Automatically scale Compute Nodes in an Azure Batch Pool' (https://az ure.microsoft.com/documentation/articles/batch- automatic-scaling/).
+    /// </summary>
+    [CliFlag("--auto-scale-formula")]
+    public bool? AutoScaleFormula { get; set; }
+
+    /// <summary>
+    /// Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node communication limits the maximum size of the Pool due to deployment restrictions on the Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The default value is false. True if flag present.
+    /// </summary>
+    [CliFlag("--enable-inter-node-communication")]
+    public bool? EnableInterNodeCommunication { get; set; }
+
+    /// <summary>
+    /// A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case- insensitive (that is, you may not have two Pool IDs within an Account that differ only by case).
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// A list of name-value pairs associated with the Pool as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
+
+    /// <summary>
+    /// The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). Expected format is an ISO-8601 duration.
+    /// </summary>
+    [CliFlag("--resize-timeout")]
+    public bool? ResizeTimeout { get; set; }
+
+    /// <summary>
+    /// The user-specified tags associated with the pool. The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--resource-tags", GroupValues = true)]
+    public IEnumerable<string>? ResourceTags { get; set; }
+
+    /// <summary>
+    /// The desired number of dedicated Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.
+    /// </summary>
+    [CliFlag("--target-dedicated-nodes")]
+    public bool? TargetDedicatedNodes { get; set; }
+
+    /// <summary>
+    /// The desired number of Spot/Low-priority Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.
+    /// </summary>
+    [CliFlag("--target-low-priority-nodes")]
+    public bool? TargetLowPriorityNodes { get; set; }
+
+    /// <summary>
+    /// The number of task slots that can be used to run concurrent tasks on a single compute node in the pool. The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.
+    /// </summary>
+    [CliFlag("--task-slots-per-node")]
+    public bool? TaskSlotsPerNode { get; set; }
+
+    /// <summary>
+    /// The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes for Pools using Images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration), see Sizes for Virtual Machines (Linux) (https://azure.microsoft .com/documentation/articles/virtual-machines- linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentat ion/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). Required.
+    /// </summary>
+    [CliFlag("--vm-size")]
+    public bool? VmSize { get; set; }
+
+    /// <summary>
+    /// Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For
+    /// </summary>
+    [CliFlag("--accelerated-networking")]
+    public bool? AcceleratedNetworking { get; set; }
+
+    /// <summary>
+    /// Specify whether writeAccelerator should be enabled or disabled on the disk.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-write-accel")]
+    public bool? EnableWriteAccel { get; set; }
+
+    /// <summary>
+    /// Specify the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.  Allowed values: none, readonly, readwrite.
+    /// </summary>
+    [CliOption("--os-disk-caching")]
+    public string? OsDiskCaching { get; set; }
+
+    /// <summary>
+    /// The initial disk size in GB when creating new OS disk.
+    /// </summary>
+    [CliFlag("--os-disk-size")]
+    public bool? OsDiskSize { get; set; }
+
+    /// <summary>
+    /// The storage account type for managed disk. Allowed values: premium_lrs, standard_lrs, standardssd_lrs.
+    /// </summary>
+    [CliOption("--storage-account-type")]
+    public string? StorageAccountType { get; set; }
+
+    /// <summary>
+    /// Enable secure boot.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-secure-boot")]
+    public bool? EnableSecureBoot { get; set; }
+
+    /// <summary>
+    /// Enable vTPM.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-vtpm")]
+    public bool? EnableVtpm { get; set; }
+
+    /// <summary>
+    /// This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. The default behavior is: The Encryption at host will be disabled unless this property is set to true for the resource.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--encryption-at-host")]
+    public bool? EncryptionAtHost { get; set; }
+
+    /// <summary>
+    /// Specify the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. The default behavior is: UefiSettings will not be enabled unless this property is set.
+    /// </summary>
+    [CliFlag("--security-type")]
+    public bool? SecurityType { get; set; }
+
+    /// <summary>
+    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh
+    /// </summary>
+    [CliFlag("--start-task-command-line")]
+    public bool? StartTaskCommandLine { get; set; }
+
+    /// <summary>
+    /// A list of environment variable settings for the StartTask. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--start-task-environment-settings", GroupValues = true)]
+    public IEnumerable<string>? StartTaskEnvironmentSettings { get; set; }
+
+    /// <summary>
+    /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries).
+    /// </summary>
+    [CliFlag("--start-task-max-task-retry-count")]
+    public bool? StartTaskMaxTaskRetryCount { get; set; }
+
+    /// <summary>
+    /// A list of files that the Batch service will download to the Compute Node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Files listed under this element are located in the Task's working directory. Space- separated resource references in filename=httpurl format.
+    /// </summary>
+    [CliOption("--start-task-resource-files", GroupValues = true)]
+    public IEnumerable<string>? StartTaskResourceFiles { get; set; }
+
+    /// <summary>
+    /// Whether the Batch service should wait for the StartTask to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node. If true and the StartTask fails on a Node, the Batch service retries the StartTask up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the StartTask to complete. In this case, other Tasks can start executing on the Compute Node while the StartTask is still running; and even if the StartTask fails, new Tasks will continue to be scheduled on the Compute Node. The default is true. True if flag present.
+    /// </summary>
+    [CliFlag("--start-task-wait-for-success")]
+    public bool? StartTaskWaitForSuccess { get; set; }
+
+    /// <summary>
+    /// The mode of the pool OS upgrade.
+    /// </summary>
+    [CliFlag("--upgrade-policy-mode")]
+    public bool? UpgradePolicyMode { get; set; }
+
+    /// <summary>
+    /// Defer OS upgrades on the TVMs if they are running tasks. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--defer-os-rolling-upgrade")]
+    public bool? DeferOsRollingUpgrade { get; set; }
+
+    /// <summary>
+    /// Whether OS image rollback feature should be disabled. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-auto-rollback")]
+    public bool? DisableAutoRollback { get; set; }
+
+    /// <summary>
+    /// Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. :code:`&lt;br /&gt;`:code:`&lt;br /&gt;` If this is set to true for
+    /// </summary>
+    [CliFlag("--enable-auto-os-upgrade")]
+    public bool? EnableAutoOsUpgrade { get; set; }
+
+    /// <summary>
+    /// Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. True if flag present. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--use-rolling-upgrade-policy")]
+    public bool? UseRollingUpgradePolicy { get; set; }
+
+    /// <summary>
+    /// Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-cross-zone-upgrade")]
+    public bool? EnableCrossZoneUpgrade { get; set; }
+
+    /// <summary>
+    /// The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent.
+    /// </summary>
+    [CliFlag("--max-batch-instance-percent")]
+    public bool? MaxBatchInstancePercent { get; set; }
+
+    /// <summary>
+    /// The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent.
+    /// </summary>
+    [CliFlag("--max-unhealthy-instance-percent")]
+    public bool? MaxUnhealthyInstancePercent { get; set; }
+
+    /// <summary>
+    /// The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100, inclusive.
+    /// </summary>
+    [CliFlag("--max-unhealthy-upgraded-instance-percent")]
+    public bool? MaxUnhealthyUpgradedInstancePercent { get; set; }
+
+    /// <summary>
+    /// The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format.. Expected format is an ISO-8601 duration.
+    /// </summary>
+    [CliFlag("--pause-time-between-batches")]
+    public bool? PauseTimeBetweenBatches { get; set; }
+
+    /// <summary>
+    /// Upgrade all unhealthy instances in a scale set before any healthy instances. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--prioritize-unhealthy-instances")]
+    public bool? PrioritizeUnhealthyInstances { get; set; }
+
+    /// <summary>
+    /// Rollback failed instances to previous model if the Rolling Upgrade policy is violated. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--rollback-failed-instances-on-policy-breach")]
+    public bool? RollbackFailedInstancesOnPolicyBreach { get; set; }
+
+    /// <summary>
+    /// A space separated list of DiskEncryptionTargets. current possible values include OsDisk and
+    /// </summary>
+    [CliFlag("--disk-encryption-targets")]
+    public bool? DiskEncryptionTargets { get; set; }
+
+    /// <summary>
+    /// OS image reference. This can be either 'publisher:offer:sku[:version]' format, or a fully qualified ARM image id of the form '/subscr iptions/{subscriptionId}/resourceGroups/{resource
+    /// </summary>
+    [CliFlag("--image")]
+    public bool? Image { get; set; }
+
+    /// <summary>
+    /// The SKU of the Batch Compute Node agent to be provisioned on Compute Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in the Pool, and provides the command-and-control interface between the Compute Node and the Batch service. There are different implementations of the Compute Node agent, known as SKUs, for different operating systems. You must specify a Compute Node agent SKU which matches the selected Image reference. To get the list of supported Compute Node agent SKUs along with their list of verified Image references, see the 'List supported Compute Node agent SKUs' operation. Required.
+    /// </summary>
+    [CliFlag("--node-agent-sku-id")]
+    public bool? NodeAgentSkuId { get; set; }
+
+    /// <summary>
+    /// The list of disk targets Batch Service will encrypt on the compute node. If omitted, no disks on the compute nodes in the pool will be encrypted. On Linux pool, only "TemporaryDisk" is supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified. Space seperated target disks to be encrypted. Values can either be OsDisk or TemporaryDisk.
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; set; }
+
+    /// <summary>
+    /// Node placement Policy type on Batch Pools. Allocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy. Known values are: "regional" and "zonal".
+    /// </summary>
+    [CliFlag("--policy")]
+    public bool? Policy { get; set; }
+
+    /// <summary>
+    /// Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual- machines/windows/ephemeral-os-disks#size- requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual- machines/linux/ephemeral-os-disks#size- requirements. "cachedisk".
+    /// </summary>
+    [CliFlag("--placement")]
+    public bool? Placement { get; set; }
 
 }

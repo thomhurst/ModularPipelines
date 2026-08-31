@@ -18,12 +18,56 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "cluster", "create")]
-public record AzEventhubsClusterCreateOptions : AzOptions
+public record AzEventhubsClusterCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-n")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventhubsClusterCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource location.  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Provisioning state of the Cluster.
+    /// </summary>
+    [CliFlag("--provisioning-state")]
+    public bool? ProvisioningState { get; set; }
+
+    /// <summary>
+    /// A value that indicates whether Scaling is Supported. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--supports-scaling")]
+    public bool? SupportsScaling { get; set; }
+
+    /// <summary>
+    /// The quantity of Event Hubs Cluster Capacity Units contained in this cluster.  Default: 1.
+    /// </summary>
+    [CliFlag("--capacity")]
+    public bool? Capacity { get; set; }
+
+    /// <summary>
+    /// Name of this SKU.  Allowed values: Dedicated.  Default:
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
 }

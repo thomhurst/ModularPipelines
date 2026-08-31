@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "rule", "list")]
-public record AzServicebusTopicSubscriptionRuleListOptions : AzOptions
+public record AzServicebusTopicSubscriptionRuleListOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subscription-name")] string SubscriptionName,
+    [property: CliOption("--topic-name")] string TopicName
+) : AzOptions
 {
+    public AzServicebusTopicSubscriptionRuleListOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
     /// </summary>

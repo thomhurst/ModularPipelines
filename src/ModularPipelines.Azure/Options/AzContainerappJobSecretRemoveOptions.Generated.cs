@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "job", "secret", "remove")]
-public record AzContainerappJobSecretRemoveOptions : AzOptions
+public record AzContainerappJobSecretRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: SecretValue, CliOption("--secret-names", GroupValues = true)] IEnumerable<string> SecretNames
+) : AzOptions
 {
+    public AzContainerappJobSecretRemoveOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

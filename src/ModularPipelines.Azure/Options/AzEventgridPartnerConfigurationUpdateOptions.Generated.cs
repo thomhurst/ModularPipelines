@@ -18,12 +18,25 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "configuration", "update")]
-public record AzEventgridPartnerConfigurationUpdateOptions : AzOptions
+public record AzEventgridPartnerConfigurationUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerConfigurationUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Time used to validate the authorization expiration time for each authorized partner. If
+    /// </summary>
+    [CliFlag("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    public bool? DefaultMaximumExpirationTimeInDays { get; set; }
+
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

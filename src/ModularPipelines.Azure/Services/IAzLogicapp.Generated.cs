@@ -82,6 +82,16 @@ public interface IAzLogicapp
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Get the details of a logic app.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowAsync(AzLogicappShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Start a logic app.
     /// </summary>
     /// <param name="options">The command options.</param>

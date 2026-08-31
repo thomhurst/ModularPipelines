@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "http-route-config", "delete")]
-public record AzContainerappEnvHttpRouteConfigDeleteOptions : AzOptions
+public record AzContainerappEnvHttpRouteConfigDeleteOptions(
+    [property: CliOption("--http-route-config-name", ShortForm = "-r")] string HttpRouteConfigName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappEnvHttpRouteConfigDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

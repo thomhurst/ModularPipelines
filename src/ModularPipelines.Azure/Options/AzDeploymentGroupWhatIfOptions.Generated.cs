@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "group", "what-if")]
-public record AzDeploymentGroupWhatIfOptions : AzOptions
+public record AzDeploymentGroupWhatIfOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzDeploymentGroupWhatIfOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>
@@ -29,14 +36,14 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
     /// </summary>
-    [CliFlag("--exclude-change-types", ShortForm = "-x")]
-    public bool? ExcludeChangeTypes { get; set; }
+    [CliOption("--exclude-change-types", ShortForm = "-x", GroupValues = true)]
+    public IEnumerable<string>? ExcludeChangeTypes { get; set; }
 
     /// <summary>
     /// The deployment mode.  Allowed values: Complete, Incremental.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// The deployment name.
@@ -71,8 +78,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// The format of What-If results.  Allowed values: FullResourcePayloads, ResourceIdOnly.  Default:
     /// </summary>
-    [CliFlag("--result-format", ShortForm = "-r")]
-    public bool? ResultFormat { get; set; }
+    [CliOption("--result-format", ShortForm = "-r")]
+    public string? ResultFormat { get; set; }
 
     /// <summary>
     /// The path to the template file or Bicep file.
@@ -95,8 +102,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values:
     /// </summary>
-    [CliFlag("--validation-level")]
-    public bool? ValidationLevel { get; set; }
+    [CliOption("--validation-level")]
+    public string? ValidationLevel { get; set; }
 
     [Obsolete("Use QueryString instead.")]
     public string? QueryStringValue

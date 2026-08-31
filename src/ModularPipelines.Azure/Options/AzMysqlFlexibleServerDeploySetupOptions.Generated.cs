@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "deploy", "setup")]
-public record AzMysqlFlexibleServerDeploySetupOptions : AzOptions
+public record AzMysqlFlexibleServerDeploySetupOptions(
+    [property: CliOption("--repo")] string Repo,
+    [property: CliOption("--sql-file")] string SqlFile,
+    [property: SecretValue, CliOption("--admin-password", ShortForm = "-p")] string AdminPassword,
+    [property: CliOption("--admin-user", ShortForm = "-u")] string AdminUser
+) : AzOptions
 {
+    public AzMysqlFlexibleServerDeploySetupOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the github action.
     /// </summary>
@@ -37,6 +48,30 @@ public record AzMysqlFlexibleServerDeploySetupOptions : AzOptions
     /// </summary>
     [CliOption("--branch")]
     public string? Branch { get; set; }
+
+    /// <summary>
+    /// The name of the database to be created when provisioning the database server.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
     [Obsolete("Use ActionName instead.")]
     public string? ActionNameValue

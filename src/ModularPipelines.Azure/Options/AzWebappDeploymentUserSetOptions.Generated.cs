@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "user", "set")]
-public record AzWebappDeploymentUserSetOptions : AzOptions
+public record AzWebappDeploymentUserSetOptions(
+    [property: CliOption("--user-name")] string UserName
+) : AzOptions
 {
+    public AzWebappDeploymentUserSetOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Password, will prompt if not specified.
     /// </summary>

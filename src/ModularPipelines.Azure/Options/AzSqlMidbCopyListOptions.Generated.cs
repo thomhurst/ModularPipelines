@@ -26,6 +26,42 @@ public record AzSqlMidbCopyListOptions : AzOptions
     [CliOption("--dest-mi")]
     public string? DestMi { get; set; }
 
+    /// <summary>
+    /// Name of the target resource group to show copy operations for.
+    /// </summary>
+    [CliOption("--dest-resource-group", ShortForm = "--dest-rg")]
+    public string? DestResourceGroup { get; set; }
+
+    /// <summary>
+    /// Flag that only shows latest copy operation per managed database.
+    /// </summary>
+    [CliFlag("--latest", ShortForm = "--only-latest-per-database")]
+    public bool? Latest { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the source managed instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the source resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
     [Obsolete("Use DestMi instead.")]
     public string? DestMiValue
     {

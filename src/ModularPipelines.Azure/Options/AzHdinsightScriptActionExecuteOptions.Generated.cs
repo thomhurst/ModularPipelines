@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "script-action", "execute")]
-public record AzHdinsightScriptActionExecuteOptions : AzOptions
+public record AzHdinsightScriptActionExecuteOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--roles", GroupValues = true)] IEnumerable<string> Roles,
+    [property: CliOption("--script-uri")] string ScriptUri
+) : AzOptions
 {
+    public AzHdinsightScriptActionExecuteOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// If the scripts needs to be persisted.
     /// </summary>

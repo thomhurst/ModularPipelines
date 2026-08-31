@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "show-run")]
-public record AzAcrTaskShowRunOptions : AzOptions
+public record AzAcrTaskShowRunOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--run-id")] string RunId
+) : AzOptions
 {
+    public AzAcrTaskShowRunOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

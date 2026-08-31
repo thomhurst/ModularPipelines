@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "create")]
-public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
+public record AzPostgresFlexibleServerMigrationCreateOptions(
+    [property: CliOption("--properties", ShortForm = "-b")] string Properties,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
+    public AzPostgresFlexibleServerMigrationCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
@@ -29,14 +38,14 @@ public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
     /// <summary>
     /// Either offline or online(with CDC) migration.  Allowed values: offline, online.  Default: offline.
     /// </summary>
-    [CliFlag("--migration-mode")]
-    public bool? MigrationMode { get; set; }
+    [CliOption("--migration-mode")]
+    public string? MigrationMode { get; set; }
 
     /// <summary>
     /// Supported Migration Option. Default is ValidateAndMigrate. Allowed values: Migrate, Validate, ValidateAndMigrate.
     /// </summary>
-    [CliFlag("--migration-option")]
-    public bool? MigrationOption { get; set; }
+    [CliOption("--migration-option")]
+    public string? MigrationOption { get; set; }
 
     /// <summary>
     /// Name of the migration.
@@ -47,8 +56,8 @@ public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

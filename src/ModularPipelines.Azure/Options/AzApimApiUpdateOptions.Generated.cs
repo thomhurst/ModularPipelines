@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "update")]
-public record AzApimApiUpdateOptions : AzOptions
+public record AzApimApiUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
+    public AzApimApiUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// ETag of the Entity. Not required when creating an entity, but required when updating an entity. Default value is
     /// </summary>
@@ -35,7 +44,85 @@ public record AzApimApiUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The type of the API.  Allowed values: graphql, http, soap, websocket.
+    /// </summary>
+    [CliOption("--api-type")]
+    public string? ApiType { get; set; }
+
+    /// <summary>
+    /// Description of the API. May include HTML formatting tags.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// API name. Must be 1 to 300 characters long.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.
+    /// </summary>
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
+
+    /// <summary>
+    /// Describes on which protocols the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
+    /// </summary>
+    [CliOption("--protocols")]
+    public string? Protocols { get; set; }
+
+    /// <summary>
+    /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
+    /// </summary>
+    [CliFlag("--service-url")]
+    public bool? ServiceUrl { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key header name.
+    /// </summary>
+    [CliFlag("--subscription-key-header-name")]
+    public bool? SubscriptionKeyHeaderName { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key query string parameter name.
+    /// </summary>
+    [CliFlag("--subscription-key-query-param-name")]
+    public bool? SubscriptionKeyQueryParamName { get; set; }
+
+    /// <summary>
+    /// If true, the API requires a subscription key on requests. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--subscription-required")]
+    public bool? SubscriptionRequired { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation", "validate")]
-public record AzSecurityAutomationValidateOptions : AzOptions
+public record AzSecurityAutomationValidateOptions(
+    [property: CliOption("--actions")] string Actions,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--scopes")] string Scopes,
+    [property: CliOption("--sources")] string Sources
+) : AzOptions
 {
+    public AzSecurityAutomationValidateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The security automation description.
     /// </summary>
@@ -47,8 +58,8 @@ public record AzSecurityAutomationValidateOptions : AzOptions
     /// <summary>
     /// A list of key value pairs that describe the resource.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     [Obsolete("Use IsEnabled instead.")]
     public bool? Isenabled

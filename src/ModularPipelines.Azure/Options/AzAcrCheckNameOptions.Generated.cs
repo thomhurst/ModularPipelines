@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "check-name")]
-public record AzAcrCheckNameOptions : AzOptions
+public record AzAcrCheckNameOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrCheckNameOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Domain name label scope will add a hash to the resource name . The resulting login server name will be in the format `registry- name`-`hash`.azurecr-io. Default is Unsecure.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse, Unsecure.  Default:
+    /// </summary>
+    [CliOption("--dnl-scope")]
+    public string? DnlScope { get; set; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

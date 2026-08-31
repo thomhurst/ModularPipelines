@@ -22,6 +22,7 @@ public class AzSynapse : IAzSynapse
 {
     private readonly ICommandContext _command;
     private AzSynapseActivityRun? _activityRun;
+    private AzSynapseAdOnlyAuth? _adOnlyAuth;
     private AzSynapseDataFlow? _dataFlow;
     private AzSynapseDataset? _dataset;
     private AzSynapseIntegrationRuntime? _integrationRuntime;
@@ -58,6 +59,11 @@ public class AzSynapse : IAzSynapse
     /// az activity-run sub-commands.
     /// </summary>
     public AzSynapseActivityRun ActivityRun => _activityRun ??= new AzSynapseActivityRun(_command);
+
+    /// <summary>
+    /// az ad-only-auth sub-commands.
+    /// </summary>
+    public AzSynapseAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSynapseAdOnlyAuth(_command);
 
     /// <summary>
     /// az data-flow sub-commands.

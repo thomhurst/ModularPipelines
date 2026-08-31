@@ -23,8 +23,8 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Scope that the system assigned identity can access.
     /// </summary>
-    [CliFlag("--identity-scope")]
-    public bool? IdentityScope { get; set; }
+    [CliOption("--identity-scope")]
+    public string? IdentityScope { get; set; }
 
     /// <summary>
     /// The name of the policy assignment.
@@ -53,8 +53,98 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Sets the system assigned managed identity.
+    /// </summary>
+    [CliFlag("--assign-identity", ShortForm = "--system-assigned")]
+    public bool? AssignIdentity { get; set; }
+
+    /// <summary>
+    /// Sets the user assigned managed identity.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// The location of the policy assignment.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// The policy version to assign.
+    /// </summary>
+    [CliFlag("--definition-version")]
+    public bool? DefinitionVersion { get; set; }
+
+    /// <summary>
+    /// Policy assignment description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy assignment.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy assignment enforcement mode.  Allowed values: Default, DoNotEnforce, Enroll.  Default:
+    /// </summary>
+    [CliOption("--enforcement-mode", ShortForm = "-e")]
+    public string? EnforcementMode { get; set; }
+
+    /// <summary>
+    /// The policy assignment metadata.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment excluded scopes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--not-scopes")]
+    public bool? NotScopes { get; set; }
+
+    /// <summary>
+    /// The policy override.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--overrides")]
+    public bool? Overrides { get; set; }
+
+    /// <summary>
+    /// The parameter values for the assigned policy rule.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--params", ShortForm = "-p")]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// The policy definition or policy set definition to assign.
+    /// </summary>
+    [CliFlag("--policy-set-definition", ShortForm = "-d")]
+    public bool? PolicySetDefinition { get; set; }
+
+    /// <summary>
+    /// The resource selectors list to filter policies by resource properties.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
+
+    /// <summary>
+    /// The self-serve exemption settings for the policy assignment.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--self-serve", ShortForm = "--self-serve-exemption-settings")]
+    public bool? SelfServe { get; set; }
+
+    /// <summary>
+    /// The messages that describe why a resource is non-compliant with the policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--non-compliance-messages", ShortForm = "-m")]
+    public bool? NonComplianceMessages { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

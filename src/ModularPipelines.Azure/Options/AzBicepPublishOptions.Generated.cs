@@ -18,13 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "publish")]
-public record AzBicepPublishOptions : AzOptions
+public record AzBicepPublishOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--target", ShortForm = "-t")] string Target
+) : AzOptions
 {
+    public AzBicepPublishOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The documentation uri of the Bicep module.
     /// </summary>
     [CliFlag("--documentation-uri", ShortForm = "-d")]
     public bool? DocumentationUri { get; set; }
+
+    /// <summary>
+    /// The documentation uri of the Bicep module.
+    /// </summary>
+    [CliFlag("--documentationUri")]
+    public bool? DocumentationUriOption { get; set; }
 
     /// <summary>
     /// Allow overwriting an existing Bicep module version.

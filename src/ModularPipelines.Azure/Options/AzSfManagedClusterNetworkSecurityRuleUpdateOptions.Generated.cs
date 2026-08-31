@@ -18,13 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "network-security-rule", "update")]
-public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
+public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfManagedClusterNetworkSecurityRuleUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allows or denies network traffic.  Allowed values: allow, deny.
     /// </summary>
-    [CliFlag("--access")]
-    public bool? Access { get; set; }
+    [CliOption("--access")]
+    public string? Access { get; set; }
 
     /// <summary>
     /// Network security rule description.
@@ -47,8 +56,8 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network security rule direction.  Allowed values: inbound, outbound.
     /// </summary>
-    [CliFlag("--direction")]
-    public bool? Direction { get; set; }
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Integer that shows priority for rule.
@@ -59,8 +68,8 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network protocol.  Allowed values: ah, any, esp, http, https, icmp, tcp, udp.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// The CIDR or source IP ranges. A single or space separated list of source address prefixes.

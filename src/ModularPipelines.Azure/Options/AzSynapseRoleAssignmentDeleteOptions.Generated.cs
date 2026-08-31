@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "assignment", "delete")]
-public record AzSynapseRoleAssignmentDeleteOptions : AzOptions
+public record AzSynapseRoleAssignmentDeleteOptions(
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseRoleAssignmentDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Represent a user or service principal. Supported format: object id, user sign-in name, or service principal name.
     /// </summary>
@@ -35,8 +42,8 @@ public record AzSynapseRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Space-separated role assignment ids. You should not provide --role or --assignee when --ids is provided.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Item granted access in the workspace. Using with --item-type to combine the scope of assignment.Using az role assignment with filter condition before executing delete operation to be clearly aware of which assignments will be deleted.
@@ -47,8 +54,8 @@ public record AzSynapseRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Item type granted access in the workspace. Using with --item to combine the scope of assignment.Using az role assignment with filter condition before executing delete operation to be clearly aware of which assignments will be deleted.  Allowed values: bigDataPools, credentials, integrationRuntimes, linkedServices.
     /// </summary>
-    [CliFlag("--item-type")]
-    public bool? ItemType { get; set; }
+    [CliOption("--item-type")]
+    public string? ItemType { get; set; }
 
     /// <summary>
     /// The role name/id that is assigned to the principal.
@@ -59,8 +66,8 @@ public record AzSynapseRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// A scope defines the resources or artifacts that the access applies to. Synapse supports hierarchical scopes. Permissions granted at a higher-level scope are inherited by objects at a lower level. In Synapse RBAC, the top-level scope is a workspace. Using az role assignment with filter condition before executing delete operation to be clearly aware of which assignments will be deleted.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

@@ -23,7 +23,265 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Backup Policy Resource ID.
+    /// </summary>
+    [CliOption("--backup-policy-id")]
+    public string? BackupPolicyId { get; set; }
+
+    /// <summary>
+    /// Backup Vault Resource ID.
+    /// </summary>
+    [CliOption("--backup-vault-id")]
+    public string? BackupVaultId { get; set; }
+
+    /// <summary>
+    /// Policy Enforced.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--policy-enforced")]
+    public bool? PolicyEnforced { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'.
+    /// </summary>
+    [CliOption("--encryption-key-source")]
+    public string? EncryptionKeySource { get; set; }
+
+    /// <summary>
+    /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
+    /// </summary>
+    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    public string? KeyVaultPrivateEndpointResourceId { get; set; }
+
+    /// <summary>
+    /// Advanced Ransomware Protection settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--ransomware-protection")]
+    public bool? RansomwareProtection { get; set; }
+
+    /// <summary>
+    /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--export-policy-rules", ShortForm = "--rules")]
+    public bool? ExportPolicyRules { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt; value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// CoolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:   Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.  OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage.
+    /// </summary>
+    [CliFlag("--ca-retrieval-policy", ShortForm = "--cool-access-retrieval-policy")]
+    public bool? CaRetrievalPolicy { get; set; }
+
+    /// <summary>
+    /// CoolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier.  Allowed values: Auto,
+    /// </summary>
+    [CliOption("--ca-tiering-policy", ShortForm = "--cool-access-tiering-policy")]
+    public string? CaTieringPolicy { get; set; }
+
+    /// <summary>
+    /// Pool Resource Id used in case of creating a volume through volume group.
+    /// </summary>
+    [CliOption("--capacity-pool-resource-id", ShortForm = "--pool-resource-id")]
+    public string? CapacityPoolResourceId { get; set; }
+
+    /// <summary>
+    /// Specifies whether Cool
+    /// </summary>
+    [CliFlag("--cool-access")]
+    public bool? CoolAccess { get; set; }
+
+    /// <summary>
+    /// Specifies the number of days after which data that is not accessed by clients will be tiered.
+    /// </summary>
+    [CliFlag("--coolness-period")]
+    public bool? CoolnessPeriod { get; set; }
+
+    /// <summary>
+    /// If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--delete-base-snapshot")]
+    public bool? DeleteBaseSnapshot { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether subvolume operations are enabled on the volume.
+    /// </summary>
+    [CliFlag("--enable-subvolumes")]
+    public bool? EnableSubvolumes { get; set; }
+
+    /// <summary>
+    /// Application specific placement rules for the particular volume  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--placement-rules")]
+    public bool? PlacementRules { get; set; }
+
+    /// <summary>
+    /// Proximity placement group associated with the volume.
+    /// </summary>
+    [CliFlag("--ppg", ShortForm = "--proximity-placement-group")]
+    public bool? Ppg { get; set; }
+
+    /// <summary>
+    /// Set of protocol types, default NFSv3, CIFS for SMB protocol  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--protocol-types")]
+    public bool? ProtocolTypes { get; set; }
+
+    /// <summary>
+    /// ServiceLevel.  Allowed values: Flexible, Premium,
+    /// </summary>
+    [CliOption("--service-level")]
+    public string? ServiceLevel { get; set; }
+
+    /// <summary>
+    /// Enables access based enumeration share property for SMB Shares. Only applicable for
+    /// </summary>
+    [CliFlag("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    public bool? SmbAccessBasedEnumeration { get; set; }
+
+    /// <summary>
+    /// Enables continuously available share property for smb volume. Only applicable for SMB volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--smb-ca", ShortForm = "--smb-continuously-avl")]
+    public bool? SmbCa { get; set; }
+
+    /// <summary>
+    /// Enables encryption for in- flight smb3 data. Only applicable for
+    /// </summary>
+    [CliFlag("--smb-encryption")]
+    public bool? SmbEncryption { get; set; }
+
+    /// <summary>
+    /// Enables non browsable property for SMB Shares.
+    /// </summary>
+    [CliFlag("--smb-non-browsable")]
+    public bool? SmbNonBrowsable { get; set; }
+
+    /// <summary>
+    /// If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--snapshot-dir-visible", ShortForm = "--snapshot-directory-visible")]
+    public bool? SnapshotDirVisible { get; set; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation
+    /// </summary>
+    [CliFlag("--subnet", ShortForm = "--subnet-id")]
+    public bool? Subnet { get; set; }
+
+    /// <summary>
+    /// Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume.
+    /// </summary>
+    [CliFlag("--throughput-mibps")]
+    public bool? ThroughputMibps { get; set; }
+
+    /// <summary>
+    /// UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1).
+    /// </summary>
+    [CliFlag("--unix-permissions")]
+    public bool? UnixPermissions { get; set; }
+
+    /// <summary>
+    /// Maximum storage quota allowed for a file system in
+    /// </summary>
+    [CliFlag("--usage-threshold")]
+    public bool? UsageThreshold { get; set; }
+
+    /// <summary>
+    /// Name or Resource ID of the vnet. If you want to use a vnet in other resource group or subscription, please provide the Resource ID instead of the name of the vnet.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
+
+    /// <summary>
+    /// Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log.
+    /// </summary>
+    [CliFlag("--volume-spec-name")]
+    public bool? VolumeSpecName { get; set; }
+
+    /// <summary>
+    /// The remote region for the other end of the Volume
+    /// </summary>
+    [CliFlag("--remote-volume-region")]
+    public bool? RemoteVolumeRegion { get; set; }
+
+    /// <summary>
+    /// Schedule.  Allowed values: _10minutely, daily, hourly.
+    /// </summary>
+    [CliOption("--replication-schedule")]
+    public string? ReplicationSchedule { get; set; }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the volume.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-v")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string? PoolName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Snapshot Policy ResourceId.
+    /// </summary>
+    [CliFlag("--snapshot-policy-id")]
+    public bool? SnapshotPolicyId { get; set; }
+
+    /// <summary>
+    /// Has relocation been requested for this volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--relocation-requested")]
+    public bool? RelocationRequested { get; set; }
 
 }

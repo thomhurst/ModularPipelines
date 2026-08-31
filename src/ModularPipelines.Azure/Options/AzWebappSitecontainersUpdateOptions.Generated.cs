@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "update")]
-public record AzWebappSitecontainersUpdateOptions : AzOptions
+public record AzWebappSitecontainersUpdateOptions(
+    [property: CliOption("--container-name")] string ContainerName
+) : AzOptions
 {
+    public AzWebappSitecontainersUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Image Name.
     /// </summary>
@@ -45,6 +52,12 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     public bool? RegistryUsername { get; set; }
 
     /// <summary>
+    /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    public bool? Si { get; set; }
+
+    /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
@@ -61,6 +74,30 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-port")]
     public bool? TargetPort { get; set; }
+
+    /// <summary>
+    /// ClientID for the user-maganed identity which will be used for auth while pulling image.
+    /// </summary>
+    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
+    public bool? Ui { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the linux webapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "consumer-group", "create")]
-public record AzIotHubConsumerGroupCreateOptions : AzOptions
+public record AzIotHubConsumerGroupCreateOptions(
+    [property: CliOption("--hub-name")] string HubName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzIotHubConsumerGroupCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Event hub endpoint name.  Default: events.
     /// </summary>

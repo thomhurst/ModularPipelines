@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "definition", "delete")]
-public record AzKeyvaultRoleDefinitionDeleteOptions : AzOptions
+public record AzKeyvaultRoleDefinitionDeleteOptions(
+    [property: CliOption("--hsm-name")] string HsmName
+) : AzOptions
 {
+    public AzKeyvaultRoleDefinitionDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The role definition name. This is a GUID in the "name" property of a role definition.
     /// </summary>

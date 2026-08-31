@@ -37,6 +37,11 @@ public interface IAzContainerapp
     AzContainerappConnection Connection => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az dapr sub-commands.
+    /// </summary>
+    AzContainerappDapr Dapr => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az env sub-commands.
     /// </summary>
     AzContainerappEnv Env => throw new System.NotSupportedException();
@@ -97,6 +102,16 @@ public interface IAzContainerapp
     AzContainerappSsl Ssl => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Open a containerapp in the browser, if possible.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BrowseAsync(AzContainerappBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Create a container app.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -134,6 +149,16 @@ public interface IAzContainerapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListAsync(AzContainerappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// List usages of subscription level quotas in specific region.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListUsagesAsync(AzContainerappListUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

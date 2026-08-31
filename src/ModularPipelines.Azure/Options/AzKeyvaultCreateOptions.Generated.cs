@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "create")]
-public record AzKeyvaultCreateOptions : AzOptions
+public record AzKeyvaultCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzKeyvaultCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// [HSM Only] Administrator role for data plane operations for Managed HSM. It accepts a space separated list of OIDs that will be assigned.
     /// </summary>
@@ -71,8 +78,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [HSM Only] Enable user-assigned managed identities for managed HSM. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Name of the Vault.
@@ -95,8 +102,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values:
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90. Defaults to 90 for keyvault creation. Required for MHSM creation.
@@ -107,14 +114,44 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Required. SKU details. Allowed values for Vault: premium, standard. Default: standard. Allowed values for HSM: Standard_B1, Custom_B32, Custom_B6, Custom_C42, Custom_C10.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Bypass traffic for space-separated uses.  Allowed values:
+    /// </summary>
+    [CliOption("--bypass", GroupValues = true)]
+    public IEnumerable<string>? Bypass { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
+
+    /// <summary>
+    /// Network ACLs. It accepts a JSON filename or a JSON string. JSON format: `{\"ip\":[&lt;ip1&gt;, &lt;ip2&gt;...],\"vnet\":[&lt;vnet_name _1&gt;/&lt;subnet_name_1&gt;,&lt;subnet_id2&gt;...]}`.
+    /// </summary>
+    [CliFlag("--network-acls")]
+    public bool? NetworkAcls { get; set; }
+
+    /// <summary>
+    /// Network ACLs IP rules. Space-separated list of IP addresses.
+    /// </summary>
+    [CliOption("--network-acls-ips", GroupValues = true)]
+    public IEnumerable<string>? NetworkAclsIps { get; set; }
+
+    /// <summary>
+    /// Network ACLS VNet rules. Space-separated list of Vnet/subnet pairs or subnet resource ids.
+    /// </summary>
+    [CliOption("--network-acls-vnets", GroupValues = true)]
+    public IEnumerable<string>? NetworkAclsVnets { get; set; }
 
     [Obsolete("Use HsmName instead.")]
     public string? HsmNameValue

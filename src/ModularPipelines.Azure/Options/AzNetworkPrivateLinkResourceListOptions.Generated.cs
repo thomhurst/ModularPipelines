@@ -41,8 +41,8 @@ public record AzNetworkPrivateLinkResourceListOptions : AzOptions
     /// <summary>
     /// Type of the resource. If provided, --name and --resource-group must be provided too.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service, Microsoft.App/managedEnvironments,
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
     [Obsolete("Use Id instead.")]
     public string? IdValue

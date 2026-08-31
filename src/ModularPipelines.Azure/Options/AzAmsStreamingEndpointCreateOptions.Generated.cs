@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "create")]
-public record AzAmsStreamingEndpointCreateOptions : AzOptions
+public record AzAmsStreamingEndpointCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--scale-units")] string ScaleUnits
+) : AzOptions
 {
+    public AzAmsStreamingEndpointCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The flag indicates if the resource should be automatically started on creation.
     /// </summary>
@@ -35,8 +45,8 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of custom host names for the streaming endpoint. Use "" to clear existing list.
     /// </summary>
-    [CliFlag("--custom-host-names")]
-    public bool? CustomHostNames { get; set; }
+    [CliOption("--custom-host-names", GroupValues = true)]
+    public IEnumerable<string>? CustomHostNames { get; set; }
 
     /// <summary>
     /// The streaming endpoint description.
@@ -59,8 +69,38 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. If no IP addresses are specified any IP address will be allowed.
+    /// </summary>
+    [CliOption("--ips", GroupValues = true)]
+    public IEnumerable<string>? Ips { get; set; }
+
+    /// <summary>
+    /// The CDN profile name.
+    /// </summary>
+    [CliFlag("--cdn-profile")]
+    public bool? CdnProfile { get; set; }
+
+    /// <summary>
+    /// The CDN provider name. Allowed values: StandardVerizon,
+    /// </summary>
+    [CliOption("--cdn-provider")]
+    public string? CdnProvider { get; set; }
+
+    /// <summary>
+    /// The XML representing the clientaccesspolicy data used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/rest/api/ media/operations/crosssiteaccesspolicies.
+    /// </summary>
+    [CliFlag("--client-access-policy")]
+    public bool? ClientAccessPolicy { get; set; }
+
+    /// <summary>
+    /// The XML representing the crossdomain data used by Silverlight. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://lear n.microsoft.com/rest/api/media/operations/crosssiteaccesspolici es.
+    /// </summary>
+    [CliFlag("--cross-domain-policy")]
+    public bool? CrossDomainPolicy { get; set; }
 
     [Obsolete("Use AvailabilitySetName instead.")]
     public string? AvailabilitySetNameValue

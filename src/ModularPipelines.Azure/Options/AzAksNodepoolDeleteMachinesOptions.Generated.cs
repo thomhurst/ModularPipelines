@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "delete-machines")]
-public record AzAksNodepoolDeleteMachinesOptions : AzOptions
+public record AzAksNodepoolDeleteMachinesOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--machine-names", GroupValues = true)] IEnumerable<string> MachineNames,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksNodepoolDeleteMachinesOptions()
+        : this(default(string)!, default(IEnumerable<string>)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

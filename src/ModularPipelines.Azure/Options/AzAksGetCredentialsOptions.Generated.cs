@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "get-credentials")]
-public record AzAksGetCredentialsOptions : AzOptions
+public record AzAksGetCredentialsOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksGetCredentialsOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Get cluster administrator credentials.  Default: cluster user credentials.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzAksGetCredentialsOptions : AzOptions
     /// <summary>
     /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Specify the format of the returned credential. Available values are ["exec", "azure"]. Only take effect when requesting clusterUser credential of AAD clusters.

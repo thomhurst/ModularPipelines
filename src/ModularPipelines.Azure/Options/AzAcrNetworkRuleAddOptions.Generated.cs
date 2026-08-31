@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "network-rule", "add")]
-public record AzAcrNetworkRuleAddOptions : AzOptions
+public record AzAcrNetworkRuleAddOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrNetworkRuleAddOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// IPv4/IPv6 address or CIDR range.
     /// </summary>

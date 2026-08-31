@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "function", "keys", "list")]
-public record AzFunctionappFunctionKeysListOptions : AzOptions
+public record AzFunctionappFunctionKeysListOptions(
+    [property: CliOption("--function-name")] string FunctionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzFunctionappFunctionKeysListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>

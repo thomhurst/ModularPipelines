@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "update")]
-public record AzPolicyAssignmentUpdateOptions : AzOptions
+public record AzPolicyAssignmentUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyAssignmentUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name or resource ID of the policy definition or policy set definition to be assigned.
     /// </summary>
@@ -35,8 +42,110 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The location of the policy assignment.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// The policy version to assign.
+    /// </summary>
+    [CliFlag("--definition-version")]
+    public bool? DefinitionVersion { get; set; }
+
+    /// <summary>
+    /// Policy assignment description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy assignment.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy assignment enforcement mode.  Allowed values: Default, DoNotEnforce, Enroll.
+    /// </summary>
+    [CliOption("--enforcement-mode", ShortForm = "-e")]
+    public string? EnforcementMode { get; set; }
+
+    /// <summary>
+    /// The policy assignment metadata.  Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment excluded scopes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--not-scopes")]
+    public bool? NotScopes { get; set; }
+
+    /// <summary>
+    /// The policy property value override.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--overrides")]
+    public bool? Overrides { get; set; }
+
+    /// <summary>
+    /// The parameter values for the assigned policy rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--params", ShortForm = "-p")]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// The policy definition or policy set definition to assign.
+    /// </summary>
+    [CliFlag("--policy-set-definition", ShortForm = "-d")]
+    public bool? PolicySetDefinition { get; set; }
+
+    /// <summary>
+    /// The resource selectors list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
+
+    /// <summary>
+    /// The self-serve exemption settings for the policy assignment.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--self-serve", ShortForm = "--self-serve-exemption-settings")]
+    public bool? SelfServe { get; set; }
+
+    /// <summary>
+    /// The messages that describe why a resource is non- compliant with the policy.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--non-compliance-messages", ShortForm = "-m")]
+    public bool? NonComplianceMessages { get; set; }
 
     [Obsolete("Use Policy instead.")]
     public string? PolicyValue

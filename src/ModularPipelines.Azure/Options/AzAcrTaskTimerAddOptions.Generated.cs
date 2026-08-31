@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "timer", "add")]
-public record AzAcrTaskTimerAddOptions : AzOptions
+public record AzAcrTaskTimerAddOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--schedule")] string Schedule,
+    [property: CliOption("--timer-name")] string TimerName
+) : AzOptions
 {
+    public AzAcrTaskTimerAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.  Default: True.
     /// </summary>

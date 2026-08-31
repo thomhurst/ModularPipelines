@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "update", "confluent-cloud")]
-public record AzConnectionUpdateConfluentCloudOptions : AzOptions
+public record AzConnectionUpdateConfluentCloudOptions(
+    [property: CliOption("--connection")] string Connection
+) : AzOptions
 {
+    public AzConnectionUpdateConfluentCloudOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Kafka bootstrap server url.
     /// </summary>
@@ -29,8 +36,8 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.

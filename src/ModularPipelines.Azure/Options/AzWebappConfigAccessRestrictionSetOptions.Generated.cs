@@ -23,14 +23,14 @@ public record AzWebappConfigAccessRestrictionSetOptions : AzOptions
     /// <summary>
     /// Configure default action for main site.  Allowed values:
     /// </summary>
-    [CliFlag("--default-action")]
-    public bool? DefaultAction { get; set; }
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
 
     /// <summary>
     /// Configure default action for scm site.  Allowed values:
     /// </summary>
-    [CliFlag("--scm-default-action")]
-    public bool? ScmDefaultAction { get; set; }
+    [CliOption("--scm-default-action")]
+    public string? ScmDefaultAction { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -43,6 +43,24 @@ public record AzWebappConfigAccessRestrictionSetOptions : AzOptions
     /// </summary>
     [CliOption("--use-same-restrictions-for-scm-site")]
     public bool? UseSameRestrictionsForScmSite { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

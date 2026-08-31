@@ -18,24 +18,34 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "redirect-config", "create")]
-public record AzNetworkApplicationGatewayRedirectConfigCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayRedirectConfigCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type", ShortForm = "-t")] string Type
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayRedirectConfigCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Whether to include path in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-path")]
+    [CliOption("--include-path")]
     public bool? IncludePath { get; set; }
 
     /// <summary>
     /// Whether to include query string in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-query-string")]
+    [CliOption("--include-query-string")]
     public bool? IncludeQueryString { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

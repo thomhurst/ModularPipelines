@@ -23,8 +23,8 @@ public record AzLockShowOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Name of the lock.
@@ -43,6 +43,12 @@ public record AzLockShowOptions : AzOptions
     /// </summary>
     [CliFlag("--parent")]
     public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

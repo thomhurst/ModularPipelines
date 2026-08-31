@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,19 +19,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "import")]
-public record AzAppConfigKvImportOptions : AzOptions
+public record AzAppConfigKvImportOptions(
+    [property: CliOption("--source", ShortForm = "-s")] string Source
+) : AzOptions
 {
+    public AzAppConfigKvImportOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [SecretValue]
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Content type of all imported items.
@@ -53,8 +62,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// If import mode is "ignore-match", only source key-values that do not already exist or whose value, content-type or tags are different from that of an existing key-value with the same key and label, will be written. Import mode "all" writes all key-values to the destination regardless of whether they exist or not.  Allowed values: all, ignore- match.  Default: ignore-match.
     /// </summary>
-    [CliFlag("--import-mode")]
-    public bool? ImportMode { get; set; }
+    [CliOption("--import-mode")]
+    public string? ImportMode { get; set; }
 
     /// <summary>
     /// Imported KVs and feature flags will be assigned with this label. If no label specified, will assign null label.
@@ -83,14 +92,128 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Imported KVs and feature flags will be assigned with these tags. If no tags are specified, imported KVs and feature flags will retain existing tags. Support space-separated tags: key[=value] [key[=value] ...]. Use  to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for preview.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// ARM ID for AKS OR the name of the AKS, assuming it is in the same subscription and resource group as the App Configuration store. Required for AKS arguments.
+    /// </summary>
+    [CliFlag("--aks-cluster")]
+    public bool? AksCluster { get; set; }
+
+    /// <summary>
+    /// Name of the ConfigMap. Required for AKS arguments.
+    /// </summary>
+    [CliOption("--configmap-name")]
+    public string? ConfigmapName { get; set; }
+
+    /// <summary>
+    /// Namespace of the ConfigMap. default to "default" namespace if not specified.  Default: default.
+    /// </summary>
+    [CliFlag("--configmap-namespace")]
+    public bool? ConfigmapNamespace { get; set; }
+
+    /// <summary>
+    /// Flag to preserve labels from source AppConfig. This argument should NOT be specified along with --label.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--preserve-labels")]
+    public bool? PreserveLabels { get; set; }
+
+    /// <summary>
+    /// Auth mode for connecting to source App Configuration store. For details, refer to "--auth-mode" argument.  Allowed values: anonymous, key, login.  Default: key.
+    /// </summary>
+    [CliOption("--src-auth-mode")]
+    public string? SrcAuthMode { get; set; }
+
+    /// <summary>
+    /// Combination of access key and endpoint of the source store.
+    /// </summary>
+    [CliFlag("--src-connection-string")]
+    public bool? SrcConnectionString { get; set; }
+
+    /// <summary>
+    /// If --src-auth-mode is "login", provide endpoint URL of the source App
+    /// </summary>
+    [CliFlag("--src-endpoint")]
+    public bool? SrcEndpoint { get; set; }
+
+    /// <summary>
+    /// If no key specified, import all keys by default. Support star sign as filters, for instance abc* means keys with abc as prefix. Key filtering not applicable for feature flags. By default, all feature flags with specified label will be imported.
+    /// </summary>
+    [CliFlag("--src-key")]
+    public bool? SrcKey { get; set; }
+
+    /// <summary>
+    /// Only keys with this label in source AppConfig will be imported. If no value specified, import keys with null label by default. Support star sign as filters, for instance * means all labels, abc* means labels with abc as prefix.
+    /// </summary>
+    [CliFlag("--src-label")]
+    public bool? SrcLabel { get; set; }
+
+    /// <summary>
+    /// The name of the source App Configuration store.
+    /// </summary>
+    [CliOption("--src-name")]
+    public string? SrcName { get; set; }
+
+    /// <summary>
+    /// Import all keys in a given snapshot of the source App Configuration store. If no snapshot is specified, the keys currently in the store are imported based on the specified key and label filters.
+    /// </summary>
+    [CliFlag("--src-snapshot")]
+    public bool? SrcSnapshot { get; set; }
+
+    /// <summary>
+    /// Key-values which contain the specified tags in source AppConfig will be imported. If no tags are specified, all key-values with any tags can be imported. Support space-separated tag filters: key[=value] [key[=value] ...].
+    /// </summary>
+    [CliOption("--src-tags", GroupValues = true)]
+    public IEnumerable<string>? SrcTags { get; set; }
+
+    /// <summary>
+    /// ARM ID for AppService OR the name of the AppService, assuming it is in the same subscription and resource group as the App Configuration store. Required for AppService arguments.
+    /// </summary>
+    [CliFlag("--appservice-account")]
+    public bool? AppserviceAccount { get; set; }
+
+    /// <summary>
+    /// Depth for flattening the json or yaml file to key-value pairs. Flatten to the deepest level by default if --separator is provided. Not applicable for property files or feature flags.
+    /// </summary>
+    [CliOption("--depth")]
+    public string? Depth { get; set; }
+
+    /// <summary>
+    /// Imported file format. Required for file arguments. Currently, feature flags are not supported in properties format.  Allowed values: json, properties, yaml.
+    /// </summary>
+    [CliOption("--format")]
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Local configuration file path. Required for file arguments.
+    /// </summary>
+    [CliFlag("--path")]
+    public bool? Path { get; set; }
+
+    /// <summary>
+    /// Import profile to be used for importing the key-values. Options 'depth', 'separator', 'content-type', 'label', 'skip-features', 'tags' and, 'prefix' are not supported when using 'appconfig/kvset' profile. Allowed values: appconfig/default, appconfig/kvset.  Default: appconfig/default.
+    /// </summary>
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
+
+    /// <summary>
+    /// Delimiter for flattening the json or yaml file to key-value pairs. Separator will be ignored for property files and feature flags. Supported values: '.', ',', ';', '-', '_', '__', '/', ':'.
+    /// </summary>
+    [CliOption("--separator")]
+    public string? Separator { get; set; }
+
+    /// <summary>
+    /// Delete all other key-values in the store with specified prefix and label.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--strict")]
+    public bool? Strict { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

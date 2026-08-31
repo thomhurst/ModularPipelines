@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "connection", "update", "confluent-cloud")]
-public record AzContainerappConnectionUpdateConfluentCloudOptions : AzOptions
+public record AzContainerappConnectionUpdateConfluentCloudOptions(
+    [property: CliOption("--connection")] string Connection
+) : AzOptions
 {
+    public AzContainerappConnectionUpdateConfluentCloudOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
@@ -35,8 +42,8 @@ public record AzContainerappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -71,8 +78,8 @@ public record AzContainerappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the container app. Required if '-- source-id' is not specified.None.

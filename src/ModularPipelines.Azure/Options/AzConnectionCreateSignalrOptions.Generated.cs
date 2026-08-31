@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "signalr")]
-public record AzConnectionCreateSignalrOptions : AzOptions
+public record AzConnectionCreateSignalrOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzConnectionCreateSignalrOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, none.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -61,6 +68,30 @@ public record AzConnectionCreateSignalrOptions : AzOptions
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
+
+    /// <summary>
+    /// The resource group which contains the signalr. Required if '-- target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
+
+    /// <summary>
+    /// The service principal auth info.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The user account auth info.
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
     [Obsolete("Use Connection instead.")]
     public string? ConnectionValue

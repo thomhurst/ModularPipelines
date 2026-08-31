@@ -18,18 +18,86 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "registration", "create")]
-public record AzEventgridPartnerRegistrationCreateOptions : AzOptions
+public record AzEventgridPartnerRegistrationCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerRegistrationCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A space-separated list of Azure subscription Ids that are authorized to create a partner namespace associated with this partner registration. This is an optional property. Creating partner namespaces is always permitted under the same Azure subscription as the one used for creating the partner registration.
     /// </summary>
-    [CliFlag("--authorized-subscription-ids")]
-    public bool? AuthorizedSubscriptionIds { get; set; }
+    [CliOption("--authorized-subscription-ids", GroupValues = true)]
+    public IEnumerable<string>? AuthorizedSubscriptionIds { get; set; }
+
+    /// <summary>
+    /// The extension of the customer service number of the publisher. Only digits are allowed and number of digits should not exceed 10.
+    /// </summary>
+    [CliFlag("--customer-service-extension")]
+    public bool? CustomerServiceExtension { get; set; }
+
+    /// <summary>
+    /// The customer service number of the publisher. The expected phone format should start with a '+' sign followed by the country code. The remaining digits are then followed. Only digits and spaces are allowed and its length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1 515 123 4567 and +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and +966 121 5115 24 7 551 1234 43.
+    /// </summary>
+    [CliFlag("--customer-service-number")]
+    public bool? CustomerServiceNumber { get; set; }
+
+    /// <summary>
+    /// The customer service URI of the publisher.
+    /// </summary>
+    [CliFlag("--customer-service-uri")]
+    public bool? CustomerServiceUri { get; set; }
+
+    /// <summary>
+    /// Description of the partner topic type.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name for the partner topic type.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// URI of the partner logo.
+    /// </summary>
+    [CliOption("--logo-uri")]
+    public string? LogoUri { get; set; }
+
+    /// <summary>
+    /// Description of the custom scenarios and integration. Length of this description should not exceed 2048 characters.
+    /// </summary>
+    [CliOption("--long-description")]
+    public string? LongDescription { get; set; }
+
+    /// <summary>
+    /// Official name of the partner.
+    /// </summary>
+    [CliFlag("--partner-name")]
+    public bool? PartnerName { get; set; }
+
+    /// <summary>
+    /// Name of the partner topic resource type. This name should be unique among all partner topic types names.
+    /// </summary>
+    [CliOption("--resource-type-name")]
+    public string? ResourceTypeName { get; set; }
+
+    /// <summary>
+    /// URI of the partner website that can be used by Azure customers to setup Event Grid integration on an event source.
+    /// </summary>
+    [CliOption("--setup-uri")]
+    public string? SetupUri { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

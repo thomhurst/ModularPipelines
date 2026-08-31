@@ -67,6 +67,11 @@ public interface IAzWebapp
     AzWebappSitecontainers Sitecontainers => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az traffic-routing sub-commands.
+    /// </summary>
+    AzWebappTrafficRouting TrafficRouting => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az vnet-integration sub-commands.
     /// </summary>
     AzWebappVnetIntegration VnetIntegration => throw new System.NotSupportedException();

@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "create")]
-public record AzApimApiOperationCreateOptions : AzOptions
+public record AzApimApiOperationCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--method")] string Method,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--url-template")] string UrlTemplate,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
+    public AzApimApiOperationCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Description of the operation. May include HTML formatting tags.
     /// </summary>
@@ -37,6 +49,12 @@ public record AzApimApiOperationCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--operation-id")]
     public bool? OperationId { get; set; }
+
+    /// <summary>
+    /// Collection of URL template parameters.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

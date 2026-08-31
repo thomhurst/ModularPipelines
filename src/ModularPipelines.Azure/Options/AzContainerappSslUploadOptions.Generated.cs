@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ssl", "upload")]
-public record AzContainerappSslUploadOptions : AzOptions
+public record AzContainerappSslUploadOptions(
+    [property: CliOption("--certificate-file", ShortForm = "-f")] string CertificateFile,
+    [property: CliOption("--environment", ShortForm = "-e")] string Environment,
+    [property: CliOption("--hostname")] string Hostname
+) : AzOptions
 {
+    public AzContainerappSslUploadOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the certificate which should be unique within the
     /// </summary>
@@ -37,6 +46,24 @@ public record AzContainerappSslUploadOptions : AzOptions
     /// </summary>
     [CliFlag("--password", ShortForm = "-p")]
     public bool? Password { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use CertificateName instead.")]
     public string? CertificateNameValue

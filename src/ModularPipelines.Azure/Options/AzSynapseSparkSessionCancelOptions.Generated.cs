@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "session", "cancel")]
-public record AzSynapseSparkSessionCancelOptions : AzOptions
+public record AzSynapseSparkSessionCancelOptions(
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName,
+    [property: CliOption("--livy-id")] string LivyId
+) : AzOptions
 {
+    public AzSynapseSparkSessionCancelOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

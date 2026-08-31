@@ -18,13 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "create")]
-public record AzSynapseKustoPoolCreateOptions : AzOptions
+public record AzSynapseKustoPoolCreateOptions(
+    [property: CliOption("--kusto-pool-name", ShortForm = "-n")] string KustoPoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseKustoPoolCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-purge")]
     public bool? EnablePurge { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
+    public bool? EnableStreamingIngest { get; set; }
 
     /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
@@ -59,8 +75,8 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The workspace unique identifier.

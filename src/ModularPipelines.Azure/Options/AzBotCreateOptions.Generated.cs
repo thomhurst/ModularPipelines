@@ -18,8 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "create")]
-public record AzBotCreateOptions : AzOptions
+public record AzBotCreateOptions(
+    [property: CliOption("--app-type")] string AppType,
+    [property: CliOption("--appid")] string Appid,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBotCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The key vault key url to enable Customer Managed Keys encryption.
+    /// </summary>
+    [CliOption("--cmk", ShortForm = "--cmk-key-vault-key-url")]
+    public string? Cmk { get; set; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  Default: global.
     /// </summary>
@@ -35,14 +51,38 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Microsoft App Tenant Id for the bot.
     /// </summary>
     [CliFlag("--tenant-id")]
     public bool? TenantId { get; set; }
+
+    /// <summary>
+    /// The description of the bot.
+    /// </summary>
+    [CliOption("--description", ShortForm = "-d")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the bot. If not specified, defaults to the name of the bot.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The messaging endpoint of the bot.
+    /// </summary>
+    [CliFlag("--endpoint", ShortForm = "-e")]
+    public bool? Endpoint { get; set; }
+
+    /// <summary>
+    /// The Sku of the bot.  Allowed values: F0, S1.  Default: F0.
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     [Obsolete("Use MsiResourceId instead.")]
     public string? MsiResourceIdValue

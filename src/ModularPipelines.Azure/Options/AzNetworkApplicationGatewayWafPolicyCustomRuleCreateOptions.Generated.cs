@@ -18,12 +18,48 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "create")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(
+    [property: CliOption("--action")] string Action,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--priority")] string Priority,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-type")] string RuleType
+) : AzOptions
 {
+    public AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Describe if the custom rule is in enabled or disabled state. Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// List of user session identifier group by clauses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--group-by-user-session", GroupValues = true)]
+    public IEnumerable<string>? GroupByUserSession { get; set; }
+
+    /// <summary>
+    /// List of match conditions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--match-conditions", GroupValues = true)]
+    public IEnumerable<string>? MatchConditions { get; set; }
+
+    /// <summary>
+    /// Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.  Allowed values: FiveMins,
+    /// </summary>
+    [CliOption("--rate-limit-duration")]
+    public string? RateLimitDuration { get; set; }
+
+    /// <summary>
+    /// Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1.
+    /// </summary>
+    [CliFlag("--rate-limit-threshold")]
+    public bool? RateLimitThreshold { get; set; }
 
 }

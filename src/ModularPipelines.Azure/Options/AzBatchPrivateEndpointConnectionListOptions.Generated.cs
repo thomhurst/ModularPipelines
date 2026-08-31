@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-endpoint-connection", "list")]
-public record AzBatchPrivateEndpointConnectionListOptions : AzOptions
+public record AzBatchPrivateEndpointConnectionListOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchPrivateEndpointConnectionListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.
     /// </summary>

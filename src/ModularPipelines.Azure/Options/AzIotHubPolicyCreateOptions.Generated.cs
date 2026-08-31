@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "policy", "create")]
-public record AzIotHubPolicyCreateOptions : AzOptions
+public record AzIotHubPolicyCreateOptions(
+    [property: CliOption("--hub-name")] string HubName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--permissions", GroupValues = true)] IEnumerable<string> Permissions
+) : AzOptions
 {
+    public AzIotHubPolicyCreateOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

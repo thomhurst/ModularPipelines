@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "storage-file")]
-public record AzConnectionCreateStorageFileOptions : AzOptions
+public record AzConnectionCreateStorageFileOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzConnectionCreateStorageFileOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the storage account. Required if '--target-id' is not specified.
     /// </summary>
@@ -29,8 +36,8 @@ public record AzConnectionCreateStorageFileOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
@@ -61,6 +68,18 @@ public record AzConnectionCreateStorageFileOptions : AzOptions
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
+
+    /// <summary>
+    /// The resource group which contains the storage account. Required if '--target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
     [Obsolete("Use Account instead.")]
     public string? AccountValue

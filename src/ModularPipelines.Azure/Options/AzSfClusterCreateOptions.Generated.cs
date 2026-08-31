@@ -18,8 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "create")]
-public record AzSfClusterCreateOptions : AzOptions
+public record AzSfClusterCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSfClusterCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The folder of the new certificate file to be created.
+    /// </summary>
+    [CliFlag("--cert-out-folder", ShortForm = "--certificate-output-folder")]
+    public bool? CertOutFolder { get; set; }
+
+    /// <summary>
+    /// The subject name of the certificate to be created.
+    /// </summary>
+    [CliFlag("--cert-subject-name", ShortForm = "--certificate-subject-name")]
+    public bool? CertSubjectName { get; set; }
+
     /// <summary>
     /// The existing certificate file path for the primary cluster certificate.
     /// </summary>
@@ -49,6 +68,12 @@ public record AzSfClusterCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    /// <summary>
+    /// The Operating System of the VMs that make up the cluster.  Allowed values: UbuntuServer1604,
+    /// </summary>
+    [CliOption("--os", ShortForm = "--vm-os")]
+    public string? Os { get; set; }
 
     /// <summary>
     /// The path to the template parameter file.

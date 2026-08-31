@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "admin", "add")]
-public record AzKeyvaultCertificateIssuerAdminAddOptions : AzOptions
+public record AzKeyvaultCertificateIssuerAdminAddOptions(
+    [property: CliOption("--email")] string Email,
+    [property: CliOption("--issuer-name")] string IssuerName,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
+    public AzKeyvaultCertificateIssuerAdminAddOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Admin first name.
     /// </summary>

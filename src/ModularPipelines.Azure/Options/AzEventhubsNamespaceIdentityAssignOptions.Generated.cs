@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "identity", "assign")]
-public record AzEventhubsNamespaceIdentityAssignOptions : AzOptions
+public record AzEventhubsNamespaceIdentityAssignOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventhubsNamespaceIdentityAssignOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// System Assigned Identity.  Allowed values: false, true.
     /// </summary>

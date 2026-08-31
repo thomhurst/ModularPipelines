@@ -18,13 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protectable-item", "list")]
-public record AzBackupProtectableItemListOptions : AzOptions
+public record AzBackupProtectableItemListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
+    [property: CliOption("--workload-type")] string WorkloadType
+) : AzOptions
 {
+    public AzBackupProtectableItemListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
@@ -35,8 +44,8 @@ public record AzBackupProtectableItemListOptions : AzOptions
     /// <summary>
     /// Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values:
     /// </summary>
-    [CliFlag("--protectable-item-type")]
-    public bool? ProtectableItemType { get; set; }
+    [CliOption("--protectable-item-type")]
+    public string? ProtectableItemType { get; set; }
 
     /// <summary>
     /// Parent Server name of the item.

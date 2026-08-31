@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-event-hub", "create")]
-public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
+public record AzSecurityAutomationActionEventHubCreateOptions(
+    [property: SecretValue, CliOption("--connection-string")] string ConnectionString,
+    [property: CliOption("--event-hub-resource-id")] string EventHubResourceId
+) : AzOptions
 {
+    public AzSecurityAutomationActionEventHubCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The target Event Hub SAS policy name.
     /// </summary>

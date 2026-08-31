@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "private-endpoint-connection", "list")]
-public record AzKeyvaultPrivateEndpointConnectionListOptions : AzOptions
+public record AzKeyvaultPrivateEndpointConnectionListOptions(
+    [property: CliOption("--hsm-name")] string HsmName
+) : AzOptions
 {
+    public AzKeyvaultPrivateEndpointConnectionListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group.
     /// </summary>

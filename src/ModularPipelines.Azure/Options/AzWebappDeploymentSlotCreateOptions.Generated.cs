@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "create")]
-public record AzWebappDeploymentSlotCreateOptions : AzOptions
+public record AzWebappDeploymentSlotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
+    public AzWebappDeploymentSlotCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Source slot to clone configurations from. Use web app's name to refer to the production slot.
     /// </summary>
@@ -49,6 +58,24 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--container-registry-user", ShortForm = "-u")]
     public bool? ContainerRegistryUser { get; set; }
+
+    /// <summary>
+    /// Container image name, e.g. publisher/image- name:tag.
+    /// </summary>
+    [CliFlag("--deployment-container-image-name", ShortForm = "-i")]
+    public bool? DeploymentContainerImageName { get; set; }
+
+    /// <summary>
+    /// The container registry server password.
+    /// </summary>
+    [CliFlag("--docker-registry-server-password")]
+    public bool? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server username.
+    /// </summary>
+    [CliFlag("--docker-registry-server-user")]
+    public bool? DockerRegistryServerUser { get; set; }
 
     [Obsolete("Use ConfigurationSource instead.")]
     public string? ConfigurationSourceValue

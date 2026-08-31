@@ -18,12 +18,91 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "definition", "update")]
-public record AzPolicyDefinitionUpdateOptions : AzOptions
+public record AzPolicyDefinitionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzPolicyDefinitionUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The management group.
     /// </summary>
     [CliFlag("--management-group")]
     public bool? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Policy definition description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy definition.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The details of the source of external evaluation results required by the policy during enforcement evaluation.
+    /// </summary>
+    [CliFlag("--external-evaluation-enforcement-settings", ShortForm = "--external-settings")]
+    public bool? ExternalEvaluationEnforcementSettings { get; set; }
+
+    /// <summary>
+    /// The policy definition metadata.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy definition mode.
+    /// </summary>
+    [CliFlag("--mode", ShortForm = "-m")]
+    public bool? Mode { get; set; }
+
+    /// <summary>
+    /// The policy rule parameter definitions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
+
+    /// <summary>
+    /// The policy rule.  Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--rule", ShortForm = "--rules")]
+    public bool? Rule { get; set; }
+
+    /// <summary>
+    /// The policy definition version.
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
 }

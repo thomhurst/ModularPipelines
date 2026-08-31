@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "create")]
-public record AzMapsAccountCreateOptions : AzOptions
+public record AzMapsAccountCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMapsAccountCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// You must agree to the License and Privacy Statement to create an account.
     /// </summary>
@@ -35,8 +43,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Get or Set Kind property.  Allowed values: Gen1, Gen2.
     /// </summary>
-    [CliFlag("--kind")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Sets the resources to be used for Managed Identities based operations for the Map account resource.
@@ -53,7 +61,25 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The identity type.  Allowed values: None, SystemAssigned,
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'.
+    /// </summary>
+    [CliOption("--user-identities", GroupValues = true)]
+    public IEnumerable<string>? UserIdentities { get; set; }
+
+    /// <summary>
+    /// The name of the SKU, in standard format (such as S0). Allowed values: G2, S0, S1.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
 }

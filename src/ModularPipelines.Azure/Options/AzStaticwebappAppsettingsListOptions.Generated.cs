@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "appsettings", "list")]
-public record AzStaticwebappAppsettingsListOptions : AzOptions
+public record AzStaticwebappAppsettingsListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzStaticwebappAppsettingsListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>

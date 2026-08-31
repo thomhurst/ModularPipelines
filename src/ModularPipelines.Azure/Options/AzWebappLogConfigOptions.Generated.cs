@@ -23,8 +23,8 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure application logging.  Allowed values: azureblobstorage, filesystem, off.
     /// </summary>
-    [CliFlag("--application-logging")]
-    public bool? ApplicationLogging { get; set; }
+    [CliOption("--application-logging")]
+    public string? ApplicationLogging { get; set; }
 
     /// <summary>
     /// Configure detailed error messages.  Allowed values: false, true.
@@ -35,8 +35,8 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure gathering STDOUT and STDERR output from container. Allowed values: filesystem, off.
     /// </summary>
-    [CliFlag("--docker-container-logging")]
-    public bool? DockerContainerLogging { get; set; }
+    [CliOption("--docker-container-logging")]
+    public string? DockerContainerLogging { get; set; }
 
     /// <summary>
     /// Configure failed request tracing.  Allowed values: false, true.
@@ -47,8 +47,8 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Logging level.  Allowed values: error, information, verbose, warning.
     /// </summary>
-    [CliFlag("--level")]
-    public bool? Level { get; set; }
+    [CliOption("--level")]
+    public string? Level { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -59,8 +59,26 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure Web server logging.  Allowed values: filesystem, off.
     /// </summary>
-    [CliFlag("--web-server-logging")]
-    public bool? WebServerLogging { get; set; }
+    [CliOption("--web-server-logging")]
+    public string? WebServerLogging { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

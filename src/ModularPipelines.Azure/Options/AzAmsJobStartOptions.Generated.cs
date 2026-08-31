@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "job", "start")]
-public record AzAmsJobStartOptions : AzOptions
+public record AzAmsJobStartOptions(
+    [property: CliOption("--output-assets", GroupValues = true)] IEnumerable<string> OutputAssets
+) : AzOptions
 {
+    public AzAmsJobStartOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated correlation data in 'key[=value]' format. This customer provided data will be returned in Job and JobOutput state events.
     /// </summary>
-    [CliFlag("--correlation-data")]
-    public bool? CorrelationData { get; set; }
+    [CliOption("--correlation-data", GroupValues = true)]
+    public IEnumerable<string>? CorrelationData { get; set; }
 
     /// <summary>
     /// The job description.
@@ -35,8 +42,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// Space-separated list of files. It can be used to tell the service to only use the files specified from the input asset.
     /// </summary>
-    [CliFlag("--files")]
-    public bool? Files { get; set; }
+    [CliOption("--files", GroupValues = true)]
+    public IEnumerable<string>? Files { get; set; }
 
     /// <summary>
     /// A label that is assigned to a Job Input that is used to satisfy a reference used in the Transform. For example, a Transform can be authored to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
@@ -47,7 +54,49 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// The priority with which the job should be processed.  Allowed values: High, Low, Normal.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// The name of the input asset.
+    /// </summary>
+    [CliOption("--input-asset-name")]
+    public string? InputAssetName { get; set; }
+
+    /// <summary>
+    /// Base uri for http job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris.
+    /// </summary>
+    [CliFlag("--base-uri")]
+    public bool? BaseUri { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the job.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the transform.
+    /// </summary>
+    [CliOption("--transform-name", ShortForm = "-t")]
+    public string? TransformName { get; set; }
 
 }

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "list-locations")]
-public record AzAppserviceListLocationsOptions : AzOptions
+public record AzAppserviceListLocationsOptions(
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
+    public AzAppserviceListLocationsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Get regions which support hosting web apps on Windows Container workers.
     /// </summary>

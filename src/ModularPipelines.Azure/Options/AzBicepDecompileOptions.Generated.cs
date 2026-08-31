@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "decompile")]
-public record AzBicepDecompileOptions : AzOptions
+public record AzBicepDecompileOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
+    public AzBicepDecompileOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allows overwriting the output file if it exists.
     /// </summary>

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "network-rule-set", "virtual-network-rule", "remove")]
-public record AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions : AzOptions
+public record AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// List VirtualNetwork Rules.
     /// </summary>

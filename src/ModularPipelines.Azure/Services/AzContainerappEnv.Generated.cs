@@ -22,6 +22,7 @@ public class AzContainerappEnv
 {
     private readonly ICommandContext _command;
     private AzContainerappEnvCertificate? _certificate;
+    private AzContainerappEnvDaprComponent? _daprComponent;
     private AzContainerappEnvHttpRouteConfig? _httpRouteConfig;
     private AzContainerappEnvLogs? _logs;
     private AzContainerappEnvPremiumIngress? _premiumIngress;
@@ -42,6 +43,11 @@ public class AzContainerappEnv
     /// az certificate sub-commands.
     /// </summary>
     public AzContainerappEnvCertificate Certificate => _certificate ??= new AzContainerappEnvCertificate(_command);
+
+    /// <summary>
+    /// az dapr-component sub-commands.
+    /// </summary>
+    public AzContainerappEnvDaprComponent DaprComponent => _daprComponent ??= new AzContainerappEnvDaprComponent(_command);
 
     /// <summary>
     /// az http-route-config sub-commands.
@@ -84,7 +90,7 @@ public class AzContainerappEnv
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappEnvCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -115,6 +121,36 @@ public class AzContainerappEnv
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappEnvListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List usages of quotas for specific managed environment.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzContainerappEnvListUsagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappEnvListUsagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show details of a Container Apps environment.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappEnvShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappEnvShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

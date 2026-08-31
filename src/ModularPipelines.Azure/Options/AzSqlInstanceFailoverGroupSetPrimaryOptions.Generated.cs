@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "set-primary")]
-public record AzSqlInstanceFailoverGroupSetPrimaryOptions : AzOptions
+public record AzSqlInstanceFailoverGroupSetPrimaryOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzSqlInstanceFailoverGroupSetPrimaryOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Complete the failover even if doing so may result in data loss. This will allow the failover to proceed even if a primary database is unavailable.
     /// </summary>

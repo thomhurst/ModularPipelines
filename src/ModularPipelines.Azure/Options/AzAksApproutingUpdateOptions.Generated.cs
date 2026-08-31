@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "approuting", "update")]
-public record AzAksApproutingUpdateOptions : AzOptions
+public record AzAksApproutingUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksApproutingUpdateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Attach a keyvault id to access secrets and certificates.
     /// </summary>
@@ -35,7 +43,7 @@ public record AzAksApproutingUpdateOptions : AzOptions
     /// <summary>
     /// Configure default NginxIngressController resource.  Allowed values: AnnotationControlled, External, Internal, None.
     /// </summary>
-    [CliFlag("--nginx")]
-    public bool? Nginx { get; set; }
+    [CliOption("--nginx")]
+    public string? Nginx { get; set; }
 
 }

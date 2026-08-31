@@ -18,12 +18,99 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "create")]
-public record AzNetworkNicIpConfigCreateOptions : AzOptions
+public record AzNetworkNicIpConfigCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkNicIpConfigCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway- name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    public IEnumerable<string>? AgAddressPools { get; set; }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string? GatewayName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
+
+    /// <summary>
+    /// Set to make this configuration the primary one for the NIC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--make-primary")]
+    public bool? MakePrimary { get; set; }
+
+    /// <summary>
+    /// Static IP address to use or ""('""' in PowerShell) to use a dynamic address.
+    /// </summary>
+    [CliFlag("--private-ip-address")]
+    public bool? PrivateIpAddress { get; set; }
+
+    /// <summary>
+    /// The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address.
+    /// </summary>
+    [CliFlag("--private-ip-address-prefix-length", ShortForm = "--private-ip-prefix-len")]
+    public bool? PrivateIpAddressPrefixLength { get; set; }
+
+    /// <summary>
+    /// Version of private IP address to use.  Allowed values: IPv4, IPv6.
+    /// </summary>
+    [CliOption("--private-ip-address-version")]
+    public string? PrivateIpAddressVersion { get; set; }
+
+    /// <summary>
+    /// Name or ID of an existing public IP address.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Name of the virtual network.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of load balancer address pools to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--lb-address-pools", GroupValues = true)]
+    public IEnumerable<string>? LbAddressPools { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of load balancer inbound NAT rules to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--lb-inbound-nat-rules", GroupValues = true)]
+    public IEnumerable<string>? LbInboundNatRules { get; set; }
+
+    /// <summary>
+    /// Name of the load balancer.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string? LbName { get; set; }
 
 }

@@ -18,13 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "label", "add")]
-public record AzContainerappRevisionLabelAddOptions : AzOptions
+public record AzContainerappRevisionLabelAddOptions(
+    [property: CliOption("--label")] string Label,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--revision")] string Revision
+) : AzOptions
 {
+    public AzContainerappRevisionLabelAddOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// Do not prompt for confirmation.
+    /// </summary>
+    [CliFlag("--no-prompt", ShortForm = "-y")]
+    public bool? NoPrompt { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

@@ -33,10 +33,22 @@ public record AzSqlServerUpdateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
+    /// Set whether public network access to server is allowed or not. When false,only connections made through Private Links can reach this server.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e")]
+    public bool? EnablePublicNetwork { get; set; }
+
+    /// <summary>
+    /// The federated client id used in cross tenant
+    /// </summary>
+    [CliFlag("--federated-client-id", ShortForm = "--fid")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned,
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
@@ -47,8 +59,8 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -57,10 +69,70 @@ public record AzSqlServerUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The ID of the primary user managed identity.
+    /// </summary>
+    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    public string? Pid { get; set; }
+
+    /// <summary>
+    /// Set whether outbound network access to server is restricted or not. When true,the outbound connections from the server will be restricted.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--restrict-outbound-network-access", ShortForm = "-r")]
+    public bool? RestrictOutboundNetworkAccess { get; set; }
+
+    /// <summary>
+    /// Specify the number of days to retain soft deleted server (0-7). Set to 0 to disable soft delete. Set to 1-7 days to enable soft delete with the specified retention period.
+    /// </summary>
+    [CliFlag("--sdrd", ShortForm = "--soft-delete-retention-days")]
+    public bool? Sdrd { get; set; }
+
+    /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
     [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
     public bool? UserAssignedIdentityId { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use KeyId instead.")]
     public string? KeyIdValue

@@ -33,6 +33,12 @@ public record AzNetworkWatcherFlowLogShowOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
+    /// Name or ID of the network security group.
+    /// </summary>
+    [CliOption("--nsg")]
+    public string? Nsg { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]

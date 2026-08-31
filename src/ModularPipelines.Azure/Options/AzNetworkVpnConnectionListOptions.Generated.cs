@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "list")]
-public record AzNetworkVpnConnectionListOptions : AzOptions
+public record AzNetworkVpnConnectionListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkVpnConnectionListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the VNet gateway.
     /// </summary>

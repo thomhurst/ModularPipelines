@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backend", "create")]
-public record AzApimBackendCreateOptions : AzOptions
+public record AzApimBackendCreateOptions(
+    [property: CliOption("--protocol")] string Protocol,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--url")] string Url,
+    [property: CliOption("--backend-id")] string BackendId
+) : AzOptions
 {
+    public AzApimBackendCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>

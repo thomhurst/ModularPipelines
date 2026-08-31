@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBatchAccount
 {
     private readonly ICommandContext _command;
+    private AzBatchAccountAutostorageKeys? _autostorageKeys;
     private AzBatchAccountIdentity? _identity;
     private AzBatchAccountKeys? _keys;
     private AzBatchAccountNetworkProfile? _networkProfile;
@@ -34,6 +35,11 @@ public class AzBatchAccount
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az autostorage-keys sub-commands.
+    /// </summary>
+    public AzBatchAccountAutostorageKeys AutostorageKeys => _autostorageKeys ??= new AzBatchAccountAutostorageKeys(_command);
 
     /// <summary>
     /// az identity sub-commands.
@@ -66,7 +72,7 @@ public class AzBatchAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchAccountCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -81,7 +87,7 @@ public class AzBatchAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchAccountDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -111,7 +117,22 @@ public class AzBatchAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchAccountLoginOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List an account's outbound network dependencies.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> OutboundEndpointsAsync(
+        AzBatchAccountOutboundEndpointsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,7 +147,7 @@ public class AzBatchAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchAccountSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>

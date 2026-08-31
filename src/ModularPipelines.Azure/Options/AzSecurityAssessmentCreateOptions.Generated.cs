@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment", "create")]
-public record AzSecurityAssessmentCreateOptions : AzOptions
+public record AzSecurityAssessmentCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--status-code")] string StatusCode
+) : AzOptions
 {
+    public AzSecurityAssessmentCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Data that is attached to the assessment result for better investigations or status clarity.
     /// </summary>

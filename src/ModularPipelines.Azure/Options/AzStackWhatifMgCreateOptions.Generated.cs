@@ -28,11 +28,6 @@ public record AzStackWhatifMgCreateOptions(
     [property: CliOption("--stack-id")] string StackId
 ) : AzOptions
 {
-    public AzStackWhatifMgCreateOptions()
-        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
@@ -43,13 +38,13 @@ public record AzStackWhatifMgCreateOptions(
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
     [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedActionsValues { get; set; }
+    public IEnumerable<string>? DenySettingsExcludedActions { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
     [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedPrincipalsValues { get; set; }
+    public IEnumerable<string>? DenySettingsExcludedPrincipals { get; set; }
 
     /// <summary>
     /// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack.
@@ -85,7 +80,7 @@ public record AzStackWhatifMgCreateOptions(
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? ParametersValues { get; set; }
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -100,7 +95,7 @@ public record AzStackWhatifMgCreateOptions(
     public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -128,33 +123,5 @@ public record AzStackWhatifMgCreateOptions(
     /// </summary>
     [CliOption("--validation-level", ShortForm = "--vl")]
     public string? ValidationLevel { get; set; }
-
-    [Obsolete("Use DeploymentSubscription instead.")]
-    public string? DeploymentSubscriptionValue
-    {
-        get => DeploymentSubscription;
-        set => DeploymentSubscription = value;
-    }
-
-    [Obsolete("Use ResourcesWithoutDeleteSupport instead.")]
-    public string? ResourcesWithoutDeleteSupportValue
-    {
-        get => ResourcesWithoutDeleteSupport;
-        set => ResourcesWithoutDeleteSupport = value;
-    }
-
-    [Obsolete("Use ValidationLevel instead.")]
-    public string? ValidationLevelValue
-    {
-        get => ValidationLevel;
-        set => ValidationLevel = value;
-    }
-
-    [Obsolete("Use ParametersValues instead.")]
-    public string? Parameters
-    {
-        get => ParametersValues?.FirstOrDefault();
-        set => ParametersValues = value is null ? null : [value];
-    }
 
 }

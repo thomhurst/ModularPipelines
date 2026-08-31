@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "list")]
-public record AzFunctionappConfigSslListOptions : AzOptions
+public record AzFunctionappConfigSslListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzFunctionappConfigSslListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the function app. Required for Flex Consumption apps to list site-scoped certificates.
     /// </summary>

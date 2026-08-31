@@ -62,6 +62,18 @@ public record AzExtensionAddOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
+    /// <summary>
+    /// Space-separated list of extra URLs of package indexes to use. This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+    /// </summary>
+    [CliOption("--pip-extra-index-urls", GroupValues = true)]
+    public IEnumerable<string>? PipExtraIndexUrls { get; set; }
+
+    /// <summary>
+    /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
+    /// </summary>
+    [CliFlag("--pip-proxy")]
+    public bool? PipProxy { get; set; }
+
     [Obsolete("Use Name instead.")]
     public string? NameValue
     {

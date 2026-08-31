@@ -41,6 +41,15 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--acquire-policy-token` | `AcquirePolicyToken` | All editions | Acquire an Azure Policy token automatically for this resource operation. |
+| `--change-reference` | `ChangeReference` | All editions | The related change reference ID for this resource operation. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -53,14 +62,22 @@ public class RunCommandModule : Module<CommandResult>
 | `az account lock list` | `AzAccountLockListOptions` |
 | `az account lock show` | `AzAccountLockShowOptions` |
 | `az account lock update` | `AzAccountLockUpdateOptions` |
+| `az account management-group check-name-availability` | `AzAccountManagementGroupCheckNameAvailabilityOptions` |
 | `az account management-group create` | `AzAccountManagementGroupCreateOptions` |
 | `az account management-group delete` | `AzAccountManagementGroupDeleteOptions` |
 | `az account management-group hierarchy-settings create` | `AzAccountManagementGroupHierarchySettingsCreateOptions` |
 | `az account management-group hierarchy-settings delete` | `AzAccountManagementGroupHierarchySettingsDeleteOptions` |
+| `az account management-group hierarchy-settings list` | `AzAccountManagementGroupHierarchySettingsListOptions` |
 | `az account management-group hierarchy-settings update` | `AzAccountManagementGroupHierarchySettingsUpdateOptions` |
 | `az account management-group list` | `AzAccountManagementGroupListOptions` |
 | `az account management-group show` | `AzAccountManagementGroupShowOptions` |
+| `az account management-group subscription add` | `AzAccountManagementGroupSubscriptionAddOptions` |
+| `az account management-group subscription remove` | `AzAccountManagementGroupSubscriptionRemoveOptions` |
+| `az account management-group subscription show` | `AzAccountManagementGroupSubscriptionShowOptions` |
+| `az account management-group subscription show-sub-under-mg` | `AzAccountManagementGroupSubscriptionShowSubUnderMgOptions` |
 | `az account management-group update` | `AzAccountManagementGroupUpdateOptions` |
+| `az account set` | `AzAccountSetOptions` |
+| `az account show` | `AzAccountShowOptions` |
 | `az acr build` | `AzAcrBuildOptions` |
 | `az acr cache create` | `AzAcrCacheCreateOptions` |
 | `az acr cache delete` | `AzAcrCacheDeleteOptions` |
@@ -166,33 +183,67 @@ public class RunCommandModule : Module<CommandResult>
 | `az ad app create` | `AzAdAppCreateOptions` |
 | `az ad app credential delete` | `AzAdAppCredentialDeleteOptions` |
 | `az ad app credential list` | `AzAdAppCredentialListOptions` |
+| `az ad app credential reset` | `AzAdAppCredentialResetOptions` |
+| `az ad app delete` | `AzAdAppDeleteOptions` |
+| `az ad app federated-credential create` | `AzAdAppFederatedCredentialCreateOptions` |
+| `az ad app federated-credential delete` | `AzAdAppFederatedCredentialDeleteOptions` |
+| `az ad app federated-credential list` | `AzAdAppFederatedCredentialListOptions` |
+| `az ad app federated-credential show` | `AzAdAppFederatedCredentialShowOptions` |
+| `az ad app federated-credential update` | `AzAdAppFederatedCredentialUpdateOptions` |
 | `az ad app list` | `AzAdAppListOptions` |
+| `az ad app owner add` | `AzAdAppOwnerAddOptions` |
+| `az ad app owner list` | `AzAdAppOwnerListOptions` |
+| `az ad app owner remove` | `AzAdAppOwnerRemoveOptions` |
+| `az ad app permission add` | `AzAdAppPermissionAddOptions` |
+| `az ad app permission admin-consent` | `AzAdAppPermissionAdminConsentOptions` |
 | `az ad app permission delete` | `AzAdAppPermissionDeleteOptions` |
 | `az ad app permission grant` | `AzAdAppPermissionGrantOptions` |
+| `az ad app permission list` | `AzAdAppPermissionListOptions` |
 | `az ad app permission list-grants` | `AzAdAppPermissionListGrantsOptions` |
+| `az ad app show` | `AzAdAppShowOptions` |
 | `az ad app update` | `AzAdAppUpdateOptions` |
 | `az ad group create` | `AzAdGroupCreateOptions` |
+| `az ad group delete` | `AzAdGroupDeleteOptions` |
 | `az ad group get-member-groups` | `AzAdGroupGetMemberGroupsOptions` |
 | `az ad group list` | `AzAdGroupListOptions` |
+| `az ad group member add` | `AzAdGroupMemberAddOptions` |
+| `az ad group member check` | `AzAdGroupMemberCheckOptions` |
+| `az ad group member list` | `AzAdGroupMemberListOptions` |
+| `az ad group member remove` | `AzAdGroupMemberRemoveOptions` |
+| `az ad group owner add` | `AzAdGroupOwnerAddOptions` |
+| `az ad group owner list` | `AzAdGroupOwnerListOptions` |
+| `az ad group owner remove` | `AzAdGroupOwnerRemoveOptions` |
+| `az ad group show` | `AzAdGroupShowOptions` |
 | `az ad signed-in-user list-owned-objects` | `AzAdSignedInUserListOwnedObjectsOptions` |
+| `az ad sp create` | `AzAdSpCreateOptions` |
 | `az ad sp create-for-rbac` | `AzAdSpCreateForRbacOptions` |
 | `az ad sp credential delete` | `AzAdSpCredentialDeleteOptions` |
 | `az ad sp credential list` | `AzAdSpCredentialListOptions` |
+| `az ad sp credential reset` | `AzAdSpCredentialResetOptions` |
+| `az ad sp delete` | `AzAdSpDeleteOptions` |
 | `az ad sp list` | `AzAdSpListOptions` |
+| `az ad sp owner list` | `AzAdSpOwnerListOptions` |
+| `az ad sp show` | `AzAdSpShowOptions` |
+| `az ad sp update` | `AzAdSpUpdateOptions` |
 | `az ad user create` | `AzAdUserCreateOptions` |
+| `az ad user delete` | `AzAdUserDeleteOptions` |
 | `az ad user get-member-groups` | `AzAdUserGetMemberGroupsOptions` |
 | `az ad user list` | `AzAdUserListOptions` |
+| `az ad user show` | `AzAdUserShowOptions` |
 | `az ad user update` | `AzAdUserUpdateOptions` |
 | `az advisor configuration show` | `AzAdvisorConfigurationShowOptions` |
 | `az advisor configuration update` | `AzAdvisorConfigurationUpdateOptions` |
 | `az advisor recommendation disable` | `AzAdvisorRecommendationDisableOptions` |
+| `az advisor recommendation enable` | `AzAdvisorRecommendationEnableOptions` |
 | `az advisor recommendation list` | `AzAdvisorRecommendationListOptions` |
 | `az aks approuting disable` | `AzAksApproutingDisableOptions` |
 | `az aks approuting enable` | `AzAksApproutingEnableOptions` |
 | `az aks approuting gateway istio disable` | `AzAksApproutingGatewayIstioDisableOptions` |
+| `az aks approuting gateway istio enable` | `AzAksApproutingGatewayIstioEnableOptions` |
 | `az aks approuting update` | `AzAksApproutingUpdateOptions` |
 | `az aks approuting zone add` | `AzAksApproutingZoneAddOptions` |
 | `az aks approuting zone delete` | `AzAksApproutingZoneDeleteOptions` |
+| `az aks approuting zone list` | `AzAksApproutingZoneListOptions` |
 | `az aks approuting zone update` | `AzAksApproutingZoneUpdateOptions` |
 | `az aks browse` | `AzAksBrowseOptions` |
 | `az aks check-acr` | `AzAksCheckAcrOptions` |
@@ -203,11 +254,20 @@ public class RunCommandModule : Module<CommandResult>
 | `az aks disable-addons` | `AzAksDisableAddonsOptions` |
 | `az aks enable-addons` | `AzAksEnableAddonsOptions` |
 | `az aks get-credentials` | `AzAksGetCredentialsOptions` |
+| `az aks get-upgrades` | `AzAksGetUpgradesOptions` |
+| `az aks get-versions` | `AzAksGetVersionsOptions` |
 | `az aks identity-binding create` | `AzAksIdentityBindingCreateOptions` |
 | `az aks identity-binding delete` | `AzAksIdentityBindingDeleteOptions` |
+| `az aks identity-binding list` | `AzAksIdentityBindingListOptions` |
+| `az aks identity-binding show` | `AzAksIdentityBindingShowOptions` |
 | `az aks install-cli` | `AzAksInstallCliOptions` |
 | `az aks list` | `AzAksListOptions` |
+| `az aks machine list` | `AzAksMachineListOptions` |
+| `az aks machine show` | `AzAksMachineShowOptions` |
 | `az aks maintenanceconfiguration add` | `AzAksMaintenanceconfigurationAddOptions` |
+| `az aks maintenanceconfiguration delete` | `AzAksMaintenanceconfigurationDeleteOptions` |
+| `az aks maintenanceconfiguration list` | `AzAksMaintenanceconfigurationListOptions` |
+| `az aks maintenanceconfiguration show` | `AzAksMaintenanceconfigurationShowOptions` |
 | `az aks maintenanceconfiguration update` | `AzAksMaintenanceconfigurationUpdateOptions` |
 | `az aks mesh disable` | `AzAksMeshDisableOptions` |
 | `az aks mesh disable-egress-gateway` | `AzAksMeshDisableEgressGatewayOptions` |
@@ -215,27 +275,38 @@ public class RunCommandModule : Module<CommandResult>
 | `az aks mesh enable` | `AzAksMeshEnableOptions` |
 | `az aks mesh enable-egress-gateway` | `AzAksMeshEnableEgressGatewayOptions` |
 | `az aks mesh enable-ingress-gateway` | `AzAksMeshEnableIngressGatewayOptions` |
+| `az aks mesh get-revisions` | `AzAksMeshGetRevisionsOptions` |
+| `az aks mesh get-upgrades` | `AzAksMeshGetUpgradesOptions` |
 | `az aks mesh proxy-redirection-mechanism` | `AzAksMeshProxyRedirectionMechanismOptions` |
 | `az aks namespace add` | `AzAksNamespaceAddOptions` |
 | `az aks namespace delete` | `AzAksNamespaceDeleteOptions` |
 | `az aks namespace get-credentials` | `AzAksNamespaceGetCredentialsOptions` |
 | `az aks namespace list` | `AzAksNamespaceListOptions` |
+| `az aks namespace show` | `AzAksNamespaceShowOptions` |
 | `az aks namespace update` | `AzAksNamespaceUpdateOptions` |
 | `az aks nodepool add` | `AzAksNodepoolAddOptions` |
 | `az aks nodepool delete` | `AzAksNodepoolDeleteOptions` |
 | `az aks nodepool delete-machines` | `AzAksNodepoolDeleteMachinesOptions` |
+| `az aks nodepool get-rollback-versions` | `AzAksNodepoolGetRollbackVersionsOptions` |
+| `az aks nodepool get-upgrades` | `AzAksNodepoolGetUpgradesOptions` |
+| `az aks nodepool list` | `AzAksNodepoolListOptions` |
 | `az aks nodepool manual-scale add` | `AzAksNodepoolManualScaleAddOptions` |
 | `az aks nodepool manual-scale delete` | `AzAksNodepoolManualScaleDeleteOptions` |
 | `az aks nodepool manual-scale update` | `AzAksNodepoolManualScaleUpdateOptions` |
 | `az aks nodepool operation-abort` | `AzAksNodepoolOperationAbortOptions` |
 | `az aks nodepool rollback` | `AzAksNodepoolRollbackOptions` |
 | `az aks nodepool scale` | `AzAksNodepoolScaleOptions` |
+| `az aks nodepool show` | `AzAksNodepoolShowOptions` |
 | `az aks nodepool snapshot create` | `AzAksNodepoolSnapshotCreateOptions` |
 | `az aks nodepool snapshot delete` | `AzAksNodepoolSnapshotDeleteOptions` |
 | `az aks nodepool snapshot list` | `AzAksNodepoolSnapshotListOptions` |
+| `az aks nodepool snapshot show` | `AzAksNodepoolSnapshotShowOptions` |
+| `az aks nodepool snapshot update` | `AzAksNodepoolSnapshotUpdateOptions` |
+| `az aks nodepool snapshot wait` | `AzAksNodepoolSnapshotWaitOptions` |
 | `az aks nodepool start` | `AzAksNodepoolStartOptions` |
 | `az aks nodepool stop` | `AzAksNodepoolStopOptions` |
 | `az aks nodepool update` | `AzAksNodepoolUpdateOptions` |
+| `az aks nodepool wait` | `AzAksNodepoolWaitOptions` |
 | `az aks oidc-issuer rotate-signing-keys` | `AzAksOidcIssuerRotateSigningKeysOptions` |
 | `az aks operation-abort` | `AzAksOperationAbortOptions` |
 | `az aks rotate-certs` | `AzAksRotateCertsOptions` |
@@ -246,63 +317,117 @@ public class RunCommandModule : Module<CommandResult>
 | `az aks safeguards update` | `AzAksSafeguardsUpdateOptions` |
 | `az aks safeguards wait` | `AzAksSafeguardsWaitOptions` |
 | `az aks scale` | `AzAksScaleOptions` |
+| `az aks show` | `AzAksShowOptions` |
 | `az aks start` | `AzAksStartOptions` |
 | `az aks stop` | `AzAksStopOptions` |
+| `az aks trustedaccess role list` | `AzAksTrustedaccessRoleListOptions` |
+| `az aks trustedaccess rolebinding create` | `AzAksTrustedaccessRolebindingCreateOptions` |
 | `az aks trustedaccess rolebinding delete` | `AzAksTrustedaccessRolebindingDeleteOptions` |
+| `az aks trustedaccess rolebinding list` | `AzAksTrustedaccessRolebindingListOptions` |
+| `az aks trustedaccess rolebinding show` | `AzAksTrustedaccessRolebindingShowOptions` |
+| `az aks trustedaccess rolebinding update` | `AzAksTrustedaccessRolebindingUpdateOptions` |
 | `az aks update` | `AzAksUpdateOptions` |
 | `az aks update-credentials` | `AzAksUpdateCredentialsOptions` |
+| `az aks wait` | `AzAksWaitOptions` |
 | `az ams account check-name` | `AzAmsAccountCheckNameOptions` |
 | `az ams account create` | `AzAmsAccountCreateOptions` |
+| `az ams account delete` | `AzAmsAccountDeleteOptions` |
 | `az ams account encryption set` | `AzAmsAccountEncryptionSetOptions` |
+| `az ams account encryption show` | `AzAmsAccountEncryptionShowOptions` |
 | `az ams account identity assign` | `AzAmsAccountIdentityAssignOptions` |
 | `az ams account identity remove` | `AzAmsAccountIdentityRemoveOptions` |
+| `az ams account identity show` | `AzAmsAccountIdentityShowOptions` |
 | `az ams account list` | `AzAmsAccountListOptions` |
 | `az ams account mru set` | `AzAmsAccountMruSetOptions` |
+| `az ams account mru show` | `AzAmsAccountMruShowOptions` |
+| `az ams account show` | `AzAmsAccountShowOptions` |
 | `az ams account sp create` | `AzAmsAccountSpCreateOptions` |
 | `az ams account sp reset-credentials` | `AzAmsAccountSpResetCredentialsOptions` |
 | `az ams account storage add` | `AzAmsAccountStorageAddOptions` |
+| `az ams account storage remove` | `AzAmsAccountStorageRemoveOptions` |
 | `az ams account storage set-authentication` | `AzAmsAccountStorageSetAuthenticationOptions` |
+| `az ams account storage sync-storage-keys` | `AzAmsAccountStorageSyncStorageKeysOptions` |
 | `az ams account update` | `AzAmsAccountUpdateOptions` |
 | `az ams account-filter create` | `AzAmsAccountFilterCreateOptions` |
+| `az ams account-filter delete` | `AzAmsAccountFilterDeleteOptions` |
+| `az ams account-filter list` | `AzAmsAccountFilterListOptions` |
+| `az ams account-filter show` | `AzAmsAccountFilterShowOptions` |
 | `az ams account-filter update` | `AzAmsAccountFilterUpdateOptions` |
 | `az ams asset create` | `AzAmsAssetCreateOptions` |
+| `az ams asset delete` | `AzAmsAssetDeleteOptions` |
+| `az ams asset get-encryption-key` | `AzAmsAssetGetEncryptionKeyOptions` |
 | `az ams asset get-sas-urls` | `AzAmsAssetGetSasUrlsOptions` |
 | `az ams asset list` | `AzAmsAssetListOptions` |
+| `az ams asset list-streaming-locators` | `AzAmsAssetListStreamingLocatorsOptions` |
+| `az ams asset show` | `AzAmsAssetShowOptions` |
 | `az ams asset update` | `AzAmsAssetUpdateOptions` |
 | `az ams asset-filter create` | `AzAmsAssetFilterCreateOptions` |
+| `az ams asset-filter delete` | `AzAmsAssetFilterDeleteOptions` |
+| `az ams asset-filter list` | `AzAmsAssetFilterListOptions` |
+| `az ams asset-filter show` | `AzAmsAssetFilterShowOptions` |
 | `az ams asset-filter update` | `AzAmsAssetFilterUpdateOptions` |
 | `az ams asset-track create` | `AzAmsAssetTrackCreateOptions` |
+| `az ams asset-track delete` | `AzAmsAssetTrackDeleteOptions` |
+| `az ams asset-track list` | `AzAmsAssetTrackListOptions` |
+| `az ams asset-track show` | `AzAmsAssetTrackShowOptions` |
 | `az ams asset-track update` | `AzAmsAssetTrackUpdateOptions` |
 | `az ams asset-track update-data` | `AzAmsAssetTrackUpdateDataOptions` |
 | `az ams content-key-policy create` | `AzAmsContentKeyPolicyCreateOptions` |
+| `az ams content-key-policy delete` | `AzAmsContentKeyPolicyDeleteOptions` |
 | `az ams content-key-policy list` | `AzAmsContentKeyPolicyListOptions` |
 | `az ams content-key-policy option add` | `AzAmsContentKeyPolicyOptionAddOptions` |
+| `az ams content-key-policy option remove` | `AzAmsContentKeyPolicyOptionRemoveOptions` |
 | `az ams content-key-policy option update` | `AzAmsContentKeyPolicyOptionUpdateOptions` |
 | `az ams content-key-policy show` | `AzAmsContentKeyPolicyShowOptions` |
 | `az ams content-key-policy update` | `AzAmsContentKeyPolicyUpdateOptions` |
 | `az ams job cancel` | `AzAmsJobCancelOptions` |
+| `az ams job delete` | `AzAmsJobDeleteOptions` |
 | `az ams job list` | `AzAmsJobListOptions` |
+| `az ams job show` | `AzAmsJobShowOptions` |
 | `az ams job start` | `AzAmsJobStartOptions` |
 | `az ams job update` | `AzAmsJobUpdateOptions` |
 | `az ams live-event create` | `AzAmsLiveEventCreateOptions` |
+| `az ams live-event delete` | `AzAmsLiveEventDeleteOptions` |
+| `az ams live-event list` | `AzAmsLiveEventListOptions` |
 | `az ams live-event reset` | `AzAmsLiveEventResetOptions` |
+| `az ams live-event show` | `AzAmsLiveEventShowOptions` |
 | `az ams live-event standby` | `AzAmsLiveEventStandbyOptions` |
 | `az ams live-event start` | `AzAmsLiveEventStartOptions` |
 | `az ams live-event stop` | `AzAmsLiveEventStopOptions` |
 | `az ams live-event update` | `AzAmsLiveEventUpdateOptions` |
+| `az ams live-event wait` | `AzAmsLiveEventWaitOptions` |
 | `az ams live-output create` | `AzAmsLiveOutputCreateOptions` |
+| `az ams live-output delete` | `AzAmsLiveOutputDeleteOptions` |
+| `az ams live-output list` | `AzAmsLiveOutputListOptions` |
+| `az ams live-output show` | `AzAmsLiveOutputShowOptions` |
 | `az ams streaming-endpoint akamai add` | `AzAmsStreamingEndpointAkamaiAddOptions` |
+| `az ams streaming-endpoint akamai remove` | `AzAmsStreamingEndpointAkamaiRemoveOptions` |
 | `az ams streaming-endpoint create` | `AzAmsStreamingEndpointCreateOptions` |
+| `az ams streaming-endpoint delete` | `AzAmsStreamingEndpointDeleteOptions` |
+| `az ams streaming-endpoint get-skus` | `AzAmsStreamingEndpointGetSkusOptions` |
+| `az ams streaming-endpoint list` | `AzAmsStreamingEndpointListOptions` |
+| `az ams streaming-endpoint scale` | `AzAmsStreamingEndpointScaleOptions` |
+| `az ams streaming-endpoint show` | `AzAmsStreamingEndpointShowOptions` |
 | `az ams streaming-endpoint start` | `AzAmsStreamingEndpointStartOptions` |
 | `az ams streaming-endpoint stop` | `AzAmsStreamingEndpointStopOptions` |
 | `az ams streaming-endpoint update` | `AzAmsStreamingEndpointUpdateOptions` |
+| `az ams streaming-endpoint wait` | `AzAmsStreamingEndpointWaitOptions` |
 | `az ams streaming-locator create` | `AzAmsStreamingLocatorCreateOptions` |
+| `az ams streaming-locator delete` | `AzAmsStreamingLocatorDeleteOptions` |
+| `az ams streaming-locator get-paths` | `AzAmsStreamingLocatorGetPathsOptions` |
 | `az ams streaming-locator list` | `AzAmsStreamingLocatorListOptions` |
+| `az ams streaming-locator list-content-keys` | `AzAmsStreamingLocatorListContentKeysOptions` |
+| `az ams streaming-locator show` | `AzAmsStreamingLocatorShowOptions` |
 | `az ams streaming-policy create` | `AzAmsStreamingPolicyCreateOptions` |
+| `az ams streaming-policy delete` | `AzAmsStreamingPolicyDeleteOptions` |
 | `az ams streaming-policy list` | `AzAmsStreamingPolicyListOptions` |
+| `az ams streaming-policy show` | `AzAmsStreamingPolicyShowOptions` |
 | `az ams transform create` | `AzAmsTransformCreateOptions` |
+| `az ams transform delete` | `AzAmsTransformDeleteOptions` |
 | `az ams transform list` | `AzAmsTransformListOptions` |
 | `az ams transform output add` | `AzAmsTransformOutputAddOptions` |
+| `az ams transform output remove` | `AzAmsTransformOutputRemoveOptions` |
+| `az ams transform show` | `AzAmsTransformShowOptions` |
 | `az ams transform update` | `AzAmsTransformUpdateOptions` |
 | `az apim api create` | `AzApimApiCreateOptions` |
 | `az apim api delete` | `AzApimApiDeleteOptions` |
@@ -311,37 +436,72 @@ public class RunCommandModule : Module<CommandResult>
 | `az apim api list` | `AzApimApiListOptions` |
 | `az apim api operation create` | `AzApimApiOperationCreateOptions` |
 | `az apim api operation delete` | `AzApimApiOperationDeleteOptions` |
+| `az apim api operation list` | `AzApimApiOperationListOptions` |
+| `az apim api operation show` | `AzApimApiOperationShowOptions` |
 | `az apim api operation update` | `AzApimApiOperationUpdateOptions` |
 | `az apim api release create` | `AzApimApiReleaseCreateOptions` |
 | `az apim api release delete` | `AzApimApiReleaseDeleteOptions` |
+| `az apim api release list` | `AzApimApiReleaseListOptions` |
+| `az apim api release show` | `AzApimApiReleaseShowOptions` |
 | `az apim api release update` | `AzApimApiReleaseUpdateOptions` |
+| `az apim api revision create` | `AzApimApiRevisionCreateOptions` |
+| `az apim api revision list` | `AzApimApiRevisionListOptions` |
 | `az apim api schema create` | `AzApimApiSchemaCreateOptions` |
 | `az apim api schema delete` | `AzApimApiSchemaDeleteOptions` |
+| `az apim api schema get-etag` | `AzApimApiSchemaGetEtagOptions` |
 | `az apim api schema list` | `AzApimApiSchemaListOptions` |
+| `az apim api schema show` | `AzApimApiSchemaShowOptions` |
+| `az apim api schema wait` | `AzApimApiSchemaWaitOptions` |
+| `az apim api show` | `AzApimApiShowOptions` |
 | `az apim api update` | `AzApimApiUpdateOptions` |
 | `az apim api versionset create` | `AzApimApiVersionsetCreateOptions` |
 | `az apim api versionset delete` | `AzApimApiVersionsetDeleteOptions` |
+| `az apim api versionset list` | `AzApimApiVersionSetListOptions` |
+| `az apim api versionset show` | `AzApimApiVersionSetShowOptions` |
 | `az apim api versionset update` | `AzApimApiVersionsetUpdateOptions` |
+| `az apim api wait` | `AzApimApiWaitOptions` |
 | `az apim apply-network-updates` | `AzApimApplyNetworkUpdatesOptions` |
 | `az apim backend create` | `AzApimBackendCreateOptions` |
 | `az apim backend delete` | `AzApimBackendDeleteOptions` |
+| `az apim backend list` | `AzApimBackendListOptions` |
+| `az apim backend show` | `AzApimBackendShowOptions` |
 | `az apim backend update` | `AzApimBackendUpdateOptions` |
 | `az apim backup` | `AzApimBackupOptions` |
+| `az apim check-name` | `AzApimCheckNameOptions` |
 | `az apim create` | `AzApimCreateOptions` |
 | `az apim delete` | `AzApimDeleteOptions` |
+| `az apim deletedservice purge` | `AzApimDeletedservicePurgeOptions` |
+| `az apim deletedservice show` | `AzApimDeletedserviceShowOptions` |
 | `az apim graphql resolver create` | `AzApimGraphqlResolverCreateOptions` |
 | `az apim graphql resolver delete` | `AzApimGraphqlResolverDeleteOptions` |
+| `az apim graphql resolver list` | `AzApimGraphqlResolverListOptions` |
 | `az apim graphql resolver policy create` | `AzApimGraphqlResolverPolicyCreateOptions` |
 | `az apim graphql resolver policy delete` | `AzApimGraphqlResolverPolicyDeleteOptions` |
+| `az apim graphql resolver policy list` | `AzApimGraphqlResolverPolicyListOptions` |
+| `az apim graphql resolver policy show` | `AzApimGraphqlResolverPolicyShowOptions` |
+| `az apim graphql resolver show` | `AzApimGraphqlResolverShowOptions` |
 | `az apim list` | `AzApimListOptions` |
 | `az apim nv create` | `AzApimNvCreateOptions` |
 | `az apim nv delete` | `AzApimNvDeleteOptions` |
+| `az apim nv list` | `AzApimNvListOptions` |
+| `az apim nv show` | `AzApimNvShowOptions` |
+| `az apim nv show-secret` | `AzApimNvShowSecretOptions` |
 | `az apim nv update` | `AzApimNvUpdateOptions` |
+| `az apim nv wait` | `AzApimNvWaitOptions` |
+| `az apim product api add` | `AzApimProductApiAddOptions` |
+| `az apim product api check` | `AzApimProductApiCheckOptions` |
+| `az apim product api delete` | `AzApimProductApiDeleteOptions` |
+| `az apim product api list` | `AzApimProductApiListOptions` |
 | `az apim product create` | `AzApimProductCreateOptions` |
 | `az apim product delete` | `AzApimProductDeleteOptions` |
+| `az apim product list` | `AzApimProductListOptions` |
+| `az apim product show` | `AzApimProductShowOptions` |
 | `az apim product update` | `AzApimProductUpdateOptions` |
+| `az apim product wait` | `AzApimProductWaitOptions` |
 | `az apim restore` | `AzApimRestoreOptions` |
+| `az apim show` | `AzApimShowOptions` |
 | `az apim update` | `AzApimUpdateOptions` |
+| `az apim wait` | `AzApimWaitOptions` |
 | `az appconfig create` | `AzAppConfigCreateOptions` |
 | `az appconfig credential list` | `AzAppConfigCredentialListOptions` |
 | `az appconfig credential regenerate` | `AzAppConfigCredentialRegenerateOptions` |
@@ -397,29 +557,50 @@ public class RunCommandModule : Module<CommandResult>
 | `az appservice ase send-test-notification` | `AzAppserviceAseSendTestNotificationOptions` |
 | `az appservice ase show` | `AzAppserviceAseShowOptions` |
 | `az appservice ase update` | `AzAppserviceAseUpdateOptions` |
+| `az appservice hybrid-connection set-key` | `AzAppserviceHybridConnectionSetKeyOptions` |
 | `az appservice list-locations` | `AzAppserviceListLocationsOptions` |
 | `az appservice plan create` | `AzAppservicePlanCreateOptions` |
 | `az appservice plan delete` | `AzAppservicePlanDeleteOptions` |
 | `az appservice plan identity assign` | `AzAppservicePlanIdentityAssignOptions` |
 | `az appservice plan identity remove` | `AzAppservicePlanIdentityRemoveOptions` |
 | `az appservice plan identity set-default` | `AzAppservicePlanIdentitySetDefaultOptions` |
+| `az appservice plan identity show` | `AzAppservicePlanIdentityShowOptions` |
 | `az appservice plan list` | `AzAppservicePlanListOptions` |
+| `az appservice plan managed-instance install-script add` | `AzAppservicePlanManagedInstanceInstallScriptAddOptions` |
+| `az appservice plan managed-instance install-script list` | `AzAppservicePlanManagedInstanceInstallScriptListOptions` |
+| `az appservice plan managed-instance install-script remove` | `AzAppservicePlanManagedInstanceInstallScriptRemoveOptions` |
 | `az appservice plan managed-instance instance connect` | `AzAppservicePlanManagedInstanceInstanceConnectOptions` |
+| `az appservice plan managed-instance instance list` | `AzAppservicePlanManagedInstanceInstanceListOptions` |
+| `az appservice plan managed-instance instance recycle` | `AzAppservicePlanManagedInstanceInstanceRecycleOptions` |
 | `az appservice plan managed-instance network add` | `AzAppservicePlanManagedInstanceNetworkAddOptions` |
+| `az appservice plan managed-instance network remove` | `AzAppservicePlanManagedInstanceNetworkRemoveOptions` |
+| `az appservice plan managed-instance network show` | `AzAppservicePlanManagedInstanceNetworkShowOptions` |
+| `az appservice plan managed-instance registry-adapter add` | `AzAppservicePlanManagedInstanceRegistryAdapterAddOptions` |
+| `az appservice plan managed-instance registry-adapter list` | `AzAppservicePlanManagedInstanceRegistryAdapterListOptions` |
+| `az appservice plan managed-instance registry-adapter remove` | `AzAppservicePlanManagedInstanceRegistryAdapterRemoveOptions` |
 | `az appservice plan managed-instance storage-mount add` | `AzAppservicePlanManagedInstanceStorageMountAddOptions` |
+| `az appservice plan managed-instance storage-mount list` | `AzAppservicePlanManagedInstanceStorageMountListOptions` |
+| `az appservice plan managed-instance storage-mount remove` | `AzAppservicePlanManagedInstanceStorageMountRemoveOptions` |
+| `az appservice plan show` | `AzAppservicePlanShowOptions` |
 | `az appservice plan update` | `AzAppservicePlanUpdateOptions` |
+| `az appservice vnet-integration list` | `AzAppserviceVnetIntegrationListOptions` |
 | `az aro create` | `AzAroCreateOptions` |
 | `az aro delete` | `AzAroDeleteOptions` |
 | `az aro get-admin-kubeconfig` | `AzAroGetAdminKubeconfigOptions` |
+| `az aro get-versions` | `AzAroGetVersionsOptions` |
 | `az aro list` | `AzAroListOptions` |
+| `az aro list-credentials` | `AzAroListCredentialsOptions` |
+| `az aro show` | `AzAroShowOptions` |
 | `az aro update` | `AzAroUpdateOptions` |
 | `az aro validate` | `AzAroValidateOptions` |
+| `az aro wait` | `AzAroWaitOptions` |
 | `az backup container list` | `AzBackupContainerListOptions` |
 | `az backup container re-register` | `AzBackupContainerReRegisterOptions` |
 | `az backup container register` | `AzBackupContainerRegisterOptions` |
 | `az backup container show` | `AzBackupContainerShowOptions` |
 | `az backup container unregister` | `AzBackupContainerUnregisterOptions` |
 | `az backup deleted-vault get` | `AzBackupDeletedVaultGetOptions` |
+| `az backup deleted-vault list` | `AzBackupDeletedVaultListOptions` |
 | `az backup deleted-vault list-containers` | `AzBackupDeletedVaultListContainersOptions` |
 | `az backup deleted-vault undelete` | `AzBackupDeletedVaultUndeleteOptions` |
 | `az backup item list` | `AzBackupItemListOptions` |
@@ -430,13 +611,22 @@ public class RunCommandModule : Module<CommandResult>
 | `az backup job stop` | `AzBackupJobStopOptions` |
 | `az backup job wait` | `AzBackupJobWaitOptions` |
 | `az backup policy create` | `AzBackupPolicyCreateOptions` |
+| `az backup policy delete` | `AzBackupPolicyDeleteOptions` |
+| `az backup policy get-default-for-vm` | `AzBackupPolicyGetDefaultForVmOptions` |
 | `az backup policy list` | `AzBackupPolicyListOptions` |
 | `az backup policy list-associated-items` | `AzBackupPolicyListAssociatedItemsOptions` |
 | `az backup policy set` | `AzBackupPolicySetOptions` |
+| `az backup policy show` | `AzBackupPolicyShowOptions` |
+| `az backup protectable-item initialize` | `AzBackupProtectableItemInitializeOptions` |
 | `az backup protectable-item list` | `AzBackupProtectableItemListOptions` |
+| `az backup protectable-item show` | `AzBackupProtectableItemShowOptions` |
+| `az backup protection auto-disable-for-azurewl` | `AzBackupProtectionAutoDisableForAzurewlOptions` |
+| `az backup protection auto-enable-for-azurewl` | `AzBackupProtectionAutoEnableForAzurewlOptions` |
 | `az backup protection backup-now` | `AzBackupProtectionBackupNowOptions` |
 | `az backup protection check-vm` | `AzBackupProtectionCheckVmOptions` |
 | `az backup protection disable` | `AzBackupProtectionDisableOptions` |
+| `az backup protection enable-for-azurefileshare` | `AzBackupProtectionEnableForAzurefileshareOptions` |
+| `az backup protection enable-for-azurewl` | `AzBackupProtectionEnableForAzurewlOptions` |
 | `az backup protection enable-for-vm` | `AzBackupProtectionEnableForVmOptions` |
 | `az backup protection reconfigure` | `AzBackupProtectionReconfigureOptions` |
 | `az backup protection resume` | `AzBackupProtectionResumeOptions` |
@@ -447,23 +637,35 @@ public class RunCommandModule : Module<CommandResult>
 | `az backup recoverypoint move` | `AzBackupRecoverypointMoveOptions` |
 | `az backup recoverypoint show` | `AzBackupRecoverypointShowOptions` |
 | `az backup recoverypoint show-log-chain` | `AzBackupRecoverypointShowLogChainOptions` |
+| `az backup restore files mount-rp` | `AzBackupRestoreFilesMountRpOptions` |
+| `az backup restore files unmount-rp` | `AzBackupRestoreFilesUnmountRpOptions` |
 | `az backup restore restore-azurefiles` | `AzBackupRestoreRestoreAzurefilesOptions` |
 | `az backup restore restore-azurefileshare` | `AzBackupRestoreRestoreAzurefileshareOptions` |
 | `az backup restore restore-azurewl` | `AzBackupRestoreRestoreAzurewlOptions` |
 | `az backup restore restore-disks` | `AzBackupRestoreRestoreDisksOptions` |
 | `az backup vault backup-properties set` | `AzBackupVaultBackupPropertiesSetOptions` |
+| `az backup vault backup-properties show` | `AzBackupVaultBackupPropertiesShowOptions` |
 | `az backup vault create` | `AzBackupVaultCreateOptions` |
 | `az backup vault delete` | `AzBackupVaultDeleteOptions` |
+| `az backup vault encryption show` | `AzBackupVaultEncryptionShowOptions` |
 | `az backup vault encryption update` | `AzBackupVaultEncryptionUpdateOptions` |
 | `az backup vault identity assign` | `AzBackupVaultIdentityAssignOptions` |
 | `az backup vault identity remove` | `AzBackupVaultIdentityRemoveOptions` |
+| `az backup vault identity show` | `AzBackupVaultIdentityShowOptions` |
 | `az backup vault list` | `AzBackupVaultListOptions` |
+| `az backup vault list-soft-deleted-containers` | `AzBackupVaultListSoftDeletedContainersOptions` |
 | `az backup vault resource-guard-mapping delete` | `AzBackupVaultResourceGuardMappingDeleteOptions` |
+| `az backup vault resource-guard-mapping show` | `AzBackupVaultResourceGuardMappingShowOptions` |
 | `az backup vault resource-guard-mapping update` | `AzBackupVaultResourceGuardMappingUpdateOptions` |
+| `az backup vault show` | `AzBackupVaultShowOptions` |
 | `az backup vault update` | `AzBackupVaultUpdateOptions` |
+| `az batch account autostorage-keys sync` | `AzBatchAccountAutostorageKeysSyncOptions` |
 | `az batch account create` | `AzBatchAccountCreateOptions` |
 | `az batch account delete` | `AzBatchAccountDeleteOptions` |
+| `az batch account identity assign` | `AzBatchAccountIdentityAssignOptions` |
 | `az batch account identity remove` | `AzBatchAccountIdentityRemoveOptions` |
+| `az batch account identity show` | `AzBatchAccountIdentityShowOptions` |
+| `az batch account keys list` | `AzBatchAccountKeysListOptions` |
 | `az batch account keys renew` | `AzBatchAccountKeysRenewOptions` |
 | `az batch account list` | `AzBatchAccountListOptions` |
 | `az batch account login` | `AzBatchAccountLoginOptions` |
@@ -472,49 +674,87 @@ public class RunCommandModule : Module<CommandResult>
 | `az batch account network-profile network-rule list` | `AzBatchAccountNetworkProfileNetworkRuleListOptions` |
 | `az batch account network-profile set` | `AzBatchAccountNetworkProfileSetOptions` |
 | `az batch account network-profile show` | `AzBatchAccountNetworkProfileShowOptions` |
+| `az batch account outbound-endpoints` | `AzBatchAccountOutboundEndpointsOptions` |
 | `az batch account set` | `AzBatchAccountSetOptions` |
 | `az batch account show` | `AzBatchAccountShowOptions` |
 | `az batch application create` | `AzBatchApplicationCreateOptions` |
 | `az batch application delete` | `AzBatchApplicationDeleteOptions` |
 | `az batch application list` | `AzBatchApplicationListOptions` |
+| `az batch application package activate` | `AzBatchApplicationPackageActivateOptions` |
+| `az batch application package create` | `AzBatchApplicationPackageCreateOptions` |
 | `az batch application package delete` | `AzBatchApplicationPackageDeleteOptions` |
 | `az batch application package list` | `AzBatchApplicationPackageListOptions` |
+| `az batch application package show` | `AzBatchApplicationPackageShowOptions` |
 | `az batch application set` | `AzBatchApplicationSetOptions` |
+| `az batch application show` | `AzBatchApplicationShowOptions` |
+| `az batch application summary list` | `AzBatchApplicationSummaryListOptions` |
+| `az batch application summary show` | `AzBatchApplicationSummaryShowOptions` |
 | `az batch job create` | `AzBatchJobCreateOptions` |
 | `az batch job delete` | `AzBatchJobDeleteOptions` |
 | `az batch job disable` | `AzBatchJobDisableOptions` |
+| `az batch job enable` | `AzBatchJobEnableOptions` |
 | `az batch job list` | `AzBatchJobListOptions` |
+| `az batch job prep-release-status list` | `AzBatchJobPrepReleaseStatusListOptions` |
 | `az batch job reset` | `AzBatchJobResetOptions` |
 | `az batch job set` | `AzBatchJobSetOptions` |
+| `az batch job show` | `AzBatchJobShowOptions` |
 | `az batch job stop` | `AzBatchJobStopOptions` |
+| `az batch job task-counts show` | `AzBatchJobTaskCountsShowOptions` |
 | `az batch job-schedule create` | `AzBatchJobScheduleCreateOptions` |
 | `az batch job-schedule delete` | `AzBatchJobScheduleDeleteOptions` |
+| `az batch job-schedule disable` | `AzBatchJobScheduleDisableOptions` |
+| `az batch job-schedule enable` | `AzBatchJobScheduleEnableOptions` |
+| `az batch job-schedule list` | `AzBatchJobScheduleListOptions` |
 | `az batch job-schedule reset` | `AzBatchJobScheduleResetOptions` |
 | `az batch job-schedule set` | `AzBatchJobScheduleSetOptions` |
+| `az batch job-schedule show` | `AzBatchJobScheduleShowOptions` |
+| `az batch job-schedule stop` | `AzBatchJobScheduleStopOptions` |
 | `az batch location list-skus` | `AzBatchLocationListSkusOptions` |
+| `az batch location quotas show` | `AzBatchLocationQuotasShowOptions` |
 | `az batch node delete` | `AzBatchNodeDeleteOptions` |
 | `az batch node file delete` | `AzBatchNodeFileDeleteOptions` |
+| `az batch node file download` | `AzBatchNodeFileDownloadOptions` |
 | `az batch node file list` | `AzBatchNodeFileListOptions` |
+| `az batch node file show` | `AzBatchNodeFileShowOptions` |
+| `az batch node list` | `AzBatchNodeListOptions` |
 | `az batch node reboot` | `AzBatchNodeRebootOptions` |
+| `az batch node remote-login-settings show` | `AzBatchNodeRemoteLoginSettingsShowOptions` |
 | `az batch node scheduling disable` | `AzBatchNodeSchedulingDisableOptions` |
+| `az batch node scheduling enable` | `AzBatchNodeSchedulingEnableOptions` |
 | `az batch node service-logs upload` | `AzBatchNodeServiceLogsUploadOptions` |
+| `az batch node show` | `AzBatchNodeShowOptions` |
 | `az batch node user create` | `AzBatchNodeUserCreateOptions` |
 | `az batch node user delete` | `AzBatchNodeUserDeleteOptions` |
 | `az batch node user reset` | `AzBatchNodeUserResetOptions` |
+| `az batch pool autoscale disable` | `AzBatchPoolAutoscaleDisableOptions` |
 | `az batch pool autoscale enable` | `AzBatchPoolAutoscaleEnableOptions` |
 | `az batch pool autoscale evaluate` | `AzBatchPoolAutoscaleEvaluateOptions` |
 | `az batch pool create` | `AzBatchPoolCreateOptions` |
 | `az batch pool delete` | `AzBatchPoolDeleteOptions` |
+| `az batch pool list` | `AzBatchPoolListOptions` |
+| `az batch pool node-counts list` | `AzBatchPoolNodeCountsListOptions` |
 | `az batch pool reset` | `AzBatchPoolResetOptions` |
 | `az batch pool resize` | `AzBatchPoolResizeOptions` |
 | `az batch pool set` | `AzBatchPoolSetOptions` |
+| `az batch pool show` | `AzBatchPoolShowOptions` |
+| `az batch pool supported-images list` | `AzBatchPoolSupportedImagesListOptions` |
+| `az batch pool usage-metrics list` | `AzBatchPoolUsageMetricsListOptions` |
 | `az batch private-endpoint-connection list` | `AzBatchPrivateEndpointConnectionListOptions` |
+| `az batch private-endpoint-connection show` | `AzBatchPrivateEndpointConnectionShowOptions` |
 | `az batch private-link-resource list` | `AzBatchPrivateLinkResourceListOptions` |
+| `az batch private-link-resource show` | `AzBatchPrivateLinkResourceShowOptions` |
 | `az batch task create` | `AzBatchTaskCreateOptions` |
 | `az batch task delete` | `AzBatchTaskDeleteOptions` |
 | `az batch task file delete` | `AzBatchTaskFileDeleteOptions` |
+| `az batch task file download` | `AzBatchTaskFileDownloadOptions` |
 | `az batch task file list` | `AzBatchTaskFileListOptions` |
+| `az batch task file show` | `AzBatchTaskFileShowOptions` |
+| `az batch task list` | `AzBatchTaskListOptions` |
+| `az batch task reactivate` | `AzBatchTaskReactivateOptions` |
 | `az batch task reset` | `AzBatchTaskResetOptions` |
+| `az batch task show` | `AzBatchTaskShowOptions` |
+| `az batch task stop` | `AzBatchTaskStopOptions` |
+| `az batch task subtask list` | `AzBatchTaskSubtaskListOptions` |
 | `az bicep build` | `AzBicepBuildOptions` |
 | `az bicep build-params` | `AzBicepBuildParamsOptions` |
 | `az bicep decompile` | `AzBicepDecompileOptions` |
@@ -525,17 +765,30 @@ public class RunCommandModule : Module<CommandResult>
 | `az bicep lint` | `AzBicepLintOptions` |
 | `az bicep publish` | `AzBicepPublishOptions` |
 | `az bicep restore` | `AzBicepRestoreOptions` |
+| `az bicep run` | `AzBicepRunOptions` |
 | `az bicep snapshot` | `AzBicepSnapshotOptions` |
+| `az billing enrollment-account billing-permission list` | `AzBillingEnrollmentAccountBillingPermissionListOptions` |
+| `az billing enrollment-account show` | `AzBillingEnrollmentAccountShowOptions` |
 | `az billing invoice list` | `AzBillingInvoiceListOptions` |
 | `az billing invoice show` | `AzBillingInvoiceShowOptions` |
 | `az billing period list` | `AzBillingPeriodListOptions` |
+| `az billing period show` | `AzBillingPeriodShowOptions` |
+| `az billing transfer accept-transfer` | `AzBillingTransferAcceptTransferOptions` |
+| `az billing transfer list` | `AzBillingTransferListOptions` |
+| `az billing transfer show` | `AzBillingTransferShowOptions` |
 | `az bot authsetting create` | `AzBotAuthsettingCreateOptions` |
+| `az bot authsetting delete` | `AzBotAuthsettingDeleteOptions` |
+| `az bot authsetting list` | `AzBotAuthsettingListOptions` |
 | `az bot authsetting list-providers` | `AzBotAuthsettingListProvidersOptions` |
+| `az bot authsetting show` | `AzBotAuthsettingShowOptions` |
 | `az bot create` | `AzBotCreateOptions` |
+| `az bot delete` | `AzBotDeleteOptions` |
 | `az bot prepare-deploy` | `AzBotPrepareDeployOptions` |
 | `az bot show` | `AzBotShowOptions` |
 | `az bot update` | `AzBotUpdateOptions` |
 | `az bot webchat show` | `AzBotWebchatShowOptions` |
+| `az cache delete` | `AzCacheDeleteOptions` |
+| `az cache show` | `AzCacheShowOptions` |
 | `az capacity reservation create` | `AzCapacityReservationCreateOptions` |
 | `az capacity reservation delete` | `AzCapacityReservationDeleteOptions` |
 | `az capacity reservation group create` | `AzCapacityReservationGroupCreateOptions` |
@@ -543,6 +796,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az capacity reservation group list` | `AzCapacityReservationGroupListOptions` |
 | `az capacity reservation group show` | `AzCapacityReservationGroupShowOptions` |
 | `az capacity reservation group update` | `AzCapacityReservationGroupUpdateOptions` |
+| `az capacity reservation list` | `AzCapacityReservationListOptions` |
 | `az capacity reservation show` | `AzCapacityReservationShowOptions` |
 | `az capacity reservation update` | `AzCapacityReservationUpdateOptions` |
 | `az capacity reservation wait` | `AzCapacityReservationWaitOptions` |
@@ -550,19 +804,56 @@ public class RunCommandModule : Module<CommandResult>
 | `az cloud register` | `AzCloudRegisterOptions` |
 | `az cloud set` | `AzCloudSetOptions` |
 | `az cloud show` | `AzCloudShowOptions` |
+| `az cloud unregister` | `AzCloudUnregisterOptions` |
 | `az cloud update` | `AzCloudUpdateOptions` |
+| `az cognitiveservices account commitment-plan create` | `AzCognitiveservicesAccountCommitmentPlanCreateOptions` |
+| `az cognitiveservices account commitment-plan delete` | `AzCognitiveservicesAccountCommitmentPlanDeleteOptions` |
+| `az cognitiveservices account commitment-plan list` | `AzCognitiveservicesAccountCommitmentPlanListOptions` |
+| `az cognitiveservices account commitment-plan show` | `AzCognitiveservicesAccountCommitmentPlanShowOptions` |
+| `az cognitiveservices account connection create` | `AzCognitiveservicesAccountConnectionCreateOptions` |
+| `az cognitiveservices account connection delete` | `AzCognitiveservicesAccountConnectionDeleteOptions` |
+| `az cognitiveservices account connection list` | `AzCognitiveservicesAccountConnectionListOptions` |
+| `az cognitiveservices account connection show` | `AzCognitiveservicesAccountConnectionShowOptions` |
+| `az cognitiveservices account connection update` | `AzCognitiveservicesAccountConnectionUpdateOptions` |
 | `az cognitiveservices account create` | `AzCognitiveservicesAccountCreateOptions` |
+| `az cognitiveservices account delete` | `AzCognitiveservicesAccountDeleteOptions` |
 | `az cognitiveservices account deployment create` | `AzCognitiveservicesAccountDeploymentCreateOptions` |
 | `az cognitiveservices account deployment delete` | `AzCognitiveservicesAccountDeploymentDeleteOptions` |
+| `az cognitiveservices account deployment list` | `AzCognitiveservicesAccountDeploymentListOptions` |
 | `az cognitiveservices account deployment show` | `AzCognitiveservicesAccountDeploymentShowOptions` |
+| `az cognitiveservices account identity assign` | `AzCognitiveservicesAccountIdentityAssignOptions` |
+| `az cognitiveservices account identity remove` | `AzCognitiveservicesAccountIdentityRemoveOptions` |
+| `az cognitiveservices account identity show` | `AzCognitiveservicesAccountIdentityShowOptions` |
+| `az cognitiveservices account keys list` | `AzCognitiveservicesAccountKeysListOptions` |
+| `az cognitiveservices account keys regenerate` | `AzCognitiveservicesAccountKeysRegenerateOptions` |
 | `az cognitiveservices account list` | `AzCognitiveservicesAccountListOptions` |
+| `az cognitiveservices account list-models` | `AzCognitiveservicesAccountListModelsOptions` |
 | `az cognitiveservices account list-skus` | `AzCognitiveservicesAccountListSkusOptions` |
+| `az cognitiveservices account list-usage` | `AzCognitiveservicesAccountListUsageOptions` |
 | `az cognitiveservices account network-rule add` | `AzCognitiveservicesAccountNetworkRuleAddOptions` |
+| `az cognitiveservices account network-rule list` | `AzCognitiveservicesAccountNetworkRuleListOptions` |
 | `az cognitiveservices account network-rule remove` | `AzCognitiveservicesAccountNetworkRuleRemoveOptions` |
+| `az cognitiveservices account project connection create` | `AzCognitiveservicesAccountProjectConnectionCreateOptions` |
+| `az cognitiveservices account project connection delete` | `AzCognitiveservicesAccountProjectConnectionDeleteOptions` |
+| `az cognitiveservices account project connection list` | `AzCognitiveservicesAccountProjectConnectionListOptions` |
+| `az cognitiveservices account project connection show` | `AzCognitiveservicesAccountProjectConnectionShowOptions` |
+| `az cognitiveservices account project connection update` | `AzCognitiveservicesAccountProjectConnectionUpdateOptions` |
 | `az cognitiveservices account project create` | `AzCognitiveservicesAccountProjectCreateOptions` |
+| `az cognitiveservices account project delete` | `AzCognitiveservicesAccountProjectDeleteOptions` |
+| `az cognitiveservices account project list` | `AzCognitiveservicesAccountProjectListOptions` |
+| `az cognitiveservices account project show` | `AzCognitiveservicesAccountProjectShowOptions` |
 | `az cognitiveservices account project update` | `AzCognitiveservicesAccountProjectUpdateOptions` |
+| `az cognitiveservices account purge` | `AzCognitiveservicesAccountPurgeOptions` |
+| `az cognitiveservices account recover` | `AzCognitiveservicesAccountRecoverOptions` |
+| `az cognitiveservices account show` | `AzCognitiveservicesAccountShowOptions` |
+| `az cognitiveservices account show-deleted` | `AzCognitiveservicesAccountShowDeletedOptions` |
 | `az cognitiveservices account update` | `AzCognitiveservicesAccountUpdateOptions` |
+| `az cognitiveservices commitment-tier list` | `AzCognitiveservicesCommitmentTierListOptions` |
+| `az cognitiveservices model list` | `AzCognitiveservicesModelListOptions` |
+| `az cognitiveservices usage list` | `AzCognitiveservicesUsageListOptions` |
 | `az compute-fleet list-vms` | `AzComputeFleetListVmsOptions` |
+| `az compute-fleet wait` | `AzComputeFleetWaitOptions` |
+| `az compute-recommender spot-placement-score` | `AzComputeRecommenderSpotPlacementScoreOptions` |
 | `az connection create app-insights` | `AzConnectionCreateAppInsightsOptions` |
 | `az connection create appconfig` | `AzConnectionCreateAppConfigOptions` |
 | `az connection create confluent-cloud` | `AzConnectionCreateConfluentCloudOptions` |
@@ -646,23 +937,38 @@ public class RunCommandModule : Module<CommandResult>
 | `az container container-group-profile create` | `AzContainerContainerGroupProfileCreateOptions` |
 | `az container container-group-profile delete` | `AzContainerContainerGroupProfileDeleteOptions` |
 | `az container container-group-profile list` | `AzContainerContainerGroupProfileListOptions` |
+| `az container container-group-profile list-revisions` | `AzContainerContainerGroupProfileListRevisionsOptions` |
+| `az container container-group-profile show` | `AzContainerContainerGroupProfileShowOptions` |
+| `az container container-group-profile show-revision` | `AzContainerContainerGroupProfileShowRevisionOptions` |
 | `az container create` | `AzContainerCreateOptions` |
 | `az container delete` | `AzContainerDeleteOptions` |
 | `az container exec` | `AzContainerExecOptions` |
+| `az container export` | `AzContainerExportOptions` |
 | `az container list` | `AzContainerListOptions` |
 | `az container logs` | `AzContainerLogsOptions` |
 | `az container restart` | `AzContainerRestartOptions` |
+| `az container show` | `AzContainerShowOptions` |
 | `az container start` | `AzContainerStartOptions` |
+| `az container stop` | `AzContainerStopOptions` |
+| `az containerapp auth apple show` | `AzContainerappAuthAppleShowOptions` |
 | `az containerapp auth apple update` | `AzContainerappAuthAppleUpdateOptions` |
+| `az containerapp auth facebook show` | `AzContainerappAuthFacebookShowOptions` |
 | `az containerapp auth facebook update` | `AzContainerappAuthFacebookUpdateOptions` |
+| `az containerapp auth github show` | `AzContainerappAuthGithubShowOptions` |
 | `az containerapp auth github update` | `AzContainerappAuthGithubUpdateOptions` |
+| `az containerapp auth google show` | `AzContainerappAuthGoogleShowOptions` |
 | `az containerapp auth google update` | `AzContainerappAuthGoogleUpdateOptions` |
+| `az containerapp auth microsoft show` | `AzContainerappAuthMicrosoftShowOptions` |
 | `az containerapp auth microsoft update` | `AzContainerappAuthMicrosoftUpdateOptions` |
 | `az containerapp auth openid-connect add` | `AzContainerappAuthOpenidConnectAddOptions` |
 | `az containerapp auth openid-connect remove` | `AzContainerappAuthOpenidConnectRemoveOptions` |
+| `az containerapp auth openid-connect show` | `AzContainerappAuthOpenidConnectShowOptions` |
 | `az containerapp auth openid-connect update` | `AzContainerappAuthOpenidConnectUpdateOptions` |
+| `az containerapp auth show` | `AzContainerappAuthShowOptions` |
+| `az containerapp auth twitter show` | `AzContainerappAuthTwitterShowOptions` |
 | `az containerapp auth twitter update` | `AzContainerappAuthTwitterUpdateOptions` |
 | `az containerapp auth update` | `AzContainerappAuthUpdateOptions` |
+| `az containerapp browse` | `AzContainerappBrowseOptions` |
 | `az containerapp compose create` | `AzContainerappComposeCreateOptions` |
 | `az containerapp connection create app-insights` | `AzContainerappConnectionCreateAppInsightsOptions` |
 | `az containerapp connection create appconfig` | `AzContainerappConnectionCreateAppConfigOptions` |
@@ -726,257 +1032,518 @@ public class RunCommandModule : Module<CommandResult>
 | `az containerapp connection validate` | `AzContainerappConnectionValidateOptions` |
 | `az containerapp connection wait` | `AzContainerappConnectionWaitOptions` |
 | `az containerapp create` | `AzContainerappCreateOptions` |
+| `az containerapp dapr disable` | `AzContainerappDaprDisableOptions` |
+| `az containerapp dapr enable` | `AzContainerappDaprEnableOptions` |
 | `az containerapp delete` | `AzContainerappDeleteOptions` |
 | `az containerapp env certificate delete` | `AzContainerappEnvCertificateDeleteOptions` |
 | `az containerapp env certificate list` | `AzContainerappEnvCertificateListOptions` |
 | `az containerapp env certificate upload` | `AzContainerappEnvCertificateUploadOptions` |
 | `az containerapp env create` | `AzContainerappEnvCreateOptions` |
+| `az containerapp env dapr-component list` | `AzContainerappEnvDaprComponentListOptions` |
+| `az containerapp env dapr-component remove` | `AzContainerappEnvDaprComponentRemoveOptions` |
+| `az containerapp env dapr-component set` | `AzContainerappEnvDaprComponentSetOptions` |
+| `az containerapp env dapr-component show` | `AzContainerappEnvDaprComponentShowOptions` |
 | `az containerapp env delete` | `AzContainerappEnvDeleteOptions` |
+| `az containerapp env http-route-config create` | `AzContainerappEnvHttpRouteConfigCreateOptions` |
 | `az containerapp env http-route-config delete` | `AzContainerappEnvHttpRouteConfigDeleteOptions` |
+| `az containerapp env http-route-config list` | `AzContainerappEnvHttpRouteConfigListOptions` |
+| `az containerapp env http-route-config show` | `AzContainerappEnvHttpRouteConfigShowOptions` |
+| `az containerapp env http-route-config update` | `AzContainerappEnvHttpRouteConfigUpdateOptions` |
 | `az containerapp env list` | `AzContainerappEnvListOptions` |
+| `az containerapp env list-usages` | `AzContainerappEnvListUsagesOptions` |
 | `az containerapp env logs show` | `AzContainerappEnvLogsShowOptions` |
 | `az containerapp env premium-ingress add` | `AzContainerappEnvPremiumIngressAddOptions` |
 | `az containerapp env premium-ingress remove` | `AzContainerappEnvPremiumIngressRemoveOptions` |
+| `az containerapp env premium-ingress show` | `AzContainerappEnvPremiumIngressShowOptions` |
 | `az containerapp env premium-ingress update` | `AzContainerappEnvPremiumIngressUpdateOptions` |
+| `az containerapp env show` | `AzContainerappEnvShowOptions` |
+| `az containerapp env storage list` | `AzContainerappEnvStorageListOptions` |
 | `az containerapp env storage remove` | `AzContainerappEnvStorageRemoveOptions` |
 | `az containerapp env storage set` | `AzContainerappEnvStorageSetOptions` |
+| `az containerapp env storage show` | `AzContainerappEnvStorageShowOptions` |
 | `az containerapp env update` | `AzContainerappEnvUpdateOptions` |
 | `az containerapp env workload-profile add` | `AzContainerappEnvWorkloadProfileAddOptions` |
+| `az containerapp env workload-profile delete` | `AzContainerappEnvWorkloadProfileDeleteOptions` |
+| `az containerapp env workload-profile list` | `AzContainerappEnvWorkloadProfileListOptions` |
+| `az containerapp env workload-profile list-supported` | `AzContainerappEnvWorkloadProfileListSupportedOptions` |
+| `az containerapp env workload-profile show` | `AzContainerappEnvWorkloadProfileShowOptions` |
 | `az containerapp env workload-profile update` | `AzContainerappEnvWorkloadProfileUpdateOptions` |
 | `az containerapp exec` | `AzContainerappExecOptions` |
 | `az containerapp github-action add` | `AzContainerappGithubActionAddOptions` |
 | `az containerapp github-action delete` | `AzContainerappGithubActionDeleteOptions` |
+| `az containerapp github-action show` | `AzContainerappGithubActionShowOptions` |
 | `az containerapp hostname add` | `AzContainerappHostnameAddOptions` |
 | `az containerapp hostname bind` | `AzContainerappHostnameBindOptions` |
 | `az containerapp hostname delete` | `AzContainerappHostnameDeleteOptions` |
 | `az containerapp hostname list` | `AzContainerappHostnameListOptions` |
 | `az containerapp identity assign` | `AzContainerappIdentityAssignOptions` |
 | `az containerapp identity remove` | `AzContainerappIdentityRemoveOptions` |
+| `az containerapp identity show` | `AzContainerappIdentityShowOptions` |
+| `az containerapp ingress access-restriction list` | `AzContainerappIngressAccessRestrictionListOptions` |
+| `az containerapp ingress access-restriction remove` | `AzContainerappIngressAccessRestrictionRemoveOptions` |
 | `az containerapp ingress access-restriction set` | `AzContainerappIngressAccessRestrictionSetOptions` |
+| `az containerapp ingress cors disable` | `AzContainerappIngressCorsDisableOptions` |
 | `az containerapp ingress cors enable` | `AzContainerappIngressCorsEnableOptions` |
+| `az containerapp ingress cors show` | `AzContainerappIngressCorsShowOptions` |
 | `az containerapp ingress cors update` | `AzContainerappIngressCorsUpdateOptions` |
+| `az containerapp ingress disable` | `AzContainerappIngressDisableOptions` |
 | `az containerapp ingress enable` | `AzContainerappIngressEnableOptions` |
+| `az containerapp ingress show` | `AzContainerappIngressShowOptions` |
+| `az containerapp ingress sticky-sessions set` | `AzContainerappIngressStickySessionsSetOptions` |
+| `az containerapp ingress sticky-sessions show` | `AzContainerappIngressStickySessionsShowOptions` |
 | `az containerapp ingress traffic set` | `AzContainerappIngressTrafficSetOptions` |
+| `az containerapp ingress traffic show` | `AzContainerappIngressTrafficShowOptions` |
 | `az containerapp ingress update` | `AzContainerappIngressUpdateOptions` |
 | `az containerapp job create` | `AzContainerappJobCreateOptions` |
 | `az containerapp job delete` | `AzContainerappJobDeleteOptions` |
+| `az containerapp job execution list` | `AzContainerappJobExecutionListOptions` |
+| `az containerapp job execution show` | `AzContainerappJobExecutionShowOptions` |
 | `az containerapp job identity assign` | `AzContainerappJobIdentityAssignOptions` |
 | `az containerapp job identity remove` | `AzContainerappJobIdentityRemoveOptions` |
+| `az containerapp job identity show` | `AzContainerappJobIdentityShowOptions` |
 | `az containerapp job list` | `AzContainerappJobListOptions` |
 | `az containerapp job secret list` | `AzContainerappJobSecretListOptions` |
 | `az containerapp job secret remove` | `AzContainerappJobSecretRemoveOptions` |
+| `az containerapp job secret set` | `AzContainerappJobSecretSetOptions` |
+| `az containerapp job secret show` | `AzContainerappJobSecretShowOptions` |
+| `az containerapp job show` | `AzContainerappJobShowOptions` |
 | `az containerapp job start` | `AzContainerappJobStartOptions` |
 | `az containerapp job stop` | `AzContainerappJobStopOptions` |
 | `az containerapp job update` | `AzContainerappJobUpdateOptions` |
 | `az containerapp list` | `AzContainerappListOptions` |
+| `az containerapp list-usages` | `AzContainerappListUsagesOptions` |
 | `az containerapp logs show` | `AzContainerappLogsShowOptions` |
+| `az containerapp registry list` | `AzContainerappRegistryListOptions` |
+| `az containerapp registry remove` | `AzContainerappRegistryRemoveOptions` |
 | `az containerapp registry set` | `AzContainerappRegistrySetOptions` |
+| `az containerapp registry show` | `AzContainerappRegistryShowOptions` |
 | `az containerapp replica list` | `AzContainerappReplicaListOptions` |
 | `az containerapp replica show` | `AzContainerappReplicaShowOptions` |
+| `az containerapp revision activate` | `AzContainerappRevisionActivateOptions` |
 | `az containerapp revision copy` | `AzContainerappRevisionCopyOptions` |
+| `az containerapp revision deactivate` | `AzContainerappRevisionDeactivateOptions` |
 | `az containerapp revision label add` | `AzContainerappRevisionLabelAddOptions` |
+| `az containerapp revision label remove` | `AzContainerappRevisionLabelRemoveOptions` |
+| `az containerapp revision label swap` | `AzContainerappRevisionLabelSwapOptions` |
 | `az containerapp revision list` | `AzContainerappRevisionListOptions` |
+| `az containerapp revision restart` | `AzContainerappRevisionRestartOptions` |
+| `az containerapp revision set-mode` | `AzContainerappRevisionSetModeOptions` |
+| `az containerapp revision show` | `AzContainerappRevisionShowOptions` |
 | `az containerapp secret list` | `AzContainerappSecretListOptions` |
+| `az containerapp secret remove` | `AzContainerappSecretRemoveOptions` |
+| `az containerapp secret set` | `AzContainerappSecretSetOptions` |
+| `az containerapp secret show` | `AzContainerappSecretShowOptions` |
 | `az containerapp show` | `AzContainerappShowOptions` |
 | `az containerapp ssl upload` | `AzContainerappSslUploadOptions` |
 | `az containerapp up` | `AzContainerappUpOptions` |
 | `az containerapp update` | `AzContainerappUpdateOptions` |
 | `az cosmosdb cassandra keyspace create` | `AzCosmosdbCassandraKeyspaceCreateOptions` |
 | `az cosmosdb cassandra keyspace delete` | `AzCosmosdbCassandraKeyspaceDeleteOptions` |
+| `az cosmosdb cassandra keyspace exists` | `AzCosmosdbCassandraKeyspaceExistsOptions` |
+| `az cosmosdb cassandra keyspace list` | `AzCosmosdbCassandraKeyspaceListOptions` |
+| `az cosmosdb cassandra keyspace show` | `AzCosmosdbCassandraKeyspaceShowOptions` |
+| `az cosmosdb cassandra keyspace throughput migrate` | `AzCosmosdbCassandraKeyspaceThroughputMigrateOptions` |
+| `az cosmosdb cassandra keyspace throughput show` | `AzCosmosdbCassandraKeyspaceThroughputShowOptions` |
 | `az cosmosdb cassandra keyspace throughput update` | `AzCosmosdbCassandraKeyspaceThroughputUpdateOptions` |
 | `az cosmosdb cassandra table create` | `AzCosmosdbCassandraTableCreateOptions` |
 | `az cosmosdb cassandra table delete` | `AzCosmosdbCassandraTableDeleteOptions` |
+| `az cosmosdb cassandra table exists` | `AzCosmosdbCassandraTableExistsOptions` |
+| `az cosmosdb cassandra table list` | `AzCosmosdbCassandraTableListOptions` |
+| `az cosmosdb cassandra table show` | `AzCosmosdbCassandraTableShowOptions` |
+| `az cosmosdb cassandra table throughput migrate` | `AzCosmosdbCassandraTableThroughputMigrateOptions` |
+| `az cosmosdb cassandra table throughput show` | `AzCosmosdbCassandraTableThroughputShowOptions` |
 | `az cosmosdb cassandra table throughput update` | `AzCosmosdbCassandraTableThroughputUpdateOptions` |
 | `az cosmosdb cassandra table update` | `AzCosmosdbCassandraTableUpdateOptions` |
+| `az cosmosdb check-name-exists` | `AzCosmosdbCheckNameExistsOptions` |
 | `az cosmosdb create` | `AzCosmosdbCreateOptions` |
 | `az cosmosdb delete` | `AzCosmosdbDeleteOptions` |
+| `az cosmosdb failover-priority-change` | `AzCosmosdbFailoverPriorityChangeOptions` |
 | `az cosmosdb gremlin database create` | `AzCosmosdbGremlinDatabaseCreateOptions` |
 | `az cosmosdb gremlin database delete` | `AzCosmosdbGremlinDatabaseDeleteOptions` |
+| `az cosmosdb gremlin database exists` | `AzCosmosdbGremlinDatabaseExistsOptions` |
+| `az cosmosdb gremlin database list` | `AzCosmosdbGremlinDatabaseListOptions` |
 | `az cosmosdb gremlin database restore` | `AzCosmosdbGremlinDatabaseRestoreOptions` |
+| `az cosmosdb gremlin database show` | `AzCosmosdbGremlinDatabaseShowOptions` |
+| `az cosmosdb gremlin database throughput migrate` | `AzCosmosdbGremlinDatabaseThroughputMigrateOptions` |
+| `az cosmosdb gremlin database throughput show` | `AzCosmosdbGremlinDatabaseThroughputShowOptions` |
 | `az cosmosdb gremlin database throughput update` | `AzCosmosdbGremlinDatabaseThroughputUpdateOptions` |
 | `az cosmosdb gremlin graph create` | `AzCosmosdbGremlinGraphCreateOptions` |
 | `az cosmosdb gremlin graph delete` | `AzCosmosdbGremlinGraphDeleteOptions` |
+| `az cosmosdb gremlin graph exists` | `AzCosmosdbGremlinGraphExistsOptions` |
+| `az cosmosdb gremlin graph list` | `AzCosmosdbGremlinGraphListOptions` |
 | `az cosmosdb gremlin graph restore` | `AzCosmosdbGremlinGraphRestoreOptions` |
+| `az cosmosdb gremlin graph show` | `AzCosmosdbGremlinGraphShowOptions` |
+| `az cosmosdb gremlin graph throughput migrate` | `AzCosmosdbGremlinGraphThroughputMigrateOptions` |
+| `az cosmosdb gremlin graph throughput show` | `AzCosmosdbGremlinGraphThroughputShowOptions` |
 | `az cosmosdb gremlin graph throughput update` | `AzCosmosdbGremlinGraphThroughputUpdateOptions` |
 | `az cosmosdb gremlin graph update` | `AzCosmosdbGremlinGraphUpdateOptions` |
+| `az cosmosdb gremlin restorable-database list` | `AzCosmosdbGremlinRestorableDatabaseListOptions` |
 | `az cosmosdb gremlin restorable-graph list` | `AzCosmosdbGremlinRestorableGraphListOptions` |
+| `az cosmosdb gremlin restorable-resource list` | `AzCosmosdbGremlinRestorableResourceListOptions` |
+| `az cosmosdb gremlin retrieve-latest-backup-time` | `AzCosmosdbGremlinRetrieveLatestBackupTimeOptions` |
 | `az cosmosdb keys list` | `AzCosmosdbKeysListOptions` |
+| `az cosmosdb keys regenerate` | `AzCosmosdbKeysRegenerateOptions` |
 | `az cosmosdb list` | `AzCosmosdbListOptions` |
+| `az cosmosdb locations show` | `AzCosmosdbLocationsShowOptions` |
 | `az cosmosdb mongodb collection create` | `AzCosmosdbMongodbCollectionCreateOptions` |
 | `az cosmosdb mongodb collection delete` | `AzCosmosdbMongodbCollectionDeleteOptions` |
+| `az cosmosdb mongodb collection exists` | `AzCosmosdbMongodbCollectionExistsOptions` |
+| `az cosmosdb mongodb collection list` | `AzCosmosdbMongodbCollectionListOptions` |
 | `az cosmosdb mongodb collection restore` | `AzCosmosdbMongodbCollectionRestoreOptions` |
+| `az cosmosdb mongodb collection show` | `AzCosmosdbMongodbCollectionShowOptions` |
+| `az cosmosdb mongodb collection throughput migrate` | `AzCosmosdbMongodbCollectionThroughputMigrateOptions` |
+| `az cosmosdb mongodb collection throughput show` | `AzCosmosdbMongodbCollectionThroughputShowOptions` |
 | `az cosmosdb mongodb collection throughput update` | `AzCosmosdbMongodbCollectionThroughputUpdateOptions` |
 | `az cosmosdb mongodb collection update` | `AzCosmosdbMongodbCollectionUpdateOptions` |
 | `az cosmosdb mongodb database create` | `AzCosmosdbMongodbDatabaseCreateOptions` |
 | `az cosmosdb mongodb database delete` | `AzCosmosdbMongodbDatabaseDeleteOptions` |
+| `az cosmosdb mongodb database exists` | `AzCosmosdbMongodbDatabaseExistsOptions` |
+| `az cosmosdb mongodb database list` | `AzCosmosdbMongodbDatabaseListOptions` |
 | `az cosmosdb mongodb database restore` | `AzCosmosdbMongodbDatabaseRestoreOptions` |
+| `az cosmosdb mongodb database show` | `AzCosmosdbMongodbDatabaseShowOptions` |
+| `az cosmosdb mongodb database throughput migrate` | `AzCosmosdbMongodbDatabaseThroughputMigrateOptions` |
+| `az cosmosdb mongodb database throughput show` | `AzCosmosdbMongodbDatabaseThroughputShowOptions` |
 | `az cosmosdb mongodb database throughput update` | `AzCosmosdbMongodbDatabaseThroughputUpdateOptions` |
 | `az cosmosdb mongodb restorable-collection list` | `AzCosmosdbMongodbRestorableCollectionListOptions` |
+| `az cosmosdb mongodb restorable-database list` | `AzCosmosdbMongodbRestorableDatabaseListOptions` |
+| `az cosmosdb mongodb restorable-resource list` | `AzCosmosdbMongodbRestorableResourceListOptions` |
+| `az cosmosdb mongodb retrieve-latest-backup-time` | `AzCosmosdbMongodbRetrieveLatestBackupTimeOptions` |
+| `az cosmosdb mongodb role definition create` | `AzCosmosdbMongodbRoleDefinitionCreateOptions` |
 | `az cosmosdb mongodb role definition delete` | `AzCosmosdbMongodbRoleDefinitionDeleteOptions` |
+| `az cosmosdb mongodb role definition exists` | `AzCosmosdbMongodbRoleDefinitionExistsOptions` |
+| `az cosmosdb mongodb role definition list` | `AzCosmosdbMongodbRoleDefinitionListOptions` |
+| `az cosmosdb mongodb role definition show` | `AzCosmosdbMongodbRoleDefinitionShowOptions` |
+| `az cosmosdb mongodb role definition update` | `AzCosmosdbMongodbRoleDefinitionUpdateOptions` |
+| `az cosmosdb mongodb user definition create` | `AzCosmosdbMongodbUserDefinitionCreateOptions` |
 | `az cosmosdb mongodb user definition delete` | `AzCosmosdbMongodbUserDefinitionDeleteOptions` |
+| `az cosmosdb mongodb user definition exists` | `AzCosmosdbMongodbUserDefinitionExistsOptions` |
+| `az cosmosdb mongodb user definition list` | `AzCosmosdbMongodbUserDefinitionListOptions` |
+| `az cosmosdb mongodb user definition show` | `AzCosmosdbMongodbUserDefinitionShowOptions` |
+| `az cosmosdb mongodb user definition update` | `AzCosmosdbMongodbUserDefinitionUpdateOptions` |
+| `az cosmosdb network-rule add` | `AzCosmosdbNetworkRuleAddOptions` |
+| `az cosmosdb network-rule list` | `AzCosmosdbNetworkRuleListOptions` |
+| `az cosmosdb network-rule remove` | `AzCosmosdbNetworkRuleRemoveOptions` |
+| `az cosmosdb offline-region` | `AzCosmosdbOfflineRegionOptions` |
+| `az cosmosdb postgres check-name-availability` | `AzCosmosdbPostgresCheckNameAvailabilityOptions` |
 | `az cosmosdb postgres cluster create` | `AzCosmosdbPostgresClusterCreateOptions` |
 | `az cosmosdb postgres cluster delete` | `AzCosmosdbPostgresClusterDeleteOptions` |
 | `az cosmosdb postgres cluster list` | `AzCosmosdbPostgresClusterListOptions` |
 | `az cosmosdb postgres cluster promote` | `AzCosmosdbPostgresClusterPromoteOptions` |
 | `az cosmosdb postgres cluster restart` | `AzCosmosdbPostgresClusterRestartOptions` |
+| `az cosmosdb postgres cluster server list` | `AzCosmosdbPostgresClusterServerListOptions` |
+| `az cosmosdb postgres cluster server show` | `AzCosmosdbPostgresClusterServerShowOptions` |
+| `az cosmosdb postgres cluster show` | `AzCosmosdbPostgresClusterShowOptions` |
 | `az cosmosdb postgres cluster start` | `AzCosmosdbPostgresClusterStartOptions` |
 | `az cosmosdb postgres cluster stop` | `AzCosmosdbPostgresClusterStopOptions` |
 | `az cosmosdb postgres cluster update` | `AzCosmosdbPostgresClusterUpdateOptions` |
+| `az cosmosdb postgres cluster wait` | `AzCosmosdbPostgresClusterWaitOptions` |
+| `az cosmosdb postgres configuration coordinator show` | `AzCosmosdbPostgresConfigurationCoordinatorShowOptions` |
 | `az cosmosdb postgres configuration coordinator update` | `AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions` |
+| `az cosmosdb postgres configuration coordinator wait` | `AzCosmosdbPostgresConfigurationCoordinatorWaitOptions` |
+| `az cosmosdb postgres configuration list` | `AzCosmosdbPostgresConfigurationListOptions` |
+| `az cosmosdb postgres configuration node show` | `AzCosmosdbPostgresConfigurationNodeShowOptions` |
 | `az cosmosdb postgres configuration node update` | `AzCosmosdbPostgresConfigurationNodeUpdateOptions` |
+| `az cosmosdb postgres configuration node wait` | `AzCosmosdbPostgresConfigurationNodeWaitOptions` |
+| `az cosmosdb postgres configuration server list` | `AzCosmosdbPostgresConfigurationServerListOptions` |
+| `az cosmosdb postgres configuration show` | `AzCosmosdbPostgresConfigurationShowOptions` |
 | `az cosmosdb postgres firewall-rule create` | `AzCosmosdbPostgresFirewallRuleCreateOptions` |
 | `az cosmosdb postgres firewall-rule delete` | `AzCosmosdbPostgresFirewallRuleDeleteOptions` |
+| `az cosmosdb postgres firewall-rule list` | `AzCosmosdbPostgresFirewallRuleListOptions` |
+| `az cosmosdb postgres firewall-rule show` | `AzCosmosdbPostgresFirewallRuleShowOptions` |
 | `az cosmosdb postgres firewall-rule update` | `AzCosmosdbPostgresFirewallRuleUpdateOptions` |
+| `az cosmosdb postgres firewall-rule wait` | `AzCosmosdbPostgresFirewallRuleWaitOptions` |
 | `az cosmosdb postgres role create` | `AzCosmosdbPostgresRoleCreateOptions` |
 | `az cosmosdb postgres role delete` | `AzCosmosdbPostgresRoleDeleteOptions` |
+| `az cosmosdb postgres role list` | `AzCosmosdbPostgresRoleListOptions` |
+| `az cosmosdb postgres role show` | `AzCosmosdbPostgresRoleShowOptions` |
 | `az cosmosdb postgres role update` | `AzCosmosdbPostgresRoleUpdateOptions` |
+| `az cosmosdb postgres role wait` | `AzCosmosdbPostgresRoleWaitOptions` |
 | `az cosmosdb private-endpoint-connection approve` | `AzCosmosdbPrivateEndpointConnectionApproveOptions` |
 | `az cosmosdb private-endpoint-connection delete` | `AzCosmosdbPrivateEndpointConnectionDeleteOptions` |
 | `az cosmosdb private-endpoint-connection reject` | `AzCosmosdbPrivateEndpointConnectionRejectOptions` |
 | `az cosmosdb private-endpoint-connection show` | `AzCosmosdbPrivateEndpointConnectionShowOptions` |
+| `az cosmosdb private-link-resource list` | `AzCosmosdbPrivateLinkResourceListOptions` |
 | `az cosmosdb restorable-database-account list` | `AzCosmosdbRestorableDatabaseAccountListOptions` |
 | `az cosmosdb restorable-database-account show` | `AzCosmosdbRestorableDatabaseAccountShowOptions` |
 | `az cosmosdb restore` | `AzCosmosdbRestoreOptions` |
 | `az cosmosdb service create` | `AzCosmosdbServiceCreateOptions` |
 | `az cosmosdb service delete` | `AzCosmosdbServiceDeleteOptions` |
+| `az cosmosdb service list` | `AzCosmosdbServiceListOptions` |
+| `az cosmosdb service show` | `AzCosmosdbServiceShowOptions` |
 | `az cosmosdb service update` | `AzCosmosdbServiceUpdateOptions` |
+| `az cosmosdb show` | `AzCosmosdbShowOptions` |
 | `az cosmosdb sql container create` | `AzCosmosdbSqlContainerCreateOptions` |
 | `az cosmosdb sql container delete` | `AzCosmosdbSqlContainerDeleteOptions` |
+| `az cosmosdb sql container exists` | `AzCosmosdbSqlContainerExistsOptions` |
+| `az cosmosdb sql container list` | `AzCosmosdbSqlContainerListOptions` |
 | `az cosmosdb sql container restore` | `AzCosmosdbSqlContainerRestoreOptions` |
+| `az cosmosdb sql container show` | `AzCosmosdbSqlContainerShowOptions` |
+| `az cosmosdb sql container throughput migrate` | `AzCosmosdbSqlContainerThroughputMigrateOptions` |
+| `az cosmosdb sql container throughput show` | `AzCosmosdbSqlContainerThroughputShowOptions` |
 | `az cosmosdb sql container throughput update` | `AzCosmosdbSqlContainerThroughputUpdateOptions` |
 | `az cosmosdb sql container update` | `AzCosmosdbSqlContainerUpdateOptions` |
 | `az cosmosdb sql database create` | `AzCosmosdbSqlDatabaseCreateOptions` |
 | `az cosmosdb sql database delete` | `AzCosmosdbSqlDatabaseDeleteOptions` |
+| `az cosmosdb sql database exists` | `AzCosmosdbSqlDatabaseExistsOptions` |
+| `az cosmosdb sql database list` | `AzCosmosdbSqlDatabaseListOptions` |
 | `az cosmosdb sql database restore` | `AzCosmosdbSqlDatabaseRestoreOptions` |
+| `az cosmosdb sql database show` | `AzCosmosdbSqlDatabaseShowOptions` |
+| `az cosmosdb sql database throughput migrate` | `AzCosmosdbSqlDatabaseThroughputMigrateOptions` |
+| `az cosmosdb sql database throughput show` | `AzCosmosdbSqlDatabaseThroughputShowOptions` |
 | `az cosmosdb sql database throughput update` | `AzCosmosdbSqlDatabaseThroughputUpdateOptions` |
 | `az cosmosdb sql restorable-container list` | `AzCosmosdbSqlRestorableContainerListOptions` |
+| `az cosmosdb sql restorable-database list` | `AzCosmosdbSqlRestorableDatabaseListOptions` |
+| `az cosmosdb sql restorable-resource list` | `AzCosmosdbSqlRestorableResourceListOptions` |
+| `az cosmosdb sql retrieve-latest-backup-time` | `AzCosmosdbSqlRetrieveLatestBackupTimeOptions` |
 | `az cosmosdb sql role assignment create` | `AzCosmosdbSqlRoleAssignmentCreateOptions` |
 | `az cosmosdb sql role assignment delete` | `AzCosmosdbSqlRoleAssignmentDeleteOptions` |
+| `az cosmosdb sql role assignment exists` | `AzCosmosdbSqlRoleAssignmentExistsOptions` |
+| `az cosmosdb sql role assignment list` | `AzCosmosdbSqlRoleAssignmentListOptions` |
+| `az cosmosdb sql role assignment show` | `AzCosmosdbSqlRoleAssignmentShowOptions` |
 | `az cosmosdb sql role assignment update` | `AzCosmosdbSqlRoleAssignmentUpdateOptions` |
+| `az cosmosdb sql role assignment wait` | `AzCosmosdbSqlRoleAssignmentWaitOptions` |
 | `az cosmosdb sql role definition create` | `AzCosmosdbSqlRoleDefinitionCreateOptions` |
 | `az cosmosdb sql role definition delete` | `AzCosmosdbSqlRoleDefinitionDeleteOptions` |
+| `az cosmosdb sql role definition exists` | `AzCosmosdbSqlRoleDefinitionExistsOptions` |
+| `az cosmosdb sql role definition list` | `AzCosmosdbSqlRoleDefinitionListOptions` |
+| `az cosmosdb sql role definition show` | `AzCosmosdbSqlRoleDefinitionShowOptions` |
 | `az cosmosdb sql role definition update` | `AzCosmosdbSqlRoleDefinitionUpdateOptions` |
+| `az cosmosdb sql role definition wait` | `AzCosmosdbSqlRoleDefinitionWaitOptions` |
+| `az cosmosdb sql stored-procedure create` | `AzCosmosdbSqlStoredProcedureCreateOptions` |
 | `az cosmosdb sql stored-procedure delete` | `AzCosmosdbSqlStoredProcedureDeleteOptions` |
+| `az cosmosdb sql stored-procedure list` | `AzCosmosdbSqlStoredProcedureListOptions` |
+| `az cosmosdb sql stored-procedure show` | `AzCosmosdbSqlStoredProcedureShowOptions` |
+| `az cosmosdb sql stored-procedure update` | `AzCosmosdbSqlStoredProcedureUpdateOptions` |
 | `az cosmosdb sql trigger create` | `AzCosmosdbSqlTriggerCreateOptions` |
 | `az cosmosdb sql trigger delete` | `AzCosmosdbSqlTriggerDeleteOptions` |
+| `az cosmosdb sql trigger list` | `AzCosmosdbSqlTriggerListOptions` |
+| `az cosmosdb sql trigger show` | `AzCosmosdbSqlTriggerShowOptions` |
 | `az cosmosdb sql trigger update` | `AzCosmosdbSqlTriggerUpdateOptions` |
+| `az cosmosdb sql user-defined-function create` | `AzCosmosdbSqlUserDefinedFunctionCreateOptions` |
 | `az cosmosdb sql user-defined-function delete` | `AzCosmosdbSqlUserDefinedFunctionDeleteOptions` |
+| `az cosmosdb sql user-defined-function list` | `AzCosmosdbSqlUserDefinedFunctionListOptions` |
+| `az cosmosdb sql user-defined-function show` | `AzCosmosdbSqlUserDefinedFunctionShowOptions` |
+| `az cosmosdb sql user-defined-function update` | `AzCosmosdbSqlUserDefinedFunctionUpdateOptions` |
 | `az cosmosdb table create` | `AzCosmosdbTableCreateOptions` |
 | `az cosmosdb table delete` | `AzCosmosdbTableDeleteOptions` |
+| `az cosmosdb table exists` | `AzCosmosdbTableExistsOptions` |
+| `az cosmosdb table list` | `AzCosmosdbTableListOptions` |
+| `az cosmosdb table restorable-resource list` | `AzCosmosdbTableRestorableResourceListOptions` |
 | `az cosmosdb table restorable-table list` | `AzCosmosdbTableRestorableTableListOptions` |
 | `az cosmosdb table restore` | `AzCosmosdbTableRestoreOptions` |
+| `az cosmosdb table retrieve-latest-backup-time` | `AzCosmosdbTableRetrieveLatestBackupTimeOptions` |
+| `az cosmosdb table show` | `AzCosmosdbTableShowOptions` |
+| `az cosmosdb table throughput migrate` | `AzCosmosdbTableThroughputMigrateOptions` |
+| `az cosmosdb table throughput show` | `AzCosmosdbTableThroughputShowOptions` |
 | `az cosmosdb table throughput update` | `AzCosmosdbTableThroughputUpdateOptions` |
 | `az cosmosdb update` | `AzCosmosdbUpdateOptions` |
+| `az data-boundary create` | `AzDataBoundaryCreateOptions` |
+| `az data-boundary show` | `AzDataBoundaryShowOptions` |
+| `az data-boundary show-tenant` | `AzDataBoundaryShowTenantOptions` |
+| `az databoxedge alert list` | `AzDataboxedgeAlertListOptions` |
+| `az databoxedge alert show` | `AzDataboxedgeAlertShowOptions` |
 | `az databoxedge bandwidth-schedule create` | `AzDataboxedgeBandwidthScheduleCreateOptions` |
 | `az databoxedge bandwidth-schedule delete` | `AzDataboxedgeBandwidthScheduleDeleteOptions` |
+| `az databoxedge bandwidth-schedule list` | `AzDataboxedgeBandwidthScheduleListOptions` |
+| `az databoxedge bandwidth-schedule show` | `AzDataboxedgeBandwidthScheduleShowOptions` |
 | `az databoxedge bandwidth-schedule update` | `AzDataboxedgeBandwidthScheduleUpdateOptions` |
+| `az databoxedge bandwidth-schedule wait` | `AzDataboxedgeBandwidthScheduleWaitOptions` |
 | `az databoxedge device create` | `AzDataboxedgeDeviceCreateOptions` |
 | `az databoxedge device delete` | `AzDataboxedgeDeviceDeleteOptions` |
 | `az databoxedge device download-update` | `AzDataboxedgeDeviceDownloadUpdateOptions` |
+| `az databoxedge device get-extended-information` | `AzDataboxedgeDeviceGetExtendedInformationOptions` |
 | `az databoxedge device install-update` | `AzDataboxedgeDeviceInstallUpdateOptions` |
 | `az databoxedge device list` | `AzDataboxedgeDeviceListOptions` |
 | `az databoxedge device scan-for-update` | `AzDataboxedgeDeviceScanForUpdateOptions` |
 | `az databoxedge device share create` | `AzDataboxedgeDeviceShareCreateOptions` |
 | `az databoxedge device share delete` | `AzDataboxedgeDeviceShareDeleteOptions` |
+| `az databoxedge device share list` | `AzDataboxedgeDeviceShareListOptions` |
+| `az databoxedge device share show` | `AzDataboxedgeDeviceShareShowOptions` |
 | `az databoxedge device share update` | `AzDataboxedgeDeviceShareUpdateOptions` |
+| `az databoxedge device show` | `AzDataboxedgeDeviceShowOptions` |
+| `az databoxedge device show-update-summary` | `AzDataboxedgeDeviceShowUpdateSummaryOptions` |
 | `az databoxedge device storage-account container create` | `AzDataboxedgeDeviceStorageAccountContainerCreateOptions` |
 | `az databoxedge device storage-account container delete` | `AzDataboxedgeDeviceStorageAccountContainerDeleteOptions` |
+| `az databoxedge device storage-account container list` | `AzDataboxedgeDeviceStorageAccountContainerListOptions` |
+| `az databoxedge device storage-account container show` | `AzDataboxedgeDeviceStorageAccountContainerShowOptions` |
 | `az databoxedge device storage-account container update` | `AzDataboxedgeDeviceStorageAccountContainerUpdateOptions` |
 | `az databoxedge device storage-account create` | `AzDataboxedgeDeviceStorageAccountCreateOptions` |
 | `az databoxedge device storage-account delete` | `AzDataboxedgeDeviceStorageAccountDeleteOptions` |
+| `az databoxedge device storage-account list` | `AzDataboxedgeDeviceStorageAccountListOptions` |
+| `az databoxedge device storage-account show` | `AzDataboxedgeDeviceStorageAccountShowOptions` |
 | `az databoxedge device storage-account update` | `AzDataboxedgeDeviceStorageAccountUpdateOptions` |
 | `az databoxedge device storage-account-credential create` | `AzDataboxedgeDeviceStorageAccountCredentialCreateOptions` |
 | `az databoxedge device storage-account-credential delete` | `AzDataboxedgeDeviceStorageAccountCredentialDeleteOptions` |
+| `az databoxedge device storage-account-credential list` | `AzDataboxedgeDeviceStorageAccountCredentialListOptions` |
+| `az databoxedge device storage-account-credential show` | `AzDataboxedgeDeviceStorageAccountCredentialShowOptions` |
 | `az databoxedge device storage-account-credential update` | `AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions` |
 | `az databoxedge device update` | `AzDataboxedgeDeviceUpdateOptions` |
 | `az databoxedge device user create` | `AzDataboxedgeDeviceUserCreateOptions` |
 | `az databoxedge device user delete` | `AzDataboxedgeDeviceUserDeleteOptions` |
 | `az databoxedge device user list` | `AzDataboxedgeDeviceUserListOptions` |
+| `az databoxedge device user show` | `AzDataboxedgeDeviceUserShowOptions` |
 | `az databoxedge device user update` | `AzDataboxedgeDeviceUserUpdateOptions` |
+| `az databoxedge device wait` | `AzDataboxedgeDeviceWaitOptions` |
+| `az databoxedge list-node` | `AzDataboxedgeListNodeOptions` |
+| `az databoxedge list-sku` | `AzDataboxedgeListSkuOptions` |
 | `az databoxedge order create` | `AzDataboxedgeOrderCreateOptions` |
 | `az databoxedge order delete` | `AzDataboxedgeOrderDeleteOptions` |
+| `az databoxedge order list` | `AzDataboxedgeOrderListOptions` |
+| `az databoxedge order show` | `AzDataboxedgeOrderShowOptions` |
 | `az databoxedge order update` | `AzDataboxedgeOrderUpdateOptions` |
+| `az databoxedge order wait` | `AzDataboxedgeOrderWaitOptions` |
+| `az databoxedge show-job` | `AzDataboxedgeShowJobOptions` |
+| `az deployment group cancel` | `AzDeploymentGroupCancelOptions` |
 | `az deployment group create` | `AzDeploymentGroupCreateOptions` |
 | `az deployment group delete` | `AzDeploymentGroupDeleteOptions` |
+| `az deployment group export` | `AzDeploymentGroupExportOptions` |
+| `az deployment group list` | `AzDeploymentGroupListOptions` |
+| `az deployment group show` | `AzDeploymentGroupShowOptions` |
 | `az deployment group validate` | `AzDeploymentGroupValidateOptions` |
+| `az deployment group wait` | `AzDeploymentGroupWaitOptions` |
 | `az deployment group what-if` | `AzDeploymentGroupWhatIfOptions` |
+| `az deployment mg cancel` | `AzDeploymentMgCancelOptions` |
 | `az deployment mg create` | `AzDeploymentMgCreateOptions` |
 | `az deployment mg delete` | `AzDeploymentMgDeleteOptions` |
+| `az deployment mg export` | `AzDeploymentMgExportOptions` |
+| `az deployment mg list` | `AzDeploymentMgListOptions` |
+| `az deployment mg show` | `AzDeploymentMgShowOptions` |
 | `az deployment mg validate` | `AzDeploymentMgValidateOptions` |
+| `az deployment mg wait` | `AzDeploymentMgWaitOptions` |
 | `az deployment mg what-if` | `AzDeploymentMgWhatIfOptions` |
+| `az deployment operation group list` | `AzDeploymentOperationGroupListOptions` |
+| `az deployment operation group show` | `AzDeploymentOperationGroupShowOptions` |
+| `az deployment operation mg list` | `AzDeploymentOperationMgListOptions` |
+| `az deployment operation mg show` | `AzDeploymentOperationMgShowOptions` |
+| `az deployment operation sub list` | `AzDeploymentOperationSubListOptions` |
+| `az deployment operation sub show` | `AzDeploymentOperationSubShowOptions` |
+| `az deployment operation tenant list` | `AzDeploymentOperationTenantListOptions` |
+| `az deployment operation tenant show` | `AzDeploymentOperationTenantShowOptions` |
+| `az deployment sub cancel` | `AzDeploymentSubCancelOptions` |
 | `az deployment sub create` | `AzDeploymentSubCreateOptions` |
 | `az deployment sub delete` | `AzDeploymentSubDeleteOptions` |
+| `az deployment sub export` | `AzDeploymentSubExportOptions` |
+| `az deployment sub list` | `AzDeploymentSubListOptions` |
+| `az deployment sub show` | `AzDeploymentSubShowOptions` |
 | `az deployment sub validate` | `AzDeploymentSubValidateOptions` |
+| `az deployment sub wait` | `AzDeploymentSubWaitOptions` |
 | `az deployment sub what-if` | `AzDeploymentSubWhatIfOptions` |
+| `az deployment tenant cancel` | `AzDeploymentTenantCancelOptions` |
 | `az deployment tenant create` | `AzDeploymentTenantCreateOptions` |
 | `az deployment tenant delete` | `AzDeploymentTenantDeleteOptions` |
+| `az deployment tenant export` | `AzDeploymentTenantExportOptions` |
+| `az deployment tenant list` | `AzDeploymentTenantListOptions` |
+| `az deployment tenant show` | `AzDeploymentTenantShowOptions` |
 | `az deployment tenant validate` | `AzDeploymentTenantValidateOptions` |
+| `az deployment tenant wait` | `AzDeploymentTenantWaitOptions` |
 | `az deployment tenant what-if` | `AzDeploymentTenantWhatIfOptions` |
 | `az deployment-scripts delete` | `AzDeploymentScriptsDeleteOptions` |
 | `az deployment-scripts list` | `AzDeploymentScriptsListOptions` |
+| `az deployment-scripts show` | `AzDeploymentScriptsShowOptions` |
+| `az deployment-scripts show-log` | `AzDeploymentScriptsShowLogOptions` |
 | `az disk config update` | `AzDiskConfigUpdateOptions` |
 | `az disk create` | `AzDiskCreateOptions` |
 | `az disk delete` | `AzDiskDeleteOptions` |
 | `az disk grant-access` | `AzDiskGrantAccessOptions` |
+| `az disk list` | `AzDiskListOptions` |
 | `az disk revoke-access` | `AzDiskRevokeAccessOptions` |
+| `az disk show` | `AzDiskShowOptions` |
 | `az disk update` | `AzDiskUpdateOptions` |
+| `az disk wait` | `AzDiskWaitOptions` |
 | `az disk-access create` | `AzDiskAccessCreateOptions` |
 | `az disk-access delete` | `AzDiskAccessDeleteOptions` |
 | `az disk-access list` | `AzDiskAccessListOptions` |
+| `az disk-access show` | `AzDiskAccessShowOptions` |
 | `az disk-access update` | `AzDiskAccessUpdateOptions` |
+| `az disk-access wait` | `AzDiskAccessWaitOptions` |
 | `az disk-encryption-set create` | `AzDiskEncryptionSetCreateOptions` |
 | `az disk-encryption-set delete` | `AzDiskEncryptionSetDeleteOptions` |
+| `az disk-encryption-set identity assign` | `AzDiskEncryptionSetIdentityAssignOptions` |
 | `az disk-encryption-set identity remove` | `AzDiskEncryptionSetIdentityRemoveOptions` |
+| `az disk-encryption-set identity show` | `AzDiskEncryptionSetIdentityShowOptions` |
 | `az disk-encryption-set list` | `AzDiskEncryptionSetListOptions` |
+| `az disk-encryption-set list-associated-resources` | `AzDiskEncryptionSetListAssociatedResourcesOptions` |
+| `az disk-encryption-set show` | `AzDiskEncryptionSetShowOptions` |
 | `az disk-encryption-set update` | `AzDiskEncryptionSetUpdateOptions` |
+| `az disk-encryption-set wait` | `AzDiskEncryptionSetWaitOptions` |
+| `az dms check-name` | `AzDmsCheckNameOptions` |
+| `az dms check-status` | `AzDmsCheckStatusOptions` |
 | `az dms create` | `AzDmsCreateOptions` |
 | `az dms delete` | `AzDmsDeleteOptions` |
 | `az dms list` | `AzDmsListOptions` |
+| `az dms project check-name` | `AzDmsProjectCheckNameOptions` |
 | `az dms project create` | `AzDmsProjectCreateOptions` |
 | `az dms project delete` | `AzDmsProjectDeleteOptions` |
+| `az dms project list` | `AzDmsProjectListOptions` |
+| `az dms project show` | `AzDmsProjectShowOptions` |
+| `az dms project task cancel` | `AzDmsProjectTaskCancelOptions` |
+| `az dms project task check-name` | `AzDmsProjectTaskCheckNameOptions` |
 | `az dms project task create` | `AzDmsProjectTaskCreateOptions` |
+| `az dms project task cutover` | `AzDmsProjectTaskCutoverOptions` |
 | `az dms project task delete` | `AzDmsProjectTaskDeleteOptions` |
 | `az dms project task list` | `AzDmsProjectTaskListOptions` |
 | `az dms project task show` | `AzDmsProjectTaskShowOptions` |
+| `az dms show` | `AzDmsShowOptions` |
 | `az dms start` | `AzDmsStartOptions` |
 | `az dms stop` | `AzDmsStopOptions` |
+| `az dms wait` | `AzDmsWaitOptions` |
 | `az eventgrid domain create` | `AzEventgridDomainCreateOptions` |
+| `az eventgrid domain delete` | `AzEventgridDomainDeleteOptions` |
 | `az eventgrid domain event-subscription create` | `AzEventgridDomainEventSubscriptionCreateOptions` |
 | `az eventgrid domain event-subscription delete` | `AzEventgridDomainEventSubscriptionDeleteOptions` |
 | `az eventgrid domain event-subscription list` | `AzEventgridDomainEventSubscriptionListOptions` |
+| `az eventgrid domain event-subscription show` | `AzEventgridDomainEventSubscriptionShowOptions` |
 | `az eventgrid domain event-subscription update` | `AzEventgridDomainEventSubscriptionUpdateOptions` |
+| `az eventgrid domain key list` | `AzEventgridDomainKeyListOptions` |
+| `az eventgrid domain key regenerate` | `AzEventgridDomainKeyRegenerateOptions` |
 | `az eventgrid domain list` | `AzEventgridDomainListOptions` |
+| `az eventgrid domain show` | `AzEventgridDomainShowOptions` |
+| `az eventgrid domain topic create` | `AzEventgridDomainTopicCreateOptions` |
+| `az eventgrid domain topic delete` | `AzEventgridDomainTopicDeleteOptions` |
 | `az eventgrid domain topic event-subscription create` | `AzEventgridDomainTopicEventSubscriptionCreateOptions` |
 | `az eventgrid domain topic event-subscription delete` | `AzEventgridDomainTopicEventSubscriptionDeleteOptions` |
 | `az eventgrid domain topic event-subscription list` | `AzEventgridDomainTopicEventSubscriptionListOptions` |
+| `az eventgrid domain topic event-subscription show` | `AzEventgridDomainTopicEventSubscriptionShowOptions` |
 | `az eventgrid domain topic event-subscription update` | `AzEventgridDomainTopicEventSubscriptionUpdateOptions` |
 | `az eventgrid domain topic list` | `AzEventgridDomainTopicListOptions` |
+| `az eventgrid domain topic show` | `AzEventgridDomainTopicShowOptions` |
 | `az eventgrid domain update` | `AzEventgridDomainUpdateOptions` |
 | `az eventgrid event-subscription create` | `AzEventgridEventSubscriptionCreateOptions` |
 | `az eventgrid event-subscription delete` | `AzEventgridEventSubscriptionDeleteOptions` |
 | `az eventgrid event-subscription list` | `AzEventgridEventSubscriptionListOptions` |
 | `az eventgrid event-subscription show` | `AzEventgridEventSubscriptionShowOptions` |
 | `az eventgrid event-subscription update` | `AzEventgridEventSubscriptionUpdateOptions` |
+| `az eventgrid extension-topic show` | `AzEventgridExtensionTopicShowOptions` |
 | `az eventgrid partner configuration authorize` | `AzEventgridPartnerConfigurationAuthorizeOptions` |
 | `az eventgrid partner configuration create` | `AzEventgridPartnerConfigurationCreateOptions` |
 | `az eventgrid partner configuration delete` | `AzEventgridPartnerConfigurationDeleteOptions` |
 | `az eventgrid partner configuration list` | `AzEventgridPartnerConfigurationListOptions` |
+| `az eventgrid partner configuration show` | `AzEventgridPartnerConfigurationShowOptions` |
 | `az eventgrid partner configuration unauthorize` | `AzEventgridPartnerConfigurationUnauthorizeOptions` |
 | `az eventgrid partner configuration update` | `AzEventgridPartnerConfigurationUpdateOptions` |
+| `az eventgrid partner destination activate` | `AzEventgridPartnerDestinationActivateOptions` |
 | `az eventgrid partner destination create` | `AzEventgridPartnerDestinationCreateOptions` |
 | `az eventgrid partner destination delete` | `AzEventgridPartnerDestinationDeleteOptions` |
 | `az eventgrid partner destination list` | `AzEventgridPartnerDestinationListOptions` |
+| `az eventgrid partner destination show` | `AzEventgridPartnerDestinationShowOptions` |
 | `az eventgrid partner destination update` | `AzEventgridPartnerDestinationUpdateOptions` |
 | `az eventgrid partner namespace channel create` | `AzEventgridPartnerNamespaceChannelCreateOptions` |
 | `az eventgrid partner namespace channel delete` | `AzEventgridPartnerNamespaceChannelDeleteOptions` |
 | `az eventgrid partner namespace channel list` | `AzEventgridPartnerNamespaceChannelListOptions` |
+| `az eventgrid partner namespace channel show` | `AzEventgridPartnerNamespaceChannelShowOptions` |
 | `az eventgrid partner namespace channel update` | `AzEventgridPartnerNamespaceChannelUpdateOptions` |
 | `az eventgrid partner namespace create` | `AzEventgridPartnerNamespaceCreateOptions` |
 | `az eventgrid partner namespace delete` | `AzEventgridPartnerNamespaceDeleteOptions` |
+| `az eventgrid partner namespace key list` | `AzEventgridPartnerNamespaceKeyListOptions` |
+| `az eventgrid partner namespace key regenerate` | `AzEventgridPartnerNamespaceKeyRegenerateOptions` |
 | `az eventgrid partner namespace list` | `AzEventgridPartnerNamespaceListOptions` |
+| `az eventgrid partner namespace show` | `AzEventgridPartnerNamespaceShowOptions` |
 | `az eventgrid partner registration create` | `AzEventgridPartnerRegistrationCreateOptions` |
 | `az eventgrid partner registration delete` | `AzEventgridPartnerRegistrationDeleteOptions` |
 | `az eventgrid partner registration list` | `AzEventgridPartnerRegistrationListOptions` |
+| `az eventgrid partner registration show` | `AzEventgridPartnerRegistrationShowOptions` |
+| `az eventgrid partner topic activate` | `AzEventgridPartnerTopicActivateOptions` |
+| `az eventgrid partner topic deactivate` | `AzEventgridPartnerTopicDeactivateOptions` |
 | `az eventgrid partner topic delete` | `AzEventgridPartnerTopicDeleteOptions` |
 | `az eventgrid partner topic event-subscription create` | `AzEventgridPartnerTopicEventSubscriptionCreateOptions` |
 | `az eventgrid partner topic event-subscription delete` | `AzEventgridPartnerTopicEventSubscriptionDeleteOptions` |
@@ -984,7 +1551,9 @@ public class RunCommandModule : Module<CommandResult>
 | `az eventgrid partner topic event-subscription show` | `AzEventgridPartnerTopicEventSubscriptionShowOptions` |
 | `az eventgrid partner topic event-subscription update` | `AzEventgridPartnerTopicEventSubscriptionUpdateOptions` |
 | `az eventgrid partner topic list` | `AzEventgridPartnerTopicListOptions` |
+| `az eventgrid partner topic show` | `AzEventgridPartnerTopicShowOptions` |
 | `az eventgrid partner verified-partner list` | `AzEventgridPartnerVerifiedPartnerListOptions` |
+| `az eventgrid partner verified-partner show` | `AzEventgridPartnerVerifiedPartnerShowOptions` |
 | `az eventgrid system-topic create` | `AzEventgridSystemTopicCreateOptions` |
 | `az eventgrid system-topic delete` | `AzEventgridSystemTopicDeleteOptions` |
 | `az eventgrid system-topic event-subscription create` | `AzEventgridSystemTopicEventSubscriptionCreateOptions` |
@@ -993,46 +1562,123 @@ public class RunCommandModule : Module<CommandResult>
 | `az eventgrid system-topic event-subscription show` | `AzEventgridSystemTopicEventSubscriptionShowOptions` |
 | `az eventgrid system-topic event-subscription update` | `AzEventgridSystemTopicEventSubscriptionUpdateOptions` |
 | `az eventgrid system-topic list` | `AzEventgridSystemTopicListOptions` |
+| `az eventgrid system-topic show` | `AzEventgridSystemTopicShowOptions` |
 | `az eventgrid system-topic update` | `AzEventgridSystemTopicUpdateOptions` |
 | `az eventgrid topic create` | `AzEventgridTopicCreateOptions` |
+| `az eventgrid topic delete` | `AzEventgridTopicDeleteOptions` |
 | `az eventgrid topic event-subscription create` | `AzEventgridTopicEventSubscriptionCreateOptions` |
 | `az eventgrid topic event-subscription delete` | `AzEventgridTopicEventSubscriptionDeleteOptions` |
 | `az eventgrid topic event-subscription list` | `AzEventgridTopicEventSubscriptionListOptions` |
+| `az eventgrid topic event-subscription show` | `AzEventgridTopicEventSubscriptionShowOptions` |
 | `az eventgrid topic event-subscription update` | `AzEventgridTopicEventSubscriptionUpdateOptions` |
+| `az eventgrid topic key list` | `AzEventgridTopicKeyListOptions` |
+| `az eventgrid topic key regenerate` | `AzEventgridTopicKeyRegenerateOptions` |
 | `az eventgrid topic list` | `AzEventgridTopicListOptions` |
+| `az eventgrid topic show` | `AzEventgridTopicShowOptions` |
 | `az eventgrid topic update` | `AzEventgridTopicUpdateOptions` |
+| `az eventgrid topic-type list-event-types` | `AzEventgridTopicTypeListEventTypesOptions` |
+| `az eventgrid topic-type show` | `AzEventgridTopicTypeShowOptions` |
 | `az eventhubs cluster create` | `AzEventhubsClusterCreateOptions` |
 | `az eventhubs cluster delete` | `AzEventhubsClusterDeleteOptions` |
 | `az eventhubs cluster list` | `AzEventhubsClusterListOptions` |
+| `az eventhubs cluster namespace list` | `AzEventhubsClusterNamespaceListOptions` |
+| `az eventhubs cluster show` | `AzEventhubsClusterShowOptions` |
 | `az eventhubs cluster update` | `AzEventhubsClusterUpdateOptions` |
+| `az eventhubs cluster wait` | `AzEventhubsClusterWaitOptions` |
+| `az eventhubs eventhub authorization-rule create` | `AzEventhubsEventhubAuthorizationRuleCreateOptions` |
+| `az eventhubs eventhub authorization-rule delete` | `AzEventhubsEventhubAuthorizationRuleDeleteOptions` |
+| `az eventhubs eventhub authorization-rule keys list` | `AzEventhubsEventhubAuthorizationRuleKeysListOptions` |
+| `az eventhubs eventhub authorization-rule keys renew` | `AzEventhubsEventhubAuthorizationRuleKeysRenewOptions` |
+| `az eventhubs eventhub authorization-rule list` | `AzEventhubsEventhubAuthorizationRuleListOptions` |
+| `az eventhubs eventhub authorization-rule show` | `AzEventhubsEventhubAuthorizationRuleShowOptions` |
+| `az eventhubs eventhub authorization-rule update` | `AzEventhubsEventhubAuthorizationRuleUpdateOptions` |
+| `az eventhubs eventhub consumer-group create` | `AzEventhubsEventhubConsumerGroupCreateOptions` |
+| `az eventhubs eventhub consumer-group delete` | `AzEventhubsEventhubConsumerGroupDeleteOptions` |
 | `az eventhubs eventhub consumer-group list` | `AzEventhubsEventhubConsumerGroupListOptions` |
+| `az eventhubs eventhub consumer-group show` | `AzEventhubsEventhubConsumerGroupShowOptions` |
+| `az eventhubs eventhub consumer-group update` | `AzEventhubsEventhubConsumerGroupUpdateOptions` |
 | `az eventhubs eventhub create` | `AzEventhubsEventhubCreateOptions` |
+| `az eventhubs eventhub delete` | `AzEventhubsEventhubDeleteOptions` |
 | `az eventhubs eventhub list` | `AzEventhubsEventhubListOptions` |
+| `az eventhubs eventhub show` | `AzEventhubsEventhubShowOptions` |
+| `az eventhubs eventhub update` | `AzEventhubsEventhubUpdateOptions` |
+| `az eventhubs georecovery-alias authorization-rule keys list` | `AzEventhubsGeorecoveryAliasAuthorizationRuleKeysListOptions` |
+| `az eventhubs georecovery-alias authorization-rule list` | `AzEventhubsGeorecoveryAliasAuthorizationRuleListOptions` |
+| `az eventhubs georecovery-alias authorization-rule show` | `AzEventhubsGeorecoveryAliasAuthorizationRuleShowOptions` |
+| `az eventhubs georecovery-alias break-pair` | `AzEventhubsGeorecoveryAliasBreakPairOptions` |
+| `az eventhubs georecovery-alias create` | `AzEventhubsGeorecoveryAliasCreateOptions` |
+| `az eventhubs georecovery-alias delete` | `AzEventhubsGeorecoveryAliasDeleteOptions` |
+| `az eventhubs georecovery-alias exists` | `AzEventhubsGeorecoveryAliasExistsOptions` |
+| `az eventhubs georecovery-alias fail-over` | `AzEventhubsGeorecoveryAliasFailOverOptions` |
+| `az eventhubs georecovery-alias list` | `AzEventhubsGeorecoveryAliasListOptions` |
 | `az eventhubs georecovery-alias set` | `AzEventhubsGeorecoveryAliasSetOptions` |
+| `az eventhubs georecovery-alias show` | `AzEventhubsGeorecoveryAliasShowOptions` |
 | `az eventhubs namespace application-group create` | `AzEventhubsNamespaceApplicationGroupCreateOptions` |
+| `az eventhubs namespace application-group delete` | `AzEventhubsNamespaceApplicationGroupDeleteOptions` |
+| `az eventhubs namespace application-group list` | `AzEventhubsNamespaceApplicationGroupListOptions` |
+| `az eventhubs namespace application-group policy add` | `AzEventhubsNamespaceApplicationGroupPolicyAddOptions` |
+| `az eventhubs namespace application-group policy remove` | `AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions` |
+| `az eventhubs namespace application-group show` | `AzEventhubsNamespaceApplicationGroupShowOptions` |
+| `az eventhubs namespace application-group update` | `AzEventhubsNamespaceApplicationGroupUpdateOptions` |
+| `az eventhubs namespace authorization-rule create` | `AzEventhubsNamespaceAuthorizationRuleCreateOptions` |
+| `az eventhubs namespace authorization-rule delete` | `AzEventhubsNamespaceAuthorizationRuleDeleteOptions` |
+| `az eventhubs namespace authorization-rule keys list` | `AzEventhubsNamespaceAuthorizationRuleKeysListOptions` |
+| `az eventhubs namespace authorization-rule keys renew` | `AzEventhubsNamespaceAuthorizationRuleKeysRenewOptions` |
+| `az eventhubs namespace authorization-rule list` | `AzEventhubsNamespaceAuthorizationRuleListOptions` |
+| `az eventhubs namespace authorization-rule show` | `AzEventhubsNamespaceAuthorizationRuleShowOptions` |
+| `az eventhubs namespace authorization-rule update` | `AzEventhubsNamespaceAuthorizationRuleUpdateOptions` |
 | `az eventhubs namespace create` | `AzEventhubsNamespaceCreateOptions` |
 | `az eventhubs namespace delete` | `AzEventhubsNamespaceDeleteOptions` |
 | `az eventhubs namespace encryption add` | `AzEventhubsNamespaceEncryptionAddOptions` |
+| `az eventhubs namespace encryption remove` | `AzEventhubsNamespaceEncryptionRemoveOptions` |
+| `az eventhubs namespace exists` | `AzEventhubsNamespaceExistsOptions` |
 | `az eventhubs namespace failover` | `AzEventhubsNamespaceFailoverOptions` |
 | `az eventhubs namespace identity assign` | `AzEventhubsNamespaceIdentityAssignOptions` |
 | `az eventhubs namespace identity remove` | `AzEventhubsNamespaceIdentityRemoveOptions` |
 | `az eventhubs namespace list` | `AzEventhubsNamespaceListOptions` |
+| `az eventhubs namespace network-rule-set create` | `AzEventhubsNamespaceNetworkRuleSetCreateOptions` |
 | `az eventhubs namespace network-rule-set ip-rule add` | `AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions` |
 | `az eventhubs namespace network-rule-set ip-rule remove` | `AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions` |
+| `az eventhubs namespace network-rule-set list` | `AzEventhubsNamespaceNetworkRuleSetListOptions` |
+| `az eventhubs namespace network-rule-set show` | `AzEventhubsNamespaceNetworkRuleSetShowOptions` |
+| `az eventhubs namespace network-rule-set update` | `AzEventhubsNamespaceNetworkRuleSetUpdateOptions` |
 | `az eventhubs namespace network-rule-set virtual-network-rule add` | `AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions` |
 | `az eventhubs namespace network-rule-set virtual-network-rule remove` | `AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions` |
+| `az eventhubs namespace nsp-configuration list` | `AzEventhubsNamespaceNspConfigurationListOptions` |
+| `az eventhubs namespace nsp-configuration show` | `AzEventhubsNamespaceNspConfigurationShowOptions` |
 | `az eventhubs namespace private-endpoint-connection approve` | `AzEventhubsNamespacePrivateEndpointConnectionApproveOptions` |
+| `az eventhubs namespace private-endpoint-connection create` | `AzEventhubsNamespacePrivateEndpointConnectionCreateOptions` |
 | `az eventhubs namespace private-endpoint-connection delete` | `AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions` |
+| `az eventhubs namespace private-endpoint-connection list` | `AzEventhubsNamespacePrivateEndpointConnectionListOptions` |
 | `az eventhubs namespace private-endpoint-connection reject` | `AzEventhubsNamespacePrivateEndpointConnectionRejectOptions` |
 | `az eventhubs namespace private-endpoint-connection show` | `AzEventhubsNamespacePrivateEndpointConnectionShowOptions` |
+| `az eventhubs namespace private-endpoint-connection update` | `AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions` |
+| `az eventhubs namespace private-endpoint-connection wait` | `AzEventhubsNamespacePrivateEndpointConnectionWaitOptions` |
+| `az eventhubs namespace private-link-resource show` | `AzEventhubsNamespacePrivateLinkResourceShowOptions` |
+| `az eventhubs namespace replica add` | `AzEventhubsNamespaceReplicaAddOptions` |
+| `az eventhubs namespace replica remove` | `AzEventhubsNamespaceReplicaRemoveOptions` |
+| `az eventhubs namespace schema-registry create` | `AzEventhubsNamespaceSchemaRegistryCreateOptions` |
+| `az eventhubs namespace schema-registry delete` | `AzEventhubsNamespaceSchemaRegistryDeleteOptions` |
 | `az eventhubs namespace schema-registry list` | `AzEventhubsNamespaceSchemaRegistryListOptions` |
+| `az eventhubs namespace schema-registry show` | `AzEventhubsNamespaceSchemaRegistryShowOptions` |
+| `az eventhubs namespace schema-registry update` | `AzEventhubsNamespaceSchemaRegistryUpdateOptions` |
+| `az eventhubs namespace show` | `AzEventhubsNamespaceShowOptions` |
 | `az eventhubs namespace update` | `AzEventhubsNamespaceUpdateOptions` |
+| `az eventhubs namespace wait` | `AzEventhubsNamespaceWaitOptions` |
 | `az extension add` | `AzExtensionAddOptions` |
 | `az extension list-available` | `AzExtensionListAvailableOptions` |
+| `az extension list-versions` | `AzExtensionListVersionsOptions` |
+| `az extension remove` | `AzExtensionRemoveOptions` |
+| `az extension show` | `AzExtensionShowOptions` |
 | `az extension update` | `AzExtensionUpdateOptions` |
 | `az feature list` | `AzFeatureListOptions` |
+| `az feature register` | `AzFeatureRegisterOptions` |
+| `az feature registration create` | `AzFeatureRegistrationCreateOptions` |
 | `az feature registration delete` | `AzFeatureRegistrationDeleteOptions` |
 | `az feature registration list` | `AzFeatureRegistrationListOptions` |
+| `az feature registration show` | `AzFeatureRegistrationShowOptions` |
+| `az feature show` | `AzFeatureShowOptions` |
+| `az feature unregister` | `AzFeatureUnregisterOptions` |
 | `az functionapp config access-restriction add` | `AzFunctionappConfigAccessRestrictionAddOptions` |
 | `az functionapp config access-restriction remove` | `AzFunctionappConfigAccessRestrictionRemoveOptions` |
 | `az functionapp config access-restriction set` | `AzFunctionappConfigAccessRestrictionSetOptions` |
@@ -1045,12 +1691,15 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp config container show` | `AzFunctionappConfigContainerShowOptions` |
 | `az functionapp config hostname add` | `AzFunctionappConfigHostnameAddOptions` |
 | `az functionapp config hostname delete` | `AzFunctionappConfigHostnameDeleteOptions` |
+| `az functionapp config hostname get-external-ip` | `AzFunctionappConfigHostnameGetExternalIpOptions` |
 | `az functionapp config hostname list` | `AzFunctionappConfigHostnameListOptions` |
 | `az functionapp config set` | `AzFunctionappConfigSetOptions` |
 | `az functionapp config show` | `AzFunctionappConfigShowOptions` |
 | `az functionapp config ssl bind` | `AzFunctionappConfigSslBindOptions` |
+| `az functionapp config ssl delete` | `AzFunctionappConfigSslDeleteOptions` |
 | `az functionapp config ssl import` | `AzFunctionappConfigSslImportOptions` |
 | `az functionapp config ssl list` | `AzFunctionappConfigSslListOptions` |
+| `az functionapp config ssl show` | `AzFunctionappConfigSslShowOptions` |
 | `az functionapp config ssl unbind` | `AzFunctionappConfigSslUnbindOptions` |
 | `az functionapp config ssl upload` | `AzFunctionappConfigSslUploadOptions` |
 | `az functionapp connection create app-insights` | `AzFunctionappConnectionCreateAppInsightsOptions` |
@@ -1118,6 +1767,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp cors show` | `AzFunctionappCorsShowOptions` |
 | `az functionapp create` | `AzFunctionappCreateOptions` |
 | `az functionapp delete` | `AzFunctionappDeleteOptions` |
+| `az functionapp deployment config set` | `AzFunctionappDeploymentConfigSetOptions` |
+| `az functionapp deployment config show` | `AzFunctionappDeploymentConfigShowOptions` |
 | `az functionapp deployment container config` | `AzFunctionappDeploymentContainerConfigOptions` |
 | `az functionapp deployment container show-cd-url` | `AzFunctionappDeploymentContainerShowCdUrlOptions` |
 | `az functionapp deployment github-actions add` | `AzFunctionappDeploymentGithubActionsAddOptions` |
@@ -1126,6 +1777,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp deployment list-publishing-profiles` | `AzFunctionappDeploymentListPublishingProfilesOptions` |
 | `az functionapp deployment slot auto-swap` | `AzFunctionappDeploymentSlotAutoSwapOptions` |
 | `az functionapp deployment slot create` | `AzFunctionappDeploymentSlotCreateOptions` |
+| `az functionapp deployment slot delete` | `AzFunctionappDeploymentSlotDeleteOptions` |
+| `az functionapp deployment slot list` | `AzFunctionappDeploymentSlotListOptions` |
 | `az functionapp deployment slot swap` | `AzFunctionappDeploymentSlotSwapOptions` |
 | `az functionapp deployment source config` | `AzFunctionappDeploymentSourceConfigOptions` |
 | `az functionapp deployment source config-local-git` | `AzFunctionappDeploymentSourceConfigLocalGitOptions` |
@@ -1136,9 +1789,12 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp deployment source update-token` | `AzFunctionappDeploymentSourceUpdateTokenOptions` |
 | `az functionapp deployment user set` | `AzFunctionappDeploymentUserSetOptions` |
 | `az functionapp flex-migration start` | `AzFunctionappFlexMigrationStartOptions` |
+| `az functionapp function delete` | `AzFunctionappFunctionDeleteOptions` |
 | `az functionapp function keys delete` | `AzFunctionappFunctionKeysDeleteOptions` |
 | `az functionapp function keys list` | `AzFunctionappFunctionKeysListOptions` |
 | `az functionapp function keys set` | `AzFunctionappFunctionKeysSetOptions` |
+| `az functionapp function list` | `AzFunctionappFunctionListOptions` |
+| `az functionapp function show` | `AzFunctionappFunctionShowOptions` |
 | `az functionapp hybrid-connection add` | `AzFunctionappHybridConnectionAddOptions` |
 | `az functionapp hybrid-connection list` | `AzFunctionappHybridConnectionListOptions` |
 | `az functionapp hybrid-connection remove` | `AzFunctionappHybridConnectionRemoveOptions` |
@@ -1150,23 +1806,34 @@ public class RunCommandModule : Module<CommandResult>
 | `az functionapp keys set` | `AzFunctionappKeysSetOptions` |
 | `az functionapp list` | `AzFunctionappListOptions` |
 | `az functionapp list-flexconsumption-locations` | `AzFunctionappListFlexconsumptionLocationsOptions` |
+| `az functionapp list-flexconsumption-runtimes` | `AzFunctionappListFlexconsumptionRuntimesOptions` |
+| `az functionapp list-runtimes` | `AzFunctionappListRuntimesOptions` |
 | `az functionapp log deployment list` | `AzFunctionappLogDeploymentListOptions` |
 | `az functionapp log deployment show` | `AzFunctionappLogDeploymentShowOptions` |
 | `az functionapp plan create` | `AzFunctionappPlanCreateOptions` |
 | `az functionapp plan delete` | `AzFunctionappPlanDeleteOptions` |
 | `az functionapp plan list` | `AzFunctionappPlanListOptions` |
+| `az functionapp plan show` | `AzFunctionappPlanShowOptions` |
 | `az functionapp plan update` | `AzFunctionappPlanUpdateOptions` |
 | `az functionapp restart` | `AzFunctionappRestartOptions` |
+| `az functionapp runtime config set` | `AzFunctionappRuntimeConfigSetOptions` |
+| `az functionapp runtime config show` | `AzFunctionappRuntimeConfigShowOptions` |
+| `az functionapp scale config always-ready delete` | `AzFunctionappScaleConfigAlwaysReadyDeleteOptions` |
+| `az functionapp scale config always-ready set` | `AzFunctionappScaleConfigAlwaysReadySetOptions` |
 | `az functionapp scale config set` | `AzFunctionappScaleConfigSetOptions` |
+| `az functionapp scale config show` | `AzFunctionappScaleConfigShowOptions` |
 | `az functionapp show` | `AzFunctionappShowOptions` |
 | `az functionapp start` | `AzFunctionappStartOptions` |
 | `az functionapp stop` | `AzFunctionappStopOptions` |
 | `az functionapp update` | `AzFunctionappUpdateOptions` |
+| `az functionapp update-strategy config set` | `AzFunctionappUpdateStrategyConfigSetOptions` |
+| `az functionapp update-strategy config show` | `AzFunctionappUpdateStrategyConfigShowOptions` |
 | `az functionapp vnet-integration add` | `AzFunctionappVnetIntegrationAddOptions` |
 | `az functionapp vnet-integration list` | `AzFunctionappVnetIntegrationListOptions` |
 | `az functionapp vnet-integration remove` | `AzFunctionappVnetIntegrationRemoveOptions` |
 | `az group create` | `AzGroupCreateOptions` |
 | `az group delete` | `AzGroupDeleteOptions` |
+| `az group exists` | `AzGroupExistsOptions` |
 | `az group export` | `AzGroupExportOptions` |
 | `az group list` | `AzGroupListOptions` |
 | `az group lock create` | `AzGroupLockCreateOptions` |
@@ -1174,34 +1841,70 @@ public class RunCommandModule : Module<CommandResult>
 | `az group lock list` | `AzGroupLockListOptions` |
 | `az group lock show` | `AzGroupLockShowOptions` |
 | `az group lock update` | `AzGroupLockUpdateOptions` |
+| `az group show` | `AzGroupShowOptions` |
 | `az group update` | `AzGroupUpdateOptions` |
+| `az group wait` | `AzGroupWaitOptions` |
 | `az hdinsight application create` | `AzHdinsightApplicationCreateOptions` |
 | `az hdinsight application delete` | `AzHdinsightApplicationDeleteOptions` |
+| `az hdinsight application list` | `AzHdinsightApplicationListOptions` |
+| `az hdinsight application show` | `AzHdinsightApplicationShowOptions` |
+| `az hdinsight application wait` | `AzHdinsightApplicationWaitOptions` |
 | `az hdinsight autoscale condition create` | `AzHdinsightAutoscaleConditionCreateOptions` |
 | `az hdinsight autoscale condition delete` | `AzHdinsightAutoscaleConditionDeleteOptions` |
+| `az hdinsight autoscale condition list` | `AzHdinsightAutoscaleConditionListOptions` |
 | `az hdinsight autoscale condition update` | `AzHdinsightAutoscaleConditionUpdateOptions` |
+| `az hdinsight autoscale condition wait` | `AzHdinsightAutoscaleConditionWaitOptions` |
 | `az hdinsight autoscale create` | `AzHdinsightAutoscaleCreateOptions` |
 | `az hdinsight autoscale delete` | `AzHdinsightAutoscaleDeleteOptions` |
+| `az hdinsight autoscale show` | `AzHdinsightAutoscaleShowOptions` |
 | `az hdinsight autoscale update` | `AzHdinsightAutoscaleUpdateOptions` |
+| `az hdinsight autoscale wait` | `AzHdinsightAutoscaleWaitOptions` |
+| `az hdinsight azure-monitor disable` | `AzHdinsightAzureMonitorDisableOptions` |
 | `az hdinsight azure-monitor enable` | `AzHdinsightAzureMonitorEnableOptions` |
+| `az hdinsight azure-monitor show` | `AzHdinsightAzureMonitorShowOptions` |
+| `az hdinsight azure-monitor-agent disable` | `AzHdinsightAzureMonitorAgentDisableOptions` |
 | `az hdinsight azure-monitor-agent enable` | `AzHdinsightAzureMonitorAgentEnableOptions` |
+| `az hdinsight azure-monitor-agent show` | `AzHdinsightAzureMonitorAgentShowOptions` |
 | `az hdinsight create` | `AzHdinsightCreateOptions` |
+| `az hdinsight credentials show` | `AzHdinsightCredentialsShowOptions` |
 | `az hdinsight credentials update` | `AzHdinsightCredentialsUpdateOptions` |
+| `az hdinsight credentials wait` | `AzHdinsightCredentialsWaitOptions` |
 | `az hdinsight delete` | `AzHdinsightDeleteOptions` |
+| `az hdinsight host list` | `AzHdinsightHostListOptions` |
 | `az hdinsight host restart` | `AzHdinsightHostRestartOptions` |
 | `az hdinsight list` | `AzHdinsightListOptions` |
+| `az hdinsight list-usage` | `AzHdinsightListUsageOptions` |
+| `az hdinsight monitor disable` | `AzHdinsightMonitorDisableOptions` |
 | `az hdinsight monitor enable` | `AzHdinsightMonitorEnableOptions` |
+| `az hdinsight monitor show` | `AzHdinsightMonitorShowOptions` |
 | `az hdinsight resize` | `AzHdinsightResizeOptions` |
 | `az hdinsight rotate-disk-encryption-key` | `AzHdinsightRotateDiskEncryptionKeyOptions` |
+| `az hdinsight script-action delete` | `AzHdinsightScriptActionDeleteOptions` |
 | `az hdinsight script-action execute` | `AzHdinsightScriptActionExecuteOptions` |
+| `az hdinsight script-action list` | `AzHdinsightScriptActionListOptions` |
+| `az hdinsight script-action list-execution-history` | `AzHdinsightScriptActionListExecutionHistoryOptions` |
+| `az hdinsight script-action promote` | `AzHdinsightScriptActionPromoteOptions` |
+| `az hdinsight script-action show-execution-details` | `AzHdinsightScriptActionShowExecutionDetailsOptions` |
+| `az hdinsight show` | `AzHdinsightShowOptions` |
 | `az hdinsight update` | `AzHdinsightUpdateOptions` |
+| `az hdinsight wait` | `AzHdinsightWaitOptions` |
+| `az identity create` | `AzIdentityCreateOptions` |
+| `az identity delete` | `AzIdentityDeleteOptions` |
+| `az identity federated-credential create` | `AzIdentityFederatedCredentialCreateOptions` |
 | `az identity federated-credential delete` | `AzIdentityFederatedCredentialDeleteOptions` |
 | `az identity federated-credential list` | `AzIdentityFederatedCredentialListOptions` |
+| `az identity federated-credential show` | `AzIdentityFederatedCredentialShowOptions` |
+| `az identity federated-credential update` | `AzIdentityFederatedCredentialUpdateOptions` |
 | `az identity list` | `AzIdentityListOptions` |
+| `az identity list-resources` | `AzIdentityListResourcesOptions` |
+| `az identity show` | `AzIdentityShowOptions` |
+| `az identity update` | `AzIdentityUpdateOptions` |
+| `az image builder cancel` | `AzImageBuilderCancelOptions` |
 | `az image builder create` | `AzImageBuilderCreateOptions` |
 | `az image builder customizer add` | `AzImageBuilderCustomizerAddOptions` |
 | `az image builder customizer clear` | `AzImageBuilderCustomizerClearOptions` |
 | `az image builder customizer remove` | `AzImageBuilderCustomizerRemoveOptions` |
+| `az image builder delete` | `AzImageBuilderDeleteOptions` |
 | `az image builder error-handler add` | `AzImageBuilderErrorHandlerAddOptions` |
 | `az image builder error-handler remove` | `AzImageBuilderErrorHandlerRemoveOptions` |
 | `az image builder error-handler show` | `AzImageBuilderErrorHandlerShowOptions` |
@@ -1220,13 +1923,18 @@ public class RunCommandModule : Module<CommandResult>
 | `az image builder output versioning set` | `AzImageBuilderOutputVersioningSetOptions` |
 | `az image builder output versioning show` | `AzImageBuilderOutputVersioningShowOptions` |
 | `az image builder run` | `AzImageBuilderRunOptions` |
+| `az image builder show` | `AzImageBuilderShowOptions` |
 | `az image builder show-runs` | `AzImageBuilderShowRunsOptions` |
 | `az image builder trigger create` | `AzImageBuilderTriggerCreateOptions` |
 | `az image builder trigger delete` | `AzImageBuilderTriggerDeleteOptions` |
+| `az image builder trigger list` | `AzImageBuilderTriggerListOptions` |
+| `az image builder trigger show` | `AzImageBuilderTriggerShowOptions` |
+| `az image builder trigger wait` | `AzImageBuilderTriggerWaitOptions` |
 | `az image builder update` | `AzImageBuilderUpdateOptions` |
 | `az image builder validator add` | `AzImageBuilderValidatorAddOptions` |
 | `az image builder validator remove` | `AzImageBuilderValidatorRemoveOptions` |
 | `az image builder validator show` | `AzImageBuilderValidatorShowOptions` |
+| `az image builder wait` | `AzImageBuilderWaitOptions` |
 | `az image create` | `AzImageCreateOptions` |
 | `az image delete` | `AzImageDeleteOptions` |
 | `az image list` | `AzImageListOptions` |
@@ -1247,6 +1955,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az iot central app private-link-resource list` | `AzIotCentralAppPrivateLinkResourceListOptions` |
 | `az iot central app private-link-resource show` | `AzIotCentralAppPrivateLinkResourceShowOptions` |
 | `az iot central app show` | `AzIotCentralAppShowOptions` |
+| `az iot central app update` | `AzIotCentralAppUpdateOptions` |
 | `az iot dps certificate create` | `AzIotDpsCertificateCreateOptions` |
 | `az iot dps certificate delete` | `AzIotDpsCertificateDeleteOptions` |
 | `az iot dps certificate generate-verification-code` | `AzIotDpsCertificateGenerateVerificationCodeOptions` |
@@ -1255,6 +1964,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az iot dps certificate update` | `AzIotDpsCertificateUpdateOptions` |
 | `az iot dps certificate verify` | `AzIotDpsCertificateVerifyOptions` |
 | `az iot dps create` | `AzIotDpsCreateOptions` |
+| `az iot dps delete` | `AzIotDpsDeleteOptions` |
 | `az iot dps linked-hub create` | `AzIotDpsLinkedHubCreateOptions` |
 | `az iot dps linked-hub delete` | `AzIotDpsLinkedHubDeleteOptions` |
 | `az iot dps linked-hub list` | `AzIotDpsLinkedHubListOptions` |
@@ -1266,48 +1976,96 @@ public class RunCommandModule : Module<CommandResult>
 | `az iot dps policy list` | `AzIotDpsPolicyListOptions` |
 | `az iot dps policy show` | `AzIotDpsPolicyShowOptions` |
 | `az iot dps policy update` | `AzIotDpsPolicyUpdateOptions` |
+| `az iot dps show` | `AzIotDpsShowOptions` |
 | `az iot dps update` | `AzIotDpsUpdateOptions` |
 | `az iot hub certificate create` | `AzIotHubCertificateCreateOptions` |
+| `az iot hub certificate delete` | `AzIotHubCertificateDeleteOptions` |
+| `az iot hub certificate generate-verification-code` | `AzIotHubCertificateGenerateVerificationCodeOptions` |
+| `az iot hub certificate list` | `AzIotHubCertificateListOptions` |
+| `az iot hub certificate show` | `AzIotHubCertificateShowOptions` |
 | `az iot hub certificate update` | `AzIotHubCertificateUpdateOptions` |
+| `az iot hub certificate verify` | `AzIotHubCertificateVerifyOptions` |
 | `az iot hub consumer-group create` | `AzIotHubConsumerGroupCreateOptions` |
+| `az iot hub consumer-group delete` | `AzIotHubConsumerGroupDeleteOptions` |
+| `az iot hub consumer-group list` | `AzIotHubConsumerGroupListOptions` |
+| `az iot hub consumer-group show` | `AzIotHubConsumerGroupShowOptions` |
 | `az iot hub create` | `AzIotHubCreateOptions` |
 | `az iot hub delete` | `AzIotHubDeleteOptions` |
 | `az iot hub identity assign` | `AzIotHubIdentityAssignOptions` |
+| `az iot hub identity remove` | `AzIotHubIdentityRemoveOptions` |
+| `az iot hub identity show` | `AzIotHubIdentityShowOptions` |
 | `az iot hub list` | `AzIotHubListOptions` |
+| `az iot hub list-skus` | `AzIotHubListSkusOptions` |
 | `az iot hub manual-failover` | `AzIotHubManualFailoverOptions` |
 | `az iot hub message-enrichment create` | `AzIotHubMessageEnrichmentCreateOptions` |
+| `az iot hub message-enrichment delete` | `AzIotHubMessageEnrichmentDeleteOptions` |
+| `az iot hub message-enrichment list` | `AzIotHubMessageEnrichmentListOptions` |
+| `az iot hub message-enrichment update` | `AzIotHubMessageEnrichmentUpdateOptions` |
 | `az iot hub policy create` | `AzIotHubPolicyCreateOptions` |
+| `az iot hub policy delete` | `AzIotHubPolicyDeleteOptions` |
+| `az iot hub policy list` | `AzIotHubPolicyListOptions` |
 | `az iot hub policy renew-key` | `AzIotHubPolicyRenewKeyOptions` |
+| `az iot hub policy show` | `AzIotHubPolicyShowOptions` |
+| `az iot hub show` | `AzIotHubShowOptions` |
+| `az iot hub show-quota-metrics` | `AzIotHubShowQuotaMetricsOptions` |
+| `az iot hub show-stats` | `AzIotHubShowStatsOptions` |
 | `az iot hub update` | `AzIotHubUpdateOptions` |
+| `az iot hub wait` | `AzIotHubWaitOptions` |
 | `az keyvault backup start` | `AzKeyvaultBackupStartOptions` |
+| `az keyvault certificate backup` | `AzKeyvaultCertificateBackupOptions` |
 | `az keyvault certificate contact add` | `AzKeyvaultCertificateContactAddOptions` |
+| `az keyvault certificate contact delete` | `AzKeyvaultCertificateContactDeleteOptions` |
+| `az keyvault certificate contact list` | `AzKeyvaultCertificateContactListOptions` |
 | `az keyvault certificate create` | `AzKeyvaultCertificateCreateOptions` |
+| `az keyvault certificate delete` | `AzKeyvaultCertificateDeleteOptions` |
 | `az keyvault certificate download` | `AzKeyvaultCertificateDownloadOptions` |
 | `az keyvault certificate get-default-policy` | `AzKeyvaultCertificateGetDefaultPolicyOptions` |
 | `az keyvault certificate import` | `AzKeyvaultCertificateImportOptions` |
 | `az keyvault certificate issuer admin add` | `AzKeyvaultCertificateIssuerAdminAddOptions` |
+| `az keyvault certificate issuer admin delete` | `AzKeyvaultCertificateIssuerAdminDeleteOptions` |
+| `az keyvault certificate issuer admin list` | `AzKeyvaultCertificateIssuerAdminListOptions` |
 | `az keyvault certificate issuer create` | `AzKeyvaultCertificateIssuerCreateOptions` |
+| `az keyvault certificate issuer delete` | `AzKeyvaultCertificateIssuerDeleteOptions` |
+| `az keyvault certificate issuer list` | `AzKeyvaultCertificateIssuerListOptions` |
+| `az keyvault certificate issuer show` | `AzKeyvaultCertificateIssuerShowOptions` |
 | `az keyvault certificate issuer update` | `AzKeyvaultCertificateIssuerUpdateOptions` |
 | `az keyvault certificate list` | `AzKeyvaultCertificateListOptions` |
 | `az keyvault certificate list-deleted` | `AzKeyvaultCertificateListDeletedOptions` |
 | `az keyvault certificate list-versions` | `AzKeyvaultCertificateListVersionsOptions` |
+| `az keyvault certificate pending delete` | `AzKeyvaultCertificatePendingDeleteOptions` |
 | `az keyvault certificate pending merge` | `AzKeyvaultCertificatePendingMergeOptions` |
+| `az keyvault certificate pending show` | `AzKeyvaultCertificatePendingShowOptions` |
+| `az keyvault certificate purge` | `AzKeyvaultCertificatePurgeOptions` |
+| `az keyvault certificate recover` | `AzKeyvaultCertificateRecoverOptions` |
+| `az keyvault certificate restore` | `AzKeyvaultCertificateRestoreOptions` |
 | `az keyvault certificate set-attributes` | `AzKeyvaultCertificateSetAttributesOptions` |
+| `az keyvault certificate show` | `AzKeyvaultCertificateShowOptions` |
+| `az keyvault certificate show-deleted` | `AzKeyvaultCertificateShowDeletedOptions` |
 | `az keyvault check-name` | `AzKeyvaultCheckNameOptions` |
 | `az keyvault create` | `AzKeyvaultCreateOptions` |
 | `az keyvault delete` | `AzKeyvaultDeleteOptions` |
 | `az keyvault delete-policy` | `AzKeyvaultDeletePolicyOptions` |
+| `az keyvault key backup` | `AzKeyvaultKeyBackupOptions` |
 | `az keyvault key create` | `AzKeyvaultKeyCreateOptions` |
+| `az keyvault key delete` | `AzKeyvaultKeyDeleteOptions` |
 | `az keyvault key download` | `AzKeyvaultKeyDownloadOptions` |
 | `az keyvault key get-attestation` | `AzKeyvaultKeyGetAttestationOptions` |
 | `az keyvault key import` | `AzKeyvaultKeyImportOptions` |
 | `az keyvault key list` | `AzKeyvaultKeyListOptions` |
 | `az keyvault key list-deleted` | `AzKeyvaultKeyListDeletedOptions` |
 | `az keyvault key list-versions` | `AzKeyvaultKeyListVersionsOptions` |
+| `az keyvault key purge` | `AzKeyvaultKeyPurgeOptions` |
+| `az keyvault key random` | `AzKeyvaultKeyRandomOptions` |
+| `az keyvault key recover` | `AzKeyvaultKeyRecoverOptions` |
 | `az keyvault key restore` | `AzKeyvaultKeyRestoreOptions` |
+| `az keyvault key rotate` | `AzKeyvaultKeyRotateOptions` |
 | `az keyvault key rotation-policy show` | `AzKeyvaultKeyRotationPolicyShowOptions` |
 | `az keyvault key rotation-policy update` | `AzKeyvaultKeyRotationPolicyUpdateOptions` |
 | `az keyvault key set-attributes` | `AzKeyvaultKeySetAttributesOptions` |
+| `az keyvault key show` | `AzKeyvaultKeyShowOptions` |
+| `az keyvault key show-deleted` | `AzKeyvaultKeyShowDeletedOptions` |
+| `az keyvault key sign` | `AzKeyvaultKeySignOptions` |
+| `az keyvault key verify` | `AzKeyvaultKeyVerifyOptions` |
 | `az keyvault list` | `AzKeyvaultListOptions` |
 | `az keyvault list-deleted` | `AzKeyvaultListDeletedOptions` |
 | `az keyvault network-rule add` | `AzKeyvaultNetworkRuleAddOptions` |
@@ -1331,20 +2089,33 @@ public class RunCommandModule : Module<CommandResult>
 | `az keyvault role assignment create` | `AzKeyvaultRoleAssignmentCreateOptions` |
 | `az keyvault role assignment delete` | `AzKeyvaultRoleAssignmentDeleteOptions` |
 | `az keyvault role assignment list` | `AzKeyvaultRoleAssignmentListOptions` |
+| `az keyvault role definition create` | `AzKeyvaultRoleDefinitionCreateOptions` |
 | `az keyvault role definition delete` | `AzKeyvaultRoleDefinitionDeleteOptions` |
 | `az keyvault role definition list` | `AzKeyvaultRoleDefinitionListOptions` |
 | `az keyvault role definition show` | `AzKeyvaultRoleDefinitionShowOptions` |
+| `az keyvault role definition update` | `AzKeyvaultRoleDefinitionUpdateOptions` |
+| `az keyvault secret backup` | `AzKeyvaultSecretBackupOptions` |
+| `az keyvault secret delete` | `AzKeyvaultSecretDeleteOptions` |
 | `az keyvault secret download` | `AzKeyvaultSecretDownloadOptions` |
 | `az keyvault secret list` | `AzKeyvaultSecretListOptions` |
 | `az keyvault secret list-deleted` | `AzKeyvaultSecretListDeletedOptions` |
 | `az keyvault secret list-versions` | `AzKeyvaultSecretListVersionsOptions` |
+| `az keyvault secret purge` | `AzKeyvaultSecretPurgeOptions` |
+| `az keyvault secret recover` | `AzKeyvaultSecretRecoverOptions` |
+| `az keyvault secret restore` | `AzKeyvaultSecretRestoreOptions` |
 | `az keyvault secret set` | `AzKeyvaultSecretSetOptions` |
 | `az keyvault secret set-attributes` | `AzKeyvaultSecretSetAttributesOptions` |
+| `az keyvault secret show` | `AzKeyvaultSecretShowOptions` |
+| `az keyvault secret show-deleted` | `AzKeyvaultSecretShowDeletedOptions` |
 | `az keyvault security-domain download` | `AzKeyvaultSecurityDomainDownloadOptions` |
+| `az keyvault security-domain init-recovery` | `AzKeyvaultSecurityDomainInitRecoveryOptions` |
 | `az keyvault security-domain restore-blob` | `AzKeyvaultSecurityDomainRestoreBlobOptions` |
 | `az keyvault security-domain upload` | `AzKeyvaultSecurityDomainUploadOptions` |
 | `az keyvault security-domain wait` | `AzKeyvaultSecurityDomainWaitOptions` |
 | `az keyvault set-policy` | `AzKeyvaultSetPolicyOptions` |
+| `az keyvault setting list` | `AzKeyvaultSettingListOptions` |
+| `az keyvault setting show` | `AzKeyvaultSettingShowOptions` |
+| `az keyvault setting update` | `AzKeyvaultSettingUpdateOptions` |
 | `az keyvault show` | `AzKeyvaultShowOptions` |
 | `az keyvault show-deleted` | `AzKeyvaultShowDeletedOptions` |
 | `az keyvault update` | `AzKeyvaultUpdateOptions` |
@@ -1365,6 +2136,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az logicapp list` | `AzLogicappListOptions` |
 | `az logicapp restart` | `AzLogicappRestartOptions` |
 | `az logicapp scale` | `AzLogicappScaleOptions` |
+| `az logicapp show` | `AzLogicappShowOptions` |
 | `az logicapp start` | `AzLogicappStartOptions` |
 | `az logicapp stop` | `AzLogicappStopOptions` |
 | `az logicapp update` | `AzLogicappUpdateOptions` |
@@ -1375,15 +2147,24 @@ public class RunCommandModule : Module<CommandResult>
 | `az managed-cassandra cluster delete` | `AzManagedCassandraClusterDeleteOptions` |
 | `az managed-cassandra cluster invoke-command` | `AzManagedCassandraClusterInvokeCommandOptions` |
 | `az managed-cassandra cluster list` | `AzManagedCassandraClusterListOptions` |
+| `az managed-cassandra cluster show` | `AzManagedCassandraClusterShowOptions` |
 | `az managed-cassandra cluster start` | `AzManagedCassandraClusterStartOptions` |
+| `az managed-cassandra cluster status` | `AzManagedCassandraClusterStatusOptions` |
 | `az managed-cassandra cluster update` | `AzManagedCassandraClusterUpdateOptions` |
 | `az managed-cassandra datacenter create` | `AzManagedCassandraDatacenterCreateOptions` |
 | `az managed-cassandra datacenter delete` | `AzManagedCassandraDatacenterDeleteOptions` |
+| `az managed-cassandra datacenter list` | `AzManagedCassandraDatacenterListOptions` |
+| `az managed-cassandra datacenter show` | `AzManagedCassandraDatacenterShowOptions` |
 | `az managed-cassandra datacenter update` | `AzManagedCassandraDatacenterUpdateOptions` |
 | `az managedapp create` | `AzManagedappCreateOptions` |
 | `az managedapp definition create` | `AzManagedappDefinitionCreateOptions` |
+| `az managedapp definition delete` | `AzManagedappDefinitionDeleteOptions` |
+| `az managedapp definition list` | `AzManagedappDefinitionListOptions` |
+| `az managedapp definition show` | `AzManagedappDefinitionShowOptions` |
 | `az managedapp definition update` | `AzManagedappDefinitionUpdateOptions` |
+| `az managedapp delete` | `AzManagedappDeleteOptions` |
 | `az managedapp list` | `AzManagedappListOptions` |
+| `az managedapp show` | `AzManagedappShowOptions` |
 | `az managedservices assignment create` | `AzManagedservicesAssignmentCreateOptions` |
 | `az managedservices assignment delete` | `AzManagedservicesAssignmentDeleteOptions` |
 | `az managedservices assignment list` | `AzManagedservicesAssignmentListOptions` |
@@ -1391,218 +2172,441 @@ public class RunCommandModule : Module<CommandResult>
 | `az managedservices assignment wait` | `AzManagedservicesAssignmentWaitOptions` |
 | `az managedservices definition create` | `AzManagedservicesDefinitionCreateOptions` |
 | `az managedservices definition delete` | `AzManagedservicesDefinitionDeleteOptions` |
+| `az managedservices definition list` | `AzManagedservicesDefinitionListOptions` |
+| `az managedservices definition show` | `AzManagedservicesDefinitionShowOptions` |
+| `az managedservices definition wait` | `AzManagedservicesDefinitionWaitOptions` |
 | `az maps account create` | `AzMapsAccountCreateOptions` |
+| `az maps account delete` | `AzMapsAccountDeleteOptions` |
+| `az maps account keys list` | `AzMapsAccountKeysListOptions` |
+| `az maps account keys renew` | `AzMapsAccountKeysRenewOptions` |
 | `az maps account list` | `AzMapsAccountListOptions` |
+| `az maps account show` | `AzMapsAccountShowOptions` |
 | `az maps account update` | `AzMapsAccountUpdateOptions` |
 | `az mariadb db create` | `AzMariadbDbCreateOptions` |
 | `az mariadb db delete` | `AzMariadbDbDeleteOptions` |
+| `az mariadb db list` | `AzMariadbDbListOptions` |
+| `az mariadb db show` | `AzMariadbDbShowOptions` |
+| `az mariadb server configuration list` | `AzMariadbServerConfigurationListOptions` |
 | `az mariadb server configuration set` | `AzMariadbServerConfigurationSetOptions` |
+| `az mariadb server configuration show` | `AzMariadbServerConfigurationShowOptions` |
 | `az mariadb server create` | `AzMariadbServerCreateOptions` |
 | `az mariadb server delete` | `AzMariadbServerDeleteOptions` |
+| `az mariadb server firewall-rule create` | `AzMariadbServerFirewallRuleCreateOptions` |
 | `az mariadb server firewall-rule delete` | `AzMariadbServerFirewallRuleDeleteOptions` |
+| `az mariadb server firewall-rule list` | `AzMariadbServerFirewallRuleListOptions` |
+| `az mariadb server firewall-rule show` | `AzMariadbServerFirewallRuleShowOptions` |
 | `az mariadb server firewall-rule update` | `AzMariadbServerFirewallRuleUpdateOptions` |
 | `az mariadb server georestore` | `AzMariadbServerGeorestoreOptions` |
 | `az mariadb server list` | `AzMariadbServerListOptions` |
+| `az mariadb server list-skus` | `AzMariadbServerListSkusOptions` |
 | `az mariadb server private-endpoint-connection approve` | `AzMariadbServerPrivateEndpointConnectionApproveOptions` |
 | `az mariadb server private-endpoint-connection delete` | `AzMariadbServerPrivateEndpointConnectionDeleteOptions` |
 | `az mariadb server private-endpoint-connection reject` | `AzMariadbServerPrivateEndpointConnectionRejectOptions` |
 | `az mariadb server private-endpoint-connection show` | `AzMariadbServerPrivateEndpointConnectionShowOptions` |
+| `az mariadb server private-link-resource list` | `AzMariadbServerPrivateLinkResourceListOptions` |
 | `az mariadb server replica create` | `AzMariadbServerReplicaCreateOptions` |
+| `az mariadb server replica list` | `AzMariadbServerReplicaListOptions` |
 | `az mariadb server replica stop` | `AzMariadbServerReplicaStopOptions` |
+| `az mariadb server restart` | `AzMariadbServerRestartOptions` |
 | `az mariadb server restore` | `AzMariadbServerRestoreOptions` |
+| `az mariadb server show` | `AzMariadbServerShowOptions` |
 | `az mariadb server show-connection-string` | `AzMariadbServerShowConnectionStringOptions` |
+| `az mariadb server start` | `AzMariadbServerStartOptions` |
+| `az mariadb server stop` | `AzMariadbServerStopOptions` |
 | `az mariadb server update` | `AzMariadbServerUpdateOptions` |
 | `az mariadb server vnet-rule create` | `AzMariadbServerVnetRuleCreateOptions` |
+| `az mariadb server vnet-rule delete` | `AzMariadbServerVnetRuleDeleteOptions` |
+| `az mariadb server vnet-rule list` | `AzMariadbServerVnetRuleListOptions` |
+| `az mariadb server vnet-rule show` | `AzMariadbServerVnetRuleShowOptions` |
 | `az mariadb server vnet-rule update` | `AzMariadbServerVnetRuleUpdateOptions` |
+| `az mariadb server wait` | `AzMariadbServerWaitOptions` |
+| `az mariadb server-logs download` | `AzMariadbServerLogsDownloadOptions` |
 | `az mariadb server-logs list` | `AzMariadbServerLogsListOptions` |
+| `az monitor account create` | `AzMonitorAccountCreateOptions` |
 | `az monitor account delete` | `AzMonitorAccountDeleteOptions` |
+| `az monitor account identity assign` | `AzMonitorAccountIdentityAssignOptions` |
+| `az monitor account identity remove` | `AzMonitorAccountIdentityRemoveOptions` |
+| `az monitor account identity show` | `AzMonitorAccountIdentityShowOptions` |
+| `az monitor account issue add-investigation-result` | `AzMonitorAccountIssueAddInvestigationResultOptions` |
+| `az monitor account issue add-or-update-alert` | `AzMonitorAccountIssueAddOrUpdateAlertOptions` |
+| `az monitor account issue add-or-update-resource` | `AzMonitorAccountIssueAddOrUpdateResourceOptions` |
 | `az monitor account issue create` | `AzMonitorAccountIssueCreateOptions` |
 | `az monitor account issue delete` | `AzMonitorAccountIssueDeleteOptions` |
+| `az monitor account issue fetch-background-visualization` | `AzMonitorAccountIssueFetchBackgroundVisualizationOptions` |
+| `az monitor account issue fetch-investigation-result` | `AzMonitorAccountIssueFetchInvestigationResultOptions` |
+| `az monitor account issue list` | `AzMonitorAccountIssueListOptions` |
+| `az monitor account issue list-alert` | `AzMonitorAccountIssueListAlertOptions` |
+| `az monitor account issue list-resource` | `AzMonitorAccountIssueListResourceOptions` |
+| `az monitor account issue set-background-visualization` | `AzMonitorAccountIssueSetBackgroundVisualizationOptions` |
+| `az monitor account issue show` | `AzMonitorAccountIssueShowOptions` |
 | `az monitor account issue update` | `AzMonitorAccountIssueUpdateOptions` |
 | `az monitor account list` | `AzMonitorAccountListOptions` |
+| `az monitor account metrics-container create` | `AzMonitorAccountMetricsContainerCreateOptions` |
+| `az monitor account metrics-container list` | `AzMonitorAccountMetricsContainerListOptions` |
+| `az monitor account metrics-container show` | `AzMonitorAccountMetricsContainerShowOptions` |
+| `az monitor account metrics-container update` | `AzMonitorAccountMetricsContainerUpdateOptions` |
+| `az monitor account show` | `AzMonitorAccountShowOptions` |
+| `az monitor account update` | `AzMonitorAccountUpdateOptions` |
+| `az monitor account wait` | `AzMonitorAccountWaitOptions` |
 | `az monitor action-group create` | `AzMonitorActionGroupCreateOptions` |
+| `az monitor action-group delete` | `AzMonitorActionGroupDeleteOptions` |
+| `az monitor action-group enable-receiver` | `AzMonitorActionGroupEnableReceiverOptions` |
+| `az monitor action-group identity assign` | `AzMonitorActionGroupIdentityAssignOptions` |
 | `az monitor action-group identity remove` | `AzMonitorActionGroupIdentityRemoveOptions` |
+| `az monitor action-group identity show` | `AzMonitorActionGroupIdentityShowOptions` |
 | `az monitor action-group list` | `AzMonitorActionGroupListOptions` |
+| `az monitor action-group show` | `AzMonitorActionGroupShowOptions` |
 | `az monitor action-group test-notifications create` | `AzMonitorActionGroupTestNotificationsCreateOptions` |
 | `az monitor action-group update` | `AzMonitorActionGroupUpdateOptions` |
+| `az monitor action-group wait` | `AzMonitorActionGroupWaitOptions` |
 | `az monitor activity-log alert action-group add` | `AzMonitorActivityLogAlertActionGroupAddOptions` |
+| `az monitor activity-log alert action-group remove` | `AzMonitorActivityLogAlertActionGroupRemoveOptions` |
 | `az monitor activity-log alert create` | `AzMonitorActivityLogAlertCreateOptions` |
+| `az monitor activity-log alert delete` | `AzMonitorActivityLogAlertDeleteOptions` |
 | `az monitor activity-log alert list` | `AzMonitorActivityLogAlertListOptions` |
 | `az monitor activity-log alert scope add` | `AzMonitorActivityLogAlertScopeAddOptions` |
+| `az monitor activity-log alert scope remove` | `AzMonitorActivityLogAlertScopeRemoveOptions` |
+| `az monitor activity-log alert show` | `AzMonitorActivityLogAlertShowOptions` |
 | `az monitor activity-log alert update` | `AzMonitorActivityLogAlertUpdateOptions` |
 | `az monitor activity-log list` | `AzMonitorActivityLogListOptions` |
 | `az monitor autoscale create` | `AzMonitorAutoscaleCreateOptions` |
+| `az monitor autoscale delete` | `AzMonitorAutoscaleDeleteOptions` |
+| `az monitor autoscale list` | `AzMonitorAutoscaleListOptions` |
 | `az monitor autoscale profile create` | `AzMonitorAutoscaleProfileCreateOptions` |
+| `az monitor autoscale profile delete` | `AzMonitorAutoscaleProfileDeleteOptions` |
+| `az monitor autoscale profile list` | `AzMonitorAutoscaleProfileListOptions` |
 | `az monitor autoscale profile list-timezones` | `AzMonitorAutoscaleProfileListTimezonesOptions` |
+| `az monitor autoscale profile show` | `AzMonitorAutoscaleProfileShowOptions` |
 | `az monitor autoscale rule copy` | `AzMonitorAutoscaleRuleCopyOptions` |
 | `az monitor autoscale rule create` | `AzMonitorAutoscaleRuleCreateOptions` |
 | `az monitor autoscale rule delete` | `AzMonitorAutoscaleRuleDeleteOptions` |
 | `az monitor autoscale rule list` | `AzMonitorAutoscaleRuleListOptions` |
+| `az monitor autoscale show` | `AzMonitorAutoscaleShowOptions` |
+| `az monitor autoscale show-predictive-metric` | `AzMonitorAutoscaleShowPredictiveMetricOptions` |
 | `az monitor autoscale update` | `AzMonitorAutoscaleUpdateOptions` |
 | `az monitor dashboard create` | `AzMonitorDashboardCreateOptions` |
 | `az monitor dashboard delete` | `AzMonitorDashboardDeleteOptions` |
+| `az monitor dashboard list` | `AzMonitorDashboardListOptions` |
+| `az monitor dashboard show` | `AzMonitorDashboardShowOptions` |
+| `az monitor dashboard wait` | `AzMonitorDashboardWaitOptions` |
 | `az monitor diagnostic-settings categories list` | `AzMonitorDiagnosticSettingsCategoriesListOptions` |
 | `az monitor diagnostic-settings categories show` | `AzMonitorDiagnosticSettingsCategoriesShowOptions` |
 | `az monitor diagnostic-settings create` | `AzMonitorDiagnosticSettingsCreateOptions` |
+| `az monitor diagnostic-settings delete` | `AzMonitorDiagnosticSettingsDeleteOptions` |
 | `az monitor diagnostic-settings list` | `AzMonitorDiagnosticSettingsListOptions` |
+| `az monitor diagnostic-settings show` | `AzMonitorDiagnosticSettingsShowOptions` |
 | `az monitor diagnostic-settings subscription create` | `AzMonitorDiagnosticSettingsSubscriptionCreateOptions` |
 | `az monitor diagnostic-settings subscription delete` | `AzMonitorDiagnosticSettingsSubscriptionDeleteOptions` |
+| `az monitor diagnostic-settings subscription show` | `AzMonitorDiagnosticSettingsSubscriptionShowOptions` |
 | `az monitor diagnostic-settings subscription update` | `AzMonitorDiagnosticSettingsSubscriptionUpdateOptions` |
+| `az monitor diagnostic-settings update` | `AzMonitorDiagnosticSettingsUpdateOptions` |
 | `az monitor log-analytics cluster create` | `AzMonitorLogAnalyticsClusterCreateOptions` |
 | `az monitor log-analytics cluster delete` | `AzMonitorLogAnalyticsClusterDeleteOptions` |
 | `az monitor log-analytics cluster identity assign` | `AzMonitorLogAnalyticsClusterIdentityAssignOptions` |
 | `az monitor log-analytics cluster identity remove` | `AzMonitorLogAnalyticsClusterIdentityRemoveOptions` |
+| `az monitor log-analytics cluster identity show` | `AzMonitorLogAnalyticsClusterIdentityShowOptions` |
+| `az monitor log-analytics cluster identity wait` | `AzMonitorLogAnalyticsClusterIdentityWaitOptions` |
 | `az monitor log-analytics cluster list` | `AzMonitorLogAnalyticsClusterListOptions` |
+| `az monitor log-analytics cluster show` | `AzMonitorLogAnalyticsClusterShowOptions` |
 | `az monitor log-analytics cluster update` | `AzMonitorLogAnalyticsClusterUpdateOptions` |
+| `az monitor log-analytics cluster wait` | `AzMonitorLogAnalyticsClusterWaitOptions` |
 | `az monitor log-analytics workspace create` | `AzMonitorLogAnalyticsWorkspaceCreateOptions` |
+| `az monitor log-analytics workspace data-export create` | `AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions` |
 | `az monitor log-analytics workspace data-export delete` | `AzMonitorLogAnalyticsWorkspaceDataExportDeleteOptions` |
+| `az monitor log-analytics workspace data-export list` | `AzMonitorLogAnalyticsWorkspaceDataExportListOptions` |
+| `az monitor log-analytics workspace data-export show` | `AzMonitorLogAnalyticsWorkspaceDataExportShowOptions` |
+| `az monitor log-analytics workspace data-export update` | `AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions` |
 | `az monitor log-analytics workspace delete` | `AzMonitorLogAnalyticsWorkspaceDeleteOptions` |
 | `az monitor log-analytics workspace failback` | `AzMonitorLogAnalyticsWorkspaceFailbackOptions` |
 | `az monitor log-analytics workspace failover` | `AzMonitorLogAnalyticsWorkspaceFailoverOptions` |
+| `az monitor log-analytics workspace get-schema` | `AzMonitorLogAnalyticsWorkspaceGetSchemaOptions` |
+| `az monitor log-analytics workspace get-shared-keys` | `AzMonitorLogAnalyticsWorkspaceGetSharedKeysOptions` |
 | `az monitor log-analytics workspace identity assign` | `AzMonitorLogAnalyticsWorkspaceIdentityAssignOptions` |
 | `az monitor log-analytics workspace identity remove` | `AzMonitorLogAnalyticsWorkspaceIdentityRemoveOptions` |
+| `az monitor log-analytics workspace identity show` | `AzMonitorLogAnalyticsWorkspaceIdentityShowOptions` |
+| `az monitor log-analytics workspace identity wait` | `AzMonitorLogAnalyticsWorkspaceIdentityWaitOptions` |
 | `az monitor log-analytics workspace linked-service create` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions` |
 | `az monitor log-analytics workspace linked-service delete` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions` |
+| `az monitor log-analytics workspace linked-service list` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceListOptions` |
+| `az monitor log-analytics workspace linked-service show` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions` |
 | `az monitor log-analytics workspace linked-service update` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions` |
+| `az monitor log-analytics workspace linked-service wait` | `AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions` |
+| `az monitor log-analytics workspace linked-storage add` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageAddOptions` |
+| `az monitor log-analytics workspace linked-storage create` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions` |
 | `az monitor log-analytics workspace linked-storage delete` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions` |
+| `az monitor log-analytics workspace linked-storage list` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageListOptions` |
+| `az monitor log-analytics workspace linked-storage remove` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageRemoveOptions` |
+| `az monitor log-analytics workspace linked-storage show` | `AzMonitorLogAnalyticsWorkspaceLinkedStorageShowOptions` |
 | `az monitor log-analytics workspace list` | `AzMonitorLogAnalyticsWorkspaceListOptions` |
+| `az monitor log-analytics workspace list-available-service-tier` | `AzMonitorLogAnalyticsWorkspaceListAvailableServiceTierOptions` |
 | `az monitor log-analytics workspace list-deleted-workspaces` | `AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions` |
+| `az monitor log-analytics workspace list-management-groups` | `AzMonitorLogAnalyticsWorkspaceListManagementGroupsOptions` |
+| `az monitor log-analytics workspace list-usages` | `AzMonitorLogAnalyticsWorkspaceListUsagesOptions` |
+| `az monitor log-analytics workspace pack disable` | `AzMonitorLogAnalyticsWorkspacePackDisableOptions` |
+| `az monitor log-analytics workspace pack enable` | `AzMonitorLogAnalyticsWorkspacePackEnableOptions` |
+| `az monitor log-analytics workspace pack list` | `AzMonitorLogAnalyticsWorkspacePackListOptions` |
 | `az monitor log-analytics workspace recover` | `AzMonitorLogAnalyticsWorkspaceRecoverOptions` |
 | `az monitor log-analytics workspace saved-search create` | `AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions` |
 | `az monitor log-analytics workspace saved-search delete` | `AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions` |
+| `az monitor log-analytics workspace saved-search list` | `AzMonitorLogAnalyticsWorkspaceSavedSearchListOptions` |
+| `az monitor log-analytics workspace saved-search show` | `AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions` |
 | `az monitor log-analytics workspace saved-search update` | `AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions` |
+| `az monitor log-analytics workspace show` | `AzMonitorLogAnalyticsWorkspaceShowOptions` |
 | `az monitor log-analytics workspace table create` | `AzMonitorLogAnalyticsWorkspaceTableCreateOptions` |
 | `az monitor log-analytics workspace table delete` | `AzMonitorLogAnalyticsWorkspaceTableDeleteOptions` |
+| `az monitor log-analytics workspace table list` | `AzMonitorLogAnalyticsWorkspaceTableListOptions` |
+| `az monitor log-analytics workspace table migrate` | `AzMonitorLogAnalyticsWorkspaceTableMigrateOptions` |
 | `az monitor log-analytics workspace table restore create` | `AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions` |
+| `az monitor log-analytics workspace table search-job cancel` | `AzMonitorLogAnalyticsWorkspaceTableSearchJobCancelOptions` |
 | `az monitor log-analytics workspace table search-job create` | `AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions` |
+| `az monitor log-analytics workspace table show` | `AzMonitorLogAnalyticsWorkspaceTableShowOptions` |
 | `az monitor log-analytics workspace table update` | `AzMonitorLogAnalyticsWorkspaceTableUpdateOptions` |
+| `az monitor log-analytics workspace table wait` | `AzMonitorLogAnalyticsWorkspaceTableWaitOptions` |
 | `az monitor log-analytics workspace update` | `AzMonitorLogAnalyticsWorkspaceUpdateOptions` |
+| `az monitor log-analytics workspace wait` | `AzMonitorLogAnalyticsWorkspaceWaitOptions` |
 | `az monitor log-profiles create` | `AzMonitorLogProfilesCreateOptions` |
+| `az monitor log-profiles delete` | `AzMonitorLogProfilesDeleteOptions` |
+| `az monitor log-profiles show` | `AzMonitorLogProfilesShowOptions` |
 | `az monitor log-profiles update` | `AzMonitorLogProfilesUpdateOptions` |
 | `az monitor metrics alert create` | `AzMonitorMetricsAlertCreateOptions` |
+| `az monitor metrics alert delete` | `AzMonitorMetricsAlertDeleteOptions` |
 | `az monitor metrics alert list` | `AzMonitorMetricsAlertListOptions` |
+| `az monitor metrics alert show` | `AzMonitorMetricsAlertShowOptions` |
 | `az monitor metrics alert update` | `AzMonitorMetricsAlertUpdateOptions` |
 | `az monitor metrics list` | `AzMonitorMetricsListOptions` |
 | `az monitor metrics list-definitions` | `AzMonitorMetricsListDefinitionsOptions` |
+| `az monitor metrics list-sub` | `AzMonitorMetricsListSubOptions` |
 | `az monitor metrics list-sub-definitions` | `AzMonitorMetricsListSubDefinitionsOptions` |
 | `az mysql db create` | `AzMysqlDbCreateOptions` |
 | `az mysql db delete` | `AzMysqlDbDeleteOptions` |
+| `az mysql db list` | `AzMysqlDbListOptions` |
+| `az mysql db show` | `AzMysqlDbShowOptions` |
 | `az mysql flexible-server ad-admin create` | `AzMysqlFlexibleServerAdAdminCreateOptions` |
 | `az mysql flexible-server ad-admin delete` | `AzMysqlFlexibleServerAdAdminDeleteOptions` |
+| `az mysql flexible-server ad-admin list` | `AzMysqlFlexibleServerAdAdminListOptions` |
+| `az mysql flexible-server ad-admin show` | `AzMysqlFlexibleServerAdAdminShowOptions` |
+| `az mysql flexible-server ad-admin wait` | `AzMysqlFlexibleServerAdAdminWaitOptions` |
+| `az mysql flexible-server advanced-threat-protection-setting show` | `AzMysqlFlexibleServerAdvancedThreatProtectionSettingShowOptions` |
+| `az mysql flexible-server advanced-threat-protection-setting update` | `AzMysqlFlexibleServerAdvancedThreatProtectionSettingUpdateOptions` |
 | `az mysql flexible-server backup create` | `AzMysqlFlexibleServerBackupCreateOptions` |
+| `az mysql flexible-server backup delete` | `AzMysqlFlexibleServerBackupDeleteOptions` |
+| `az mysql flexible-server backup list` | `AzMysqlFlexibleServerBackupListOptions` |
+| `az mysql flexible-server backup show` | `AzMysqlFlexibleServerBackupShowOptions` |
 | `az mysql flexible-server create` | `AzMysqlFlexibleServerCreateOptions` |
 | `az mysql flexible-server db create` | `AzMysqlFlexibleServerDbCreateOptions` |
 | `az mysql flexible-server db delete` | `AzMysqlFlexibleServerDbDeleteOptions` |
+| `az mysql flexible-server db list` | `AzMysqlFlexibleServerDbListOptions` |
+| `az mysql flexible-server db show` | `AzMysqlFlexibleServerDbShowOptions` |
 | `az mysql flexible-server delete` | `AzMysqlFlexibleServerDeleteOptions` |
+| `az mysql flexible-server deploy run` | `AzMysqlFlexibleServerDeployRunOptions` |
 | `az mysql flexible-server deploy setup` | `AzMysqlFlexibleServerDeploySetupOptions` |
 | `az mysql flexible-server detach-vnet` | `AzMysqlFlexibleServerDetachVnetOptions` |
 | `az mysql flexible-server firewall-rule create` | `AzMysqlFlexibleServerFirewallRuleCreateOptions` |
 | `az mysql flexible-server firewall-rule delete` | `AzMysqlFlexibleServerFirewallRuleDeleteOptions` |
+| `az mysql flexible-server firewall-rule list` | `AzMysqlFlexibleServerFirewallRuleListOptions` |
+| `az mysql flexible-server firewall-rule show` | `AzMysqlFlexibleServerFirewallRuleShowOptions` |
 | `az mysql flexible-server firewall-rule update` | `AzMysqlFlexibleServerFirewallRuleUpdateOptions` |
 | `az mysql flexible-server geo-restore` | `AzMysqlFlexibleServerGeoRestoreOptions` |
 | `az mysql flexible-server gtid reset` | `AzMysqlFlexibleServerGtidResetOptions` |
 | `az mysql flexible-server identity assign` | `AzMysqlFlexibleServerIdentityAssignOptions` |
+| `az mysql flexible-server identity list` | `AzMysqlFlexibleServerIdentityListOptions` |
 | `az mysql flexible-server identity remove` | `AzMysqlFlexibleServerIdentityRemoveOptions` |
+| `az mysql flexible-server identity show` | `AzMysqlFlexibleServerIdentityShowOptions` |
 | `az mysql flexible-server import create` | `AzMysqlFlexibleServerImportCreateOptions` |
 | `az mysql flexible-server import stop-replication` | `AzMysqlFlexibleServerImportStopReplicationOptions` |
 | `az mysql flexible-server list` | `AzMysqlFlexibleServerListOptions` |
+| `az mysql flexible-server list-skus` | `AzMysqlFlexibleServerListSkusOptions` |
+| `az mysql flexible-server maintenance list` | `AzMysqlFlexibleServerMaintenanceListOptions` |
+| `az mysql flexible-server maintenance reschedule` | `AzMysqlFlexibleServerMaintenanceRescheduleOptions` |
+| `az mysql flexible-server maintenance show` | `AzMysqlFlexibleServerMaintenanceShowOptions` |
+| `az mysql flexible-server mirroring disable` | `AzMysqlFlexibleServerMirroringDisableOptions` |
+| `az mysql flexible-server mirroring enable` | `AzMysqlFlexibleServerMirroringEnableOptions` |
 | `az mysql flexible-server parameter list` | `AzMysqlFlexibleServerParameterListOptions` |
 | `az mysql flexible-server parameter set` | `AzMysqlFlexibleServerParameterSetOptions` |
 | `az mysql flexible-server parameter set-batch` | `AzMysqlFlexibleServerParameterSetBatchOptions` |
+| `az mysql flexible-server parameter show` | `AzMysqlFlexibleServerParameterShowOptions` |
 | `az mysql flexible-server replica create` | `AzMysqlFlexibleServerReplicaCreateOptions` |
+| `az mysql flexible-server replica list` | `AzMysqlFlexibleServerReplicaListOptions` |
 | `az mysql flexible-server replica stop-replication` | `AzMysqlFlexibleServerReplicaStopReplicationOptions` |
 | `az mysql flexible-server restart` | `AzMysqlFlexibleServerRestartOptions` |
 | `az mysql flexible-server restore` | `AzMysqlFlexibleServerRestoreOptions` |
+| `az mysql flexible-server server-logs download` | `AzMysqlFlexibleServerServerLogsDownloadOptions` |
 | `az mysql flexible-server server-logs list` | `AzMysqlFlexibleServerServerLogsListOptions` |
+| `az mysql flexible-server show` | `AzMysqlFlexibleServerShowOptions` |
+| `az mysql flexible-server show-connection-string` | `AzMysqlFlexibleServerShowConnectionStringOptions` |
 | `az mysql flexible-server start` | `AzMysqlFlexibleServerStartOptions` |
 | `az mysql flexible-server stop` | `AzMysqlFlexibleServerStopOptions` |
 | `az mysql flexible-server update` | `AzMysqlFlexibleServerUpdateOptions` |
+| `az mysql flexible-server wait` | `AzMysqlFlexibleServerWaitOptions` |
 | `az mysql server ad-admin create` | `AzMysqlServerAdAdminCreateOptions` |
 | `az mysql server ad-admin delete` | `AzMysqlServerAdAdminDeleteOptions` |
+| `az mysql server ad-admin list` | `AzMysqlServerAdAdminListOptions` |
+| `az mysql server ad-admin show` | `AzMysqlServerAdAdminShowOptions` |
+| `az mysql server ad-admin wait` | `AzMysqlServerAdAdminWaitOptions` |
+| `az mysql server configuration list` | `AzMysqlServerConfigurationListOptions` |
 | `az mysql server configuration set` | `AzMysqlServerConfigurationSetOptions` |
+| `az mysql server configuration show` | `AzMysqlServerConfigurationShowOptions` |
 | `az mysql server create` | `AzMysqlServerCreateOptions` |
 | `az mysql server delete` | `AzMysqlServerDeleteOptions` |
+| `az mysql server firewall-rule create` | `AzMysqlServerFirewallRuleCreateOptions` |
 | `az mysql server firewall-rule delete` | `AzMysqlServerFirewallRuleDeleteOptions` |
+| `az mysql server firewall-rule list` | `AzMysqlServerFirewallRuleListOptions` |
+| `az mysql server firewall-rule show` | `AzMysqlServerFirewallRuleShowOptions` |
 | `az mysql server firewall-rule update` | `AzMysqlServerFirewallRuleUpdateOptions` |
 | `az mysql server georestore` | `AzMysqlServerGeorestoreOptions` |
+| `az mysql server key create` | `AzMysqlServerKeyCreateOptions` |
 | `az mysql server key delete` | `AzMysqlServerKeyDeleteOptions` |
+| `az mysql server key list` | `AzMysqlServerKeyListOptions` |
+| `az mysql server key show` | `AzMysqlServerKeyShowOptions` |
 | `az mysql server list` | `AzMysqlServerListOptions` |
+| `az mysql server list-skus` | `AzMysqlServerListSkusOptions` |
 | `az mysql server private-endpoint-connection approve` | `AzMysqlServerPrivateEndpointConnectionApproveOptions` |
 | `az mysql server private-endpoint-connection delete` | `AzMysqlServerPrivateEndpointConnectionDeleteOptions` |
 | `az mysql server private-endpoint-connection reject` | `AzMysqlServerPrivateEndpointConnectionRejectOptions` |
 | `az mysql server private-endpoint-connection show` | `AzMysqlServerPrivateEndpointConnectionShowOptions` |
+| `az mysql server private-link-resource list` | `AzMysqlServerPrivateLinkResourceListOptions` |
 | `az mysql server replica create` | `AzMysqlServerReplicaCreateOptions` |
+| `az mysql server replica list` | `AzMysqlServerReplicaListOptions` |
 | `az mysql server replica stop` | `AzMysqlServerReplicaStopOptions` |
+| `az mysql server restart` | `AzMysqlServerRestartOptions` |
 | `az mysql server restore` | `AzMysqlServerRestoreOptions` |
+| `az mysql server show` | `AzMysqlServerShowOptions` |
 | `az mysql server show-connection-string` | `AzMysqlServerShowConnectionStringOptions` |
+| `az mysql server start` | `AzMysqlServerStartOptions` |
+| `az mysql server stop` | `AzMysqlServerStopOptions` |
 | `az mysql server update` | `AzMysqlServerUpdateOptions` |
 | `az mysql server vnet-rule create` | `AzMysqlServerVnetRuleCreateOptions` |
+| `az mysql server vnet-rule delete` | `AzMysqlServerVnetRuleDeleteOptions` |
+| `az mysql server vnet-rule list` | `AzMysqlServerVnetRuleListOptions` |
+| `az mysql server vnet-rule show` | `AzMysqlServerVnetRuleShowOptions` |
 | `az mysql server vnet-rule update` | `AzMysqlServerVnetRuleUpdateOptions` |
+| `az mysql server wait` | `AzMysqlServerWaitOptions` |
+| `az mysql server-logs download` | `AzMysqlServerLogsDownloadOptions` |
 | `az mysql server-logs list` | `AzMysqlServerLogsListOptions` |
 | `az netappfiles account ad add` | `AzNetappfilesAccountAdAddOptions` |
+| `az netappfiles account ad list` | `AzNetappfilesAccountAdListOptions` |
 | `az netappfiles account ad remove` | `AzNetappfilesAccountAdRemoveOptions` |
+| `az netappfiles account ad show` | `AzNetappfilesAccountAdShowOptions` |
 | `az netappfiles account ad update` | `AzNetappfilesAccountAdUpdateOptions` |
+| `az netappfiles account ad wait` | `AzNetappfilesAccountAdWaitOptions` |
 | `az netappfiles account backup-policy create` | `AzNetappfilesAccountBackupPolicyCreateOptions` |
 | `az netappfiles account backup-policy delete` | `AzNetappfilesAccountBackupPolicyDeleteOptions` |
+| `az netappfiles account backup-policy list` | `AzNetappfilesAccountBackupPolicyListOptions` |
+| `az netappfiles account backup-policy show` | `AzNetappfilesAccountBackupPolicyShowOptions` |
 | `az netappfiles account backup-policy update` | `AzNetappfilesAccountBackupPolicyUpdateOptions` |
+| `az netappfiles account backup-policy wait` | `AzNetappfilesAccountBackupPolicyWaitOptions` |
 | `az netappfiles account backup-vault backup create` | `AzNetappfilesAccountBackupVaultBackupCreateOptions` |
 | `az netappfiles account backup-vault backup delete` | `AzNetappfilesAccountBackupVaultBackupDeleteOptions` |
 | `az netappfiles account backup-vault backup list` | `AzNetappfilesAccountBackupVaultBackupListOptions` |
 | `az netappfiles account backup-vault backup restore-file` | `AzNetappfilesAccountBackupVaultBackupRestoreFileOptions` |
+| `az netappfiles account backup-vault backup show` | `AzNetappfilesAccountBackupVaultBackupShowOptions` |
 | `az netappfiles account backup-vault backup update` | `AzNetappfilesAccountBackupVaultBackupUpdateOptions` |
+| `az netappfiles account backup-vault backup wait` | `AzNetappfilesAccountBackupVaultBackupWaitOptions` |
 | `az netappfiles account backup-vault create` | `AzNetappfilesAccountBackupVaultCreateOptions` |
 | `az netappfiles account backup-vault delete` | `AzNetappfilesAccountBackupVaultDeleteOptions` |
+| `az netappfiles account backup-vault list` | `AzNetappfilesAccountBackupVaultListOptions` |
+| `az netappfiles account backup-vault show` | `AzNetappfilesAccountBackupVaultShowOptions` |
 | `az netappfiles account backup-vault update` | `AzNetappfilesAccountBackupVaultUpdateOptions` |
+| `az netappfiles account backup-vault wait` | `AzNetappfilesAccountBackupVaultWaitOptions` |
 | `az netappfiles account change-key-vault` | `AzNetappfilesAccountChangeKeyVaultOptions` |
 | `az netappfiles account create` | `AzNetappfilesAccountCreateOptions` |
 | `az netappfiles account delete` | `AzNetappfilesAccountDeleteOptions` |
 | `az netappfiles account get-key-vault-status` | `AzNetappfilesAccountGetKeyVaultStatusOptions` |
 | `az netappfiles account identity assign` | `AzNetappfilesAccountIdentityAssignOptions` |
 | `az netappfiles account identity remove` | `AzNetappfilesAccountIdentityRemoveOptions` |
+| `az netappfiles account identity show` | `AzNetappfilesAccountIdentityShowOptions` |
+| `az netappfiles account identity wait` | `AzNetappfilesAccountIdentityWaitOptions` |
 | `az netappfiles account list` | `AzNetappfilesAccountListOptions` |
 | `az netappfiles account migrate-backup` | `AzNetappfilesAccountMigrateBackupOptions` |
+| `az netappfiles account quota-limit list` | `AzNetappfilesAccountQuotaLimitListOptions` |
+| `az netappfiles account quota-limit show` | `AzNetappfilesAccountQuotaLimitShowOptions` |
 | `az netappfiles account renew-credentials` | `AzNetappfilesAccountRenewCredentialsOptions` |
+| `az netappfiles account show` | `AzNetappfilesAccountShowOptions` |
 | `az netappfiles account transitiontocmk` | `AzNetappfilesAccountTransitiontocmkOptions` |
 | `az netappfiles account update` | `AzNetappfilesAccountUpdateOptions` |
+| `az netappfiles account wait` | `AzNetappfilesAccountWaitOptions` |
 | `az netappfiles cache create` | `AzNetappfilesCacheCreateOptions` |
 | `az netappfiles cache delete` | `AzNetappfilesCacheDeleteOptions` |
+| `az netappfiles cache list` | `AzNetappfilesCacheListOptions` |
+| `az netappfiles cache list-peering-passphrase` | `AzNetappfilesCacheListPeeringPassphraseOptions` |
 | `az netappfiles cache pool-change` | `AzNetappfilesCachePoolChangeOptions` |
 | `az netappfiles cache reset-smb-password` | `AzNetappfilesCacheResetSmbPasswordOptions` |
+| `az netappfiles cache show` | `AzNetappfilesCacheShowOptions` |
 | `az netappfiles cache update` | `AzNetappfilesCacheUpdateOptions` |
+| `az netappfiles cache wait` | `AzNetappfilesCacheWaitOptions` |
+| `az netappfiles check-file-path-availability` | `AzNetappfilesCheckFilePathAvailabilityOptions` |
+| `az netappfiles check-name-availability` | `AzNetappfilesCheckNameAvailabilityOptions` |
+| `az netappfiles check-quota-availability` | `AzNetappfilesCheckQuotaAvailabilityOptions` |
 | `az netappfiles pool create` | `AzNetappfilesPoolCreateOptions` |
 | `az netappfiles pool delete` | `AzNetappfilesPoolDeleteOptions` |
+| `az netappfiles pool list` | `AzNetappfilesPoolListOptions` |
+| `az netappfiles pool show` | `AzNetappfilesPoolShowOptions` |
 | `az netappfiles pool update` | `AzNetappfilesPoolUpdateOptions` |
+| `az netappfiles pool wait` | `AzNetappfilesPoolWaitOptions` |
+| `az netappfiles query-network-sibling-set` | `AzNetappfilesQueryNetworkSiblingSetOptions` |
+| `az netappfiles quota-limit list` | `AzNetappfilesQuotaLimitListOptions` |
+| `az netappfiles quota-limit show` | `AzNetappfilesQuotaLimitShowOptions` |
+| `az netappfiles resource query-region-info` | `AzNetappfilesResourceQueryRegionInfoOptions` |
+| `az netappfiles resource region-info default show` | `AzNetappfilesResourceRegionInfoDefaultShowOptions` |
+| `az netappfiles resource region-info list` | `AzNetappfilesResourceRegionInfoListOptions` |
 | `az netappfiles snapshot create` | `AzNetappfilesSnapshotCreateOptions` |
 | `az netappfiles snapshot delete` | `AzNetappfilesSnapshotDeleteOptions` |
+| `az netappfiles snapshot list` | `AzNetappfilesSnapshotListOptions` |
+| `az netappfiles snapshot policy create` | `AzNetappfilesSnapshotPolicyCreateOptions` |
 | `az netappfiles snapshot policy delete` | `AzNetappfilesSnapshotPolicyDeleteOptions` |
+| `az netappfiles snapshot policy list` | `AzNetappfilesSnapshotPolicyListOptions` |
+| `az netappfiles snapshot policy show` | `AzNetappfilesSnapshotPolicyShowOptions` |
+| `az netappfiles snapshot policy update` | `AzNetappfilesSnapshotPolicyUpdateOptions` |
+| `az netappfiles snapshot policy volumes` | `AzNetappfilesSnapshotPolicyVolumesOptions` |
+| `az netappfiles snapshot policy wait` | `AzNetappfilesSnapshotPolicyWaitOptions` |
 | `az netappfiles snapshot restore-files` | `AzNetappfilesSnapshotRestoreFilesOptions` |
+| `az netappfiles snapshot show` | `AzNetappfilesSnapshotShowOptions` |
 | `az netappfiles snapshot update` | `AzNetappfilesSnapshotUpdateOptions` |
+| `az netappfiles snapshot wait` | `AzNetappfilesSnapshotWaitOptions` |
 | `az netappfiles update-network-sibling-set` | `AzNetappfilesUpdateNetworkSiblingSetOptions` |
+| `az netappfiles usage list` | `AzNetappfilesUsageListOptions` |
+| `az netappfiles usage show` | `AzNetappfilesUsageShowOptions` |
 | `az netappfiles volume break-file-locks` | `AzNetappfilesVolumeBreakFileLocksOptions` |
 | `az netappfiles volume bucket create` | `AzNetappfilesVolumeBucketCreateOptions` |
 | `az netappfiles volume bucket delete` | `AzNetappfilesVolumeBucketDeleteOptions` |
 | `az netappfiles volume bucket generate-akv-credential` | `AzNetappfilesVolumeBucketGenerateAkvCredentialOptions` |
+| `az netappfiles volume bucket generate-credential` | `AzNetappfilesVolumeBucketGenerateCredentialOptions` |
+| `az netappfiles volume bucket list` | `AzNetappfilesVolumeBucketListOptions` |
 | `az netappfiles volume bucket refresh-certificate` | `AzNetappfilesVolumeBucketRefreshCertificateOptions` |
+| `az netappfiles volume bucket show` | `AzNetappfilesVolumeBucketShowOptions` |
 | `az netappfiles volume bucket update` | `AzNetappfilesVolumeBucketUpdateOptions` |
+| `az netappfiles volume bucket wait` | `AzNetappfilesVolumeBucketWaitOptions` |
 | `az netappfiles volume create` | `AzNetappfilesVolumeCreateOptions` |
 | `az netappfiles volume delete` | `AzNetappfilesVolumeDeleteOptions` |
 | `az netappfiles volume export-policy add` | `AzNetappfilesVolumeExportPolicyAddOptions` |
+| `az netappfiles volume export-policy list` | `AzNetappfilesVolumeExportPolicyListOptions` |
 | `az netappfiles volume export-policy remove` | `AzNetappfilesVolumeExportPolicyRemoveOptions` |
+| `az netappfiles volume export-policy show` | `AzNetappfilesVolumeExportPolicyShowOptions` |
 | `az netappfiles volume export-policy update` | `AzNetappfilesVolumeExportPolicyUpdateOptions` |
+| `az netappfiles volume export-policy wait` | `AzNetappfilesVolumeExportPolicyWaitOptions` |
 | `az netappfiles volume finalize-relocation` | `AzNetappfilesVolumeFinalizeRelocationOptions` |
 | `az netappfiles volume get-groupid-list-for-ldapuser` | `AzNetappfilesVolumeGetGroupidListForLdapuserOptions` |
+| `az netappfiles volume latest-backup-status current show` | `AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions` |
+| `az netappfiles volume latest-restore-status current show` | `AzNetappfilesVolumeLatestRestoreStatusCurrentShowOptions` |
+| `az netappfiles volume list` | `AzNetappfilesVolumeListOptions` |
 | `az netappfiles volume list-quota-report` | `AzNetappfilesVolumeListQuotaReportOptions` |
 | `az netappfiles volume migrate-backup` | `AzNetappfilesVolumeMigrateBackupOptions` |
 | `az netappfiles volume pool-change` | `AzNetappfilesVolumePoolChangeOptions` |
 | `az netappfiles volume populate-availability-zone` | `AzNetappfilesVolumePopulateAvailabilityZoneOptions` |
 | `az netappfiles volume quota-rule create` | `AzNetappfilesVolumeQuotaRuleCreateOptions` |
 | `az netappfiles volume quota-rule delete` | `AzNetappfilesVolumeQuotaRuleDeleteOptions` |
+| `az netappfiles volume quota-rule list` | `AzNetappfilesVolumeQuotaRuleListOptions` |
+| `az netappfiles volume quota-rule show` | `AzNetappfilesVolumeQuotaRuleShowOptions` |
 | `az netappfiles volume quota-rule update` | `AzNetappfilesVolumeQuotaRuleUpdateOptions` |
+| `az netappfiles volume quota-rule wait` | `AzNetappfilesVolumeQuotaRuleWaitOptions` |
 | `az netappfiles volume ransomware-report clear-suspect` | `AzNetappfilesVolumeRansomwareReportClearSuspectOptions` |
+| `az netappfiles volume ransomware-report list` | `AzNetappfilesVolumeRansomwareReportListOptions` |
+| `az netappfiles volume ransomware-report show` | `AzNetappfilesVolumeRansomwareReportShowOptions` |
 | `az netappfiles volume relocate` | `AzNetappfilesVolumeRelocateOptions` |
 | `az netappfiles volume replication approve` | `AzNetappfilesVolumeReplicationApproveOptions` |
 | `az netappfiles volume replication authorize-external-replication` | `AzNetappfilesVolumeReplicationAuthorizeExternalReplicationOptions` |
 | `az netappfiles volume replication finalize-external-replication` | `AzNetappfilesVolumeReplicationFinalizeExternalReplicationOptions` |
+| `az netappfiles volume replication list` | `AzNetappfilesVolumeReplicationListOptions` |
 | `az netappfiles volume replication peer-external-cluster` | `AzNetappfilesVolumeReplicationPeerExternalClusterOptions` |
 | `az netappfiles volume replication perform-replication-transfer` | `AzNetappfilesVolumeReplicationPerformReplicationTransferOptions` |
 | `az netappfiles volume replication populate-availability-zone` | `AzNetappfilesVolumeReplicationPopulateAvailabilityZoneOptions` |
@@ -1610,122 +2614,223 @@ public class RunCommandModule : Module<CommandResult>
 | `az netappfiles volume replication reestablish` | `AzNetappfilesVolumeReplicationReestablishOptions` |
 | `az netappfiles volume replication remove` | `AzNetappfilesVolumeReplicationRemoveOptions` |
 | `az netappfiles volume replication resume` | `AzNetappfilesVolumeReplicationResumeOptions` |
+| `az netappfiles volume replication status` | `AzNetappfilesVolumeReplicationStatusOptions` |
 | `az netappfiles volume replication suspend` | `AzNetappfilesVolumeReplicationSuspendOptions` |
 | `az netappfiles volume reset-cifs-pw` | `AzNetappfilesVolumeResetCifsPwOptions` |
 | `az netappfiles volume revert` | `AzNetappfilesVolumeRevertOptions` |
 | `az netappfiles volume revert-relocation` | `AzNetappfilesVolumeRevertRelocationOptions` |
+| `az netappfiles volume show` | `AzNetappfilesVolumeShowOptions` |
 | `az netappfiles volume splitclonefromparent` | `AzNetappfilesVolumeSplitclonefromparentOptions` |
 | `az netappfiles volume update` | `AzNetappfilesVolumeUpdateOptions` |
+| `az netappfiles volume wait` | `AzNetappfilesVolumeWaitOptions` |
 | `az netappfiles volume-group create` | `AzNetappfilesVolumeGroupCreateOptions` |
 | `az netappfiles volume-group delete` | `AzNetappfilesVolumeGroupDeleteOptions` |
+| `az netappfiles volume-group list` | `AzNetappfilesVolumeGroupListOptions` |
+| `az netappfiles volume-group show` | `AzNetappfilesVolumeGroupShowOptions` |
 | `az netappfiles volume-group update` | `AzNetappfilesVolumeGroupUpdateOptions` |
+| `az netappfiles volume-group wait` | `AzNetappfilesVolumeGroupWaitOptions` |
 | `az network application-gateway address-pool create` | `AzNetworkApplicationGatewayAddressPoolCreateOptions` |
 | `az network application-gateway address-pool delete` | `AzNetworkApplicationGatewayAddressPoolDeleteOptions` |
+| `az network application-gateway address-pool list` | `AzNetworkApplicationGatewayAddressPoolListOptions` |
+| `az network application-gateway address-pool show` | `AzNetworkApplicationGatewayAddressPoolShowOptions` |
 | `az network application-gateway address-pool update` | `AzNetworkApplicationGatewayAddressPoolUpdateOptions` |
+| `az network application-gateway address-pool wait` | `AzNetworkApplicationGatewayAddressPoolWaitOptions` |
 | `az network application-gateway auth-cert create` | `AzNetworkApplicationGatewayAuthCertCreateOptions` |
 | `az network application-gateway auth-cert delete` | `AzNetworkApplicationGatewayAuthCertDeleteOptions` |
+| `az network application-gateway auth-cert list` | `AzNetworkApplicationGatewayAuthCertListOptions` |
+| `az network application-gateway auth-cert show` | `AzNetworkApplicationGatewayAuthCertShowOptions` |
 | `az network application-gateway auth-cert update` | `AzNetworkApplicationGatewayAuthCertUpdateOptions` |
+| `az network application-gateway auth-cert wait` | `AzNetworkApplicationGatewayAuthCertWaitOptions` |
 | `az network application-gateway client-cert add` | `AzNetworkApplicationGatewayClientCertAddOptions` |
+| `az network application-gateway client-cert list` | `AzNetworkApplicationGatewayClientCertListOptions` |
 | `az network application-gateway client-cert remove` | `AzNetworkApplicationGatewayClientCertRemoveOptions` |
+| `az network application-gateway client-cert show` | `AzNetworkApplicationGatewayClientCertShowOptions` |
 | `az network application-gateway client-cert update` | `AzNetworkApplicationGatewayClientCertUpdateOptions` |
+| `az network application-gateway client-cert wait` | `AzNetworkApplicationGatewayClientCertWaitOptions` |
 | `az network application-gateway create` | `AzNetworkApplicationGatewayCreateOptions` |
 | `az network application-gateway delete` | `AzNetworkApplicationGatewayDeleteOptions` |
 | `az network application-gateway frontend-ip create` | `AzNetworkApplicationGatewayFrontendIpCreateOptions` |
 | `az network application-gateway frontend-ip delete` | `AzNetworkApplicationGatewayFrontendIpDeleteOptions` |
+| `az network application-gateway frontend-ip list` | `AzNetworkApplicationGatewayFrontendIpListOptions` |
+| `az network application-gateway frontend-ip show` | `AzNetworkApplicationGatewayFrontendIpShowOptions` |
 | `az network application-gateway frontend-ip update` | `AzNetworkApplicationGatewayFrontendIpUpdateOptions` |
+| `az network application-gateway frontend-ip wait` | `AzNetworkApplicationGatewayFrontendIpWaitOptions` |
 | `az network application-gateway frontend-port create` | `AzNetworkApplicationGatewayFrontendPortCreateOptions` |
 | `az network application-gateway frontend-port delete` | `AzNetworkApplicationGatewayFrontendPortDeleteOptions` |
+| `az network application-gateway frontend-port list` | `AzNetworkApplicationGatewayFrontendPortListOptions` |
+| `az network application-gateway frontend-port show` | `AzNetworkApplicationGatewayFrontendPortShowOptions` |
 | `az network application-gateway frontend-port update` | `AzNetworkApplicationGatewayFrontendPortUpdateOptions` |
+| `az network application-gateway frontend-port wait` | `AzNetworkApplicationGatewayFrontendPortWaitOptions` |
 | `az network application-gateway http-listener create` | `AzNetworkApplicationGatewayHttpListenerCreateOptions` |
 | `az network application-gateway http-listener delete` | `AzNetworkApplicationGatewayHttpListenerDeleteOptions` |
+| `az network application-gateway http-listener list` | `AzNetworkApplicationGatewayHttpListenerListOptions` |
+| `az network application-gateway http-listener show` | `AzNetworkApplicationGatewayHttpListenerShowOptions` |
 | `az network application-gateway http-listener update` | `AzNetworkApplicationGatewayHttpListenerUpdateOptions` |
+| `az network application-gateway http-listener wait` | `AzNetworkApplicationGatewayHttpListenerWaitOptions` |
 | `az network application-gateway http-settings create` | `AzNetworkApplicationGatewayHttpSettingsCreateOptions` |
 | `az network application-gateway http-settings delete` | `AzNetworkApplicationGatewayHttpSettingsDeleteOptions` |
+| `az network application-gateway http-settings list` | `AzNetworkApplicationGatewayHttpSettingsListOptions` |
+| `az network application-gateway http-settings show` | `AzNetworkApplicationGatewayHttpSettingsShowOptions` |
 | `az network application-gateway http-settings update` | `AzNetworkApplicationGatewayHttpSettingsUpdateOptions` |
+| `az network application-gateway http-settings wait` | `AzNetworkApplicationGatewayHttpSettingsWaitOptions` |
 | `az network application-gateway identity assign` | `AzNetworkApplicationGatewayIdentityAssignOptions` |
 | `az network application-gateway identity remove` | `AzNetworkApplicationGatewayIdentityRemoveOptions` |
+| `az network application-gateway identity show` | `AzNetworkApplicationGatewayIdentityShowOptions` |
+| `az network application-gateway identity wait` | `AzNetworkApplicationGatewayIdentityWaitOptions` |
 | `az network application-gateway list` | `AzNetworkApplicationGatewayListOptions` |
 | `az network application-gateway listener create` | `AzNetworkApplicationGatewayListenerCreateOptions` |
 | `az network application-gateway listener delete` | `AzNetworkApplicationGatewayListenerDeleteOptions` |
+| `az network application-gateway listener list` | `AzNetworkApplicationGatewayListenerListOptions` |
+| `az network application-gateway listener show` | `AzNetworkApplicationGatewayListenerShowOptions` |
 | `az network application-gateway listener update` | `AzNetworkApplicationGatewayListenerUpdateOptions` |
+| `az network application-gateway listener wait` | `AzNetworkApplicationGatewayListenerWaitOptions` |
+| `az network application-gateway private-link wait` | `AzNetworkApplicationGatewayPrivateLinkWaitOptions` |
 | `az network application-gateway probe create` | `AzNetworkApplicationGatewayProbeCreateOptions` |
 | `az network application-gateway probe delete` | `AzNetworkApplicationGatewayProbeDeleteOptions` |
+| `az network application-gateway probe list` | `AzNetworkApplicationGatewayProbeListOptions` |
+| `az network application-gateway probe show` | `AzNetworkApplicationGatewayProbeShowOptions` |
 | `az network application-gateway probe update` | `AzNetworkApplicationGatewayProbeUpdateOptions` |
+| `az network application-gateway probe wait` | `AzNetworkApplicationGatewayProbeWaitOptions` |
 | `az network application-gateway redirect-config create` | `AzNetworkApplicationGatewayRedirectConfigCreateOptions` |
 | `az network application-gateway redirect-config delete` | `AzNetworkApplicationGatewayRedirectConfigDeleteOptions` |
+| `az network application-gateway redirect-config list` | `AzNetworkApplicationGatewayRedirectConfigListOptions` |
+| `az network application-gateway redirect-config show` | `AzNetworkApplicationGatewayRedirectConfigShowOptions` |
 | `az network application-gateway redirect-config update` | `AzNetworkApplicationGatewayRedirectConfigUpdateOptions` |
+| `az network application-gateway redirect-config wait` | `AzNetworkApplicationGatewayRedirectConfigWaitOptions` |
 | `az network application-gateway rewrite-rule condition create` | `AzNetworkApplicationGatewayRewriteRuleConditionCreateOptions` |
 | `az network application-gateway rewrite-rule condition delete` | `AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions` |
+| `az network application-gateway rewrite-rule condition list` | `AzNetworkApplicationGatewayRewriteRuleConditionListOptions` |
+| `az network application-gateway rewrite-rule condition show` | `AzNetworkApplicationGatewayRewriteRuleConditionShowOptions` |
 | `az network application-gateway rewrite-rule condition update` | `AzNetworkApplicationGatewayRewriteRuleConditionUpdateOptions` |
+| `az network application-gateway rewrite-rule condition wait` | `AzNetworkApplicationGatewayRewriteRuleConditionWaitOptions` |
 | `az network application-gateway rewrite-rule create` | `AzNetworkApplicationGatewayRewriteRuleCreateOptions` |
 | `az network application-gateway rewrite-rule delete` | `AzNetworkApplicationGatewayRewriteRuleDeleteOptions` |
+| `az network application-gateway rewrite-rule list` | `AzNetworkApplicationGatewayRewriteRuleListOptions` |
 | `az network application-gateway rewrite-rule set create` | `AzNetworkApplicationGatewayRewriteRuleSetCreateOptions` |
 | `az network application-gateway rewrite-rule set delete` | `AzNetworkApplicationGatewayRewriteRuleSetDeleteOptions` |
+| `az network application-gateway rewrite-rule set list` | `AzNetworkApplicationGatewayRewriteRuleSetListOptions` |
+| `az network application-gateway rewrite-rule set show` | `AzNetworkApplicationGatewayRewriteRuleSetShowOptions` |
 | `az network application-gateway rewrite-rule set update` | `AzNetworkApplicationGatewayRewriteRuleSetUpdateOptions` |
+| `az network application-gateway rewrite-rule set wait` | `AzNetworkApplicationGatewayRewriteRuleSetWaitOptions` |
+| `az network application-gateway rewrite-rule show` | `AzNetworkApplicationGatewayRewriteRuleShowOptions` |
 | `az network application-gateway rewrite-rule update` | `AzNetworkApplicationGatewayRewriteRuleUpdateOptions` |
+| `az network application-gateway rewrite-rule wait` | `AzNetworkApplicationGatewayRewriteRuleWaitOptions` |
 | `az network application-gateway root-cert create` | `AzNetworkApplicationGatewayRootCertCreateOptions` |
 | `az network application-gateway root-cert delete` | `AzNetworkApplicationGatewayRootCertDeleteOptions` |
+| `az network application-gateway root-cert list` | `AzNetworkApplicationGatewayRootCertListOptions` |
+| `az network application-gateway root-cert show` | `AzNetworkApplicationGatewayRootCertShowOptions` |
 | `az network application-gateway root-cert update` | `AzNetworkApplicationGatewayRootCertUpdateOptions` |
+| `az network application-gateway root-cert wait` | `AzNetworkApplicationGatewayRootCertWaitOptions` |
 | `az network application-gateway routing-rule create` | `AzNetworkApplicationGatewayRoutingRuleCreateOptions` |
 | `az network application-gateway routing-rule delete` | `AzNetworkApplicationGatewayRoutingRuleDeleteOptions` |
+| `az network application-gateway routing-rule list` | `AzNetworkApplicationGatewayRoutingRuleListOptions` |
+| `az network application-gateway routing-rule show` | `AzNetworkApplicationGatewayRoutingRuleShowOptions` |
 | `az network application-gateway routing-rule update` | `AzNetworkApplicationGatewayRoutingRuleUpdateOptions` |
+| `az network application-gateway routing-rule wait` | `AzNetworkApplicationGatewayRoutingRuleWaitOptions` |
 | `az network application-gateway rule create` | `AzNetworkApplicationGatewayRuleCreateOptions` |
 | `az network application-gateway rule delete` | `AzNetworkApplicationGatewayRuleDeleteOptions` |
+| `az network application-gateway rule list` | `AzNetworkApplicationGatewayRuleListOptions` |
+| `az network application-gateway rule show` | `AzNetworkApplicationGatewayRuleShowOptions` |
 | `az network application-gateway rule update` | `AzNetworkApplicationGatewayRuleUpdateOptions` |
+| `az network application-gateway rule wait` | `AzNetworkApplicationGatewayRuleWaitOptions` |
 | `az network application-gateway settings create` | `AzNetworkApplicationGatewaySettingsCreateOptions` |
 | `az network application-gateway settings delete` | `AzNetworkApplicationGatewaySettingsDeleteOptions` |
+| `az network application-gateway settings list` | `AzNetworkApplicationGatewaySettingsListOptions` |
+| `az network application-gateway settings show` | `AzNetworkApplicationGatewaySettingsShowOptions` |
 | `az network application-gateway settings update` | `AzNetworkApplicationGatewaySettingsUpdateOptions` |
+| `az network application-gateway settings wait` | `AzNetworkApplicationGatewaySettingsWaitOptions` |
+| `az network application-gateway show` | `AzNetworkApplicationGatewayShowOptions` |
 | `az network application-gateway show-backend-health` | `AzNetworkApplicationGatewayShowBackendHealthOptions` |
 | `az network application-gateway ssl-cert create` | `AzNetworkApplicationGatewaySslCertCreateOptions` |
 | `az network application-gateway ssl-cert delete` | `AzNetworkApplicationGatewaySslCertDeleteOptions` |
+| `az network application-gateway ssl-cert list` | `AzNetworkApplicationGatewaySslCertListOptions` |
+| `az network application-gateway ssl-cert show` | `AzNetworkApplicationGatewaySslCertShowOptions` |
 | `az network application-gateway ssl-cert update` | `AzNetworkApplicationGatewaySslCertUpdateOptions` |
+| `az network application-gateway ssl-cert wait` | `AzNetworkApplicationGatewaySslCertWaitOptions` |
+| `az network application-gateway ssl-policy predefined show` | `AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions` |
 | `az network application-gateway ssl-policy set` | `AzNetworkApplicationGatewaySslPolicySetOptions` |
+| `az network application-gateway ssl-policy show` | `AzNetworkApplicationGatewaySslPolicyShowOptions` |
+| `az network application-gateway ssl-policy wait` | `AzNetworkApplicationGatewaySslPolicyWaitOptions` |
 | `az network application-gateway ssl-profile add` | `AzNetworkApplicationGatewaySslProfileAddOptions` |
+| `az network application-gateway ssl-profile list` | `AzNetworkApplicationGatewaySslProfileListOptions` |
 | `az network application-gateway ssl-profile remove` | `AzNetworkApplicationGatewaySslProfileRemoveOptions` |
+| `az network application-gateway ssl-profile show` | `AzNetworkApplicationGatewaySslProfileShowOptions` |
 | `az network application-gateway ssl-profile update` | `AzNetworkApplicationGatewaySslProfileUpdateOptions` |
+| `az network application-gateway ssl-profile wait` | `AzNetworkApplicationGatewaySslProfileWaitOptions` |
 | `az network application-gateway start` | `AzNetworkApplicationGatewayStartOptions` |
 | `az network application-gateway stop` | `AzNetworkApplicationGatewayStopOptions` |
 | `az network application-gateway update` | `AzNetworkApplicationGatewayUpdateOptions` |
 | `az network application-gateway url-path-map create` | `AzNetworkApplicationGatewayUrlPathMapCreateOptions` |
 | `az network application-gateway url-path-map delete` | `AzNetworkApplicationGatewayUrlPathMapDeleteOptions` |
+| `az network application-gateway url-path-map list` | `AzNetworkApplicationGatewayUrlPathMapListOptions` |
 | `az network application-gateway url-path-map rule create` | `AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions` |
 | `az network application-gateway url-path-map rule delete` | `AzNetworkApplicationGatewayUrlPathMapRuleDeleteOptions` |
+| `az network application-gateway url-path-map rule wait` | `AzNetworkApplicationGatewayUrlPathMapRuleWaitOptions` |
+| `az network application-gateway url-path-map show` | `AzNetworkApplicationGatewayUrlPathMapShowOptions` |
 | `az network application-gateway url-path-map update` | `AzNetworkApplicationGatewayUrlPathMapUpdateOptions` |
+| `az network application-gateway url-path-map wait` | `AzNetworkApplicationGatewayUrlPathMapWaitOptions` |
+| `az network application-gateway waf-config list-dynamic-rule-sets` | `AzNetworkApplicationGatewayWafConfigListDynamicRuleSetsOptions` |
 | `az network application-gateway waf-config list-rule-sets` | `AzNetworkApplicationGatewayWafConfigListRuleSetsOptions` |
 | `az network application-gateway waf-config set` | `AzNetworkApplicationGatewayWafConfigSetOptions` |
+| `az network application-gateway waf-config show` | `AzNetworkApplicationGatewayWafConfigShowOptions` |
 | `az network application-gateway waf-policy create` | `AzNetworkApplicationGatewayWafPolicyCreateOptions` |
 | `az network application-gateway waf-policy custom-rule create` | `AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions` |
+| `az network application-gateway waf-policy custom-rule delete` | `AzNetworkApplicationGatewayWafPolicyCustomRuleDeleteOptions` |
+| `az network application-gateway waf-policy custom-rule list` | `AzNetworkApplicationGatewayWafPolicyCustomRuleListOptions` |
 | `az network application-gateway waf-policy custom-rule match-condition add` | `AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions` |
+| `az network application-gateway waf-policy custom-rule match-condition list` | `AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionListOptions` |
+| `az network application-gateway waf-policy custom-rule match-condition remove` | `AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionRemoveOptions` |
+| `az network application-gateway waf-policy custom-rule show` | `AzNetworkApplicationGatewayWafPolicyCustomRuleShowOptions` |
 | `az network application-gateway waf-policy custom-rule update` | `AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions` |
 | `az network application-gateway waf-policy delete` | `AzNetworkApplicationGatewayWafPolicyDeleteOptions` |
 | `az network application-gateway waf-policy list` | `AzNetworkApplicationGatewayWafPolicyListOptions` |
 | `az network application-gateway waf-policy managed-rule exception add` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions` |
+| `az network application-gateway waf-policy managed-rule exception list` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionListOptions` |
+| `az network application-gateway waf-policy managed-rule exception remove` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionRemoveOptions` |
 | `az network application-gateway waf-policy managed-rule exclusion add` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions` |
+| `az network application-gateway waf-policy managed-rule exclusion list` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionListOptions` |
+| `az network application-gateway waf-policy managed-rule exclusion remove` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRemoveOptions` |
 | `az network application-gateway waf-policy managed-rule exclusion rule-set add` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAddOptions` |
+| `az network application-gateway waf-policy managed-rule exclusion rule-set list` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetListOptions` |
 | `az network application-gateway waf-policy managed-rule exclusion rule-set remove` | `AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRemoveOptions` |
 | `az network application-gateway waf-policy managed-rule rule-set add` | `AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetAddOptions` |
+| `az network application-gateway waf-policy managed-rule rule-set list` | `AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetListOptions` |
 | `az network application-gateway waf-policy managed-rule rule-set remove` | `AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions` |
 | `az network application-gateway waf-policy managed-rule rule-set update` | `AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions` |
+| `az network application-gateway waf-policy policy-setting list` | `AzNetworkApplicationGatewayWafPolicyPolicySettingListOptions` |
 | `az network application-gateway waf-policy policy-setting update` | `AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions` |
+| `az network application-gateway waf-policy show` | `AzNetworkApplicationGatewayWafPolicyShowOptions` |
 | `az network application-gateway waf-policy update` | `AzNetworkApplicationGatewayWafPolicyUpdateOptions` |
+| `az network application-gateway waf-policy wait` | `AzNetworkApplicationGatewayWafPolicyWaitOptions` |
+| `az network application-gateway wait` | `AzNetworkApplicationGatewayWaitOptions` |
 | `az network asg create` | `AzNetworkAsgCreateOptions` |
 | `az network asg delete` | `AzNetworkAsgDeleteOptions` |
 | `az network asg list` | `AzNetworkAsgListOptions` |
+| `az network asg show` | `AzNetworkAsgShowOptions` |
 | `az network asg update` | `AzNetworkAsgUpdateOptions` |
+| `az network asg wait` | `AzNetworkAsgWaitOptions` |
 | `az network cross-region-lb address-pool address add` | `AzNetworkCrossRegionLbAddressPoolAddressAddOptions` |
+| `az network cross-region-lb address-pool address list` | `AzNetworkCrossRegionLbAddressPoolAddressListOptions` |
 | `az network cross-region-lb address-pool address remove` | `AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions` |
+| `az network cross-region-lb address-pool address show` | `AzNetworkCrossRegionLbAddressPoolAddressShowOptions` |
 | `az network cross-region-lb address-pool address update` | `AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions` |
 | `az network cross-region-lb address-pool create` | `AzNetworkCrossRegionLbAddressPoolCreateOptions` |
 | `az network cross-region-lb address-pool delete` | `AzNetworkCrossRegionLbAddressPoolDeleteOptions` |
+| `az network cross-region-lb address-pool list` | `AzNetworkCrossRegionLbAddressPoolListOptions` |
+| `az network cross-region-lb address-pool show` | `AzNetworkCrossRegionLbAddressPoolShowOptions` |
 | `az network cross-region-lb address-pool update` | `AzNetworkCrossRegionLbAddressPoolUpdateOptions` |
 | `az network cross-region-lb create` | `AzNetworkCrossRegionLbCreateOptions` |
 | `az network cross-region-lb delete` | `AzNetworkCrossRegionLbDeleteOptions` |
 | `az network cross-region-lb frontend-ip create` | `AzNetworkCrossRegionLbFrontendIpCreateOptions` |
 | `az network cross-region-lb frontend-ip delete` | `AzNetworkCrossRegionLbFrontendIpDeleteOptions` |
+| `az network cross-region-lb frontend-ip list` | `AzNetworkCrossRegionLbFrontendIpListOptions` |
+| `az network cross-region-lb frontend-ip show` | `AzNetworkCrossRegionLbFrontendIpShowOptions` |
 | `az network cross-region-lb frontend-ip update` | `AzNetworkCrossRegionLbFrontendIpUpdateOptions` |
 | `az network cross-region-lb list` | `AzNetworkCrossRegionLbListOptions` |
 | `az network cross-region-lb rule create` | `AzNetworkCrossRegionLbRuleCreateOptions` |
 | `az network cross-region-lb rule delete` | `AzNetworkCrossRegionLbRuleDeleteOptions` |
+| `az network cross-region-lb rule list` | `AzNetworkCrossRegionLbRuleListOptions` |
+| `az network cross-region-lb rule show` | `AzNetworkCrossRegionLbRuleShowOptions` |
 | `az network cross-region-lb rule update` | `AzNetworkCrossRegionLbRuleUpdateOptions` |
 | `az network cross-region-lb show` | `AzNetworkCrossRegionLbShowOptions` |
 | `az network cross-region-lb update` | `AzNetworkCrossRegionLbUpdateOptions` |
@@ -1738,79 +2843,103 @@ public class RunCommandModule : Module<CommandResult>
 | `az network custom-ip prefix wait` | `AzNetworkCustomIpPrefixWaitOptions` |
 | `az network ddos-custom-policy create` | `AzNetworkDdosCustomPolicyCreateOptions` |
 | `az network ddos-custom-policy delete` | `AzNetworkDdosCustomPolicyDeleteOptions` |
+| `az network ddos-custom-policy list` | `AzNetworkDdosCustomPolicyListOptions` |
+| `az network ddos-custom-policy show` | `AzNetworkDdosCustomPolicyShowOptions` |
 | `az network ddos-custom-policy update` | `AzNetworkDdosCustomPolicyUpdateOptions` |
+| `az network ddos-custom-policy wait` | `AzNetworkDdosCustomPolicyWaitOptions` |
 | `az network ddos-protection create` | `AzNetworkDdosProtectionCreateOptions` |
 | `az network ddos-protection delete` | `AzNetworkDdosProtectionDeleteOptions` |
 | `az network ddos-protection list` | `AzNetworkDdosProtectionListOptions` |
+| `az network ddos-protection show` | `AzNetworkDdosProtectionShowOptions` |
 | `az network ddos-protection update` | `AzNetworkDdosProtectionUpdateOptions` |
+| `az network ddos-protection wait` | `AzNetworkDdosProtectionWaitOptions` |
 | `az network dns list-references` | `AzNetworkDnsListReferencesOptions` |
 | `az network dns record-set a add-record` | `AzNetworkDnsRecordSetAAddRecordOptions` |
 | `az network dns record-set a create` | `AzNetworkDnsRecordSetACreateOptions` |
 | `az network dns record-set a delete` | `AzNetworkDnsRecordSetADeleteOptions` |
 | `az network dns record-set a list` | `AzNetworkDnsRecordSetAListOptions` |
 | `az network dns record-set a remove-record` | `AzNetworkDnsRecordSetARemoveRecordOptions` |
+| `az network dns record-set a show` | `AzNetworkDnsRecordSetAShowOptions` |
 | `az network dns record-set a update` | `AzNetworkDnsRecordSetAUpdateOptions` |
 | `az network dns record-set aaaa add-record` | `AzNetworkDnsRecordSetAaaaAddRecordOptions` |
 | `az network dns record-set aaaa create` | `AzNetworkDnsRecordSetAaaaCreateOptions` |
 | `az network dns record-set aaaa delete` | `AzNetworkDnsRecordSetAaaaDeleteOptions` |
 | `az network dns record-set aaaa list` | `AzNetworkDnsRecordSetAaaaListOptions` |
 | `az network dns record-set aaaa remove-record` | `AzNetworkDnsRecordSetAaaaRemoveRecordOptions` |
+| `az network dns record-set aaaa show` | `AzNetworkDnsRecordSetAaaaShowOptions` |
 | `az network dns record-set aaaa update` | `AzNetworkDnsRecordSetAaaaUpdateOptions` |
 | `az network dns record-set caa add-record` | `AzNetworkDnsRecordSetCaaAddRecordOptions` |
 | `az network dns record-set caa create` | `AzNetworkDnsRecordSetCaaCreateOptions` |
 | `az network dns record-set caa delete` | `AzNetworkDnsRecordSetCaaDeleteOptions` |
 | `az network dns record-set caa list` | `AzNetworkDnsRecordSetCaaListOptions` |
 | `az network dns record-set caa remove-record` | `AzNetworkDnsRecordSetCaaRemoveRecordOptions` |
+| `az network dns record-set caa show` | `AzNetworkDnsRecordSetCaaShowOptions` |
 | `az network dns record-set caa update` | `AzNetworkDnsRecordSetCaaUpdateOptions` |
 | `az network dns record-set cname create` | `AzNetworkDnsRecordSetCnameCreateOptions` |
 | `az network dns record-set cname delete` | `AzNetworkDnsRecordSetCnameDeleteOptions` |
 | `az network dns record-set cname list` | `AzNetworkDnsRecordSetCnameListOptions` |
 | `az network dns record-set cname remove-record` | `AzNetworkDnsRecordSetCnameRemoveRecordOptions` |
 | `az network dns record-set cname set-record` | `AzNetworkDnsRecordSetCnameSetRecordOptions` |
+| `az network dns record-set cname show` | `AzNetworkDnsRecordSetCnameShowOptions` |
 | `az network dns record-set cname update` | `AzNetworkDnsRecordSetCnameUpdateOptions` |
+| `az network dns record-set list` | `AzNetworkDnsRecordSetListOptions` |
 | `az network dns record-set mx add-record` | `AzNetworkDnsRecordSetMxAddRecordOptions` |
 | `az network dns record-set mx create` | `AzNetworkDnsRecordSetMxCreateOptions` |
 | `az network dns record-set mx delete` | `AzNetworkDnsRecordSetMxDeleteOptions` |
 | `az network dns record-set mx list` | `AzNetworkDnsRecordSetMxListOptions` |
 | `az network dns record-set mx remove-record` | `AzNetworkDnsRecordSetMxRemoveRecordOptions` |
+| `az network dns record-set mx show` | `AzNetworkDnsRecordSetMxShowOptions` |
 | `az network dns record-set mx update` | `AzNetworkDnsRecordSetMxUpdateOptions` |
 | `az network dns record-set ns add-record` | `AzNetworkDnsRecordSetNsAddRecordOptions` |
 | `az network dns record-set ns create` | `AzNetworkDnsRecordSetNsCreateOptions` |
 | `az network dns record-set ns delete` | `AzNetworkDnsRecordSetNsDeleteOptions` |
 | `az network dns record-set ns list` | `AzNetworkDnsRecordSetNsListOptions` |
 | `az network dns record-set ns remove-record` | `AzNetworkDnsRecordSetNsRemoveRecordOptions` |
+| `az network dns record-set ns show` | `AzNetworkDnsRecordSetNsShowOptions` |
 | `az network dns record-set ns update` | `AzNetworkDnsRecordSetNsUpdateOptions` |
 | `az network dns record-set ptr add-record` | `AzNetworkDnsRecordSetPtrAddRecordOptions` |
 | `az network dns record-set ptr create` | `AzNetworkDnsRecordSetPtrCreateOptions` |
 | `az network dns record-set ptr delete` | `AzNetworkDnsRecordSetPtrDeleteOptions` |
 | `az network dns record-set ptr list` | `AzNetworkDnsRecordSetPtrListOptions` |
 | `az network dns record-set ptr remove-record` | `AzNetworkDnsRecordSetPtrRemoveRecordOptions` |
+| `az network dns record-set ptr show` | `AzNetworkDnsRecordSetPtrShowOptions` |
 | `az network dns record-set ptr update` | `AzNetworkDnsRecordSetPtrUpdateOptions` |
+| `az network dns record-set soa show` | `AzNetworkDnsRecordSetSoaShowOptions` |
 | `az network dns record-set soa update` | `AzNetworkDnsRecordSetSoaUpdateOptions` |
 | `az network dns record-set srv add-record` | `AzNetworkDnsRecordSetSrvAddRecordOptions` |
 | `az network dns record-set srv create` | `AzNetworkDnsRecordSetSrvCreateOptions` |
 | `az network dns record-set srv delete` | `AzNetworkDnsRecordSetSrvDeleteOptions` |
 | `az network dns record-set srv list` | `AzNetworkDnsRecordSetSrvListOptions` |
 | `az network dns record-set srv remove-record` | `AzNetworkDnsRecordSetSrvRemoveRecordOptions` |
+| `az network dns record-set srv show` | `AzNetworkDnsRecordSetSrvShowOptions` |
 | `az network dns record-set srv update` | `AzNetworkDnsRecordSetSrvUpdateOptions` |
 | `az network dns record-set txt add-record` | `AzNetworkDnsRecordSetTxtAddRecordOptions` |
 | `az network dns record-set txt create` | `AzNetworkDnsRecordSetTxtCreateOptions` |
 | `az network dns record-set txt delete` | `AzNetworkDnsRecordSetTxtDeleteOptions` |
 | `az network dns record-set txt list` | `AzNetworkDnsRecordSetTxtListOptions` |
 | `az network dns record-set txt remove-record` | `AzNetworkDnsRecordSetTxtRemoveRecordOptions` |
+| `az network dns record-set txt show` | `AzNetworkDnsRecordSetTxtShowOptions` |
 | `az network dns record-set txt update` | `AzNetworkDnsRecordSetTxtUpdateOptions` |
 | `az network dns zone create` | `AzNetworkDnsZoneCreateOptions` |
 | `az network dns zone delete` | `AzNetworkDnsZoneDeleteOptions` |
 | `az network dns zone export` | `AzNetworkDnsZoneExportOptions` |
+| `az network dns zone import` | `AzNetworkDnsZoneImportOptions` |
 | `az network dns zone list` | `AzNetworkDnsZoneListOptions` |
+| `az network dns zone show` | `AzNetworkDnsZoneShowOptions` |
 | `az network dns zone update` | `AzNetworkDnsZoneUpdateOptions` |
 | `az network express-route auth create` | `AzNetworkExpressRouteAuthCreateOptions` |
 | `az network express-route auth delete` | `AzNetworkExpressRouteAuthDeleteOptions` |
+| `az network express-route auth list` | `AzNetworkExpressRouteAuthListOptions` |
+| `az network express-route auth show` | `AzNetworkExpressRouteAuthShowOptions` |
+| `az network express-route auth wait` | `AzNetworkExpressRouteAuthWaitOptions` |
 | `az network express-route create` | `AzNetworkExpressRouteCreateOptions` |
 | `az network express-route delete` | `AzNetworkExpressRouteDeleteOptions` |
 | `az network express-route gateway connection create` | `AzNetworkExpressRouteGatewayConnectionCreateOptions` |
 | `az network express-route gateway connection delete` | `AzNetworkExpressRouteGatewayConnectionDeleteOptions` |
+| `az network express-route gateway connection list` | `AzNetworkExpressRouteGatewayConnectionListOptions` |
+| `az network express-route gateway connection show` | `AzNetworkExpressRouteGatewayConnectionShowOptions` |
 | `az network express-route gateway connection update` | `AzNetworkExpressRouteGatewayConnectionUpdateOptions` |
+| `az network express-route gateway connection wait` | `AzNetworkExpressRouteGatewayConnectionWaitOptions` |
 | `az network express-route gateway create` | `AzNetworkExpressRouteGatewayCreateOptions` |
 | `az network express-route gateway delete` | `AzNetworkExpressRouteGatewayDeleteOptions` |
 | `az network express-route gateway get-failover-all-tests-detail` | `AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions` |
@@ -1818,77 +2947,140 @@ public class RunCommandModule : Module<CommandResult>
 | `az network express-route gateway get-resiliency-information` | `AzNetworkExpressRouteGatewayGetResiliencyInformationOptions` |
 | `az network express-route gateway get-routes-information` | `AzNetworkExpressRouteGatewayGetRoutesInformationOptions` |
 | `az network express-route gateway list` | `AzNetworkExpressRouteGatewayListOptions` |
+| `az network express-route gateway show` | `AzNetworkExpressRouteGatewayShowOptions` |
 | `az network express-route gateway start-site-failover-test` | `AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions` |
 | `az network express-route gateway stop-site-failover-test` | `AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions` |
 | `az network express-route gateway update` | `AzNetworkExpressRouteGatewayUpdateOptions` |
+| `az network express-route gateway wait` | `AzNetworkExpressRouteGatewayWaitOptions` |
 | `az network express-route get-link-failover-all-tests-detail` | `AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions` |
 | `az network express-route get-link-failover-single-test-detail` | `AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions` |
+| `az network express-route get-stats` | `AzNetworkExpressRouteGetStatsOptions` |
 | `az network express-route list` | `AzNetworkExpressRouteListOptions` |
 | `az network express-route list-arp-tables` | `AzNetworkExpressRouteListArpTablesOptions` |
+| `az network express-route list-service-providers` | `AzNetworkExpressRouteListServiceProvidersOptions` |
 | `az network express-route peering connection create` | `AzNetworkExpressRoutePeeringConnectionCreateOptions` |
 | `az network express-route peering connection delete` | `AzNetworkExpressRoutePeeringConnectionDeleteOptions` |
 | `az network express-route peering connection ipv6-config remove` | `AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions` |
 | `az network express-route peering connection ipv6-config set` | `AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions` |
+| `az network express-route peering connection ipv6-config wait` | `AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions` |
+| `az network express-route peering connection list` | `AzNetworkExpressRoutePeeringConnectionListOptions` |
+| `az network express-route peering connection show` | `AzNetworkExpressRoutePeeringConnectionShowOptions` |
+| `az network express-route peering connection wait` | `AzNetworkExpressRoutePeeringConnectionWaitOptions` |
 | `az network express-route peering create` | `AzNetworkExpressRoutePeeringCreateOptions` |
 | `az network express-route peering delete` | `AzNetworkExpressRoutePeeringDeleteOptions` |
+| `az network express-route peering list` | `AzNetworkExpressRoutePeeringListOptions` |
+| `az network express-route peering show` | `AzNetworkExpressRoutePeeringShowOptions` |
 | `az network express-route peering update` | `AzNetworkExpressRoutePeeringUpdateOptions` |
+| `az network express-route peering wait` | `AzNetworkExpressRoutePeeringWaitOptions` |
 | `az network express-route port authorization create` | `AzNetworkExpressRoutePortAuthorizationCreateOptions` |
 | `az network express-route port authorization delete` | `AzNetworkExpressRoutePortAuthorizationDeleteOptions` |
+| `az network express-route port authorization list` | `AzNetworkExpressRoutePortAuthorizationListOptions` |
+| `az network express-route port authorization show` | `AzNetworkExpressRoutePortAuthorizationShowOptions` |
 | `az network express-route port authorization update` | `AzNetworkExpressRoutePortAuthorizationUpdateOptions` |
+| `az network express-route port authorization wait` | `AzNetworkExpressRoutePortAuthorizationWaitOptions` |
 | `az network express-route port create` | `AzNetworkExpressRoutePortCreateOptions` |
 | `az network express-route port delete` | `AzNetworkExpressRoutePortDeleteOptions` |
 | `az network express-route port generate-loa` | `AzNetworkExpressRoutePortGenerateLoaOptions` |
 | `az network express-route port identity assign` | `AzNetworkExpressRoutePortIdentityAssignOptions` |
 | `az network express-route port identity remove` | `AzNetworkExpressRoutePortIdentityRemoveOptions` |
+| `az network express-route port identity show` | `AzNetworkExpressRoutePortIdentityShowOptions` |
+| `az network express-route port identity wait` | `AzNetworkExpressRoutePortIdentityWaitOptions` |
+| `az network express-route port link list` | `AzNetworkExpressRoutePortLinkListOptions` |
+| `az network express-route port link show` | `AzNetworkExpressRoutePortLinkShowOptions` |
 | `az network express-route port link update` | `AzNetworkExpressRoutePortLinkUpdateOptions` |
+| `az network express-route port link wait` | `AzNetworkExpressRoutePortLinkWaitOptions` |
 | `az network express-route port list` | `AzNetworkExpressRoutePortListOptions` |
+| `az network express-route port location list` | `AzNetworkExpressRoutePortLocationListOptions` |
+| `az network express-route port location show` | `AzNetworkExpressRoutePortLocationShowOptions` |
+| `az network express-route port show` | `AzNetworkExpressRoutePortShowOptions` |
 | `az network express-route port update` | `AzNetworkExpressRoutePortUpdateOptions` |
+| `az network express-route port wait` | `AzNetworkExpressRoutePortWaitOptions` |
+| `az network express-route show` | `AzNetworkExpressRouteShowOptions` |
 | `az network express-route start-link-failover-test` | `AzNetworkExpressRouteStartLinkFailoverTestOptions` |
 | `az network express-route stop-link-failover-test` | `AzNetworkExpressRouteStopLinkFailoverTestOptions` |
 | `az network express-route update` | `AzNetworkExpressRouteUpdateOptions` |
+| `az network express-route wait` | `AzNetworkExpressRouteWaitOptions` |
 | `az network lb address-pool address add` | `AzNetworkLbAddressPoolAddressAddOptions` |
+| `az network lb address-pool address list` | `AzNetworkLbAddressPoolAddressListOptions` |
 | `az network lb address-pool address remove` | `AzNetworkLbAddressPoolAddressRemoveOptions` |
+| `az network lb address-pool address show` | `AzNetworkLbAddressPoolAddressShowOptions` |
 | `az network lb address-pool address update` | `AzNetworkLbAddressPoolAddressUpdateOptions` |
+| `az network lb address-pool address wait` | `AzNetworkLbAddressPoolAddressWaitOptions` |
 | `az network lb address-pool create` | `AzNetworkLbAddressPoolCreateOptions` |
 | `az network lb address-pool delete` | `AzNetworkLbAddressPoolDeleteOptions` |
+| `az network lb address-pool list` | `AzNetworkLbAddressPoolListOptions` |
+| `az network lb address-pool show` | `AzNetworkLbAddressPoolShowOptions` |
 | `az network lb address-pool update` | `AzNetworkLbAddressPoolUpdateOptions` |
+| `az network lb address-pool wait` | `AzNetworkLbAddressPoolWaitOptions` |
 | `az network lb create` | `AzNetworkLbCreateOptions` |
 | `az network lb delete` | `AzNetworkLbDeleteOptions` |
 | `az network lb frontend-ip create` | `AzNetworkLbFrontendIpCreateOptions` |
 | `az network lb frontend-ip delete` | `AzNetworkLbFrontendIpDeleteOptions` |
+| `az network lb frontend-ip list` | `AzNetworkLbFrontendIpListOptions` |
+| `az network lb frontend-ip show` | `AzNetworkLbFrontendIpShowOptions` |
 | `az network lb frontend-ip update` | `AzNetworkLbFrontendIpUpdateOptions` |
+| `az network lb frontend-ip wait` | `AzNetworkLbFrontendIpWaitOptions` |
 | `az network lb inbound-nat-pool create` | `AzNetworkLbInboundNatPoolCreateOptions` |
 | `az network lb inbound-nat-pool delete` | `AzNetworkLbInboundNatPoolDeleteOptions` |
+| `az network lb inbound-nat-pool list` | `AzNetworkLbInboundNatPoolListOptions` |
+| `az network lb inbound-nat-pool show` | `AzNetworkLbInboundNatPoolShowOptions` |
 | `az network lb inbound-nat-pool update` | `AzNetworkLbInboundNatPoolUpdateOptions` |
+| `az network lb inbound-nat-pool wait` | `AzNetworkLbInboundNatPoolWaitOptions` |
 | `az network lb inbound-nat-rule create` | `AzNetworkLbInboundNatRuleCreateOptions` |
 | `az network lb inbound-nat-rule delete` | `AzNetworkLbInboundNatRuleDeleteOptions` |
+| `az network lb inbound-nat-rule list` | `AzNetworkLbInboundNatRuleListOptions` |
+| `az network lb inbound-nat-rule show` | `AzNetworkLbInboundNatRuleShowOptions` |
 | `az network lb inbound-nat-rule update` | `AzNetworkLbInboundNatRuleUpdateOptions` |
+| `az network lb inbound-nat-rule wait` | `AzNetworkLbInboundNatRuleWaitOptions` |
 | `az network lb list` | `AzNetworkLbListOptions` |
+| `az network lb list-mapping` | `AzNetworkLbListMappingOptions` |
+| `az network lb list-nic` | `AzNetworkLbListNicOptions` |
 | `az network lb outbound-rule create` | `AzNetworkLbOutboundRuleCreateOptions` |
 | `az network lb outbound-rule delete` | `AzNetworkLbOutboundRuleDeleteOptions` |
+| `az network lb outbound-rule list` | `AzNetworkLbOutboundRuleListOptions` |
+| `az network lb outbound-rule show` | `AzNetworkLbOutboundRuleShowOptions` |
 | `az network lb outbound-rule update` | `AzNetworkLbOutboundRuleUpdateOptions` |
+| `az network lb outbound-rule wait` | `AzNetworkLbOutboundRuleWaitOptions` |
 | `az network lb probe create` | `AzNetworkLbProbeCreateOptions` |
 | `az network lb probe delete` | `AzNetworkLbProbeDeleteOptions` |
+| `az network lb probe list` | `AzNetworkLbProbeListOptions` |
+| `az network lb probe show` | `AzNetworkLbProbeShowOptions` |
 | `az network lb probe update` | `AzNetworkLbProbeUpdateOptions` |
+| `az network lb probe wait` | `AzNetworkLbProbeWaitOptions` |
 | `az network lb rule create` | `AzNetworkLbRuleCreateOptions` |
 | `az network lb rule delete` | `AzNetworkLbRuleDeleteOptions` |
+| `az network lb rule list` | `AzNetworkLbRuleListOptions` |
+| `az network lb rule show` | `AzNetworkLbRuleShowOptions` |
 | `az network lb rule update` | `AzNetworkLbRuleUpdateOptions` |
+| `az network lb rule wait` | `AzNetworkLbRuleWaitOptions` |
 | `az network lb show` | `AzNetworkLbShowOptions` |
 | `az network lb update` | `AzNetworkLbUpdateOptions` |
 | `az network lb wait` | `AzNetworkLbWaitOptions` |
 | `az network list-service-aliases` | `AzNetworkListServiceAliasesOptions` |
+| `az network list-service-tags` | `AzNetworkListServiceTagsOptions` |
+| `az network list-usages` | `AzNetworkListUsagesOptions` |
 | `az network local-gateway create` | `AzNetworkLocalGatewayCreateOptions` |
 | `az network local-gateway delete` | `AzNetworkLocalGatewayDeleteOptions` |
+| `az network local-gateway list` | `AzNetworkLocalGatewayListOptions` |
+| `az network local-gateway show` | `AzNetworkLocalGatewayShowOptions` |
 | `az network local-gateway update` | `AzNetworkLocalGatewayUpdateOptions` |
+| `az network local-gateway wait` | `AzNetworkLocalGatewayWaitOptions` |
 | `az network nat gateway create` | `AzNetworkNatGatewayCreateOptions` |
 | `az network nat gateway delete` | `AzNetworkNatGatewayDeleteOptions` |
 | `az network nat gateway list` | `AzNetworkNatGatewayListOptions` |
+| `az network nat gateway show` | `AzNetworkNatGatewayShowOptions` |
 | `az network nat gateway update` | `AzNetworkNatGatewayUpdateOptions` |
+| `az network nat gateway wait` | `AzNetworkNatGatewayWaitOptions` |
 | `az network network-watcher connection-monitor create` | `AzNetworkNetworkWatcherConnectionMonitorCreateOptions` |
 | `az network network-watcher connection-monitor delete` | `AzNetworkNetworkWatcherConnectionMonitorDeleteOptions` |
+| `az network network-watcher connection-monitor list` | `AzNetworkNetworkWatcherConnectionMonitorListOptions` |
+| `az network network-watcher connection-monitor show` | `AzNetworkNetworkWatcherConnectionMonitorShowOptions` |
+| `az network network-watcher connection-monitor wait` | `AzNetworkNetworkWatcherConnectionMonitorWaitOptions` |
 | `az network network-watcher packet-capture create` | `AzNetworkNetworkWatcherPacketCaptureCreateOptions` |
 | `az network network-watcher packet-capture delete` | `AzNetworkNetworkWatcherPacketCaptureDeleteOptions` |
+| `az network network-watcher packet-capture list` | `AzNetworkNetworkWatcherPacketCaptureListOptions` |
 | `az network network-watcher packet-capture query-status` | `AzNetworkNetworkWatcherPacketCaptureQueryStatusOptions` |
+| `az network network-watcher packet-capture show` | `AzNetworkNetworkWatcherPacketCaptureShowOptions` |
 | `az network network-watcher packet-capture stop` | `AzNetworkNetworkWatcherPacketCaptureStopOptions` |
 | `az network nic create` | `AzNetworkNicCreateOptions` |
 | `az network nic delete` | `AzNetworkNicDeleteOptions` |
@@ -1898,7 +3090,11 @@ public class RunCommandModule : Module<CommandResult>
 | `az network nic ip-config delete` | `AzNetworkNicIpConfigDeleteOptions` |
 | `az network nic ip-config inbound-nat-rule add` | `AzNetworkNicIpConfigInboundNatRuleAddOptions` |
 | `az network nic ip-config inbound-nat-rule remove` | `AzNetworkNicIpConfigInboundNatRuleRemoveOptions` |
+| `az network nic ip-config inbound-nat-rule wait` | `AzNetworkNicIpConfigInboundNatRuleWaitOptions` |
+| `az network nic ip-config list` | `AzNetworkNicIpConfigListOptions` |
+| `az network nic ip-config show` | `AzNetworkNicIpConfigShowOptions` |
 | `az network nic ip-config update` | `AzNetworkNicIpConfigUpdateOptions` |
+| `az network nic ip-config wait` | `AzNetworkNicIpConfigWaitOptions` |
 | `az network nic list` | `AzNetworkNicListOptions` |
 | `az network nic list-effective-nsg` | `AzNetworkNicListEffectiveNsgOptions` |
 | `az network nic show` | `AzNetworkNicShowOptions` |
@@ -1911,58 +3107,95 @@ public class RunCommandModule : Module<CommandResult>
 | `az network nsg rule create` | `AzNetworkNsgRuleCreateOptions` |
 | `az network nsg rule delete` | `AzNetworkNsgRuleDeleteOptions` |
 | `az network nsg rule list` | `AzNetworkNsgRuleListOptions` |
+| `az network nsg rule show` | `AzNetworkNsgRuleShowOptions` |
 | `az network nsg rule update` | `AzNetworkNsgRuleUpdateOptions` |
+| `az network nsg rule wait` | `AzNetworkNsgRuleWaitOptions` |
 | `az network nsg show` | `AzNetworkNsgShowOptions` |
 | `az network nsg update` | `AzNetworkNsgUpdateOptions` |
 | `az network nsg wait` | `AzNetworkNsgWaitOptions` |
 | `az network private-dns link vnet create` | `AzNetworkPrivateDnsLinkVnetCreateOptions` |
 | `az network private-dns link vnet delete` | `AzNetworkPrivateDnsLinkVnetDeleteOptions` |
 | `az network private-dns link vnet list` | `AzNetworkPrivateDnsLinkVnetListOptions` |
+| `az network private-dns link vnet show` | `AzNetworkPrivateDnsLinkVnetShowOptions` |
 | `az network private-dns link vnet update` | `AzNetworkPrivateDnsLinkVnetUpdateOptions` |
+| `az network private-dns link vnet wait` | `AzNetworkPrivateDnsLinkVnetWaitOptions` |
+| `az network private-dns record-set a add-record` | `AzNetworkPrivateDnsRecordSetAAddRecordOptions` |
 | `az network private-dns record-set a create` | `AzNetworkPrivateDnsRecordSetACreateOptions` |
 | `az network private-dns record-set a delete` | `AzNetworkPrivateDnsRecordSetADeleteOptions` |
+| `az network private-dns record-set a list` | `AzNetworkPrivateDnsRecordSetAListOptions` |
 | `az network private-dns record-set a remove-record` | `AzNetworkPrivateDnsRecordSetARemoveRecordOptions` |
+| `az network private-dns record-set a show` | `AzNetworkPrivateDnsRecordSetAShowOptions` |
 | `az network private-dns record-set a update` | `AzNetworkPrivateDnsRecordSetAUpdateOptions` |
+| `az network private-dns record-set aaaa add-record` | `AzNetworkPrivateDnsRecordSetAaaaAddRecordOptions` |
 | `az network private-dns record-set aaaa create` | `AzNetworkPrivateDnsRecordSetAaaaCreateOptions` |
 | `az network private-dns record-set aaaa delete` | `AzNetworkPrivateDnsRecordSetAaaaDeleteOptions` |
+| `az network private-dns record-set aaaa list` | `AzNetworkPrivateDnsRecordSetAaaaListOptions` |
 | `az network private-dns record-set aaaa remove-record` | `AzNetworkPrivateDnsRecordSetAaaaRemoveRecordOptions` |
+| `az network private-dns record-set aaaa show` | `AzNetworkPrivateDnsRecordSetAaaaShowOptions` |
 | `az network private-dns record-set aaaa update` | `AzNetworkPrivateDnsRecordSetAaaaUpdateOptions` |
 | `az network private-dns record-set cname create` | `AzNetworkPrivateDnsRecordSetCnameCreateOptions` |
 | `az network private-dns record-set cname delete` | `AzNetworkPrivateDnsRecordSetCnameDeleteOptions` |
+| `az network private-dns record-set cname list` | `AzNetworkPrivateDnsRecordSetCnameListOptions` |
 | `az network private-dns record-set cname remove-record` | `AzNetworkPrivateDnsRecordSetCnameRemoveRecordOptions` |
+| `az network private-dns record-set cname set-record` | `AzNetworkPrivateDnsRecordSetCnameSetRecordOptions` |
+| `az network private-dns record-set cname show` | `AzNetworkPrivateDnsRecordSetCnameShowOptions` |
 | `az network private-dns record-set cname update` | `AzNetworkPrivateDnsRecordSetCnameUpdateOptions` |
+| `az network private-dns record-set list` | `AzNetworkPrivateDnsRecordSetListOptions` |
+| `az network private-dns record-set mx add-record` | `AzNetworkPrivateDnsRecordSetMxAddRecordOptions` |
 | `az network private-dns record-set mx create` | `AzNetworkPrivateDnsRecordSetMxCreateOptions` |
 | `az network private-dns record-set mx delete` | `AzNetworkPrivateDnsRecordSetMxDeleteOptions` |
+| `az network private-dns record-set mx list` | `AzNetworkPrivateDnsRecordSetMxListOptions` |
 | `az network private-dns record-set mx remove-record` | `AzNetworkPrivateDnsRecordSetMxRemoveRecordOptions` |
+| `az network private-dns record-set mx show` | `AzNetworkPrivateDnsRecordSetMxShowOptions` |
 | `az network private-dns record-set mx update` | `AzNetworkPrivateDnsRecordSetMxUpdateOptions` |
+| `az network private-dns record-set ptr add-record` | `AzNetworkPrivateDnsRecordSetPtrAddRecordOptions` |
 | `az network private-dns record-set ptr create` | `AzNetworkPrivateDnsRecordSetPtrCreateOptions` |
 | `az network private-dns record-set ptr delete` | `AzNetworkPrivateDnsRecordSetPtrDeleteOptions` |
+| `az network private-dns record-set ptr list` | `AzNetworkPrivateDnsRecordSetPtrListOptions` |
 | `az network private-dns record-set ptr remove-record` | `AzNetworkPrivateDnsRecordSetPtrRemoveRecordOptions` |
+| `az network private-dns record-set ptr show` | `AzNetworkPrivateDnsRecordSetPtrShowOptions` |
 | `az network private-dns record-set ptr update` | `AzNetworkPrivateDnsRecordSetPtrUpdateOptions` |
+| `az network private-dns record-set soa show` | `AzNetworkPrivateDnsRecordSetSoaShowOptions` |
 | `az network private-dns record-set soa update` | `AzNetworkPrivateDnsRecordSetSoaUpdateOptions` |
+| `az network private-dns record-set srv add-record` | `AzNetworkPrivateDnsRecordSetSrvAddRecordOptions` |
 | `az network private-dns record-set srv create` | `AzNetworkPrivateDnsRecordSetSrvCreateOptions` |
 | `az network private-dns record-set srv delete` | `AzNetworkPrivateDnsRecordSetSrvDeleteOptions` |
+| `az network private-dns record-set srv list` | `AzNetworkPrivateDnsRecordSetSrvListOptions` |
 | `az network private-dns record-set srv remove-record` | `AzNetworkPrivateDnsRecordSetSrvRemoveRecordOptions` |
+| `az network private-dns record-set srv show` | `AzNetworkPrivateDnsRecordSetSrvShowOptions` |
 | `az network private-dns record-set srv update` | `AzNetworkPrivateDnsRecordSetSrvUpdateOptions` |
+| `az network private-dns record-set txt add-record` | `AzNetworkPrivateDnsRecordSetTxtAddRecordOptions` |
 | `az network private-dns record-set txt create` | `AzNetworkPrivateDnsRecordSetTxtCreateOptions` |
 | `az network private-dns record-set txt delete` | `AzNetworkPrivateDnsRecordSetTxtDeleteOptions` |
+| `az network private-dns record-set txt list` | `AzNetworkPrivateDnsRecordSetTxtListOptions` |
 | `az network private-dns record-set txt remove-record` | `AzNetworkPrivateDnsRecordSetTxtRemoveRecordOptions` |
+| `az network private-dns record-set txt show` | `AzNetworkPrivateDnsRecordSetTxtShowOptions` |
 | `az network private-dns record-set txt update` | `AzNetworkPrivateDnsRecordSetTxtUpdateOptions` |
 | `az network private-dns zone create` | `AzNetworkPrivateDnsZoneCreateOptions` |
 | `az network private-dns zone delete` | `AzNetworkPrivateDnsZoneDeleteOptions` |
 | `az network private-dns zone export` | `AzNetworkPrivateDnsZoneExportOptions` |
+| `az network private-dns zone import` | `AzNetworkPrivateDnsZoneImportOptions` |
 | `az network private-dns zone list` | `AzNetworkPrivateDnsZoneListOptions` |
+| `az network private-dns zone show` | `AzNetworkPrivateDnsZoneShowOptions` |
 | `az network private-dns zone update` | `AzNetworkPrivateDnsZoneUpdateOptions` |
+| `az network private-dns zone wait` | `AzNetworkPrivateDnsZoneWaitOptions` |
 | `az network private-endpoint asg add` | `AzNetworkPrivateEndpointAsgAddOptions` |
+| `az network private-endpoint asg list` | `AzNetworkPrivateEndpointAsgListOptions` |
 | `az network private-endpoint asg remove` | `AzNetworkPrivateEndpointAsgRemoveOptions` |
+| `az network private-endpoint asg wait` | `AzNetworkPrivateEndpointAsgWaitOptions` |
 | `az network private-endpoint create` | `AzNetworkPrivateEndpointCreateOptions` |
 | `az network private-endpoint delete` | `AzNetworkPrivateEndpointDeleteOptions` |
 | `az network private-endpoint dns-zone-group add` | `AzNetworkPrivateEndpointDnsZoneGroupAddOptions` |
 | `az network private-endpoint dns-zone-group create` | `AzNetworkPrivateEndpointDnsZoneGroupCreateOptions` |
 | `az network private-endpoint dns-zone-group delete` | `AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions` |
+| `az network private-endpoint dns-zone-group list` | `AzNetworkPrivateEndpointDnsZoneGroupListOptions` |
 | `az network private-endpoint dns-zone-group remove` | `AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions` |
+| `az network private-endpoint dns-zone-group show` | `AzNetworkPrivateEndpointDnsZoneGroupShowOptions` |
+| `az network private-endpoint dns-zone-group wait` | `AzNetworkPrivateEndpointDnsZoneGroupWaitOptions` |
 | `az network private-endpoint ip-config add` | `AzNetworkPrivateEndpointIpConfigAddOptions` |
+| `az network private-endpoint ip-config list` | `AzNetworkPrivateEndpointIpConfigListOptions` |
 | `az network private-endpoint ip-config remove` | `AzNetworkPrivateEndpointIpConfigRemoveOptions` |
+| `az network private-endpoint ip-config wait` | `AzNetworkPrivateEndpointIpConfigWaitOptions` |
 | `az network private-endpoint list` | `AzNetworkPrivateEndpointListOptions` |
 | `az network private-endpoint list-types` | `AzNetworkPrivateEndpointListTypesOptions` |
 | `az network private-endpoint show` | `AzNetworkPrivateEndpointShowOptions` |
@@ -1976,6 +3209,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az network private-link-resource list` | `AzNetworkPrivateLinkResourceListOptions` |
 | `az network private-link-service connection delete` | `AzNetworkPrivateLinkServiceConnectionDeleteOptions` |
 | `az network private-link-service connection update` | `AzNetworkPrivateLinkServiceConnectionUpdateOptions` |
+| `az network private-link-service connection wait` | `AzNetworkPrivateLinkServiceConnectionWaitOptions` |
 | `az network private-link-service create` | `AzNetworkPrivateLinkServiceCreateOptions` |
 | `az network private-link-service delete` | `AzNetworkPrivateLinkServiceDeleteOptions` |
 | `az network private-link-service list` | `AzNetworkPrivateLinkServiceListOptions` |
@@ -2002,9 +3236,13 @@ public class RunCommandModule : Module<CommandResult>
 | `az network public-ip wait` | `AzNetworkPublicIpWaitOptions` |
 | `az network route-table create` | `AzNetworkRouteTableCreateOptions` |
 | `az network route-table delete` | `AzNetworkRouteTableDeleteOptions` |
+| `az network route-table list` | `AzNetworkRouteTableListOptions` |
 | `az network route-table route create` | `AzNetworkRouteTableRouteCreateOptions` |
 | `az network route-table route delete` | `AzNetworkRouteTableRouteDeleteOptions` |
+| `az network route-table route list` | `AzNetworkRouteTableRouteListOptions` |
+| `az network route-table route show` | `AzNetworkRouteTableRouteShowOptions` |
 | `az network route-table route update` | `AzNetworkRouteTableRouteUpdateOptions` |
+| `az network route-table route wait` | `AzNetworkRouteTableRouteWaitOptions` |
 | `az network route-table show` | `AzNetworkRouteTableShowOptions` |
 | `az network route-table update` | `AzNetworkRouteTableUpdateOptions` |
 | `az network route-table wait` | `AzNetworkRouteTableWaitOptions` |
@@ -2013,30 +3251,52 @@ public class RunCommandModule : Module<CommandResult>
 | `az network routeserver list` | `AzNetworkRouteserverListOptions` |
 | `az network routeserver peering create` | `AzNetworkRouteserverPeeringCreateOptions` |
 | `az network routeserver peering delete` | `AzNetworkRouteserverPeeringDeleteOptions` |
+| `az network routeserver peering list` | `AzNetworkRouteServerPeeringListOptions` |
 | `az network routeserver peering list-advertised-routes` | `AzNetworkRouteserverPeeringListAdvertisedRoutesOptions` |
 | `az network routeserver peering list-learned-routes` | `AzNetworkRouteserverPeeringListLearnedRoutesOptions` |
+| `az network routeserver peering show` | `AzNetworkRouteServerPeeringShowOptions` |
 | `az network routeserver peering update` | `AzNetworkRouteserverPeeringUpdateOptions` |
+| `az network routeserver peering wait` | `AzNetworkRouteServerPeeringWaitOptions` |
+| `az network routeserver show` | `AzNetworkRouteServerShowOptions` |
 | `az network routeserver update` | `AzNetworkRouteserverUpdateOptions` |
+| `az network routeserver wait` | `AzNetworkRouteServerWaitOptions` |
+| `az network service-endpoint list` | `AzNetworkServiceEndpointListOptions` |
 | `az network service-endpoint policy create` | `AzNetworkServiceEndpointPolicyCreateOptions` |
 | `az network service-endpoint policy delete` | `AzNetworkServiceEndpointPolicyDeleteOptions` |
 | `az network service-endpoint policy list` | `AzNetworkServiceEndpointPolicyListOptions` |
+| `az network service-endpoint policy show` | `AzNetworkServiceEndpointPolicyShowOptions` |
 | `az network service-endpoint policy update` | `AzNetworkServiceEndpointPolicyUpdateOptions` |
+| `az network service-endpoint policy wait` | `AzNetworkServiceEndpointPolicyWaitOptions` |
 | `az network service-endpoint policy-definition create` | `AzNetworkServiceEndpointPolicyDefinitionCreateOptions` |
 | `az network service-endpoint policy-definition delete` | `AzNetworkServiceEndpointPolicyDefinitionDeleteOptions` |
+| `az network service-endpoint policy-definition list` | `AzNetworkServiceEndpointPolicyDefinitionListOptions` |
+| `az network service-endpoint policy-definition show` | `AzNetworkServiceEndpointPolicyDefinitionShowOptions` |
 | `az network service-endpoint policy-definition update` | `AzNetworkServiceEndpointPolicyDefinitionUpdateOptions` |
+| `az network service-endpoint policy-definition wait` | `AzNetworkServiceEndpointPolicyDefinitionWaitOptions` |
 | `az network traffic-manager endpoint create` | `AzNetworkTrafficManagerEndpointCreateOptions` |
+| `az network traffic-manager endpoint delete` | `AzNetworkTrafficManagerEndpointDeleteOptions` |
 | `az network traffic-manager endpoint list` | `AzNetworkTrafficManagerEndpointListOptions` |
+| `az network traffic-manager endpoint show` | `AzNetworkTrafficManagerEndpointShowOptions` |
 | `az network traffic-manager endpoint update` | `AzNetworkTrafficManagerEndpointUpdateOptions` |
+| `az network traffic-manager profile check-dns` | `AzNetworkTrafficManagerProfileCheckDnsOptions` |
 | `az network traffic-manager profile create` | `AzNetworkTrafficManagerProfileCreateOptions` |
+| `az network traffic-manager profile delete` | `AzNetworkTrafficManagerProfileDeleteOptions` |
 | `az network traffic-manager profile list` | `AzNetworkTrafficManagerProfileListOptions` |
+| `az network traffic-manager profile show` | `AzNetworkTrafficManagerProfileShowOptions` |
 | `az network traffic-manager profile update` | `AzNetworkTrafficManagerProfileUpdateOptions` |
+| `az network virtual-appliance connection list` | `AzNetworkVirtualApplianceConnectionListOptions` |
+| `az network virtual-appliance connection show` | `AzNetworkVirtualApplianceConnectionShowOptions` |
 | `az network virtual-appliance connection update` | `AzNetworkVirtualApplianceConnectionUpdateOptions` |
+| `az network virtual-appliance connection wait` | `AzNetworkVirtualApplianceConnectionWaitOptions` |
 | `az network virtual-appliance create` | `AzNetworkVirtualApplianceCreateOptions` |
 | `az network virtual-appliance delete` | `AzNetworkVirtualApplianceDeleteOptions` |
 | `az network virtual-appliance get-boot-diagnostic-log` | `AzNetworkVirtualApplianceGetBootDiagnosticLogOptions` |
 | `az network virtual-appliance identity assign` | `AzNetworkVirtualApplianceIdentityAssignOptions` |
 | `az network virtual-appliance identity remove` | `AzNetworkVirtualApplianceIdentityRemoveOptions` |
+| `az network virtual-appliance identity show` | `AzNetworkVirtualApplianceIdentityShowOptions` |
+| `az network virtual-appliance identity wait` | `AzNetworkVirtualApplianceIdentityWaitOptions` |
 | `az network virtual-appliance inbound-security-rule create` | `AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions` |
+| `az network virtual-appliance inbound-security-rule show` | `AzNetworkVirtualApplianceInboundSecurityRuleShowOptions` |
 | `az network virtual-appliance list` | `AzNetworkVirtualApplianceListOptions` |
 | `az network virtual-appliance migration abort` | `AzNetworkVirtualApplianceMigrationAbortOptions` |
 | `az network virtual-appliance migration commit` | `AzNetworkVirtualApplianceMigrationCommitOptions` |
@@ -2047,21 +3307,35 @@ public class RunCommandModule : Module<CommandResult>
 | `az network virtual-appliance show` | `AzNetworkVirtualApplianceShowOptions` |
 | `az network virtual-appliance site create` | `AzNetworkVirtualApplianceSiteCreateOptions` |
 | `az network virtual-appliance site delete` | `AzNetworkVirtualApplianceSiteDeleteOptions` |
+| `az network virtual-appliance site list` | `AzNetworkVirtualApplianceSiteListOptions` |
+| `az network virtual-appliance site show` | `AzNetworkVirtualApplianceSiteShowOptions` |
 | `az network virtual-appliance site update` | `AzNetworkVirtualApplianceSiteUpdateOptions` |
+| `az network virtual-appliance site wait` | `AzNetworkVirtualApplianceSiteWaitOptions` |
+| `az network virtual-appliance sku show` | `AzNetworkVirtualApplianceSkuShowOptions` |
 | `az network virtual-appliance update` | `AzNetworkVirtualApplianceUpdateOptions` |
 | `az network virtual-appliance wait` | `AzNetworkVirtualApplianceWaitOptions` |
 | `az network virtual-network-appliance create` | `AzNetworkVirtualNetworkApplianceCreateOptions` |
 | `az network virtual-network-appliance delete` | `AzNetworkVirtualNetworkApplianceDeleteOptions` |
+| `az network virtual-network-appliance list` | `AzNetworkVirtualNetworkApplianceListOptions` |
+| `az network virtual-network-appliance show` | `AzNetworkVirtualNetworkApplianceShowOptions` |
 | `az network virtual-network-appliance update` | `AzNetworkVirtualNetworkApplianceUpdateOptions` |
+| `az network virtual-network-appliance wait` | `AzNetworkVirtualNetworkApplianceWaitOptions` |
+| `az network vnet check-ip-address` | `AzNetworkVnetCheckIpAddressOptions` |
 | `az network vnet create` | `AzNetworkVnetCreateOptions` |
 | `az network vnet delete` | `AzNetworkVnetDeleteOptions` |
 | `az network vnet list` | `AzNetworkVnetListOptions` |
+| `az network vnet list-endpoint-services` | `AzNetworkVnetListEndpointServicesOptions` |
 | `az network vnet peering create` | `AzNetworkVnetPeeringCreateOptions` |
 | `az network vnet peering delete` | `AzNetworkVnetPeeringDeleteOptions` |
+| `az network vnet peering list` | `AzNetworkVnetPeeringListOptions` |
+| `az network vnet peering show` | `AzNetworkVnetPeeringShowOptions` |
+| `az network vnet peering sync` | `AzNetworkVnetPeeringSyncOptions` |
 | `az network vnet peering update` | `AzNetworkVnetPeeringUpdateOptions` |
+| `az network vnet peering wait` | `AzNetworkVnetPeeringWaitOptions` |
 | `az network vnet show` | `AzNetworkVnetShowOptions` |
 | `az network vnet subnet create` | `AzNetworkVnetSubnetCreateOptions` |
 | `az network vnet subnet delete` | `AzNetworkVnetSubnetDeleteOptions` |
+| `az network vnet subnet list` | `AzNetworkVnetSubnetListOptions` |
 | `az network vnet subnet list-available-delegations` | `AzNetworkVnetSubnetListAvailableDelegationsOptions` |
 | `az network vnet subnet show` | `AzNetworkVnetSubnetShowOptions` |
 | `az network vnet subnet update` | `AzNetworkVnetSubnetUpdateOptions` |
@@ -2070,6 +3344,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az network vnet wait` | `AzNetworkVnetWaitOptions` |
 | `az network vnet-gateway aad assign` | `AzNetworkVnetGatewayAadAssignOptions` |
 | `az network vnet-gateway aad remove` | `AzNetworkVnetGatewayAadRemoveOptions` |
+| `az network vnet-gateway aad show` | `AzNetworkVnetGatewayAadShowOptions` |
+| `az network vnet-gateway aad wait` | `AzNetworkVnetGatewayAadWaitOptions` |
 | `az network vnet-gateway create` | `AzNetworkVnetGatewayCreateOptions` |
 | `az network vnet-gateway delete` | `AzNetworkVnetGatewayDeleteOptions` |
 | `az network vnet-gateway get-failover-all-tests-detail` | `AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions` |
@@ -2078,8 +3354,13 @@ public class RunCommandModule : Module<CommandResult>
 | `az network vnet-gateway get-routes-information` | `AzNetworkVnetGatewayGetRoutesInformationOptions` |
 | `az network vnet-gateway identity assign` | `AzNetworkVnetGatewayIdentityAssignOptions` |
 | `az network vnet-gateway identity remove` | `AzNetworkVnetGatewayIdentityRemoveOptions` |
+| `az network vnet-gateway identity show` | `AzNetworkVnetGatewayIdentityShowOptions` |
+| `az network vnet-gateway identity wait` | `AzNetworkVnetGatewayIdentityWaitOptions` |
 | `az network vnet-gateway ipsec-policy add` | `AzNetworkVnetGatewayIpsecPolicyAddOptions` |
 | `az network vnet-gateway ipsec-policy clear` | `AzNetworkVnetGatewayIpsecPolicyClearOptions` |
+| `az network vnet-gateway ipsec-policy list` | `AzNetworkVnetGatewayIpsecPolicyListOptions` |
+| `az network vnet-gateway ipsec-policy wait` | `AzNetworkVnetGatewayIpsecPolicyWaitOptions` |
+| `az network vnet-gateway list` | `AzNetworkVnetGatewayListOptions` |
 | `az network vnet-gateway list-advertised-routes` | `AzNetworkVnetGatewayListAdvertisedRoutesOptions` |
 | `az network vnet-gateway list-bgp-peer-status` | `AzNetworkVnetGatewayListBgpPeerStatusOptions` |
 | `az network vnet-gateway list-learned-routes` | `AzNetworkVnetGatewayListLearnedRoutesOptions` |
@@ -2087,39 +3368,59 @@ public class RunCommandModule : Module<CommandResult>
 | `az network vnet-gateway migration commit` | `AzNetworkVnetGatewayMigrationCommitOptions` |
 | `az network vnet-gateway migration execute` | `AzNetworkVnetGatewayMigrationExecuteOptions` |
 | `az network vnet-gateway migration prepare` | `AzNetworkVnetGatewayMigrationPrepareOptions` |
+| `az network vnet-gateway nat-rule wait` | `AzNetworkVnetGatewayNatRuleWaitOptions` |
+| `az network vnet-gateway packet-capture wait` | `AzNetworkVnetGatewayPacketCaptureWaitOptions` |
 | `az network vnet-gateway reset` | `AzNetworkVnetGatewayResetOptions` |
 | `az network vnet-gateway revoked-cert create` | `AzNetworkVnetGatewayRevokedCertCreateOptions` |
 | `az network vnet-gateway revoked-cert delete` | `AzNetworkVnetGatewayRevokedCertDeleteOptions` |
+| `az network vnet-gateway revoked-cert wait` | `AzNetworkVnetGatewayRevokedCertWaitOptions` |
 | `az network vnet-gateway root-cert create` | `AzNetworkVnetGatewayRootCertCreateOptions` |
 | `az network vnet-gateway root-cert delete` | `AzNetworkVnetGatewayRootCertDeleteOptions` |
+| `az network vnet-gateway root-cert wait` | `AzNetworkVnetGatewayRootCertWaitOptions` |
+| `az network vnet-gateway show` | `AzNetworkVnetGatewayShowOptions` |
 | `az network vnet-gateway start-site-failover-test` | `AzNetworkVnetGatewayStartSiteFailoverTestOptions` |
 | `az network vnet-gateway stop-site-failover-test` | `AzNetworkVnetGatewayStopSiteFailoverTestOptions` |
 | `az network vnet-gateway update` | `AzNetworkVnetGatewayUpdateOptions` |
 | `az network vnet-gateway vpn-client generate` | `AzNetworkVnetGatewayVpnClientGenerateOptions` |
+| `az network vnet-gateway vpn-client ipsec-policy wait` | `AzNetworkVnetGatewayVpnClientIpsecPolicyWaitOptions` |
 | `az network vnet-gateway vpn-client show-url` | `AzNetworkVnetGatewayVpnClientShowUrlOptions` |
+| `az network vnet-gateway wait` | `AzNetworkVnetGatewayWaitOptions` |
 | `az network vpn-connection create` | `AzNetworkVpnConnectionCreateOptions` |
 | `az network vpn-connection delete` | `AzNetworkVpnConnectionDeleteOptions` |
 | `az network vpn-connection ipsec-policy add` | `AzNetworkVpnConnectionIpsecPolicyAddOptions` |
 | `az network vpn-connection ipsec-policy clear` | `AzNetworkVpnConnectionIpsecPolicyClearOptions` |
+| `az network vpn-connection ipsec-policy list` | `AzNetworkVpnConnectionIpsecPolicyListOptions` |
+| `az network vpn-connection ipsec-policy wait` | `AzNetworkVpnConnectionIpsecPolicyWaitOptions` |
 | `az network vpn-connection list` | `AzNetworkVpnConnectionListOptions` |
 | `az network vpn-connection packet-capture start` | `AzNetworkVpnConnectionPacketCaptureStartOptions` |
+| `az network vpn-connection packet-capture wait` | `AzNetworkVpnConnectionPacketCaptureWaitOptions` |
 | `az network vpn-connection shared-key reset` | `AzNetworkVpnConnectionSharedKeyResetOptions` |
+| `az network vpn-connection shared-key show` | `AzNetworkVpnConnectionSharedKeyShowOptions` |
 | `az network vpn-connection shared-key update` | `AzNetworkVpnConnectionSharedKeyUpdateOptions` |
+| `az network vpn-connection show` | `AzNetworkVpnConnectionShowOptions` |
 | `az network vpn-connection update` | `AzNetworkVpnConnectionUpdateOptions` |
+| `az network vpn-connection wait` | `AzNetworkVpnConnectionWaitOptions` |
 | `az network watcher connection-monitor create` | `AzNetworkWatcherConnectionMonitorCreateOptions` |
 | `az network watcher connection-monitor delete` | `AzNetworkWatcherConnectionMonitorDeleteOptions` |
+| `az network watcher connection-monitor list` | `AzNetworkWatcherConnectionMonitorListOptions` |
 | `az network watcher connection-monitor query` | `AzNetworkWatcherConnectionMonitorQueryOptions` |
+| `az network watcher connection-monitor show` | `AzNetworkWatcherConnectionMonitorShowOptions` |
 | `az network watcher connection-monitor start` | `AzNetworkWatcherConnectionMonitorStartOptions` |
 | `az network watcher connection-monitor stop` | `AzNetworkWatcherConnectionMonitorStopOptions` |
+| `az network watcher connection-monitor wait` | `AzNetworkWatcherConnectionMonitorWaitOptions` |
 | `az network watcher flow-log create` | `AzNetworkWatcherFlowLogCreateOptions` |
 | `az network watcher flow-log delete` | `AzNetworkWatcherFlowLogDeleteOptions` |
 | `az network watcher flow-log list` | `AzNetworkWatcherFlowLogListOptions` |
 | `az network watcher flow-log show` | `AzNetworkWatcherFlowLogShowOptions` |
 | `az network watcher flow-log update` | `AzNetworkWatcherFlowLogUpdateOptions` |
+| `az network watcher flow-log wait` | `AzNetworkWatcherFlowLogWaitOptions` |
 | `az network watcher packet-capture create` | `AzNetworkWatcherPacketCaptureCreateOptions` |
 | `az network watcher packet-capture delete` | `AzNetworkWatcherPacketCaptureDeleteOptions` |
+| `az network watcher packet-capture list` | `AzNetworkWatcherPacketCaptureListOptions` |
+| `az network watcher packet-capture show` | `AzNetworkWatcherPacketCaptureShowOptions` |
 | `az network watcher packet-capture show-status` | `AzNetworkWatcherPacketCaptureShowStatusOptions` |
 | `az network watcher packet-capture stop` | `AzNetworkWatcherPacketCaptureStopOptions` |
+| `az network watcher packet-capture wait` | `AzNetworkWatcherPacketCaptureWaitOptions` |
 | `az network watcher run-configuration-diagnostic` | `AzNetworkWatcherRunConfigurationDiagnosticOptions` |
 | `az network watcher show-next-hop` | `AzNetworkWatcherShowNextHopOptions` |
 | `az network watcher show-security-group-view` | `AzNetworkWatcherShowSecurityGroupViewOptions` |
@@ -2140,7 +3441,11 @@ public class RunCommandModule : Module<CommandResult>
 | `az policy assignment non-compliance-message update` | `AzPolicyAssignmentNonComplianceMessageUpdateOptions` |
 | `az policy assignment show` | `AzPolicyAssignmentShowOptions` |
 | `az policy assignment update` | `AzPolicyAssignmentUpdateOptions` |
+| `az policy attestation create` | `AzPolicyAttestationCreateOptions` |
+| `az policy attestation delete` | `AzPolicyAttestationDeleteOptions` |
 | `az policy attestation list` | `AzPolicyAttestationListOptions` |
+| `az policy attestation show` | `AzPolicyAttestationShowOptions` |
+| `az policy attestation update` | `AzPolicyAttestationUpdateOptions` |
 | `az policy definition create` | `AzPolicyDefinitionCreateOptions` |
 | `az policy definition delete` | `AzPolicyDefinitionDeleteOptions` |
 | `az policy definition list` | `AzPolicyDefinitionListOptions` |
@@ -2151,105 +3456,206 @@ public class RunCommandModule : Module<CommandResult>
 | `az policy enrollment list` | `AzPolicyEnrollmentListOptions` |
 | `az policy enrollment show` | `AzPolicyEnrollmentShowOptions` |
 | `az policy enrollment update` | `AzPolicyEnrollmentUpdateOptions` |
+| `az policy event list` | `AzPolicyEventListOptions` |
 | `az policy exemption create` | `AzPolicyExemptionCreateOptions` |
 | `az policy exemption delete` | `AzPolicyExemptionDeleteOptions` |
 | `az policy exemption list` | `AzPolicyExemptionListOptions` |
 | `az policy exemption show` | `AzPolicyExemptionShowOptions` |
 | `az policy exemption update` | `AzPolicyExemptionUpdateOptions` |
 | `az policy metadata list` | `AzPolicyMetadataListOptions` |
+| `az policy metadata show` | `AzPolicyMetadataShowOptions` |
+| `az policy remediation cancel` | `AzPolicyRemediationCancelOptions` |
 | `az policy remediation create` | `AzPolicyRemediationCreateOptions` |
+| `az policy remediation delete` | `AzPolicyRemediationDeleteOptions` |
+| `az policy remediation deployment list` | `AzPolicyRemediationDeploymentListOptions` |
+| `az policy remediation list` | `AzPolicyRemediationListOptions` |
+| `az policy remediation show` | `AzPolicyRemediationShowOptions` |
 | `az policy set-definition create` | `AzPolicySetDefinitionCreateOptions` |
 | `az policy set-definition delete` | `AzPolicySetDefinitionDeleteOptions` |
 | `az policy set-definition list` | `AzPolicySetDefinitionListOptions` |
 | `az policy set-definition show` | `AzPolicySetDefinitionShowOptions` |
 | `az policy set-definition update` | `AzPolicySetDefinitionUpdateOptions` |
 | `az policy state list` | `AzPolicyStateListOptions` |
+| `az policy state summarize` | `AzPolicyStateSummarizeOptions` |
 | `az policy state trigger-scan` | `AzPolicyStateTriggerScanOptions` |
+| `az postgres flexible-server advanced-threat-protection-setting show` | `AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions` |
+| `az postgres flexible-server advanced-threat-protection-setting update` | `AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions` |
 | `az postgres flexible-server autonomous-tuning list-index-recommendations` | `AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions` |
+| `az postgres flexible-server autonomous-tuning list-settings` | `AzPostgresFlexibleServerAutonomousTuningListSettingsOptions` |
 | `az postgres flexible-server autonomous-tuning list-table-recommendations` | `AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions` |
 | `az postgres flexible-server autonomous-tuning set-settings` | `AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions` |
+| `az postgres flexible-server autonomous-tuning show` | `AzPostgresFlexibleServerAutonomousTuningShowOptions` |
+| `az postgres flexible-server autonomous-tuning show-settings` | `AzPostgresFlexibleServerAutonomousTuningShowSettingsOptions` |
+| `az postgres flexible-server autonomous-tuning update` | `AzPostgresFlexibleServerAutonomousTuningUpdateOptions` |
 | `az postgres flexible-server backup create` | `AzPostgresFlexibleServerBackupCreateOptions` |
 | `az postgres flexible-server backup delete` | `AzPostgresFlexibleServerBackupDeleteOptions` |
+| `az postgres flexible-server backup list` | `AzPostgresFlexibleServerBackupListOptions` |
+| `az postgres flexible-server backup show` | `AzPostgresFlexibleServerBackupShowOptions` |
 | `az postgres flexible-server create` | `AzPostgresFlexibleServerCreateOptions` |
 | `az postgres flexible-server db create` | `AzPostgresFlexibleServerDbCreateOptions` |
 | `az postgres flexible-server db delete` | `AzPostgresFlexibleServerDbDeleteOptions` |
+| `az postgres flexible-server db list` | `AzPostgresFlexibleServerDbListOptions` |
+| `az postgres flexible-server db show` | `AzPostgresFlexibleServerDbShowOptions` |
 | `az postgres flexible-server delete` | `AzPostgresFlexibleServerDeleteOptions` |
+| `az postgres flexible-server deploy run` | `AzPostgresFlexibleServerDeployRunOptions` |
 | `az postgres flexible-server deploy setup` | `AzPostgresFlexibleServerDeploySetupOptions` |
 | `az postgres flexible-server fabric-mirroring start` | `AzPostgresFlexibleServerFabricMirroringStartOptions` |
 | `az postgres flexible-server fabric-mirroring stop` | `AzPostgresFlexibleServerFabricMirroringStopOptions` |
 | `az postgres flexible-server fabric-mirroring update-databases` | `AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions` |
 | `az postgres flexible-server firewall-rule create` | `AzPostgresFlexibleServerFirewallRuleCreateOptions` |
 | `az postgres flexible-server firewall-rule delete` | `AzPostgresFlexibleServerFirewallRuleDeleteOptions` |
+| `az postgres flexible-server firewall-rule list` | `AzPostgresFlexibleServerFirewallRuleListOptions` |
+| `az postgres flexible-server firewall-rule show` | `AzPostgresFlexibleServerFirewallRuleShowOptions` |
 | `az postgres flexible-server firewall-rule update` | `AzPostgresFlexibleServerFirewallRuleUpdateOptions` |
 | `az postgres flexible-server geo-restore` | `AzPostgresFlexibleServerGeoRestoreOptions` |
 | `az postgres flexible-server identity assign` | `AzPostgresFlexibleServerIdentityAssignOptions` |
+| `az postgres flexible-server identity list` | `AzPostgresFlexibleServerIdentityListOptions` |
 | `az postgres flexible-server identity remove` | `AzPostgresFlexibleServerIdentityRemoveOptions` |
+| `az postgres flexible-server identity show` | `AzPostgresFlexibleServerIdentityShowOptions` |
 | `az postgres flexible-server identity update` | `AzPostgresFlexibleServerIdentityUpdateOptions` |
 | `az postgres flexible-server list` | `AzPostgresFlexibleServerListOptions` |
+| `az postgres flexible-server list-skus` | `AzPostgresFlexibleServerListSkusOptions` |
 | `az postgres flexible-server maintenance-event apply-now` | `AzPostgresFlexibleServerMaintenanceEventApplyNowOptions` |
 | `az postgres flexible-server maintenance-event list` | `AzPostgresFlexibleServerMaintenanceEventListOptions` |
 | `az postgres flexible-server maintenance-event reschedule` | `AzPostgresFlexibleServerMaintenanceEventRescheduleOptions` |
+| `az postgres flexible-server maintenance-event show` | `AzPostgresFlexibleServerMaintenanceEventShowOptions` |
 | `az postgres flexible-server microsoft-entra-admin create` | `AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions` |
 | `az postgres flexible-server microsoft-entra-admin delete` | `AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions` |
+| `az postgres flexible-server microsoft-entra-admin list` | `AzPostgresFlexibleServerMicrosoftEntraAdminListOptions` |
+| `az postgres flexible-server microsoft-entra-admin show` | `AzPostgresFlexibleServerMicrosoftEntraAdminShowOptions` |
+| `az postgres flexible-server microsoft-entra-admin wait` | `AzPostgresFlexibleServerMicrosoftEntraAdminWaitOptions` |
 | `az postgres flexible-server migrate-network` | `AzPostgresFlexibleServerMigrateNetworkOptions` |
+| `az postgres flexible-server migration check-name-availability` | `AzPostgresFlexibleServerMigrationCheckNameAvailabilityOptions` |
 | `az postgres flexible-server migration create` | `AzPostgresFlexibleServerMigrationCreateOptions` |
 | `az postgres flexible-server migration list` | `AzPostgresFlexibleServerMigrationListOptions` |
+| `az postgres flexible-server migration show` | `AzPostgresFlexibleServerMigrationShowOptions` |
 | `az postgres flexible-server migration update` | `AzPostgresFlexibleServerMigrationUpdateOptions` |
+| `az postgres flexible-server parameter list` | `AzPostgresFlexibleServerParameterListOptions` |
 | `az postgres flexible-server parameter set` | `AzPostgresFlexibleServerParameterSetOptions` |
+| `az postgres flexible-server parameter show` | `AzPostgresFlexibleServerParameterShowOptions` |
 | `az postgres flexible-server private-endpoint-connection approve` | `AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions` |
 | `az postgres flexible-server private-endpoint-connection delete` | `AzPostgresFlexibleServerPrivateEndpointConnectionDeleteOptions` |
+| `az postgres flexible-server private-endpoint-connection list` | `AzPostgresFlexibleServerPrivateEndpointConnectionListOptions` |
 | `az postgres flexible-server private-endpoint-connection reject` | `AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions` |
 | `az postgres flexible-server private-endpoint-connection show` | `AzPostgresFlexibleServerPrivateEndpointConnectionShowOptions` |
+| `az postgres flexible-server private-link-resource list` | `AzPostgresFlexibleServerPrivateLinkResourceListOptions` |
+| `az postgres flexible-server private-link-resource show` | `AzPostgresFlexibleServerPrivateLinkResourceShowOptions` |
 | `az postgres flexible-server replica create` | `AzPostgresFlexibleServerReplicaCreateOptions` |
+| `az postgres flexible-server replica list` | `AzPostgresFlexibleServerReplicaListOptions` |
 | `az postgres flexible-server replica promote` | `AzPostgresFlexibleServerReplicaPromoteOptions` |
 | `az postgres flexible-server restart` | `AzPostgresFlexibleServerRestartOptions` |
 | `az postgres flexible-server restore` | `AzPostgresFlexibleServerRestoreOptions` |
 | `az postgres flexible-server revive-dropped` | `AzPostgresFlexibleServerReviveDroppedOptions` |
+| `az postgres flexible-server server-logs download` | `AzPostgresFlexibleServerServerLogsDownloadOptions` |
 | `az postgres flexible-server server-logs list` | `AzPostgresFlexibleServerServerLogsListOptions` |
+| `az postgres flexible-server show` | `AzPostgresFlexibleServerShowOptions` |
 | `az postgres flexible-server show-connection-string` | `AzPostgresFlexibleServerShowConnectionStringOptions` |
 | `az postgres flexible-server start` | `AzPostgresFlexibleServerStartOptions` |
 | `az postgres flexible-server stop` | `AzPostgresFlexibleServerStopOptions` |
 | `az postgres flexible-server update` | `AzPostgresFlexibleServerUpdateOptions` |
+| `az postgres flexible-server virtual-endpoint create` | `AzPostgresFlexibleServerVirtualEndpointCreateOptions` |
 | `az postgres flexible-server virtual-endpoint delete` | `AzPostgresFlexibleServerVirtualEndpointDeleteOptions` |
+| `az postgres flexible-server virtual-endpoint list` | `AzPostgresFlexibleServerVirtualEndpointListOptions` |
+| `az postgres flexible-server virtual-endpoint show` | `AzPostgresFlexibleServerVirtualEndpointShowOptions` |
+| `az postgres flexible-server virtual-endpoint update` | `AzPostgresFlexibleServerVirtualEndpointUpdateOptions` |
+| `az postgres flexible-server wait` | `AzPostgresFlexibleServerWaitOptions` |
 | `az ppg create` | `AzPpgCreateOptions` |
+| `az ppg delete` | `AzPpgDeleteOptions` |
 | `az ppg list` | `AzPpgListOptions` |
 | `az ppg show` | `AzPpgShowOptions` |
 | `az ppg update` | `AzPpgUpdateOptions` |
+| `az private-link association create` | `AzPrivateLinkAssociationCreateOptions` |
 | `az private-link association delete` | `AzPrivateLinkAssociationDeleteOptions` |
+| `az private-link association list` | `AzPrivateLinkAssociationListOptions` |
+| `az private-link association show` | `AzPrivateLinkAssociationShowOptions` |
 | `az provider list` | `AzProviderListOptions` |
+| `az provider operation show` | `AzProviderOperationShowOptions` |
+| `az provider permission list` | `AzProviderPermissionListOptions` |
 | `az provider register` | `AzProviderRegisterOptions` |
 | `az provider show` | `AzProviderShowOptions` |
 | `az provider unregister` | `AzProviderUnregisterOptions` |
+| `az redis access-policy create` | `AzRedisAccessPolicyCreateOptions` |
+| `az redis access-policy delete` | `AzRedisAccessPolicyDeleteOptions` |
+| `az redis access-policy list` | `AzRedisAccessPolicyListOptions` |
+| `az redis access-policy show` | `AzRedisAccessPolicyShowOptions` |
+| `az redis access-policy update` | `AzRedisAccessPolicyUpdateOptions` |
+| `az redis access-policy-assignment create` | `AzRedisAccessPolicyAssignmentCreateOptions` |
+| `az redis access-policy-assignment delete` | `AzRedisAccessPolicyAssignmentDeleteOptions` |
+| `az redis access-policy-assignment list` | `AzRedisAccessPolicyAssignmentListOptions` |
+| `az redis access-policy-assignment show` | `AzRedisAccessPolicyAssignmentShowOptions` |
+| `az redis access-policy-assignment update` | `AzRedisAccessPolicyAssignmentUpdateOptions` |
 | `az redis create` | `AzRedisCreateOptions` |
 | `az redis delete` | `AzRedisDeleteOptions` |
 | `az redis export` | `AzRedisExportOptions` |
+| `az redis firewall-rules create` | `AzRedisFirewallRulesCreateOptions` |
+| `az redis firewall-rules delete` | `AzRedisFirewallRulesDeleteOptions` |
+| `az redis firewall-rules list` | `AzRedisFirewallRulesListOptions` |
+| `az redis firewall-rules show` | `AzRedisFirewallRulesShowOptions` |
+| `az redis firewall-rules update` | `AzRedisFirewallRulesUpdateOptions` |
 | `az redis flush` | `AzRedisFlushOptions` |
 | `az redis force-reboot` | `AzRedisForceRebootOptions` |
 | `az redis identity assign` | `AzRedisIdentityAssignOptions` |
 | `az redis identity remove` | `AzRedisIdentityRemoveOptions` |
+| `az redis identity show` | `AzRedisIdentityShowOptions` |
 | `az redis import` | `AzRedisImportOptions` |
 | `az redis list` | `AzRedisListOptions` |
+| `az redis list-keys` | `AzRedisListKeysOptions` |
+| `az redis patch-schedule create` | `AzRedisPatchScheduleCreateOptions` |
+| `az redis patch-schedule delete` | `AzRedisPatchScheduleDeleteOptions` |
+| `az redis patch-schedule show` | `AzRedisPatchScheduleShowOptions` |
+| `az redis patch-schedule update` | `AzRedisPatchScheduleUpdateOptions` |
+| `az redis regenerate-keys` | `AzRedisRegenerateKeysOptions` |
+| `az redis server-link create` | `AzRedisServerLinkCreateOptions` |
+| `az redis server-link delete` | `AzRedisServerLinkDeleteOptions` |
+| `az redis server-link list` | `AzRedisServerLinkListOptions` |
+| `az redis server-link show` | `AzRedisServerLinkShowOptions` |
+| `az redis show` | `AzRedisShowOptions` |
 | `az redis update` | `AzRedisUpdateOptions` |
 | `az relay hyco authorization-rule create` | `AzRelayHycoAuthorizationRuleCreateOptions` |
+| `az relay hyco authorization-rule delete` | `AzRelayHycoAuthorizationRuleDeleteOptions` |
+| `az relay hyco authorization-rule keys list` | `AzRelayHycoAuthorizationRuleKeysListOptions` |
 | `az relay hyco authorization-rule keys renew` | `AzRelayHycoAuthorizationRuleKeysRenewOptions` |
+| `az relay hyco authorization-rule list` | `AzRelayHycoAuthorizationRuleListOptions` |
+| `az relay hyco authorization-rule show` | `AzRelayHycoAuthorizationRuleShowOptions` |
+| `az relay hyco authorization-rule update` | `AzRelayHycoAuthorizationRuleUpdateOptions` |
 | `az relay hyco create` | `AzRelayHycoCreateOptions` |
+| `az relay hyco delete` | `AzRelayHycoDeleteOptions` |
+| `az relay hyco list` | `AzRelayHycoListOptions` |
+| `az relay hyco show` | `AzRelayHycoShowOptions` |
 | `az relay hyco update` | `AzRelayHycoUpdateOptions` |
 | `az relay namespace authorization-rule create` | `AzRelayNamespaceAuthorizationRuleCreateOptions` |
+| `az relay namespace authorization-rule delete` | `AzRelayNamespaceAuthorizationRuleDeleteOptions` |
+| `az relay namespace authorization-rule keys list` | `AzRelayNamespaceAuthorizationRuleKeysListOptions` |
 | `az relay namespace authorization-rule keys renew` | `AzRelayNamespaceAuthorizationRuleKeysRenewOptions` |
+| `az relay namespace authorization-rule list` | `AzRelayNamespaceAuthorizationRuleListOptions` |
+| `az relay namespace authorization-rule show` | `AzRelayNamespaceAuthorizationRuleShowOptions` |
 | `az relay namespace authorization-rule update` | `AzRelayNamespaceAuthorizationRuleUpdateOptions` |
 | `az relay namespace create` | `AzRelayNamespaceCreateOptions` |
 | `az relay namespace delete` | `AzRelayNamespaceDeleteOptions` |
+| `az relay namespace exists` | `AzRelayNamespaceExistsOptions` |
 | `az relay namespace list` | `AzRelayNamespaceListOptions` |
+| `az relay namespace show` | `AzRelayNamespaceShowOptions` |
 | `az relay namespace update` | `AzRelayNamespaceUpdateOptions` |
+| `az relay namespace wait` | `AzRelayNamespaceWaitOptions` |
 | `az relay wcfrelay authorization-rule create` | `AzRelayWcfrelayAuthorizationRuleCreateOptions` |
+| `az relay wcfrelay authorization-rule delete` | `AzRelayWcfrelayAuthorizationRuleDeleteOptions` |
+| `az relay wcfrelay authorization-rule keys list` | `AzRelayWcfrelayAuthorizationRuleKeysListOptions` |
 | `az relay wcfrelay authorization-rule keys renew` | `AzRelayWcfrelayAuthorizationRuleKeysRenewOptions` |
+| `az relay wcfrelay authorization-rule list` | `AzRelayWcfrelayAuthorizationRuleListOptions` |
+| `az relay wcfrelay authorization-rule show` | `AzRelayWcfrelayAuthorizationRuleShowOptions` |
+| `az relay wcfrelay authorization-rule update` | `AzRelayWcfrelayAuthorizationRuleUpdateOptions` |
 | `az relay wcfrelay create` | `AzRelayWcfrelayCreateOptions` |
+| `az relay wcfrelay delete` | `AzRelayWcfrelayDeleteOptions` |
+| `az relay wcfrelay list` | `AzRelayWcfrelayListOptions` |
+| `az relay wcfrelay show` | `AzRelayWcfrelayShowOptions` |
 | `az relay wcfrelay update` | `AzRelayWcfrelayUpdateOptions` |
 | `az resource create` | `AzResourceCreateOptions` |
 | `az resource delete` | `AzResourceDeleteOptions` |
 | `az resource invoke-action` | `AzResourceInvokeActionOptions` |
 | `az resource link create` | `AzResourceLinkCreateOptions` |
+| `az resource link delete` | `AzResourceLinkDeleteOptions` |
 | `az resource link list` | `AzResourceLinkListOptions` |
+| `az resource link show` | `AzResourceLinkShowOptions` |
 | `az resource link update` | `AzResourceLinkUpdateOptions` |
 | `az resource list` | `AzResourceListOptions` |
 | `az resource lock create` | `AzResourceLockCreateOptions` |
@@ -2263,10 +3669,14 @@ public class RunCommandModule : Module<CommandResult>
 | `az resource tag` | `AzResourceTagOptions` |
 | `az resource update` | `AzResourceUpdateOptions` |
 | `az resource wait` | `AzResourceWaitOptions` |
+| `az resourcemanagement private-link create` | `AzResourceManagementPrivateLinkCreateOptions` |
 | `az resourcemanagement private-link delete` | `AzResourceManagementPrivateLinkDeleteOptions` |
 | `az resourcemanagement private-link list` | `AzResourceManagementPrivateLinkListOptions` |
+| `az resourcemanagement private-link show` | `AzResourceManagementPrivateLinkShowOptions` |
 | `az restore-point collection create` | `AzRestorePointCollectionCreateOptions` |
 | `az restore-point collection delete` | `AzRestorePointCollectionDeleteOptions` |
+| `az restore-point collection list` | `AzRestorePointCollectionListOptions` |
+| `az restore-point collection list-all` | `AzRestorePointCollectionListAllOptions` |
 | `az restore-point collection show` | `AzRestorePointCollectionShowOptions` |
 | `az restore-point collection update` | `AzRestorePointCollectionUpdateOptions` |
 | `az restore-point collection wait` | `AzRestorePointCollectionWaitOptions` |
@@ -2278,128 +3688,339 @@ public class RunCommandModule : Module<CommandResult>
 | `az role assignment delete` | `AzRoleAssignmentDeleteOptions` |
 | `az role assignment list` | `AzRoleAssignmentListOptions` |
 | `az role assignment list-changelogs` | `AzRoleAssignmentListChangelogsOptions` |
+| `az role assignment update` | `AzRoleAssignmentUpdateOptions` |
+| `az role definition create` | `AzRoleDefinitionCreateOptions` |
 | `az role definition delete` | `AzRoleDefinitionDeleteOptions` |
 | `az role definition list` | `AzRoleDefinitionListOptions` |
 | `az role definition show` | `AzRoleDefinitionShowOptions` |
+| `az role definition update` | `AzRoleDefinitionUpdateOptions` |
 | `az role deny-assignment create` | `AzRoleDenyAssignmentCreateOptions` |
 | `az role deny-assignment delete` | `AzRoleDenyAssignmentDeleteOptions` |
 | `az role deny-assignment list` | `AzRoleDenyAssignmentListOptions` |
 | `az role deny-assignment show` | `AzRoleDenyAssignmentShowOptions` |
+| `az search admin-key renew` | `AzSearchAdminKeyRenewOptions` |
+| `az search admin-key show` | `AzSearchAdminKeyShowOptions` |
+| `az search offering list` | `AzSearchOfferingListOptions` |
 | `az search private-endpoint-connection delete` | `AzSearchPrivateEndpointConnectionDeleteOptions` |
+| `az search private-endpoint-connection list` | `AzSearchPrivateEndpointConnectionListOptions` |
+| `az search private-endpoint-connection show` | `AzSearchPrivateEndpointConnectionShowOptions` |
+| `az search private-endpoint-connection update` | `AzSearchPrivateEndpointConnectionUpdateOptions` |
+| `az search private-link-resource list` | `AzSearchPrivateLinkResourceListOptions` |
+| `az search query-key create` | `AzSearchQueryKeyCreateOptions` |
+| `az search query-key delete` | `AzSearchQueryKeyDeleteOptions` |
+| `az search query-key list` | `AzSearchQueryKeyListOptions` |
+| `az search service admin-key list` | `AzSearchServiceAdminKeyListOptions` |
+| `az search service admin-key regenerate` | `AzSearchServiceAdminKeyRegenerateOptions` |
+| `az search service check-name-availability` | `AzSearchServiceCheckNameAvailabilityOptions` |
 | `az search service create` | `AzSearchServiceCreateOptions` |
 | `az search service delete` | `AzSearchServiceDeleteOptions` |
+| `az search service list` | `AzSearchServiceListOptions` |
+| `az search service network-security-perimeter-configuration list` | `AzSearchServiceNetworkSecurityPerimeterConfigurationListOptions` |
+| `az search service network-security-perimeter-configuration reconcile` | `AzSearchServiceNetworkSecurityPerimeterConfigurationReconcileOptions` |
+| `az search service network-security-perimeter-configuration show` | `AzSearchServiceNetworkSecurityPerimeterConfigurationShowOptions` |
 | `az search service private-endpoint-connection delete` | `AzSearchServicePrivateEndpointConnectionDeleteOptions` |
+| `az search service private-endpoint-connection list` | `AzSearchServicePrivateEndpointConnectionListOptions` |
+| `az search service private-endpoint-connection show` | `AzSearchServicePrivateEndpointConnectionShowOptions` |
+| `az search service private-endpoint-connection update` | `AzSearchServicePrivateEndpointConnectionUpdateOptions` |
+| `az search service private-link-resource list` | `AzSearchServicePrivateLinkResourceListOptions` |
+| `az search service query-key create` | `AzSearchServiceQueryKeyCreateOptions` |
 | `az search service query-key delete` | `AzSearchServiceQueryKeyDeleteOptions` |
+| `az search service query-key list` | `AzSearchServiceQueryKeyListOptions` |
 | `az search service shared-private-link-resource create` | `AzSearchServiceSharedPrivateLinkResourceCreateOptions` |
 | `az search service shared-private-link-resource delete` | `AzSearchServiceSharedPrivateLinkResourceDeleteOptions` |
+| `az search service shared-private-link-resource list` | `AzSearchServiceSharedPrivateLinkResourceListOptions` |
+| `az search service shared-private-link-resource show` | `AzSearchServiceSharedPrivateLinkResourceShowOptions` |
 | `az search service shared-private-link-resource update` | `AzSearchServiceSharedPrivateLinkResourceUpdateOptions` |
+| `az search service shared-private-link-resource wait` | `AzSearchServiceSharedPrivateLinkResourceWaitOptions` |
+| `az search service show` | `AzSearchServiceShowOptions` |
 | `az search service update` | `AzSearchServiceUpdateOptions` |
+| `az search service wait` | `AzSearchServiceWaitOptions` |
 | `az search shared-private-link-resource create` | `AzSearchSharedPrivateLinkResourceCreateOptions` |
 | `az search shared-private-link-resource delete` | `AzSearchSharedPrivateLinkResourceDeleteOptions` |
+| `az search shared-private-link-resource list` | `AzSearchSharedPrivateLinkResourceListOptions` |
+| `az search shared-private-link-resource show` | `AzSearchSharedPrivateLinkResourceShowOptions` |
 | `az search shared-private-link-resource update` | `AzSearchSharedPrivateLinkResourceUpdateOptions` |
+| `az search shared-private-link-resource wait` | `AzSearchSharedPrivateLinkResourceWaitOptions` |
+| `az search usage list` | `AzSearchUsageListOptions` |
+| `az search usage show` | `AzSearchUsageShowOptions` |
 | `az security adaptive-application-controls show` | `AzSecurityAdaptiveApplicationControlsShowOptions` |
+| `az security adaptive_network_hardenings list` | `AzSecurityAdaptiveNetworkHardeningsListOptions` |
+| `az security adaptive_network_hardenings show` | `AzSecurityAdaptiveNetworkHardeningsShowOptions` |
 | `az security alert list` | `AzSecurityAlertListOptions` |
 | `az security alert show` | `AzSecurityAlertShowOptions` |
 | `az security alert update` | `AzSecurityAlertUpdateOptions` |
+| `az security alerts-suppression-rule delete` | `AzSecurityAlertsSuppressionRuleDeleteOptions` |
+| `az security alerts-suppression-rule delete_scope` | `AzSecurityAlertsSuppressionRuleDeleteScopeOptions` |
+| `az security alerts-suppression-rule show` | `AzSecurityAlertsSuppressionRuleShowOptions` |
 | `az security alerts-suppression-rule update` | `AzSecurityAlertsSuppressionRuleUpdateOptions` |
 | `az security alerts-suppression-rule upsert_scope` | `AzSecurityAlertsSuppressionRuleUpsertScopeOptions` |
+| `az security allowed_connections show` | `AzSecurityAllowedConnectionsShowOptions` |
 | `az security assessment create` | `AzSecurityAssessmentCreateOptions` |
 | `az security assessment delete` | `AzSecurityAssessmentDeleteOptions` |
 | `az security assessment show` | `AzSecurityAssessmentShowOptions` |
 | `az security assessment-metadata create` | `AzSecurityAssessmentMetadataCreateOptions` |
+| `az security assessment-metadata delete` | `AzSecurityAssessmentMetadataDeleteOptions` |
+| `az security assessment-metadata show` | `AzSecurityAssessmentMetadataShowOptions` |
+| `az security atp cosmosdb show` | `AzSecurityAtpCosmosdbShowOptions` |
+| `az security atp cosmosdb update` | `AzSecurityAtpCosmosdbUpdateOptions` |
+| `az security atp storage show` | `AzSecurityAtpStorageShowOptions` |
+| `az security atp storage update` | `AzSecurityAtpStorageUpdateOptions` |
+| `az security auto-provisioning-setting show` | `AzSecurityAutoProvisioningSettingShowOptions` |
+| `az security auto-provisioning-setting update` | `AzSecurityAutoProvisioningSettingUpdateOptions` |
 | `az security automation create_or_update` | `AzSecurityAutomationCreateOrUpdateOptions` |
+| `az security automation delete` | `AzSecurityAutomationDeleteOptions` |
 | `az security automation list` | `AzSecurityAutomationListOptions` |
+| `az security automation show` | `AzSecurityAutomationShowOptions` |
 | `az security automation validate` | `AzSecurityAutomationValidateOptions` |
 | `az security automation-action-event-hub create` | `AzSecurityAutomationActionEventHubCreateOptions` |
+| `az security automation-action-logic-app create` | `AzSecurityAutomationActionLogicAppCreateOptions` |
+| `az security automation-action-workspace create` | `AzSecurityAutomationActionWorkspaceCreateOptions` |
+| `az security automation-rule create` | `AzSecurityAutomationRuleCreateOptions` |
 | `az security automation-rule-set create` | `AzSecurityAutomationRuleSetCreateOptions` |
+| `az security automation-scope create` | `AzSecurityAutomationScopeCreateOptions` |
 | `az security automation-source create` | `AzSecurityAutomationSourceCreateOptions` |
+| `az security discovered-security-solution show` | `AzSecurityDiscoveredSecuritySolutionShowOptions` |
+| `az security external-security-solution show` | `AzSecurityExternalSecuritySolutionShowOptions` |
+| `az security iot-alerts delete` | `AzSecurityIotAlertsDeleteOptions` |
+| `az security iot-alerts list` | `AzSecurityIotAlertsListOptions` |
+| `az security iot-alerts show` | `AzSecurityIotAlertsShowOptions` |
+| `az security iot-analytics list` | `AzSecurityIotAnalyticsListOptions` |
+| `az security iot-analytics show` | `AzSecurityIotAnalyticsShowOptions` |
+| `az security iot-recommendations list` | `AzSecurityIotRecommendationsListOptions` |
+| `az security iot-recommendations show` | `AzSecurityIotRecommendationsShowOptions` |
+| `az security iot-solution create` | `AzSecurityIotSolutionCreateOptions` |
+| `az security iot-solution delete` | `AzSecurityIotSolutionDeleteOptions` |
 | `az security iot-solution list` | `AzSecurityIotSolutionListOptions` |
+| `az security iot-solution show` | `AzSecurityIotSolutionShowOptions` |
 | `az security iot-solution update` | `AzSecurityIotSolutionUpdateOptions` |
 | `az security jit-policy list` | `AzSecurityJitPolicyListOptions` |
+| `az security jit-policy show` | `AzSecurityJitPolicyShowOptions` |
+| `az security location show` | `AzSecurityLocationShowOptions` |
 | `az security pricing create` | `AzSecurityPricingCreateOptions` |
+| `az security pricing show` | `AzSecurityPricingShowOptions` |
+| `az security regulatory-compliance-assessments list` | `AzSecurityRegulatoryComplianceAssessmentsListOptions` |
+| `az security regulatory-compliance-assessments show` | `AzSecurityRegulatoryComplianceAssessmentsShowOptions` |
+| `az security regulatory-compliance-controls list` | `AzSecurityRegulatoryComplianceControlsListOptions` |
+| `az security regulatory-compliance-controls show` | `AzSecurityRegulatoryComplianceControlsShowOptions` |
+| `az security regulatory-compliance-standards show` | `AzSecurityRegulatoryComplianceStandardsShowOptions` |
+| `az security secure-score-controls list_by_score` | `AzSecuritySecureScoreControlsListByScoreOptions` |
+| `az security secure-scores show` | `AzSecuritySecureScoresShowOptions` |
+| `az security setting create` | `AzSecuritySettingCreateOptions` |
+| `az security setting list` | `AzSecuritySettingListOptions` |
+| `az security setting show` | `AzSecuritySettingShowOptions` |
+| `az security setting update` | `AzSecuritySettingUpdateOptions` |
 | `az security sub-assessment list` | `AzSecuritySubAssessmentListOptions` |
 | `az security sub-assessment show` | `AzSecuritySubAssessmentShowOptions` |
 | `az security task list` | `AzSecurityTaskListOptions` |
 | `az security task show` | `AzSecurityTaskShowOptions` |
+| `az security topology show` | `AzSecurityTopologyShowOptions` |
+| `az security workspace-setting create` | `AzSecurityWorkspaceSettingCreateOptions` |
+| `az security workspace-setting delete` | `AzSecurityWorkspaceSettingDeleteOptions` |
+| `az security workspace-setting show` | `AzSecurityWorkspaceSettingShowOptions` |
+| `az servicebus georecovery-alias authorization-rule keys list` | `AzServicebusGeorecoveryAliasAuthorizationRuleKeysListOptions` |
+| `az servicebus georecovery-alias authorization-rule list` | `AzServicebusGeorecoveryAliasAuthorizationRuleListOptions` |
+| `az servicebus georecovery-alias authorization-rule show` | `AzServicebusGeorecoveryAliasAuthorizationRuleShowOptions` |
+| `az servicebus georecovery-alias break-pair` | `AzServicebusGeorecoveryAliasBreakPairOptions` |
+| `az servicebus georecovery-alias create` | `AzServicebusGeorecoveryAliasCreateOptions` |
+| `az servicebus georecovery-alias delete` | `AzServicebusGeorecoveryAliasDeleteOptions` |
+| `az servicebus georecovery-alias exists` | `AzServicebusGeorecoveryAliasExistsOptions` |
+| `az servicebus georecovery-alias fail-over` | `AzServicebusGeorecoveryAliasFailOverOptions` |
+| `az servicebus georecovery-alias list` | `AzServicebusGeorecoveryAliasListOptions` |
 | `az servicebus georecovery-alias set` | `AzServicebusGeorecoveryAliasSetOptions` |
+| `az servicebus georecovery-alias show` | `AzServicebusGeorecoveryAliasShowOptions` |
+| `az servicebus migration abort` | `AzServicebusMigrationAbortOptions` |
+| `az servicebus migration complete` | `AzServicebusMigrationCompleteOptions` |
+| `az servicebus migration delete` | `AzServicebusMigrationDeleteOptions` |
+| `az servicebus migration list` | `AzServicebusMigrationListOptions` |
+| `az servicebus migration show` | `AzServicebusMigrationShowOptions` |
 | `az servicebus migration start` | `AzServicebusMigrationStartOptions` |
+| `az servicebus migration wait` | `AzServicebusMigrationWaitOptions` |
+| `az servicebus namespace authorization-rule create` | `AzServicebusNamespaceAuthorizationRuleCreateOptions` |
+| `az servicebus namespace authorization-rule delete` | `AzServicebusNamespaceAuthorizationRuleDeleteOptions` |
+| `az servicebus namespace authorization-rule keys list` | `AzServicebusNamespaceAuthorizationRuleKeysListOptions` |
+| `az servicebus namespace authorization-rule keys renew` | `AzServicebusNamespaceAuthorizationRuleKeysRenewOptions` |
+| `az servicebus namespace authorization-rule list` | `AzServicebusNamespaceAuthorizationRuleListOptions` |
+| `az servicebus namespace authorization-rule show` | `AzServicebusNamespaceAuthorizationRuleShowOptions` |
+| `az servicebus namespace authorization-rule update` | `AzServicebusNamespaceAuthorizationRuleUpdateOptions` |
 | `az servicebus namespace create` | `AzServicebusNamespaceCreateOptions` |
 | `az servicebus namespace delete` | `AzServicebusNamespaceDeleteOptions` |
 | `az servicebus namespace encryption add` | `AzServicebusNamespaceEncryptionAddOptions` |
+| `az servicebus namespace encryption remove` | `AzServicebusNamespaceEncryptionRemoveOptions` |
+| `az servicebus namespace exists` | `AzServicebusNamespaceExistsOptions` |
 | `az servicebus namespace failover` | `AzServicebusNamespaceFailoverOptions` |
 | `az servicebus namespace identity assign` | `AzServicebusNamespaceIdentityAssignOptions` |
 | `az servicebus namespace identity remove` | `AzServicebusNamespaceIdentityRemoveOptions` |
 | `az servicebus namespace list` | `AzServicebusNamespaceListOptions` |
+| `az servicebus namespace network-rule-set create` | `AzServicebusNamespaceNetworkRuleSetCreateOptions` |
 | `az servicebus namespace network-rule-set ip-rule add` | `AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions` |
 | `az servicebus namespace network-rule-set ip-rule remove` | `AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions` |
+| `az servicebus namespace network-rule-set list` | `AzServicebusNamespaceNetworkRuleSetListOptions` |
+| `az servicebus namespace network-rule-set show` | `AzServicebusNamespaceNetworkRuleSetShowOptions` |
+| `az servicebus namespace network-rule-set update` | `AzServicebusNamespaceNetworkRuleSetUpdateOptions` |
 | `az servicebus namespace network-rule-set virtual-network-rule add` | `AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions` |
 | `az servicebus namespace network-rule-set virtual-network-rule remove` | `AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions` |
 | `az servicebus namespace private-endpoint-connection approve` | `AzServicebusNamespacePrivateEndpointConnectionApproveOptions` |
+| `az servicebus namespace private-endpoint-connection create` | `AzServicebusNamespacePrivateEndpointConnectionCreateOptions` |
 | `az servicebus namespace private-endpoint-connection delete` | `AzServicebusNamespacePrivateEndpointConnectionDeleteOptions` |
+| `az servicebus namespace private-endpoint-connection list` | `AzServicebusNamespacePrivateEndpointConnectionListOptions` |
 | `az servicebus namespace private-endpoint-connection reject` | `AzServicebusNamespacePrivateEndpointConnectionRejectOptions` |
 | `az servicebus namespace private-endpoint-connection show` | `AzServicebusNamespacePrivateEndpointConnectionShowOptions` |
+| `az servicebus namespace private-endpoint-connection update` | `AzServicebusNamespacePrivateEndpointConnectionUpdateOptions` |
+| `az servicebus namespace private-endpoint-connection wait` | `AzServicebusNamespacePrivateEndpointConnectionWaitOptions` |
+| `az servicebus namespace private-link-resource show` | `AzServicebusNamespacePrivateLinkResourceShowOptions` |
+| `az servicebus namespace replica add` | `AzServicebusNamespaceReplicaAddOptions` |
+| `az servicebus namespace replica remove` | `AzServicebusNamespaceReplicaRemoveOptions` |
+| `az servicebus namespace show` | `AzServicebusNamespaceShowOptions` |
 | `az servicebus namespace update` | `AzServicebusNamespaceUpdateOptions` |
+| `az servicebus namespace wait` | `AzServicebusNamespaceWaitOptions` |
+| `az servicebus queue authorization-rule create` | `AzServicebusQueueAuthorizationRuleCreateOptions` |
+| `az servicebus queue authorization-rule delete` | `AzServicebusQueueAuthorizationRuleDeleteOptions` |
+| `az servicebus queue authorization-rule keys list` | `AzServicebusQueueAuthorizationRuleKeysListOptions` |
+| `az servicebus queue authorization-rule keys renew` | `AzServicebusQueueAuthorizationRuleKeysRenewOptions` |
+| `az servicebus queue authorization-rule list` | `AzServicebusQueueAuthorizationRuleListOptions` |
+| `az servicebus queue authorization-rule show` | `AzServicebusQueueAuthorizationRuleShowOptions` |
+| `az servicebus queue authorization-rule update` | `AzServicebusQueueAuthorizationRuleUpdateOptions` |
+| `az servicebus queue create` | `AzServicebusQueueCreateOptions` |
+| `az servicebus queue delete` | `AzServicebusQueueDeleteOptions` |
 | `az servicebus queue list` | `AzServicebusQueueListOptions` |
+| `az servicebus queue show` | `AzServicebusQueueShowOptions` |
+| `az servicebus queue update` | `AzServicebusQueueUpdateOptions` |
+| `az servicebus topic authorization-rule create` | `AzServicebusTopicAuthorizationRuleCreateOptions` |
+| `az servicebus topic authorization-rule delete` | `AzServicebusTopicAuthorizationRuleDeleteOptions` |
+| `az servicebus topic authorization-rule keys list` | `AzServicebusTopicAuthorizationRuleKeysListOptions` |
+| `az servicebus topic authorization-rule keys renew` | `AzServicebusTopicAuthorizationRuleKeysRenewOptions` |
+| `az servicebus topic authorization-rule list` | `AzServicebusTopicAuthorizationRuleListOptions` |
+| `az servicebus topic authorization-rule show` | `AzServicebusTopicAuthorizationRuleShowOptions` |
+| `az servicebus topic authorization-rule update` | `AzServicebusTopicAuthorizationRuleUpdateOptions` |
+| `az servicebus topic create` | `AzServicebusTopicCreateOptions` |
+| `az servicebus topic delete` | `AzServicebusTopicDeleteOptions` |
 | `az servicebus topic list` | `AzServicebusTopicListOptions` |
+| `az servicebus topic show` | `AzServicebusTopicShowOptions` |
+| `az servicebus topic subscription create` | `AzServicebusTopicSubscriptionCreateOptions` |
+| `az servicebus topic subscription delete` | `AzServicebusTopicSubscriptionDeleteOptions` |
 | `az servicebus topic subscription list` | `AzServicebusTopicSubscriptionListOptions` |
 | `az servicebus topic subscription rule create` | `AzServicebusTopicSubscriptionRuleCreateOptions` |
+| `az servicebus topic subscription rule delete` | `AzServicebusTopicSubscriptionRuleDeleteOptions` |
 | `az servicebus topic subscription rule list` | `AzServicebusTopicSubscriptionRuleListOptions` |
+| `az servicebus topic subscription rule show` | `AzServicebusTopicSubscriptionRuleShowOptions` |
+| `az servicebus topic subscription rule update` | `AzServicebusTopicSubscriptionRuleUpdateOptions` |
+| `az servicebus topic subscription show` | `AzServicebusTopicSubscriptionShowOptions` |
+| `az servicebus topic subscription update` | `AzServicebusTopicSubscriptionUpdateOptions` |
+| `az servicebus topic update` | `AzServicebusTopicUpdateOptions` |
 | `az sf application certificate add` | `AzSfApplicationCertificateAddOptions` |
 | `az sf application create` | `AzSfApplicationCreateOptions` |
+| `az sf application delete` | `AzSfApplicationDeleteOptions` |
+| `az sf application list` | `AzSfApplicationListOptions` |
+| `az sf application show` | `AzSfApplicationShowOptions` |
 | `az sf application update` | `AzSfApplicationUpdateOptions` |
+| `az sf application-type create` | `AzSfApplicationTypeCreateOptions` |
+| `az sf application-type delete` | `AzSfApplicationTypeDeleteOptions` |
+| `az sf application-type list` | `AzSfApplicationTypeListOptions` |
+| `az sf application-type show` | `AzSfApplicationTypeShowOptions` |
 | `az sf cluster client-certificate add` | `AzSfClusterClientCertificateAddOptions` |
 | `az sf cluster client-certificate remove` | `AzSfClusterClientCertificateRemoveOptions` |
 | `az sf cluster create` | `AzSfClusterCreateOptions` |
+| `az sf cluster durability update` | `AzSfClusterDurabilityUpdateOptions` |
 | `az sf cluster list` | `AzSfClusterListOptions` |
+| `az sf cluster node add` | `AzSfClusterNodeAddOptions` |
+| `az sf cluster node remove` | `AzSfClusterNodeRemoveOptions` |
 | `az sf cluster node-type add` | `AzSfClusterNodeTypeAddOptions` |
 | `az sf cluster reliability update` | `AzSfClusterReliabilityUpdateOptions` |
 | `az sf cluster setting remove` | `AzSfClusterSettingRemoveOptions` |
 | `az sf cluster setting set` | `AzSfClusterSettingSetOptions` |
+| `az sf cluster show` | `AzSfClusterShowOptions` |
 | `az sf cluster upgrade-type set` | `AzSfClusterUpgradeTypeSetOptions` |
 | `az sf managed-application create` | `AzSfManagedApplicationCreateOptions` |
+| `az sf managed-application delete` | `AzSfManagedApplicationDeleteOptions` |
+| `az sf managed-application list` | `AzSfManagedApplicationListOptions` |
+| `az sf managed-application show` | `AzSfManagedApplicationShowOptions` |
 | `az sf managed-application-type create` | `AzSfManagedApplicationTypeCreateOptions` |
+| `az sf managed-application-type delete` | `AzSfManagedApplicationTypeDeleteOptions` |
+| `az sf managed-application-type list` | `AzSfManagedApplicationTypeListOptions` |
+| `az sf managed-application-type show` | `AzSfManagedApplicationTypeShowOptions` |
 | `az sf managed-application-type update` | `AzSfManagedApplicationTypeUpdateOptions` |
 | `az sf managed-cluster client-certificate add` | `AzSfManagedClusterClientCertificateAddOptions` |
 | `az sf managed-cluster client-certificate delete` | `AzSfManagedClusterClientCertificateDeleteOptions` |
 | `az sf managed-cluster create` | `AzSfManagedClusterCreateOptions` |
+| `az sf managed-cluster delete` | `AzSfManagedClusterDeleteOptions` |
 | `az sf managed-cluster list` | `AzSfManagedClusterListOptions` |
 | `az sf managed-cluster network-security-rule add` | `AzSfManagedClusterNetworkSecurityRuleAddOptions` |
+| `az sf managed-cluster network-security-rule delete` | `AzSfManagedClusterNetworkSecurityRuleDeleteOptions` |
+| `az sf managed-cluster network-security-rule get` | `AzSfManagedClusterNetworkSecurityRuleGetOptions` |
+| `az sf managed-cluster network-security-rule list` | `AzSfManagedClusterNetworkSecurityRuleListOptions` |
 | `az sf managed-cluster network-security-rule update` | `AzSfManagedClusterNetworkSecurityRuleUpdateOptions` |
+| `az sf managed-cluster show` | `AzSfManagedClusterShowOptions` |
 | `az sf managed-cluster update` | `AzSfManagedClusterUpdateOptions` |
 | `az sf managed-node-type create` | `AzSfManagedNodeTypeCreateOptions` |
+| `az sf managed-node-type delete` | `AzSfManagedNodeTypeDeleteOptions` |
+| `az sf managed-node-type list` | `AzSfManagedNodeTypeListOptions` |
 | `az sf managed-node-type node delete` | `AzSfManagedNodeTypeNodeDeleteOptions` |
 | `az sf managed-node-type node reimage` | `AzSfManagedNodeTypeNodeReimageOptions` |
 | `az sf managed-node-type node restart` | `AzSfManagedNodeTypeNodeRestartOptions` |
+| `az sf managed-node-type show` | `AzSfManagedNodeTypeShowOptions` |
 | `az sf managed-node-type update` | `AzSfManagedNodeTypeUpdateOptions` |
 | `az sf managed-node-type vm-extension add` | `AzSfManagedNodeTypeVmExtensionAddOptions` |
+| `az sf managed-node-type vm-extension delete` | `AzSfManagedNodeTypeVmExtensionDeleteOptions` |
+| `az sf managed-node-type vm-secret add` | `AzSfManagedNodeTypeVmSecretAddOptions` |
+| `az sf managed-service correlation-scheme create` | `AzSfManagedServiceCorrelationSchemeCreateOptions` |
+| `az sf managed-service correlation-scheme delete` | `AzSfManagedServiceCorrelationSchemeDeleteOptions` |
+| `az sf managed-service correlation-scheme update` | `AzSfManagedServiceCorrelationSchemeUpdateOptions` |
 | `az sf managed-service create` | `AzSfManagedServiceCreateOptions` |
+| `az sf managed-service delete` | `AzSfManagedServiceDeleteOptions` |
+| `az sf managed-service list` | `AzSfManagedServiceListOptions` |
 | `az sf managed-service load-metrics create` | `AzSfManagedServiceLoadMetricsCreateOptions` |
+| `az sf managed-service load-metrics delete` | `AzSfManagedServiceLoadMetricsDeleteOptions` |
 | `az sf managed-service load-metrics update` | `AzSfManagedServiceLoadMetricsUpdateOptions` |
+| `az sf managed-service show` | `AzSfManagedServiceShowOptions` |
 | `az sf managed-service update` | `AzSfManagedServiceUpdateOptions` |
 | `az sf service create` | `AzSfServiceCreateOptions` |
+| `az sf service delete` | `AzSfServiceDeleteOptions` |
+| `az sf service list` | `AzSfServiceListOptions` |
+| `az sf service show` | `AzSfServiceShowOptions` |
 | `az sig create` | `AzSigCreateOptions` |
 | `az sig delete` | `AzSigDeleteOptions` |
 | `az sig gallery-application create` | `AzSigGalleryApplicationCreateOptions` |
 | `az sig gallery-application delete` | `AzSigGalleryApplicationDeleteOptions` |
+| `az sig gallery-application list` | `AzSigGalleryApplicationListOptions` |
+| `az sig gallery-application show` | `AzSigGalleryApplicationShowOptions` |
 | `az sig gallery-application update` | `AzSigGalleryApplicationUpdateOptions` |
+| `az sig gallery-application wait` | `AzSigGalleryApplicationWaitOptions` |
 | `az sig identity assign` | `AzSigIdentityAssignOptions` |
 | `az sig identity remove` | `AzSigIdentityRemoveOptions` |
+| `az sig identity show` | `AzSigIdentityShowOptions` |
+| `az sig identity wait` | `AzSigIdentityWaitOptions` |
 | `az sig image-definition create` | `AzSigImageDefinitionCreateOptions` |
 | `az sig image-definition delete` | `AzSigImageDefinitionDeleteOptions` |
+| `az sig image-definition list` | `AzSigImageDefinitionListOptions` |
+| `az sig image-definition list-community` | `AzSigImageDefinitionListCommunityOptions` |
 | `az sig image-definition list-shared` | `AzSigImageDefinitionListSharedOptions` |
+| `az sig image-definition show` | `AzSigImageDefinitionShowOptions` |
+| `az sig image-definition show-community` | `AzSigImageDefinitionShowCommunityOptions` |
+| `az sig image-definition show-shared` | `AzSigImageDefinitionShowSharedOptions` |
 | `az sig image-definition update` | `AzSigImageDefinitionUpdateOptions` |
+| `az sig image-definition wait` | `AzSigImageDefinitionWaitOptions` |
 | `az sig image-version create` | `AzSigImageVersionCreateOptions` |
 | `az sig image-version delete` | `AzSigImageVersionDeleteOptions` |
+| `az sig image-version list` | `AzSigImageVersionListOptions` |
+| `az sig image-version list-community` | `AzSigImageVersionListCommunityOptions` |
 | `az sig image-version list-shared` | `AzSigImageVersionListSharedOptions` |
 | `az sig image-version show` | `AzSigImageVersionShowOptions` |
+| `az sig image-version show-community` | `AzSigImageVersionShowCommunityOptions` |
+| `az sig image-version show-shared` | `AzSigImageVersionShowSharedOptions` |
 | `az sig image-version update` | `AzSigImageVersionUpdateOptions` |
 | `az sig image-version wait` | `AzSigImageVersionWaitOptions` |
 | `az sig in-vm-access-control-profile create` | `AzSigInVmAccessControlProfileCreateOptions` |
 | `az sig in-vm-access-control-profile delete` | `AzSigInVmAccessControlProfileDeleteOptions` |
+| `az sig in-vm-access-control-profile list` | `AzSigInVmAccessControlProfileListOptions` |
+| `az sig in-vm-access-control-profile show` | `AzSigInVmAccessControlProfileShowOptions` |
 | `az sig in-vm-access-control-profile update` | `AzSigInVmAccessControlProfileUpdateOptions` |
+| `az sig in-vm-access-control-profile wait` | `AzSigInVmAccessControlProfileWaitOptions` |
 | `az sig in-vm-access-control-profile-version create` | `AzSigInVmAccessControlProfileVersionCreateOptions` |
 | `az sig in-vm-access-control-profile-version delete` | `AzSigInVmAccessControlProfileVersionDeleteOptions` |
+| `az sig in-vm-access-control-profile-version list` | `AzSigInVmAccessControlProfileVersionListOptions` |
+| `az sig in-vm-access-control-profile-version show` | `AzSigInVmAccessControlProfileVersionShowOptions` |
 | `az sig in-vm-access-control-profile-version update` | `AzSigInVmAccessControlProfileVersionUpdateOptions` |
+| `az sig in-vm-access-control-profile-version wait` | `AzSigInVmAccessControlProfileVersionWaitOptions` |
 | `az sig list` | `AzSigListOptions` |
 | `az sig list-community` | `AzSigListCommunityOptions` |
 | `az sig list-shared` | `AzSigListSharedOptions` |
@@ -2407,88 +4028,197 @@ public class RunCommandModule : Module<CommandResult>
 | `az sig share enable-community` | `AzSigShareEnableCommunityOptions` |
 | `az sig share remove` | `AzSigShareRemoveOptions` |
 | `az sig share reset` | `AzSigShareResetOptions` |
+| `az sig share wait` | `AzSigShareWaitOptions` |
 | `az sig show` | `AzSigShowOptions` |
+| `az sig show-community` | `AzSigShowCommunityOptions` |
+| `az sig show-shared` | `AzSigShowSharedOptions` |
 | `az sig update` | `AzSigUpdateOptions` |
 | `az sig wait` | `AzSigWaitOptions` |
+| `az signalr cors add` | `AzSignalrCorsAddOptions` |
+| `az signalr cors list` | `AzSignalrCorsListOptions` |
+| `az signalr cors remove` | `AzSignalrCorsRemoveOptions` |
+| `az signalr cors update` | `AzSignalrCorsUpdateOptions` |
 | `az signalr create` | `AzSignalrCreateOptions` |
 | `az signalr custom-certificate create` | `AzSignalrCustomCertificateCreateOptions` |
+| `az signalr custom-certificate delete` | `AzSignalrCustomCertificateDeleteOptions` |
+| `az signalr custom-certificate list` | `AzSignalrCustomCertificateListOptions` |
+| `az signalr custom-certificate show` | `AzSignalrCustomCertificateShowOptions` |
 | `az signalr custom-certificate update` | `AzSignalrCustomCertificateUpdateOptions` |
+| `az signalr custom-domain create` | `AzSignalrCustomDomainCreateOptions` |
+| `az signalr custom-domain delete` | `AzSignalrCustomDomainDeleteOptions` |
+| `az signalr custom-domain list` | `AzSignalrCustomDomainListOptions` |
+| `az signalr custom-domain show` | `AzSignalrCustomDomainShowOptions` |
 | `az signalr custom-domain update` | `AzSignalrCustomDomainUpdateOptions` |
+| `az signalr delete` | `AzSignalrDeleteOptions` |
+| `az signalr identity assign` | `AzSignalrIdentityAssignOptions` |
+| `az signalr identity remove` | `AzSignalrIdentityRemoveOptions` |
+| `az signalr identity show` | `AzSignalrIdentityShowOptions` |
+| `az signalr key list` | `AzSignalrKeyListOptions` |
+| `az signalr key renew` | `AzSignalrKeyRenewOptions` |
 | `az signalr list` | `AzSignalrListOptions` |
+| `az signalr network-rule ip-rule add` | `AzSignalrNetworkRuleIpRuleAddOptions` |
+| `az signalr network-rule ip-rule remove` | `AzSignalrNetworkRuleIpRuleRemoveOptions` |
+| `az signalr network-rule list` | `AzSignalrNetworkRuleListOptions` |
 | `az signalr network-rule update` | `AzSignalrNetworkRuleUpdateOptions` |
 | `az signalr replica create` | `AzSignalrReplicaCreateOptions` |
+| `az signalr replica delete` | `AzSignalrReplicaDeleteOptions` |
+| `az signalr replica list` | `AzSignalrReplicaListOptions` |
+| `az signalr replica restart` | `AzSignalrReplicaRestartOptions` |
+| `az signalr replica show` | `AzSignalrReplicaShowOptions` |
+| `az signalr replica start` | `AzSignalrReplicaStartOptions` |
+| `az signalr replica stop` | `AzSignalrReplicaStopOptions` |
 | `az signalr replica update` | `AzSignalrReplicaUpdateOptions` |
+| `az signalr restart` | `AzSignalrRestartOptions` |
+| `az signalr show` | `AzSignalrShowOptions` |
+| `az signalr start` | `AzSignalrStartOptions` |
+| `az signalr stop` | `AzSignalrStopOptions` |
 | `az signalr update` | `AzSignalrUpdateOptions` |
+| `az signalr upstream clear` | `AzSignalrUpstreamClearOptions` |
+| `az signalr upstream list` | `AzSignalrUpstreamListOptions` |
+| `az signalr upstream update` | `AzSignalrUpstreamUpdateOptions` |
 | `az snapshot create` | `AzSnapshotCreateOptions` |
 | `az snapshot delete` | `AzSnapshotDeleteOptions` |
 | `az snapshot grant-access` | `AzSnapshotGrantAccessOptions` |
 | `az snapshot list` | `AzSnapshotListOptions` |
 | `az snapshot revoke-access` | `AzSnapshotRevokeAccessOptions` |
+| `az snapshot show` | `AzSnapshotShowOptions` |
 | `az snapshot update` | `AzSnapshotUpdateOptions` |
+| `az snapshot wait` | `AzSnapshotWaitOptions` |
+| `az sql db advanced-threat-protection-setting show` | `AzSqlDbAdvancedThreatProtectionSettingShowOptions` |
 | `az sql db advanced-threat-protection-setting update` | `AzSqlDbAdvancedThreatProtectionSettingUpdateOptions` |
+| `az sql db audit-policy show` | `AzSqlDbAuditPolicyShowOptions` |
+| `az sql db audit-policy update` | `AzSqlDbAuditPolicyUpdateOptions` |
+| `az sql db audit-policy wait` | `AzSqlDbAuditPolicyWaitOptions` |
+| `az sql db classification delete` | `AzSqlDbClassificationDeleteOptions` |
 | `az sql db classification list` | `AzSqlDbClassificationListOptions` |
+| `az sql db classification recommendation disable` | `AzSqlDbClassificationRecommendationDisableOptions` |
+| `az sql db classification recommendation enable` | `AzSqlDbClassificationRecommendationEnableOptions` |
 | `az sql db classification recommendation list` | `AzSqlDbClassificationRecommendationListOptions` |
+| `az sql db classification show` | `AzSqlDbClassificationShowOptions` |
 | `az sql db classification update` | `AzSqlDbClassificationUpdateOptions` |
 | `az sql db copy` | `AzSqlDbCopyOptions` |
 | `az sql db create` | `AzSqlDbCreateOptions` |
 | `az sql db delete` | `AzSqlDbDeleteOptions` |
 | `az sql db export` | `AzSqlDbExportOptions` |
+| `az sql db geo-backup list` | `AzSqlDbGeoBackupListOptions` |
 | `az sql db geo-backup restore` | `AzSqlDbGeoBackupRestoreOptions` |
 | `az sql db geo-backup show` | `AzSqlDbGeoBackupShowOptions` |
 | `az sql db import` | `AzSqlDbImportOptions` |
+| `az sql db ledger-digest-uploads disable` | `AzSqlDbLedgerDigestUploadsDisableOptions` |
+| `az sql db ledger-digest-uploads enable` | `AzSqlDbLedgerDigestUploadsEnableOptions` |
+| `az sql db ledger-digest-uploads show` | `AzSqlDbLedgerDigestUploadsShowOptions` |
 | `az sql db list` | `AzSqlDbListOptions` |
+| `az sql db list-deleted` | `AzSqlDbListDeletedOptions` |
 | `az sql db list-editions` | `AzSqlDbListEditionsOptions` |
+| `az sql db list-usages` | `AzSqlDbListUsagesOptions` |
 | `az sql db ltr-backup delete` | `AzSqlDbLtrBackupDeleteOptions` |
 | `az sql db ltr-backup list` | `AzSqlDbLtrBackupListOptions` |
 | `az sql db ltr-backup lock-time-based-immutability` | `AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions` |
 | `az sql db ltr-backup remove-time-based-immutability` | `AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions` |
 | `az sql db ltr-backup restore` | `AzSqlDbLtrBackupRestoreOptions` |
+| `az sql db ltr-backup show` | `AzSqlDbLtrBackupShowOptions` |
 | `az sql db ltr-backup wait` | `AzSqlDbLtrBackupWaitOptions` |
 | `az sql db ltr-policy set` | `AzSqlDbLtrPolicySetOptions` |
+| `az sql db ltr-policy show` | `AzSqlDbLtrPolicyShowOptions` |
+| `az sql db op cancel` | `AzSqlDbOpCancelOptions` |
+| `az sql db op list` | `AzSqlDbOpListOptions` |
+| `az sql db rename` | `AzSqlDbRenameOptions` |
 | `az sql db replica create` | `AzSqlDbReplicaCreateOptions` |
 | `az sql db replica delete-link` | `AzSqlDbReplicaDeleteLinkOptions` |
+| `az sql db replica list-links` | `AzSqlDbReplicaListLinksOptions` |
 | `az sql db replica set-primary` | `AzSqlDbReplicaSetPrimaryOptions` |
 | `az sql db restore` | `AzSqlDbRestoreOptions` |
 | `az sql db show` | `AzSqlDbShowOptions` |
+| `az sql db show-connection-string` | `AzSqlDbShowConnectionStringOptions` |
 | `az sql db show-deleted` | `AzSqlDbShowDeletedOptions` |
 | `az sql db str-policy set` | `AzSqlDbStrPolicySetOptions` |
+| `az sql db str-policy show` | `AzSqlDbStrPolicyShowOptions` |
+| `az sql db str-policy wait` | `AzSqlDbStrPolicyWaitOptions` |
+| `az sql db tde key revalidate` | `AzSqlDbTdeKeyRevalidateOptions` |
+| `az sql db tde key revert` | `AzSqlDbTdeKeyRevertOptions` |
+| `az sql db tde set` | `AzSqlDbTdeSetOptions` |
+| `az sql db tde show` | `AzSqlDbTdeShowOptions` |
 | `az sql db update` | `AzSqlDbUpdateOptions` |
 | `az sql dw create` | `AzSqlDwCreateOptions` |
 | `az sql dw delete` | `AzSqlDwDeleteOptions` |
+| `az sql dw list` | `AzSqlDwListOptions` |
+| `az sql dw pause` | `AzSqlDwPauseOptions` |
+| `az sql dw resume` | `AzSqlDwResumeOptions` |
 | `az sql dw show` | `AzSqlDwShowOptions` |
 | `az sql dw update` | `AzSqlDwUpdateOptions` |
 | `az sql elastic-pool create` | `AzSqlElasticPoolCreateOptions` |
 | `az sql elastic-pool delete` | `AzSqlElasticPoolDeleteOptions` |
 | `az sql elastic-pool list` | `AzSqlElasticPoolListOptions` |
+| `az sql elastic-pool list-dbs` | `AzSqlElasticPoolListDbsOptions` |
 | `az sql elastic-pool list-editions` | `AzSqlElasticPoolListEditionsOptions` |
+| `az sql elastic-pool op cancel` | `AzSqlElasticPoolOpCancelOptions` |
+| `az sql elastic-pool op list` | `AzSqlElasticPoolOpListOptions` |
+| `az sql elastic-pool show` | `AzSqlElasticPoolShowOptions` |
 | `az sql elastic-pool update` | `AzSqlElasticPoolUpdateOptions` |
 | `az sql failover-group create` | `AzSqlFailoverGroupCreateOptions` |
+| `az sql failover-group delete` | `AzSqlFailoverGroupDeleteOptions` |
+| `az sql failover-group list` | `AzSqlFailoverGroupListOptions` |
 | `az sql failover-group set-primary` | `AzSqlFailoverGroupSetPrimaryOptions` |
+| `az sql failover-group show` | `AzSqlFailoverGroupShowOptions` |
 | `az sql failover-group update` | `AzSqlFailoverGroupUpdateOptions` |
 | `az sql instance-failover-group create` | `AzSqlInstanceFailoverGroupCreateOptions` |
+| `az sql instance-failover-group delete` | `AzSqlInstanceFailoverGroupDeleteOptions` |
 | `az sql instance-failover-group set-primary` | `AzSqlInstanceFailoverGroupSetPrimaryOptions` |
+| `az sql instance-failover-group show` | `AzSqlInstanceFailoverGroupShowOptions` |
 | `az sql instance-failover-group update` | `AzSqlInstanceFailoverGroupUpdateOptions` |
+| `az sql list-usages` | `AzSqlListUsagesOptions` |
+| `az sql mi ad-admin create` | `AzSqlMiAdAdminCreateOptions` |
+| `az sql mi ad-admin delete` | `AzSqlMiAdAdminDeleteOptions` |
+| `az sql mi ad-admin list` | `AzSqlMiAdAdminListOptions` |
+| `az sql mi ad-admin update` | `AzSqlMiAdAdminUpdateOptions` |
+| `az sql mi ad-only-auth disable` | `AzSqlMiAdOnlyAuthDisableOptions` |
+| `az sql mi ad-only-auth enable` | `AzSqlMiAdOnlyAuthEnableOptions` |
+| `az sql mi ad-only-auth get` | `AzSqlMiAdOnlyAuthGetOptions` |
+| `az sql mi advanced-threat-protection-setting show` | `AzSqlMiAdvancedThreatProtectionSettingShowOptions` |
 | `az sql mi advanced-threat-protection-setting update` | `AzSqlMiAdvancedThreatProtectionSettingUpdateOptions` |
 | `az sql mi create` | `AzSqlMiCreateOptions` |
 | `az sql mi delete` | `AzSqlMiDeleteOptions` |
+| `az sql mi dtc show` | `AzSqlMiDtcShowOptions` |
 | `az sql mi dtc update` | `AzSqlMiDtcUpdateOptions` |
+| `az sql mi dtc wait` | `AzSqlMiDtcWaitOptions` |
+| `az sql mi endpoint-cert list` | `AzSqlMiEndpointCertListOptions` |
+| `az sql mi endpoint-cert show` | `AzSqlMiEndpointCertShowOptions` |
 | `az sql mi failover` | `AzSqlMiFailoverOptions` |
+| `az sql mi key create` | `AzSqlMiKeyCreateOptions` |
+| `az sql mi key delete` | `AzSqlMiKeyDeleteOptions` |
 | `az sql mi key list` | `AzSqlMiKeyListOptions` |
+| `az sql mi key show` | `AzSqlMiKeyShowOptions` |
 | `az sql mi link create` | `AzSqlMiLinkCreateOptions` |
 | `az sql mi link delete` | `AzSqlMiLinkDeleteOptions` |
 | `az sql mi link failover` | `AzSqlMiLinkFailoverOptions` |
+| `az sql mi link list` | `AzSqlMiLinkListOptions` |
+| `az sql mi link show` | `AzSqlMiLinkShowOptions` |
 | `az sql mi link update` | `AzSqlMiLinkUpdateOptions` |
 | `az sql mi list` | `AzSqlMiListOptions` |
+| `az sql mi op cancel` | `AzSqlMiOpCancelOptions` |
+| `az sql mi op list` | `AzSqlMiOpListOptions` |
+| `az sql mi op show` | `AzSqlMiOpShowOptions` |
 | `az sql mi partner-cert create` | `AzSqlMiPartnerCertCreateOptions` |
 | `az sql mi partner-cert delete` | `AzSqlMiPartnerCertDeleteOptions` |
+| `az sql mi partner-cert list` | `AzSqlMiPartnerCertListOptions` |
+| `az sql mi partner-cert show` | `AzSqlMiPartnerCertShowOptions` |
 | `az sql mi refresh-external-governance-status` | `AzSqlMiRefreshExternalGovernanceStatusOptions` |
+| `az sql mi server-configuration-option list` | `AzSqlMiServerConfigurationOptionListOptions` |
 | `az sql mi server-configuration-option set` | `AzSqlMiServerConfigurationOptionSetOptions` |
+| `az sql mi server-configuration-option show` | `AzSqlMiServerConfigurationOptionShowOptions` |
+| `az sql mi server-configuration-option wait` | `AzSqlMiServerConfigurationOptionWaitOptions` |
 | `az sql mi show` | `AzSqlMiShowOptions` |
 | `az sql mi start` | `AzSqlMiStartOptions` |
+| `az sql mi start-stop-schedule create` | `AzSqlMiStartStopScheduleCreateOptions` |
 | `az sql mi start-stop-schedule delete` | `AzSqlMiStartStopScheduleDeleteOptions` |
+| `az sql mi start-stop-schedule list` | `AzSqlMiStartStopScheduleListOptions` |
+| `az sql mi start-stop-schedule show` | `AzSqlMiStartStopScheduleShowOptions` |
+| `az sql mi start-stop-schedule update` | `AzSqlMiStartStopScheduleUpdateOptions` |
 | `az sql mi stop` | `AzSqlMiStopOptions` |
 | `az sql mi tde-key set` | `AzSqlMiTdeKeySetOptions` |
+| `az sql mi tde-key show` | `AzSqlMiTdeKeyShowOptions` |
 | `az sql mi update` | `AzSqlMiUpdateOptions` |
+| `az sql midb advanced-threat-protection-setting show` | `AzSqlMidbAdvancedThreatProtectionSettingShowOptions` |
 | `az sql midb advanced-threat-protection-setting update` | `AzSqlMidbAdvancedThreatProtectionSettingUpdateOptions` |
 | `az sql midb copy cancel` | `AzSqlMidbCopyCancelOptions` |
 | `az sql midb copy complete` | `AzSqlMidbCopyCompleteOptions` |
@@ -2496,59 +4226,122 @@ public class RunCommandModule : Module<CommandResult>
 | `az sql midb copy start` | `AzSqlMidbCopyStartOptions` |
 | `az sql midb create` | `AzSqlMidbCreateOptions` |
 | `az sql midb delete` | `AzSqlMidbDeleteOptions` |
+| `az sql midb ledger-digest-uploads disable` | `AzSqlMidbLedgerDigestUploadsDisableOptions` |
+| `az sql midb ledger-digest-uploads enable` | `AzSqlMidbLedgerDigestUploadsEnableOptions` |
+| `az sql midb ledger-digest-uploads show` | `AzSqlMidbLedgerDigestUploadsShowOptions` |
+| `az sql midb list` | `AzSqlMidbListOptions` |
+| `az sql midb list-deleted` | `AzSqlMidbListDeletedOptions` |
+| `az sql midb log-replay complete` | `AzSqlMidbLogReplayCompleteOptions` |
+| `az sql midb log-replay show` | `AzSqlMidbLogReplayShowOptions` |
 | `az sql midb log-replay start` | `AzSqlMidbLogReplayStartOptions` |
 | `az sql midb log-replay stop` | `AzSqlMidbLogReplayStopOptions` |
+| `az sql midb log-replay wait` | `AzSqlMidbLogReplayWaitOptions` |
+| `az sql midb ltr-backup wait` | `AzSqlMidbLtrBackupWaitOptions` |
 | `az sql midb move cancel` | `AzSqlMidbMoveCancelOptions` |
 | `az sql midb move complete` | `AzSqlMidbMoveCompleteOptions` |
 | `az sql midb move list` | `AzSqlMidbMoveListOptions` |
 | `az sql midb move start` | `AzSqlMidbMoveStartOptions` |
 | `az sql midb recover` | `AzSqlMidbRecoverOptions` |
 | `az sql midb restore` | `AzSqlMidbRestoreOptions` |
+| `az sql midb show` | `AzSqlMidbShowOptions` |
 | `az sql midb update` | `AzSqlMidbUpdateOptions` |
+| `az sql recoverable-midb list` | `AzSqlRecoverableMidbListOptions` |
+| `az sql recoverable-midb show` | `AzSqlRecoverableMidbShowOptions` |
+| `az sql server ad-admin create` | `AzSqlServerAdAdminCreateOptions` |
+| `az sql server ad-admin delete` | `AzSqlServerAdAdminDeleteOptions` |
+| `az sql server ad-admin list` | `AzSqlServerAdAdminListOptions` |
+| `az sql server ad-admin update` | `AzSqlServerAdAdminUpdateOptions` |
+| `az sql server ad-only-auth disable` | `AzSqlServerAdOnlyAuthDisableOptions` |
+| `az sql server ad-only-auth enable` | `AzSqlServerAdOnlyAuthEnableOptions` |
+| `az sql server ad-only-auth get` | `AzSqlServerAdOnlyAuthGetOptions` |
+| `az sql server advanced-threat-protection-setting show` | `AzSqlServerAdvancedThreatProtectionSettingShowOptions` |
 | `az sql server advanced-threat-protection-setting update` | `AzSqlServerAdvancedThreatProtectionSettingUpdateOptions` |
+| `az sql server audit-policy show` | `AzSqlServerAuditPolicyShowOptions` |
 | `az sql server audit-policy update` | `AzSqlServerAuditPolicyUpdateOptions` |
+| `az sql server audit-policy wait` | `AzSqlServerAuditPolicyWaitOptions` |
+| `az sql server conn-policy show` | `AzSqlServerConnPolicyShowOptions` |
+| `az sql server conn-policy update` | `AzSqlServerConnPolicyUpdateOptions` |
 | `az sql server create` | `AzSqlServerCreateOptions` |
 | `az sql server delete` | `AzSqlServerDeleteOptions` |
+| `az sql server dns-alias create` | `AzSqlServerDnsAliasCreateOptions` |
+| `az sql server dns-alias delete` | `AzSqlServerDnsAliasDeleteOptions` |
+| `az sql server dns-alias list` | `AzSqlServerDnsAliasListOptions` |
 | `az sql server dns-alias set` | `AzSqlServerDnsAliasSetOptions` |
+| `az sql server dns-alias show` | `AzSqlServerDnsAliasShowOptions` |
 | `az sql server firewall-rule create` | `AzSqlServerFirewallRuleCreateOptions` |
+| `az sql server firewall-rule delete` | `AzSqlServerFirewallRuleDeleteOptions` |
+| `az sql server firewall-rule list` | `AzSqlServerFirewallRuleListOptions` |
+| `az sql server firewall-rule show` | `AzSqlServerFirewallRuleShowOptions` |
 | `az sql server firewall-rule update` | `AzSqlServerFirewallRuleUpdateOptions` |
 | `az sql server ipv6-firewall-rule create` | `AzSqlServerIpv6FirewallRuleCreateOptions` |
+| `az sql server ipv6-firewall-rule delete` | `AzSqlServerIpv6FirewallRuleDeleteOptions` |
+| `az sql server ipv6-firewall-rule list` | `AzSqlServerIpv6FirewallRuleListOptions` |
+| `az sql server ipv6-firewall-rule show` | `AzSqlServerIpv6FirewallRuleShowOptions` |
 | `az sql server ipv6-firewall-rule update` | `AzSqlServerIpv6FirewallRuleUpdateOptions` |
+| `az sql server key create` | `AzSqlServerKeyCreateOptions` |
+| `az sql server key delete` | `AzSqlServerKeyDeleteOptions` |
+| `az sql server key list` | `AzSqlServerKeyListOptions` |
+| `az sql server key show` | `AzSqlServerKeyShowOptions` |
 | `az sql server list` | `AzSqlServerListOptions` |
+| `az sql server list-usages` | `AzSqlServerListUsagesOptions` |
+| `az sql server ms-support audit-policy show` | `AzSqlServerMsSupportAuditPolicyShowOptions` |
 | `az sql server ms-support audit-policy update` | `AzSqlServerMsSupportAuditPolicyUpdateOptions` |
+| `az sql server ms-support audit-policy wait` | `AzSqlServerMsSupportAuditPolicyWaitOptions` |
+| `az sql server outbound-firewall-rule create` | `AzSqlServerOutboundFirewallRuleCreateOptions` |
+| `az sql server outbound-firewall-rule delete` | `AzSqlServerOutboundFirewallRuleDeleteOptions` |
+| `az sql server outbound-firewall-rule list` | `AzSqlServerOutboundFirewallRuleListOptions` |
+| `az sql server outbound-firewall-rule show` | `AzSqlServerOutboundFirewallRuleShowOptions` |
+| `az sql server refresh-external-governance-status` | `AzSqlServerRefreshExternalGovernanceStatusOptions` |
 | `az sql server show` | `AzSqlServerShowOptions` |
+| `az sql server tde-key revalidate` | `AzSqlServerTdeKeyRevalidateOptions` |
 | `az sql server tde-key set` | `AzSqlServerTdeKeySetOptions` |
+| `az sql server tde-key show` | `AzSqlServerTdeKeyShowOptions` |
 | `az sql server update` | `AzSqlServerUpdateOptions` |
 | `az sql server vnet-rule create` | `AzSqlServerVnetRuleCreateOptions` |
+| `az sql server vnet-rule delete` | `AzSqlServerVnetRuleDeleteOptions` |
+| `az sql server vnet-rule list` | `AzSqlServerVnetRuleListOptions` |
+| `az sql server vnet-rule show` | `AzSqlServerVnetRuleShowOptions` |
 | `az sql server vnet-rule update` | `AzSqlServerVnetRuleUpdateOptions` |
 | `az sql server wait` | `AzSqlServerWaitOptions` |
+| `az sql show-usage` | `AzSqlShowUsageOptions` |
 | `az sql virtual-cluster delete` | `AzSqlVirtualClusterDeleteOptions` |
 | `az sql virtual-cluster list` | `AzSqlVirtualClusterListOptions` |
+| `az sql virtual-cluster show` | `AzSqlVirtualClusterShowOptions` |
+| `az sql vm add-to-group` | `AzSqlVmAddToGroupOptions` |
 | `az sql vm create` | `AzSqlVmCreateOptions` |
 | `az sql vm delete` | `AzSqlVmDeleteOptions` |
 | `az sql vm enable-azure-ad-auth` | `AzSqlVmEnableAzureAdAuthOptions` |
+| `az sql vm group ag-listener create` | `AzSqlVmGroupAgListenerCreateOptions` |
 | `az sql vm group ag-listener delete` | `AzSqlVmGroupAgListenerDeleteOptions` |
+| `az sql vm group ag-listener list` | `AzSqlVmGroupAgListenerListOptions` |
 | `az sql vm group ag-listener show` | `AzSqlVmGroupAgListenerShowOptions` |
+| `az sql vm group ag-listener update` | `AzSqlVmGroupAgListenerUpdateOptions` |
 | `az sql vm group create` | `AzSqlVmGroupCreateOptions` |
 | `az sql vm group delete` | `AzSqlVmGroupDeleteOptions` |
 | `az sql vm group list` | `AzSqlVmGroupListOptions` |
+| `az sql vm group show` | `AzSqlVmGroupShowOptions` |
 | `az sql vm group update` | `AzSqlVmGroupUpdateOptions` |
 | `az sql vm list` | `AzSqlVmListOptions` |
+| `az sql vm remove-from-group` | `AzSqlVmRemoveFromGroupOptions` |
 | `az sql vm show` | `AzSqlVmShowOptions` |
+| `az sql vm start-assessment` | `AzSqlVmStartAssessmentOptions` |
 | `az sql vm update` | `AzSqlVmUpdateOptions` |
 | `az sql vm validate-azure-ad-auth` | `AzSqlVmValidateAzureAdAuthOptions` |
 | `az sshkey create` | `AzSshkeyCreateOptions` |
 | `az sshkey delete` | `AzSshkeyDeleteOptions` |
 | `az sshkey list` | `AzSshkeyListOptions` |
+| `az sshkey show` | `AzSshKeyShowOptions` |
 | `az sshkey update` | `AzSshkeyUpdateOptions` |
 | `az stack group create` | `AzStackGroupCreateOptions` |
 | `az stack group delete` | `AzStackGroupDeleteOptions` |
 | `az stack group export` | `AzStackGroupExportOptions` |
+| `az stack group list` | `AzStackGroupListOptions` |
 | `az stack group show` | `AzStackGroupShowOptions` |
 | `az stack group validate` | `AzStackGroupValidateOptions` |
 | `az stack mg create` | `AzStackMgCreateOptions` |
 | `az stack mg delete` | `AzStackMgDeleteOptions` |
 | `az stack mg export` | `AzStackMgExportOptions` |
+| `az stack mg list` | `AzStackMgListOptions` |
 | `az stack mg show` | `AzStackMgShowOptions` |
 | `az stack mg validate` | `AzStackMgValidateOptions` |
 | `az stack sub create` | `AzStackSubCreateOptions` |
@@ -2558,9 +4351,11 @@ public class RunCommandModule : Module<CommandResult>
 | `az stack sub validate` | `AzStackSubValidateOptions` |
 | `az stack-whatif group create` | `AzStackWhatifGroupCreateOptions` |
 | `az stack-whatif group delete` | `AzStackWhatifGroupDeleteOptions` |
+| `az stack-whatif group list` | `AzStackWhatifGroupListOptions` |
 | `az stack-whatif group show` | `AzStackWhatifGroupShowOptions` |
 | `az stack-whatif mg create` | `AzStackWhatifMgCreateOptions` |
 | `az stack-whatif mg delete` | `AzStackWhatifMgDeleteOptions` |
+| `az stack-whatif mg list` | `AzStackWhatifMgListOptions` |
 | `az stack-whatif mg show` | `AzStackWhatifMgShowOptions` |
 | `az stack-whatif sub create` | `AzStackWhatifSubCreateOptions` |
 | `az stack-whatif sub delete` | `AzStackWhatifSubDeleteOptions` |
@@ -2575,17 +4370,23 @@ public class RunCommandModule : Module<CommandResult>
 | `az staticwebapp create` | `AzStaticwebappCreateOptions` |
 | `az staticwebapp delete` | `AzStaticwebappDeleteOptions` |
 | `az staticwebapp disconnect` | `AzStaticwebappDisconnectOptions` |
+| `az staticwebapp enterprise-edge disable` | `AzStaticwebappEnterpriseEdgeDisableOptions` |
 | `az staticwebapp enterprise-edge enable` | `AzStaticwebappEnterpriseEdgeEnableOptions` |
+| `az staticwebapp enterprise-edge show` | `AzStaticwebappEnterpriseEdgeShowOptions` |
 | `az staticwebapp environment delete` | `AzStaticwebappEnvironmentDeleteOptions` |
 | `az staticwebapp environment functions` | `AzStaticwebappEnvironmentFunctionsOptions` |
 | `az staticwebapp environment list` | `AzStaticwebappEnvironmentListOptions` |
 | `az staticwebapp environment show` | `AzStaticwebappEnvironmentShowOptions` |
 | `az staticwebapp functions link` | `AzStaticwebappFunctionsLinkOptions` |
+| `az staticwebapp functions show` | `AzStaticwebappFunctionsShowOptions` |
+| `az staticwebapp functions unlink` | `AzStaticwebappFunctionsUnlinkOptions` |
 | `az staticwebapp hostname delete` | `AzStaticwebappHostnameDeleteOptions` |
 | `az staticwebapp hostname list` | `AzStaticwebappHostnameListOptions` |
 | `az staticwebapp hostname set` | `AzStaticwebappHostnameSetOptions` |
+| `az staticwebapp hostname show` | `AzStaticwebappHostnameShowOptions` |
 | `az staticwebapp identity assign` | `AzStaticwebappIdentityAssignOptions` |
 | `az staticwebapp identity remove` | `AzStaticwebappIdentityRemoveOptions` |
+| `az staticwebapp identity show` | `AzStaticwebappIdentityShowOptions` |
 | `az staticwebapp list` | `AzStaticwebappListOptions` |
 | `az staticwebapp reconnect` | `AzStaticwebappReconnectOptions` |
 | `az staticwebapp secrets list` | `AzStaticwebappSecretsListOptions` |
@@ -2600,6 +4401,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage account blob-service-properties cors-rule list` | `AzStorageAccountBlobServicePropertiesCorsRuleListOptions` |
 | `az storage account blob-service-properties show` | `AzStorageAccountBlobServicePropertiesShowOptions` |
 | `az storage account blob-service-properties update` | `AzStorageAccountBlobServicePropertiesUpdateOptions` |
+| `az storage account check-name` | `AzStorageAccountCheckNameOptions` |
 | `az storage account create` | `AzStorageAccountCreateOptions` |
 | `az storage account delete` | `AzStorageAccountDeleteOptions` |
 | `az storage account encryption-scope create` | `AzStorageAccountEncryptionScopeCreateOptions` |
@@ -2609,6 +4411,7 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage account failover` | `AzStorageAccountFailoverOptions` |
 | `az storage account file-service-properties show` | `AzStorageAccountFileServicePropertiesShowOptions` |
 | `az storage account file-service-properties update` | `AzStorageAccountFileServicePropertiesUpdateOptions` |
+| `az storage account file-service-usage` | `AzStorageAccountFileServiceUsageOptions` |
 | `az storage account generate-sas` | `AzStorageAccountGenerateSasOptions` |
 | `az storage account hns-migration start` | `AzStorageAccountHnsMigrationStartOptions` |
 | `az storage account hns-migration stop` | `AzStorageAccountHnsMigrationStopOptions` |
@@ -2616,13 +4419,24 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage account keys renew` | `AzStorageAccountKeysRenewOptions` |
 | `az storage account list` | `AzStorageAccountListOptions` |
 | `az storage account local-user create` | `AzStorageAccountLocalUserCreateOptions` |
+| `az storage account local-user delete` | `AzStorageAccountLocalUserDeleteOptions` |
 | `az storage account local-user list` | `AzStorageAccountLocalUserListOptions` |
+| `az storage account local-user list-keys` | `AzStorageAccountLocalUserListKeysOptions` |
+| `az storage account local-user regenerate-password` | `AzStorageAccountLocalUserRegeneratePasswordOptions` |
+| `az storage account local-user show` | `AzStorageAccountLocalUserShowOptions` |
 | `az storage account local-user update` | `AzStorageAccountLocalUserUpdateOptions` |
+| `az storage account management-policy create` | `AzStorageAccountManagementPolicyCreateOptions` |
+| `az storage account management-policy delete` | `AzStorageAccountManagementPolicyDeleteOptions` |
+| `az storage account management-policy show` | `AzStorageAccountManagementPolicyShowOptions` |
+| `az storage account management-policy update` | `AzStorageAccountManagementPolicyUpdateOptions` |
+| `az storage account migration show` | `AzStorageAccountMigrationShowOptions` |
 | `az storage account migration start` | `AzStorageAccountMigrationStartOptions` |
 | `az storage account network-rule add` | `AzStorageAccountNetworkRuleAddOptions` |
 | `az storage account network-rule list` | `AzStorageAccountNetworkRuleListOptions` |
 | `az storage account network-rule remove` | `AzStorageAccountNetworkRuleRemoveOptions` |
+| `az storage account network-security-perimeter-configuration list` | `AzStorageAccountNetworkSecurityPerimeterConfigurationListOptions` |
 | `az storage account network-security-perimeter-configuration reconcile` | `AzStorageAccountNetworkSecurityPerimeterConfigurationReconcileOptions` |
+| `az storage account network-security-perimeter-configuration show` | `AzStorageAccountNetworkSecurityPerimeterConfigurationShowOptions` |
 | `az storage account or-policy create` | `AzStorageAccountOrPolicyCreateOptions` |
 | `az storage account or-policy delete` | `AzStorageAccountOrPolicyDeleteOptions` |
 | `az storage account or-policy list` | `AzStorageAccountOrPolicyListOptions` |
@@ -2633,8 +4447,10 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage account or-policy rule update` | `AzStorageAccountOrPolicyRuleUpdateOptions` |
 | `az storage account or-policy show` | `AzStorageAccountOrPolicyShowOptions` |
 | `az storage account or-policy update` | `AzStorageAccountOrPolicyUpdateOptions` |
+| `az storage account revoke-delegation-keys` | `AzStorageAccountRevokeDelegationKeysOptions` |
 | `az storage account show` | `AzStorageAccountShowOptions` |
 | `az storage account show-connection-string` | `AzStorageAccountShowConnectionStringOptions` |
+| `az storage account show-usage` | `AzStorageAccountShowUsageOptions` |
 | `az storage account update` | `AzStorageAccountUpdateOptions` |
 | `az storage blob copy cancel` | `AzStorageBlobCopyCancelOptions` |
 | `az storage blob copy start` | `AzStorageBlobCopyStartOptions` |
@@ -2676,7 +4492,9 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage container policy update` | `AzStorageContainerPolicyUpdateOptions` |
 | `az storage container-rm create` | `AzStorageContainerRmCreateOptions` |
 | `az storage container-rm delete` | `AzStorageContainerRmDeleteOptions` |
+| `az storage container-rm exists` | `AzStorageContainerRmExistsOptions` |
 | `az storage container-rm list` | `AzStorageContainerRmListOptions` |
+| `az storage container-rm show` | `AzStorageContainerRmShowOptions` |
 | `az storage container-rm update` | `AzStorageContainerRmUpdateOptions` |
 | `az storage copy` | `AzStorageCopyOptions` |
 | `az storage cors add` | `AzStorageCorsAddOptions` |
@@ -2769,6 +4587,9 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage share metadata show` | `AzStorageShareMetadataShowOptions` |
 | `az storage share metadata update` | `AzStorageShareMetadataUpdateOptions` |
 | `az storage share policy create` | `AzStorageSharePolicyCreateOptions` |
+| `az storage share policy delete` | `AzStorageSharePolicyDeleteOptions` |
+| `az storage share policy list` | `AzStorageSharePolicyListOptions` |
+| `az storage share policy show` | `AzStorageSharePolicyShowOptions` |
 | `az storage share policy update` | `AzStorageSharePolicyUpdateOptions` |
 | `az storage share show` | `AzStorageShareShowOptions` |
 | `az storage share snapshot` | `AzStorageShareSnapshotOptions` |
@@ -2777,135 +4598,258 @@ public class RunCommandModule : Module<CommandResult>
 | `az storage share url` | `AzStorageShareUrlOptions` |
 | `az storage share-rm create` | `AzStorageShareRmCreateOptions` |
 | `az storage share-rm delete` | `AzStorageShareRmDeleteOptions` |
+| `az storage share-rm exists` | `AzStorageShareRmExistsOptions` |
 | `az storage share-rm list` | `AzStorageShareRmListOptions` |
 | `az storage share-rm restore` | `AzStorageShareRmRestoreOptions` |
 | `az storage share-rm show` | `AzStorageShareRmShowOptions` |
+| `az storage share-rm stats` | `AzStorageShareRmStatsOptions` |
+| `az storage share-rm update` | `AzStorageShareRmUpdateOptions` |
 | `az storage table create` | `AzStorageTableCreateOptions` |
 | `az storage table delete` | `AzStorageTableDeleteOptions` |
 | `az storage table exists` | `AzStorageTableExistsOptions` |
 | `az storage table generate-sas` | `AzStorageTableGenerateSasOptions` |
 | `az storage table list` | `AzStorageTableListOptions` |
 | `az storage table policy create` | `AzStorageTablePolicyCreateOptions` |
+| `az storage table policy delete` | `AzStorageTablePolicyDeleteOptions` |
+| `az storage table policy list` | `AzStorageTablePolicyListOptions` |
+| `az storage table policy show` | `AzStorageTablePolicyShowOptions` |
 | `az storage table policy update` | `AzStorageTablePolicyUpdateOptions` |
 | `az storage table stats` | `AzStorageTableStatsOptions` |
 | `az synapse activity-run query-by-pipeline-run` | `AzSynapseActivityRunQueryByPipelineRunOptions` |
+| `az synapse ad-only-auth disable` | `AzSynapseAdOnlyAuthDisableOptions` |
+| `az synapse ad-only-auth enable` | `AzSynapseAdOnlyAuthEnableOptions` |
+| `az synapse ad-only-auth get` | `AzSynapseAdOnlyAuthGetOptions` |
 | `az synapse data-flow create` | `AzSynapseDataFlowCreateOptions` |
 | `az synapse data-flow delete` | `AzSynapseDataFlowDeleteOptions` |
+| `az synapse data-flow list` | `AzSynapseDataFlowListOptions` |
 | `az synapse data-flow set` | `AzSynapseDataFlowSetOptions` |
+| `az synapse data-flow show` | `AzSynapseDataFlowShowOptions` |
 | `az synapse dataset create` | `AzSynapseDatasetCreateOptions` |
 | `az synapse dataset delete` | `AzSynapseDatasetDeleteOptions` |
+| `az synapse dataset list` | `AzSynapseDataSetListOptions` |
+| `az synapse dataset show` | `AzSynapseDataSetShowOptions` |
 | `az synapse dataset update` | `AzSynapseDatasetUpdateOptions` |
 | `az synapse integration-runtime delete` | `AzSynapseIntegrationRuntimeDeleteOptions` |
+| `az synapse integration-runtime get-connection-info` | `AzSynapseIntegrationRuntimeGetConnectionInfoOptions` |
+| `az synapse integration-runtime get-monitoring-data` | `AzSynapseIntegrationRuntimeGetMonitoringDataOptions` |
+| `az synapse integration-runtime get-status` | `AzSynapseIntegrationRuntimeGetStatusOptions` |
+| `az synapse integration-runtime list` | `AzSynapseIntegrationRuntimeListOptions` |
+| `az synapse integration-runtime list-auth-key` | `AzSynapseIntegrationRuntimeListAuthKeyOptions` |
 | `az synapse integration-runtime managed create` | `AzSynapseIntegrationRuntimeManagedCreateOptions` |
 | `az synapse integration-runtime regenerate-auth-key` | `AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions` |
 | `az synapse integration-runtime self-hosted create` | `AzSynapseIntegrationRuntimeSelfHostedCreateOptions` |
 | `az synapse integration-runtime show` | `AzSynapseIntegrationRuntimeShowOptions` |
 | `az synapse integration-runtime start` | `AzSynapseIntegrationRuntimeStartOptions` |
 | `az synapse integration-runtime stop` | `AzSynapseIntegrationRuntimeStopOptions` |
+| `az synapse integration-runtime sync-credentials` | `AzSynapseIntegrationRuntimeSyncCredentialsOptions` |
+| `az synapse integration-runtime update` | `AzSynapseIntegrationRuntimeUpdateOptions` |
 | `az synapse integration-runtime wait` | `AzSynapseIntegrationRuntimeWaitOptions` |
 | `az synapse integration-runtime-node delete` | `AzSynapseIntegrationRuntimeNodeDeleteOptions` |
+| `az synapse integration-runtime-node get-ip-address` | `AzSynapseIntegrationRuntimeNodeGetIpAddressOptions` |
+| `az synapse integration-runtime-node show` | `AzSynapseIntegrationRuntimeNodeShowOptions` |
+| `az synapse integration-runtime-node update` | `AzSynapseIntegrationRuntimeNodeUpdateOptions` |
 | `az synapse kql-script create` | `AzSynapseKqlScriptCreateOptions` |
 | `az synapse kql-script delete` | `AzSynapseKqlScriptDeleteOptions` |
 | `az synapse kql-script export` | `AzSynapseKqlScriptExportOptions` |
 | `az synapse kql-script import` | `AzSynapseKqlScriptImportOptions` |
+| `az synapse kql-script list` | `AzSynapseKqlScriptListOptions` |
+| `az synapse kql-script show` | `AzSynapseKqlScriptShowOptions` |
+| `az synapse kql-script wait` | `AzSynapseKqlScriptWaitOptions` |
 | `az synapse kusto pool add-language-extension` | `AzSynapseKustoPoolAddLanguageExtensionOptions` |
 | `az synapse kusto pool create` | `AzSynapseKustoPoolCreateOptions` |
 | `az synapse kusto pool delete` | `AzSynapseKustoPoolDeleteOptions` |
 | `az synapse kusto pool detach-follower-database` | `AzSynapseKustoPoolDetachFollowerDatabaseOptions` |
+| `az synapse kusto pool list` | `AzSynapseKustoPoolListOptions` |
+| `az synapse kusto pool list-follower-database` | `AzSynapseKustoPoolListFollowerDatabaseOptions` |
+| `az synapse kusto pool list-language-extension` | `AzSynapseKustoPoolListLanguageExtensionOptions` |
+| `az synapse kusto pool list-sku` | `AzSynapseKustoPoolListSkuOptions` |
 | `az synapse kusto pool remove-language-extension` | `AzSynapseKustoPoolRemoveLanguageExtensionOptions` |
+| `az synapse kusto pool show` | `AzSynapseKustoPoolShowOptions` |
 | `az synapse kusto pool start` | `AzSynapseKustoPoolStartOptions` |
 | `az synapse kusto pool stop` | `AzSynapseKustoPoolStopOptions` |
 | `az synapse kusto pool update` | `AzSynapseKustoPoolUpdateOptions` |
+| `az synapse kusto pool wait` | `AzSynapseKustoPoolWaitOptions` |
+| `az synapse link-connection create` | `AzSynapseLinkConnectionCreateOptions` |
+| `az synapse link-connection delete` | `AzSynapseLinkConnectionDeleteOptions` |
+| `az synapse link-connection edit-link-tables` | `AzSynapseLinkConnectionEditLinkTablesOptions` |
 | `az synapse link-connection get-link-tables-status` | `AzSynapseLinkConnectionGetLinkTablesStatusOptions` |
+| `az synapse link-connection get-status` | `AzSynapseLinkConnectionGetStatusOptions` |
+| `az synapse link-connection list` | `AzSynapseLinkConnectionListOptions` |
+| `az synapse link-connection list-link-tables` | `AzSynapseLinkConnectionListLinkTablesOptions` |
+| `az synapse link-connection show` | `AzSynapseLinkConnectionShowOptions` |
+| `az synapse link-connection start` | `AzSynapseLinkConnectionStartOptions` |
+| `az synapse link-connection stop` | `AzSynapseLinkConnectionStopOptions` |
+| `az synapse link-connection update` | `AzSynapseLinkConnectionUpdateOptions` |
+| `az synapse link-connection update-landing-zone-credential` | `AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions` |
 | `az synapse linked-service create` | `AzSynapseLinkedServiceCreateOptions` |
 | `az synapse linked-service delete` | `AzSynapseLinkedServiceDeleteOptions` |
+| `az synapse linked-service list` | `AzSynapseLinkedServiceListOptions` |
+| `az synapse linked-service show` | `AzSynapseLinkedServiceShowOptions` |
 | `az synapse linked-service update` | `AzSynapseLinkedServiceUpdateOptions` |
+| `az synapse managed-private-endpoints create` | `AzSynapseManagedPrivateEndpointsCreateOptions` |
 | `az synapse managed-private-endpoints delete` | `AzSynapseManagedPrivateEndpointsDeleteOptions` |
+| `az synapse managed-private-endpoints list` | `AzSynapseManagedPrivateEndpointsListOptions` |
+| `az synapse managed-private-endpoints show` | `AzSynapseManagedPrivateEndpointsShowOptions` |
 | `az synapse notebook create` | `AzSynapseNotebookCreateOptions` |
 | `az synapse notebook delete` | `AzSynapseNotebookDeleteOptions` |
 | `az synapse notebook export` | `AzSynapseNotebookExportOptions` |
 | `az synapse notebook import` | `AzSynapseNotebookImportOptions` |
+| `az synapse notebook list` | `AzSynapseNotebookListOptions` |
 | `az synapse notebook set` | `AzSynapseNotebookSetOptions` |
+| `az synapse notebook show` | `AzSynapseNotebookShowOptions` |
 | `az synapse pipeline create` | `AzSynapsePipelineCreateOptions` |
 | `az synapse pipeline create-run` | `AzSynapsePipelineCreateRunOptions` |
 | `az synapse pipeline delete` | `AzSynapsePipelineDeleteOptions` |
+| `az synapse pipeline list` | `AzSynapsePipelineListOptions` |
+| `az synapse pipeline show` | `AzSynapsePipelineShowOptions` |
 | `az synapse pipeline update` | `AzSynapsePipelineUpdateOptions` |
 | `az synapse pipeline-run cancel` | `AzSynapsePipelineRunCancelOptions` |
 | `az synapse pipeline-run query-by-workspace` | `AzSynapsePipelineRunQueryByWorkspaceOptions` |
+| `az synapse pipeline-run show` | `AzSynapsePipelineRunShowOptions` |
 | `az synapse role assignment create` | `AzSynapseRoleAssignmentCreateOptions` |
 | `az synapse role assignment delete` | `AzSynapseRoleAssignmentDeleteOptions` |
 | `az synapse role assignment list` | `AzSynapseRoleAssignmentListOptions` |
+| `az synapse role assignment show` | `AzSynapseRoleAssignmentShowOptions` |
 | `az synapse role definition list` | `AzSynapseRoleDefinitionListOptions` |
+| `az synapse role definition show` | `AzSynapseRoleDefinitionShowOptions` |
+| `az synapse role scope list` | `AzSynapseRoleScopeListOptions` |
 | `az synapse spark job cancel` | `AzSynapseSparkJobCancelOptions` |
 | `az synapse spark job list` | `AzSynapseSparkJobListOptions` |
+| `az synapse spark job show` | `AzSynapseSparkJobShowOptions` |
 | `az synapse spark job submit` | `AzSynapseSparkJobSubmitOptions` |
 | `az synapse spark pool create` | `AzSynapseSparkPoolCreateOptions` |
 | `az synapse spark pool delete` | `AzSynapseSparkPoolDeleteOptions` |
+| `az synapse spark pool list` | `AzSynapseSparkPoolListOptions` |
+| `az synapse spark pool show` | `AzSynapseSparkPoolShowOptions` |
 | `az synapse spark pool update` | `AzSynapseSparkPoolUpdateOptions` |
+| `az synapse spark pool wait` | `AzSynapseSparkPoolWaitOptions` |
 | `az synapse spark session cancel` | `AzSynapseSparkSessionCancelOptions` |
 | `az synapse spark session create` | `AzSynapseSparkSessionCreateOptions` |
 | `az synapse spark session list` | `AzSynapseSparkSessionListOptions` |
+| `az synapse spark session reset-timeout` | `AzSynapseSparkSessionResetTimeoutOptions` |
+| `az synapse spark session show` | `AzSynapseSparkSessionShowOptions` |
 | `az synapse spark statement cancel` | `AzSynapseSparkStatementCancelOptions` |
+| `az synapse spark statement invoke` | `AzSynapseSparkStatementInvokeOptions` |
+| `az synapse spark statement list` | `AzSynapseSparkStatementListOptions` |
+| `az synapse spark statement show` | `AzSynapseSparkStatementShowOptions` |
 | `az synapse spark-job-definition create` | `AzSynapseSparkJobDefinitionCreateOptions` |
 | `az synapse spark-job-definition delete` | `AzSynapseSparkJobDefinitionDeleteOptions` |
+| `az synapse spark-job-definition list` | `AzSynapseSparkJobDefinitionListOptions` |
+| `az synapse spark-job-definition show` | `AzSynapseSparkJobDefinitionShowOptions` |
 | `az synapse spark-job-definition update` | `AzSynapseSparkJobDefinitionUpdateOptions` |
+| `az synapse spark-job-definition wait` | `AzSynapseSparkJobDefinitionWaitOptions` |
 | `az synapse sql ad-admin create` | `AzSynapseSqlAdAdminCreateOptions` |
 | `az synapse sql ad-admin delete` | `AzSynapseSqlAdAdminDeleteOptions` |
+| `az synapse sql ad-admin show` | `AzSynapseSqlAdAdminShowOptions` |
 | `az synapse sql ad-admin update` | `AzSynapseSqlAdAdminUpdateOptions` |
+| `az synapse sql ad-admin wait` | `AzSynapseSqlAdAdminWaitOptions` |
+| `az synapse sql audit-policy show` | `AzSynapseSqlAuditPolicyShowOptions` |
 | `az synapse sql audit-policy update` | `AzSynapseSqlAuditPolicyUpdateOptions` |
+| `az synapse sql audit-policy wait` | `AzSynapseSqlAuditPolicyWaitOptions` |
+| `az synapse sql pool audit-policy show` | `AzSynapseSqlPoolAuditPolicyShowOptions` |
 | `az synapse sql pool audit-policy update` | `AzSynapseSqlPoolAuditPolicyUpdateOptions` |
+| `az synapse sql pool classification create` | `AzSynapseSqlPoolClassificationCreateOptions` |
+| `az synapse sql pool classification delete` | `AzSynapseSqlPoolClassificationDeleteOptions` |
 | `az synapse sql pool classification list` | `AzSynapseSqlPoolClassificationListOptions` |
+| `az synapse sql pool classification recommendation disable` | `AzSynapseSqlPoolClassificationRecommendationDisableOptions` |
+| `az synapse sql pool classification recommendation enable` | `AzSynapseSqlPoolClassificationRecommendationEnableOptions` |
 | `az synapse sql pool classification recommendation list` | `AzSynapseSqlPoolClassificationRecommendationListOptions` |
+| `az synapse sql pool classification show` | `AzSynapseSqlPoolClassificationShowOptions` |
 | `az synapse sql pool classification update` | `AzSynapseSqlPoolClassificationUpdateOptions` |
 | `az synapse sql pool create` | `AzSynapseSqlPoolCreateOptions` |
 | `az synapse sql pool delete` | `AzSynapseSqlPoolDeleteOptions` |
+| `az synapse sql pool list` | `AzSynapseSqlPoolListOptions` |
+| `az synapse sql pool list-deleted` | `AzSynapseSqlPoolListDeletedOptions` |
+| `az synapse sql pool pause` | `AzSynapseSqlPoolPauseOptions` |
 | `az synapse sql pool restore` | `AzSynapseSqlPoolRestoreOptions` |
+| `az synapse sql pool resume` | `AzSynapseSqlPoolResumeOptions` |
+| `az synapse sql pool show` | `AzSynapseSqlPoolShowOptions` |
+| `az synapse sql pool show-connection-string` | `AzSynapseSqlPoolShowConnectionStringOptions` |
+| `az synapse sql pool tde set` | `AzSynapseSqlPoolTdeSetOptions` |
+| `az synapse sql pool tde show` | `AzSynapseSqlPoolTdeShowOptions` |
+| `az synapse sql pool threat-policy show` | `AzSynapseSqlPoolThreatPolicyShowOptions` |
 | `az synapse sql pool threat-policy update` | `AzSynapseSqlPoolThreatPolicyUpdateOptions` |
 | `az synapse sql pool update` | `AzSynapseSqlPoolUpdateOptions` |
+| `az synapse sql pool wait` | `AzSynapseSqlPoolWaitOptions` |
 | `az synapse sql-script create` | `AzSynapseSqlScriptCreateOptions` |
 | `az synapse sql-script delete` | `AzSynapseSqlScriptDeleteOptions` |
 | `az synapse sql-script export` | `AzSynapseSqlScriptExportOptions` |
 | `az synapse sql-script import` | `AzSynapseSqlScriptImportOptions` |
+| `az synapse sql-script list` | `AzSynapseSqlScriptListOptions` |
+| `az synapse sql-script show` | `AzSynapseSqlScriptShowOptions` |
+| `az synapse sql-script wait` | `AzSynapseSqlScriptWaitOptions` |
 | `az synapse trigger create` | `AzSynapseTriggerCreateOptions` |
 | `az synapse trigger delete` | `AzSynapseTriggerDeleteOptions` |
+| `az synapse trigger get-event-subscription-status` | `AzSynapseTriggerGetEventSubscriptionStatusOptions` |
+| `az synapse trigger list` | `AzSynapseTriggerListOptions` |
+| `az synapse trigger show` | `AzSynapseTriggerShowOptions` |
 | `az synapse trigger start` | `AzSynapseTriggerStartOptions` |
 | `az synapse trigger stop` | `AzSynapseTriggerStopOptions` |
 | `az synapse trigger subscribe-to-event` | `AzSynapseTriggerSubscribeToEventOptions` |
 | `az synapse trigger unsubscribe-from-event` | `AzSynapseTriggerUnsubscribeFromEventOptions` |
 | `az synapse trigger update` | `AzSynapseTriggerUpdateOptions` |
+| `az synapse trigger wait` | `AzSynapseTriggerWaitOptions` |
+| `az synapse trigger-run cancel` | `AzSynapseTriggerRunCancelOptions` |
 | `az synapse trigger-run query-by-workspace` | `AzSynapseTriggerRunQueryByWorkspaceOptions` |
+| `az synapse trigger-run rerun` | `AzSynapseTriggerRunRerunOptions` |
 | `az synapse workspace activate` | `AzSynapseWorkspaceActivateOptions` |
+| `az synapse workspace check-name` | `AzSynapseWorkspaceCheckNameOptions` |
 | `az synapse workspace create` | `AzSynapseWorkspaceCreateOptions` |
 | `az synapse workspace delete` | `AzSynapseWorkspaceDeleteOptions` |
 | `az synapse workspace firewall-rule create` | `AzSynapseWorkspaceFirewallRuleCreateOptions` |
 | `az synapse workspace firewall-rule delete` | `AzSynapseWorkspaceFirewallRuleDeleteOptions` |
+| `az synapse workspace firewall-rule list` | `AzSynapseWorkspaceFirewallRuleListOptions` |
+| `az synapse workspace firewall-rule show` | `AzSynapseWorkspaceFirewallRuleShowOptions` |
 | `az synapse workspace firewall-rule update` | `AzSynapseWorkspaceFirewallRuleUpdateOptions` |
+| `az synapse workspace firewall-rule wait` | `AzSynapseWorkspaceFirewallRuleWaitOptions` |
 | `az synapse workspace key create` | `AzSynapseWorkspaceKeyCreateOptions` |
 | `az synapse workspace key delete` | `AzSynapseWorkspaceKeyDeleteOptions` |
+| `az synapse workspace key list` | `AzSynapseWorkspaceKeyListOptions` |
+| `az synapse workspace key show` | `AzSynapseWorkspaceKeyShowOptions` |
+| `az synapse workspace key wait` | `AzSynapseWorkspaceKeyWaitOptions` |
 | `az synapse workspace list` | `AzSynapseWorkspaceListOptions` |
 | `az synapse workspace managed-identity grant-sql-access` | `AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions` |
 | `az synapse workspace managed-identity revoke-sql-access` | `AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions` |
+| `az synapse workspace managed-identity show-sql-access` | `AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions` |
+| `az synapse workspace managed-identity wait` | `AzSynapseWorkspaceManagedIdentityWaitOptions` |
+| `az synapse workspace show` | `AzSynapseWorkspaceShowOptions` |
 | `az synapse workspace update` | `AzSynapseWorkspaceUpdateOptions` |
+| `az synapse workspace wait` | `AzSynapseWorkspaceWaitOptions` |
 | `az synapse workspace-package delete` | `AzSynapseWorkspacePackageDeleteOptions` |
+| `az synapse workspace-package list` | `AzSynapseWorkspacePackageListOptions` |
+| `az synapse workspace-package show` | `AzSynapseWorkspacePackageShowOptions` |
 | `az synapse workspace-package upload` | `AzSynapseWorkspacePackageUploadOptions` |
 | `az synapse workspace-package upload-batch` | `AzSynapseWorkspacePackageUploadBatchOptions` |
+| `az tag add-value` | `AzTagAddValueOptions` |
 | `az tag create` | `AzTagCreateOptions` |
 | `az tag delete` | `AzTagDeleteOptions` |
 | `az tag list` | `AzTagListOptions` |
+| `az tag remove-value` | `AzTagRemoveValueOptions` |
+| `az tag update` | `AzTagUpdateOptions` |
 | `az ts create` | `AzTsCreateOptions` |
 | `az ts delete` | `AzTsDeleteOptions` |
 | `az ts export` | `AzTsExportOptions` |
 | `az ts list` | `AzTsListOptions` |
 | `az ts show` | `AzTsShowOptions` |
 | `az ts update` | `AzTsUpdateOptions` |
+| `az vm application list` | `AzVmApplicationListOptions` |
 | `az vm application set` | `AzVmApplicationSetOptions` |
 | `az vm assess-patches` | `AzVmAssessPatchesOptions` |
 | `az vm auto-shutdown` | `AzVmAutoShutdownOptions` |
+| `az vm availability-set cancel-migration-to-vmss` | `AzVmAvailabilitySetCancelMigrationToVmssOptions` |
+| `az vm availability-set convert` | `AzVmAvailabilitySetConvertOptions` |
 | `az vm availability-set convert-to-vmss` | `AzVmAvailabilitySetConvertToVmssOptions` |
 | `az vm availability-set create` | `AzVmAvailabilitySetCreateOptions` |
+| `az vm availability-set delete` | `AzVmAvailabilitySetDeleteOptions` |
 | `az vm availability-set list` | `AzVmAvailabilitySetListOptions` |
+| `az vm availability-set list-sizes` | `AzVmAvailabilitySetListSizesOptions` |
+| `az vm availability-set show` | `AzVmAvailabilitySetShowOptions` |
+| `az vm availability-set start-migration-to-vmss` | `AzVmAvailabilitySetStartMigrationToVmssOptions` |
 | `az vm availability-set update` | `AzVmAvailabilitySetUpdateOptions` |
+| `az vm availability-set validate-migration-to-vmss` | `AzVmAvailabilitySetValidateMigrationToVmssOptions` |
+| `az vm boot-diagnostics disable` | `AzVmBootDiagnosticsDisableOptions` |
 | `az vm boot-diagnostics enable` | `AzVmBootDiagnosticsEnableOptions` |
+| `az vm boot-diagnostics get-boot-log` | `AzVmBootDiagnosticsGetBootLogOptions` |
 | `az vm boot-diagnostics get-boot-log-uris` | `AzVmBootDiagnosticsGetBootLogUrisOptions` |
 | `az vm capture` | `AzVmCaptureOptions` |
 | `az vm convert` | `AzVmConvertOptions` |
@@ -2918,24 +4862,38 @@ public class RunCommandModule : Module<CommandResult>
 | `az vm disk detach` | `AzVmDiskDetachOptions` |
 | `az vm encryption disable` | `AzVmEncryptionDisableOptions` |
 | `az vm encryption enable` | `AzVmEncryptionEnableOptions` |
+| `az vm encryption show` | `AzVmEncryptionShowOptions` |
 | `az vm extension delete` | `AzVmExtensionDeleteOptions` |
 | `az vm extension image list` | `AzVmExtensionImageListOptions` |
+| `az vm extension image list-names` | `AzVmExtensionImageListNamesOptions` |
 | `az vm extension image list-versions` | `AzVmExtensionImageListVersionsOptions` |
+| `az vm extension image show` | `AzVmExtensionImageShowOptions` |
+| `az vm extension list` | `AzVmExtensionListOptions` |
 | `az vm extension set` | `AzVmExtensionSetOptions` |
 | `az vm extension show` | `AzVmExtensionShowOptions` |
 | `az vm extension wait` | `AzVmExtensionWaitOptions` |
+| `az vm generalize` | `AzVmGeneralizeOptions` |
+| `az vm get-instance-view` | `AzVmGetInstanceViewOptions` |
 | `az vm host create` | `AzVmHostCreateOptions` |
 | `az vm host delete` | `AzVmHostDeleteOptions` |
+| `az vm host get-instance-view` | `AzVmHostGetInstanceViewOptions` |
 | `az vm host group create` | `AzVmHostGroupCreateOptions` |
 | `az vm host group delete` | `AzVmHostGroupDeleteOptions` |
+| `az vm host group get-instance-view` | `AzVmHostGroupGetInstanceViewOptions` |
 | `az vm host group list` | `AzVmHostGroupListOptions` |
+| `az vm host group show` | `AzVmHostGroupShowOptions` |
+| `az vm host group update` | `AzVmHostGroupUpdateOptions` |
+| `az vm host list` | `AzVmHostListOptions` |
+| `az vm host list-resize-options` | `AzVmHostListResizeOptionsOptions` |
 | `az vm host redeploy` | `AzVmHostRedeployOptions` |
 | `az vm host resize` | `AzVmHostResizeOptions` |
 | `az vm host restart` | `AzVmHostRestartOptions` |
 | `az vm host show` | `AzVmHostShowOptions` |
+| `az vm host update` | `AzVmHostUpdateOptions` |
 | `az vm host wait` | `AzVmHostWaitOptions` |
 | `az vm identity assign` | `AzVmIdentityAssignOptions` |
 | `az vm identity remove` | `AzVmIdentityRemoveOptions` |
+| `az vm identity show` | `AzVmIdentityShowOptions` |
 | `az vm image list` | `AzVmImageListOptions` |
 | `az vm image list-offers` | `AzVmImageListOffersOptions` |
 | `az vm image list-publishers` | `AzVmImageListPublishersOptions` |
@@ -2946,12 +4904,17 @@ public class RunCommandModule : Module<CommandResult>
 | `az vm image terms show` | `AzVmImageTermsShowOptions` |
 | `az vm install-patches` | `AzVmInstallPatchesOptions` |
 | `az vm list` | `AzVmListOptions` |
+| `az vm list-ip-addresses` | `AzVmListIpAddressesOptions` |
 | `az vm list-skus` | `AzVmListSkusOptions` |
+| `az vm list-usage` | `AzVmListUsageOptions` |
+| `az vm list-vm-resize-options` | `AzVmListVmResizeOptionsOptions` |
 | `az vm migrate-to-vmss` | `AzVmMigrateToVmssOptions` |
 | `az vm monitor log show` | `AzVmMonitorLogShowOptions` |
 | `az vm nic add` | `AzVmNicAddOptions` |
+| `az vm nic list` | `AzVmNicListOptions` |
 | `az vm nic remove` | `AzVmNicRemoveOptions` |
 | `az vm nic set` | `AzVmNicSetOptions` |
+| `az vm nic show` | `AzVmNicShowOptions` |
 | `az vm open-port` | `AzVmOpenPortOptions` |
 | `az vm perform-maintenance` | `AzVmPerformMaintenanceOptions` |
 | `az vm reapply` | `AzVmReapplyOptions` |
@@ -2968,15 +4931,21 @@ public class RunCommandModule : Module<CommandResult>
 | `az vm run-command wait` | `AzVmRunCommandWaitOptions` |
 | `az vm secret add` | `AzVmSecretAddOptions` |
 | `az vm secret format` | `AzVmSecretFormatOptions` |
+| `az vm secret list` | `AzVmSecretListOptions` |
 | `az vm secret remove` | `AzVmSecretRemoveOptions` |
 | `az vm show` | `AzVmShowOptions` |
+| `az vm simulate-eviction` | `AzVmSimulateEvictionOptions` |
 | `az vm start` | `AzVmStartOptions` |
 | `az vm stop` | `AzVmStopOptions` |
 | `az vm unmanaged-disk attach` | `AzVmUnmanagedDiskAttachOptions` |
+| `az vm unmanaged-disk detach` | `AzVmUnmanagedDiskDetachOptions` |
+| `az vm unmanaged-disk list` | `AzVmUnmanagedDiskListOptions` |
 | `az vm update` | `AzVmUpdateOptions` |
 | `az vm user delete` | `AzVmUserDeleteOptions` |
 | `az vm user reset-ssh` | `AzVmUserResetSshOptions` |
 | `az vm user update` | `AzVmUserUpdateOptions` |
+| `az vm wait` | `AzVmWaitOptions` |
+| `az vmss application list` | `AzVmssApplicationListOptions` |
 | `az vmss application set` | `AzVmssApplicationSetOptions` |
 | `az vmss create` | `AzVmssCreateOptions` |
 | `az vmss deallocate` | `AzVmssDeallocateOptions` |
@@ -2985,20 +4954,36 @@ public class RunCommandModule : Module<CommandResult>
 | `az vmss diagnostics get-default-config` | `AzVmssDiagnosticsGetDefaultConfigOptions` |
 | `az vmss diagnostics set` | `AzVmssDiagnosticsSetOptions` |
 | `az vmss disk attach` | `AzVmssDiskAttachOptions` |
+| `az vmss disk detach` | `AzVmssDiskDetachOptions` |
 | `az vmss encryption disable` | `AzVmssEncryptionDisableOptions` |
 | `az vmss encryption enable` | `AzVmssEncryptionEnableOptions` |
+| `az vmss encryption show` | `AzVmssEncryptionShowOptions` |
 | `az vmss extension delete` | `AzVmssExtensionDeleteOptions` |
 | `az vmss extension image list` | `AzVmssExtensionImageListOptions` |
+| `az vmss extension image list-names` | `AzVmssExtensionImageListNamesOptions` |
 | `az vmss extension image list-versions` | `AzVmssExtensionImageListVersionsOptions` |
+| `az vmss extension image show` | `AzVmssExtensionImageShowOptions` |
+| `az vmss extension list` | `AzVmssExtensionListOptions` |
 | `az vmss extension set` | `AzVmssExtensionSetOptions` |
+| `az vmss extension show` | `AzVmssExtensionShowOptions` |
+| `az vmss get-instance-view` | `AzVmssGetInstanceViewOptions` |
+| `az vmss get-os-upgrade-history` | `AzVmssGetOsUpgradeHistoryOptions` |
+| `az vmss get-resiliency-view` | `AzVmssGetResiliencyViewOptions` |
 | `az vmss identity assign` | `AzVmssIdentityAssignOptions` |
+| `az vmss identity show` | `AzVmssIdentityShowOptions` |
 | `az vmss list` | `AzVmssListOptions` |
+| `az vmss list-instance-connection-info` | `AzVmssListInstanceConnectionInfoOptions` |
+| `az vmss list-instance-public-ips` | `AzVmssListInstancePublicIpsOptions` |
 | `az vmss list-instances` | `AzVmssListInstancesOptions` |
+| `az vmss list-skus` | `AzVmssListSkusOptions` |
+| `az vmss nic list` | `AzVmssNicListOptions` |
+| `az vmss nic list-vm-nics` | `AzVmssNicListVmNicsOptions` |
 | `az vmss nic show` | `AzVmssNicShowOptions` |
 | `az vmss perform-maintenance` | `AzVmssPerformMaintenanceOptions` |
 | `az vmss reimage` | `AzVmssReimageOptions` |
 | `az vmss restart` | `AzVmssRestartOptions` |
 | `az vmss rolling-upgrade cancel` | `AzVmssRollingUpgradeCancelOptions` |
+| `az vmss rolling-upgrade get-latest` | `AzVmssRollingUpgradeGetLatestOptions` |
 | `az vmss rolling-upgrade start` | `AzVmssRollingUpgradeStartOptions` |
 | `az vmss run-command create` | `AzVmssRunCommandCreateOptions` |
 | `az vmss run-command delete` | `AzVmssRunCommandDeleteOptions` |
@@ -3010,11 +4995,13 @@ public class RunCommandModule : Module<CommandResult>
 | `az vmss scale` | `AzVmssScaleOptions` |
 | `az vmss set-orchestration-service-state` | `AzVmssSetOrchestrationServiceStateOptions` |
 | `az vmss show` | `AzVmssShowOptions` |
+| `az vmss simulate-eviction` | `AzVmssSimulateEvictionOptions` |
 | `az vmss start` | `AzVmssStartOptions` |
 | `az vmss stop` | `AzVmssStopOptions` |
 | `az vmss update` | `AzVmssUpdateOptions` |
 | `az vmss update-domain-walk` | `AzVmssUpdateDomainWalkOptions` |
 | `az vmss update-instances` | `AzVmssUpdateInstancesOptions` |
+| `az vmss wait` | `AzVmssWaitOptions` |
 | `az webapp auth show` | `AzWebappAuthShowOptions` |
 | `az webapp auth update` | `AzWebappAuthUpdateOptions` |
 | `az webapp browse` | `AzWebappBrowseOptions` |
@@ -3039,14 +5026,17 @@ public class RunCommandModule : Module<CommandResult>
 | `az webapp config container show` | `AzWebappConfigContainerShowOptions` |
 | `az webapp config hostname add` | `AzWebappConfigHostnameAddOptions` |
 | `az webapp config hostname delete` | `AzWebappConfigHostnameDeleteOptions` |
+| `az webapp config hostname get-external-ip` | `AzWebappConfigHostnameGetExternalIpOptions` |
 | `az webapp config hostname list` | `AzWebappConfigHostnameListOptions` |
 | `az webapp config set` | `AzWebappConfigSetOptions` |
 | `az webapp config show` | `AzWebappConfigShowOptions` |
 | `az webapp config snapshot list` | `AzWebappConfigSnapshotListOptions` |
 | `az webapp config snapshot restore` | `AzWebappConfigSnapshotRestoreOptions` |
 | `az webapp config ssl bind` | `AzWebappConfigSslBindOptions` |
+| `az webapp config ssl delete` | `AzWebappConfigSslDeleteOptions` |
 | `az webapp config ssl import` | `AzWebappConfigSslImportOptions` |
 | `az webapp config ssl list` | `AzWebappConfigSslListOptions` |
+| `az webapp config ssl show` | `AzWebappConfigSslShowOptions` |
 | `az webapp config ssl unbind` | `AzWebappConfigSslUnbindOptions` |
 | `az webapp config ssl upload` | `AzWebappConfigSslUploadOptions` |
 | `az webapp config storage-account add` | `AzWebappConfigStorageAccountAddOptions` |
@@ -3127,6 +5117,8 @@ public class RunCommandModule : Module<CommandResult>
 | `az webapp deployment list-publishing-profiles` | `AzWebappDeploymentListPublishingProfilesOptions` |
 | `az webapp deployment slot auto-swap` | `AzWebappDeploymentSlotAutoSwapOptions` |
 | `az webapp deployment slot create` | `AzWebappDeploymentSlotCreateOptions` |
+| `az webapp deployment slot delete` | `AzWebappDeploymentSlotDeleteOptions` |
+| `az webapp deployment slot list` | `AzWebappDeploymentSlotListOptions` |
 | `az webapp deployment slot swap` | `AzWebappDeploymentSlotSwapOptions` |
 | `az webapp deployment source config` | `AzWebappDeploymentSourceConfigOptions` |
 | `az webapp deployment source config-local-git` | `AzWebappDeploymentSourceConfigLocalGitOptions` |
@@ -3162,6 +5154,9 @@ public class RunCommandModule : Module<CommandResult>
 | `az webapp sitecontainers update` | `AzWebappSitecontainersUpdateOptions` |
 | `az webapp start` | `AzWebappStartOptions` |
 | `az webapp stop` | `AzWebappStopOptions` |
+| `az webapp traffic-routing clear` | `AzWebappTrafficRoutingClearOptions` |
+| `az webapp traffic-routing set` | `AzWebappTrafficRoutingSetOptions` |
+| `az webapp traffic-routing show` | `AzWebappTrafficRoutingShowOptions` |
 | `az webapp update` | `AzWebappUpdateOptions` |
 | `az webapp vnet-integration add` | `AzWebappVnetIntegrationAddOptions` |
 | `az webapp vnet-integration list` | `AzWebappVnetIntegrationListOptions` |

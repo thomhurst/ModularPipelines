@@ -18,8 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "shared-private-link-resource", "update")]
-public record AzSearchSharedPrivateLinkResourceUpdateOptions : AzOptions
+public record AzSearchSharedPrivateLinkResourceUpdateOptions(
+    [property: CliOption("--group-id")] string GroupId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--request-message")] string RequestMessage,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--resource-id")] string ResourceId,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
+    public AzSearchSharedPrivateLinkResourceUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

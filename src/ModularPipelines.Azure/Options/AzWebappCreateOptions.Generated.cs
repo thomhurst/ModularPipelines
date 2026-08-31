@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "create")]
-public record AzWebappCreateOptions : AzOptions
+public record AzWebappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--plan", ShortForm = "-p")] string Plan,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzWebappCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Accept system or user assigned identity which will be set for acr image pull. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
     /// </summary>
@@ -41,8 +50,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Disabled by default for new apps. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--basic-auth")]
-    public bool? BasicAuth { get; set; }
+    [CliOption("--basic-auth")]
+    public string? BasicAuth { get; set; }
 
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
@@ -69,6 +78,12 @@ public record AzWebappCreateOptions : AzOptions
     public bool? ContainerRegistryUser { get; set; }
 
     /// <summary>
+    /// Container image name from container registry, e.g. publisher/image-name:tag.
+    /// </summary>
+    [CliFlag("--deployment-container-image-name", ShortForm = "-i")]
+    public bool? DeploymentContainerImageName { get; set; }
+
+    /// <summary>
     /// Enable local git.
     /// </summary>
     [CliFlag("--deployment-local-git", ShortForm = "-l")]
@@ -87,10 +102,22 @@ public record AzWebappCreateOptions : AzOptions
     public bool? DeploymentSourceUrl { get; set; }
 
     /// <summary>
+    /// The container registry server password. Required for private registries.
+    /// </summary>
+    [CliFlag("--docker-registry-server-password")]
+    public bool? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server username.
+    /// </summary>
+    [CliFlag("--docker-registry-server-user")]
+    public bool? DockerRegistryServerUser { get; set; }
+
+    /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation. Allowed values: NoReuse, ResourceGroupReuse,
     /// </summary>
-    [CliFlag("--domain-name-scope")]
-    public bool? DomainNameScope { get; set; }
+    [CliOption("--domain-name-scope")]
+    public string? DomainNameScope { get; set; }
 
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers. Allowed values: false, true.
@@ -125,14 +152,14 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Linux only.  Allowed values: COMPOSE, KUBE.
     /// </summary>
-    [CliFlag("--multicontainer-config-type")]
-    public bool? MulticontainerConfigType { get; set; }
+    [CliOption("--multicontainer-config-type")]
+    public string? MulticontainerConfigType { get; set; }
 
     /// <summary>
     /// Enable or disable public access to the web app.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.  Default: Contributor.
@@ -149,8 +176,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Scope that the system assigned identity can access.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
@@ -179,14 +206,14 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
 
     [Obsolete("Use AcrIdentity instead.")]
     public string? AcrIdentityValue

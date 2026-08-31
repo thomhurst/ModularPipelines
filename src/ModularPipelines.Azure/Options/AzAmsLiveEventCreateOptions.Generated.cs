@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-event", "create")]
-public record AzAmsLiveEventCreateOptions : AzOptions
+public record AzAmsLiveEventCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--ips", GroupValues = true)] IEnumerable<string> Ips,
+    [property: CliOption("--streaming-protocol")] string StreamingProtocol
+) : AzOptions
 {
+    public AzAmsLiveEventCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The flag indicates if the resource should be automatically started on creation.
     /// </summary>
@@ -47,25 +58,97 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     /// <summary>
     /// The options to use for the LiveEvent. This value is specified at creation time and cannot be updated.  Allowed values:
     /// </summary>
-    [CliFlag("--stream-options")]
-    public bool? StreamOptions { get; set; }
+    [CliOption("--stream-options")]
+    public string? StreamOptions { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Live transcription language for the live event. Allowed values: ca-ES, da-DK, de-DE, en-AU, en-CA, en-GB, en-IN, en- NZ, en-US, es-ES, es-MX, fi-FI, fr-CA, fr-FR, it-IT, nl-NL, pt-BR, pt-PT, sv-SE See https://go.microsoft.com/fwlink/?linkid=2133742 for more information about the live transcription feature.
     /// </summary>
-    [CliFlag("--transcription-lang")]
-    public bool? TranscriptionLang { get; set; }
+    [CliOption("--transcription-lang")]
+    public string? TranscriptionLang { get; set; }
 
     /// <summary>
     /// Specifies whether a static hostname would be assigned to the live event preview and ingest endpoints. This value can only be updated if the live event is in Standby state. If hostname_prefix is not specified, the live event name will be used as the hostname prefix.
     /// </summary>
     [CliFlag("--use-static-hostname")]
     public bool? UseStaticHostname { get; set; }
+
+    /// <summary>
+    /// Filepath to the clientaccesspolicy.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
+    /// </summary>
+    [CliFlag("--client-access-policy")]
+    public bool? ClientAccessPolicy { get; set; }
+
+    /// <summary>
+    /// Filepath to the crossdomain.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
+    /// </summary>
+    [CliFlag("--cross-domain-policy")]
+    public bool? CrossDomainPolicy { get; set; }
+
+    /// <summary>
+    /// The encoding type for live event. This value is specified at creation time and cannot be updated. Allowed values:
+    /// </summary>
+    [CliOption("--encoding-type")]
+    public string? EncodingType { get; set; }
+
+    /// <summary>
+    /// Use an ISO 8601 time value between 0.5 to 20 seconds to specify the output fragment length for the video and audiotracks of an encoding live event. For example, use PT2S to indicate 2 seconds. For the video track it also defines the key frame interval, or the length of a GoP (group of pictures). If this value is not set for anencoding live event, the fragment duration defaults to 2 seconds. The value cannot be set for pass-through live events.
+    /// </summary>
+    [CliFlag("--key-frame-interval")]
+    public bool? KeyFrameInterval { get; set; }
+
+    /// <summary>
+    /// The encoding preset name. This value is specified at creation time and cannot be updated.
+    /// </summary>
+    [CliFlag("--preset-name")]
+    public bool? PresetName { get; set; }
+
+    /// <summary>
+    /// Specifies how the input video will be resized to fit the desired output resolution(s). Default is None.  Allowed values: None, AutoSize, AutoFit.
+    /// </summary>
+    [CliOption("--stretch-mode")]
+    public string? StretchMode { get; set; }
+
+    /// <summary>
+    /// A unique identifier for a stream. This can be specified at creation time but cannot be updated. If omitted, the service will generate a unique value.
+    /// </summary>
+    [CliFlag("--access-token")]
+    public bool? AccessToken { get; set; }
+
+    /// <summary>
+    /// ISO 8601 timespan duration of the key frame interval duration in seconds. The value should be an interger in the range of 1 (PT1S or 00:00:01) to 30 (PT30S or 00:00:30) seconds.
+    /// </summary>
+    [CliFlag("--key-frame-interval-duration")]
+    public bool? KeyFrameIntervalDuration { get; set; }
+
+    /// <summary>
+    /// An Alternative Media Identifier associated with the StreamingLocator created for the preview. This value is specified at creation time and cannot be updated. The identifier can be used in the
+    /// </summary>
+    [CliFlag("--alternative-media-id")]
+    public bool? AlternativeMediaId { get; set; }
+
+    /// <summary>
+    /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.
+    /// </summary>
+    [CliOption("--preview-ips", GroupValues = true)]
+    public IEnumerable<string>? PreviewIps { get; set; }
+
+    /// <summary>
+    /// The identifier of the preview locator in Guid format. Specifying this at creation time allows the caller to know the preview locator url before the event is created. If omitted, the service will generate a random identifier. This value cannot be updated once the live event is created.
+    /// </summary>
+    [CliOption("--preview-locator")]
+    public string? PreviewLocator { get; set; }
+
+    /// <summary>
+    /// The name of streaming policy used for the live event preview. This can be specified at creation time but cannot be updated.
+    /// </summary>
+    [CliOption("--streaming-policy-name")]
+    public string? StreamingPolicyName { get; set; }
 
 }

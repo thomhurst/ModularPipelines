@@ -29,13 +29,13 @@ public record AzNetworkExpressRouteGatewayConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en- us/azure/virtual-wan/effective-routes- virtual-hub?branch=pr-en- us-91866#aboutdefaultroute might be helpful. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--internet-security")]
+    [CliOption("--internet-security")]
     public bool? InternetSecurity { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -43,5 +43,95 @@ public record AzNetworkExpressRouteGatewayConnectionUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--routing-weight")]
     public bool? RoutingWeight { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliFlag("--circuit-name")]
+    public bool? CircuitName { get; set; }
+
+    /// <summary>
+    /// Name or ID of an ExpressRoute peering.
+    /// </summary>
+    [CliOption("--peering")]
+    public string? Peering { get; set; }
+
+    /// <summary>
+    /// ExpressRoute gateway name.
+    /// </summary>
+    [CliFlag("--gateway-name")]
+    public bool? GatewayName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// ExpressRoute connection name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The resource id of route table associated with this routing configuration.
+    /// </summary>
+    [CliOption("--associated", ShortForm = "--associated-route-table")]
+    public string? Associated { get; set; }
+
+    /// <summary>
+    /// Space-separated list of labels for propagated route tables.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Space-separated list of resource id of propagated route tables.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--propagated", ShortForm = "--propagated-route-tables", GroupValues = true)]
+    public IEnumerable<string>? Propagated { get; set; }
+
+    /// <summary>
+    /// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--inbound-route-map")]
+    public string? InboundRouteMap { get; set; }
+
+    /// <summary>
+    /// The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--outbound-route-map")]
+    public string? OutboundRouteMap { get; set; }
 
 }

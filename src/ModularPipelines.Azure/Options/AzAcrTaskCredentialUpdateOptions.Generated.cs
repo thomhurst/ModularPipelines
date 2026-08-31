@@ -19,8 +19,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "credential", "update")]
-public record AzAcrTaskCredentialUpdateOptions : AzOptions
+public record AzAcrTaskCredentialUpdateOptions(
+    [property: CliOption("--login-server")] string LoginServer,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskCredentialUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The password to login to the custom registry. This can be plain text or a key vault secret URI.
     /// </summary>

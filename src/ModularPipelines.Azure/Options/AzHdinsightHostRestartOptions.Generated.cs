@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "host", "restart")]
-public record AzHdinsightHostRestartOptions : AzOptions
+public record AzHdinsightHostRestartOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--host-names", GroupValues = true)] IEnumerable<string> HostNames,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzHdinsightHostRestartOptions()
+        : this(default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

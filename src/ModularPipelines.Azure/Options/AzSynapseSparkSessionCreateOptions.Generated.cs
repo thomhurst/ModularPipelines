@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "session", "create")]
-public record AzSynapseSparkSessionCreateOptions : AzOptions
+public record AzSynapseSparkSessionCreateOptions(
+    [property: CliOption("--executor-size")] string ExecutorSize,
+    [property: CliOption("--executors")] string Executors,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseSparkSessionCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The configuration of Spark session.
     /// </summary>
@@ -35,7 +46,7 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

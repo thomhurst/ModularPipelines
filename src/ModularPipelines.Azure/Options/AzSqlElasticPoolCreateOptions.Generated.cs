@@ -18,19 +18,52 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "elastic-pool", "create")]
-public record AzSqlElasticPoolCreateOptions : AzOptions
+public record AzSqlElasticPoolCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
+    public AzSqlElasticPoolCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The maximum capacity (in DTUs or vcores) any one database can consume.
+    /// </summary>
+    [CliFlag("--db-dtu-max", ShortForm = "--db-max-dtu")]
+    public bool? DbDtuMax { get; set; }
+
+    /// <summary>
+    /// The minumum capacity (in DTUs or vcores) each database is guaranteed.
+    /// </summary>
+    [CliFlag("--db-dtu-min", ShortForm = "--db-min-dtu")]
+    public bool? DbDtuMin { get; set; }
+
+    /// <summary>
+    /// The number of high availability replicas to provision for the database. Only settable for
+    /// </summary>
+    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
+    public bool? HaReplicas { get; set; }
+
     /// <summary>
     /// The license type to apply for this elastic pool. Allowed values: BasePrice, LicenseIncluded.
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
 
     /// <summary>
     /// Specified maintenance configuration id or name for this resource.
     /// </summary>
     [CliFlag("--maint-config-id", ShortForm = "-m")]
     public bool? MaintConfigId { get; set; }
+
+    /// <summary>
+    /// The max storage size. If no unit is specified, defaults to bytes (B).
+    /// </summary>
+    [CliFlag("--max-size", ShortForm = "--storage")]
+    public bool? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -41,14 +74,14 @@ public record AzSqlElasticPoolCreateOptions : AzOptions
     /// <summary>
     /// The preferred enclave type for the Azure SQL Elastic Pool. Allowed values include: Default, VBS.  Allowed values: Default, VBS.
     /// </summary>
-    [CliFlag("--preferred-enclave-type")]
-    public bool? PreferredEnclaveType { get; set; }
+    [CliOption("--preferred-enclave-type")]
+    public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.

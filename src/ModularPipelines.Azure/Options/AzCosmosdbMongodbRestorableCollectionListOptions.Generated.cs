@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "restorable-collection", "list")]
-public record AzCosmosdbMongodbRestorableCollectionListOptions : AzOptions
+public record AzCosmosdbMongodbRestorableCollectionListOptions(
+    [property: CliOption("--database-rid", ShortForm = "-d")] string DatabaseRid,
+    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
+    public AzCosmosdbMongodbRestorableCollectionListOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// End time of restorable MongoDB collections event feed.
     /// </summary>

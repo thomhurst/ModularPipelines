@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "flex-migration", "start")]
-public record AzFunctionappFlexMigrationStartOptions : AzOptions
+public record AzFunctionappFlexMigrationStartOptions(
+    [property: CliOption("--resource-group")] string ResourceGroup,
+    [property: CliOption("--source-name")] string SourceName,
+    [property: CliOption("--source-resource-group")] string SourceResourceGroup
+) : AzOptions
 {
+    public AzFunctionappFlexMigrationStartOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
@@ -27,9 +36,51 @@ public record AzFunctionappFlexMigrationStartOptions : AzOptions
     public bool? MaximumInstanceCount { get; set; }
 
     /// <summary>
+    /// Skip migrating access restrictions.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--sar", ShortForm = "--skip-access-restrictions")]
+    public bool? Sar { get; set; }
+
+    /// <summary>
+    /// Skip migrating CORS settings.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--sc", ShortForm = "--skip-cors")]
+    public bool? Sc { get; set; }
+
+    /// <summary>
+    /// Skip migrating hostnames.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--sh", ShortForm = "--skip-hostnames")]
+    public bool? Sh { get; set; }
+
+    /// <summary>
+    /// Skip migrating managed identities.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--skip-managed-identities", ShortForm = "--smi")]
+    public bool? SkipManagedIdentities { get; set; }
+
+    /// <summary>
+    /// Skip migrating storage mounts.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--skip-storage-mount", ShortForm = "--ssm")]
+    public bool? SkipStorageMount { get; set; }
+
+    /// <summary>
     /// The storage account to use for the target function app. If no storage account is provided, the storage account of the source function app will be used.
     /// </summary>
     [CliFlag("--storage-account")]
     public bool? StorageAccount { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the target function app to migrate to.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

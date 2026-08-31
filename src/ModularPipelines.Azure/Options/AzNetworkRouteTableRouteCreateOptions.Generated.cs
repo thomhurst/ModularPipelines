@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "route-table", "route", "create")]
-public record AzNetworkRouteTableRouteCreateOptions : AzOptions
+public record AzNetworkRouteTableRouteCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--route-table-name")] string RouteTableName
+) : AzOptions
 {
+    public AzNetworkRouteTableRouteCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The destination CIDR to which the route applies.
     /// </summary>
@@ -35,13 +44,13 @@ public record AzNetworkRouteTableRouteCreateOptions : AzOptions
     /// <summary>
     /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance,
     /// </summary>
-    [CliFlag("--next-hop-type")]
-    public bool? NextHopType { get; set; }
+    [CliOption("--next-hop-type")]
+    public string? NextHopType { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

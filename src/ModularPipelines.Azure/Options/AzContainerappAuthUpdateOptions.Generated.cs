@@ -21,10 +21,28 @@ namespace ModularPipelines.Azure.Options;
 public record AzContainerappAuthUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The action to take when an unauthenticated client attempts to access the app.  Allowed values: AllowAnonymous, RedirectToLoginPage,
+    /// </summary>
+    [CliOption("--action", ShortForm = "--unauthenticated-client-action")]
+    public string? Action { get; set; }
+
+    /// <summary>
     /// The path of the config file containing auth settings if they come from a file.
     /// </summary>
     [CliOption("--config-file-path")]
     public string? ConfigFilePath { get; set; }
+
+    /// <summary>
+    /// The name of the header containing the host of the request.
+    /// </summary>
+    [CliOption("--custom-host-header", ShortForm = "--proxy-custom-host-header")]
+    public string? CustomHostHeader { get; set; }
+
+    /// <summary>
+    /// The name of the header containing the scheme of the request.
+    /// </summary>
+    [CliOption("--custom-proto-header", ShortForm = "--proxy-custom-proto-header")]
+    public string? CustomProtoHeader { get; set; }
 
     /// <summary>
     /// True if the Authentication / Authorization feature is enabled for the current app; otherwise, false.  Allowed values: false, true.
@@ -35,14 +53,14 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The list of paths that should be excluded from authentication rules.
     /// </summary>
-    [CliFlag("--excluded-paths")]
-    public bool? ExcludedPaths { get; set; }
+    [CliOption("--excluded-paths", GroupValues = true)]
+    public IEnumerable<string>? ExcludedPaths { get; set; }
 
     /// <summary>
     /// The convention used to determine the url of the request made.  Allowed values: Custom,
     /// </summary>
-    [CliFlag("--proxy-convention")]
-    public bool? ProxyConvention { get; set; }
+    [CliOption("--proxy-convention")]
+    public string? ProxyConvention { get; set; }
 
     /// <summary>
     /// The default authentication provider to use when multiple providers are configured.
@@ -77,8 +95,8 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Value of a specific field within the configuration settings for the Azure App Service Authentication / Authorization feature.
     /// </summary>
-    [CliOption("--set")]
-    public string? Set { get; set; }
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? SetValues { get; set; }
 
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
@@ -92,6 +110,31 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    [Obsolete("Use SetValues instead.")]
+    public string? Set
+    {
+        get => SetValues?.FirstOrDefault();
+        set => SetValues = value is null ? null : [value];
+    }
+
     [Obsolete("Use ConfigFilePath instead.")]
     public string? ConfigFilePathValue
     {
@@ -102,8 +145,8 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     [Obsolete("Use Set instead.")]
     public string? SetValue
     {
-        get => Set;
-        set => Set = value;
+        get => SetValues?.FirstOrDefault();
+        set => SetValues = value is null ? null : [value];
     }
 
 }

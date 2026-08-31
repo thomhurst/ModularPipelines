@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "delete")]
-public record AzWebappConfigBackupDeleteOptions : AzOptions
+public record AzWebappConfigBackupDeleteOptions(
+    [property: CliOption("--backup-id")] string BackupId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
+) : AzOptions
 {
+    public AzWebappConfigBackupDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the slot.
     /// </summary>

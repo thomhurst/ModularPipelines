@@ -18,12 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "settings", "create")]
-public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
+public record AzNetworkApplicationGatewaySettingsCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--port")] string Port,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkApplicationGatewaySettingsCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Whether to use host name of the backend server as the host header.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--backend-pool-host-name")]
+    [CliOption("--backend-pool-host-name")]
     public bool? BackendPoolHostName { get; set; }
 
     /// <summary>
@@ -35,7 +45,7 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -47,20 +57,26 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.  Default: Tcp.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--backend-pool-host-name` is required when this field is set. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--root-certs")]
-    public bool? RootCerts { get; set; }
+    [CliOption("--root-certs", GroupValues = true)]
+    public IEnumerable<string>? RootCerts { get; set; }
 
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-l4-client-ip")]
+    public bool? EnableL4ClientIp { get; set; }
 
     [Obsolete("Use Probe instead.")]
     public string? ProbeValue

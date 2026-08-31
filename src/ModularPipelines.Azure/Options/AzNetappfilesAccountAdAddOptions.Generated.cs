@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "ad", "add")]
-public record AzNetappfilesAccountAdAddOptions : AzOptions
+public record AzNetappfilesAccountAdAddOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetappfilesAccountAdAddOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Id of the Active Directory.
     /// </summary>
@@ -35,7 +43,7 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -53,8 +61,14 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// If enabled, AES encryption will be enabled for SMB communication. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--aes-encryption")]
+    [CliOption("--aes-encryption")]
     public bool? AesEncryption { get; set; }
+
+    /// <summary>
+    /// If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--allow-local-ldap-users", ShortForm = "--allow-local-nfs-users-with-ldap")]
+    public bool? AllowLocalLdapUsers { get; set; }
 
     /// <summary>
     /// Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -75,9 +89,15 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     public string? Domain { get; set; }
 
     /// <summary>
+    /// If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--encrypt-dc-conn", ShortForm = "--encrypt-dc-connections")]
+    public bool? EncryptDcConn { get; set; }
+
+    /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be secured via TLS.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ldap-over-tls")]
+    [CliOption("--ldap-over-tls")]
     public bool? LdapOverTls { get; set; }
 
     /// <summary>
@@ -89,7 +109,7 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be signed. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ldap-signing")]
+    [CliOption("--ldap-signing")]
     public bool? LdapSigning { get; set; }
 
     /// <summary>
@@ -115,6 +135,12 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// </summary>
     [CliFlag("--security-operators")]
     public bool? SecurityOperators { get; set; }
+
+    /// <summary>
+    /// When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory
+    /// </summary>
+    [CliFlag("--server-root-ca-cert", ShortForm = "--server-root-ca-certificate")]
+    public bool? ServerRootCaCert { get; set; }
 
     /// <summary>
     /// The Active Directory site the service will limit Domain

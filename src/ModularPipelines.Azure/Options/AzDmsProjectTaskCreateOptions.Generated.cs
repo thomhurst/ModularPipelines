@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "create")]
-public record AzDmsProjectTaskCreateOptions : AzOptions
+public record AzDmsProjectTaskCreateOptions(
+    [property: CliOption("--database-options-json")] string DatabaseOptionsJson,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName,
+    [property: CliOption("--source-connection-json")] string SourceConnectionJson,
+    [property: CliOption("--target-connection-json")] string TargetConnectionJson
+) : AzOptions
 {
+    public AzDmsProjectTaskCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// For SQL only. Whether to perform a checksum based data integrity validation between source and target for the selected database and tables.
     /// </summary>

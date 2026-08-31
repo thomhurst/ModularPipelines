@@ -26,6 +26,30 @@ public record AzWebappConfigHostnameDeleteOptions : AzOptions
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
 
+    /// <summary>
+    /// Hostname assigned to the site, such as custom domains.
+    /// </summary>
+    [CliFlag("--hostname")]
+    public bool? Hostname { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Webapp name. You can configure the default using `az configure
+    /// </summary>
+    [CliFlag("--webapp-name")]
+    public bool? WebappName { get; set; }
+
     [Obsolete("Use Slot instead.")]
     public string? SlotValue
     {

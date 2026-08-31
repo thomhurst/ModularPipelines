@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk", "create")]
-public record AzDiskCreateOptions : AzOptions
+public record AzDiskCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzDiskCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to enable the accelerated networking if the OS disk image support.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--accelerated-network")]
+    public bool? AcceleratedNetwork { get; set; }
+
     /// <summary>
     /// Determine on how to handle disks with slow I/O.
     /// </summary>
@@ -29,14 +43,14 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// CPU architecture.  Allowed values: Arm64, x64.
     /// </summary>
-    [CliFlag("--architecture")]
-    public bool? Architecture { get; set; }
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
 
     /// <summary>
     /// Specify the auth mode when exporting or uploading to a disk or snapshot.  Allowed values: AzureActiveDirectory, None.
     /// </summary>
-    [CliFlag("--data-access-auth-mode")]
-    public bool? DataAccessAuthMode { get; set; }
+    [CliOption("--data-access-auth-mode")]
+    public string? DataAccessAuthMode { get; set; }
 
     /// <summary>
     /// Name or ID of the disk access resource for using private endpoints on disks.
@@ -107,8 +121,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
     /// ID or URN (publisher:offer:sku:version) of the image from which to create a disk.
@@ -143,8 +157,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Policy for accessing the disk via network. Allowed values: AllowAll, AllowPrivate, DenyAll.
     /// </summary>
-    [CliFlag("--network-access-policy")]
-    public bool? NetworkAccessPolicy { get; set; }
+    [CliOption("--network-access-policy")]
+    public string? NetworkAccessPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -161,14 +175,20 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// The Operating System type of the Disk.  Allowed values: Linux, Windows.
     /// </summary>
-    [CliFlag("--os-type")]
-    public bool? OsType { get; set; }
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
     /// <summary>
     /// Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled.  Allowed values: false, true.
     /// </summary>
     [CliOption("--performance-plus")]
     public bool? PerformancePlus { get; set; }
+
+    /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to control the export policy on the disk. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set created with
@@ -189,10 +209,16 @@ public record AzDiskCreateOptions : AzOptions
     public bool? SecurityMetadataUri { get; set; }
 
     /// <summary>
+    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values:
+    /// </summary>
+    [CliOption("--security-option", ShortForm = "--supported-security-option")]
+    public string? SecurityOption { get; set; }
+
+    /// <summary>
     /// The security type of the VM. Applicable for OS disks only.  Allowed values:
     /// </summary>
-    [CliFlag("--security-type")]
-    public bool? SecurityType { get; set; }
+    [CliOption("--security-type")]
+    public string? SecurityType { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
@@ -203,8 +229,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Underlying storage SKU.  Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
@@ -227,8 +253,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/pric ing/details/managed-disks/. Does not apply to
@@ -245,8 +271,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Create the disk for upload scenario. 'Upload' is for Standard disk only upload. 'UploadWithSecurityData' is for OS Disk upload along with VM Guest State. Please note the 'UploadWithSecurityData' is not valid for data disk upload, it only to be used for OS Disk upload at present.  Allowed values: Upload,
     /// </summary>
-    [CliFlag("--upload-type")]
-    public bool? UploadType { get; set; }
+    [CliOption("--upload-type")]
+    public string? UploadType { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.

@@ -38,6 +38,48 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
 
+    /// <summary>
+    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default,
+    /// </summary>
+    [CliOption("--assignment-scope-validation", ShortForm = "-v")]
+    public string? AssignmentScopeValidation { get; set; }
+
+    /// <summary>
+    /// The description of the policy enrollment.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy enrollment.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment to enroll.
+    /// </summary>
+    [CliFlag("--policy-assignment", ShortForm = "-a")]
+    public bool? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
+    public bool? PolicyDefinitionReferenceIds { get; set; }
+
+    /// <summary>
+    /// The resource selector list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
+
     [Obsolete("Use Name instead.")]
     public string? NameValue
     {

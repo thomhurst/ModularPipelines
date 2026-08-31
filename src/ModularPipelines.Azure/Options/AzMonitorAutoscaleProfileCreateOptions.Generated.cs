@@ -18,13 +18,54 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "profile", "create")]
-public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
+public record AzMonitorAutoscaleProfileCreateOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--count")] string Count,
+    [property: CliOption("--timezone")] string Timezone
+) : AzOptions
 {
+    public AzMonitorAutoscaleProfileCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of an existing schedule from which to copy the scaling rules for the new schedule.
     /// </summary>
     [CliOption("--copy-rules")]
     public string? CopyRules { get; set; }
+
+    /// <summary>
+    /// The maximum number of instances.
+    /// </summary>
+    [CliFlag("--max-count")]
+    public bool? MaxCount { get; set; }
+
+    /// <summary>
+    /// The minimum number of instances.
+    /// </summary>
+    [CliFlag("--min-count")]
+    public bool? MinCount { get; set; }
+
+    /// <summary>
+    /// When the autoscale profile ends. Format depends on the type of profile.
+    /// </summary>
+    [CliFlag("--end")]
+    public bool? End { get; set; }
+
+    /// <summary>
+    /// When the profile recurs. If omitted, a fixed (non-recurring) profile is created.
+    /// </summary>
+    [CliFlag("--recurrence", ShortForm = "-r")]
+    public bool? Recurrence { get; set; }
+
+    /// <summary>
+    /// When the autoscale profile begins. Format depends on the type of profile.
+    /// </summary>
+    [CliFlag("--start")]
+    public bool? Start { get; set; }
 
     [Obsolete("Use CopyRules instead.")]
     public string? CopyRulesValue

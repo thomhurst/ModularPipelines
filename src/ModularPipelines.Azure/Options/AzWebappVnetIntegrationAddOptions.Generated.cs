@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "vnet-integration", "add")]
-public record AzWebappVnetIntegrationAddOptions : AzOptions
+public record AzWebappVnetIntegrationAddOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subnet")] string Subnet,
+    [property: CliOption("--vnet")] string Vnet
+) : AzOptions
 {
+    public AzWebappVnetIntegrationAddOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip check if you do not have permission or the VNet is in another subscription.  Allowed values: false, true.
     /// </summary>

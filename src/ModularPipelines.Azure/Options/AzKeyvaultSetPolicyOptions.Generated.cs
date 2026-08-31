@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,8 +19,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "set-policy")]
-public record AzKeyvaultSetPolicyOptions : AzOptions
+public record AzKeyvaultSetPolicyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzKeyvaultSetPolicyOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
     /// </summary>
@@ -55,6 +63,31 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// </summary>
     [CliOption("--upn")]
     public string? Upn { get; set; }
+
+    /// <summary>
+    /// Space-separated list of certificate permissions to assign.  Allowed values: all, backup, create, delete, deleteissuers, get, getissuers, import, list, listissuers, managecontacts, manageissuers, purge, recover, restore, setissuers, update.
+    /// </summary>
+    [CliOption("--certificate-permissions", GroupValues = true)]
+    public IEnumerable<string>? CertificatePermissions { get; set; }
+
+    /// <summary>
+    /// Space-separated list of key permissions to assign.  Allowed values: all, backup, create, decrypt, delete, encrypt, get, getrotationpolicy, import, list, purge, recover, release, restore, rotate, setrotationpolicy, sign, unwrapKey, update, verify, wrapKey.
+    /// </summary>
+    [CliOption("--key-permissions", GroupValues = true)]
+    public IEnumerable<string>? KeyPermissions { get; set; }
+
+    /// <summary>
+    /// Space-separated list of secret permissions to assign.  Allowed values: all, backup, delete, get, list, purge, recover, restore, set.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-permissions", GroupValues = true)]
+    public IEnumerable<string>? SecretPermissions { get; set; }
+
+    /// <summary>
+    /// Space-separated list of storage permissions to assign.  Allowed values: all, backup, delete, deletesas, get, getsas, list, listsas, purge, recover, regeneratekey, restore, set, setsas, update.
+    /// </summary>
+    [CliOption("--storage-permissions", GroupValues = true)]
+    public IEnumerable<string>? StoragePermissions { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

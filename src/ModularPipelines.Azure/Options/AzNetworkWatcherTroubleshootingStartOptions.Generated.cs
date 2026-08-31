@@ -18,12 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "start")]
-public record AzNetworkWatcherTroubleshootingStartOptions : AzOptions
+public record AzNetworkWatcherTroubleshootingStartOptions(
+    [property: CliOption("--resource")] string Resource,
+    [property: CliOption("--storage-account")] string StorageAccount,
+    [property: CliOption("--storage-path")] string StoragePath
+) : AzOptions
 {
+    public AzNetworkWatcherTroubleshootingStartOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

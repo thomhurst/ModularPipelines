@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "show-tags")]
-public record AzAcrRepositoryShowTagsOptions : AzOptions
+public record AzAcrRepositoryShowTagsOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--repository")] string Repository
+) : AzOptions
 {
+    public AzAcrRepositoryShowTagsOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Show detailed information.
     /// </summary>
@@ -29,8 +37,8 @@ public record AzAcrRepositoryShowTagsOptions : AzOptions
     /// <summary>
     /// Order the items in the results. Default to alphabetical order of names.  Allowed values: time_asc, time_desc.
     /// </summary>
-    [CliFlag("--orderby")]
-    public bool? Orderby { get; set; }
+    [CliOption("--orderby")]
+    public string? Orderby { get; set; }
 
     /// <summary>
     /// The password used to log into a container registry.

@@ -18,42 +18,57 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "create")]
-public record AzBackupVaultCreateOptions : AzOptions
+public record AzBackupVaultCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBackupVaultCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values:
     /// </summary>
-    [CliFlag("--classic-alerts")]
-    public bool? ClassicAlerts { get; set; }
+    [CliOption("--classic-alerts")]
+    public string? ClassicAlerts { get; set; }
+
+    /// <summary>
+    /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values:
+    /// </summary>
+    [CliOption("--cost-granularity-level", ShortForm = "--cost-management-granularity")]
+    public string? CostGranularityLevel { get; set; }
 
     /// <summary>
     /// Use this parameter to configure cross subscription restore settings for the vault. By default, the property is "Enabled" for the vault.  Allowed values: Disable, Enable,
     /// </summary>
-    [CliFlag("--cross-subscription-restore-state")]
-    public bool? CrossSubscriptionRestoreState { get; set; }
+    [CliOption("--cross-subscription-restore-state")]
+    public string? CrossSubscriptionRestoreState { get; set; }
 
     /// <summary>
     /// Use this parameter to configure immutability settings for the vault. By default, immutability is "Disabled" for the vault. "Unlocked" means that immutability is enabled for the vault and can be reversed. "Locked" means that immutability is enabled for the vault and cannot be reversed.  Allowed values: Disabled, Locked, Unlocked.
     /// </summary>
-    [CliFlag("--immutability-state")]
-    public bool? ImmutabilityState { get; set; }
+    [CliOption("--immutability-state")]
+    public string? ImmutabilityState { get; set; }
 
     /// <summary>
     /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure. Allowed values: Disable, Enable.
     /// </summary>
-    [CliFlag("--job-failure-alerts")]
-    public bool? JobFailureAlerts { get; set; }
+    [CliOption("--job-failure-alerts")]
+    public string? JobFailureAlerts { get; set; }
 
     /// <summary>
     /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable,
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

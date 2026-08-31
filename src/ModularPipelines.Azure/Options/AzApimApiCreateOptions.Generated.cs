@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "create")]
-public record AzApimApiCreateOptions : AzOptions
+public record AzApimApiCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId,
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--path")] string Path
+) : AzOptions
 {
+    public AzApimApiCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specifies the OAuth operations scope.
     /// </summary>
@@ -55,5 +66,47 @@ public record AzApimApiCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--subscription-key-required")]
     public bool? SubscriptionKeyRequired { get; set; }
+
+    /// <summary>
+    /// The type of the API.  Allowed values: graphql, http, soap, websocket.
+    /// </summary>
+    [CliOption("--api-type")]
+    public string? ApiType { get; set; }
+
+    /// <summary>
+    /// Description of the API. May include HTML formatting tags.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Describes on which protocols the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
+    /// </summary>
+    [CliOption("--protocols")]
+    public string? Protocols { get; set; }
+
+    /// <summary>
+    /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
+    /// </summary>
+    [CliFlag("--service-url")]
+    public bool? ServiceUrl { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key header name.
+    /// </summary>
+    [CliFlag("--subscription-key-header-name")]
+    public bool? SubscriptionKeyHeaderName { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key query string parameter name.
+    /// </summary>
+    [CliFlag("--subscription-key-query-param-name")]
+    public bool? SubscriptionKeyQueryParamName { get; set; }
+
+    /// <summary>
+    /// If true, the API requires a subscription key on requests. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--subscription-required")]
+    public bool? SubscriptionRequired { get; set; }
 
 }

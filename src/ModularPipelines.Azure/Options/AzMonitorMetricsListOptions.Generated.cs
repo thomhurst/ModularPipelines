@@ -18,19 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list")]
-public record AzMonitorMetricsListOptions : AzOptions
+public record AzMonitorMetricsListOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
+    public AzMonitorMetricsListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The list of aggregation types (space-separated) to retrieve.  Allowed values: Average, Count, Maximum, Minimum, None, Total.  Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--aggregation")]
-    public bool? Aggregation { get; set; }
+    [CliOption("--aggregation", GroupValues = true)]
+    public IEnumerable<string>? Aggregation { get; set; }
 
     /// <summary>
     /// The list of dimensions (space-separated) the metrics are queried into. Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--dimension")]
-    public bool? Dimension { get; set; }
+    [CliOption("--dimension", GroupValues = true)]
+    public IEnumerable<string>? Dimension { get; set; }
 
     /// <summary>
     /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'".
@@ -47,8 +54,8 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// <summary>
     /// Space-separated list of metric names to retrieve.  Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--metrics")]
-    public bool? Metrics { get; set; }
+    [CliOption("--metrics", GroupValues = true)]
+    public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// Namespace to query metric definitions for.  Values from: az monitor metrics list-namespaces.
@@ -67,6 +74,54 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// </summary>
     [CliFlag("--top")]
     public bool? Top { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
+
+    /// <summary>
+    /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--end-time")]
+    public bool? EndTime { get; set; }
+
+    /// <summary>
+    /// The interval over which to aggregate metrics, in ##h##m format.
+    /// </summary>
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
+
+    /// <summary>
+    /// Time offset of the query range, in ##d##h format.  Default: 1h.
+    /// </summary>
+    [CliFlag("--offset")]
+    public bool? Offset { get; set; }
+
+    /// <summary>
+    /// Start time of the query. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--start-time")]
+    public bool? StartTime { get; set; }
 
     [Obsolete("Use Filter instead.")]
     public string? FilterValue

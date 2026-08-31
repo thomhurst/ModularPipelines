@@ -22,9 +22,34 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzRedis
 {
     /// <summary>
+    /// az access-policy sub-commands.
+    /// </summary>
+    AzRedisAccessPolicy AccessPolicy => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az access-policy-assignment sub-commands.
+    /// </summary>
+    AzRedisAccessPolicyAssignment AccessPolicyAssignment => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az firewall-rules sub-commands.
+    /// </summary>
+    AzRedisFirewallRules FirewallRules => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az identity sub-commands.
     /// </summary>
     AzRedisIdentity Identity => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az patch-schedule sub-commands.
+    /// </summary>
+    AzRedisPatchSchedule PatchSchedule => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az server-link sub-commands.
+    /// </summary>
+    AzRedisServerLink ServerLink => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create new Redis Cache instance.
@@ -87,6 +112,16 @@ public interface IAzRedis
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieve a Redis cache's access keys.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListKeysAsync(AzRedisListKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List Redis Caches.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -94,6 +129,26 @@ public interface IAzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListAsync(AzRedisListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Regenerate Redis cache's access keys.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RegenerateKeysAsync(AzRedisRegenerateKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets a Redis cache (resource description).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowAsync(AzRedisShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

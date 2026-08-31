@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "central", "app", "create")]
-public record AzIotCentralAppCreateOptions : AzOptions
+public record AzIotCentralAppCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subdomain", ShortForm = "-s")] string Subdomain
+) : AzOptions
 {
+    public AzIotCentralAppCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Custom display name for the IoT Central app. This will be used in the IoT Central application manager to help you identify your app. Default value is the resource name.
     /// </summary>
@@ -47,8 +56,8 @@ public record AzIotCentralAppCreateOptions : AzOptions
     /// <summary>
     /// Pricing plan for IoT Central application.  Allowed values: ST0, ST1, ST2.  Default: ST2.
     /// </summary>
-    [CliFlag("--sku", ShortForm = "-p")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku", ShortForm = "-p")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// IoT Central application template name. Default is "Custom application". See documentation for a list of available templates.

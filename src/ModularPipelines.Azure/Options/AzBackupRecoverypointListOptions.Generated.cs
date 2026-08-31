@@ -18,13 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "recoverypoint", "list")]
-public record AzBackupRecoverypointListOptions : AzOptions
+public record AzBackupRecoverypointListOptions(
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--item-name", ShortForm = "-i")] string ItemName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
+    public AzBackupRecoverypointListOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
@@ -53,14 +63,14 @@ public record AzBackupRecoverypointListOptions : AzOptions
     /// <summary>
     /// The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.
     /// </summary>
-    [CliFlag("--target-tier")]
-    public bool? TargetTier { get; set; }
+    [CliOption("--target-tier")]
+    public string? TargetTier { get; set; }
 
     /// <summary>
     /// Provide 'tier' parameter to filter recovery points.  Allowed values: Snapshot, SnapshotAndVaultArchive, SnapshotAndVaultStandard, VaultArchive, VaultStandard,
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Use this flag to list recoverypoints in secondary region.
@@ -71,7 +81,7 @@ public record AzBackupRecoverypointListOptions : AzOptions
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
 
 }

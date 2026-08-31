@@ -18,12 +18,63 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "address-pool", "create")]
-public record AzNetworkLbAddressPoolCreateOptions : AzOptions
+public record AzNetworkLbAddressPoolCreateOptions(
+    [property: CliOption("--address-pool-name", ShortForm = "-n")] string AddressPoolName,
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkLbAddressPoolCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None,
+    /// </summary>
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
+
+    /// <summary>
+    /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
+    /// </summary>
+    [CliOption("--backend-address", ShortForm = "--backend-addresses")]
+    public IEnumerable<string>? BackendAddress { get; set; }
+
+    /// <summary>
+    /// Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    /// </summary>
+    [CliFlag("--drain-period", ShortForm = "--drain-period-in-seconds")]
+    public bool? DrainPeriod { get; set; }
+
+    /// <summary>
+    /// The location of the backend address pool.
+    /// </summary>
+    [CliFlag("--location")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Backend address synchronous mode for the backend pool.  Allowed values: Automatic, Manual.
+    /// </summary>
+    [CliOption("--sync-mode")]
+    public string? SyncMode { get; set; }
+
+    /// <summary>
+    /// An array of gateway load balancer tunnel interfaces. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tunnel-interfaces")]
+    public IEnumerable<string>? TunnelInterfaces { get; set; }
+
+    /// <summary>
+    /// Name or Id of the default virtual network applied to backend addresses in `--backend-addresses`.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
 
 }

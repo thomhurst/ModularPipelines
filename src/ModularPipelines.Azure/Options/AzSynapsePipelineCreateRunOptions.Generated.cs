@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline", "create-run")]
-public record AzSynapsePipelineCreateRunOptions : AzOptions
+public record AzSynapsePipelineCreateRunOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapsePipelineCreateRunOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.  Allowed values: false, true.
     /// </summary>
@@ -31,6 +39,12 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
+
+    /// <summary>
+    /// The pipeline run ID for rerun. If run ID is specified, the parameters of the specified run will be used to create a new run.
+    /// </summary>
+    [CliFlag("--reference-pipeline-run-id", ShortForm = "--run-id")]
+    public bool? ReferencePipelineRunId { get; set; }
 
     /// <summary>
     /// In recovery mode, the rerun will start from this activity. If not specified, all activities will run.

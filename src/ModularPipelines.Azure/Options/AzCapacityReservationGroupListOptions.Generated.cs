@@ -35,14 +35,26 @@ public record AzCapacityReservationGroupListOptions : AzOptions
     /// <summary>
     /// Retrieve the Virtual Machine Instance which are associated to capacity reservation group in the response.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vm-instance")]
+    [CliOption("--vm-instance")]
     public bool? VmInstance { get; set; }
 
     /// <summary>
     /// Retrieve the ScaleSet VM Instance which are associated to capacity reservation group in the response.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vmss-instance")]
+    [CliOption("--vmss-instance")]
     public bool? VmssInstance { get; set; }
+
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
     [Obsolete("Use ResourceGroup instead.")]
     public string? ResourceGroupValue

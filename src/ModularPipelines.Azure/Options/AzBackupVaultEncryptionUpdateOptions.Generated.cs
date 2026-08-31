@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "encryption", "update")]
-public record AzBackupVaultEncryptionUpdateOptions : AzOptions
+public record AzBackupVaultEncryptionUpdateOptions(
+    [property: CliOption("--encryption-key-id")] string EncryptionKeyId
+) : AzOptions
 {
+    public AzBackupVaultEncryptionUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Use this parameter to enable/disable infrastructure encryption. This must be set when configuring encryption of the vault for the first time. Once enabled/disabled, infrastructure encryption setting cannot be changed. Default value: Disabled. Allowed values: Enabled, Disabled.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--infrastructure-encryption")]
-    public bool? InfrastructureEncryption { get; set; }
+    [CliOption("--infrastructure-encryption")]
+    public string? InfrastructureEncryption { get; set; }
 
     /// <summary>
     /// Provide this flag to use system assigned identity for encryption.
@@ -43,6 +50,24 @@ public record AzBackupVaultEncryptionUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use TenantId instead.")]
     public string? TenantIdValue

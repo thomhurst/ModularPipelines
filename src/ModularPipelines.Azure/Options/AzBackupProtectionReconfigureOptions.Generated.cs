@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "reconfigure")]
-public record AzBackupProtectionReconfigureOptions : AzOptions
+public record AzBackupProtectionReconfigureOptions(
+    [property: CliOption("--backup-management-type")] string BackupManagementType,
+    [property: CliOption("--new-policy-name")] string NewPolicyName,
+    [property: CliOption("--new-rg", ShortForm = "--new-vault-resource-group")] string NewRg,
+    [property: CliOption("--new-vault-name")] string NewVaultName
+) : AzOptions
 {
+    public AzBackupProtectionReconfigureOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
     /// </summary>
@@ -35,8 +45,38 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM. Allowed values: AzureFileShare, MSSQL, SAPASE,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
+
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string? ItemName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string? VaultName { get; set; }
 
     [Obsolete("Use TenantId instead.")]
     public string? TenantIdValue

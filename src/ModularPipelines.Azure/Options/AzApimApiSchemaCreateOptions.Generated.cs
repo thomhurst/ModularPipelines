@@ -18,8 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "schema", "create")]
-public record AzApimApiSchemaCreateOptions : AzOptions
+public record AzApimApiSchemaCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId,
+    [property: CliOption("--schema-id")] string SchemaId,
+    [property: CliOption("--schema-type")] string SchemaType
+) : AzOptions
 {
+    public AzApimApiSchemaCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
@@ -43,6 +54,12 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--schema-path")]
     public bool? SchemaPath { get; set; }
+
+    /// <summary>
+    /// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
     [Obsolete("Use SchemaName instead.")]
     public string? SchemaNameValue

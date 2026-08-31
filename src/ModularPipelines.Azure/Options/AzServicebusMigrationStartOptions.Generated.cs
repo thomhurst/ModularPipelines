@@ -23,7 +23,43 @@ public record AzServicebusMigrationStartOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name to access Standard Namespace after migration.
+    /// </summary>
+    [CliOption("--post-migration-name")]
+    public string? PostMigrationName { get; set; }
+
+    /// <summary>
+    /// Existing premium Namespace ARM Id name which has no entities, will be used for migration.
+    /// </summary>
+    [CliFlag("--target-namespace")]
+    public bool? TargetNamespace { get; set; }
+
+    /// <summary>
+    /// The configuration name. Should always be "$default".  Allowed values: $default.  Default: $default.
+    /// </summary>
+    [CliOption("--config-name")]
+    public string? ConfigName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The namespace name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

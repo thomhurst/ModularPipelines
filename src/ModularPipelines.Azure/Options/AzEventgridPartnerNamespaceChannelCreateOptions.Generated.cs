@@ -18,8 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "channel", "create")]
-public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
+public record AzEventgridPartnerNamespaceChannelCreateOptions(
+    [property: CliOption("--channel-type")] string ChannelType,
+    [property: CliOption("--destination-rg")] string DestinationRg,
+    [property: CliOption("--destination-sub-id")] string DestinationSubId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzEventgridPartnerNamespaceChannelCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
+    public bool? AadAppId { get; set; }
+
+    /// <summary>
+    /// The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
+    public bool? AadTenantId { get; set; }
+
+    /// <summary>
+    /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') after which the channel and corresponding partner topic would expire and get auto deleted. If this time is not specified, the expiration date is set to seven days by default.
+    /// </summary>
+    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
+    public bool? ActExpDate { get; set; }
+
+    /// <summary>
+    /// Endpoint context associated with this partner destination.
+    /// </summary>
+    [CliFlag("--ed-serv-cont", ShortForm = "--endpoint-service-context")]
+    public bool? EdServCont { get; set; }
+
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
@@ -43,6 +79,12 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--message-for-activation")]
     public bool? MessageForActivation { get; set; }
+
+    /// <summary>
+    /// Name of the partner destination.
+    /// </summary>
+    [CliOption("--partner-destination-name", ShortForm = "--pr-dest-n")]
+    public string? PartnerDestinationName { get; set; }
 
     /// <summary>
     /// Name of the partner topic.

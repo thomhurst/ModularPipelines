@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "recover")]
-public record AzMonitorLogAnalyticsWorkspaceRecoverOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceRecoverOptions(
+    [property: CliOption("--workspace-name", ShortForm = "-n")] string WorkspaceName
+) : AzOptions
 {
+    public AzMonitorLogAnalyticsWorkspaceRecoverOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "delete")]
-public record AzStorageContainerImmutabilityPolicyDeleteOptions : AzOptions
+public record AzStorageContainerImmutabilityPolicyDeleteOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--if-match")] string IfMatch
+) : AzOptions
 {
+    public AzStorageContainerImmutabilityPolicyDeleteOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

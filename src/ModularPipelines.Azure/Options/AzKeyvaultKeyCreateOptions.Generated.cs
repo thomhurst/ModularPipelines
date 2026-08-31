@@ -23,14 +23,20 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Elliptic curve name. For valid values, see: https://learn.microsoft.com/rest/api/keyvault/k eys/create-key/create-key#jsonwebkeycurvename. Allowed values: P-256, P-256K, P-384, P-521.
     /// </summary>
-    [CliFlag("--curve")]
-    public bool? Curve { get; set; }
+    [CliOption("--curve")]
+    public string? Curve { get; set; }
 
     /// <summary>
     /// Use default policy under which the key can be exported for CVM disk encryption.
     /// </summary>
     [CliFlag("--default-cvm-policy")]
     public bool? DefaultCvmPolicy { get; set; }
+
+    /// <summary>
+    /// Use default policy under which the key can be exported for data disk encryption.
+    /// </summary>
+    [CliFlag("--default-data-disk-policy", ShortForm = "--default-dd-policy")]
+    public bool? DefaultDataDiskPolicy { get; set; }
 
     /// <summary>
     /// Create key in disabled state.  Allowed values: false, true.
@@ -59,8 +65,8 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// The type of key to create. For valid values, see: https://learn.microsoft.com/rest/api/keyva ult/keys/create-key/create-key#jsonwebkeytype. Allowed values: EC, EC-HSM, RSA, RSA-HSM, oct, oct-HSM.
     /// </summary>
-    [CliFlag("--kty")]
-    public bool? Kty { get; set; }
+    [CliOption("--kty")]
+    public string? Kty { get; set; }
 
     /// <summary>
     /// Key not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
@@ -71,8 +77,8 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
     /// </summary>
-    [CliFlag("--ops")]
-    public bool? Ops { get; set; }
+    [CliOption("--ops", GroupValues = true)]
+    public IEnumerable<string>? Ops { get; set; }
 
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
@@ -83,8 +89,8 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Specifies the type of key protection.  Allowed values: hsm, software.
     /// </summary>
-    [CliFlag("--protection", ShortForm = "-p")]
-    public bool? Protection { get; set; }
+    [CliOption("--protection", ShortForm = "-p")]
+    public string? Protection { get; set; }
 
     /// <summary>
     /// The key size in bits. For example: 2048, 3072, or 4096 for RSA. 128, 192, or 256 for oct.
@@ -95,7 +101,37 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Create an external Managed HSM key backed by an External Key Manager (EKM) key id.
+    /// </summary>
+    [CliFlag("--external-key-id")]
+    public bool? ExternalKeyId { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the key. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
 
 }

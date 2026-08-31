@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "snapshot", "restore")]
-public record AzWebappConfigSnapshotRestoreOptions : AzOptions
+public record AzWebappConfigSnapshotRestoreOptions(
+    [property: CliOption("--time")] string Time
+) : AzOptions
 {
+    public AzWebappConfigSnapshotRestoreOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Restore the web app files without restoring the settings.
     /// </summary>
@@ -49,6 +56,24 @@ public record AzWebappConfigSnapshotRestoreOptions : AzOptions
     /// </summary>
     [CliOption("--source-slot")]
     public string? SourceSlot { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

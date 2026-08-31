@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "update")]
-public record AzAksNodepoolUpdateOptions : AzOptions
+public record AzAksNodepoolUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAksNodepoolUpdateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
@@ -29,14 +38,14 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// Expose host ports on the node pool. When specified, format should be a space-separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
     /// </summary>
-    [CliFlag("--allowed-host-ports")]
-    public bool? AllowedHostPorts { get; set; }
+    [CliOption("--allowed-host-ports", GroupValues = true)]
+    public IEnumerable<string>? AllowedHostPorts { get; set; }
 
     /// <summary>
     /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of
     /// </summary>
-    [CliFlag("--asg-ids")]
-    public bool? AsgIds { get; set; }
+    [CliOption("--asg-ids", GroupValues = true)]
+    public IEnumerable<string>? AsgIds { get; set; }
 
     /// <summary>
     /// Disable artifact streaming for VirtualMachineScaleSets managed by a Linux node pool.
@@ -107,8 +116,8 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// Whether to install driver for GPU node pool. Possible values are "Install" or "None".  Allowed values: Install,
     /// </summary>
-    [CliFlag("--gpu-driver")]
-    public bool? GpuDriver { get; set; }
+    [CliOption("--gpu-driver")]
+    public string? GpuDriver { get; set; }
 
     /// <summary>
     /// The value provided will be compared to the ETag of the node pool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
@@ -161,8 +170,8 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// The mode for a node pool which defines a node pool's primary function. If set as "System", AKS prefers system pods scheduling to node pools with mode `System`. Learn more at https://aka.ms/aks/nodepool/mode.  Allowed values: Gateway, System, User.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -185,26 +194,26 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// The os-sku of the agent node pool.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, Ubuntu,
     /// </summary>
-    [CliFlag("--os-sku")]
-    public bool? OsSku { get; set; }
+    [CliOption("--os-sku")]
+    public string? OsSku { get; set; }
 
     /// <summary>
     /// Describe how VMs are added to or removed from nodepools. Allowed values: Deallocate, Delete.
     /// </summary>
-    [CliFlag("--scale-down-mode")]
-    public bool? ScaleDownMode { get; set; }
+    [CliOption("--scale-down-mode")]
+    public string? ScaleDownMode { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Define the behavior for undrainable nodes during upgrade. The value should be "Cordon" or "Schedule". The default value is "Schedule".
     /// </summary>
-    [CliFlag("--undrainable-node-behavior")]
-    public bool? UndrainableNodeBehavior { get; set; }
+    [CliOption("--undrainable-node-behavior")]
+    public string? UndrainableNodeBehavior { get; set; }
 
     /// <summary>
     /// Update min-count or max-count for cluster autoscaler.

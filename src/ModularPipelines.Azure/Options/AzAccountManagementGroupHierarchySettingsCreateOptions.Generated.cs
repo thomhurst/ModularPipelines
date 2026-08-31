@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "hierarchy-settings", "create")]
-public record AzAccountManagementGroupHierarchySettingsCreateOptions : AzOptions
+public record AzAccountManagementGroupHierarchySettingsCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAccountManagementGroupHierarchySettingsCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Set the default Management Group under which new subscriptions get added in this tenant. Default setting is the Root Management Group.
     /// </summary>

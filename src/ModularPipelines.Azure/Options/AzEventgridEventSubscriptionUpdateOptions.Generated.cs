@@ -18,13 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "update")]
-public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
+public record AzEventgridEventSubscriptionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzEventgridEventSubscriptionUpdateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where
     /// </summary>
     [CliOption("--deadletter-endpoint")]
     public string? DeadletterEndpoint { get; set; }
+
+    /// <summary>
+    /// The identity type of the deadletter destination resource.  Allowed values: systemassigned.
+    /// </summary>
+    [CliOption("--deadletter-identity")]
+    public string? DeadletterIdentity { get; set; }
 
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination with identity where EventGrid should deadletter undeliverable events for this event subscription.
@@ -37,6 +50,24 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--delivery-attribute-mapping")]
     public bool? DeliveryAttributeMapping { get; set; }
+
+    /// <summary>
+    /// The identity type of the delivery destination resource (e.g., storage queue, or eventhub).  Allowed values: systemassigned.
+    /// </summary>
+    [CliOption("--delivery-identity")]
+    public string? DeliveryIdentity { get; set; }
+
+    /// <summary>
+    /// Endpoint with identity where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint.
+    /// </summary>
+    [CliFlag("--delivery-identity-endpoint")]
+    public bool? DeliveryIdentityEndpoint { get; set; }
+
+    /// <summary>
+    /// The type of the destination endpoint with resource identity.  Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook.
+    /// </summary>
+    [CliOption("--delivery-identity-endpoint-type")]
+    public string? DeliveryIdentityEndpointType { get; set; }
 
     /// <summary>
     /// Endpoint where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint. It is expected that the destination endpoint to be already created and available for use before executing any Event Grid command.
@@ -53,14 +84,74 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Storage queue message time to live in seconds.
+    /// </summary>
+    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
+    public bool? Qttl { get; set; }
 
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be updated.
     /// </summary>
     [CliFlag("--source-resource-id")]
     public bool? SourceResourceId { get; set; }
+
+    /// <summary>
+    /// An advanced filter enables filtering of events based on a specific event property.
+    /// </summary>
+    [CliFlag("--advanced-filter")]
+    public bool? AdvancedFilter { get; set; }
+
+    /// <summary>
+    /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
+
+    /// <summary>
+    /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and
+    /// </summary>
+    [CliOption("--included-event-types", GroupValues = true)]
+    public IEnumerable<string>? IncludedEventTypes { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-begins-with")]
+    public bool? SubjectBeginsWith { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-ends-with")]
+    public bool? SubjectEndsWith { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
     [Obsolete("Use DeadletterEndpoint instead.")]
     public string? DeadletterEndpointValue

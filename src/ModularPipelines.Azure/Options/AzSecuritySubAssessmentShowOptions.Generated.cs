@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "sub-assessment", "show")]
-public record AzSecuritySubAssessmentShowOptions : AzOptions
+public record AzSecuritySubAssessmentShowOptions(
+    [property: CliOption("--assessment-name")] string AssessmentName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzSecuritySubAssessmentShowOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The target resource for this assessment.
     /// </summary>

@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "import", "create")]
-public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
+public record AzMysqlFlexibleServerImportCreateOptions(
+    [property: CliOption("--data-source")] string DataSource,
+    [property: CliOption("--data-source-type")] string DataSourceType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzMysqlFlexibleServerImportCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
     /// </summary>
@@ -29,8 +39,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--auto-scale-iops")]
-    public bool? AutoScaleIops { get; set; }
+    [CliOption("--auto-scale-iops")]
+    public string? AutoScaleIops { get; set; }
 
     /// <summary>
     /// The name or resource ID of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -65,14 +75,14 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Enable (ZoneRedundant or SameZone) or disable high availability feature.  Allowed values: Disabled, SameZone, ZoneRedundant.
     /// </summary>
-    [CliFlag("--high-availability")]
-    public bool? HighAvailability { get; set; }
+    [CliOption("--high-availability")]
+    public string? HighAvailability { get; set; }
 
     /// <summary>
     /// The name or resource ID of the user assigned identity for data encryption.
@@ -101,8 +111,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Mode of import. Enum values: [Offline, Online]. Default is Offline.  Allowed values: Offline, Online.  Default: Offline.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. The name or id of new or existing private dns zone. You can use the private dns zone from same resource group, different resource group, or different subscription. If you want to use a zone from different resource group or subscription, please provide resource Id. CLI creates a new private dns zone within the same resource group as virtual network if not provided by users.
@@ -131,8 +141,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -155,8 +165,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable,
@@ -187,6 +197,18 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
+
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
     [Obsolete("Use BackupIdentity instead.")]
     public string? BackupIdentityValue

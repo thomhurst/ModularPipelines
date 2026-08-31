@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "ase", "create")]
-public record AzAppserviceAseCreateOptions : AzOptions
+public record AzAppserviceAseCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
+    public AzAppserviceAseCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not check if subnet is sized according to recommendations. Allowed values: false, true.
     /// </summary>
@@ -29,8 +38,8 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Specify App Service Environment version.  Allowed values: ASEv3.  Default: ASEv3.
     /// </summary>
-    [CliFlag("--kind", ShortForm = "-k")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind", ShortForm = "-k")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -47,8 +56,8 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Specify if app service environment should be accessible from internet.  Allowed values: External, Internal.  Default:
     /// </summary>
-    [CliFlag("--virtual-ip-type")]
-    public bool? VirtualIpType { get; set; }
+    [CliOption("--virtual-ip-type")]
+    public string? VirtualIpType { get; set; }
 
     /// <summary>
     /// Name of the vNet. Mandatory if only subnet name is specified.

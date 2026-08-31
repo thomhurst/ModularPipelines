@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "transform", "create")]
-public record AzAmsTransformCreateOptions : AzOptions
+public record AzAmsTransformCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--preset")] string Preset,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzAmsTransformCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The description of the transform.
     /// </summary>
@@ -29,26 +39,56 @@ public record AzAmsTransformCreateOptions : AzOptions
     /// <summary>
     /// A Transform can define more than one output. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.  Allowed values: ContinueJob,
     /// </summary>
-    [CliFlag("--on-error")]
-    public bool? OnError { get; set; }
+    [CliOption("--on-error")]
+    public string? OnError { get; set; }
 
     /// <summary>
     /// Sets the relative priority of the transform outputs within a transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal. Allowed values: High, Low, Normal.
     /// </summary>
-    [CliFlag("--relative-priority")]
-    public bool? RelativePriority { get; set; }
+    [CliOption("--relative-priority")]
+    public string? RelativePriority { get; set; }
 
     /// <summary>
     /// Determines the set of audio analysis operations to be performed. If unspecified, the Standard AudioAnalysisMode would be chosen. Allowed values: Standard, Basic.
     /// </summary>
-    [CliFlag("--audio-analysis-mode")]
-    public bool? AudioAnalysisMode { get; set; }
+    [CliOption("--audio-analysis-mode")]
+    public string? AudioAnalysisMode { get; set; }
 
     /// <summary>
     /// The language for the audio payload in the input using the BCP-47 format of "language tag-region" (e.g: en-US). If not specified, automatic language detection would be employed. This feature currently supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and Portuguese. The automatic detection works best with audio recordings with clearly discernable speech. If automatic detection fails to find the language, transcription would fallback to English. Allowed values: en-US, en-GB, es-ES, es-MX, fr-FR, it-IT, ja- JP, pt-BR, zh-CN, de-DE, ar-EG, ru-RU, hi-IN.
     /// </summary>
-    [CliFlag("--audio-language")]
-    public bool? AudioLanguage { get; set; }
+    [CliOption("--audio-language")]
+    public string? AudioLanguage { get; set; }
+
+    /// <summary>
+    /// Allowed values: Box, Low, Med, High, Black.
+    /// </summary>
+    [CliOption("--blur-type")]
+    public string? BlurType { get; set; }
+
+    /// <summary>
+    /// This mode provides the ability to choose between the following settings: 1) Analyze - For detection only.This mode generates a metadata JSON file marking appearances of faces throughout the video.Where possible, appearances of the same person are assigned the same ID. 2) Combined - Additionally redacts(blurs) detected faces. 3) Redact - This enables a 2-pass process, allowing for selective redaction of a subset of detected faces.It takes in the metadata file from a prior analyze pass, along with the source video, and a user-selected subset of IDs that require redaction. Allowed values: Analyze, Redact,
+    /// </summary>
+    [CliOption("--face-detector-mode")]
+    public string? FaceDetectorMode { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum resolution at which your video is analyzed. The default behavior is "SourceResolution," which will keep the input video at its original resolution when analyzed. Using StandardDefinition will resize input videos to standard definition while preserving the appropriate aspect ratio. It will only resize if the video is of higher resolution. For example, a 1920x1080 input would be scaled to 640x360 before processing. Switching to "StandardDefinition" will reduce the time it takes to process high resolution video. It may also reduce the cost of using this component (see https://azure.microsoft.com/pricing/details/media- services/#analytics for details). However, faces that end up being too small in the resized video may not be detected. Allowed values: StandardDefinition, SourceResolution.
+    /// </summary>
+    [CliOption("--resolution")]
+    public string? Resolution { get; set; }
+
+    /// <summary>
+    /// The type of insights to be extracted. If not set then the type will be selected based on the content type. If the content is audio only then only audio insights will be extracted and if it is video only video insights will be extracted.  Allowed values: AllInsights, AudioInsightsOnly, VideoInsightsOnly.
+    /// </summary>
+    [CliOption("--insights-to-extract")]
+    public string? InsightsToExtract { get; set; }
+
+    /// <summary>
+    /// Determines the set of audio analysis operations to be performed. If unspecified, the Standard AudioAnalysisMode would be chosen. Allowed values: Standard, Basic.
+    /// </summary>
+    [CliOption("--video-analysis-mode")]
+    public string? VideoAnalysisMode { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

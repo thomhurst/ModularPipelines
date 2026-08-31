@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "decompile-params")]
-public record AzBicepDecompileParamsOptions : AzOptions
+public record AzBicepDecompileParamsOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
+    public AzBicepDecompileParamsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Path to the bicep template file (relative to the .bicepparam file) that will be referenced in the using declaration.
     /// </summary>

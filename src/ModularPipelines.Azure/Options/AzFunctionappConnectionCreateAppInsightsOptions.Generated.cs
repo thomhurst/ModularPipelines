@@ -35,8 +35,8 @@ public record AzFunctionappConnectionCreateAppInsightsOptions : AzOptions
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the functionapp connection.
@@ -77,8 +77,8 @@ public record AzFunctionappConnectionCreateAppInsightsOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the function app. Required if '
@@ -99,10 +99,22 @@ public record AzFunctionappConnectionCreateAppInsightsOptions : AzOptions
     public string? TargetId { get; set; }
 
     /// <summary>
+    /// The resource group which contains the app insights. Required if '
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
+
+    /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
     public string? VaultId { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
     [Obsolete("Use AppInsights instead.")]
     public string? AppInsightsValue

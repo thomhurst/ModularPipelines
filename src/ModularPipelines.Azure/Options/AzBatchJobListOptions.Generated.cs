@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,7 +24,44 @@ public record AzBatchJobListOptions : AzOptions
     /// <summary>
     /// The ID of the job schedule from which you want to get a list of jobs. If omitted, lists all jobs in the account.
     /// </summary>
-    [CliFlag("--job-schedule-id")]
-    public bool? JobScheduleId { get; set; }
+    [CliOption("--job-schedule-id", GroupValues = true)]
+    public IEnumerable<string>? JobScheduleId { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// The Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [SecretValue]
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// The Batch account name. Only needed Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// An OData $expand clause.
+    /// </summary>
+    [CliFlag("--expand")]
+    public bool? Expand { get; set; }
+
+    /// <summary>
+    /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata-filters- in-batch.
+    /// </summary>
+    [CliFlag("--filter")]
+    public bool? Filter { get; set; }
+
+    /// <summary>
+    /// An OData $select clause.
+    /// </summary>
+    [CliFlag("--select")]
+    public bool? Select { get; set; }
 
 }

@@ -18,12 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "asg", "remove")]
-public record AzNetworkPrivateEndpointAsgRemoveOptions : AzOptions
+public record AzNetworkPrivateEndpointAsgRemoveOptions(
+    [property: CliOption("--asg-id")] string AsgId,
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetworkPrivateEndpointAsgRemoveOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

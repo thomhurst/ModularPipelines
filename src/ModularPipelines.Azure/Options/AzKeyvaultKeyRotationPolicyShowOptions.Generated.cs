@@ -26,6 +26,24 @@ public record AzKeyvaultKeyRotationPolicyShowOptions : AzOptions
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
     [Obsolete("Use Name instead.")]
     public string? NameValue
     {

@@ -47,5 +47,20 @@ public class AzBackupVaultBackupProperties
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupVaultBackupPropertiesSetOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Gets backup related properties of the Recovery Services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzBackupVaultBackupPropertiesShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupVaultBackupPropertiesShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

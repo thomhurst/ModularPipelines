@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "up")]
-public record AzContainerappUpOptions : AzOptions
+public record AzContainerappUpOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzContainerappUpOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Open the app in a web browser after creation and deployment, if possible.
     /// </summary>
@@ -61,6 +68,96 @@ public record AzContainerappUpOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-profile-name", ShortForm = "-w")]
     public bool? WorkloadProfileName { get; set; }
+
+    /// <summary>
+    /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliFlag("--registry-password")]
+    public bool? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server hostname, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliFlag("--registry-server")]
+    public bool? RegistryServer { get; set; }
+
+    /// <summary>
+    /// The username to log in to container registry.
+    /// </summary>
+    [CliFlag("--registry-username")]
+    public bool? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// A list of environment variable(s) for the container. Space-separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
+    /// </summary>
+    [CliOption("--env-vars", GroupValues = true)]
+    public IEnumerable<string>? EnvVars { get; set; }
+
+    /// <summary>
+    /// The branch of the Github repo. Assumed to be the Github repo's default branch if not specified.
+    /// </summary>
+    [CliFlag("--branch", ShortForm = "-b")]
+    public bool? Branch { get; set; }
+
+    /// <summary>
+    /// Path in the repo from which to run the docker build. Defaults to "./". Dockerfile is assumed to be named "Dockerfile" and in this directory.
+    /// </summary>
+    [CliOption("--context-path")]
+    public string? ContextPath { get; set; }
+
+    /// <summary>
+    /// Create an app via Github Actions. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.
+    /// </summary>
+    [CliFlag("--repo")]
+    public bool? Repo { get; set; }
+
+    /// <summary>
+    /// The service principal client ID. Used by Github Actions to authenticate with Azure.
+    /// </summary>
+    [CliFlag("--service-principal-client-id", ShortForm = "--sp-cid")]
+    public bool? ServicePrincipalClientId { get; set; }
+
+    /// <summary>
+    /// The service principal client secret. Used by Github Actions to authenticate with Azure.
+    /// </summary>
+    [CliFlag("--service-principal-client-secret", ShortForm = "--sp-sec")]
+    public bool? ServicePrincipalClientSecret { get; set; }
+
+    /// <summary>
+    /// The service principal tenant ID. Used by Github Actions to authenticate with Azure.
+    /// </summary>
+    [CliFlag("--service-principal-tenant-id", ShortForm = "--sp-tid")]
+    public bool? ServicePrincipalTenantId { get; set; }
+
+    /// <summary>
+    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the- command-line. If not provided or not found in the cache (and using --repo), a browser page will be opened to authenticate with Github.
+    /// </summary>
+    [CliFlag("--token")]
+    public bool? Token { get; set; }
+
+    /// <summary>
+    /// The ingress type.  Allowed values: external, internal.
+    /// </summary>
+    [CliOption("--ingress")]
+    public string? Ingress { get; set; }
+
+    /// <summary>
+    /// The application port used for ingress traffic.
+    /// </summary>
+    [CliFlag("--target-port")]
+    public bool? TargetPort { get; set; }
+
+    /// <summary>
+    /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. You can use "az monitor log- analytics workspace create" to create one. Extra billing may apply.
+    /// </summary>
+    [CliFlag("--logs-workspace-id")]
+    public bool? LogsWorkspaceId { get; set; }
+
+    /// <summary>
+    /// Log Analytics workspace key to configure your Log Analytics workspace. You can use "az monitor log- analytics workspace get-shared-keys" to retrieve the key.
+    /// </summary>
+    [CliFlag("--logs-workspace-key")]
+    public bool? LogsWorkspaceKey { get; set; }
 
     [Obsolete("Use Environment instead.")]
     public string? EnvironmentValue

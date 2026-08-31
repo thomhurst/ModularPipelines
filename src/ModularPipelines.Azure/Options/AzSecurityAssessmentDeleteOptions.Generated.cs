@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment", "delete")]
-public record AzSecurityAssessmentDeleteOptions : AzOptions
+public record AzSecurityAssessmentDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzSecurityAssessmentDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The target resource for this assessment.
     /// </summary>

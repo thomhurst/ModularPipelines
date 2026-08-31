@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "delete")]
-public record AzIotDpsLinkedHubDeleteOptions : AzOptions
+public record AzIotDpsLinkedHubDeleteOptions(
+    [property: CliOption("--dps-name")] string DpsName,
+    [property: CliOption("--linked-hub")] string LinkedHub
+) : AzOptions
 {
+    public AzIotDpsLinkedHubDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

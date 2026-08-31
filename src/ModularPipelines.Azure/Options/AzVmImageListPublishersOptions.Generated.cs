@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "image", "list-publishers")]
-public record AzVmImageListPublishersOptions : AzOptions
+public record AzVmImageListPublishersOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
+    public AzVmImageListPublishersOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of edge zone.
     /// </summary>

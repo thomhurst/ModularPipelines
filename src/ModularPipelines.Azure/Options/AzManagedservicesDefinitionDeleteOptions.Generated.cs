@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "delete")]
-public record AzManagedservicesDefinitionDeleteOptions : AzOptions
+public record AzManagedservicesDefinitionDeleteOptions(
+    [property: CliOption("--definition")] string Definition
+) : AzOptions
 {
+    public AzManagedservicesDefinitionDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

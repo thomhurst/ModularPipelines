@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "restore")]
-public record AzSqlMidbRestoreOptions : AzOptions
+public record AzSqlMidbRestoreOptions(
+    [property: CliOption("--dest-name")] string DestName,
+    [property: CliOption("--time", ShortForm = "-t")] string Time
+) : AzOptions
 {
+    public AzSqlMidbRestoreOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database on the source Managed Instance.
     /// </summary>
@@ -53,8 +61,32 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use DestMi instead.")]
     public string? DestMiValue

@@ -18,13 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "application", "set")]
-public record AzVmApplicationSetOptions : AzOptions
+public record AzVmApplicationSetOptions(
+    [property: CliOption("--app-version-ids", GroupValues = true)] IEnumerable<string> AppVersionIds
+) : AzOptions
 {
+    public AzVmApplicationSetOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Space-separated application configuration overrides for each application version ids. It should have the same number of items as the application version ids. Null is available for a application which does not have a configuration override.
     /// </summary>
-    [CliFlag("--app-config-overrides")]
-    public bool? AppConfigOverrides { get; set; }
+    [CliOption("--app-config-overrides", GroupValues = true)]
+    public IEnumerable<string>? AppConfigOverrides { get; set; }
+
+    /// <summary>
+    /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the
+    /// </summary>
+    [CliOption("--enable-auto-upgrade", ShortForm = "--enable-automatic-upgrade", GroupValues = true)]
+    public IEnumerable<string>? EnableAutoUpgrade { get; set; }
 
     /// <summary>
     /// Whether to set order index at each gallery application. If specified, the first app version id gets specified an order = 1, then the next one 2, and so on. This parameter is meant to be used when the VMApplications specified by app version ids must be installed in a particular order; the lowest order is installed first.
@@ -35,7 +48,32 @@ public record AzVmApplicationSetOptions : AzOptions
     /// <summary>
     /// Space-separated list of true or false corresponding to the application version ids. If set to true, failure to install or update gallery application version operation will fail this operation.
     /// </summary>
-    [CliFlag("--treat-deployment-as-failure")]
-    public bool? TreatDeploymentAsFailure { get; set; }
+    [CliOption("--treat-deployment-as-failure", GroupValues = true)]
+    public IEnumerable<string>? TreatDeploymentAsFailureValues { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    [Obsolete("Use TreatDeploymentAsFailureValues instead.")]
+    public bool? TreatDeploymentAsFailure
+    {
+        get => bool.TryParse(TreatDeploymentAsFailureValues?.FirstOrDefault(), out var value) ? value : null;
+        set => TreatDeploymentAsFailureValues = value == true ? ["true"] : value == false ? ["false"] : null;
+    }
 
 }

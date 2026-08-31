@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "access-restriction", "add")]
-public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
+public record AzFunctionappConfigAccessRestrictionAddOptions(
+    [property: CliOption("--priority", ShortForm = "-p")] string Priority
+) : AzOptions
 {
+    public AzFunctionappConfigAccessRestrictionAddOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Allow or deny access.  Allowed values: Allow, Deny.  Default:
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Description of the access restriction rule.
@@ -35,8 +42,8 @@ public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Space-separated http headers in a format of `&lt;name&gt;=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--http-headers")]
-    public bool? HttpHeaders { get; set; }
+    [CliOption("--http-headers", GroupValues = true)]
+    public IEnumerable<string>? HttpHeaders { get; set; }
 
     /// <summary>
     /// Create access restriction rule with checking if the subnet has Microsoft.Web service endpoint enabled.  Allowed values: false, true.
@@ -97,6 +104,24 @@ public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
     /// </summary>
     [CliOption("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use Description instead.")]
     public string? DescriptionValue

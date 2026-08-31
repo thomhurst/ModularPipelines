@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-link-resource", "list")]
-public record AzBatchPrivateLinkResourceListOptions : AzOptions
+public record AzBatchPrivateLinkResourceListOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchPrivateLinkResourceListOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.
     /// </summary>

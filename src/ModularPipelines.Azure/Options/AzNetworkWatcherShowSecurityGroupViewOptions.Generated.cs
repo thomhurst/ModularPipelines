@@ -18,12 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-security-group-view")]
-public record AzNetworkWatcherShowSecurityGroupViewOptions : AzOptions
+public record AzNetworkWatcherShowSecurityGroupViewOptions(
+    [property: CliOption("--vm")] string Vm
+) : AzOptions
 {
+    public AzNetworkWatcherShowSecurityGroupViewOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

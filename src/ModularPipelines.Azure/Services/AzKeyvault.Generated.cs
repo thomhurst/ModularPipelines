@@ -32,6 +32,7 @@ public class AzKeyvault : IAzKeyvault
     private AzKeyvaultRole? _role;
     private AzKeyvaultSecret? _secret;
     private AzKeyvaultSecurityDomain? _securityDomain;
+    private AzKeyvaultSetting? _setting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvault"/> class.
@@ -98,6 +99,11 @@ public class AzKeyvault : IAzKeyvault
     /// </summary>
     public AzKeyvaultSecurityDomain SecurityDomain => _securityDomain ??= new AzKeyvaultSecurityDomain(_command);
 
+    /// <summary>
+    /// az setting sub-commands.
+    /// </summary>
+    public AzKeyvaultSetting Setting => _setting ??= new AzKeyvaultSetting(_command);
+
     #endregion
 
     #region Commands
@@ -114,7 +120,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultCheckNameOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -129,7 +135,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -159,7 +165,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultDeletePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -234,7 +240,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultSetPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -279,7 +285,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultUpdateHsmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -294,7 +300,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -309,7 +315,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultWaitHsmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -324,7 +330,7 @@ public class AzKeyvault : IAzKeyvault
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultWaitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

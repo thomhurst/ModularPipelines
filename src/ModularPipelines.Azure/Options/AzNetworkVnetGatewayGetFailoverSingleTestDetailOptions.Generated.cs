@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "get-failover-single-test-detail")]
-public record AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions : AzOptions
+public record AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions(
+    [property: CliOption("--failover-test-id")] string FailoverTestId,
+    [property: CliOption("--peering-location")] string PeeringLocation
+) : AzOptions
 {
+    public AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the virtual network gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--virtual-network-gateway-name")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

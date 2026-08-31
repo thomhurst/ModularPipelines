@@ -23,6 +23,7 @@ public class AzSfManagedNodeType
     private readonly ICommandContext _command;
     private AzSfManagedNodeTypeNode? _node;
     private AzSfManagedNodeTypeVmExtension? _vmExtension;
+    private AzSfManagedNodeTypeVmSecret? _vmSecret;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedNodeType"/> class.
@@ -44,6 +45,11 @@ public class AzSfManagedNodeType
     /// </summary>
     public AzSfManagedNodeTypeVmExtension VmExtension => _vmExtension ??= new AzSfManagedNodeTypeVmExtension(_command);
 
+    /// <summary>
+    /// az vm-secret sub-commands.
+    /// </summary>
+    public AzSfManagedNodeTypeVmSecret VmSecret => _vmSecret ??= new AzSfManagedNodeTypeVmSecret(_command);
+
     #endregion
 
     #region Commands
@@ -60,7 +66,52 @@ public class AzSfManagedNodeType
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSfManagedNodeTypeCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete node type from a cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzSfManagedNodeTypeDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List node types of a managed cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSfManagedNodeTypeListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the properties of a node type.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSfManagedNodeTypeShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,7 +126,7 @@ public class AzSfManagedNodeType
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSfManagedNodeTypeUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion

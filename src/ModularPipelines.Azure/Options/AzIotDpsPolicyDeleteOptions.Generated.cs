@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "delete")]
-public record AzIotDpsPolicyDeleteOptions : AzOptions
+public record AzIotDpsPolicyDeleteOptions(
+    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName,
+    [property: CliOption("--pn", ShortForm = "--policy-name")] string Pn
+) : AzOptions
 {
+    public AzIotDpsPolicyDeleteOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

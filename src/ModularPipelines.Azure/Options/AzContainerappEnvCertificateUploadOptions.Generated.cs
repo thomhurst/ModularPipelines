@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "certificate", "upload")]
-public record AzContainerappEnvCertificateUploadOptions : AzOptions
+public record AzContainerappEnvCertificateUploadOptions(
+    [property: CliOption("--certificate-file", ShortForm = "-f")] string CertificateFile
+) : AzOptions
 {
+    public AzContainerappEnvCertificateUploadOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of the certificate which should be unique within the
     /// </summary>
@@ -37,6 +44,30 @@ public record AzContainerappEnvCertificateUploadOptions : AzOptions
     /// </summary>
     [CliFlag("--show-prompt")]
     public bool? ShowPrompt { get; set; }
+
+    /// <summary>
+    /// The certificate file password.
+    /// </summary>
+    [CliFlag("--password", ShortForm = "-p")]
+    public bool? Password { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use CertificateName instead.")]
     public string? CertificateNameValue

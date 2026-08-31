@@ -18,12 +18,72 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "rule", "create")]
-public record AzNetworkLbRuleCreateOptions : AzOptions
+public record AzNetworkLbRuleCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--backend-port")] string BackendPort,
+    [property: CliOption("--frontend-port")] string FrontendPort,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
+    public AzNetworkLbRuleCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// List of ID or name of the backend address pools. Multiple pools are only supported by Gateway SKU load balancer. If only one exists, omit to use as default. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--backend-pool-name", ShortForm = "--backend-pools-name", GroupValues = true)]
+    public IEnumerable<string>? BackendPoolName { get; set; }
+
+    /// <summary>
+    /// Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--disable-outbound-snat")]
+    public bool? DisableOutboundSnat { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The name of ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    /// </summary>
+    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public bool? IdleTimeout { get; set; }
+
+    /// <summary>
+    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol.
+    /// </summary>
+    [CliOption("--load-distribution")]
+    public string? LoadDistribution { get; set; }
+
+    /// <summary>
+    /// The ID or Name of an existing probe to associate with this rule.
+    /// </summary>
+    [CliOption("--probe", ShortForm = "--probe-name")]
+    public string? Probe { get; set; }
 
 }

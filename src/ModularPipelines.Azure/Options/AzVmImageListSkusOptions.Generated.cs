@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "image", "list-skus")]
-public record AzVmImageListSkusOptions : AzOptions
+public record AzVmImageListSkusOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
+    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher
+) : AzOptions
 {
+    public AzVmImageListSkusOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of edge zone.
     /// </summary>

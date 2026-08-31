@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "restore")]
-public record AzWebappConfigBackupRestoreOptions : AzOptions
+public record AzWebappConfigBackupRestoreOptions(
+    [property: CliOption("--backup-name")] string BackupName,
+    [property: CliOption("--container-url")] string ContainerUrl,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
+) : AzOptions
 {
+    public AzWebappConfigBackupRestoreOptions()
+        : this(default(string)!, default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Ignores custom hostnames stored in the backup.
     /// </summary>
@@ -43,6 +53,24 @@ public record AzWebappConfigBackupRestoreOptions : AzOptions
     /// </summary>
     [CliOption("--target-name")]
     public string? TargetName { get; set; }
+
+    /// <summary>
+    /// Connection string for the database in the backup.
+    /// </summary>
+    [CliFlag("--db-connection-string")]
+    public bool? DbConnectionString { get; set; }
+
+    /// <summary>
+    /// Name of the database in the backup.
+    /// </summary>
+    [CliOption("--db-name")]
+    public string? DbName { get; set; }
+
+    /// <summary>
+    /// Type of database in the backup.  Allowed values: LocalMySql,
+    /// </summary>
+    [CliOption("--db-type")]
+    public string? DbType { get; set; }
 
     [Obsolete("Use Slot instead.")]
     public string? SlotValue

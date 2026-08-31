@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "credential", "list")]
-public record AzAdSpCredentialListOptions : AzOptions
+public record AzAdSpCredentialListOptions(
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
+    public AzAdSpCredentialListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Operate on certificate credentials.
     /// </summary>

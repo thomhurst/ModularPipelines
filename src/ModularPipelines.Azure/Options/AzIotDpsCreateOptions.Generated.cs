@@ -18,8 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "create")]
-public record AzIotDpsCreateOptions : AzOptions
+public record AzIotDpsCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzIotDpsCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Enforce data residency for this IoT Hub Device Provisioning Service by disabling cross geo-pair disaster recovery. This property is immutable once set on the resource. Only available in select regions. Learn more at https://aka.ms/dpsdr.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--edr", ShortForm = "--enforce-data-residency")]
+    public bool? Edr { get; set; }
+
     /// <summary>
     /// Location of your IoT Hub Device Provisioning Service. Default is the location of target resource group.
     /// </summary>
@@ -29,14 +43,14 @@ public record AzIotDpsCreateOptions : AzOptions
     /// <summary>
     /// Pricing tier for the IoT Hub Device Provisioning Service. Allowed values: S1.  Default: S1.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Units in your IoT Hub Device Provisioning Service.  Default: 1.

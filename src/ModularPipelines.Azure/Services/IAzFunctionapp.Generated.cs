@@ -77,9 +77,19 @@ public interface IAzFunctionapp
     AzFunctionappPlan Plan => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az runtime sub-commands.
+    /// </summary>
+    AzFunctionappRuntime Runtime => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az scale sub-commands.
     /// </summary>
     AzFunctionappScale Scale => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az update-strategy sub-commands.
+    /// </summary>
+    AzFunctionappUpdateStrategy UpdateStrategy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vnet-integration sub-commands.
@@ -117,6 +127,16 @@ public interface IAzFunctionapp
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// List available built-in stacks which can be used
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListFlexconsumptionRuntimesAsync(AzFunctionappListFlexconsumptionRuntimesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List function apps.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -124,6 +144,16 @@ public interface IAzFunctionapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListAsync(AzFunctionappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// List available built-in stacks which can be used for function
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListRuntimesAsync(AzFunctionappListRuntimesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

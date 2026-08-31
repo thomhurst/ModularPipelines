@@ -18,12 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "create")]
-public record AzRelayHycoCreateOptions : AzOptions
+public record AzRelayHycoCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzRelayHycoCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Indicates whether client authorization is required. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-client-authorization", ShortForm = "-c")]
+    [CliOption("--requires-client-authorization", ShortForm = "-c")]
     public bool? RequiresClientAuthorization { get; set; }
 
     /// <summary>

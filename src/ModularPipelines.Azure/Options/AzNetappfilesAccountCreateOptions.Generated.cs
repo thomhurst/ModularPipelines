@@ -18,12 +18,104 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "create")]
-public record AzNetappfilesAccountCreateOptions : AzOptions
+public record AzNetappfilesAccountCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzNetappfilesAccountCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The name of KeyVault key.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; set; }
+
+    /// <summary>
+    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values: Microsoft.KeyVault, Microsoft.NetApp.  Default:
+    /// </summary>
+    [CliOption("--key-source")]
+    public string? KeySource { get; set; }
+
+    /// <summary>
+    /// The resource ID of KeyVault.
+    /// </summary>
+    [CliOption("--key-vault-resource-id", ShortForm = "--keyvault-resource-id")]
+    public string? KeyVaultResourceId { get; set; }
+
+    /// <summary>
+    /// The Uri of KeyVault.
+    /// </summary>
+    [CliOption("--key-vault-uri", ShortForm = "-v")]
+    public string? KeyVaultUri { get; set; }
+
+    /// <summary>
+    /// ClientId of the multi-tenant AAD Application. Used to access cross-tenant keyvaults.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
+    /// The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities.
+    /// </summary>
+    [CliFlag("--user-assigned-identity", ShortForm = "-u")]
+    public bool? UserAssignedIdentity { get; set; }
+
+    /// <summary>
+    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None,
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "--type")]
+    public string? IdentityType { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity.
+    /// </summary>
+    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource
+    /// </summary>
+    [CliFlag("--user-assigned-identities", ShortForm = "--user-ids")]
+    public bool? UserAssignedIdentities { get; set; }
+
+    /// <summary>
+    /// Active Directories  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--active-directories")]
+    public bool? ActiveDirectories { get; set; }
+
+    /// <summary>
+    /// Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes.
+    /// </summary>
+    [CliFlag("--nfs-v4-id-domain")]
+    public bool? NfsV4IdDomain { get; set; }
 
 }

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kql-script", "export")]
-public record AzSynapseKqlScriptExportOptions : AzOptions
+public record AzSynapseKqlScriptExportOptions(
+    [property: CliOption("--output-folder")] string OutputFolder,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseKqlScriptExportOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the KQL script.
     /// </summary>

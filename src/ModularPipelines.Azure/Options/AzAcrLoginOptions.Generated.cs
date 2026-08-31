@@ -18,8 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "login")]
-public record AzAcrLoginOptions : AzOptions
+public record AzAcrLoginOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzAcrLoginOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Log in to a specific regional endpoint of the container registry. Specify the region name (e.g., eastus, westus2). Only applicable when regional endpoints are enabled.
+    /// </summary>
+    [CliFlag("--endpoint")]
+    public bool? Endpoint { get; set; }
+
     /// <summary>
     /// Expose refresh token instead of automatically logging in through Docker
     /// </summary>

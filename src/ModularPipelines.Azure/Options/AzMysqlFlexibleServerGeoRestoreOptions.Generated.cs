@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "geo-restore")]
-public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
+public record AzMysqlFlexibleServerGeoRestoreOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--source-server")] string SourceServer
+) : AzOptions
 {
+    public AzMysqlFlexibleServerGeoRestoreOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--accelerated-logs")]
-    public bool? AcceleratedLogs { get; set; }
+    [CliOption("--accelerated-logs")]
+    public string? AcceleratedLogs { get; set; }
 
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
@@ -41,8 +49,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values:
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,8 +67,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Determines the public access.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -71,8 +79,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16
@@ -95,8 +103,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable,
@@ -121,6 +129,24 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// </summary>
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     [Obsolete("Use PrivateDnsZone instead.")]
     public string? PrivateDnsZoneValue

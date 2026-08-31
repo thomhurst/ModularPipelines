@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql-script", "create")]
-public record AzSynapseSqlScriptCreateOptions : AzOptions
+public record AzSynapseSqlScriptCreateOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    public AzSynapseSqlScriptCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// The SQL script additional properties.
     /// </summary>
@@ -47,8 +56,8 @@ public record AzSynapseSqlScriptCreateOptions : AzOptions
     /// <summary>
     /// The SQL query results limit. Default is 5000. '-1' is no limit. Allowed values: -1, 5000.  Default: 5000.
     /// </summary>
-    [CliFlag("--result-limit")]
-    public bool? ResultLimit { get; set; }
+    [CliOption("--result-limit")]
+    public string? ResultLimit { get; set; }
 
     /// <summary>
     /// The SQL database name.

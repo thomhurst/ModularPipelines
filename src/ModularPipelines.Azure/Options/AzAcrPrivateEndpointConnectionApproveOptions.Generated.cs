@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "approve")]
-public record AzAcrPrivateEndpointConnectionApproveOptions : AzOptions
+public record AzAcrPrivateEndpointConnectionApproveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
+) : AzOptions
 {
+    public AzAcrPrivateEndpointConnectionApproveOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Approval description. For example, the reason for approval.
     /// </summary>

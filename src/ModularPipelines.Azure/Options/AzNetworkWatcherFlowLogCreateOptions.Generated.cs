@@ -18,12 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "create")]
-public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
+public record AzNetworkWatcherFlowLogCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzNetworkWatcherFlowLogCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Enable logging. Default: true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -41,7 +48,7 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -77,8 +84,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or ID of the ManagedIdentity Resource.
@@ -91,6 +98,54 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// </summary>
     [CliOption("--vnet")]
     public string? Vnet { get; set; }
+
+    /// <summary>
+    /// File type of the flow log.  Allowed values: JSON.
+    /// </summary>
+    [CliOption("--format")]
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Version (revision) of the flow log.
+    /// </summary>
+    [CliFlag("--log-version")]
+    public bool? LogVersion { get; set; }
+
+    /// <summary>
+    /// FlowLog resource Managed Identity  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--identity")]
+    public bool? Identity { get; set; }
+
+    /// <summary>
+    /// Optional field to filter flowlogs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all flowlogs will be logged.
+    /// </summary>
+    [CliFlag("--filtering-criteria")]
+    public bool? FilteringCriteria { get; set; }
+
+    /// <summary>
+    /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five- minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
+    /// </summary>
+    [CliFlag("--record-types")]
+    public bool? RecordTypes { get; set; }
+
+    /// <summary>
+    /// Interval in minutes at which to conduct flow analytics. Temporarily allowed values are 10 and 60.  Default: 60.
+    /// </summary>
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
+
+    /// <summary>
+    /// Enable traffic analytics. Defaults to true if `--workspace` is provided.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--traffic-analytics")]
+    public bool? TrafficAnalytics { get; set; }
+
+    /// <summary>
+    /// Name or ID of a Log Analytics workspace. Must be in the same region of flow log.
+    /// </summary>
+    [CliOption("--workspace")]
+    public string? Workspace { get; set; }
 
     [Obsolete("Use Nic instead.")]
     public string? NicValue

@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lock", "create")]
-public record AzLockCreateOptions : AzOptions
+public record AzLockCreateOptions(
+    [property: CliOption("--lock-type", ShortForm = "-t")] string LockType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    public AzLockCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
@@ -37,6 +45,12 @@ public record AzLockCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--parent")]
     public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

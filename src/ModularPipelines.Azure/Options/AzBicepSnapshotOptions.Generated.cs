@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "snapshot")]
-public record AzBicepSnapshotOptions : AzOptions
+public record AzBicepSnapshotOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
+    public AzBicepSnapshotOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Deployment name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
@@ -41,8 +48,8 @@ public record AzBicepSnapshotOptions : AzOptions
     /// <summary>
     /// The snapshot mode. 'Overwrite' (default) writes the snapshot file. 'Validate' compares the existing snapshot against the current template and fails if differences are detected.  Allowed values: Overwrite,
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// Resource group name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.

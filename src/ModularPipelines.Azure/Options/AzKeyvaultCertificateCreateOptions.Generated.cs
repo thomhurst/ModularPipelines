@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "create")]
-public record AzKeyvaultCertificateCreateOptions : AzOptions
+public record AzKeyvaultCertificateCreateOptions(
+    [property: CliOption("--policy", ShortForm = "-p")] string Policy,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
+    public AzKeyvaultCertificateCreateOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Create certificate in disabled state.  Allowed values: false, true.
     /// </summary>
@@ -29,8 +38,8 @@ public record AzKeyvaultCertificateCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Number of months the certificate is valid for. Overrides the value specified with --policy/-p.

@@ -21,12 +21,17 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlServer
 {
     private readonly ICommandContext _command;
+    private AzSqlServerAdAdmin? _adAdmin;
+    private AzSqlServerAdOnlyAuth? _adOnlyAuth;
     private AzSqlServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlServerAuditPolicy? _auditPolicy;
+    private AzSqlServerConnPolicy? _connPolicy;
     private AzSqlServerDnsAlias? _dnsAlias;
     private AzSqlServerFirewallRule? _firewallRule;
     private AzSqlServerIpv6FirewallRule? _ipv6FirewallRule;
+    private AzSqlServerKey? _key;
     private AzSqlServerMsSupport? _msSupport;
+    private AzSqlServerOutboundFirewallRule? _outboundFirewallRule;
     private AzSqlServerTdeKey? _tdeKey;
     private AzSqlServerVnetRule? _vnetRule;
 
@@ -41,6 +46,16 @@ public class AzSqlServer
     #region Sub-command Groups
 
     /// <summary>
+    /// az ad-admin sub-commands.
+    /// </summary>
+    public AzSqlServerAdAdmin AdAdmin => _adAdmin ??= new AzSqlServerAdAdmin(_command);
+
+    /// <summary>
+    /// az ad-only-auth sub-commands.
+    /// </summary>
+    public AzSqlServerAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSqlServerAdOnlyAuth(_command);
+
+    /// <summary>
     /// az advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlServerAdvancedThreatProtectionSetting(_command);
@@ -49,6 +64,11 @@ public class AzSqlServer
     /// az audit-policy sub-commands.
     /// </summary>
     public AzSqlServerAuditPolicy AuditPolicy => _auditPolicy ??= new AzSqlServerAuditPolicy(_command);
+
+    /// <summary>
+    /// az conn-policy sub-commands.
+    /// </summary>
+    public AzSqlServerConnPolicy ConnPolicy => _connPolicy ??= new AzSqlServerConnPolicy(_command);
 
     /// <summary>
     /// az dns-alias sub-commands.
@@ -66,9 +86,19 @@ public class AzSqlServer
     public AzSqlServerIpv6FirewallRule Ipv6FirewallRule => _ipv6FirewallRule ??= new AzSqlServerIpv6FirewallRule(_command);
 
     /// <summary>
+    /// az key sub-commands.
+    /// </summary>
+    public AzSqlServerKey Key => _key ??= new AzSqlServerKey(_command);
+
+    /// <summary>
     /// az ms-support sub-commands.
     /// </summary>
     public AzSqlServerMsSupport MsSupport => _msSupport ??= new AzSqlServerMsSupport(_command);
+
+    /// <summary>
+    /// az outbound-firewall-rule sub-commands.
+    /// </summary>
+    public AzSqlServerOutboundFirewallRule OutboundFirewallRule => _outboundFirewallRule ??= new AzSqlServerOutboundFirewallRule(_command);
 
     /// <summary>
     /// az tde-key sub-commands.
@@ -96,7 +126,7 @@ public class AzSqlServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -127,6 +157,36 @@ public class AzSqlServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets server usages.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzSqlServerListUsagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerListUsagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Refreshes external governance status.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RefreshExternalGovernanceStatusAsync(
+        AzSqlServerRefreshExternalGovernanceStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerRefreshExternalGovernanceStatusOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

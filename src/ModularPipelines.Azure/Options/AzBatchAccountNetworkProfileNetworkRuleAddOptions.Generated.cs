@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "add")]
-public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
+public record AzBatchAccountNetworkProfileNetworkRuleAddOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzBatchAccountNetworkProfileNetworkRuleAddOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// IPv4 address or CIDR range.
     /// </summary>
@@ -35,8 +42,8 @@ public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// Network profile to set.  Allowed values: BatchAccount,
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
     [Obsolete("Use Name instead.")]
     public string? NameValue

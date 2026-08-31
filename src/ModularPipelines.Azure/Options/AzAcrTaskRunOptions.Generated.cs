@@ -30,6 +30,12 @@ public record AzAcrTaskRunOptions(
     }
 
     /// <summary>
+    /// The name of the agent pool.
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliFlag("--arg")]
@@ -44,8 +50,14 @@ public record AzAcrTaskRunOptions(
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry.
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -95,6 +107,12 @@ public record AzAcrTaskRunOptions(
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
+
+    /// <summary>
+    /// The payload that will be passed back alongwith the base image trigger notification.
+    /// </summary>
+    [CliFlag("--update-trigger-token")]
+    public bool? UpdateTriggerToken { get; set; }
 
     [Obsolete("Use Set instead.")]
     public IEnumerable<string>? SetValues

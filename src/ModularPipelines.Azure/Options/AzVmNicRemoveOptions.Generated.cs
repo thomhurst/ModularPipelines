@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "nic", "remove")]
-public record AzVmNicRemoveOptions : AzOptions
+public record AzVmNicRemoveOptions(
+    [property: CliOption("--nics")] string Nics,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
+    public AzVmNicRemoveOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name or ID of the primary NIC. If missing, the first NIC in the list will be the primary.
     /// </summary>

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "list-runs")]
-public record AzAcrTaskListRunsOptions : AzOptions
+public record AzAcrTaskListRunsOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
+    public AzAcrTaskListRunsOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>
@@ -41,8 +48,8 @@ public record AzAcrTaskListRunsOptions : AzOptions
     /// <summary>
     /// The current status of run.  Allowed values: Canceled, Error, Failed, Queued, Running, Started, Succeeded, Timeout.
     /// </summary>
-    [CliFlag("--run-status")]
-    public bool? RunStatus { get; set; }
+    [CliOption("--run-status")]
+    public string? RunStatus { get; set; }
 
     /// <summary>
     /// Limit the number of latest runs in the results.  Default: 15.

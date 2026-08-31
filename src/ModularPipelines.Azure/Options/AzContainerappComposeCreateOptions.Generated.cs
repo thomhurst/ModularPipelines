@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "compose", "create")]
-public record AzContainerappComposeCreateOptions : AzOptions
+public record AzContainerappComposeCreateOptions(
+    [property: CliOption("--environment")] string Environment,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    public AzContainerappComposeCreateOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Path to a Docker Compose file with the configuration to import to Azure Container Apps.  Default: ./docker-compose.yml.
     /// </summary>
@@ -35,14 +43,38 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Transport options per Container App instance (servicename=transportsetting).
+    /// </summary>
+    [CliFlag("--transport")]
+    public bool? Transport { get; set; }
 
     /// <summary>
     /// Transport options per Container App instance (servicename=transportsetting).
     /// </summary>
     [CliFlag("--transport-mapping")]
     public bool? TransportMapping { get; set; }
+
+    /// <summary>
+    /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliFlag("--registry-password")]
+    public bool? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server hostname, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliFlag("--registry-server")]
+    public bool? RegistryServer { get; set; }
+
+    /// <summary>
+    /// The username to log in to container registry.
+    /// </summary>
+    [CliFlag("--registry-username")]
+    public bool? RegistryUsername { get; set; }
 
     [Obsolete("Use ComposeFilePath instead.")]
     public string? ComposeFilePathValue

@@ -18,8 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "list")]
-public record AzAcrPrivateEndpointConnectionListOptions : AzOptions
+public record AzAcrPrivateEndpointConnectionListOptions(
+    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
+) : AzOptions
 {
+    public AzAcrPrivateEndpointConnectionListOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

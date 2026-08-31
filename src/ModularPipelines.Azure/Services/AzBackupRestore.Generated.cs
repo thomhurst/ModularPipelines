@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBackupRestore
 {
     private readonly ICommandContext _command;
+    private AzBackupRestoreFiles? _files;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBackupRestore"/> class.
@@ -29,6 +30,15 @@ public class AzBackupRestore
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az files sub-commands.
+    /// </summary>
+    public AzBackupRestoreFiles Files => _files ??= new AzBackupRestoreFiles(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,7 @@ public class AzBackupRestore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRestoreRestoreAzurefileshareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -59,7 +69,7 @@ public class AzBackupRestore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRestoreRestoreAzurefilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,7 +84,7 @@ public class AzBackupRestore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRestoreRestoreAzurewlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,7 +99,7 @@ public class AzBackupRestore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRestoreRestoreDisksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? throw new ArgumentNullException(nameof(options)), executionOptions, cancellationToken);
     }
 
     #endregion
