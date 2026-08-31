@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
@@ -59,21 +60,14 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configure)
     {
-        var options = new RedisDistributedOptions();
-        configure(options);
-        options.RunIdentifier = RunIdentifierResolver.ResolveExecutionIdentifier(options.RunIdentifier)
+        var options = ConfigureRedis(builder, configure);
+        options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
             ?? throw new InvalidOperationException(
                 "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
                 + "Configure RunIdentifier explicitly or provide a supported CI run identifier.");
 
-        builder.Services.AddSingleton(options);
         builder.Services.PostConfigure<DistributedOptions>(distributedOptions =>
-            distributedOptions.ExecutionIdentifier ??= options.RunIdentifier);
-        builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
-        {
-            var opts = sp.GetRequiredService<RedisDistributedOptions>();
-            return ConnectionMultiplexer.Connect(opts.ConnectionString);
-        });
+            distributedOptions.RunIdentifier ??= options.RunIdentifier);
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
@@ -83,18 +77,18 @@ public static class RedisDistributedExtensions
     /// Registers the Redis-based distributed artifact store factory.
     /// Must be called after <c>AddDistributedMode</c>.
     /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configureRedis">Configures the Redis connection and key prefix.</param>
+    /// <param name="configureArtifacts">Optionally configures cache chunking and expiry.</param>
     /// <returns></returns>
     public static PipelineBuilder AddRedisDistributedArtifactStore(
         this PipelineBuilder builder,
-        Action<ArtifactOptions>? configure = null)
+        Action<RedisDistributedOptions> configureRedis,
+        Action<ArtifactOptions>? configureArtifacts = null)
     {
-        var options = new ArtifactOptions();
-        configure?.Invoke(options);
+        ConfigureRedis(builder, configureRedis);
 
-        builder.Services.AddSingleton(options);
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, RedisDistributedArtifactStoreFactory>();
-
-        return builder;
+        return AddRedisDistributedArtifactStoreFactory(builder, configureArtifacts);
     }
 
     /// <summary>
@@ -108,7 +102,42 @@ public static class RedisDistributedExtensions
         Action<ArtifactOptions>? configureArtifacts = null)
     {
         builder.AddRedisDistributedCoordinator(configureRedis);
-        builder.AddRedisDistributedArtifactStore(configureArtifacts);
-        return builder;
+        return AddRedisDistributedArtifactStoreFactory(builder, configureArtifacts);
+    }
+
+    private static RedisDistributedOptions ConfigureRedis(
+        PipelineBuilder builder,
+        Action<RedisDistributedOptions> configure)
+    {
+        var registeredOptions = builder.Services
+            .LastOrDefault(descriptor => descriptor.ServiceType == typeof(RedisDistributedOptions))
+            ?.ImplementationInstance;
+
+        if (registeredOptions is not RedisDistributedOptions options)
+        {
+            options = new RedisDistributedOptions();
+            builder.Services.AddSingleton(options);
+        }
+
+        configure(options);
+        builder.Services.TryAddSingleton<IConnectionMultiplexer>(serviceProvider =>
+        {
+            var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+            return ConnectionMultiplexer.Connect(redisOptions.ConnectionString);
+        });
+
+        return options;
+    }
+
+    private static PipelineBuilder AddRedisDistributedArtifactStoreFactory(
+        PipelineBuilder builder,
+        Action<ArtifactOptions>? configureArtifacts)
+    {
+        if (configureArtifacts is not null)
+        {
+            builder.Services.Configure(configureArtifacts);
+        }
+
+        return builder.AddDistributedArtifactStoreFactory<RedisDistributedArtifactStoreFactory>();
     }
 }

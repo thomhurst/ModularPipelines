@@ -20,7 +20,7 @@ public class RedisArtifactStoreTests
         {
             MaxSingleUploadBytes = 100,
             ChunkSizeBytes = 50,
-            TimeToLiveSeconds = 3600,
+            TimeToLive = TimeSpan.FromHours(1),
         };
         _store = new RedisDistributedArtifactStore(_mockDb.Object, _keys, options);
     }

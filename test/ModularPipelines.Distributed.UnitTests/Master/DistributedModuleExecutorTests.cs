@@ -527,7 +527,7 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(moduleState);
         var resultRegistry = new ModuleResultRegistry();
         var coordinator = new NoDequeueCoordinator(new InMemoryDistributedCoordinator());
-        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 1 };
+        var options = new DistributedOptions { ModuleResultTimeout = TimeSpan.FromSeconds(1) };
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
@@ -553,7 +553,7 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(moduleState);
         var resultRegistry = new ModuleResultRegistry();
         var coordinator = new NoDequeueCoordinator(new InMemoryDistributedCoordinator());
-        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 30 };
+        var options = new DistributedOptions { ModuleResultTimeout = TimeSpan.FromSeconds(30) };
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
@@ -577,7 +577,7 @@ public class DistributedModuleExecutorTests
         var resultRegistry = new ModuleResultRegistry();
         var innerCoordinator = new InMemoryDistributedCoordinator();
         var coordinator = new NoDequeueCoordinator(innerCoordinator);
-        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 0 };
+        var options = new DistributedOptions { ModuleResultTimeout = TimeSpan.Zero };
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
@@ -1503,7 +1503,7 @@ public class DistributedModuleExecutorTests
         var resultCollector = new DistributedResultCollector(noDequeue, serializer);
         var resultRegistry = new ModuleResultRegistry();
 
-        var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeoutSeconds = 10 };
+        var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeout = TimeSpan.FromSeconds(10) };
 
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
@@ -1571,7 +1571,7 @@ public class DistributedModuleExecutorTests
     public async Task Executor_Proceeds_After_Worker_Registration_Timeout(CancellationToken testCancellation)
     {
         // Arrange: expect 3 workers but only 1 registers — should timeout and proceed
-        var distributedOptions = new DistributedOptions { TotalInstances = 4, CapabilityTimeoutSeconds = 3 };
+        var distributedOptions = new DistributedOptions { TotalInstances = 4, CapabilityTimeout = TimeSpan.FromSeconds(3) };
 
         // Use mock coordinator to track GetRegisteredWorkersAsync calls and timing
         var coordinator = new Mock<IDistributedCoordinator>();

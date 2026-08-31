@@ -66,7 +66,7 @@ public class SignalRMasterStateTests
             state.Registrations[i] = new WorkerRegistration(i, FrozenSet<string>.Empty, DateTimeOffset.UtcNow);
             state.PendingAssignments.Enqueue(new ModuleAssignment(
                 $"Module{i}", "System.String", FrozenSet<string>.Empty,
-                null, DateTimeOffset.UtcNow, new ModuleAssignmentConfig(null, 0, false)));
+                null, DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
             state.ResultWaiters[$"Module{i}"] = new TaskCompletionSource<SerializedModuleResult>();
         }));
 
@@ -99,7 +99,7 @@ public class SignalRMasterStateTests
                 FrozenSet<string>.Empty,
                 null,
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfig(null, 0, false)));
+                new ModuleAssignmentConfiguration(null, 0, false)));
 
         await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
 
@@ -388,7 +388,7 @@ public class SignalRMasterStateTests
             FrozenSet<string>.Empty,
             null,
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfig(null, 0, false));
+            new ModuleAssignmentConfiguration(null, 0, false));
     }
 
     private static SerializedModuleResult CreateResult()

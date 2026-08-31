@@ -9,7 +9,11 @@ public class DistributedOptionsTests
     {
         var options = new DistributedOptions();
 
-        await Assert.That(options.ModuleResultTimeoutSeconds).IsEqualTo(2700);
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
+            await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
+        }
     }
 
     [Test]
@@ -20,12 +24,17 @@ public class DistributedOptionsTests
             {
                 ["Distributed:Capabilities:0"] = "docker",
                 ["Distributed:Capabilities:1"] = "gpu",
+                ["Distributed:CapabilityTimeout"] = "00:00:30",
             })
             .Build();
         var options = new DistributedOptions();
 
         configuration.GetSection("Distributed").Bind(options);
 
-        await Assert.That(options.Capabilities).IsEquivalentTo(["docker", "gpu"]);
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.Capabilities).IsEquivalentTo(["docker", "gpu"]);
+            await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+        }
     }
 }

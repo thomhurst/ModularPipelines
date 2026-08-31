@@ -1,8 +1,14 @@
+using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
+using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Extensions;
 
@@ -17,6 +23,52 @@ public class RedisDistributedExtensionsTests
         "BUILD_BUILDID",
         "CI_PIPELINE_ID",
     ];
+
+    [Test]
+    public async Task ArtifactOptionsUseSharedOptionsPipeline()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisDistributed(
+            options =>
+            {
+                options.ConnectionString = "unused";
+                options.RunIdentifier = "artifact-options-test";
+            },
+            options => options.CompressionLevel = CompressionLevel.NoCompression);
+        await using var pipeline = await builder.BuildAsync();
+
+        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
+            await Assert.That(configuredOptions.CompressionLevel)
+                .IsEqualTo(CompressionLevel.NoCompression);
+        }
+    }
+
+    [Test]
+    public async Task ArtifactStoreRegistersStandaloneRedisDependencies()
+    {
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddRedisDistributedArtifactStore(options =>
+            options.ConnectionString = "artifact-only");
+
+        using var serviceProvider = builder.Services.BuildServiceProvider();
+        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(redisOptions.ConnectionString).IsEqualTo("artifact-only");
+            await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsTrue();
+            await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IDistributedArtifactStoreFactory))).IsTrue();
+        }
+    }
 
     [Test]
     public async Task CoordinatorRunIdentifierScopesWorkerRegistrations()
@@ -37,7 +89,7 @@ public class RedisDistributedExtensionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(distributedOptions.ExecutionIdentifier).IsEqualTo("current-run");
+            await Assert.That(distributedOptions.RunIdentifier).IsEqualTo("current-run");
             await Assert.That(redisOptions.RunIdentifier).IsEqualTo("current-run");
         }
     }
@@ -72,5 +124,13 @@ public class RedisDistributedExtensionsTests
                 Environment.SetEnvironmentVariable(name, value);
             }
         }
+    }
+
+    private sealed class NoOpModule : Module<int>
+    {
+        protected override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(0);
     }
 }

@@ -9,26 +9,23 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 /// Objects are keyed as {prefix}/{runId}/{moduleType}/{artifactName}.
 /// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO.
 /// </summary>
-internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
+internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDisposable
 {
     private readonly IAmazonS3 _s3;
     private readonly string _bucketName;
     private readonly string _keyPrefix;
     private readonly string _runId;
-    private readonly int _ttlSeconds;
 
     public S3DistributedArtifactStore(
         IAmazonS3 s3,
         string bucketName,
         string keyPrefix,
-        string runId,
-        int ttlSeconds)
+        string runId)
     {
         _s3 = s3;
         _bucketName = bucketName;
         _keyPrefix = keyPrefix;
         _runId = runId;
-        _ttlSeconds = ttlSeconds;
     }
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
@@ -160,6 +157,8 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
         await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken);
         await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken);
     }
+
+    public void Dispose() => _s3.Dispose();
 
     private string BuildObjectKey(string moduleTypeName, string artifactName, string artifactId)
         => $"{_keyPrefix}/{_runId}/{moduleTypeName}/{artifactName}/{artifactId}";

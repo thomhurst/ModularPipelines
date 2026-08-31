@@ -16,7 +16,7 @@ public class CapabilityRoutingIntegrationTests
             RequiredCapabilities: new HashSet<string> { "docker" },
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -39,7 +39,7 @@ public class CapabilityRoutingIntegrationTests
             RequiredCapabilities: new HashSet<string> { "docker" },
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -70,7 +70,7 @@ public class CapabilityRoutingIntegrationTests
             RequiredCapabilities: new HashSet<string> { "docker" },
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         var plainAssignment = new ModuleAssignment(
             ModuleTypeName: "Plain.Module",
@@ -78,7 +78,7 @@ public class CapabilityRoutingIntegrationTests
             RequiredCapabilities: new HashSet<string>(),
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         // Docker worker can execute both
         await Assert.That(CapabilityMatcher.CanExecute(dockerAssignment, dockerWorker)).IsTrue();

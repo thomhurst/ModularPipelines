@@ -12,7 +12,7 @@ public record WorkerRegistration(
     /// <summary>
     /// Gets the pipeline execution this registration belongs to, when available.
     /// </summary>
-    public string? ExecutionIdentifier { get; init; }
+    public string? RunIdentifier { get; init; }
 
     /// <summary>
     /// Gets the worker's final count of commands executed outside a module context, when available.

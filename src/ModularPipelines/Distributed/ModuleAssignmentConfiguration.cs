@@ -1,6 +1,6 @@
 namespace ModularPipelines.Distributed;
 
-public record ModuleAssignmentConfig(
+public record ModuleAssignmentConfiguration(
     double? TimeoutSeconds,
     int RetryCount,
     bool AlwaysRun);

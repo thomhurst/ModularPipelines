@@ -30,7 +30,7 @@ builder.AddRedisDistributed(
         redis.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")
             ?? throw new InvalidOperationException("RUN_IDENTIFIER must identify this pipeline run.");
     },
-    artifacts => artifacts.TimeToLiveSeconds = 7200);
+    artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
 Set `RUN_IDENTIFIER` to the same unique value on every worker participating in one pipeline run.
@@ -44,7 +44,7 @@ Redis can provide a shareable, cross-run module cache without enabling distribut
 ```csharp
 builder.AddRedisModuleCache(
     redis => redis.ConnectionString = "localhost:6379",
-    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
 ```
 
 See [Cache Module Results](../how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.

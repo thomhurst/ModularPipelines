@@ -94,6 +94,21 @@ var required = context.Services.GetRequiredService<IMyService>();
 var optional = context.Services.GetService<IOptionalService>();
 ```
 
+## Distributed artifacts and options
+
+Artifact operations are now available from `context.Artifacts`; the
+`context.Artifacts()` extension has been removed. Artifact methods have optional
+cancellation tokens, and `DownloadAsync<TProducerModule>(...)` avoids string-based
+producer module names.
+
+Distributed duration options now use `TimeSpan`: `ArtifactOptions.TimeToLive`,
+`DistributedOptions.CapabilityTimeout`, and `DistributedOptions.ModuleResultTimeout`.
+`DistributedOptions.ExecutionIdentifier` and `WorkerRegistration.ExecutionIdentifier`
+are now `RunIdentifier`. `ModuleAssignmentConfig` is now
+`ModuleAssignmentConfiguration`. Custom stores can be
+registered with `AddDistributedArtifactStore<TStore>()` or
+`AddDistributedArtifactStoreFactory<TFactory>()`.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

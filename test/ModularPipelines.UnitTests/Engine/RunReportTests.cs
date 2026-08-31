@@ -2469,7 +2469,7 @@ public class RunReportTests
             Enabled = true,
             InstanceIndex = 1,
             TotalInstances = 2,
-            ExecutionIdentifier = "current-run",
+            RunIdentifier = "current-run",
         });
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "1");
@@ -2512,7 +2512,7 @@ public class RunReportTests
                 coordinator.Verify(x => x.RegisterWorkerAsync(
                     It.Is<WorkerRegistration>(registration =>
                         registration.WorkerIndex == 1
-                        && registration.ExecutionIdentifier == "current-run"
+                        && registration.RunIdentifier == "current-run"
                         && registration.UnattributedCommandCount == 3
                         && registration.ModuleCommandCounts![ModuleTypeIdentifier.Get(typeof(SuccessfulModule))] == 2),
                     It.IsAny<CancellationToken>()), Times.Once);
@@ -3513,28 +3513,28 @@ public class RunReportTests
 
     [Test]
     [TUnit.Core.NotInParallel("ProcessEnvironment")]
-    public async Task DistributedMasterUsesExecutionIdentifierInsteadOfWorkerClock()
+    public async Task DistributedMasterUsesRunIdentifierInsteadOfWorkerClock()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
-        const string executionIdentifier = "current-run";
+        const string runIdentifier = "current-run";
         var distributedOptions = OptionsFactory.Create(new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-            ExecutionIdentifier = executionIdentifier,
+            RunIdentifier = runIdentifier,
         });
         var coordinator = new Mock<IDistributedCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
                 new WorkerRegistration(1, new HashSet<string>(), runStartedAt.AddMinutes(-5))
                 {
-                    ExecutionIdentifier = executionIdentifier,
+                    RunIdentifier = runIdentifier,
                     UnattributedCommandCount = 3,
                 },
                 new WorkerRegistration(2, new HashSet<string>(), runStartedAt.AddMinutes(5))
                 {
-                    ExecutionIdentifier = "previous-run",
+                    RunIdentifier = "previous-run",
                     UnattributedCommandCount = 99,
                 },
             ]);

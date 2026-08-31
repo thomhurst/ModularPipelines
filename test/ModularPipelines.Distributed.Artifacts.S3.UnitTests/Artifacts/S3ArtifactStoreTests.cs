@@ -18,8 +18,7 @@ public class S3ArtifactStoreTests
             _mockS3.Object,
             "test-bucket",
             "modpipe-artifacts",
-            "run123",
-            3600);
+            "run123");
     }
 
     [Test]
@@ -145,5 +144,13 @@ public class S3ArtifactStoreTests
         await Assert.That(results.Count).IsEqualTo(1);
         await Assert.That(results[0].Name).IsEqualTo("art1");
         await Assert.That(results[0].ArtifactId).IsEqualTo("id1");
+    }
+
+    [Test]
+    public async Task Dispose_DisposesS3Client()
+    {
+        _store.Dispose();
+
+        _mockS3.Verify(s => s.Dispose(), Times.Once);
     }
 }

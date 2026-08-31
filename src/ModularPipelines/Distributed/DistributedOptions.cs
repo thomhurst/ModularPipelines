@@ -12,18 +12,18 @@ public class DistributedOptions
     /// Gets or sets an identifier shared by every process in this pipeline execution.
     /// Coordinators should populate this from their execution-scoping identifier.
     /// </summary>
-    public string? ExecutionIdentifier { get; set; }
+    public string? RunIdentifier { get; set; }
 
     public IReadOnlyList<string> Capabilities { get; set; } = [];
 
-    public int CapabilityTimeoutSeconds { get; set; } = 300;
+    public TimeSpan CapabilityTimeout { get; set; } = TimeSpan.FromMinutes(5);
 
     public bool AutoDetectOsCapability { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the default timeout in seconds for waiting for a distributed module result.
-    /// Defaults to 2700 seconds (45 minutes) and applies when a module has no explicit Timeout configured.
-    /// Set to 0 to wait indefinitely.
+    /// Gets or sets the default timeout for waiting for a distributed module result.
+    /// Defaults to 45 minutes and applies when a module has no explicit Timeout configured.
+    /// Set to <see cref="TimeSpan.Zero"/> to wait indefinitely.
     /// </summary>
-    public int ModuleResultTimeoutSeconds { get; set; } = 2700;
+    public TimeSpan ModuleResultTimeout { get; set; } = TimeSpan.FromMinutes(45);
 }

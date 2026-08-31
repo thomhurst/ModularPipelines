@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -55,6 +56,9 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public IToolsContext Tools { get; }
 
     /// <inheritdoc />
+    public IArtifactContext Artifacts { get; }
+
+    /// <inheritdoc />
     public ISummaryLogger Summary { get; }
 
     // Internal properties for IInternalPipelineContext
@@ -86,6 +90,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         INetworkContext network,
         ISecurityContext security,
         IServicesContext services,
+        IArtifactContext artifacts,
         ISummaryLogger summary)
     {
         _moduleLookup = moduleLookup;
@@ -104,6 +109,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         Security = security;
         Services = services;
         Tools = new ToolsContext(services);
+        Artifacts = artifacts;
         Summary = summary;
     }
 

@@ -84,7 +84,7 @@ public class MatrixExpansionIntegrationTests
                 RequiredCapabilities: new HashSet<string>(StringComparer.OrdinalIgnoreCase) { instance.CapabilityName },
                 MatrixTarget: instance.TargetValue,
                 AssignedAt: DateTimeOffset.UtcNow,
-                Configuration: new ModuleAssignmentConfig(null, 0, false));
+                Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
             await Assert.That(assignment.RequiredCapabilities.Count).IsEqualTo(1);
             await Assert.That(assignment.RequiredCapabilities.Contains(instance.CapabilityName)).IsTrue();

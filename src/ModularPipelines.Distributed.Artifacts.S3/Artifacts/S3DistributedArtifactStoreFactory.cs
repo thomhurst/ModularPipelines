@@ -24,20 +24,26 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
     public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
     {
         var s3 = S3ClientFactory.Create(_s3Options);
-
-        var runId = RunIdentifierResolver.Resolve(_s3Options.RunIdentifier);
-
-        if (_s3Options.SetLifecycleRule)
+        try
         {
-            await TrySetLifecycleRuleAsync(s3, cancellationToken);
-        }
+            var runId = RunIdentifierResolver.Resolve(_s3Options.RunIdentifier);
 
-        return new S3DistributedArtifactStore(
-            s3,
-            _s3Options.BucketName,
-            _s3Options.KeyPrefix,
-            runId,
-            _artifactOptions.TimeToLiveSeconds);
+            if (_s3Options.SetLifecycleRule)
+            {
+                await TrySetLifecycleRuleAsync(s3, cancellationToken);
+            }
+
+            return new S3DistributedArtifactStore(
+                s3,
+                _s3Options.BucketName,
+                _s3Options.KeyPrefix,
+                runId);
+        }
+        catch
+        {
+            s3.Dispose();
+            throw;
+        }
     }
 
     private async Task TrySetLifecycleRuleAsync(IAmazonS3 s3, CancellationToken cancellationToken)
@@ -64,7 +70,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
                             },
                             Expiration = new LifecycleRuleExpiration
                             {
-                                Days = Math.Max(1, _artifactOptions.TimeToLiveSeconds / 86400),
+                                Days = Math.Max(1, (int) Math.Ceiling(_artifactOptions.TimeToLive.TotalDays)),
                             },
                         },
                     ],

@@ -57,7 +57,7 @@ public class DistributedPipelineHubTests
             FrozenSet<string>.Empty,
             null,
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfig(null, 0, false));
+            new ModuleAssignmentConfiguration(null, 0, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)
