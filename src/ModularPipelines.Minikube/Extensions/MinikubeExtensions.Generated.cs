@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Minikube.Services;
 
 namespace ModularPipelines.Minikube.Extensions;
@@ -38,4 +37,5 @@ public static class MinikubeExtensions
         services.TryAddScoped<IMinikubeService, MinikubeService>();
         return services;
     }
+
 }
