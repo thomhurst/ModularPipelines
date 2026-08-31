@@ -313,6 +313,8 @@ public class AwsCliScraperTests
             await Assert.That(terminateInstances.Options.Single(option =>
                 option.SwitchName == "--instance-ids").IsRequired).IsTrue();
             await Assert.That(terminateInstances.Options.Single(option =>
+                option.SwitchName == "--instance-ids").GroupValues).IsTrue();
+            await Assert.That(terminateInstances.Options.Single(option =>
                 option.SwitchName == "--dry-run").IsRequired).IsFalse();
             await Assert.That(createKeyPair.Options.Single(option =>
                 option.SwitchName == "--key-name").IsRequired).IsTrue();
@@ -321,7 +323,7 @@ public class AwsCliScraperTests
             await Assert.That(setInstanceProtection.Options.Single(option =>
                 option.SwitchName == "--protected-from-scale-in").IsRequired).IsTrue();
             await Assert.That(terminateOptions.Content)
-                .Contains("IEnumerable<string> InstanceIds");
+                .Contains("[property: CliOption(\"--instance-ids\", GroupValues = true)] IEnumerable<string> InstanceIds");
             await Assert.That(createOptions.Content)
                 .Contains("string KeyName");
             await Assert.That(ec2Interface.Content)
@@ -330,6 +332,8 @@ public class AwsCliScraperTests
                 .Contains("CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options,");
             await Assert.That(autoscalingOptions.Content)
                 .Contains("bool ProtectedFromScaleIn");
+            await Assert.That(autoscalingOptions.Content)
+                .Contains("[property: CliOption(\"--instance-ids\", GroupValues = true)] IEnumerable<string> InstanceIds");
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
         }
