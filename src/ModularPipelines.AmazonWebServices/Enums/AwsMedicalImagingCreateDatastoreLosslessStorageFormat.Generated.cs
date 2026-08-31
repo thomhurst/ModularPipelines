@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMedicalImagingCreateDatastoreLosslessStorageFormat
 {
     [EnumValue("HTJ2K")]
-    Htj2K = 1,
+    Htj2K,
 
     [EnumValue("JPEG_2000_LOSSLESS")]
-    Jpeg_2000Lossless = 2
+    Jpeg_2000Lossless
 }

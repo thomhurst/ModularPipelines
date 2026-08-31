@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStyleDescriptorColorScheme
 {
     [EnumValue("Light")]
-    Light = 1,
+    Light,
 
     [EnumValue("Dark")]
-    Dark = 2
+    Dark
 }

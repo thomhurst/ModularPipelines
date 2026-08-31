@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmailmessageflow", "get-raw-message-content")]
-public record AwsWorkmailmessageflowGetRawMessageContentOptions : AwsOptions
+public record AwsWorkmailmessageflowGetRawMessageContentOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--message-id")]
     public string? MessageId { get; set; }

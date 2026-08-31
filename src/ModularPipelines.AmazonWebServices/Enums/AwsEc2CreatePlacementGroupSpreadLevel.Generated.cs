@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreatePlacementGroupSpreadLevel
 {
     [EnumValue("host")]
-    Host = 1,
+    Host,
 
     [EnumValue("rack")]
-    Rack = 2
+    Rack
 }

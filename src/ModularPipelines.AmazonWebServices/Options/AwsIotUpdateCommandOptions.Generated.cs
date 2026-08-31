@@ -36,7 +36,10 @@ public record AwsIotUpdateCommandOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--deprecated")]
+    /// <summary>
+    /// A boolean that you can use to specify whether to deprecate a com- mand.
+    /// </summary>
+    [CliFlag("--deprecated", NegatedName = "--no-deprecated")]
     public bool? Deprecated { get; set; }
 
     [CliOption("--cli-input-json")]

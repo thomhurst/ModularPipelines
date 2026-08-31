@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListRestoreJobSummariesAggregationPeriod
 {
     [EnumValue("ONE_DAY")]
-    OneDay = 1,
+    OneDay,
 
     [EnumValue("SEVEN_DAYS")]
-    SevenDays = 2,
+    SevenDays,
 
     [EnumValue("FOURTEEN_DAYS")]
-    FourteenDays = 3
+    FourteenDays
 }

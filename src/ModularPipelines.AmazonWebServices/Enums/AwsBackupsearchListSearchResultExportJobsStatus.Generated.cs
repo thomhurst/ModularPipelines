@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupsearchListSearchResultExportJobsStatus
 {
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("COMPLETED")]
-    Completed = 3
+    Completed
 }

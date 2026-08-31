@@ -27,6 +27,9 @@ public record AwsGlueUpdateGlueIdentityCenterConfigurationOptions : AwsOptions
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
+    /// <summary>
+    /// abled (boolean) Specifies whether users can run background sessions when using Iden- tity Center authentication with Glue services.
+    /// </summary>
     [CliFlag("--user-background-sessions-enabled")]
     public bool? UserBackgroundSessionsEnabled { get; set; }
 

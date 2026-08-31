@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEventsListReplaysState
 {
     [EnumValue("STARTING")]
-    Starting = 1,
+    Starting,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 3,
+    Cancelling,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 5,
+    Cancelled,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed
 }

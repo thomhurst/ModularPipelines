@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbUpdateTableMultiRegionConsistency
 {
     [EnumValue("EVENTUAL")]
-    Eventual = 1,
+    Eventual,
 
     [EnumValue("STRONG")]
-    Strong = 2
+    Strong
 }

@@ -49,7 +49,10 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--initial-run")]
+    /// <summary>
+    /// For a recurring job, specifies whether to analyze all existing, eli- gible objects immediately after the job is created (true). To ana- lyze only those objects that are created or changed after you create the job and before the job's first scheduled run, set this value to false. If you configure the job to run only once, don't specify a value for this property.
+    /// </summary>
+    [CliFlag("--initial-run", NegatedName = "--no-initial-run")]
     public bool? InitialRun { get; set; }
 
     [CliOption("--job-type")]

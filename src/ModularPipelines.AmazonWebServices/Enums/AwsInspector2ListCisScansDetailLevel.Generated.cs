@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScansDetailLevel
 {
     [EnumValue("ORGANIZATION")]
-    Organization = 1,
+    Organization,
 
     [EnumValue("MEMBER")]
-    Member = 2
+    Member
 }

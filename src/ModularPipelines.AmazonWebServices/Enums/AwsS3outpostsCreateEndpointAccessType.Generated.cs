@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3outpostsCreateEndpointAccessType
 {
     [EnumValue("Private")]
-    Private = 1,
+    Private,
 
     [EnumValue("CustomerOwnedIp")]
-    CustomerOwnedIp = 2
+    CustomerOwnedIp
 }

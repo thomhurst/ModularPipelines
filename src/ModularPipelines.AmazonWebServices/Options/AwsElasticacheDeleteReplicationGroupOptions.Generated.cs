@@ -24,7 +24,10 @@ public record AwsElasticacheDeleteReplicationGroupOptions : AwsOptions
     [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CliFlag("--retain-primary-cluster")]
+    /// <summary>
+    /// If set to true , all of the read replicas are deleted, but the pri- mary node is retained.
+    /// </summary>
+    [CliFlag("--retain-primary-cluster", NegatedName = "--no-retain-primary-cluster")]
     public bool? RetainPrimaryCluster { get; set; }
 
     /// <summary>

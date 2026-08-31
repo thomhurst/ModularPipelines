@@ -26,7 +26,7 @@ public record AwsGreengrassResetDeploymentsOptions : AwsOptions
     [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CliFlag("--force")]
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--group-id")]

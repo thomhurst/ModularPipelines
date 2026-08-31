@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockRuntimeApplyGuardrailOutputScope
 {
     [EnumValue("INTERVENTIONS")]
-    Interventions = 1,
+    Interventions,
 
     [EnumValue("FULL")]
-    Full = 2
+    Full
 }

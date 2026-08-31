@@ -63,7 +63,10 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
     [CliOption("--source-custom-db-engine-version-identifier")]
     public string? SourceCustomDbEngineVersionIdentifier { get; set; }
 
-    [CliFlag("--use-aws-provided-latest-image")]
+    /// <summary>
+    /// Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV. If you specify UseAwsProvidedLatestImage , you can't also specify ImageId .
+    /// </summary>
+    [CliFlag("--use-aws-provided-latest-image", NegatedName = "--no-use-aws-provided-latest-image")]
     public bool? UseAwsProvidedLatestImage { get; set; }
 
     /// <summary>

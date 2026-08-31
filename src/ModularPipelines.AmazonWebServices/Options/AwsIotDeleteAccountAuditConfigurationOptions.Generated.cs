@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "delete-account-audit-configuration")]
 public record AwsIotDeleteAccountAuditConfigurationOptions : AwsOptions
 {
-    [CliFlag("--delete-scheduled-audits")]
+    /// <summary>
+    /// If true, all scheduled audits are deleted.
+    /// </summary>
+    [CliFlag("--delete-scheduled-audits", NegatedName = "--no-delete-scheduled-audits")]
     public bool? DeleteScheduledAudits { get; set; }
 
     [CliOption("--cli-input-json")]

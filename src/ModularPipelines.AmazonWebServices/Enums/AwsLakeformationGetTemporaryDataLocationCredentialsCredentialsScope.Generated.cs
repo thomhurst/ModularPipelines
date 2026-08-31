@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLakeformationGetTemporaryDataLocationCredentialsCredentialsScope
 {
     [EnumValue("READ")]
-    Read = 1,
+    Read,
 
     [EnumValue("READWRITE")]
-    Readwrite = 2
+    Readwrite
 }

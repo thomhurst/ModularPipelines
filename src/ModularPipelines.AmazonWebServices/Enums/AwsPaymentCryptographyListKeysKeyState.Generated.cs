@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPaymentCryptographyListKeysKeyState
 {
     [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 1,
+    CreateInProgress,
 
     [EnumValue("CREATE_COMPLETE")]
-    CreateComplete = 2,
+    CreateComplete,
 
     [EnumValue("DELETE_PENDING")]
-    DeletePending = 3,
+    DeletePending,
 
     [EnumValue("DELETE_COMPLETE")]
-    DeleteComplete = 4
+    DeleteComplete
 }

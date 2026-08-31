@@ -41,7 +41,10 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--list-tags")]
+    /// <summary>
+    /// Specifies whether or not to include the list of tags in the re- sponse.
+    /// </summary>
+    [CliFlag("--list-tags", NegatedName = "--no-list-tags")]
     public bool? ListTags { get; set; }
 
     [CliOption("--cli-input-json")]

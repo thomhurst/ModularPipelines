@@ -52,7 +52,10 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CliFlag("--enable-default-internet-access")]
+    /// <summary>
+    /// Enables or disables default internet access for the app block builder.
+    /// </summary>
+    [CliFlag("--enable-default-internet-access", NegatedName = "--no-enable-default-internet-access")]
     public bool? EnableDefaultInternetAccess { get; set; }
 
     /// <summary>
@@ -67,7 +70,10 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
 
-    [CliFlag("--disable-imdsv1")]
+    /// <summary>
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    /// </summary>
+    [CliFlag("--disable-imdsv1", NegatedName = "--no-disable-imdsv1")]
     public bool? DisableImdsv1 { get; set; }
 
     [CliOption("--cli-input-json")]

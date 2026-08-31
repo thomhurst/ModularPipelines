@@ -65,7 +65,7 @@ public record AwsSagemakerUpdateClusterOptions : AwsOptions
     /// Determines how instance provisioning is handled during cluster oper- ations. In Continuous mode, the cluster provisions available in- stances incrementally and retries until the target count is reached. The cluster becomes operational once cluster-level resources are ready. Use CurrentCount and TargetCount in DescribeCluster to track provisioning progress. Possible values: o Continuous
     /// </summary>
     [CliOption("--node-provisioning-mode")]
-    public AwsSagemakerUpdateClusterNodeProvisioningMode? NodeProvisioningMode { get; set; }
+    public string? NodeProvisioningMode { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while au- toscaling is enabled. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+

@@ -28,7 +28,10 @@ public record AwsGroundstationCreateEphemerisOptions : AwsOptions
     [CliOption("--satellite-id")]
     public string? SatelliteId { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Set to true to enable the ephemeris after validation. Set to false to keep it disabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

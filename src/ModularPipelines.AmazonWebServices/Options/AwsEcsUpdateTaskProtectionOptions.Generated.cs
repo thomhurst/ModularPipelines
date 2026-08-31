@@ -27,7 +27,7 @@ public record AwsEcsUpdateTaskProtectionOptions : AwsOptions
     [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; set; }
 
-    [CliFlag("--protection-enabled")]
+    [CliFlag("--protection-enabled", NegatedName = "--no-protection-enabled")]
     public bool? ProtectionEnabled { get; set; }
 
     /// <summary>

@@ -37,6 +37,9 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions
     [CliOption("--query-log-look-back-window-in-days")]
     public int? QueryLogLookBackWindowInDays { get; set; }
 
+    /// <summary>
+    /// out-user-information (boolean) TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only in- clude queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE , Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE , Amazon Kendra ignores all user information and learns from all queries.
+    /// </summary>
     [CliFlag("--include-queries-without-user-information")]
     public bool? IncludeQueriesWithoutUserInformation { get; set; }
 

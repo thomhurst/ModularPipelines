@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsUxcUpdateAccountCustomizationsAccountColor
 {
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("pink")]
-    Pink = 2,
+    Pink,
 
     [EnumValue("purple")]
-    Purple = 3,
+    Purple,
 
     [EnumValue("darkBlue")]
-    DarkBlue = 4,
+    DarkBlue,
 
     [EnumValue("lightBlue")]
-    LightBlue = 5,
+    LightBlue,
 
     [EnumValue("teal")]
-    Teal = 6,
+    Teal,
 
     [EnumValue("green")]
-    Green = 7,
+    Green,
 
     [EnumValue("yellow")]
-    Yellow = 8,
+    Yellow,
 
     [EnumValue("orange")]
-    Orange = 9,
+    Orange,
 
     [EnumValue("red")]
-    Red = 10
+    Red
 }

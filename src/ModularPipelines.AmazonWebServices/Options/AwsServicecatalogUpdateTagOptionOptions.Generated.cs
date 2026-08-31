@@ -30,7 +30,10 @@ public record AwsServicecatalogUpdateTagOptionOptions : AwsOptions
     [CliOption("--value")]
     public string? Value { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// The updated active state.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     [CliOption("--cli-input-json")]

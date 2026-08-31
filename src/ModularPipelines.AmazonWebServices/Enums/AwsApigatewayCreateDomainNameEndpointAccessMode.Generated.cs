@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayCreateDomainNameEndpointAccessMode
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("STRICT")]
-    Strict = 2
+    Strict
 }

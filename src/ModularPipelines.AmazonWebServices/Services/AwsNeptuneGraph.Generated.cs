@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -88,21 +88,6 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Creates a new Neptune Analytics graph. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateGraphAsync(
-        AwsNeptuneGraphCreateGraphOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneGraphCreateGraphOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Creates a snapshot of the specific graph. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -115,21 +100,6 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneGraphCreateGraphSnapshotOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateGraphUsingImportTaskAsync(
-        AwsNeptuneGraphCreateGraphUsingImportTaskOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneGraphCreateGraphUsingImportTaskOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -200,11 +170,11 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteQueryAsync(
-        AwsNeptuneGraphExecuteQueryOptions? options = null,
+        AwsNeptuneGraphExecuteQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneGraphExecuteQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

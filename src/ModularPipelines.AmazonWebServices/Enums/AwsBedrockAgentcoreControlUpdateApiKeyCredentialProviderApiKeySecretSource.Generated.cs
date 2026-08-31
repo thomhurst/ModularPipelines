@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderApiKeySecretSource
 {
     [EnumValue("MANAGED")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("EXTERNAL")]
-    External = 2
+    External
 }

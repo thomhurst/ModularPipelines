@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPcsCreateComputeNodeGroupPurchaseOption
 {
     [EnumValue("ONDEMAND")]
-    Ondemand = 1,
+    Ondemand,
 
     [EnumValue("SPOT")]
-    Spot = 2,
+    Spot,
 
     [EnumValue("CAPACITY_BLOCK")]
-    CapacityBlock = 3
+    CapacityBlock
 }

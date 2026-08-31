@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigCreateDeploymentStrategyGrowthType
 {
     [EnumValue("LINEAR")]
-    Linear = 1,
+    Linear,
 
     [EnumValue("EXPONENTIAL")]
-    Exponential = 2
+    Exponential
 }

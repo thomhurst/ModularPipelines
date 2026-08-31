@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceListPhoneNumbersFilterName
 {
     [EnumValue("VoiceConnectorId")]
-    VoiceConnectorId = 1,
+    VoiceConnectorId,
 
     [EnumValue("VoiceConnectorGroupId")]
-    VoiceConnectorGroupId = 2,
+    VoiceConnectorGroupId,
 
     [EnumValue("SipRuleId")]
-    SipRuleId = 3
+    SipRuleId
 }

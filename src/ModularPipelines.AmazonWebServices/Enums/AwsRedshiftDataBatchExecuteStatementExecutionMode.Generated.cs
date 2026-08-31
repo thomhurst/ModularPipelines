@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDataBatchExecuteStatementExecutionMode
 {
     [EnumValue("TRANSACTION")]
-    Transaction = 1,
+    Transaction,
 
     [EnumValue("AUTO_COMMIT")]
-    AutoCommit = 2
+    AutoCommit
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsListCollaborationsMemberStatus
 {
     [EnumValue("INVITED")]
-    Invited = 1,
+    Invited,
 
     [EnumValue("ACTIVE")]
-    Active = 2
+    Active
 }

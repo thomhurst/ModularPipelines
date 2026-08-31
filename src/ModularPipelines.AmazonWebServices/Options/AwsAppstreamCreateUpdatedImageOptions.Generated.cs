@@ -46,7 +46,10 @@ public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions
     [CliOption("--new-image-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NewImageTags { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true , WorkSpaces Appli- cations displays whether image updates are available. If this value is set to false , WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image up- dates are available.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

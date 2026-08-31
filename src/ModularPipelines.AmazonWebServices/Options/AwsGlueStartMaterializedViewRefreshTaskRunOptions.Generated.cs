@@ -30,7 +30,10 @@ public record AwsGlueStartMaterializedViewRefreshTaskRunOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliFlag("--full-refresh")]
+    /// <summary>
+    /// Specifies whether this is a full refresh of the task run.
+    /// </summary>
+    [CliFlag("--full-refresh", NegatedName = "--no-full-refresh")]
     public bool? FullRefresh { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -142,7 +142,7 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source. See also: AWS API Documentation
+    /// Creates a dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -439,6 +439,16 @@ public interface IAwsQuicksight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DeleteAnalysisAsync(AwsQuicksightDeleteAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Deletes an app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteAppAsync(AwsQuicksightDeleteAppOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -902,6 +912,26 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Describes an app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeAppAsync(AwsQuicksightDescribeAppOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Describes the resource permissions for an app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeAppPermissionsAsync(AwsQuicksightDescribeAppPermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Describes an approval policy in Quick Sight. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -929,16 +959,6 @@ public interface IAwsQuicksight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DescribeAssetBundleImportJobAsync(AwsQuicksightDescribeAssetBundleImportJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves the status and details of a specified automation job, includ- ing its status and outputs. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAutomationJobAsync(AwsQuicksightDescribeAutomationJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1032,7 +1052,7 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Describes a dataset. This operation doesn't support datasets that in- clude uploaded files as a source. See also: AWS API Documentation
+    /// Describes a dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1582,6 +1602,16 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Lists the apps in an Amazon Web Services account. Results are pagi- nated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the f...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAppsAsync(AwsQuicksightListAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID. See also: AWS API Documentation list-asset-bundle-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2042,16 +2072,6 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Restores an analysis. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAnalysisAsync(AwsQuicksightRestoreAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Searches for action connectors in the specified Amazon Web Services ac- count using filters. You can search by connector name, type, or user permissions. See also: AWS API Documentation search-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2079,6 +2099,16 @@ public interface IAwsQuicksight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> SearchAnalysesAsync(AwsQuicksightSearchAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation search-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- pu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> SearchAppsAsync(AwsQuicksightSearchAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -2262,16 +2292,6 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Updates the Amazon Quick Sight settings in your Amazon Web Services ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountSettingsAsync(AwsQuicksightUpdateAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions. You can modify the connec- tor's name, description, authentication configuration, and which ac- tions are enabled. For more information, https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2329,6 +2349,16 @@ public interface IAwsQuicksight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateApplicationWithTokenExchangeGrantAsync(AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateAppPermissionsAsync(AwsQuicksightUpdateAppPermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -2422,7 +2452,7 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation. See also: AWS API Documentation
+    /// Updates a dataset. Partial updates are not supported by this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2572,16 +2602,6 @@ public interface IAwsQuicksight
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Updates the properties of an existing knowledge base. See also: AWS API Documentation update-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKnowledgeBaseAsync(AwsQuicksightUpdateKnowledgeBaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Updates the resource permissions for a knowledge base. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2609,16 +2629,6 @@ public interface IAwsQuicksight
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateOAuthClientApplicationAsync(AwsQuicksightUpdateOAuthClientApplicationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: o Dashboards can be shared publicly o This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implica- tions and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Ama...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePublicSharingSettingsAsync(AwsQuicksightUpdatePublicSharingSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

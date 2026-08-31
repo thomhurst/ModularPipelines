@@ -57,7 +57,10 @@ public record AwsConnectCreateEvaluationFormOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--as-draft")]
+    /// <summary>
+    /// A boolean flag indicating whether to create evaluation form in draft state.
+    /// </summary>
+    [CliFlag("--as-draft", NegatedName = "--no-as-draft")]
     public bool? AsDraft { get; set; }
 
     /// <summary>

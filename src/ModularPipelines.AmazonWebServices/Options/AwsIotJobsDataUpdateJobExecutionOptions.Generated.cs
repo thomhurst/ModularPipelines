@@ -49,10 +49,16 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions
     [CliOption("--expected-version")]
     public int? ExpectedVersion { get; set; }
 
-    [CliFlag("--include-job-execution-state")]
+    /// <summary>
+    /// Optional. When included and set to true, the response contains the JobExecutionState data. The default is false.
+    /// </summary>
+    [CliFlag("--include-job-execution-state", NegatedName = "--no-include-job-execution-state")]
     public bool? IncludeJobExecutionState { get; set; }
 
-    [CliFlag("--include-job-document")]
+    /// <summary>
+    /// Optional. When set to true, the response contains the job document. The default is false.
+    /// </summary>
+    [CliFlag("--include-job-document", NegatedName = "--no-include-job-document")]
     public bool? IncludeJobDocument { get; set; }
 
     /// <summary>

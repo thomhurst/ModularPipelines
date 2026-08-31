@@ -34,7 +34,10 @@ public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--tax-inheritance-disabled")]
+    /// <summary>
+    /// Whether the invoice unit based tax inheritance is/ should be enabled or disabled.
+    /// </summary>
+    [CliFlag("--tax-inheritance-disabled", NegatedName = "--no-tax-inheritance-disabled")]
     public bool? TaxInheritanceDisabled { get; set; }
 
     [CliOption("--rule")]

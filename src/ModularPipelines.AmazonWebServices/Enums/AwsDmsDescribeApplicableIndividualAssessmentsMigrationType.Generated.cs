@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDmsDescribeApplicableIndividualAssessmentsMigrationType
 {
     [EnumValue("full-load")]
-    FullLoad = 1,
+    FullLoad,
 
     [EnumValue("cdc")]
-    Cdc = 2,
+    Cdc,
 
     [EnumValue("full-load-and-cdc")]
-    FullLoadAndCdc = 3
+    FullLoadAndCdc
 }

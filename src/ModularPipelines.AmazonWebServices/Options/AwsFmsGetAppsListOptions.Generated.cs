@@ -24,7 +24,10 @@ public record AwsFmsGetAppsListOptions : AwsOptions
     [CliOption("--list-id")]
     public string? ListId { get; set; }
 
-    [CliFlag("--default-list")]
+    /// <summary>
+    /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
+    /// </summary>
+    [CliFlag("--default-list", NegatedName = "--no-default-list")]
     public bool? DefaultList { get; set; }
 
     [CliOption("--cli-input-json")]

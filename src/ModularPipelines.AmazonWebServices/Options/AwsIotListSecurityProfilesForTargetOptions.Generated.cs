@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "list-security-profiles-for-target")]
 public record AwsIotListSecurityProfilesForTargetOptions : AwsOptions
 {
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// If true, return child groups too.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     [CliOption("--security-profile-target-arn")]

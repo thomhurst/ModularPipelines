@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseCreateAssetModelCompositeModelMatchForVersionType
 {
     [EnumValue("LATEST")]
-    Latest = 1,
+    Latest,
 
     [EnumValue("ACTIVE")]
-    Active = 2
+    Active
 }

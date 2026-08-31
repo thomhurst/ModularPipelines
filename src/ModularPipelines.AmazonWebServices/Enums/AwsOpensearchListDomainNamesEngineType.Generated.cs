@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchListDomainNamesEngineType
 {
     [EnumValue("OpenSearch")]
-    OpenSearch = 1,
+    OpenSearch,
 
     [EnumValue("Elasticsearch")]
-    Elasticsearch = 2
+    Elasticsearch
 }

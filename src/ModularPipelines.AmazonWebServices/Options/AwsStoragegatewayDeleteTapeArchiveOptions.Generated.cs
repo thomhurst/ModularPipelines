@@ -24,7 +24,10 @@ public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions
     [CliOption("--tape-arn")]
     public string? TapeArn { get; set; }
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape re- tention lock set to compliance can't be deleted.
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsEc2ModifyInstanceMetadataDefaultsOptions : AwsOptions
     /// The maximum number of hops that the metadata token can travel. To indicate no preference, specify -1 . Possible values: Integers from 1 to 64 , and -1 to indicate no pref- erence
     /// </summary>
     [CliOption("--http-put-response-hop-limit")]
-    public AwsEc2ModifyInstanceMetadataDefaultsHttpPutResponseHopLimit? HttpPutResponseHopLimit { get; set; }
+    public int? HttpPutResponseHopLimit { get; set; }
 
     /// <summary>
     /// Enables or disables the IMDS endpoint on an instance. When disabled, the instance metadata can't be accessed. Possible values: o disabled o enabled o no-preference
@@ -48,7 +48,10 @@ public record AwsEc2ModifyInstanceMetadataDefaultsOptions : AwsOptions
     [CliOption("--instance-metadata-tags")]
     public AwsEc2ModifyInstanceMetadataDefaultsInstanceMetadataTags? InstanceMetadataTags { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

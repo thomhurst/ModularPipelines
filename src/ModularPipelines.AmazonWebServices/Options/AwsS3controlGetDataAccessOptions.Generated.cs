@@ -47,7 +47,7 @@ public record AwsS3controlGetDataAccessOptions : AwsOptions
     /// The type of Target . The only possible value is Object . Pass this value if the target data that you would like to access is a path to an object. Do not pass this value if the target data is a bucket or a bucket and a prefix. Possible values: o Object
     /// </summary>
     [CliOption("--target-type")]
-    public AwsS3controlGetDataAccessTargetType? TargetType { get; set; }
+    public string? TargetType { get; set; }
 
     /// <summary>
     /// The context to identify the job or query associated with the creden- tial request. This information will be displayed in CloudTrail log in your account. Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*

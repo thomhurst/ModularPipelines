@@ -30,7 +30,10 @@ public record AwsEcrDeleteRepositoryOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If true, deleting the repository force deletes the contents of the repository. If false, the repository must be empty before attempting to delete it.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

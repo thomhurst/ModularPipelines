@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftServerlessUpdateNamespaceS3TableGranularity
 {
     [EnumValue("namespace")]
-    Namespace = 1,
+    Namespace,
 
     [EnumValue("account")]
-    Account = 2
+    Account
 }

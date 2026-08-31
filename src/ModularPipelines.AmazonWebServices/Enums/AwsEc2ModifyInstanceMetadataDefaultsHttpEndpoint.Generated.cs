@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyInstanceMetadataDefaultsHttpEndpoint
 {
     [EnumValue("disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("enabled")]
-    Enabled = 2,
+    Enabled,
 
     [EnumValue("no-preference")]
-    NoPreference = 3
+    NoPreference
 }

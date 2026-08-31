@@ -35,22 +35,40 @@ public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
     [CliOption("--exclude-characters")]
     public string? ExcludeCharacters { get; set; }
 
-    [CliFlag("--exclude-numbers")]
+    /// <summary>
+    /// Specifies whether to exclude numbers from the password. If you don't include this switch, the password can contain numbers.
+    /// </summary>
+    [CliFlag("--exclude-numbers", NegatedName = "--no-exclude-numbers")]
     public bool? ExcludeNumbers { get; set; }
 
-    [CliFlag("--exclude-punctuation")]
+    /// <summary>
+    /// Specifies whether to exclude the following punctuation characters from the password: ! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~ . If you don't include this switch, the password can contain punctuation.
+    /// </summary>
+    [CliFlag("--exclude-punctuation", NegatedName = "--no-exclude-punctuation")]
     public bool? ExcludePunctuation { get; set; }
 
-    [CliFlag("--exclude-uppercase")]
+    /// <summary>
+    /// Specifies whether to exclude uppercase letters from the password. If you don't include this switch, the password can contain uppercase letters.
+    /// </summary>
+    [CliFlag("--exclude-uppercase", NegatedName = "--no-exclude-uppercase")]
     public bool? ExcludeUppercase { get; set; }
 
-    [CliFlag("--exclude-lowercase")]
+    /// <summary>
+    /// Specifies whether to exclude lowercase letters from the password. If you don't include this switch, the password can contain lowercase letters.
+    /// </summary>
+    [CliFlag("--exclude-lowercase", NegatedName = "--no-exclude-lowercase")]
     public bool? ExcludeLowercase { get; set; }
 
-    [CliFlag("--include-space")]
+    /// <summary>
+    /// Specifies whether to include the space character. If you include this switch, the password can contain space characters.
+    /// </summary>
+    [CliFlag("--include-space", NegatedName = "--no-include-space")]
     public bool? IncludeSpace { get; set; }
 
-    [CliFlag("--require-each-included-type")]
+    /// <summary>
+    /// Specifies whether to include at least one upper and lowercase let- ter, one number, and one punctuation. If you don't include this switch, the password contains at least one of every character type.
+    /// </summary>
+    [CliFlag("--require-each-included-type", NegatedName = "--no-require-each-included-type")]
     public bool? RequireEachIncludedType { get; set; }
 
     [CliOption("--cli-input-json")]

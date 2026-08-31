@@ -67,7 +67,10 @@ public record AwsS3controlCreateBucketOptions : AwsOptions
     [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CliFlag("--object-lock-enabled-for-bucket")]
+    /// <summary>
+    /// Specifies whether you want S3 Object Lock to be enabled for the new bucket. NOTE: This is not supported by Amazon S3 on Outposts buckets.
+    /// </summary>
+    [CliFlag("--object-lock-enabled-for-bucket", NegatedName = "--no-object-lock-enabled-for-bucket")]
     public bool? ObjectLockEnabledForBucket { get; set; }
 
     /// <summary>

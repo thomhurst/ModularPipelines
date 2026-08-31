@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentCreateAgentAgentCollaboration
 {
     [EnumValue("SUPERVISOR")]
-    Supervisor = 1,
+    Supervisor,
 
     [EnumValue("SUPERVISOR_ROUTER")]
-    SupervisorRouter = 2,
+    SupervisorRouter,
 
     [EnumValue("DISABLED")]
-    Disabled = 3
+    Disabled
 }

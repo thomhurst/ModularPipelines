@@ -36,7 +36,7 @@ public record AwsDatazoneListAccountPoolsOptions : AwsOptions
     /// The sort by mechanism in which the existing account pools are to be listed. Possible values: o NAME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsDatazoneListAccountPoolsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order in which the existing account pools are to be listed. Possible values: o ASCENDING o DESCENDING

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralAccountListConnectionInvitationsParticipantType
 {
     [EnumValue("SENDER")]
-    Sender = 1,
+    Sender,
 
     [EnumValue("RECEIVER")]
-    Receiver = 2
+    Receiver
 }

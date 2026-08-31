@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBcmPricingCalculatorCreateWorkloadEstimateRateType
 {
     [EnumValue("BEFORE_DISCOUNTS")]
-    BeforeDiscounts = 1,
+    BeforeDiscounts,
 
     [EnumValue("AFTER_DISCOUNTS")]
-    AfterDiscounts = 2
+    AfterDiscounts
 }

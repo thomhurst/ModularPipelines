@@ -24,7 +24,10 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationOptions : AwsOption
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

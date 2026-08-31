@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrListInstancesInstanceFleetType
 {
     [EnumValue("MASTER")]
-    Master = 1,
+    Master,
 
     [EnumValue("CORE")]
-    Core = 2,
+    Core,
 
     [EnumValue("TASK")]
-    Task = 3
+    Task
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationCreateStackInstancesCallAs
 {
     [EnumValue("SELF")]
-    Self = 1,
+    Self,
 
     [EnumValue("DELEGATED_ADMIN")]
-    DelegatedAdmin = 2
+    DelegatedAdmin
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMwaaUpdateEnvironmentWorkerReplacementStrategy
 {
     [EnumValue("FORCED")]
-    Forced = 1,
+    Forced,
 
     [EnumValue("GRACEFUL")]
-    Graceful = 2
+    Graceful
 }

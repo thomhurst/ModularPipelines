@@ -34,7 +34,10 @@ public record AwsVpcLatticeListServiceNetworkResourceAssociationsOptions : AwsOp
     [CliOption("--resource-configuration-identifier")]
     public string? ResourceConfigurationIdentifier { get; set; }
 
-    [CliFlag("--include-children")]
+    /// <summary>
+    /// Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
+    /// </summary>
+    [CliFlag("--include-children", NegatedName = "--no-include-children")]
     public bool? IncludeChildren { get; set; }
 
     [CliOption("--cli-input-json")]

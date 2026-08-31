@@ -54,16 +54,10 @@ public record AwsFsxCreateFileCacheOptions : AwsOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// |
-    /// </summary>
-    [CliFlag("--copy-tags-to-data-repository-associations")]
-    public bool? CopyTagsToDataRepositoryAssociations { get; set; }
-
-    /// <summary>
     /// A boolean flag indicating whether tags for the cache should be copied to data repository associations. This value defaults to false.
     /// </summary>
-    [CliFlag("--no-copy-tags-to-data-repository-associations")]
-    public bool? NoCopyTagsToDataRepositoryAssociations { get; set; }
+    [CliFlag("--copy-tags-to-data-repository-associations", NegatedName = "--no-copy-tags-to-data-repository-associations")]
+    public bool? CopyTagsToDataRepositoryAssociations { get; set; }
 
     /// <summary>
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on an Amazon File Cache. If a KmsKeyId isn't speci- fied, the Amazon FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key Management Service API Ref- erence . Constraints: o min: 1 o max: 2048 o pattern: ^.{1,2048}$

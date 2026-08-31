@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbInstanceDatabaseInsightsMode
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("advanced")]
-    Advanced = 2
+    Advanced
 }

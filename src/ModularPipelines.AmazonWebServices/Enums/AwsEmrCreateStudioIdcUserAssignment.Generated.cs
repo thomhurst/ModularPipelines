@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrCreateStudioIdcUserAssignment
 {
     [EnumValue("REQUIRED")]
-    Required = 1,
+    Required,
 
     [EnumValue("OPTIONAL")]
-    Optional = 2
+    Optional
 }

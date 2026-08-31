@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationListHookResultsStatus
 {
     [EnumValue("HOOK_IN_PROGRESS")]
-    HookInProgress = 1,
+    HookInProgress,
 
     [EnumValue("HOOK_COMPLETE_SUCCEEDED")]
-    HookCompleteSucceeded = 2,
+    HookCompleteSucceeded,
 
     [EnumValue("HOOK_COMPLETE_FAILED")]
-    HookCompleteFailed = 3,
+    HookCompleteFailed,
 
     [EnumValue("HOOK_FAILED")]
-    HookFailed = 4
+    HookFailed
 }

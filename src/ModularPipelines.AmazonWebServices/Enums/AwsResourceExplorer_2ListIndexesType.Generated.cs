@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResourceExplorer_2ListIndexesType
 {
     [EnumValue("LOCAL")]
-    Local = 1,
+    Local,
 
     [EnumValue("AGGREGATOR")]
-    Aggregator = 2
+    Aggregator
 }

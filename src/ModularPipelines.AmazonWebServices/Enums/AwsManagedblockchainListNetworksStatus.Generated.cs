@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsManagedblockchainListNetworksStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("AVAILABLE")]
-    Available = 2,
+    Available,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 3,
+    CreateFailed,
 
     [EnumValue("DELETING")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 5
+    Deleted
 }

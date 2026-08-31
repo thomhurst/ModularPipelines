@@ -51,7 +51,10 @@ public record AwsGlueGetTableOptions : AwsOptions
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CliFlag("--include-status-details")]
+    /// <summary>
+    /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+    /// </summary>
+    [CliFlag("--include-status-details", NegatedName = "--no-include-status-details")]
     public bool? IncludeStatusDetails { get; set; }
 
     /// <summary>

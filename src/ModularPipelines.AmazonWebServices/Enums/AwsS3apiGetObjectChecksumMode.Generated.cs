@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiGetObjectChecksumMode
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("outfile")]
-    Outfile = 2
+    Outfile
 }

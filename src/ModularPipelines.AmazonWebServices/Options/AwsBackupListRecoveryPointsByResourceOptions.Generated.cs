@@ -25,7 +25,10 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliFlag("--managed-by-aws-backup-only")]
+    /// <summary>
+    /// This attribute filters recovery points based on ownership. If this is set to TRUE , the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE , the response will contain all recovery points associated with the selected resource, except for EBS snap- shots copied within the same Region and account. Type: Boolean
+    /// </summary>
+    [CliFlag("--managed-by-aws-backup-only", NegatedName = "--no-managed-by-aws-backup-only")]
     public bool? ManagedByAwsBackupOnly { get; set; }
 
     [CliOption("--cli-input-json")]

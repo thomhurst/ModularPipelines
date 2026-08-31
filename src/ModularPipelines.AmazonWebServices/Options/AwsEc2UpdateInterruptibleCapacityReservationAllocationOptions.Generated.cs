@@ -27,7 +27,10 @@ public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : Aw
     [CliOption("--target-instance-count")]
     public int? TargetInstanceCount { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

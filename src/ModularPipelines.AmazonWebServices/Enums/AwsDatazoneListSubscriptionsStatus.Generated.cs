@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListSubscriptionsStatus
 {
     [EnumValue("APPROVED")]
-    Approved = 1,
+    Approved,
 
     [EnumValue("REVOKED")]
-    Revoked = 2,
+    Revoked,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 3
+    Cancelled
 }

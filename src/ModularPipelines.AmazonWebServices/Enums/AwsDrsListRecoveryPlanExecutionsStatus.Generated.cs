@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsListRecoveryPlanExecutionsStatus
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 5,
+    Cancelling,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 6
+    Cancelled
 }

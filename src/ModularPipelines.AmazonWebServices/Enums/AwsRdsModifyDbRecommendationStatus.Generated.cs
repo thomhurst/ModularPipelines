@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyDbRecommendationStatus
 {
     [EnumValue("active")]
-    Active = 1,
+    Active,
 
     [EnumValue("dismissed")]
-    Dismissed = 2
+    Dismissed
 }

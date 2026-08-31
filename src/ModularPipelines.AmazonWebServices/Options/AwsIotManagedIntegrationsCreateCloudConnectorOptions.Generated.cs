@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -39,7 +38,7 @@ public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions
     /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services. Possible values: o LAMBDA
     /// </summary>
     [CliOption("--endpoint-type")]
-    public AwsIotManagedIntegrationsCreateCloudConnectorEndpointType? EndpointType { get; set; }
+    public string? EndpointType { get; set; }
 
     /// <summary>
     /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+

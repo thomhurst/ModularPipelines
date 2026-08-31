@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamGetOrganizationsAccessReportSortKey
 {
     [EnumValue("SERVICE_NAMESPACE_ASCENDING")]
-    ServiceNamespaceAscending = 1,
+    ServiceNamespaceAscending,
 
     [EnumValue("SERVICE_NAMESPACE_DESCENDING")]
-    ServiceNamespaceDescending = 2
+    ServiceNamespaceDescending
 }

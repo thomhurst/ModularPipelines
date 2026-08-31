@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMwaaCreateEnvironmentEndpointManagement
 {
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("SERVICE")]
-    Service = 2
+    Service
 }

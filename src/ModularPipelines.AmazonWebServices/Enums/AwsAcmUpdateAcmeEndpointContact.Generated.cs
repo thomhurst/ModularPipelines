@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAcmUpdateAcmeEndpointContact
 {
     [EnumValue("REQUIRED")]
-    Required = 1,
+    Required,
 
     [EnumValue("NOT_REQUIRED")]
-    NotRequired = 2
+    NotRequired
 }

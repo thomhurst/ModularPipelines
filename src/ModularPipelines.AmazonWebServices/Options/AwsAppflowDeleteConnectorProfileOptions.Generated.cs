@@ -24,7 +24,10 @@ public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions
     [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

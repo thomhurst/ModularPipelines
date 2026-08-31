@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateFleetExcessCapacityTerminationPolicy
 {
     [EnumValue("no-termination")]
-    NoTermination = 1,
+    NoTermination,
 
     [EnumValue("termination")]
-    Termination = 2
+    Termination
 }

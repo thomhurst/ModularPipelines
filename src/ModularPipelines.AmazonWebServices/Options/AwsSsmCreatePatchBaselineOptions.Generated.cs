@@ -27,7 +27,7 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     /// Defines the operating system the patch baseline applies to. The de- fault value is WINDOWS . Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
-    public string? OperatingSystem { get; set; }
+    public AwsSsmCreatePatchBaselineOperatingSystem? OperatingSystem { get; set; }
 
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -56,6 +56,9 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     [CliOption("--approved-patches-compliance-level")]
     public AwsSsmCreatePatchBaselineApprovedPatchesComplianceLevel? ApprovedPatchesComplianceLevel { get; set; }
 
+    /// <summary>
+    /// able-non-security (boolean) Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false . Applies to Linux managed nodes only.
+    /// </summary>
     [CliFlag("--approved-patches-enable-non-security")]
     public bool? ApprovedPatchesEnableNonSecurity { get; set; }
 

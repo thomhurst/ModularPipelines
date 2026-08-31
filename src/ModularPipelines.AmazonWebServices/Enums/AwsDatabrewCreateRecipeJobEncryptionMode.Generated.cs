@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatabrewCreateRecipeJobEncryptionMode
 {
     [EnumValue("SSE-KMS")]
-    SseKms = 1,
+    SseKms,
 
     [EnumValue("SSE-S3")]
-    SseS3 = 2
+    SseS3
 }

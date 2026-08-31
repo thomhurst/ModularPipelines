@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectparticipantGetTranscriptSortOrder
 {
     [EnumValue("DESCENDING")]
-    Descending = 1,
+    Descending,
 
     [EnumValue("ASCENDING")]
-    Ascending = 2
+    Ascending
 }

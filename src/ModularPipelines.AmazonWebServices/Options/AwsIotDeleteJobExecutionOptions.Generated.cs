@@ -30,7 +30,10 @@ public record AwsIotDeleteJobExecutionOptions : AwsOptions
     [CliOption("--execution-number")]
     public int? ExecutionNumber { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false. NOTE: Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

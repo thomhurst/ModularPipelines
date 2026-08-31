@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListFoundationModelsByOutputModality
 {
     [EnumValue("TEXT")]
-    Text = 1,
+    Text,
 
     [EnumValue("IMAGE")]
-    Image = 2,
+    Image,
 
     [EnumValue("EMBEDDING")]
-    Embedding = 3
+    Embedding
 }

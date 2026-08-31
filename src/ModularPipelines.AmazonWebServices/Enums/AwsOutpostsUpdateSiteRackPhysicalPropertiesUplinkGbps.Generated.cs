@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkGbps
 {
     [EnumValue("UPLINK_1G")]
-    Uplink_1G = 1,
+    Uplink_1G,
 
     [EnumValue("UPLINK_10G")]
-    Uplink_10G = 2,
+    Uplink_10G,
 
     [EnumValue("UPLINK_40G")]
-    Uplink_40G = 3,
+    Uplink_40G,
 
     [EnumValue("UPLINK_100G")]
-    Uplink_100G = 4
+    Uplink_100G
 }

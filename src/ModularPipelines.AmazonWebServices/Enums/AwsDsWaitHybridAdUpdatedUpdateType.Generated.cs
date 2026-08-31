@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsWaitHybridAdUpdatedUpdateType
 {
     [EnumValue("SelfManagedInstances")]
-    SelfManagedInstances = 1,
+    SelfManagedInstances,
 
     [EnumValue("HybridAdministratorAccount")]
-    HybridAdministratorAccount = 2
+    HybridAdministratorAccount
 }

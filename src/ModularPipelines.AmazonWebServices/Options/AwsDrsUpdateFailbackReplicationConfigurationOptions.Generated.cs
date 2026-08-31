@@ -37,7 +37,10 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions
     [CliOption("--bandwidth-throttling")]
     public int? BandwidthThrottling { get; set; }
 
-    [CliFlag("--use-private-ip")]
+    /// <summary>
+    /// Whether to use Private IP for the failback replication of the Recov- ery Instance.
+    /// </summary>
+    [CliFlag("--use-private-ip", NegatedName = "--no-use-private-ip")]
     public bool? UsePrivateIp { get; set; }
 
     /// <summary>

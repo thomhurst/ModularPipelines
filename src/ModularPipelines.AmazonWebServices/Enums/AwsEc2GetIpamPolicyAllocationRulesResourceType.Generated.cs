@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2GetIpamPolicyAllocationRulesResourceType
 {
     [EnumValue("alb")]
-    Alb = 1,
+    Alb,
 
     [EnumValue("eip")]
-    Eip = 2,
+    Eip,
 
     [EnumValue("rds")]
-    Rds = 3,
+    Rds,
 
     [EnumValue("rnat")]
-    Rnat = 4
+    Rnat
 }

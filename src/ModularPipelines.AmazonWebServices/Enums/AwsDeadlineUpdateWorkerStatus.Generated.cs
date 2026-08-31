@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineUpdateWorkerStatus
 {
     [EnumValue("STARTED")]
-    Started = 1,
+    Started,
 
     [EnumValue("STOPPING")]
-    Stopping = 2,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 3
+    Stopped
 }

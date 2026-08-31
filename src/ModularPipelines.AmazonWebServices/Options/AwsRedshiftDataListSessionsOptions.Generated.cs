@@ -35,7 +35,10 @@ public record AwsRedshiftDataListSessionsOptions : AwsOptions
     [CliOption("--status")]
     public AwsRedshiftDataListSessionsStatus? Status { get; set; }
 
-    [CliFlag("--role-level")]
+    /// <summary>
+    /// Specifies whether to return all sessions created by the caller's IAM role, including sessions from previous IAM sessions. If false, only sessions created in the current IAM session are returned. The de- fault is true.
+    /// </summary>
+    [CliFlag("--role-level", NegatedName = "--no-role-level")]
     public bool? RoleLevel { get; set; }
 
     /// <summary>

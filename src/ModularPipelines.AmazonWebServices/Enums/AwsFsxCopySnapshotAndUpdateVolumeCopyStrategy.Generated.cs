@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFsxCopySnapshotAndUpdateVolumeCopyStrategy
 {
     [EnumValue("CLONE")]
-    Clone = 1,
+    Clone,
 
     [EnumValue("FULL_COPY")]
-    FullCopy = 2,
+    FullCopy,
 
     [EnumValue("INCREMENTAL_COPY")]
-    IncrementalCopy = 3
+    IncrementalCopy
 }

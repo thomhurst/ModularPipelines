@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateKeyPairKeyType
 {
     [EnumValue("rsa")]
-    Rsa = 1,
+    Rsa,
 
     [EnumValue("ed25519")]
-    Ed25519 = 2
+    Ed25519
 }

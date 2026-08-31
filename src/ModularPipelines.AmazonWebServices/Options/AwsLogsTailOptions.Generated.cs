@@ -19,7 +19,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "tail")]
-public record AwsLogsTailOptions : AwsOptions
+public record AwsLogsTailOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
+) : AwsOptions
 {
     [CliOption("--since")]
     public string? Since { get; set; }

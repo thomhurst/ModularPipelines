@@ -27,7 +27,10 @@ public record AwsBudgetsDescribeBudgetOptions : AwsOptions
     [CliOption("--budget-name")]
     public string? BudgetName { get; set; }
 
-    [CliFlag("--show-filter-expression")]
+    /// <summary>
+    /// Specifies whether the response includes the filter expression asso- ciated with the budget. By showing the filter expression, you can see detailed filtering logic applied to the budget, such as Amazon Web Services services or tags that are being tracked.
+    /// </summary>
+    [CliFlag("--show-filter-expression", NegatedName = "--no-show-filter-expression")]
     public bool? ShowFilterExpression { get; set; }
 
     [CliOption("--cli-input-json")]

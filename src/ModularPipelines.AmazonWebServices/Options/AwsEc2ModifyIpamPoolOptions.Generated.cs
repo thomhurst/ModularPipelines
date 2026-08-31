@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-ipam-pool")]
 public record AwsEc2ModifyIpamPoolOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-pool-id")]
@@ -33,7 +36,10 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--auto-import")]
+    /// <summary>
+    /// If true, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compliance with the pool's allocation rules, so a resource might be imported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly im- port one of them only. A locale must be set on the pool for this feature to work.
+    /// </summary>
+    [CliFlag("--auto-import", NegatedName = "--no-auto-import")]
     public bool? AutoImport { get; set; }
 
     /// <summary>
@@ -54,6 +60,9 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
     [CliOption("--allocation-default-netmask-length")]
     public int? AllocationDefaultNetmaskLength { get; set; }
 
+    /// <summary>
+    /// fault-netmask-length (boolean) Clear the default netmask length allocation rule for this pool.
+    /// </summary>
     [CliFlag("--clear-allocation-default-netmask-length")]
     public bool? ClearAllocationDefaultNetmaskLength { get; set; }
 

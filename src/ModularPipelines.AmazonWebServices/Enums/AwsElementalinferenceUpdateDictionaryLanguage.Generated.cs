@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElementalinferenceUpdateDictionaryLanguage
 {
     [EnumValue("eng")]
-    Eng = 1,
+    Eng,
 
     [EnumValue("fra")]
-    Fra = 2,
+    Fra,
 
     [EnumValue("ita")]
-    Ita = 3,
+    Ita,
 
     [EnumValue("deu")]
-    Deu = 4,
+    Deu,
 
     [EnumValue("spa")]
-    Spa = 5,
+    Spa,
 
     [EnumValue("por")]
-    Por = 6
+    Por
 }

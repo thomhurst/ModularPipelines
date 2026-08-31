@@ -24,7 +24,10 @@ public record AwsAthenaDeleteWorkGroupOptions : AwsOptions
     [CliOption("--work-group")]
     public string? WorkGroup { get; set; }
 
-    [CliFlag("--recursive-delete-option")]
+    /// <summary>
+    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or note- books.
+    /// </summary>
+    [CliFlag("--recursive-delete-option", NegatedName = "--no-recursive-delete-option")]
     public bool? RecursiveDeleteOption { get; set; }
 
     [CliOption("--cli-input-json")]

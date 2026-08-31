@@ -36,13 +36,22 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions
     [CliOption("--session-lifetime-in-minutes")]
     public int? SessionLifetimeInMinutes { get; set; }
 
-    [CliFlag("--undo-redo-disabled")]
+    /// <summary>
+    /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
+    /// </summary>
+    [CliFlag("--undo-redo-disabled", NegatedName = "--no-undo-redo-disabled")]
     public bool? UndoRedoDisabled { get; set; }
 
-    [CliFlag("--reset-disabled")]
+    /// <summary>
+    /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
+    /// </summary>
+    [CliFlag("--reset-disabled", NegatedName = "--no-reset-disabled")]
     public bool? ResetDisabled { get; set; }
 
-    [CliFlag("--state-persistence-enabled")]
+    /// <summary>
+    /// Adds persistence of state for the user session in an embedded dash- board. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE , the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE .
+    /// </summary>
+    [CliFlag("--state-persistence-enabled", NegatedName = "--no-state-persistence-enabled")]
     public bool? StatePersistenceEnabled { get; set; }
 
     /// <summary>

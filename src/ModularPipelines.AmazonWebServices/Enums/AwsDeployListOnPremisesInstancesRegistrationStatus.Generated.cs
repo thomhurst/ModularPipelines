@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployListOnPremisesInstancesRegistrationStatus
 {
     [EnumValue("Registered")]
-    Registered = 1,
+    Registered,
 
     [EnumValue("Deregistered")]
-    Deregistered = 2
+    Deregistered
 }

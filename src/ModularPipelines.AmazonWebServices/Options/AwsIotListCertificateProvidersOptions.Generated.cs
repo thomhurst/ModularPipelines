@@ -29,7 +29,10 @@ public record AwsIotListCertificateProvidersOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Returns the list of certificate providers in ascending alphabetical order.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]

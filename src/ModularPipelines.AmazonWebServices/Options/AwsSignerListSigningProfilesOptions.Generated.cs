@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("signer", "list-signing-profiles")]
 public record AwsSignerListSigningProfilesOptions : AwsOptions
 {
-    [CliFlag("--include-canceled")]
+    /// <summary>
+    /// Designates whether to include profiles with the status of CANCELED .
+    /// </summary>
+    [CliFlag("--include-canceled", NegatedName = "--no-include-canceled")]
     public bool? IncludeCanceled { get; set; }
 
     /// <summary>

@@ -24,7 +24,10 @@ public record AwsDetectiveUpdateOrganizationConfigurationOptions : AwsOptions
     [CliOption("--graph-arn")]
     public string? GraphArn { get; set; }
 
-    [CliFlag("--auto-enable")]
+    /// <summary>
+    /// Indicates whether to automatically enable new organization accounts as member accounts in the organization behavior graph.
+    /// </summary>
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; set; }
 
     [CliOption("--cli-input-json")]

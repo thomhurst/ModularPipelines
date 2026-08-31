@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsCreateOutpostSupportedHardwareType
 {
     [EnumValue("RACK")]
-    Rack = 1,
+    Rack,
 
     [EnumValue("SERVER")]
-    Server = 2
+    Server
 }

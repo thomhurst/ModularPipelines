@@ -21,6 +21,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iotsitewise", "batch-put-asset-property-value")]
 public record AwsIotsitewiseBatchPutAssetPropertyValueOptions : AwsOptions
 {
+    /// <summary>
+    /// ing (boolean) This setting enables partial ingestion at entry-level. If set to true , we ingest all TQVs not resulting in an error. If set to false , an invalid TQV fails ingestion of the entire entry that contains it.
+    /// </summary>
     [CliFlag("--enable-partial-entry-processing")]
     public bool? EnablePartialEntryProcessing { get; set; }
 

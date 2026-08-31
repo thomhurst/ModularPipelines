@@ -35,7 +35,10 @@ public record AwsRedshiftDataListStatementsOptions : AwsOptions
     [CliOption("--status")]
     public AwsRedshiftDataListStatementsStatus? Status { get; set; }
 
-    [CliFlag("--role-level")]
+    /// <summary>
+    /// A value that filters which statements to return in the response. If true, all statements run by the caller's IAM role are returned. If false, only statements run by the caller's IAM role in the current IAM session are returned. The default is true.
+    /// </summary>
+    [CliFlag("--role-level", NegatedName = "--no-role-level")]
     public bool? RoleLevel { get; set; }
 
     /// <summary>

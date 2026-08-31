@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIvsRealtimeListParticipantsFilterByState
 {
     [EnumValue("CONNECTED")]
-    Connected = 1,
+    Connected,
 
     [EnumValue("DISCONNECTED")]
-    Disconnected = 2
+    Disconnected
 }

@@ -64,7 +64,7 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions
     [CliOption("--cutoff")]
     public int? Cutoff { get; set; }
 
-    [CliFlag("--allow-unassociated-targets")]
+    [CliFlag("--allow-unassociated-targets", NegatedName = "--no-allow-unassociated-targets")]
     public bool? AllowUnassociatedTargets { get; set; }
 
     /// <summary>

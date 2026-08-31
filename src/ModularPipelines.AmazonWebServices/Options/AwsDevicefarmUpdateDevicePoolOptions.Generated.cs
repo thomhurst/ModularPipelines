@@ -48,7 +48,10 @@ public record AwsDevicefarmUpdateDevicePoolOptions : AwsOptions
     [CliOption("--max-devices")]
     public int? MaxDevices { get; set; }
 
-    [CliFlag("--clear-max-devices")]
+    /// <summary>
+    /// Sets whether the maxDevices parameter applies to your device pool. If you set this parameter to true , the maxDevices parameter does not apply, and Device Farm does not limit the number of devices that it adds to your device pool. In this case, Device Farm adds all available devices that meet the criteria specified in the rules pa- rameter. If you use this parameter in your request, you cannot use the maxDe- vices parameter in the same request.
+    /// </summary>
+    [CliFlag("--clear-max-devices", NegatedName = "--no-clear-max-devices")]
     public bool? ClearMaxDevices { get; set; }
 
     [CliOption("--cli-input-json")]

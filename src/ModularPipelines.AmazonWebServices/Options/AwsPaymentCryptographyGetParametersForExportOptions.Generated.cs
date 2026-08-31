@@ -27,7 +27,10 @@ public record AwsPaymentCryptographyGetParametersForExportOptions : AwsOptions
     [CliOption("--signing-key-algorithm")]
     public string? SigningKeyAlgorithm { get; set; }
 
-    [CliFlag("--reuse-last-generated-token")]
+    /// <summary>
+    /// Specifies whether to reuse the existing export token and signing key certificate. If set to true and a valid export token exists for the same key material type and signing key algorithm with at least 7 days of remaining validity, the existing token and signing key cer- tificate are returned. Otherwise, a new export token and signing key certificate are generated. The default value is false , which gener- ates a new export token and signing key certificate on every call.
+    /// </summary>
+    [CliFlag("--reuse-last-generated-token", NegatedName = "--no-reuse-last-generated-token")]
     public bool? ReuseLastGeneratedToken { get; set; }
 
     [CliOption("--cli-input-json")]

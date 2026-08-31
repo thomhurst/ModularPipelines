@@ -30,7 +30,10 @@ public record AwsRedshiftModifyClusterSnapshotOptions : AwsOptions
     [CliOption("--manual-snapshot-retention-period")]
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// A Boolean option to override an exception if the retention period has already passed.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

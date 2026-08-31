@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScanResultsAggregatedByChecksSortBy
 {
     [EnumValue("CHECK_ID")]
-    CheckId = 1,
+    CheckId,
 
     [EnumValue("TITLE")]
-    Title = 2,
+    Title,
 
     [EnumValue("PLATFORM")]
-    Platform = 3,
+    Platform,
 
     [EnumValue("FAILED_COUNTS")]
-    FailedCounts = 4,
+    FailedCounts,
 
     [EnumValue("SECURITY_LEVEL")]
-    SecurityLevel = 5
+    SecurityLevel
 }

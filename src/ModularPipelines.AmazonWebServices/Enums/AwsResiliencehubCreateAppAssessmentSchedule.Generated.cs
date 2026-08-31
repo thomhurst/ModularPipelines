@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubCreateAppAssessmentSchedule
 {
     [EnumValue("Disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("Daily")]
-    Daily = 2
+    Daily
 }

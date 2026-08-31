@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBillingconductorCreateCustomLineItemComputationRule
 {
     [EnumValue("ITEMIZED")]
-    Itemized = 1,
+    Itemized,
 
     [EnumValue("CONSOLIDATED")]
-    Consolidated = 2
+    Consolidated
 }

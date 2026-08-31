@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineUpdateJobTargetTaskRunStatus
 {
     [EnumValue("READY")]
-    Ready = 1,
+    Ready,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 3,
+    Succeeded,
 
     [EnumValue("CANCELED")]
-    Canceled = 4,
+    Canceled,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 5,
+    Suspended,
 
     [EnumValue("PENDING")]
-    Pending = 6
+    Pending
 }

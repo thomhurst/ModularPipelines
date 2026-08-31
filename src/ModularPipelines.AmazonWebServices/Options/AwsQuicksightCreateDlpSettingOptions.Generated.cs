@@ -39,7 +39,7 @@ public record AwsQuicksightCreateDlpSettingOptions : AwsOptions
     [CliOption("--provider-outage-action")]
     public string? ProviderOutageAction { get; set; }
 
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

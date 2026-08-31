@@ -24,7 +24,10 @@ public record AwsLambdaGetDurableExecutionOptions : AwsOptions
     [CliOption("--durable-execution-arn")]
     public string? DurableExecutionArn { get; set; }
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The de- fault value is set to true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListMonitoringAlertHistorySortBy
 {
     [EnumValue("CreationTime")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("Status")]
-    Status = 2
+    Status
 }

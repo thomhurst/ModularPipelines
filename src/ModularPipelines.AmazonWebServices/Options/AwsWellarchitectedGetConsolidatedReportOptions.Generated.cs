@@ -25,7 +25,10 @@ public record AwsWellarchitectedGetConsolidatedReportOptions : AwsOptions
     [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CliFlag("--include-shared-resources")]
+    /// <summary>
+    /// Set to true to have shared resources included in the report.
+    /// </summary>
+    [CliFlag("--include-shared-resources", NegatedName = "--no-include-shared-resources")]
     public bool? IncludeSharedResources { get; set; }
 
     /// <summary>

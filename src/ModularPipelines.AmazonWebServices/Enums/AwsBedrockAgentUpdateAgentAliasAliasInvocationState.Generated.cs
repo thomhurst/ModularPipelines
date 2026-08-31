@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentUpdateAgentAliasAliasInvocationState
 {
     [EnumValue("ACCEPT_INVOCATIONS")]
-    AcceptInvocations = 1,
+    AcceptInvocations,
 
     [EnumValue("REJECT_INVOCATIONS")]
-    RejectInvocations = 2
+    RejectInvocations
 }

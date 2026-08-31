@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
     /// The connection protocol the over-the-air (OTA) task uses to update the device. Possible values: o HTTP
     /// </summary>
     [CliOption("--protocol")]
-    public AwsIotManagedIntegrationsCreateOtaTaskProtocol? Protocol { get; set; }
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// The device targeted for the over-the-air (OTA) task. (string) Syntax: "string" "string" ...
@@ -55,7 +54,7 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
     /// The deployment mechanism for the over-the-air (OTA) task. Possible values: o PUSH
     /// </summary>
     [CliOption("--ota-mechanism")]
-    public AwsIotManagedIntegrationsCreateOtaTaskOtaMechanism? OtaMechanism { get; set; }
+    public string? OtaMechanism { get; set; }
 
     [CliOption("--ota-type")]
     public string? OtaType { get; set; }

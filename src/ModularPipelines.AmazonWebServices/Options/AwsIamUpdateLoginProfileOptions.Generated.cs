@@ -32,7 +32,10 @@ public record AwsIamUpdateLoginProfileOptions : AwsOptions
     [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CliFlag("--password-reset-required")]
+    /// <summary>
+    /// Allows this new password to be used only once by requiring the spec- ified IAM user to set a new password on next sign-in.
+    /// </summary>
+    [CliFlag("--password-reset-required", NegatedName = "--no-password-reset-required")]
     public bool? PasswordResetRequired { get; set; }
 
     [CliOption("--cli-input-json")]

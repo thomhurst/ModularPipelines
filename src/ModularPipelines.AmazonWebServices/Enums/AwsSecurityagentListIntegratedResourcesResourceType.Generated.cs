@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentListIntegratedResourcesResourceType
 {
     [EnumValue("CODE_REPOSITORY")]
-    CodeRepository = 1,
+    CodeRepository,
 
     [EnumValue("DOCUMENT")]
-    Document = 2
+    Document
 }

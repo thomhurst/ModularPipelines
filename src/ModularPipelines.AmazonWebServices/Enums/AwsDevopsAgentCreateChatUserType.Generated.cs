@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentCreateChatUserType
 {
     [EnumValue("IAM")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("IDC")]
-    Idc = 2,
+    Idc,
 
     [EnumValue("IDP")]
-    Idp = 3
+    Idp
 }

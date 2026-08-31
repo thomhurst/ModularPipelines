@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAutoscalingDescribeTrafficSourcesTrafficSourceType
 {
     [EnumValue("elb")]
-    Elb = 1,
+    Elb,
 
     [EnumValue("if")]
-    If = 2,
+    If,
 
     [EnumValue("the")]
-    The = 3,
+    The,
 
     [EnumValue("traffic")]
-    Traffic = 4,
+    Traffic,
 
     [EnumValue("source")]
-    Source = 5,
+    Source,
 
     [EnumValue("is")]
-    Is = 6,
+    Is,
 
     [EnumValue("a")]
-    A = 7,
+    A,
 
     [EnumValue("Classic")]
-    Classic = 8,
+    Classic,
 
     [EnumValue("Load")]
-    Load = 9,
+    Load,
 
     [EnumValue("Balancer")]
-    Balancer = 10
+    Balancer
 }

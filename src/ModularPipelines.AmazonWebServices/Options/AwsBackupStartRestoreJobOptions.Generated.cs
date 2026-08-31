@@ -48,6 +48,9 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
+    /// <summary>
+    /// stored-resource (boolean) This is an optional parameter. If this equals True , tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
+    /// </summary>
     [CliFlag("--copy-source-tags-to-restored-resource")]
     public bool? CopySourceTagsToRestoredResource { get; set; }
 

@@ -24,6 +24,9 @@ public record AwsLogsPutBearerTokenAuthenticationOptions : AwsOptions
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
+    /// <summary>
+    /// tion-enabled (boolean) [required] Whether to enable bearer token authentication. Type: Boolean Required: Yes
+    /// </summary>
     [CliFlag("--bearer-token-authentication-enabled")]
     public bool? BearerTokenAuthenticationEnabled { get; set; }
 

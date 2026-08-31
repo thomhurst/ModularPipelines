@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesUpdateWorkspacesPoolRunningMode
 {
     [EnumValue("AUTO_STOP")]
-    AutoStop = 1,
+    AutoStop,
 
     [EnumValue("ALWAYS_ON")]
-    AlwaysOn = 2
+    AlwaysOn
 }

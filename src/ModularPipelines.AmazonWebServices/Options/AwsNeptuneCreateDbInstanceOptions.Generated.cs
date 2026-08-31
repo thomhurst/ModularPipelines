@@ -110,7 +110,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies if the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -119,7 +122,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -146,7 +152,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -178,7 +187,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster . Default: false
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -193,7 +205,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -226,10 +241,16 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Not supported by Neptune (ignored).
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// (Not supported by Neptune)
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -244,7 +265,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB instance has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance . DB instances in a DB cluster can be deleted even when deletion pro- tection is enabled in their parent DB cluster.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--cli-input-json")]

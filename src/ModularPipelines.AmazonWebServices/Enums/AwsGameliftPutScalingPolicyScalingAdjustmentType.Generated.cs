@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftPutScalingPolicyScalingAdjustmentType
 {
     [EnumValue("ChangeInCapacity")]
-    ChangeInCapacity = 1,
+    ChangeInCapacity,
 
     [EnumValue("ExactCapacity")]
-    ExactCapacity = 2,
+    ExactCapacity,
 
     [EnumValue("PercentChangeInCapacity")]
-    PercentChangeInCapacity = 3
+    PercentChangeInCapacity
 }

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "get-package-version-asset")]
-public record AwsCodeartifactGetPackageVersionAssetOptions : AwsOptions
+public record AwsCodeartifactGetPackageVersionAssetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--domain")]
     public string? Domain { get; set; }

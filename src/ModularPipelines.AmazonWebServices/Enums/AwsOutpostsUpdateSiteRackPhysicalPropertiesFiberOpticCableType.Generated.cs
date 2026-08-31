@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesFiberOpticCableType
 {
     [EnumValue("SINGLE_MODE")]
-    SingleMode = 1,
+    SingleMode,
 
     [EnumValue("MULTI_MODE")]
-    MultiMode = 2
+    MultiMode
 }

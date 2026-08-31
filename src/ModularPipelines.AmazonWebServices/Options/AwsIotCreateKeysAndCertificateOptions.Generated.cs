@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "create-keys-and-certificate")]
 public record AwsIotCreateKeysAndCertificateOptions : AwsOptions
 {
-    [CliFlag("--set-as-active")]
+    /// <summary>
+    /// Specifies whether the certificate is active.
+    /// </summary>
+    [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
     [CliOption("--certificate-pem-outfile")]

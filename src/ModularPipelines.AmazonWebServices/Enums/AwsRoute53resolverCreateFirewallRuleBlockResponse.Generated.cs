@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverCreateFirewallRuleBlockResponse
 {
     [EnumValue("NODATA")]
-    Nodata = 1,
+    Nodata,
 
     [EnumValue("NXDOMAIN")]
-    Nxdomain = 2,
+    Nxdomain,
 
     [EnumValue("OVERRIDE")]
-    Override = 3
+    Override
 }

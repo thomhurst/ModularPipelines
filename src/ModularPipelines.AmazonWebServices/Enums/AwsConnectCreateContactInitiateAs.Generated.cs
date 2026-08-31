@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectCreateContactInitiateAs
 {
     [EnumValue("CONNECTED_TO_USER")]
-    ConnectedToUser = 1,
+    ConnectedToUser,
 
     [EnumValue("COMPLETED")]
-    Completed = 2
+    Completed
 }

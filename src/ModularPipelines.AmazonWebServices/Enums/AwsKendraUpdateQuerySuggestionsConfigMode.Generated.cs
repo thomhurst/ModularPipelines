@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKendraUpdateQuerySuggestionsConfigMode
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("LEARN_ONLY")]
-    LearnOnly = 2
+    LearnOnly
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmDeleteInventorySchemaDeleteOption
 {
     [EnumValue("DisableSchema")]
-    DisableSchema = 1,
+    DisableSchema,
 
     [EnumValue("DeleteSchema")]
-    DeleteSchema = 2
+    DeleteSchema
 }

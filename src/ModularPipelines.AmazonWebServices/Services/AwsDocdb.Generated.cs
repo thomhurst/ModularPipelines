@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -190,21 +190,6 @@ public class AwsDocdb : IAwsDocdb
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDocdbCreateDbSubnetGroupOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates an Amazon DocumentDB event notification subscription. This ac- tion requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Ama- zon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType ) that you want to be notified of. You can also provide a list of Amazon DocumentDB sour...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateEventSubscriptionAsync(
-        AwsDocdbCreateEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDocdbCreateEventSubscriptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -685,21 +670,6 @@ public class AwsDocdb : IAwsDocdb
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDocdbModifyDbSubnetGroupOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Modifies an existing Amazon DocumentDB event notification subscription. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyEventSubscriptionAsync(
-        AwsDocdbModifyEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDocdbModifyEventSubscriptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

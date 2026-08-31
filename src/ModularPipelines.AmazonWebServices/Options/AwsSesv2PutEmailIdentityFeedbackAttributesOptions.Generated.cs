@@ -24,7 +24,10 @@ public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; set; }
 
-    [CliFlag("--email-forwarding-enabled")]
+    /// <summary>
+    /// Sets the feedback forwarding configuration for the identity. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the ad- dress that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or com- plaint notifications (for example, by setting up an event destina- tion), you receive an email notification when these events occur (even if this setting is disabled).
+    /// </summary>
+    [CliFlag("--email-forwarding-enabled", NegatedName = "--no-email-forwarding-enabled")]
     public bool? EmailForwardingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

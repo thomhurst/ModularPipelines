@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLightsailUpdateInstanceMetadataHttpProtocolIpv6
 {
     [EnumValue("disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("enabled")]
-    Enabled = 2
+    Enabled
 }

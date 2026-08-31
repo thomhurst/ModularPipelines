@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamListVirtualMfaDevicesAssignmentStatus
 {
     [EnumValue("Assigned")]
-    Assigned = 1,
+    Assigned,
 
     [EnumValue("Unassigned")]
-    Unassigned = 2,
+    Unassigned,
 
     [EnumValue("Any")]
-    Any = 3
+    Any
 }

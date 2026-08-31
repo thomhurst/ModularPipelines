@@ -134,7 +134,10 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for pre- vious versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -180,7 +183,10 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables in-transit encryption when set to true.
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>

@@ -42,7 +42,10 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// The deletion protection setting for the new global cluster. The global cluster can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -51,7 +54,10 @@ public record AwsDocdbCreateGlobalClusterOptions : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// The storage encryption setting for the new global cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediastoreDataPutObjectStorageClass
 {
     [EnumValue("TEMPORAL")]
-    Temporal = 1,
+    Temporal,
 
     [EnumValue("Constraints")]
-    Constraints = 2
+    Constraints
 }

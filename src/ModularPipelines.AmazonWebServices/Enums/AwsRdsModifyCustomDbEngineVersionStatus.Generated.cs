@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyCustomDbEngineVersionStatus
 {
     [EnumValue("available")]
-    Available = 1,
+    Available,
 
     [EnumValue("inactive")]
-    Inactive = 2,
+    Inactive,
 
     [EnumValue("inactive-except-restore")]
-    InactiveExceptRestore = 3
+    InactiveExceptRestore
 }

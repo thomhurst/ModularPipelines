@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsGuruListRecommendationsLocale
 {
     [EnumValue("DE_DE")]
-    DeDe = 1,
+    DeDe,
 
     [EnumValue("EN_US")]
-    EnUs = 2,
+    EnUs,
 
     [EnumValue("EN_GB")]
-    EnGb = 3,
+    EnGb,
 
     [EnumValue("ES_ES")]
-    EsEs = 4,
+    EsEs,
 
     [EnumValue("FR_FR")]
-    FrFr = 5,
+    FrFr,
 
     [EnumValue("IT_IT")]
-    ItIt = 6,
+    ItIt,
 
     [EnumValue("JA_JP")]
-    JaJp = 7,
+    JaJp,
 
     [EnumValue("KO_KR")]
-    KoKr = 8,
+    KoKr,
 
     [EnumValue("PT_BR")]
-    PtBr = 9,
+    PtBr,
 
     [EnumValue("ZH_CN")]
-    ZhCn = 10,
+    ZhCn,
 
     [EnumValue("ZH_TW")]
-    ZhTw = 11
+    ZhTw
 }

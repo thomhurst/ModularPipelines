@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateIpamTier
 {
     [EnumValue("free")]
-    Free = 1,
+    Free,
 
     [EnumValue("advanced")]
-    Advanced = 2
+    Advanced
 }

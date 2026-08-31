@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseListSignalCatalogNodesSignalNodeType
 {
     [EnumValue("SENSOR")]
-    Sensor = 1,
+    Sensor,
 
     [EnumValue("ACTUATOR")]
-    Actuator = 2,
+    Actuator,
 
     [EnumValue("ATTRIBUTE")]
-    Attribute = 3,
+    Attribute,
 
     [EnumValue("BRANCH")]
-    Branch = 4,
+    Branch,
 
     [EnumValue("CUSTOM_STRUCT")]
-    CustomStruct = 5,
+    CustomStruct,
 
     [EnumValue("CUSTOM_PROPERTY")]
-    CustomProperty = 6
+    CustomProperty
 }

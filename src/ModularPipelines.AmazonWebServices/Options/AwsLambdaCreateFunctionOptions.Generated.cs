@@ -65,14 +65,17 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     [CliOption("--memory-size")]
     public int? MemorySize { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish the first version of the function during cre- ation.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
     /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
-    public AwsLambdaCreateFunctionPublishTo? PublishTo { get; set; }
+    public string? PublishTo { get; set; }
 
     /// <summary>
     /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the inter- net only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC . SubnetIds -&gt; (list) A list of VPC subnet IDs. Constraints: o min: 0 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) A list of VPC security group IDs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Ipv6AllowedForDualStack -&gt; (boolean) Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,Ipv6AllowedForDualStack=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }

@@ -26,7 +26,10 @@ public record AwsGlueStartJobRunOptions : AwsOptions
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CliFlag("--job-run-queuing-enabled")]
+    /// <summary>
+    /// Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
+    /// </summary>
+    [CliFlag("--job-run-queuing-enabled", NegatedName = "--no-job-run-queuing-enabled")]
     public bool? JobRunQueuingEnabled { get; set; }
 
     /// <summary>

@@ -24,7 +24,10 @@ public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; set; }
 
-    [CliFlag("--associate-entire-account")]
+    /// <summary>
+    /// A value that specifies whether the datashare is associated with the entire account.
+    /// </summary>
+    [CliFlag("--associate-entire-account", NegatedName = "--no-associate-entire-account")]
     public bool? AssociateEntireAccount { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions
     [CliOption("--consumer-region")]
     public string? ConsumerRegion { get; set; }
 
-    [CliFlag("--allow-writes")]
+    /// <summary>
+    /// If set to true, allows write operations for a datashare.
+    /// </summary>
+    [CliFlag("--allow-writes", NegatedName = "--no-allow-writes")]
     public bool? AllowWrites { get; set; }
 
     [CliOption("--cli-input-json")]

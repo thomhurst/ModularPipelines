@@ -34,7 +34,10 @@ public record AwsIotListThingGroupsOptions : AwsOptions
     [CliOption("--name-prefix-filter")]
     public string? NamePrefixFilter { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// If true, return child groups as well.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     [CliOption("--cli-input-json")]

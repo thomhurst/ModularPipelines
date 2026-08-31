@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -54,11 +53,17 @@ public record AwsSagemakerUpdatePartnerAppOptions : AwsOptions
     /// The authorization type that users use to access the SageMaker Part- ner AI App. Use this parameter to migrate an existing SageMaker Partner AI App from IAM authorization to IDC authorization. Valid values: o IAM : Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity. o IDC : Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig . Possible values: o IAM o IDC
     /// </summary>
     [CliOption("--auth-type")]
-    public AwsSagemakerUpdatePartnerAppAuthType? AuthType { get; set; }
+    public string? AuthType { get; set; }
 
+    /// <summary>
+    /// sion-based-identity (boolean) When set to TRUE , the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the iden- tity of the SageMaker Partner AI App user.
+    /// </summary>
     [CliFlag("--enable-iam-session-based-identity")]
     public bool? EnableIamSessionBasedIdentity { get; set; }
 
+    /// <summary>
+    /// sion-upgrade (boolean) When set to TRUE , the SageMaker Partner AI App is automatically up- graded to the latest minor version during the next scheduled mainte- nance window, if one is available.
+    /// </summary>
     [CliFlag("--enable-auto-minor-version-upgrade")]
     public bool? EnableAutoMinorVersionUpgrade { get; set; }
 

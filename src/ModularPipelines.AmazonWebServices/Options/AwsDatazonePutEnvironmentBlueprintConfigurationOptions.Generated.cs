@@ -61,6 +61,9 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     [CliOption("--resource-configurations", GroupValues = true)]
     public IEnumerable<string>? ResourceConfigurations { get; set; }
 
+    /// <summary>
+    /// urations (boolean) Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    /// </summary>
     [CliFlag("--allow-user-provided-configurations")]
     public bool? AllowUserProvidedConfigurations { get; set; }
 

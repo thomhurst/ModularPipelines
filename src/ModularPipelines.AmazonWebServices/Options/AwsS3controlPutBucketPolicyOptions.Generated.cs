@@ -28,7 +28,7 @@ public record AwsS3controlPutBucketPolicyOptions : AwsOptions
     public string? Bucket { get; set; }
 
     /// <summary>
-    /// | --no-confirm-re- move-self-bucket-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This is not supported by Amazon S3 on Outposts buckets.
+    /// move-self-bucket-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This is not supported by Amazon S3 on Outposts buckets.
     /// </summary>
     [CliFlag("--confirm-remove-self-bucket-access")]
     public bool? ConfirmRemoveSelfBucketAccess { get; set; }

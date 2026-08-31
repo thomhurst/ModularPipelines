@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMachinelearningWaitEvaluationAvailableFilterVariable
 {
     [EnumValue("CreatedAt")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("LastUpdatedAt")]
-    LastUpdatedAt = 2,
+    LastUpdatedAt,
 
     [EnumValue("Status")]
-    Status = 3,
+    Status,
 
     [EnumValue("Name")]
-    Name = 4,
+    Name,
 
     [EnumValue("IAMUser")]
-    IamUser = 5,
+    IamUser,
 
     [EnumValue("MLModelId")]
-    MlModelId = 6,
+    MlModelId,
 
     [EnumValue("DataSourceId")]
-    DataSourceId = 7,
+    DataSourceId,
 
     [EnumValue("DataURI")]
-    DataUri = 8
+    DataUri
 }

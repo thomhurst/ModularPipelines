@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineUpdateStorageProfileOsFamily
 {
     [EnumValue("WINDOWS")]
-    Windows = 1,
+    Windows,
 
     [EnumValue("LINUX")]
-    Linux = 2,
+    Linux,
 
     [EnumValue("MACOS")]
-    Macos = 3
+    Macos
 }

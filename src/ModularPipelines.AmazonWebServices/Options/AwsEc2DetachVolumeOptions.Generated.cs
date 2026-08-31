@@ -27,7 +27,10 @@ public record AwsEc2DetachVolumeOptions : AwsOptions
     [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces detachment if the previous detachment attempt did not occur cleanly (for example, logging into an instance, unmounting the vol- ume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to de- tach a volume from a failed instance. The instance won't have an op- portunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsEc2DetachVolumeOptions : AwsOptions
     [CliOption("--volume-id")]
     public string? VolumeId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

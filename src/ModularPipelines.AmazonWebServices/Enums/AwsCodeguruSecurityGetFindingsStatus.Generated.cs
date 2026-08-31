@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeguruSecurityGetFindingsStatus
 {
     [EnumValue("Closed")]
-    Closed = 1,
+    Closed,
 
     [EnumValue("Open")]
-    Open = 2,
+    Open,
 
     [EnumValue("All")]
-    All = 3
+    All
 }

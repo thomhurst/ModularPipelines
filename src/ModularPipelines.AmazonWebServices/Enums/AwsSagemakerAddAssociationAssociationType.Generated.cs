@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerAddAssociationAssociationType
 {
     [EnumValue("ContributedTo")]
-    ContributedTo = 1,
+    ContributedTo,
 
     [EnumValue("AssociatedWith")]
-    AssociatedWith = 2,
+    AssociatedWith,
 
     [EnumValue("DerivedFrom")]
-    DerivedFrom = 3,
+    DerivedFrom,
 
     [EnumValue("Produced")]
-    Produced = 4,
+    Produced,
 
     [EnumValue("SameAs")]
-    SameAs = 5
+    SameAs
 }

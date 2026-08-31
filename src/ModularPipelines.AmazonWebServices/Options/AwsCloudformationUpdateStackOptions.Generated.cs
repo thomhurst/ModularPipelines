@@ -37,7 +37,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CliFlag("--use-previous-template")]
+    /// <summary>
+    /// Reuse the existing template that is associated with the stack that you are updating. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are ap- plied correctly. For more information, see AWS::LanguageExtensions transform . Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
+    /// </summary>
+    [CliFlag("--use-previous-template", NegatedName = "--no-use-previous-template")]
     public bool? UsePreviousTemplate { get; set; }
 
     /// <summary>
@@ -106,7 +109,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    /// <summary>
+    /// Preserve the state of previously provisioned resources when an oper- ation fails. Default: False
+    /// </summary>
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     /// <summary>
@@ -116,7 +122,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--retain-except-on-create")]
+    /// <summary>
+    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// </summary>
+    [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     /// <summary>
@@ -125,7 +134,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQconnectListModelsModelLifecycle
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("LEGACY")]
-    Legacy = 2
+    Legacy
 }

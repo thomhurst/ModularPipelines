@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectListContactFlowModulesContactFlowModuleState
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("ARCHIVED")]
-    Archived = 2
+    Archived
 }

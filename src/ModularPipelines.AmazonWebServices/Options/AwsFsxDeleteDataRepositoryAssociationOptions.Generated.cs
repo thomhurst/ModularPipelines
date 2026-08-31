@@ -32,7 +32,10 @@ public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--delete-data-in-file-system")]
+    /// <summary>
+    /// Set to true to delete the data in the file system that corresponds to the data repository association.
+    /// </summary>
+    [CliFlag("--delete-data-in-file-system", NegatedName = "--no-delete-data-in-file-system")]
     public bool? DeleteDataInFileSystem { get; set; }
 
     [CliOption("--cli-input-json")]

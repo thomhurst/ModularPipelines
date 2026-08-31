@@ -24,7 +24,10 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions
     [CliOption("--primary-distribution-id")]
     public string? PrimaryDistributionId { get; set; }
 
-    [CliFlag("--staging")]
+    /// <summary>
+    /// The type of distribution that your primary distribution will be copied to. The only valid value is True , indicating that you are copying to a staging distribution.
+    /// </summary>
+    [CliFlag("--staging", NegatedName = "--no-staging")]
     public bool? Staging { get; set; }
 
     /// <summary>
@@ -36,7 +39,10 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions
     [CliOption("--caller-reference")]
     public string? CallerReference { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True , the staging distrib- ution is enabled. When you set this value to False , the staging distribution is disabled. If you omit this field, the default value is True .
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

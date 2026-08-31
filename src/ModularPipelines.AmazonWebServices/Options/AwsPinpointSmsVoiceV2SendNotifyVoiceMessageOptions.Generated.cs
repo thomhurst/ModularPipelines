@@ -61,10 +61,16 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--message-feedback-enabled")]
+    /// <summary>
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback .
+    /// </summary>
+    [CliFlag("--message-feedback-enabled", NegatedName = "--no-message-feedback-enabled")]
     public bool? MessageFeedbackEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAccessanalyzerListAnalyzersType
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("ORGANIZATION")]
-    Organization = 2,
+    Organization,
 
     [EnumValue("ACCOUNT_UNUSED_ACCESS")]
-    AccountUnusedAccess = 3,
+    AccountUnusedAccess,
 
     [EnumValue("ORGANIZATION_UNUSED_ACCESS")]
-    OrganizationUnusedAccess = 4,
+    OrganizationUnusedAccess,
 
     [EnumValue("ACCOUNT_INTERNAL_ACCESS")]
-    AccountInternalAccess = 5,
+    AccountInternalAccess,
 
     [EnumValue("ORGANIZATION_INTERNAL_ACCESS")]
-    OrganizationInternalAccess = 6
+    OrganizationInternalAccess
 }

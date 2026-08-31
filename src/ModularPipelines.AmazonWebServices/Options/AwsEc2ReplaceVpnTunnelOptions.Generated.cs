@@ -27,10 +27,16 @@ public record AwsEc2ReplaceVpnTunnelOptions : AwsOptions
     [CliOption("--vpn-tunnel-outside-ip-address")]
     public string? VpnTunnelOutsideIpAddress { get; set; }
 
-    [CliFlag("--apply-pending-maintenance")]
+    /// <summary>
+    /// Trigger pending tunnel endpoint maintenance.
+    /// </summary>
+    [CliFlag("--apply-pending-maintenance", NegatedName = "--no-apply-pending-maintenance")]
     public bool? ApplyPendingMaintenance { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

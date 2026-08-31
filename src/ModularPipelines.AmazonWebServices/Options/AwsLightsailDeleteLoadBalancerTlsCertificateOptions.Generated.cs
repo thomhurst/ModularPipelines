@@ -27,7 +27,10 @@ public record AwsLightsailDeleteLoadBalancerTlsCertificateOptions : AwsOptions
     [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// When true , forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load bal- ancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance at- tached to the load balancer.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

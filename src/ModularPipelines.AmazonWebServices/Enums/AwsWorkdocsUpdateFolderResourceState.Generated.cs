@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkdocsUpdateFolderResourceState
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("RESTORING")]
-    Restoring = 2,
+    Restoring,
 
     [EnumValue("RECYCLING")]
-    Recycling = 3,
+    Recycling,
 
     [EnumValue("RECYCLED")]
-    Recycled = 4
+    Recycled
 }

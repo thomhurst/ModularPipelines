@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranscribeListMedicalVocabulariesStateEquals
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("READY")]
-    Ready = 2,
+    Ready,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

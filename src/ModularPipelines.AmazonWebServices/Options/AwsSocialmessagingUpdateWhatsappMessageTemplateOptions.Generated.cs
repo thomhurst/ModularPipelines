@@ -60,6 +60,9 @@ public record AwsSocialmessagingUpdateWhatsappMessageTemplateOptions : AwsOption
     [CliOption("--template-components")]
     public string? TemplateComponents { get; set; }
 
+    /// <summary>
+    /// ing-opted-out (boolean) When true, disables click tracking for call-to-action URL buttons in the template.
+    /// </summary>
     [CliFlag("--cta-url-link-tracking-opted-out")]
     public bool? CtaUrlLinkTrackingOptedOut { get; set; }
 

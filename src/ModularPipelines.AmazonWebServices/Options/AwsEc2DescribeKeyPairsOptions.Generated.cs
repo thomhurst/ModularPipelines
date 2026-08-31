@@ -33,10 +33,16 @@ public record AwsEc2DescribeKeyPairsOptions : AwsOptions
     [CliOption("--key-pair-ids", GroupValues = true)]
     public IEnumerable<string>? KeyPairIds { get; set; }
 
-    [CliFlag("--include-public-key")]
+    /// <summary>
+    /// If true , the public key material is included in the response. Default: false
+    /// </summary>
+    [CliFlag("--include-public-key", NegatedName = "--no-include-public-key")]
     public bool? IncludePublicKey { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

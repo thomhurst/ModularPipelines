@@ -49,6 +49,9 @@ public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions
     [CliOption("--import-mode")]
     public AwsPersonalizeCreateDataSetImportJobImportMode? ImportMode { get; set; }
 
+    /// <summary>
+    /// rics-to-s3 (boolean) If you created a metric attribution, specify whether to publish met- rics for this import job to Amazon S3
+    /// </summary>
     [CliFlag("--publish-attribution-metrics-to-s3")]
     public bool? PublishAttributionMetricsToS3 { get; set; }
 

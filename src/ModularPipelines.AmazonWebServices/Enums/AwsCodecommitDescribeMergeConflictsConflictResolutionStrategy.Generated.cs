@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitDescribeMergeConflictsConflictResolutionStrategy
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("ACCEPT_SOURCE")]
-    AcceptSource = 2,
+    AcceptSource,
 
     [EnumValue("ACCEPT_DESTINATION")]
-    AcceptDestination = 3,
+    AcceptDestination,
 
     [EnumValue("AUTOMERGE")]
-    Automerge = 4
+    Automerge
 }

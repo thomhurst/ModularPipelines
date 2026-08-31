@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -38,7 +39,7 @@ public record AwsNotificationsListManagedNotificationEventsOptions : AwsOptions
     /// The locale code of the language used for the retrieved Notification- Event. The default locale is English (en_US). Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
     /// </summary>
     [CliOption("--locale")]
-    public string? Locale { get; set; }
+    public AwsNotificationsListManagedNotificationEventsLocale? Locale { get; set; }
 
     /// <summary>
     /// The Amazon Web Services service the event originates from. For exam- ple aws.cloudwatch. Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+

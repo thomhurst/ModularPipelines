@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildCreateWebhookBuildType
 {
     [EnumValue("BUILD")]
-    Build = 1,
+    Build,
 
     [EnumValue("BUILD_BATCH")]
-    BuildBatch = 2,
+    BuildBatch,
 
     [EnumValue("RUNNER_BUILDKITE_BUILD")]
-    RunnerBuildkiteBuild = 3
+    RunnerBuildkiteBuild
 }

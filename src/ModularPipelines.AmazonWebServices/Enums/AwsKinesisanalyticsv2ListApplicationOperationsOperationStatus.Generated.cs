@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisanalyticsv2ListApplicationOperationsOperationStatus
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 2,
+    Cancelled,
 
     [EnumValue("SUCCESSFUL")]
-    Successful = 3,
+    Successful,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed
 }

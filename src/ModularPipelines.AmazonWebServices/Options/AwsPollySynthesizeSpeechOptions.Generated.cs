@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("polly", "synthesize-speech")]
-public record AwsPollySynthesizeSpeechOptions : AwsOptions
+public record AwsPollySynthesizeSpeechOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// Specifies the engine (standard , neural , long-form , or generative ) for Amazon Polly to use when processing input text for speech syn- thesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices . Possible values: o standard o neural o long-form o generative

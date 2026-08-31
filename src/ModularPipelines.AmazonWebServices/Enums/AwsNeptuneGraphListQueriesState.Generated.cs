@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptuneGraphListQueriesState
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("WAITING")]
-    Waiting = 3,
+    Waiting,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 4
+    Cancelling
 }

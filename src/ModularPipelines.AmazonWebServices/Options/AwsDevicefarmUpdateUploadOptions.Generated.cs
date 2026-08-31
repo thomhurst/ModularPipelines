@@ -36,7 +36,10 @@ public record AwsDevicefarmUpdateUploadOptions : AwsOptions
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CliFlag("--edit-content")]
+    /// <summary>
+    /// Set to true if the YAML file has changed and must be updated. Other- wise, set to false.
+    /// </summary>
+    [CliFlag("--edit-content", NegatedName = "--no-edit-content")]
     public bool? EditContent { get; set; }
 
     [CliOption("--cli-input-json")]

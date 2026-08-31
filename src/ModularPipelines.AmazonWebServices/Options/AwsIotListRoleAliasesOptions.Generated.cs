@@ -28,7 +28,10 @@ public record AwsIotListRoleAliasesOptions : AwsOptions
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Return the list of role aliases in ascending alphabetical order.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]

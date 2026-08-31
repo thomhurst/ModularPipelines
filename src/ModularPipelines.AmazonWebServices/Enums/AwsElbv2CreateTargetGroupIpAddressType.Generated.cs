@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2CreateTargetGroupIpAddressType
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("ipv6")]
-    Ipv6 = 2
+    Ipv6
 }

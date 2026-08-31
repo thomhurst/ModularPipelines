@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudformation", "update-termination-protection")]
 public record AwsCloudformationUpdateTerminationProtectionOptions : AwsOptions
 {
-    [CliFlag("--enable-termination-protection")]
+    [CliFlag("--enable-termination-protection", NegatedName = "--no-enable-termination-protection")]
     public bool? EnableTerminationProtection { get; set; }
 
     [CliOption("--stack-name")]

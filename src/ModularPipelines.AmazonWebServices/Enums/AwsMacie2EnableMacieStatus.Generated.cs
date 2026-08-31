@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMacie2EnableMacieStatus
 {
     [EnumValue("PAUSED")]
-    Paused = 1,
+    Paused,
 
     [EnumValue("ENABLED")]
-    Enabled = 2
+    Enabled
 }

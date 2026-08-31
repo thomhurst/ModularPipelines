@@ -31,7 +31,10 @@ public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
     [CliOption("--encryption-type")]
     public AwsStoragegatewayUpdateNfsFileShareEncryptionType? EncryptionType { get; set; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the En- cryptionType parameter instead. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -70,13 +73,22 @@ public record AwsStoragegatewayUpdateNfsFileShareOptions : AwsOptions
     [CliOption("--squash")]
     public string? Squash { get; set; }
 
-    [CliFlag("--read-only")]
+    /// <summary>
+    /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--read-only", NegatedName = "--no-read-only")]
     public bool? ReadOnly { get; set; }
 
-    [CliFlag("--guess-mime-type-enabled")]
+    /// <summary>
+    /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false . The default value is true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--guess-mime-type-enabled", NegatedName = "--no-guess-mime-type-enabled")]
     public bool? GuessMimeTypeEnabled { get; set; }
 
-    [CliFlag("--requester-pays")]
+    /// <summary>
+    /// A value that sets who pays the cost of the request and the cost as- sociated with data download from the S3 bucket. If this value is set to true , the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. NOTE: RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--requester-pays", NegatedName = "--no-requester-pays")]
     public bool? RequesterPays { get; set; }
 
     /// <summary>

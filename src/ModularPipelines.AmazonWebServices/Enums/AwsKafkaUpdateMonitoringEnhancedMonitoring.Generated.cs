@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKafkaUpdateMonitoringEnhancedMonitoring
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("PER_BROKER")]
-    PerBroker = 2,
+    PerBroker,
 
     [EnumValue("PER_TOPIC_PER_BROKER")]
-    PerTopicPerBroker = 3,
+    PerTopicPerBroker,
 
     [EnumValue("PER_TOPIC_PER_PARTITION")]
-    PerTopicPerPartition = 4
+    PerTopicPerPartition
 }

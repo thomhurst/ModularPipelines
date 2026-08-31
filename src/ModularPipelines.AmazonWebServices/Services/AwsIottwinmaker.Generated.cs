@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -60,21 +60,6 @@ public class AwsIottwinmaker : IAwsIottwinmaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerCancelMetadataTransferJobOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates a component type. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateComponentTypeAsync(
-        AwsIottwinmakerCreateComponentTypeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerCreateComponentTypeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -165,21 +150,6 @@ public class AwsIottwinmaker : IAwsIottwinmaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerDeleteComponentTypeOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Deletes an entity. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteEntityAsync(
-        AwsIottwinmakerDeleteEntityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerDeleteEntityOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -555,21 +525,6 @@ public class AwsIottwinmaker : IAwsIottwinmaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerUntagResourceOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Updates information in a component type. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateComponentTypeAsync(
-        AwsIottwinmakerUpdateComponentTypeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIottwinmakerUpdateComponentTypeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

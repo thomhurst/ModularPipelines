@@ -19,12 +19,17 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "execute-gremlin-profile-query")]
-public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
+public record AwsNeptunedataExecuteGremlinProfileQueryOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--gremlin-query")]
     public string? GremlinQuery { get; set; }
 
-    [CliFlag("--results")]
+    /// <summary>
+    /// If this flag is set to TRUE , the query results are gathered and displayed as part of the profile report. If FALSE , only the result count is displayed.
+    /// </summary>
+    [CliFlag("--results", NegatedName = "--no-results")]
     public bool? Results { get; set; }
 
     /// <summary>
@@ -39,7 +44,10 @@ public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
     [CliOption("--serializer")]
     public string? Serializer { get; set; }
 
-    [CliFlag("--index-ops")]
+    /// <summary>
+    /// If this flag is set to TRUE , the results include a detailed report of all index operations that took place during query execution and serialization. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliFlag("--index-ops", NegatedName = "--no-index-ops")]
     public bool? IndexOps { get; set; }
 
 }

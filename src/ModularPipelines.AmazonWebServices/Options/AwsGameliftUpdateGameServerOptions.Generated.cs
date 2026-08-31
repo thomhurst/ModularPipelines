@@ -44,7 +44,7 @@ public record AwsGameliftUpdateGameServerOptions : AwsOptions
     /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime time- stamp. Possible values: o HEALTHY
     /// </summary>
     [CliOption("--health-check")]
-    public AwsGameliftUpdateGameServerHealthCheck? HealthCheck { get; set; }
+    public string? HealthCheck { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -450,21 +450,6 @@ public class AwsMemorydb : IAwsMemorydb
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMemorydbDescribeServiceUpdatesOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Returns information about cluster snapshots. By default, DescribeSnap- shots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
-        AwsMemorydbDescribeSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMemorydbDescribeSnapshotsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

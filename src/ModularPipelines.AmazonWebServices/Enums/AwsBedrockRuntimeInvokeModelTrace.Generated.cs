@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockRuntimeInvokeModelTrace
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
 
     [EnumValue("ENABLED_FULL")]
-    EnabledFull = 3
+    EnabledFull
 }

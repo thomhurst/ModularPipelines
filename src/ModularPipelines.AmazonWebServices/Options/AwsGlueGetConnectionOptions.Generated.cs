@@ -31,7 +31,10 @@ public record AwsGlueGetConnectionOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--hide-password")]
+    /// <summary>
+    /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parame- ter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
+    /// </summary>
+    [CliFlag("--hide-password", NegatedName = "--no-hide-password")]
     public bool? HidePassword { get; set; }
 
     /// <summary>

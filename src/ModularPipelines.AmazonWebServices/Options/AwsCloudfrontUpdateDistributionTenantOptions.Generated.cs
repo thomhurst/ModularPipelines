@@ -63,7 +63,10 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
     [CliOption("--managed-certificate-request")]
     public string? ManagedCertificateRequest { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

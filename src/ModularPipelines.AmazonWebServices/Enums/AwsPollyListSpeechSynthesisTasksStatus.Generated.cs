@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPollyListSpeechSynthesisTasksStatus
 {
     [EnumValue("scheduled")]
-    Scheduled = 1,
+    Scheduled,
 
     [EnumValue("inProgress")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("completed")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("failed")]
-    Failed = 4
+    Failed
 }

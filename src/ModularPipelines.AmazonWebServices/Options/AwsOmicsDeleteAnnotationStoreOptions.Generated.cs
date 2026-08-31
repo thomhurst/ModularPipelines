@@ -24,7 +24,10 @@ public record AwsOmicsDeleteAnnotationStoreOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Whether to force deletion.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

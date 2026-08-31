@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildListFleetsSortBy
 {
     [EnumValue("NAME")]
-    Name = 1,
+    Name,
 
     [EnumValue("CREATED_TIME")]
-    CreatedTime = 2,
+    CreatedTime,
 
     [EnumValue("LAST_MODIFIED_TIME")]
-    LastModifiedTime = 3
+    LastModifiedTime
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeartifactListPackageVersionsOriginType
 {
     [EnumValue("INTERNAL")]
-    Internal = 1,
+    Internal,
 
     [EnumValue("EXTERNAL")]
-    External = 2,
+    External,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

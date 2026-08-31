@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediapackagev2CreateChannelInputType
 {
     [EnumValue("HLS")]
-    Hls = 1,
+    Hls,
 
     [EnumValue("CMAF")]
-    Cmaf = 2
+    Cmaf
 }

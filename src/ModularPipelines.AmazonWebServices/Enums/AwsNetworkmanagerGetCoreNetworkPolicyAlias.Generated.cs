@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkmanagerGetCoreNetworkPolicyAlias
 {
     [EnumValue("LIVE")]
-    Live = 1,
+    Live,
 
     [EnumValue("LATEST")]
-    Latest = 2
+    Latest
 }

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsForecastCreatePredictorOptimizationMetric
 {
     [EnumValue("WAPE")]
-    Wape = 1,
+    Wape,
 
     [EnumValue("RMSE")]
-    Rmse = 2,
+    Rmse,
 
     [EnumValue("AverageWeightedQuantileLoss")]
-    AverageWeightedQuantileLoss = 3,
+    AverageWeightedQuantileLoss,
 
     [EnumValue("MASE")]
-    Mase = 4,
+    Mase,
 
     [EnumValue("MAPE")]
-    Mape = 5
+    Mape
 }

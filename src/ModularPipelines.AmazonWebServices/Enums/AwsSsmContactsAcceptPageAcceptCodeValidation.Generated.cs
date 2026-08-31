@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmContactsAcceptPageAcceptCodeValidation
 {
     [EnumValue("IGNORE")]
-    Ignore = 1,
+    Ignore,
 
     [EnumValue("ENFORCE")]
-    Enforce = 2
+    Enforce
 }

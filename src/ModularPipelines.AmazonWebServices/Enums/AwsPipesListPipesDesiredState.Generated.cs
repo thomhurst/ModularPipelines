@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPipesListPipesDesiredState
 {
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("STOPPED")]
-    Stopped = 2
+    Stopped
 }

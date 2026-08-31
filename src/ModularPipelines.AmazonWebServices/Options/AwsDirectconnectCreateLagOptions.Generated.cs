@@ -57,7 +57,10 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether the connection will support MAC Security (MACsec). NOTE: All connections in the LAG must be capable of supporting MAC Se- curity (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide .
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     [CliOption("--cli-input-json")]

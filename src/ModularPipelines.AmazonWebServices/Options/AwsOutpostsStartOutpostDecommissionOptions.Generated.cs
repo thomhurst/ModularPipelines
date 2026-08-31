@@ -24,7 +24,10 @@ public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; set; }
 
-    [CliFlag("--validate-only")]
+    /// <summary>
+    /// Validates the request without starting the decommission process.
+    /// </summary>
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
 
     [CliOption("--cli-input-json")]

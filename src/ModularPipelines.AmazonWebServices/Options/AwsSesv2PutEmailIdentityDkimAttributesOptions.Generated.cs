@@ -24,7 +24,10 @@ public record AwsSesv2PutEmailIdentityDkimAttributesOptions : AwsOptions
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; set; }
 
-    [CliFlag("--signing-enabled")]
+    /// <summary>
+    /// Sets the DKIM signing configuration for the identity. When you set this value true , then the messages that are sent from the identity are signed using DKIM. If you set this value to false , your messages are sent without DKIM signing.
+    /// </summary>
+    [CliFlag("--signing-enabled", NegatedName = "--no-signing-enabled")]
     public bool? SigningEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

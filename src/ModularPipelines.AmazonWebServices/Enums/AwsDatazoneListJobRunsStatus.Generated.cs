@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListJobRunsStatus
 {
     [EnumValue("SCHEDULED")]
-    Scheduled = 1,
+    Scheduled,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("SUCCESS")]
-    Success = 3,
+    Success,
 
     [EnumValue("PARTIALLY_SUCCEEDED")]
-    PartiallySucceeded = 4,
+    PartiallySucceeded,
 
     [EnumValue("FAILED")]
-    Failed = 5,
+    Failed,
 
     [EnumValue("ABORTED")]
-    Aborted = 6,
+    Aborted,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 7,
+    TimedOut,
 
     [EnumValue("CANCELED")]
-    Canceled = 8
+    Canceled
 }

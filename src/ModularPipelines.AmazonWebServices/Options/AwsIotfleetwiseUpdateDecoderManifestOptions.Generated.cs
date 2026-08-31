@@ -77,7 +77,7 @@ public record AwsIotfleetwiseUpdateDecoderManifestOptions : AwsOptions
     /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . Possible values: o CUSTOM_DECODING
     /// </summary>
     [CliOption("--default-for-unmapped-signals")]
-    public AwsIotfleetwiseUpdateDecoderManifestDefaultForUnmappedSignals? DefaultForUnmappedSignals { get; set; }
+    public string? DefaultForUnmappedSignals { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

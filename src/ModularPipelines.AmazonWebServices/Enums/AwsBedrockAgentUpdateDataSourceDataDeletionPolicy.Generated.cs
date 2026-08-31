@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentUpdateDataSourceDataDeletionPolicy
 {
     [EnumValue("RETAIN")]
-    Retain = 1,
+    Retain,
 
     [EnumValue("DELETE")]
-    Delete = 2
+    Delete
 }

@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubListConnectorsV2ConnectorStatus
 {
     [EnumValue("CONNECTED")]
-    Connected = 1,
+    Connected,
 
     [EnumValue("DEGRADED")]
-    Degraded = 2,
+    Degraded,
 
     [EnumValue("FAILED_TO_CONNECT")]
-    FailedToConnect = 3,
+    FailedToConnect,
 
     [EnumValue("PENDING_AUTHORIZATION")]
-    PendingAuthorization = 4,
+    PendingAuthorization,
 
     [EnumValue("PENDING_CONFIGURATION")]
-    PendingConfiguration = 5,
+    PendingConfiguration,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 6
+    Unknown
 }

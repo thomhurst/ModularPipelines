@@ -73,7 +73,10 @@ public record AwsForecastCreateAutoPredictorOptions : AwsOptions
     [CliOption("--optimization-metric")]
     public AwsForecastCreateAutoPredictorOptimizationMetric? OptimizationMetric { get; set; }
 
-    [CliFlag("--explain-predictor")]
+    /// <summary>
+    /// Create an Explainability resource for the predictor.
+    /// </summary>
+    [CliFlag("--explain-predictor", NegatedName = "--no-explain-predictor")]
     public bool? ExplainPredictor { get; set; }
 
     /// <summary>

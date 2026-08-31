@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftUpdateGameServerGroupBalancingStrategy
 {
     [EnumValue("SPOT_ONLY")]
-    SpotOnly = 1,
+    SpotOnly,
 
     [EnumValue("SPOT_PREFERRED")]
-    SpotPreferred = 2,
+    SpotPreferred,
 
     [EnumValue("ON_DEMAND_ONLY")]
-    OnDemandOnly = 3
+    OnDemandOnly
 }

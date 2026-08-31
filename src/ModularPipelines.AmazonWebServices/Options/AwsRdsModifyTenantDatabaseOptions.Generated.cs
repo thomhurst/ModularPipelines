@@ -41,10 +41,16 @@ public record AwsRdsModifyTenantDatabaseOptions : AwsOptions
     [CliOption("--new-tenant-db-name")]
     public string? NewTenantDbName { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this manage- ment. In this case, you can't specify MasterUserPassword . If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, Ama- zon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
-    [CliFlag("--rotate-master-user-password")]
+    /// <summary>
+    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o You must apply the change immediately when rotating the master user password.
+    /// </summary>
+    [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
 
     /// <summary>

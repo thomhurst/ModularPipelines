@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -65,7 +64,7 @@ public record AwsGameliftUpdateContainerGroupDefinitionOptions : AwsOptions
     /// The platform that all containers in the group use. Containers in a group must run on the same operating system. NOTE: Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs . For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See Migrate to server SDK version 5. Possible values: o AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
-    public AwsGameliftUpdateContainerGroupDefinitionOperatingSystem? OperatingSystem { get; set; }
+    public string? OperatingSystem { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

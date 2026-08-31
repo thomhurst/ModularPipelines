@@ -31,7 +31,10 @@ public record AwsResiliencehubUpdateAppOptions : AwsOptions
     [CliOption("--assessment-schedule")]
     public AwsResiliencehubUpdateAppAssessmentSchedule? AssessmentSchedule { get; set; }
 
-    [CliFlag("--clear-resiliency-policy-arn")]
+    /// <summary>
+    /// Specifies if the resiliency policy ARN should be cleared.
+    /// </summary>
+    [CliFlag("--clear-resiliency-policy-arn", NegatedName = "--no-clear-resiliency-policy-arn")]
     public bool? ClearResiliencyPolicyArn { get; set; }
 
     /// <summary>

@@ -35,7 +35,7 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions
     public string? DataRepositoryPath { get; set; }
 
     /// <summary>
-    /// | --no-batch-im- port-meta-data-on-create (boolean) Set to true to run an import data repository task to import metadata from the data repository to the file system after the data reposi- tory association is created. Default is false .
+    /// port-meta-data-on-create (boolean) Set to true to run an import data repository task to import metadata from the data repository to the file system after the data reposi- tory association is created. Default is false .
     /// </summary>
     [CliFlag("--batch-import-meta-data-on-create")]
     public bool? BatchImportMetaDataOnCreate { get; set; }

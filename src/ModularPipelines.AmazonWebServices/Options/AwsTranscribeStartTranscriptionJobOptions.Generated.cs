@@ -95,10 +95,16 @@ public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions
     [CliOption("--content-redaction")]
     public string? ContentRedaction { get; set; }
 
-    [CliFlag("--identify-language")]
+    /// <summary>
+    /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use Identify- MultipleLanguages instead. If you include IdentifyLanguage , you can optionally include a list of language codes, using LanguageOptions , that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identifica- tion request, include LanguageIdSettings with the relevant sub-para- meters (VocabularyName , LanguageModelName , and VocabularyFilter- Name ). If you include LanguageIdSettings , also include LanguageOp- tions . Note that you must include one of LanguageCode , IdentifyLanguage , or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// </summary>
+    [CliFlag("--identify-language", NegatedName = "--no-identify-language")]
     public bool? IdentifyLanguage { get; set; }
 
-    [CliFlag("--identify-multiple-languages")]
+    /// <summary>
+    /// Enables automatic multi-language identification in your transcrip- tion job request. Use this parameter if your media file contains more than one language. If your media contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages , you can optionally in- clude a list of language codes, using LanguageOptions , that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary fil- ter to your automatic language identification request, include Lan- guageIdSettings with the relevant sub-parameters (VocabularyName and VocabularyFilterName ). If you include LanguageIdSettings , also in- clude LanguageOptions . Note that you must include one of LanguageCode , IdentifyLanguage , or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// </summary>
+    [CliFlag("--identify-multiple-languages", NegatedName = "--no-identify-multiple-languages")]
     public bool? IdentifyMultipleLanguages { get; set; }
 
     /// <summary>

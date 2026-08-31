@@ -6457,16 +6457,6 @@ public interface IAwsEc2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceAttributeAsync(AwsEc2ModifyInstanceAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6717,16 +6707,6 @@ public interface IAwsEc2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and de- tach security groups from an existing EC2 instance. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyNetworkInterfaceAttributeAsync(AwsEc2ModifyNetworkInterfaceAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Modifies the options for instance hostnames for the specified instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6957,16 +6937,6 @@ public interface IAwsEc2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recom- mend that you change this only for boot volumes or for volumes that are stateless or dis...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVolumeAttributeAsync(AwsEc2ModifyVolumeAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is at- tached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the vol- ume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6974,16 +6944,6 @@ public interface IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ModifyVolumeAsync(AwsEc2ModifyVolumeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Modifies the specified attribute of the specified VPC. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcAttributeAsync(AwsEc2ModifyVpcAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

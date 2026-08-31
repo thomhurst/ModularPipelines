@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListOrganizationRecommendationResourcesExclusionStatus
 {
     [EnumValue("excluded")]
-    Excluded = 1,
+    Excluded,
 
     [EnumValue("included")]
-    Included = 2
+    Included
 }

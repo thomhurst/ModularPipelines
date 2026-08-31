@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsS3apiListObjectVersionsOptions : AwsOptions
     /// Encoding type used by Amazon S3 to encode the object keys in the re- sponse. Responses are encoded only in UTF-8. An object key can con- tain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the re- sponse. For more information about characters to avoid in object key names, see Object key naming guidelines . NOTE: When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png . Possible values: o url
     /// </summary>
     [CliOption("--encoding-type")]
-    public AwsS3apiListObjectVersionsEncodingType? EncodingType { get; set; }
+    public string? EncodingType { get; set; }
 
     /// <summary>
     /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way that you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes .
@@ -54,7 +53,7 @@ public record AwsS3apiListObjectVersionsOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiListObjectVersionsRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// Specifies the optional fields that you want returned in the re- sponse. Fields that you do not specify are not returned. (string) Possible values: o RestoreStatus Syntax: "string" "string" ...

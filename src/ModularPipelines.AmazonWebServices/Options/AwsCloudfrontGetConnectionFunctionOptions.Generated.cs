@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "get-connection-function")]
-public record AwsCloudfrontGetConnectionFunctionOptions : AwsOptions
+public record AwsCloudfrontGetConnectionFunctionOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--identifier")]
     public string? Identifier { get; set; }

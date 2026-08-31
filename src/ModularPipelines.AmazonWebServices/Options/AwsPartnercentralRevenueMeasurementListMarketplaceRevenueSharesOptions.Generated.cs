@@ -42,7 +42,7 @@ public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOpt
     /// The field to sort marketplace revenue shares by. Possible values: o LastModifiedDate
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The direction to sort results. Possible values: o ASCENDING o DESCENDING

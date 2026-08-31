@@ -27,7 +27,10 @@ public record AwsIotGetCommandExecutionOptions : AwsOptions
     [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
 
-    [CliFlag("--include-result")]
+    /// <summary>
+    /// Can be used to specify whether to include the result of the command execution in the GetCommandExecution API response. Your device can use this field to provide additional information about the command execution. You only need to specify this field when using the AWS-IoT namespace.
+    /// </summary>
+    [CliFlag("--include-result", NegatedName = "--no-include-result")]
     public bool? IncludeResult { get; set; }
 
     [CliOption("--cli-input-json")]

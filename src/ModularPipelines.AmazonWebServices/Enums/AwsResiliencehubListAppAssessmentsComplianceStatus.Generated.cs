@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubListAppAssessmentsComplianceStatus
 {
     [EnumValue("PolicyBreached")]
-    PolicyBreached = 1,
+    PolicyBreached,
 
     [EnumValue("PolicyMet")]
-    PolicyMet = 2,
+    PolicyMet,
 
     [EnumValue("NotApplicable")]
-    NotApplicable = 3,
+    NotApplicable,
 
     [EnumValue("MissingPolicy")]
-    MissingPolicy = 4
+    MissingPolicy
 }

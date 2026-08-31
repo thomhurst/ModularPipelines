@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlUpdatePolicyEnforcementMode
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("LOG_ONLY")]
-    LogOnly = 2
+    LogOnly
 }

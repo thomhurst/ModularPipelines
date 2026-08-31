@@ -55,7 +55,10 @@ public record AwsGlueCreateTriggerOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--start-on-creation")]
+    /// <summary>
+    /// Set to true to start SCHEDULED and CONDITIONAL triggers when cre- ated. True is not supported for ON_DEMAND triggers.
+    /// </summary>
+    [CliFlag("--start-on-creation", NegatedName = "--no-start-on-creation")]
     public bool? StartOnCreation { get; set; }
 
     /// <summary>

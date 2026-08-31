@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDataUpdateGroupGroupType
 {
     [EnumValue("Distribution")]
-    Distribution = 1,
+    Distribution,
 
     [EnumValue("Security")]
-    Security = 2
+    Security
 }

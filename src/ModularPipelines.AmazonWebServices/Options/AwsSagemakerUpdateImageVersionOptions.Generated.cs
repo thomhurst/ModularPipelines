@@ -73,7 +73,10 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions
     [CliOption("--processor")]
     public AwsSagemakerUpdateImageVersionProcessor? Processor { get; set; }
 
-    [CliFlag("--horovod")]
+    /// <summary>
+    /// Indicates Horovod compatibility.
+    /// </summary>
+    [CliFlag("--horovod", NegatedName = "--no-horovod")]
     public bool? Horovod { get; set; }
 
     /// <summary>

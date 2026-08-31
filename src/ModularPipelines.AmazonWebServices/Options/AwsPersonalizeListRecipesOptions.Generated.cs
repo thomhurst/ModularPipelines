@@ -27,7 +27,7 @@ public record AwsPersonalizeListRecipesOptions : AwsOptions
     /// The default is SERVICE . Possible values: o SERVICE
     /// </summary>
     [CliOption("--recipe-provider")]
-    public AwsPersonalizeListRecipesRecipeProvider? RecipeProvider { get; set; }
+    public string? RecipeProvider { get; set; }
 
     /// <summary>
     /// Filters returned recipes by domain for a Domain dataset group. Only recipes (Domain dataset group use cases) for this domain are in- cluded in the response. If you don't specify a domain, all recipes are returned. Possible values: o ECOMMERCE o VIDEO_ON_DEMAND

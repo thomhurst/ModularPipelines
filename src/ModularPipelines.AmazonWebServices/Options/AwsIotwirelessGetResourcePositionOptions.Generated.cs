@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "get-resource-position")]
-public record AwsIotwirelessGetResourcePositionOptions : AwsOptions
+public record AwsIotwirelessGetResourcePositionOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }

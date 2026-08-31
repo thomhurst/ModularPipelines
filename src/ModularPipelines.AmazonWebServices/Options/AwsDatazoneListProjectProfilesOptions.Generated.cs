@@ -36,7 +36,7 @@ public record AwsDatazoneListProjectProfilesOptions : AwsOptions
     /// Specifies by what to sort project profiles. Possible values: o NAME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsDatazoneListProjectProfilesSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies the sort order of the project profiles. Possible values: o ASCENDING o DESCENDING

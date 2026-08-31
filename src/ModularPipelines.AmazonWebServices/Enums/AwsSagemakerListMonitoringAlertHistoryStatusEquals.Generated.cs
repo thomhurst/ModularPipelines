@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListMonitoringAlertHistoryStatusEquals
 {
     [EnumValue("InAlert")]
-    InAlert = 1,
+    InAlert,
 
     [EnumValue("OK")]
-    Ok = 2
+    Ok
 }

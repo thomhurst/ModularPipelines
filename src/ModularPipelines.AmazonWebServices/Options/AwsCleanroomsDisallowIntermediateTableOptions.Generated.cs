@@ -27,7 +27,10 @@ public record AwsCleanroomsDisallowIntermediateTableOptions : AwsOptions
     [CliOption("--intermediate-table-name")]
     public string? IntermediateTableName { get; set; }
 
-    [CliFlag("--include-descendants")]
+    /// <summary>
+    /// Specifies whether to cascade the disallow action to descendant in- termediate tables. Default is true .
+    /// </summary>
+    [CliFlag("--include-descendants", NegatedName = "--no-include-descendants")]
     public bool? IncludeDescendants { get; set; }
 
     [CliOption("--cli-input-json")]

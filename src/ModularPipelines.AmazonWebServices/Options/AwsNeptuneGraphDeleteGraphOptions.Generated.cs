@@ -24,7 +24,7 @@ public record AwsNeptuneGraphDeleteGraphOptions : AwsOptions
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; set; }
 
-    [CliFlag("--skip-snapshot")]
+    [CliFlag("--skip-snapshot", NegatedName = "--no-skip-snapshot")]
     public bool? SkipSnapshot { get; set; }
 
     [CliOption("--cli-input-json")]

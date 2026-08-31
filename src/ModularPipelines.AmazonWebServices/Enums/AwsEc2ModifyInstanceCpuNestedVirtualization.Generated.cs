@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyInstanceCpuNestedVirtualization
 {
     [EnumValue("enabled")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("disabled")]
-    Disabled = 2
+    Disabled
 }

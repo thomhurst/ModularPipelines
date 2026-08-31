@@ -32,7 +32,10 @@ public record AwsWorkdocsGetFolderOptions : AwsOptions
     [CliOption("--folder-id")]
     public string? FolderId { get; set; }
 
-    [CliFlag("--include-custom-metadata")]
+    /// <summary>
+    /// Set to TRUE to include custom metadata in the response.
+    /// </summary>
+    [CliFlag("--include-custom-metadata", NegatedName = "--no-include-custom-metadata")]
     public bool? IncludeCustomMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

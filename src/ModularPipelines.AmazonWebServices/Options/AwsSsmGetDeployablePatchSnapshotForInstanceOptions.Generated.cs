@@ -33,7 +33,10 @@ public record AwsSsmGetDeployablePatchSnapshotForInstanceOptions : AwsOptions
     [CliOption("--baseline-override")]
     public string? BaselineOverride { get; set; }
 
-    [CliFlag("--use-s3-dual-stack-endpoint")]
+    /// <summary>
+    /// Specifies whether to use S3 dualstack endpoints for the patch snap- shot download URL. Set to true to receive a presigned URL that sup- ports both IPv4 and IPv6 connectivity. Set to false to use standard IPv4-only endpoints. Default is false . This parameter is required for managed nodes in IPv6-only environments.
+    /// </summary>
+    [CliFlag("--use-s3-dual-stack-endpoint", NegatedName = "--no-use-s3-dual-stack-endpoint")]
     public bool? UseS3DualStackEndpoint { get; set; }
 
     [CliOption("--cli-input-json")]

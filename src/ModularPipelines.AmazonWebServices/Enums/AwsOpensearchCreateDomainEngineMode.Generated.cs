@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchCreateDomainEngineMode
 {
     [EnumValue("GENERAL")]
-    General = 1,
+    General,
 
     [EnumValue("OPTIMIZED")]
-    Optimized = 2
+    Optimized
 }

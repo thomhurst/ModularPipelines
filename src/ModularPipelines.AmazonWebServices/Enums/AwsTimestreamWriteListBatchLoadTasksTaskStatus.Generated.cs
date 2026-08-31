@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamWriteListBatchLoadTasksTaskStatus
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 4,
+    Succeeded,
 
     [EnumValue("PROGRESS_STOPPED")]
-    ProgressStopped = 5,
+    ProgressStopped,
 
     [EnumValue("PENDING_RESUME")]
-    PendingResume = 6
+    PendingResume
 }

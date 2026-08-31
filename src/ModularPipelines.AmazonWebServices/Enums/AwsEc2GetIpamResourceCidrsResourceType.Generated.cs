@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2GetIpamResourceCidrsResourceType
 {
     [EnumValue("vpc")]
-    Vpc = 1,
+    Vpc,
 
     [EnumValue("subnet")]
-    Subnet = 2,
+    Subnet,
 
     [EnumValue("eip")]
-    Eip = 3,
+    Eip,
 
     [EnumValue("public-ipv4-pool")]
-    PublicIpv4Pool = 4,
+    PublicIpv4Pool,
 
     [EnumValue("ipv6-pool")]
-    Ipv6Pool = 5,
+    Ipv6Pool,
 
     [EnumValue("eni")]
-    Eni = 6,
+    Eni,
 
     [EnumValue("anycast-ip-list")]
-    AnycastIpList = 7
+    AnycastIpList
 }

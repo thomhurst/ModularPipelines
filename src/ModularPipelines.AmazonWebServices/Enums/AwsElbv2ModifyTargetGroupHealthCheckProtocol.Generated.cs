@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2ModifyTargetGroupHealthCheckProtocol
 {
     [EnumValue("HTTP")]
-    Http = 1,
+    Http,
 
     [EnumValue("HTTPS")]
-    Https = 2,
+    Https,
 
     [EnumValue("TCP")]
-    Tcp = 3,
+    Tcp,
 
     [EnumValue("TLS")]
-    Tls = 4,
+    Tls,
 
     [EnumValue("UDP")]
-    Udp = 5,
+    Udp,
 
     [EnumValue("TCP_UDP")]
-    TcpUdp = 6,
+    TcpUdp,
 
     [EnumValue("GENEVE")]
-    Geneve = 7,
+    Geneve,
 
     [EnumValue("QUIC")]
-    Quic = 8,
+    Quic,
 
     [EnumValue("TCP_QUIC")]
-    TcpQuic = 9
+    TcpQuic
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMturkUpdateQualificationTypeQualificationTypeStatus
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Inactive")]
-    Inactive = 2
+    Inactive
 }

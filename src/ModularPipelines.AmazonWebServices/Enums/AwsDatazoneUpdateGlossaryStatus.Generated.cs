@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneUpdateGlossaryStatus
 {
     [EnumValue("DISABLED")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("ENABLED")]
-    Enabled = 2
+    Enabled
 }

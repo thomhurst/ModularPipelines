@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDescribeScheduledActionsTargetActionType
 {
     [EnumValue("ResizeCluster")]
-    ResizeCluster = 1,
+    ResizeCluster,
 
     [EnumValue("PauseCluster")]
-    PauseCluster = 2,
+    PauseCluster,
 
     [EnumValue("ResumeCluster")]
-    ResumeCluster = 3
+    ResumeCluster
 }

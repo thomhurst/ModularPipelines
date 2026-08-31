@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessListDataSourceSyncJobsStatusFilter
 {
     [EnumValue("FAILED")]
-    Failed = 1,
+    Failed,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 2,
+    Succeeded,
 
     [EnumValue("SYNCING")]
-    Syncing = 3,
+    Syncing,
 
     [EnumValue("INCOMPLETE")]
-    Incomplete = 4,
+    Incomplete,
 
     [EnumValue("STOPPING")]
-    Stopping = 5,
+    Stopping,
 
     [EnumValue("ABORTED")]
-    Aborted = 6,
+    Aborted,
 
     [EnumValue("SYNCING_INDEXING")]
-    SyncingIndexing = 7
+    SyncingIndexing
 }

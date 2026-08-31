@@ -54,6 +54,9 @@ public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions
     [CliOption("--new-table-name")]
     public string? NewTableName { get; set; }
 
+    /// <summary>
+    /// fier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true , the names are case sensitive. If false (default), the names are not case sensitive.
+    /// </summary>
     [CliFlag("--enable-case-sensitive-identifier")]
     public bool? EnableCaseSensitiveIdentifier { get; set; }
 

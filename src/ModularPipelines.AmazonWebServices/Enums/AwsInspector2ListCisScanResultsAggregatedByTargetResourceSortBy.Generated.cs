@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScanResultsAggregatedByTargetResourceSortBy
 {
     [EnumValue("RESOURCE_ID")]
-    ResourceId = 1,
+    ResourceId,
 
     [EnumValue("FAILED_COUNTS")]
-    FailedCounts = 2,
+    FailedCounts,
 
     [EnumValue("ACCOUNT_ID")]
-    AccountId = 3,
+    AccountId,
 
     [EnumValue("PLATFORM")]
-    Platform = 4,
+    Platform,
 
     [EnumValue("TARGET_STATUS")]
-    TargetStatus = 5,
+    TargetStatus,
 
     [EnumValue("TARGET_STATUS_REASON")]
-    TargetStatusReason = 6
+    TargetStatusReason
 }

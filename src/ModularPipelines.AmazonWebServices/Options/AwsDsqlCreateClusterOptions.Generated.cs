@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dsql", "create-cluster")]
 public record AwsDsqlCreateClusterOptions : AwsOptions
 {
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -57,6 +60,9 @@ public record AwsDsqlCreateClusterOptions : AwsOptions
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
+    /// <summary>
+    /// out-safety-check (boolean) An optional field that controls whether to bypass the lockout pre- vention check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    /// </summary>
     [CliFlag("--bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 

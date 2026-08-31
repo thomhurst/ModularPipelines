@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsCreateTaskSetLaunchType
 {
     [EnumValue("EC2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("FARGATE")]
-    Fargate = 2,
+    Fargate,
 
     [EnumValue("EXTERNAL")]
-    External = 3,
+    External,
 
     [EnumValue("MANAGED_INSTANCES")]
-    ManagedInstances = 4
+    ManagedInstances
 }

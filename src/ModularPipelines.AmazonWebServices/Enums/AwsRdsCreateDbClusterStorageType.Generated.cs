@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbClusterStorageType
 {
     [EnumValue("Aurora")]
-    Aurora = 1,
+    Aurora,
 
     [EnumValue("DB")]
-    Db = 2,
+    Db,
 
     [EnumValue("clusters")]
-    Clusters = 3
+    Clusters
 }

@@ -29,7 +29,7 @@ public record AwsWafv2GetLoggingConfigurationOptions : AwsOptions
     /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS Possible values: o WAF_LOGS
     /// </summary>
     [CliOption("--log-type")]
-    public AwsWafv2GetLoggingConfigurationLogType? LogType { get; set; }
+    public string? LogType { get; set; }
 
     /// <summary>
     /// The owner of the logging configuration, which must be set to CUS- TOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is man- aged through Amazon Security Lake. You can use Security Lake to col- lect log and event data from various sources for normalization, analysis, and management. For information, see Collecting data from Amazon Web Services services in the Amazon Security Lake user guide . The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configu- ration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see What is Amazon CloudWatch Logs ? in the Amazon CloudWatch Logs user guide . Default: CUSTOMER Possible values: o CUSTOMER o SECURITY_LAKE o CLOUDWATCH_TELEMETRY_RULE_MANAGED

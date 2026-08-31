@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateAutonomousDatabaseEncryptionKeyProvider
 {
     [EnumValue("ORACLE_MANAGED")]
-    OracleManaged = 1,
+    OracleManaged,
 
     [EnumValue("AWS_KMS")]
-    AwsKms = 2
+    AwsKms
 }

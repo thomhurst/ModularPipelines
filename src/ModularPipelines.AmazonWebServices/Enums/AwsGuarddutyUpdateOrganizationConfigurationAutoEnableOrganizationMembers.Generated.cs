@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGuarddutyUpdateOrganizationConfigurationAutoEnableOrganizationMembers
 {
     [EnumValue("NEW")]
-    New = 1,
+    New,
 
     [EnumValue("ALL")]
-    All = 2,
+    All,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

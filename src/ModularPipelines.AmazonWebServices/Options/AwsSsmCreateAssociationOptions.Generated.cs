@@ -98,7 +98,10 @@ public record AwsSsmCreateAssociationOptions : AwsOptions
     [CliOption("--sync-compliance")]
     public AwsSsmCreateAssociationSyncCompliance? SyncCompliance { get; set; }
 
-    [CliFlag("--apply-only-at-cron-interval")]
+    /// <summary>
+    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronInterval if you want the association to run only ac- cording to the schedule you specified. For more information, see Understanding when associations are ap- plied to resources and &gt;About target updates with Automation run- books in the Amazon Web Services Systems Manager User Guide . This parameter isn't supported for rate expressions.
+    /// </summary>
+    [CliFlag("--apply-only-at-cron-interval", NegatedName = "--no-apply-only-at-cron-interval")]
     public bool? ApplyOnlyAtCronInterval { get; set; }
 
     /// <summary>

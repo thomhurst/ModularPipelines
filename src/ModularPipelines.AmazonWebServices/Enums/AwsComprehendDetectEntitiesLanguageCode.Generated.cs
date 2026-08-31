@@ -17,38 +17,38 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComprehendDetectEntitiesLanguageCode
 {
     [EnumValue("en")]
-    En = 1,
+    En,
 
     [EnumValue("es")]
-    Es = 2,
+    Es,
 
     [EnumValue("fr")]
-    Fr = 3,
+    Fr,
 
     [EnumValue("de")]
-    De = 4,
+    De,
 
     [EnumValue("it")]
-    It = 5,
+    It,
 
     [EnumValue("pt")]
-    Pt = 6,
+    Pt,
 
     [EnumValue("ar")]
-    Ar = 7,
+    Ar,
 
     [EnumValue("hi")]
-    Hi = 8,
+    Hi,
 
     [EnumValue("ja")]
-    Ja = 9,
+    Ja,
 
     [EnumValue("ko")]
-    Ko = 10,
+    Ko,
 
     [EnumValue("zh")]
-    Zh = 11,
+    Zh,
 
     [EnumValue("zh-TW")]
-    ZhTw = 12
+    ZhTw
 }

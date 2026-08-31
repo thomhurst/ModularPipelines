@@ -27,7 +27,10 @@ public record AwsDatazoneGetConnectionOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--with-secret")]
+    /// <summary>
+    /// Specifies whether a connection has a secret.
+    /// </summary>
+    [CliFlag("--with-secret", NegatedName = "--no-with-secret")]
     public bool? WithSecret { get; set; }
 
     [CliOption("--cli-input-json")]

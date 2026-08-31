@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployListApplicationRevisionsDeployed
 {
     [EnumValue("include")]
-    Include = 1,
+    Include,
 
     [EnumValue("exclude")]
-    Exclude = 2,
+    Exclude,
 
     [EnumValue("ignore")]
-    Ignore = 3
+    Ignore
 }

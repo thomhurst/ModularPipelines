@@ -27,7 +27,10 @@ public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliFlag("--enable-www-subdomain")]
+    /// <summary>
+    /// Set to true to associate the subdomain `` www.*DomainName* `` with the App Runner service in addition to the base domain. System Message: WARNING/2 (&lt;string&gt;:, line 118) Inline literal start-string without end-string. Default: true
+    /// </summary>
+    [CliFlag("--enable-www-subdomain", NegatedName = "--no-enable-www-subdomain")]
     public bool? EnableWwwSubdomain { get; set; }
 
     [CliOption("--cli-input-json")]

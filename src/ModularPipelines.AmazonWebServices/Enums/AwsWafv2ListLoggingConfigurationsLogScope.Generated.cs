@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafv2ListLoggingConfigurationsLogScope
 {
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("SECURITY_LAKE")]
-    SecurityLake = 2
+    SecurityLake
 }

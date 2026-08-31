@@ -49,16 +49,28 @@ public record AwsRoute53resolverUpdateResolverEndpointOptions : AwsOptions
     [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
-    [CliFlag("--rni-enhanced-metrics-enabled")]
+    /// <summary>
+    /// Updates whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are pub- lished in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
+    /// </summary>
+    [CliFlag("--rni-enhanced-metrics-enabled", NegatedName = "--no-rni-enhanced-metrics-enabled")]
     public bool? RniEnhancedMetricsEnabled { get; set; }
 
+    /// <summary>
+    /// rics-enabled (boolean) Updates whether target name server metrics are enabled for the out- bound Resolver endpoints. When set to true, one-minute granular met- rics are published in CloudWatch for each target name server associ- ated with this endpoint. When set to false, metrics are not pub- lished. This setting is not supported for inbound Resolver end- points. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
+    /// </summary>
     [CliFlag("--target-name-server-metrics-enabled")]
     public bool? TargetNameServerMetricsEnabled { get; set; }
 
-    [CliFlag("--dns64-enabled")]
+    /// <summary>
+    /// Specifies whether DNS64 is enabled for the inbound Resolver end- point. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation.
+    /// </summary>
+    [CliFlag("--dns64-enabled", NegatedName = "--no-dns64-enabled")]
     public bool? Dns64Enabled { get; set; }
 
-    [CliFlag("--ipv6-internet-access-enabled")]
+    /// <summary>
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to pro- tect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
+    /// </summary>
+    [CliFlag("--ipv6-internet-access-enabled", NegatedName = "--no-ipv6-internet-access-enabled")]
     public bool? Ipv6InternetAccessEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

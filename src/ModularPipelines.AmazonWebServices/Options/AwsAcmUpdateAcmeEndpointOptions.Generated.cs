@@ -29,7 +29,7 @@ public record AwsAcmUpdateAcmeEndpointOptions : AwsOptions
     /// The updated authorization behavior. Possible values: o PRE_APPROVED
     /// </summary>
     [CliOption("--authorization-behavior")]
-    public AwsAcmUpdateAcmeEndpointAuthorizationBehavior? AuthorizationBehavior { get; set; }
+    public string? AuthorizationBehavior { get; set; }
 
     /// <summary>
     /// The updated contact requirement. Possible values: o REQUIRED o NOT_REQUIRED

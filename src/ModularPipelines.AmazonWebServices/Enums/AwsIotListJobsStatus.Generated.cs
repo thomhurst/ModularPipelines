@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListJobsStatus
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("CANCELED")]
-    Canceled = 2,
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("DELETION_IN_PROGRESS")]
-    DeletionInProgress = 4,
+    DeletionInProgress,
 
     [EnumValue("SCHEDULED")]
-    Scheduled = 5
+    Scheduled
 }

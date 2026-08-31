@@ -24,7 +24,10 @@ public record AwsNeptuneResetDbParameterGroupOptions : AwsOptions
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Specifies whether (true ) or not (false ) to reset all parameters in the DB parameter group to default values. Default: true
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>

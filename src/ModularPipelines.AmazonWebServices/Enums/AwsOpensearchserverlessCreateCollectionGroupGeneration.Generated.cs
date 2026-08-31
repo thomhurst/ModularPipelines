@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchserverlessCreateCollectionGroupGeneration
 {
     [EnumValue("CLASSIC")]
-    Classic = 1,
+    Classic,
 
     [EnumValue("NEXTGEN")]
-    Nextgen = 2
+    Nextgen
 }

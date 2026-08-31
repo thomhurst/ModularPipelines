@@ -27,6 +27,9 @@ public record AwsWorkmailCreateGroupOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
+    /// <summary>
+    /// dress-list (boolean) If this parameter is enabled, the group will be hidden from the ad- dress book.
+    /// </summary>
     [CliFlag("--hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 

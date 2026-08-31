@@ -541,14 +541,4 @@ public interface IAwsCodebuild
     public Task<CommandResult> UpdateReportGroupAsync(AwsCodebuildUpdateReportGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Updates the webhook associated with an CodeBuild build project. NOTE: If you use Bitbucket for your repository, rotateSecret is ignored. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWebhookAsync(AwsCodebuildUpdateWebhookOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
 }

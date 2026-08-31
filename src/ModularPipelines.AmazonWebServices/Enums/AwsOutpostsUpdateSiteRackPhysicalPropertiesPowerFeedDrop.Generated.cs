@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerFeedDrop
 {
     [EnumValue("ABOVE_RACK")]
-    AboveRack = 1,
+    AboveRack,
 
     [EnumValue("BELOW_RACK")]
-    BelowRack = 2
+    BelowRack
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDaxCreateClusterNetworkType
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("ipv6")]
-    Ipv6 = 2,
+    Ipv6,
 
     [EnumValue("dual_stack")]
-    DualStack = 3
+    DualStack
 }

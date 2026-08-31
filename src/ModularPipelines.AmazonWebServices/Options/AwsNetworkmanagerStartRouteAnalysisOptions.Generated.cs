@@ -30,10 +30,16 @@ public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions
     [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CliFlag("--include-return-path")]
+    /// <summary>
+    /// Indicates whether to analyze the return path. The default is false .
+    /// </summary>
+    [CliFlag("--include-return-path", NegatedName = "--no-include-return-path")]
     public bool? IncludeReturnPath { get; set; }
 
-    [CliFlag("--use-middleboxes")]
+    /// <summary>
+    /// Indicates whether to include the location of middlebox appliances in the route analysis. The default is false .
+    /// </summary>
+    [CliFlag("--use-middleboxes", NegatedName = "--no-use-middleboxes")]
     public bool? UseMiddleboxes { get; set; }
 
     [CliOption("--cli-input-json")]

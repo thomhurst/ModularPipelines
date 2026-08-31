@@ -24,7 +24,10 @@ public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created be- fore your database is deleted. You must specify the final relational database snapshot name parame- ter if the skip final snapshot parameter is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>

@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotUpdateScheduledAuditDayOfWeek
 {
     [EnumValue("SUN")]
-    Sun = 1,
+    Sun,
 
     [EnumValue("MON")]
-    Mon = 2,
+    Mon,
 
     [EnumValue("TUE")]
-    Tue = 3,
+    Tue,
 
     [EnumValue("WED")]
-    Wed = 4,
+    Wed,
 
     [EnumValue("THU")]
-    Thu = 5,
+    Thu,
 
     [EnumValue("FRI")]
-    Fri = 6,
+    Fri,
 
     [EnumValue("SAT")]
-    Sat = 7
+    Sat
 }

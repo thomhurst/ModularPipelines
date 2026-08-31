@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnecthealthListDomainsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("DELETING")]
-    Deleting = 2,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 3
+    Deleted
 }

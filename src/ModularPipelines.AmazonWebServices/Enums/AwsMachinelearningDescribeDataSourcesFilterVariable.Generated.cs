@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMachinelearningDescribeDataSourcesFilterVariable
 {
     [EnumValue("CreatedAt")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("LastUpdatedAt")]
-    LastUpdatedAt = 2,
+    LastUpdatedAt,
 
     [EnumValue("Status")]
-    Status = 3,
+    Status,
 
     [EnumValue("Name")]
-    Name = 4,
+    Name,
 
     [EnumValue("DataLocationS3")]
-    DataLocationS3 = 5,
+    DataLocationS3,
 
     [EnumValue("IAMUser")]
-    IamUser = 6
+    IamUser
 }

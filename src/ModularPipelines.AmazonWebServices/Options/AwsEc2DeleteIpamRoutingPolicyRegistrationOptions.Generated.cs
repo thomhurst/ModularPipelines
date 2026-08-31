@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "delete-ipam-routing-policy-registration")]
 public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-internet-registry-association-id")]
@@ -31,7 +34,10 @@ public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions
     [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the deletion even if it conflicts with an announced route. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

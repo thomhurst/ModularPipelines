@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlPlaybackMode
 {
     [EnumValue("LIVE")]
-    Live = 1,
+    Live,
 
     [EnumValue("LIVE_REPLAY")]
-    LiveReplay = 2,
+    LiveReplay,
 
     [EnumValue("ON_DEMAND")]
-    OnDemand = 3
+    OnDemand
 }

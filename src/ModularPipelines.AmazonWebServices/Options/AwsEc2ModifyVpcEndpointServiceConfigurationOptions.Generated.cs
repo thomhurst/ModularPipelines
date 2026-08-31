@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-vpc-endpoint-service-configuration")]
 public record AwsEc2ModifyVpcEndpointServiceConfigurationOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--service-id")]
@@ -33,10 +36,16 @@ public record AwsEc2ModifyVpcEndpointServiceConfigurationOptions : AwsOptions
     [CliOption("--private-dns-name")]
     public string? PrivateDnsName { get; set; }
 
-    [CliFlag("--remove-private-dns-name")]
+    /// <summary>
+    /// (Interface endpoint configuration) Removes the private DNS name of the endpoint service.
+    /// </summary>
+    [CliFlag("--remove-private-dns-name", NegatedName = "--no-remove-private-dns-name")]
     public bool? RemovePrivateDnsName { get; set; }
 
-    [CliFlag("--acceptance-required")]
+    /// <summary>
+    /// Indicates whether requests to create an endpoint to the service must be accepted.
+    /// </summary>
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     /// <summary>

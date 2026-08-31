@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafRegionalListResourcesForWebAclResourceType
 {
     [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 1,
+    ApplicationLoadBalancer,
 
     [EnumValue("API_GATEWAY")]
-    ApiGateway = 2
+    ApiGateway
 }

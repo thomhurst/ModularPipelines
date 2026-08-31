@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListServicesResourceManagementType
 {
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("ECS")]
-    Ecs = 2
+    Ecs
 }

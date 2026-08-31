@@ -24,7 +24,10 @@ public record AwsIamGetDelegationRequestOptions : AwsOptions
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; set; }
 
-    [CliFlag("--delegation-permission-check")]
+    /// <summary>
+    /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a per- mission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckRe- sult response attributes for further details.
+    /// </summary>
+    [CliFlag("--delegation-permission-check", NegatedName = "--no-delegation-permission-check")]
     public bool? DelegationPermissionCheck { get; set; }
 
     [CliOption("--cli-input-json")]

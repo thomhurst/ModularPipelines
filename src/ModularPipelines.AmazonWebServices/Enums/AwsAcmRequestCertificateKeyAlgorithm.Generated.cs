@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAcmRequestCertificateKeyAlgorithm
 {
     [EnumValue("RSA_1024")]
-    Rsa_1024 = 1,
+    Rsa_1024,
 
     [EnumValue("RSA_2048")]
-    Rsa_2048 = 2,
+    Rsa_2048,
 
     [EnumValue("RSA_3072")]
-    Rsa_3072 = 3,
+    Rsa_3072,
 
     [EnumValue("RSA_4096")]
-    Rsa_4096 = 4,
+    Rsa_4096,
 
     [EnumValue("EC_prime256v1")]
-    EcPrime256v1 = 5,
+    EcPrime256v1,
 
     [EnumValue("EC_secp384r1")]
-    EcSecp384r1 = 6,
+    EcSecp384r1,
 
     [EnumValue("EC_secp521r1")]
-    EcSecp521r1 = 7
+    EcSecp521r1
 }

@@ -48,7 +48,10 @@ public record AwsRdsCreateGlobalClusterOptions : AwsOptions
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the new global database cluster. The global database can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -57,7 +60,10 @@ public record AwsRdsCreateGlobalClusterOptions : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether to enable storage encryption for the new global database cluster. Constraints: o Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB clus- ter.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>

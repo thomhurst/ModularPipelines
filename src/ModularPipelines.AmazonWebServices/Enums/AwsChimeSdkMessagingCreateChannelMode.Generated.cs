@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkMessagingCreateChannelMode
 {
     [EnumValue("UNRESTRICTED")]
-    Unrestricted = 1,
+    Unrestricted,
 
     [EnumValue("RESTRICTED")]
-    Restricted = 2
+    Restricted
 }

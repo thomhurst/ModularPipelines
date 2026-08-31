@@ -24,7 +24,10 @@ public record AwsMachinelearningGetDataSourceOptions : AwsOptions
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CliFlag("--verbose")]
+    /// <summary>
+    /// Specifies whether the GetDataSource operation should return Data- SourceSchema . If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
+    /// </summary>
+    [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }
 
     [CliOption("--cli-input-json")]

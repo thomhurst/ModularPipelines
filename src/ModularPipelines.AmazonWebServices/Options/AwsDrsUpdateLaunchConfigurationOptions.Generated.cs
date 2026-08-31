@@ -43,10 +43,16 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Whether we want to copy the tags of the Source Server to the EC2 ma- chine of the Recovery Instance.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -55,7 +61,10 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--licensing")]
     public string? Licensing { get; set; }
 
-    [CliFlag("--post-launch-enabled")]
+    /// <summary>
+    /// Whether we want to enable post-launch actions for the Source Server.
+    /// </summary>
+    [CliFlag("--post-launch-enabled", NegatedName = "--no-post-launch-enabled")]
     public bool? PostLaunchEnabled { get; set; }
 
     /// <summary>

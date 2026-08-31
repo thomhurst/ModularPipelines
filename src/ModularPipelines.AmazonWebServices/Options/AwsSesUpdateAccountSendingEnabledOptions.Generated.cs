@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ses", "update-account-sending-enabled")]
 public record AwsSesUpdateAccountSendingEnabledOptions : AwsOptions
 {
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Describes whether email sending is enabled or disabled for your Ama- zon SES account in the current Amazon Web Services Region.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

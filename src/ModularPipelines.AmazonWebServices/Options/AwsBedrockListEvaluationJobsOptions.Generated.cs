@@ -57,7 +57,7 @@ public record AwsBedrockListEvaluationJobsOptions : AwsOptions
     /// Specifies a creation time to sort the list of evaluation jobs by when they were created. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListEvaluationJobsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies whether to sort the list of evaluation jobs by either as- cending or descending order. Possible values: o Ascending o Descending

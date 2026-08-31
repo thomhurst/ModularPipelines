@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2ListImportJobsImportDestinationType
 {
     [EnumValue("SUPPRESSION_LIST")]
-    SuppressionList = 1,
+    SuppressionList,
 
     [EnumValue("CONTACT_LIST")]
-    ContactList = 2
+    ContactList
 }

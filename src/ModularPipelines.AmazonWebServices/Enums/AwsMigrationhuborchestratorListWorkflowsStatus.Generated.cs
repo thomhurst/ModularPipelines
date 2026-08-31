@@ -17,44 +17,44 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhuborchestratorListWorkflowsStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("NOT_STARTED")]
-    NotStarted = 2,
+    NotStarted,
 
     [EnumValue("CREATION_FAILED")]
-    CreationFailed = 3,
+    CreationFailed,
 
     [EnumValue("STARTING")]
-    Starting = 4,
+    Starting,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 5,
+    InProgress,
 
     [EnumValue("WORKFLOW_FAILED")]
-    WorkflowFailed = 6,
+    WorkflowFailed,
 
     [EnumValue("PAUSED")]
-    Paused = 7,
+    Paused,
 
     [EnumValue("PAUSING")]
-    Pausing = 8,
+    Pausing,
 
     [EnumValue("PAUSING_FAILED")]
-    PausingFailed = 9,
+    PausingFailed,
 
     [EnumValue("USER_ATTENTION_REQUIRED")]
-    UserAttentionRequired = 10,
+    UserAttentionRequired,
 
     [EnumValue("DELETING")]
-    Deleting = 11,
+    Deleting,
 
     [EnumValue("DELETION_FAILED")]
-    DeletionFailed = 12,
+    DeletionFailed,
 
     [EnumValue("DELETED")]
-    Deleted = 13,
+    Deleted,
 
     [EnumValue("COMPLETED")]
-    Completed = 14
+    Completed
 }

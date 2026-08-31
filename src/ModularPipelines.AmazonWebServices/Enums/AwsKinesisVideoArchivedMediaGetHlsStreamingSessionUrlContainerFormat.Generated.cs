@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlContainerFormat
 {
     [EnumValue("FRAGMENTED_MP4")]
-    FragmentedMp4 = 1,
+    FragmentedMp4,
 
     [EnumValue("MPEG_TS")]
-    MpegTs = 2
+    MpegTs
 }

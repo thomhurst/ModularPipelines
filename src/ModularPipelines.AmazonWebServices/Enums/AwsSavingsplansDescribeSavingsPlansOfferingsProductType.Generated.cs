@@ -17,44 +17,44 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSavingsplansDescribeSavingsPlansOfferingsProductType
 {
     [EnumValue("EC2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("Fargate")]
-    Fargate = 2,
+    Fargate,
 
     [EnumValue("Lambda")]
-    Lambda = 3,
+    Lambda,
 
     [EnumValue("SageMaker")]
-    SageMaker = 4,
+    SageMaker,
 
     [EnumValue("RDS")]
-    Rds = 5,
+    Rds,
 
     [EnumValue("DSQL")]
-    Dsql = 6,
+    Dsql,
 
     [EnumValue("DynamoDB")]
-    DynamoDb = 7,
+    DynamoDb,
 
     [EnumValue("ElastiCache")]
-    ElastiCache = 8,
+    ElastiCache,
 
     [EnumValue("DocDB")]
-    DocDb = 9,
+    DocDb,
 
     [EnumValue("Neptune")]
-    Neptune = 10,
+    Neptune,
 
     [EnumValue("Timestream")]
-    Timestream = 11,
+    Timestream,
 
     [EnumValue("Keyspaces")]
-    Keyspaces = 12,
+    Keyspaces,
 
     [EnumValue("DMS")]
-    Dms = 13,
+    Dms,
 
     [EnumValue("OpenSearch")]
-    OpenSearch = 14
+    OpenSearch
 }

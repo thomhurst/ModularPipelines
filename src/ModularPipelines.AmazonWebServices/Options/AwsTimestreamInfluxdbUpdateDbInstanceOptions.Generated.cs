@@ -47,7 +47,7 @@ public record AwsTimestreamInfluxdbUpdateDbInstanceOptions : AwsOptions
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge
     /// </summary>
     [CliOption("--db-instance-type")]
-    public AwsTimestreamInfluxdbUpdateDbInstanceDbInstanceType? DbInstanceType { get; set; }
+    public string? DbInstanceType { get; set; }
 
     /// <summary>
     /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability. Possible values: o SINGLE_AZ o WITH_MULTIAZ_STANDBY

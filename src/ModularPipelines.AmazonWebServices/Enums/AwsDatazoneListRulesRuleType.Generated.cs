@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListRulesRuleType
 {
     [EnumValue("METADATA_FORM_ENFORCEMENT")]
-    MetadataFormEnforcement = 1,
+    MetadataFormEnforcement,
 
     [EnumValue("GLOSSARY_TERM_ENFORCEMENT")]
-    GlossaryTermEnforcement = 2
+    GlossaryTermEnforcement
 }

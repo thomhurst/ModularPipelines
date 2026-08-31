@@ -50,10 +50,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the read replica is in a Multi-AZ deployment. You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source is a Multi-AZ DB in- stance or a Multi-AZ DB cluster. This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -80,7 +86,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -107,7 +116,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the read replica to snap- shots of the read replica. By default, tags aren't copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -134,6 +146,9 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -143,7 +158,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsCreateDbInstanceReadReplicaDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to enable Performance Insights for the read replica. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -170,10 +188,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--use-default-processor-features")]
+    /// <summary>
+    /// Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--use-default-processor-features", NegatedName = "--no-use-default-processor-features")]
     public bool? UseDefaultProcessorFeatures { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -219,7 +243,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--replica-mode")]
     public AwsRdsCreateDbInstanceReadReplicaReplicaMode? ReplicaMode { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts read replica. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the read replica from outside of its virtual private cloud (VPC) on your lo- cal network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -258,10 +285,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--source-db-cluster-identifier")]
     public string? SourceDbClusterIdentifier { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
-    [CliFlag("--upgrade-storage-config")]
+    /// <summary>
+    /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
+    /// </summary>
+    [CliFlag("--upgrade-storage-config", NegatedName = "--no-upgrade-storage-config")]
     public bool? UpgradeStorageConfig { get; set; }
 
     /// <summary>

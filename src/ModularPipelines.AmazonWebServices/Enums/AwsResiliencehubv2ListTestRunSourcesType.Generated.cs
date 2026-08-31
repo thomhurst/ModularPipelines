@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListTestRunSourcesType
 {
     [EnumValue("SUCCESS_CRITERIA")]
-    SuccessCriteria = 1,
+    SuccessCriteria,
 
     [EnumValue("OBSERVABILITY")]
-    Observability = 2
+    Observability
 }

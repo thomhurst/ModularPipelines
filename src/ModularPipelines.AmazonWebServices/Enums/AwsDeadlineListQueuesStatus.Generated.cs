@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineListQueuesStatus
 {
     [EnumValue("IDLE")]
-    Idle = 1,
+    Idle,
 
     [EnumValue("SCHEDULING")]
-    Scheduling = 2,
+    Scheduling,
 
     [EnumValue("SCHEDULING_BLOCKED")]
-    SchedulingBlocked = 3
+    SchedulingBlocked
 }

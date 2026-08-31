@@ -21,13 +21,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "delete-ipam-pool")]
 public record AwsEc2DeleteIpamPoolOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-pool-id")]
     public string? IpamPoolId { get; set; }
 
-    [CliFlag("--cascade")]
+    /// <summary>
+    /// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools. WARNING: You can only use this option to delete pools in the private scope or pools in the public scope with a source resource. A source resource is a resource used to provision CIDRs to a re- source planning pool.
+    /// </summary>
+    [CliFlag("--cascade", NegatedName = "--no-cascade")]
     public bool? Cascade { get; set; }
 
     [CliOption("--cli-input-json")]

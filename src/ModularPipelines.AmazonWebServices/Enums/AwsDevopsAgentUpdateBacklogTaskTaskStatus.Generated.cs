@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentUpdateBacklogTaskTaskStatus
 {
     [EnumValue("PENDING_TRIAGE")]
-    PendingTriage = 1,
+    PendingTriage,
 
     [EnumValue("LINKED")]
-    Linked = 2,
+    Linked,
 
     [EnumValue("PENDING_START")]
-    PendingStart = 3,
+    PendingStart,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 4,
+    InProgress,
 
     [EnumValue("PENDING_CUSTOMER_APPROVAL")]
-    PendingCustomerApproval = 5,
+    PendingCustomerApproval,
 
     [EnumValue("COMPLETED")]
-    Completed = 6,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 7,
+    Failed,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 8,
+    TimedOut,
 
     [EnumValue("CANCELED")]
-    Canceled = 9,
+    Canceled,
 
     [EnumValue("SKIPPED")]
-    Skipped = 10,
+    Skipped,
 
     [EnumValue("WAITING")]
-    Waiting = 11
+    Waiting
 }

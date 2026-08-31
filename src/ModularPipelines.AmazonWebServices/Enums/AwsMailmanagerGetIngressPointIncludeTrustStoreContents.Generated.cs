@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMailmanagerGetIngressPointIncludeTrustStoreContents
 {
     [EnumValue("EXCLUDE")]
-    Exclude = 1,
+    Exclude,
 
     [EnumValue("INCLUDE")]
-    Include = 2
+    Include
 }

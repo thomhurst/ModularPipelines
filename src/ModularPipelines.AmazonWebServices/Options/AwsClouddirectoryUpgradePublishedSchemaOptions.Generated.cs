@@ -30,7 +30,10 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions
     [CliOption("--minor-version")]
     public string? MinorVersion { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Used for testing whether the Development schema provided is back- wards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is op- tional and defaults to false.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

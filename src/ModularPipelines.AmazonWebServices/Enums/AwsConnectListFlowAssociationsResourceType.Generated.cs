@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectListFlowAssociationsResourceType
 {
     [EnumValue("VOICE_PHONE_NUMBER")]
-    VoicePhoneNumber = 1,
+    VoicePhoneNumber,
 
     [EnumValue("INBOUND_EMAIL")]
-    InboundEmail = 2,
+    InboundEmail,
 
     [EnumValue("OUTBOUND_EMAIL")]
-    OutboundEmail = 3,
+    OutboundEmail,
 
     [EnumValue("ANALYTICS_CONNECTOR")]
-    AnalyticsConnector = 4
+    AnalyticsConnector
 }

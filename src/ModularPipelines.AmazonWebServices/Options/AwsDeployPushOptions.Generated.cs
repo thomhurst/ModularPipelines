@@ -27,7 +27,7 @@ public record AwsDeployPushOptions : AwsOptions
     [CliOption("--s3-location")]
     public string? S3Location { get; set; }
 
-    [CliFlag("--ignore-hidden-files")]
+    [CliFlag("--ignore-hidden-files", NegatedName = "--no-ignore-hidden-files")]
     public bool? IgnoreHiddenFiles { get; set; }
 
     [CliOption("--source")]

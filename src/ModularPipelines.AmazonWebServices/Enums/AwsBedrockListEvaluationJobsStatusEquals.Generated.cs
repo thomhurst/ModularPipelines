@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListEvaluationJobsStatusEquals
 {
     [EnumValue("InProgress")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("Completed")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("Failed")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("Stopping")]
-    Stopping = 4,
+    Stopping,
 
     [EnumValue("Stopped")]
-    Stopped = 5,
+    Stopped,
 
     [EnumValue("Deleting")]
-    Deleting = 6
+    Deleting
 }

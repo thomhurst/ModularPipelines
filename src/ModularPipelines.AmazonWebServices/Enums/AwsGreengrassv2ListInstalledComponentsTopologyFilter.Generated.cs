@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2ListInstalledComponentsTopologyFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("ROOT")]
-    Root = 2
+    Root
 }

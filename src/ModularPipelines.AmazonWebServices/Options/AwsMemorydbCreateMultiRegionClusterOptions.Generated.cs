@@ -57,7 +57,10 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions
     [CliOption("--num-shards")]
     public int? NumShards { get; set; }
 
-    [CliFlag("--tls-enabled")]
+    /// <summary>
+    /// Whether to enable TLS encryption for the multi-Region cluster.
+    /// </summary>
+    [CliFlag("--tls-enabled", NegatedName = "--no-tls-enabled")]
     public bool? TlsEnabled { get; set; }
 
     /// <summary>

@@ -24,7 +24,10 @@ public record AwsNeptuneDeleteDbClusterOptions : AwsOptions
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted. NOTE: You must specify a FinalDBSnapshotIdentifier parameter if Skip- FinalSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>

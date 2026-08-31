@@ -24,13 +24,22 @@ public record AwsEc2TerminateInstancesOptions : AwsOptions
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the instances to terminate. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--skip-os-shutdown")]
+    /// <summary>
+    /// Specifies whether to bypass the graceful OS shutdown process when the instance is terminated. Default: false
+    /// </summary>
+    [CliFlag("--skip-os-shutdown", NegatedName = "--no-skip-os-shutdown")]
     public bool? SkipOsShutdown { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentCreateCodeReviewCodeRemediationStrategy
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

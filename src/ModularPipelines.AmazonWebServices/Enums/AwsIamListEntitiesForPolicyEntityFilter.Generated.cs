@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamListEntitiesForPolicyEntityFilter
 {
     [EnumValue("User")]
-    User = 1,
+    User,
 
     [EnumValue("Role")]
-    Role = 2,
+    Role,
 
     [EnumValue("Group")]
-    Group = 3,
+    Group,
 
     [EnumValue("LocalManagedPolicy")]
-    LocalManagedPolicy = 4,
+    LocalManagedPolicy,
 
     [EnumValue("AWSManagedPolicy")]
-    AwsManagedPolicy = 5
+    AwsManagedPolicy
 }

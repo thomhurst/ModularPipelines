@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListJobsTargetSelection
 {
     [EnumValue("CONTINUOUS")]
-    Continuous = 1,
+    Continuous,
 
     [EnumValue("SNAPSHOT")]
-    Snapshot = 2
+    Snapshot
 }

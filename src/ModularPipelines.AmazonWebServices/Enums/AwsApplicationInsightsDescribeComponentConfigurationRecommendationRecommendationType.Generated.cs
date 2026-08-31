@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationInsightsDescribeComponentConfigurationRecommendationRecommendationType
 {
     [EnumValue("INFRA_ONLY")]
-    InfraOnly = 1,
+    InfraOnly,
 
     [EnumValue("WORKLOAD_ONLY")]
-    WorkloadOnly = 2,
+    WorkloadOnly,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

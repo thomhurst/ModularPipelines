@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncUpdateLocationAzureBlobAuthenticationType
 {
     [EnumValue("SAS")]
-    Sas = 1,
+    Sas,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

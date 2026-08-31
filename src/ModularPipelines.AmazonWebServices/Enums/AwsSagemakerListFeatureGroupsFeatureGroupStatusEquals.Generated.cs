@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListFeatureGroupsFeatureGroupStatusEquals
 {
     [EnumValue("Creating")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("Created")]
-    Created = 2,
+    Created,
 
     [EnumValue("CreateFailed")]
-    CreateFailed = 3,
+    CreateFailed,
 
     [EnumValue("Deleting")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("DeleteFailed")]
-    DeleteFailed = 5
+    DeleteFailed
 }

@@ -40,7 +40,10 @@ public record AwsEksUpdateNodegroupVersionOptions : AwsOptions
     [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails be- cause all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

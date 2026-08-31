@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServiceQuotasListRequestedServiceQuotaChangeHistoryQuotaRequestedAtLevel
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("RESOURCE")]
-    Resource = 2,
+    Resource,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

@@ -30,7 +30,10 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Indicates whether the changes should be applied immediately or dur- ing the next maintenance window.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -51,7 +54,10 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parame- ter is set to true .
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -60,10 +66,16 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// Indicates that major version upgrades are allowed. Changing this pa- rameter does not result in an outage, and the change is asynchro- nously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// A value that indicates that minor version upgrades are applied auto- matically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible. An outage does result if these factors apply: o This parameter is set to true during the maintenance window. o A newer minor version is available. o DMS has enabled automatic patching for the given engine version.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>

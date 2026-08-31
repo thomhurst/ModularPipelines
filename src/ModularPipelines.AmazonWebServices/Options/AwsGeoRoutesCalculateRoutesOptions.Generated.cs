@@ -40,7 +40,10 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     [CliOption("--avoid")]
     public string? Avoid { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Uses the current time as the time of departure.
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>

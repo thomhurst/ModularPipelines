@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsPutDeliveryDestinationDeliveryDestinationType
 {
     [EnumValue("S3")]
-    S3 = 1,
+    S3,
 
     [EnumValue("CWL")]
-    Cwl = 2,
+    Cwl,
 
     [EnumValue("FH")]
-    Fh = 3,
+    Fh,
 
     [EnumValue("XRAY")]
-    Xray = 4
+    Xray
 }

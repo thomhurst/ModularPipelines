@@ -52,6 +52,9 @@ public record AwsDatazoneUpdateProjectProfileOptions : AwsOptions
     [CliOption("--project-resource-tags", GroupValues = true)]
     public IEnumerable<string>? ProjectResourceTags { get; set; }
 
+    /// <summary>
+    /// source-tags (boolean) Specifies whether custom project resource tags are supported.
+    /// </summary>
     [CliFlag("--allow-custom-project-resource-tags")]
     public bool? AllowCustomProjectResourceTags { get; set; }
 

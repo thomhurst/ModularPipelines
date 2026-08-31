@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspectorScanScanSbomOutputFormat
 {
     [EnumValue("CYCLONE_DX_1_5")]
-    CycloneDx_1_5 = 1,
+    CycloneDx_1_5,
 
     [EnumValue("INSPECTOR")]
-    Inspector = 2,
+    Inspector,
 
     [EnumValue("INSPECTOR_ALT")]
-    InspectorAlt = 3
+    InspectorAlt
 }

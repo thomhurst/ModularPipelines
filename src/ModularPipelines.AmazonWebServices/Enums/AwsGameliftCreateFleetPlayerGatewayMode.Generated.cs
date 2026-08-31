@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftCreateFleetPlayerGatewayMode
 {
     [EnumValue("DISABLED")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("ENABLED")]
-    Enabled = 2,
+    Enabled,
 
     [EnumValue("REQUIRED")]
-    Required = 3
+    Required
 }

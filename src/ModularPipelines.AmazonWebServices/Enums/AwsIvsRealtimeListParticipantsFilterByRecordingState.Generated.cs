@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIvsRealtimeListParticipantsFilterByRecordingState
 {
     [EnumValue("STARTING")]
-    Starting = 1,
+    Starting,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("STOPPING")]
-    Stopping = 3,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 4,
+    Stopped,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed
 }

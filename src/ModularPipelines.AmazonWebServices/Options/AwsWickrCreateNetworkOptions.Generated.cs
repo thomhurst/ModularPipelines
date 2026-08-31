@@ -27,7 +27,10 @@ public record AwsWickrCreateNetworkOptions : AwsOptions
     [CliOption("--access-level")]
     public string? AccessLevel { get; set; }
 
-    [CliFlag("--enable-premium-free-trial")]
+    /// <summary>
+    /// Specifies whether to enable a premium free trial for the network. It is optional and has a default value as false. When set to true, the network starts with premium features for a limited trial period.
+    /// </summary>
+    [CliFlag("--enable-premium-free-trial", NegatedName = "--no-enable-premium-free-trial")]
     public bool? EnablePremiumFreeTrial { get; set; }
 
     /// <summary>

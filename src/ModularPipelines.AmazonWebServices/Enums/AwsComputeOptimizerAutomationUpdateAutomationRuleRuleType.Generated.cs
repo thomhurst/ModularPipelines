@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComputeOptimizerAutomationUpdateAutomationRuleRuleType
 {
     [EnumValue("OrganizationRule")]
-    OrganizationRule = 1,
+    OrganizationRule,
 
     [EnumValue("AccountRule")]
-    AccountRule = 2
+    AccountRule
 }

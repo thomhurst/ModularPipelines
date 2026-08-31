@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationDeleteStackDeletionMode
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("FORCE_DELETE_STACK")]
-    ForceDeleteStack = 2
+    ForceDeleteStack
 }

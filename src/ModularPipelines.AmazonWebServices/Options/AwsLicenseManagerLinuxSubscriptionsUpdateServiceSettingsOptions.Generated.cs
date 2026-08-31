@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("license-manager-linux-subscriptions", "update-service-settings")]
 public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : AwsOptions
 {
-    [CliFlag("--allow-update")]
+    /// <summary>
+    /// Describes if updates are allowed to the service settings for Linux subscriptions. If you allow updates, you can aggregate Linux sub- scription data in more than one home Region.
+    /// </summary>
+    [CliFlag("--allow-update", NegatedName = "--no-allow-update")]
     public bool? AllowUpdate { get; set; }
 
     [CliOption("--linux-subscriptions-discovery")]

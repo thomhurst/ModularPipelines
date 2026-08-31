@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2RunInstancesInstanceInitiatedShutdownBehavior
 {
     [EnumValue("stop")]
-    Stop = 1,
+    Stop,
 
     [EnumValue("terminate")]
-    Terminate = 2
+    Terminate
 }

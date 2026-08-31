@@ -31,7 +31,10 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as pos- sible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false , changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -83,6 +86,9 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
+    /// <summary>
+    /// tication (boolean) True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -98,7 +104,10 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// A value that indicates whether upgrades between different major ver- sions are allowed. Constraints: You must set the allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a different major version than the DB cluster's current version.
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -107,10 +116,16 @@ public record AwsNeptuneModifyDbClusterOptions : AwsOptions
     [CliOption("--db-instance-parameter-group-name")]
     public string? DbInstanceParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB cluster has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// If set to ``true`` , tags are copied to any snapshot of the DB clus- ter that is created.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>

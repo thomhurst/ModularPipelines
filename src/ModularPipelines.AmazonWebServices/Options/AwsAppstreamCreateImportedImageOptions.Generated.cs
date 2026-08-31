@@ -80,7 +80,10 @@ public record AwsAppstreamCreateImportedImageOptions : AwsOptions
     [CliOption("--app-catalog-config", GroupValues = true)]
     public IEnumerable<string>? AppCatalogConfig { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to true, performs validation checks without actually creat- ing the imported image. Use this to verify your configuration before executing the actual import operation.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

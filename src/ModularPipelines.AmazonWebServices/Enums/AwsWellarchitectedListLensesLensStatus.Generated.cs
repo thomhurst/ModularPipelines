@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListLensesLensStatus
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("DRAFT")]
-    Draft = 2,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 3
+    Published
 }

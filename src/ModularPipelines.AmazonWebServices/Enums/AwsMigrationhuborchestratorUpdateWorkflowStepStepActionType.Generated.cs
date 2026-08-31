@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhuborchestratorUpdateWorkflowStepStepActionType
 {
     [EnumValue("MANUAL")]
-    Manual = 1,
+    Manual,
 
     [EnumValue("AUTOMATED")]
-    Automated = 2
+    Automated
 }

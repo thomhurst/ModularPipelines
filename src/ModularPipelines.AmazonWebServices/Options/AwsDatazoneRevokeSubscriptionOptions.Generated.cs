@@ -27,7 +27,10 @@ public record AwsDatazoneRevokeSubscriptionOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--retain-permissions")]
+    /// <summary>
+    /// Specifies whether permissions are retained when the subscription is revoked.
+    /// </summary>
+    [CliFlag("--retain-permissions", NegatedName = "--no-retain-permissions")]
     public bool? RetainPermissions { get; set; }
 
     [CliOption("--cli-input-json")]

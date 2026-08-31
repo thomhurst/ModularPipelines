@@ -24,7 +24,7 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions
     [CliOption("--global-replication-group-id")]
     public string? GlobalReplicationGroupId { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -57,7 +57,10 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions
     [CliOption("--global-replication-group-description")]
     public string? GlobalReplicationGroupDescription { get; set; }
 
-    [CliFlag("--automatic-failover-enabled")]
+    /// <summary>
+    /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
+    /// </summary>
+    [CliFlag("--automatic-failover-enabled", NegatedName = "--no-automatic-failover-enabled")]
     public bool? AutomaticFailoverEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

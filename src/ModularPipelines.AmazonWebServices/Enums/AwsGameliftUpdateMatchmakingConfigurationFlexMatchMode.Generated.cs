@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftUpdateMatchmakingConfigurationFlexMatchMode
 {
     [EnumValue("STANDALONE")]
-    Standalone = 1,
+    Standalone,
 
     [EnumValue("WITH_QUEUE")]
-    WithQueue = 2
+    WithQueue
 }

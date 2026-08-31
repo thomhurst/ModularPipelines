@@ -24,7 +24,10 @@ public record AwsRedshiftDisassociateDataShareConsumerOptions : AwsOptions
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; set; }
 
-    [CliFlag("--disassociate-entire-account")]
+    /// <summary>
+    /// A value that specifies whether association for the datashare is re- moved from the entire account.
+    /// </summary>
+    [CliFlag("--disassociate-entire-account", NegatedName = "--no-disassociate-entire-account")]
     public bool? DisassociateEntireAccount { get; set; }
 
     /// <summary>

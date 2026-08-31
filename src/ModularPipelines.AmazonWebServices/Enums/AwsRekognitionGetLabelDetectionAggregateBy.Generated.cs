@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionGetLabelDetectionAggregateBy
 {
     [EnumValue("TIMESTAMPS")]
-    Timestamps = 1,
+    Timestamps,
 
     [EnumValue("SEGMENTS")]
-    Segments = 2
+    Segments
 }

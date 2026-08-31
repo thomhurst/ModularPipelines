@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsWorkspacesModifyAccountOptions : AwsOptions
     /// The status of BYOL. Possible values: o ENABLED
     /// </summary>
     [CliOption("--dedicated-tenancy-support")]
-    public AwsWorkspacesModifyAccountDedicatedTenancySupport? DedicatedTenancySupport { get; set; }
+    public string? DedicatedTenancySupport { get; set; }
 
     /// <summary>
     /// The IP address range, specified as an IPv4 CIDR block, for the man- agement network interface. Specify an IP address range that is com- patible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation. Constraints: o pattern: (^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.0\.0)(\/(16$))$

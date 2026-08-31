@@ -45,10 +45,10 @@ public record AwsConnectCreateInstanceOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CliFlag("--inbound-calls-enabled")]
+    [CliFlag("--inbound-calls-enabled", NegatedName = "--no-inbound-calls-enabled")]
     public bool? InboundCallsEnabled { get; set; }
 
-    [CliFlag("--outbound-calls-enabled")]
+    [CliFlag("--outbound-calls-enabled", NegatedName = "--no-outbound-calls-enabled")]
     public bool? OutboundCallsEnabled { get; set; }
 
     /// <summary>

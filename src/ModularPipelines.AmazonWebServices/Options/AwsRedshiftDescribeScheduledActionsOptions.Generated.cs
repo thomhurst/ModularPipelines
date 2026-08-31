@@ -47,7 +47,10 @@ public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     /// <summary>

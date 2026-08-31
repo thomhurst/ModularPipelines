@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSchedulerUpdateScheduleActionAfterCompletion
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("DELETE")]
-    Delete = 2
+    Delete
 }

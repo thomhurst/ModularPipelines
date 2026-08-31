@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFinspaceListKxClustersClusterType
 {
     [EnumValue("HDB")]
-    Hdb = 1,
+    Hdb,
 
     [EnumValue("RDB")]
-    Rdb = 2,
+    Rdb,
 
     [EnumValue("GATEWAY")]
-    Gateway = 3,
+    Gateway,
 
     [EnumValue("GP")]
-    Gp = 4,
+    Gp,
 
     [EnumValue("TICKERPLANT")]
-    Tickerplant = 5
+    Tickerplant
 }

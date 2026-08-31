@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,9 +39,12 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions
     /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers sup- port for a single EKS Anywhere cluster. Possible values: o Cluster
     /// </summary>
     [CliOption("--license-type")]
-    public AwsEksCreateEksAnywhereSubscriptionLicenseType? LicenseType { get; set; }
+    public string? LicenseType { get; set; }
 
-    [CliFlag("--auto-renew")]
+    /// <summary>
+    /// A boolean indicating whether the subscription auto renews at the end of the term.
+    /// </summary>
+    [CliFlag("--auto-renew", NegatedName = "--no-auto-renew")]
     public bool? AutoRenew { get; set; }
 
     /// <summary>

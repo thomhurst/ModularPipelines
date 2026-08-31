@@ -42,7 +42,10 @@ public record AwsConnectUpdateDataTableAttributeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--primary")]
+    /// <summary>
+    /// Whether the attribute should be treated as a primary key. Converting to primary attribute requires existing values to maintain unique- ness.
+    /// </summary>
+    [CliFlag("--primary", NegatedName = "--no-primary")]
     public bool? Primary { get; set; }
 
     /// <summary>

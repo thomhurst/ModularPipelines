@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "create-cluster")]
-public record AwsEmrCreateClusterOptions : AwsOptions
+public record AwsEmrCreateClusterOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Value
+) : AwsOptions
 {
     /// <summary>
     /// Specifies the Amazon EMR release version, which determines the ver- sions of application software that are installed on the cluster. For example, --release-label emr-5.15.0 installs the application ver- sions and features available in that version. For details about ap- plication versions and features available in each release, see the Amazon EMR Release Guide: https://docs.aws.amazon.com/emr/latest/ReleaseGuide Use --release-label only for Amazon EMR release version 4.0 and later. Use --ami-version for earlier versions. You cannot specify both a release label and AMI version.
@@ -58,7 +60,10 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     [CliOption("--instance-count")]
     public string? InstanceCount { get; set; }
 
-    [CliFlag("--auto-terminate")]
+    /// <summary>
+    /// Specifies whether the cluster should terminate after completing all the steps. Auto termination is off by default.
+    /// </summary>
+    [CliFlag("--auto-terminate", NegatedName = "--no-auto-terminate")]
     public bool? AutoTerminate { get; set; }
 
     /// <summary>
@@ -115,10 +120,16 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     [CliOption("--ec2-attributes")]
     public string? Ec2Attributes { get; set; }
 
-    [CliFlag("--termination-protected")]
+    /// <summary>
+    /// Specifies whether to lock the cluster to prevent the Amazon EC2 in- stances from being terminated by API call, user intervention, or an error.
+    /// </summary>
+    [CliFlag("--termination-protected", NegatedName = "--no-termination-protected")]
     public bool? TerminationProtected { get; set; }
 
-    [CliFlag("--unhealthy-node-replacement")]
+    /// <summary>
+    /// Unhealthy node replacement for an Amazon EMR cluster.
+    /// </summary>
+    [CliFlag("--unhealthy-node-replacement", NegatedName = "--no-unhealthy-node-replacement")]
     public bool? UnhealthyNodeReplacement { get; set; }
 
     /// <summary>
@@ -127,10 +138,16 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     [CliOption("--scale-down-behavior")]
     public string? ScaleDownBehavior { get; set; }
 
-    [CliFlag("--visible-to-all-users")]
+    /// <summary>
+    /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If a user has the proper policy permissions set, they can also manage the cluster. Visibility is on by default. The --no-visible-to-all-users option is no longer supported. To restrict cluster visibility, use an IAM pol- icy.
+    /// </summary>
+    [CliFlag("--visible-to-all-users", NegatedName = "--no-visible-to-all-users")]
     public bool? VisibleToAllUsers { get; set; }
 
-    [CliFlag("--enable-debugging")]
+    /// <summary>
+    /// Specifies that the debugging tool is enabled for the cluster, which allows you to browse log files using the Amazon EMR console. Turning debugging on requires that you specify --log-uri because log files must be stored in Amazon S3 so that Amazon EMR can index them for viewing in the console. Effective January 23, 2023, Amazon EMR will discontinue the debugging tool for all versions.
+    /// </summary>
+    [CliFlag("--enable-debugging", NegatedName = "--no-enable-debugging")]
     public bool? EnableDebugging { get; set; }
 
     /// <summary>
@@ -250,10 +267,16 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     [CliOption("--monitoring-configuration")]
     public string? MonitoringConfiguration { get; set; }
 
-    [CliFlag("--extended-support")]
+    /// <summary>
+    /// Reserved.
+    /// </summary>
+    [CliFlag("--extended-support", NegatedName = "--no-extended-support")]
     public bool? ExtendedSupport { get; set; }
 
-    [CliFlag("--session-enabled")]
+    /// <summary>
+    /// Indicates whether Spark Connect sessions are enabled on the cluster. When set, you can start Spark Connect sessions on this cluster using the start-session command. This setting is immutable after cluster creation. Requires EMR release emr-spark-8.0.0 or later.
+    /// </summary>
+    [CliFlag("--session-enabled", NegatedName = "--no-session-enabled")]
     public bool? SessionEnabled { get; set; }
 
 }

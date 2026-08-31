@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticacheCreateCacheClusterAzMode
 {
     [EnumValue("single-az")]
-    SingleAz = 1,
+    SingleAz,
 
     [EnumValue("cross-az")]
-    CrossAz = 2
+    CrossAz
 }

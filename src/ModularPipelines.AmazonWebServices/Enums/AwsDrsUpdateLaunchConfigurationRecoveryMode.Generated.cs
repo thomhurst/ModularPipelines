@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsUpdateLaunchConfigurationRecoveryMode
 {
     [EnumValue("FAST")]
-    Fast = 1,
+    Fast,
 
     [EnumValue("OPTIMAL")]
-    Optimal = 2
+    Optimal
 }

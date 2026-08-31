@@ -60,6 +60,9 @@ public record AwsImagebuilderCreateImagePipelineOptions : AwsOptions
     [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
+    /// <summary>
+    /// abled (boolean) Collects additional information about the image being created, in- cluding the operating system (OS) version and package list. This in- formation is used to enhance the overall experience of using EC2 Im- age Builder. Enabled by default.
+    /// </summary>
     [CliFlag("--enhanced-image-metadata-enabled")]
     public bool? EnhancedImageMetadataEnabled { get; set; }
 

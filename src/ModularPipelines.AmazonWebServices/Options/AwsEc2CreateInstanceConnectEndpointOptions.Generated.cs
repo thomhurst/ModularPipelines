@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-instance-connect-endpoint")]
 public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--subnet-id")]
@@ -35,7 +38,10 @@ public record AwsEc2CreateInstanceConnectEndpointOptions : AwsOptions
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
-    [CliFlag("--preserve-client-ip")]
+    /// <summary>
+    /// Indicates whether the client IP address is preserved as the source. The following are the possible values. o true - Use the client IP address as the source. o false - Use the network interface IP address as the source. NOTE: PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp , the value for IpAddressType must be ipv4 . Default: false
+    /// </summary>
+    [CliFlag("--preserve-client-ip", NegatedName = "--no-preserve-client-ip")]
     public bool? PreserveClientIp { get; set; }
 
     /// <summary>

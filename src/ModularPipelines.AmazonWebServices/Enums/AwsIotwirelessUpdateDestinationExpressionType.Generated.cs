@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotwirelessUpdateDestinationExpressionType
 {
     [EnumValue("RuleName")]
-    RuleName = 1,
+    RuleName,
 
     [EnumValue("MqttTopic")]
-    MqttTopic = 2
+    MqttTopic
 }

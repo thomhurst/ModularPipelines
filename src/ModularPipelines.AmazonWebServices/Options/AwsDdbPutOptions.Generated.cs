@@ -19,7 +19,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ddb", "put")]
-public record AwsDdbPutOptions : AwsOptions
+public record AwsDdbPutOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TableName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Items
+) : AwsOptions
 {
     /// <summary>
     /// A condition that must be satisfied in order for a conditional put operation to succeed. For more information, see Comparison Operator and Function Reference in the Amazon DynamoDB Developer Guide For CLI specific syntax see aws help ddb-expressions

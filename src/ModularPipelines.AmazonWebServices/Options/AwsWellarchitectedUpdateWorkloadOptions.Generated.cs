@@ -79,6 +79,9 @@ public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions
     [CliOption("--review-owner")]
     public string? ReviewOwner { get; set; }
 
+    /// <summary>
+    /// knowledged (boolean) Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of ac- knowledgement, access to the workload is restricted until an owner is added.
+    /// </summary>
     [CliFlag("--is-review-owner-update-acknowledged")]
     public bool? IsReviewOwnerUpdateAcknowledged { get; set; }
 

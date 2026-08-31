@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsUpdateLaunchConfigurationLaunchDisposition
 {
     [EnumValue("STOPPED")]
-    Stopped = 1,
+    Stopped,
 
     [EnumValue("STARTED")]
-    Started = 2
+    Started
 }

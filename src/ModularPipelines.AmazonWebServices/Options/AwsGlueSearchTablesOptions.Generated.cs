@@ -66,7 +66,10 @@ public record AwsGlueSearchTablesOptions : AwsOptions
     [CliOption("--resource-share-type")]
     public AwsGlueSearchTablesResourceShareType? ResourceShareType { get; set; }
 
-    [CliFlag("--include-status-details")]
+    /// <summary>
+    /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+    /// </summary>
+    [CliFlag("--include-status-details", NegatedName = "--no-include-status-details")]
     public bool? IncludeStatusDetails { get; set; }
 
     [CliOption("--cli-input-json")]

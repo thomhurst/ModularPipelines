@@ -88,7 +88,10 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CliFlag("--tls-enabled")]
+    /// <summary>
+    /// A flag to enable in-transit encryption on the cluster.
+    /// </summary>
+    [CliFlag("--tls-enabled", NegatedName = "--no-tls-enabled")]
     public bool? TlsEnabled { get; set; }
 
     /// <summary>
@@ -142,10 +145,16 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// When set to true, the cluster will automatically receive minor en- gine version upgrades after launch.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
-    [CliFlag("--data-tiering")]
+    /// <summary>
+    /// Enables data tiering. Data tiering is only supported for clusters using the r6gd node type. This parameter must be set when using r6gd nodes. For more information, see Data tiering .
+    /// </summary>
+    [CliFlag("--data-tiering", NegatedName = "--no-data-tiering")]
     public bool? DataTiering { get; set; }
 
     /// <summary>

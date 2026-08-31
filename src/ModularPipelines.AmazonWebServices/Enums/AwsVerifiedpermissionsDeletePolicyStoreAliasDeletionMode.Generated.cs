@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVerifiedpermissionsDeletePolicyStoreAliasDeletionMode
 {
     [EnumValue("SoftDelete")]
-    SoftDelete = 1,
+    SoftDelete,
 
     [EnumValue("HardDelete")]
-    HardDelete = 2
+    HardDelete
 }

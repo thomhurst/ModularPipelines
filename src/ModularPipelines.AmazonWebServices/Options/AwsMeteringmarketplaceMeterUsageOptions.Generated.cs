@@ -37,7 +37,10 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions
     [CliOption("--usage-quantity")]
     public int? UsageQuantity { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation ; otherwise, it returns UnauthorizedExcep- tion . Defaults to false if not specified.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

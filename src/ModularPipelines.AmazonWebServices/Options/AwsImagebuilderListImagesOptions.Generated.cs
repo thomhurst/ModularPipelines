@@ -35,10 +35,16 @@ public record AwsImagebuilderListImagesOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--by-name")]
+    /// <summary>
+    /// Requests a list of images with a specific recipe name.
+    /// </summary>
+    [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
-    [CliFlag("--include-deprecated")]
+    /// <summary>
+    /// Includes deprecated images in the response list.
+    /// </summary>
+    [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
 
     [CliOption("--cli-input-json")]

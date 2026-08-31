@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcrPutRegistryScanningConfigurationScanType
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("ENHANCED")]
-    Enhanced = 2
+    Enhanced
 }

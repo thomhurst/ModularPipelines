@@ -27,7 +27,10 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; set; }
 
-    [CliFlag("--metadata-only")]
+    /// <summary>
+    /// Set to True to get only the metadata for the file.
+    /// </summary>
+    [CliFlag("--metadata-only", NegatedName = "--no-metadata-only")]
     public bool? MetadataOnly { get; set; }
 
     /// <summary>

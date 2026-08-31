@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyRouteServerPersistRoutes
 {
     [EnumValue("enable")]
-    Enable = 1,
+    Enable,
 
     [EnumValue("disable")]
-    Disable = 2,
+    Disable,
 
     [EnumValue("reset")]
-    Reset = 3
+    Reset
 }

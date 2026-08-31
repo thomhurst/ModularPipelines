@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateNetworkInterfaceInterfaceType
 {
     [EnumValue("efa")]
-    Efa = 1,
+    Efa,
 
     [EnumValue("efa-only")]
-    EfaOnly = 2,
+    EfaOnly,
 
     [EnumValue("branch")]
-    Branch = 3,
+    Branch,
 
     [EnumValue("trunk")]
-    Trunk = 4
+    Trunk
 }

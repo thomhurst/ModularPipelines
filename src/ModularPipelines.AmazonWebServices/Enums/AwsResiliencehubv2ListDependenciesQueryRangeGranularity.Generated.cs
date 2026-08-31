@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListDependenciesQueryRangeGranularity
 {
     [EnumValue("HOURLY")]
-    Hourly = 1,
+    Hourly,
 
     [EnumValue("DAILY")]
-    Daily = 2
+    Daily
 }

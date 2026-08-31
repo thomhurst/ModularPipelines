@@ -17,14 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAgentRegistryControlUpdateRegistryRecordRecordType
 {
     [EnumValue("MCP")]
-    Mcp = 1,
+    Mcp,
 
     [EnumValue("AGENT")]
-    Agent = 2,
+    Agent,
 
     [EnumValue("CUSTOM")]
-    Custom = 3,
+    Custom,
 
     [EnumValue("SKILL")]
-    Skill = 4
+    Skill,
+
+    [EnumValue("GATEWAY")]
+    Gateway
 }

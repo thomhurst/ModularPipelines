@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-runtime", "invoke-model")]
-public record AwsBedrockRuntimeInvokeModelOptions : AwsOptions
+public record AwsBedrockRuntimeInvokeModelOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters . For more informa- tion, see Run inference in the Bedrock User Guide. Constraints: o min: 0 o max: 25000000

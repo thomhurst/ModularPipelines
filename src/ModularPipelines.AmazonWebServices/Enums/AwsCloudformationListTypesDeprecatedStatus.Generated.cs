@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationListTypesDeprecatedStatus
 {
     [EnumValue("LIVE")]
-    Live = 1,
+    Live,
 
     [EnumValue("DEPRECATED")]
-    Deprecated = 2
+    Deprecated
 }

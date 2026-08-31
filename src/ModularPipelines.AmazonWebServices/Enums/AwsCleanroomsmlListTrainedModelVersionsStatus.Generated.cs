@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsmlListTrainedModelVersionsStatus
 {
     [EnumValue("CREATE_PENDING")]
-    CreatePending = 1,
+    CreatePending,
 
     [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 2,
+    CreateInProgress,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 3,
+    CreateFailed,
 
     [EnumValue("ACTIVE")]
-    Active = 4,
+    Active,
 
     [EnumValue("DELETE_PENDING")]
-    DeletePending = 5,
+    DeletePending,
 
     [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 6,
+    DeleteInProgress,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 7,
+    DeleteFailed,
 
     [EnumValue("INACTIVE")]
-    Inactive = 8,
+    Inactive,
 
     [EnumValue("CANCEL_PENDING")]
-    CancelPending = 9,
+    CancelPending,
 
     [EnumValue("CANCEL_IN_PROGRESS")]
-    CancelInProgress = 10,
+    CancelInProgress,
 
     [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 11
+    CancelFailed
 }

@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
     /// Partner type of the resource if the identifier type is PartnerAc- countId Possible values: o Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
-    public AwsIotwirelessUpdateResourceEventConfigurationPartnerType? PartnerType { get; set; }
+    public string? PartnerType { get; set; }
 
     /// <summary>
     /// Event configuration for the device registration state event. Sidewalk -&gt; (structure) Device registration state event configuration object for en- abling or disabling Sidewalk related event topics. AmazonIdEventTopic -&gt; (string) Denotes whether the Amazon ID event topic is enabled or dis- abled. Possible values: o Enabled o Disabled WirelessDeviceIdEventTopic -&gt; (string) Denotes whether the wireless device ID device registration state event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={AmazonIdEventTopic=string},WirelessDeviceIdEventTopic=string JSON Syntax: { "Sidewalk": { "AmazonIdEventTopic": "Enabled"|"Disabled" }, "WirelessDeviceIdEventTopic": "Enabled"|"Disabled" }

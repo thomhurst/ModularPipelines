@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerCreateTransformJobBatchStrategy
 {
     [EnumValue("MultiRecord")]
-    MultiRecord = 1,
+    MultiRecord,
 
     [EnumValue("SingleRecord")]
-    SingleRecord = 2
+    SingleRecord
 }

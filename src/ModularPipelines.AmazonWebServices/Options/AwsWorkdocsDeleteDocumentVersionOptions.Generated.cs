@@ -35,7 +35,7 @@ public record AwsWorkdocsDeleteDocumentVersionOptions : AwsOptions
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CliFlag("--delete-prior-versions")]
+    [CliFlag("--delete-prior-versions", NegatedName = "--no-delete-prior-versions")]
     public bool? DeletePriorVersions { get; set; }
 
     [CliOption("--cli-input-json")]

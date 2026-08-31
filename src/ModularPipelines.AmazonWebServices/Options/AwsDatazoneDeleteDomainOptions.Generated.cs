@@ -32,10 +32,16 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--skip-deletion-check")]
+    /// <summary>
+    /// Specifies whether to skip the check that prevents deletion of a do- main that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associ- ated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascad- eDelete instead. You can't use this parameter together with cascad- eDelete .
+    /// </summary>
+    [CliFlag("--skip-deletion-check", NegatedName = "--no-skip-deletion-check")]
     public bool? SkipDeletionCheck { get; set; }
 
-    [CliFlag("--cascade-delete")]
+    /// <summary>
+    /// Specifies whether to delete the domain along with all of its associ- ated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck . If you don't specify a value, the default is false .
+    /// </summary>
+    [CliFlag("--cascade-delete", NegatedName = "--no-cascade-delete")]
     public bool? CascadeDelete { get; set; }
 
     [CliOption("--cli-input-json")]

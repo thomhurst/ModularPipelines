@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentRuntimeGetDocumentContentOutputFormat
 {
     [EnumValue("RAW")]
-    Raw = 1,
+    Raw,
 
     [EnumValue("EXTRACTED")]
-    Extracted = 2
+    Extracted
 }

@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQconnectListModelsAiPromptType
 {
     [EnumValue("ANSWER_GENERATION")]
-    AnswerGeneration = 1,
+    AnswerGeneration,
 
     [EnumValue("INTENT_LABELING_GENERATION")]
-    IntentLabelingGeneration = 2,
+    IntentLabelingGeneration,
 
     [EnumValue("QUERY_REFORMULATION")]
-    QueryReformulation = 3,
+    QueryReformulation,
 
     [EnumValue("SELF_SERVICE_PRE_PROCESSING")]
-    SelfServicePreProcessing = 4,
+    SelfServicePreProcessing,
 
     [EnumValue("EMAIL_RESPONSE")]
-    EmailResponse = 5,
+    EmailResponse,
 
     [EnumValue("EMAIL_OVERVIEW")]
-    EmailOverview = 6,
+    EmailOverview,
 
     [EnumValue("EMAIL_GENERATIVE_ANSWER")]
-    EmailGenerativeAnswer = 7,
+    EmailGenerativeAnswer,
 
     [EnumValue("EMAIL_QUERY_REFORMULATION")]
-    EmailQueryReformulation = 8,
+    EmailQueryReformulation,
 
     [EnumValue("ORCHESTRATION")]
-    Orchestration = 9,
+    Orchestration,
 
     [EnumValue("NOTE_TAKING")]
-    NoteTaking = 10,
+    NoteTaking,
 
     [EnumValue("CASE_SUMMARIZATION")]
-    CaseSummarization = 11
+    CaseSummarization
 }

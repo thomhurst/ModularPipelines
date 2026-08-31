@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkmanagerListPeeringsState
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("AVAILABLE")]
-    Available = 3,
+    Available,
 
     [EnumValue("DELETING")]
-    Deleting = 4
+    Deleting
 }

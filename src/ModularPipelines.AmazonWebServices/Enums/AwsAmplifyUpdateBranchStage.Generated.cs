@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAmplifyUpdateBranchStage
 {
     [EnumValue("PRODUCTION")]
-    Production = 1,
+    Production,
 
     [EnumValue("BETA")]
-    Beta = 2,
+    Beta,
 
     [EnumValue("DEVELOPMENT")]
-    Development = 3,
+    Development,
 
     [EnumValue("EXPERIMENTAL")]
-    Experimental = 4,
+    Experimental,
 
     [EnumValue("PULL_REQUEST")]
-    PullRequest = 5
+    PullRequest
 }

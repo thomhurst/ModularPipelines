@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-ipam-prefix-list-resolver-target")]
 public record AwsEc2CreateIpamPrefixListResolverTargetOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-prefix-list-resolver-id")]
@@ -40,7 +43,7 @@ public record AwsEc2CreateIpamPrefixListResolverTargetOptions : AwsOptions
     [CliOption("--desired-version")]
     public int? DesiredVersion { get; set; }
 
-    [CliFlag("--track-latest-version")]
+    [CliFlag("--track-latest-version", NegatedName = "--no-track-latest-version")]
     public bool? TrackLatestVersion { get; set; }
 
     /// <summary>

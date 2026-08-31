@@ -42,7 +42,10 @@ public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions
     [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
 
-    [CliFlag("--refresh-all-resources")]
+    /// <summary>
+    /// If true , update the resource properties in the generated template with their current live state. This feature is useful when the re- source properties in your generated a template does not reflect the live state of the resource properties. This happens when a user up- date the resource properties after generating a template.
+    /// </summary>
+    [CliFlag("--refresh-all-resources", NegatedName = "--no-refresh-all-resources")]
     public bool? RefreshAllResources { get; set; }
 
     /// <summary>

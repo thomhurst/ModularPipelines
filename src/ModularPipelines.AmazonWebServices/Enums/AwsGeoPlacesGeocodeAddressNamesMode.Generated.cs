@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoPlacesGeocodeAddressNamesMode
 {
     [EnumValue("Matched")]
-    Matched = 1,
+    Matched,
 
     [EnumValue("Administrative")]
-    Administrative = 2
+    Administrative
 }

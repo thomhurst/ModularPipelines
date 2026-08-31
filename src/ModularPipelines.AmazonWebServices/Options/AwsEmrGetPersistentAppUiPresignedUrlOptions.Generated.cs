@@ -37,7 +37,10 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliFlag("--auth-proxy-call")]
+    /// <summary>
+    /// A boolean that represents if the caller is an authentication proxy call.
+    /// </summary>
+    [CliFlag("--auth-proxy-call", NegatedName = "--no-auth-proxy-call")]
     public bool? AuthProxyCall { get; set; }
 
     /// <summary>

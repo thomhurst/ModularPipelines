@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsCreateWorkflowAccelerators
 {
     [EnumValue("GPU")]
-    Gpu = 1,
+    Gpu,
 
     [EnumValue("Constraints")]
-    Constraints = 2
+    Constraints
 }

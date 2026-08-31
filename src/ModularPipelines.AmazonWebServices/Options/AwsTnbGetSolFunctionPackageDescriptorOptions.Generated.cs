@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "get-sol-function-package-descriptor")]
-public record AwsTnbGetSolFunctionPackageDescriptorOptions : AwsOptions
+public record AwsTnbGetSolFunctionPackageDescriptorOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--accept")]
     public string? Accept { get; set; }

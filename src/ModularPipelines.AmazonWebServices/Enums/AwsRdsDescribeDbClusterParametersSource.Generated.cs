@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsDescribeDbClusterParametersSource
 {
     [EnumValue("engine-default")]
-    EngineDefault = 1,
+    EngineDefault,
 
     [EnumValue("system")]
-    System = 2,
+    System,
 
     [EnumValue("user")]
-    User = 3
+    User
 }

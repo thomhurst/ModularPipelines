@@ -24,7 +24,7 @@ public record AwsEc2ModifyIdFormatOptions : AwsOptions
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliFlag("--use-long-ids")]
+    [CliFlag("--use-long-ids", NegatedName = "--no-use-long-ids")]
     public bool? UseLongIds { get; set; }
 
     [CliOption("--cli-input-json")]

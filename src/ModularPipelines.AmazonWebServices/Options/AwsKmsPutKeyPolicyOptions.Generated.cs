@@ -33,6 +33,9 @@ public record AwsKmsPutKeyPolicyOptions : AwsOptions
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
+    /// <summary>
+    /// out-safety-check (boolean) Skips ("bypasses") the key policy lockout safety check. The default value is false. WARNING: Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscrimi- nately. For more information, see Default key policy in the Key Manage- ment Service Developer Guide . Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy re- quest on the KMS key.
+    /// </summary>
     [CliFlag("--bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 

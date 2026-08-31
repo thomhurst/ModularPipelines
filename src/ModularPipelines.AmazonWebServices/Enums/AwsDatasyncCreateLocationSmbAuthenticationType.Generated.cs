@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncCreateLocationSmbAuthenticationType
 {
     [EnumValue("NTLM")]
-    Ntlm = 1,
+    Ntlm,
 
     [EnumValue("KERBEROS")]
-    Kerberos = 2
+    Kerberos
 }

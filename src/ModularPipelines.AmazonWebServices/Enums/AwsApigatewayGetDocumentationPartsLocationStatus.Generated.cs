@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayGetDocumentationPartsLocationStatus
 {
     [EnumValue("DOCUMENTED")]
-    Documented = 1,
+    Documented,
 
     [EnumValue("UNDOCUMENTED")]
-    Undocumented = 2
+    Undocumented
 }

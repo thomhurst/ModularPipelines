@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListCopyJobsByState
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("PARTIAL")]
-    Partial = 5
+    Partial
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseCreateVehicleAssociationBehavior
 {
     [EnumValue("CreateIotThing")]
-    CreateIotThing = 1,
+    CreateIotThing,
 
     [EnumValue("ValidateIotThingExists")]
-    ValidateIotThingExists = 2
+    ValidateIotThingExists
 }

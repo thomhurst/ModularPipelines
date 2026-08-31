@@ -43,7 +43,10 @@ public record AwsIvsUpdateChannelOptions : AwsOptions
     [CliOption("--type")]
     public AwsIvsUpdateChannelType? Type { get; set; }
 
-    [CliFlag("--authorized")]
+    /// <summary>
+    /// Whether the channel is private (enabled for playback authorization).
+    /// </summary>
+    [CliFlag("--authorized", NegatedName = "--no-authorized")]
     public bool? Authorized { get; set; }
 
     /// <summary>
@@ -52,14 +55,17 @@ public record AwsIvsUpdateChannelOptions : AwsOptions
     [CliOption("--recording-configuration-arn")]
     public string? RecordingConfigurationArn { get; set; }
 
-    [CliFlag("--insecure-ingest")]
+    /// <summary>
+    /// Whether the channel allows insecure RTMP and SRT ingest. Default: false .
+    /// </summary>
+    [CliFlag("--insecure-ingest", NegatedName = "--no-insecure-ingest")]
     public bool? InsecureIngest { get; set; }
 
     /// <summary>
     /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY . For other channel types (BASIC and STANDARD ), preset is the empty string ("" ). Possible values: o HIGHER_BANDWIDTH_DELIVERY o CONSTRAINED_BANDWIDTH_DELIVERY
     /// </summary>
     [CliOption("--preset")]
-    public AwsIvsUpdateChannelPreset? Preset { get; set; }
+    public string? Preset { get; set; }
 
     /// <summary>
     /// Playback-restriction-policy ARN. A valid ARN value here both speci- fies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restric- tion-policy/[a-zA-Z0-9-]+$

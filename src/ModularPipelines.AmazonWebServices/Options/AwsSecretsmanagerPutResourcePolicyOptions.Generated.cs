@@ -29,7 +29,10 @@ public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; set; }
 
-    [CliFlag("--block-public-policy")]
+    /// <summary>
+    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked. WARNING: Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from be- ing granted through the resource policies that are directly at- tached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access: o Identity-based policies attached to associated Amazon Web Ser- vices principals (for example, IAM roles) o Resource-based policies attached to associated Amazon Web Ser- vices resources (for example, Key Management Service (KMS) keys) To review permissions to your secrets, see Determine who has permissions to your secrets .
+    /// </summary>
+    [CliFlag("--block-public-policy", NegatedName = "--no-block-public-policy")]
     public bool? BlockPublicPolicy { get; set; }
 
     [CliOption("--cli-input-json")]

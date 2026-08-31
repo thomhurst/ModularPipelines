@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicediscoveryDiscoverInstancesHealthStatus
 {
     [EnumValue("HEALTHY")]
-    Healthy = 1,
+    Healthy,
 
     [EnumValue("UNHEALTHY")]
-    Unhealthy = 2,
+    Unhealthy,
 
     [EnumValue("ALL")]
-    All = 3,
+    All,
 
     [EnumValue("HEALTHY_OR_ELSE_ALL")]
-    HealthyOrElseAll = 4
+    HealthyOrElseAll
 }

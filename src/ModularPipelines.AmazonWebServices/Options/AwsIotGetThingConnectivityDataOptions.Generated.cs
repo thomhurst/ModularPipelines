@@ -24,7 +24,10 @@ public record AwsIotGetThingConnectivityDataOptions : AwsOptions
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CliFlag("--include-socket-information")]
+    /// <summary>
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnec- tivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false .
+    /// </summary>
+    [CliFlag("--include-socket-information", NegatedName = "--no-include-socket-information")]
     public bool? IncludeSocketInformation { get; set; }
 
     [CliOption("--cli-input-json")]

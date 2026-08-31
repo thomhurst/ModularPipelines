@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -800,11 +800,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAnnotationAsync(
-        AwsS3apiGetObjectAnnotationOptions? options = null,
+        AwsS3apiGetObjectAnnotationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectAnnotationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -860,11 +860,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAsync(
-        AwsS3apiGetObjectOptions? options = null,
+        AwsS3apiGetObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -905,11 +905,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectTorrentAsync(
-        AwsS3apiGetObjectTorrentOptions? options = null,
+        AwsS3apiGetObjectTorrentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectTorrentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -1303,21 +1303,6 @@ public class AwsS3Api : IAwsS3Api
     }
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Enables notifications of specified events for a bucket. For more infor- mation about event notifications, see Configuring Event Notifications . Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the speci- fied type...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PutBucketNotificationConfigurationAsync(
-        AwsS3apiPutBucketNotificationConfigurationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketNotificationConfigurationOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permis- sion. For more information about Amazon S3 permissions, see Specifying permissions in a policy . For information about Amazon S3 Object Ownership, see Using object own- ership . The following operations are related to PutBucketOwnershipControls : o GetBucketOwnershipControls o DeleteBucketOwnersh...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1580,11 +1565,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SelectObjectContentAsync(
-        AwsS3apiSelectObjectContentOptions? options = null,
+        AwsS3apiSelectObjectContentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiSelectObjectContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

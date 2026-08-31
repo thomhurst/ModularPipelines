@@ -45,7 +45,10 @@ public record AwsMailmanagerStartArchiveExportOptions : AwsOptions
     [CliOption("--export-destination-configuration")]
     public string? ExportDestinationConfiguration { get; set; }
 
-    [CliFlag("--include-metadata")]
+    /// <summary>
+    /// Whether to include message metadata as JSON files in the export.
+    /// </summary>
+    [CliFlag("--include-metadata", NegatedName = "--no-include-metadata")]
     public bool? IncludeMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

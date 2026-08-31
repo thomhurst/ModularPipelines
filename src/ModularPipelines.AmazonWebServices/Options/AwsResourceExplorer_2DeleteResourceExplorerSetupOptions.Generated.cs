@@ -27,7 +27,10 @@ public record AwsResourceExplorer_2DeleteResourceExplorerSetupOptions : AwsOptio
     [CliOption("--region-list", GroupValues = true)]
     public IEnumerable<string>? RegionList { get; set; }
 
-    [CliFlag("--delete-in-all-regions")]
+    /// <summary>
+    /// Specifies whether to delete Resource Explorer configuration from all Regions where it is currently enabled. If this parameter is set to true , a value for RegionList must not be provided. Otherwise, the operation fails with a ValidationException error.
+    /// </summary>
+    [CliFlag("--delete-in-all-regions", NegatedName = "--no-delete-in-all-regions")]
     public bool? DeleteInAllRegions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotwirelessListWirelessDevicesWirelessDeviceType
 {
     [EnumValue("Sidewalk")]
-    Sidewalk = 1,
+    Sidewalk,
 
     [EnumValue("LoRaWAN")]
-    LoRaWan = 2
+    LoRaWan
 }

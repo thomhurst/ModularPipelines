@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediapackagev2ListHarvestJobsStatus
 {
     [EnumValue("QUEUED")]
-    Queued = 1,
+    Queued,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 3,
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed
 }

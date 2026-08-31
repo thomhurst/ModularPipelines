@@ -27,7 +27,10 @@ public record AwsChimeUpdateBotOptions : AwsOptions
     [CliOption("--bot-id")]
     public string? BotId { get; set; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// When true, stops the specified bot from running in your account.
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     [CliOption("--cli-input-json")]

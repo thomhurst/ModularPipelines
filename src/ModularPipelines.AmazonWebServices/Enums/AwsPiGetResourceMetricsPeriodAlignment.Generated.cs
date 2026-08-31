@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPiGetResourceMetricsPeriodAlignment
 {
     [EnumValue("END_TIME")]
-    EndTime = 1,
+    EndTime,
 
     [EnumValue("START_TIME")]
-    StartTime = 2
+    StartTime
 }

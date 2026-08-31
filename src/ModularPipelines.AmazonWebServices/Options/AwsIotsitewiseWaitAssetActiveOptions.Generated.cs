@@ -24,7 +24,10 @@ public record AwsIotsitewiseWaitAssetActiveOptions : AwsOptions
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CliFlag("--exclude-properties")]
+    /// <summary>
+    /// Whether or not to exclude asset properties from the response.
+    /// </summary>
+    [CliFlag("--exclude-properties", NegatedName = "--no-exclude-properties")]
     public bool? ExcludeProperties { get; set; }
 
     [CliOption("--cli-input-json")]

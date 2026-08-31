@@ -24,7 +24,10 @@ public record AwsRdsRemoveOptionFromOptionGroupOptions : AwsOptions
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>

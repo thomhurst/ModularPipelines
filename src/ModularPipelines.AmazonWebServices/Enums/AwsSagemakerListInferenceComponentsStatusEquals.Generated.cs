@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListInferenceComponentsStatusEquals
 {
     [EnumValue("InService")]
-    InService = 1,
+    InService,
 
     [EnumValue("Creating")]
-    Creating = 2,
+    Creating,
 
     [EnumValue("Updating")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("Deleting")]
-    Deleting = 5
+    Deleting
 }

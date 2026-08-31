@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsStartRunCacheBehavior
 {
     [EnumValue("CACHE_ON_FAILURE")]
-    CacheOnFailure = 1,
+    CacheOnFailure,
 
     [EnumValue("CACHE_ALWAYS")]
-    CacheAlways = 2,
+    CacheAlways,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

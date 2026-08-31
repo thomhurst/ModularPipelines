@@ -24,7 +24,10 @@ public record AwsSyntheticsDeleteCanaryOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--delete-lambda")]
+    /// <summary>
+    /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false . Your setting for this parameter is used only if the canary doesn't have AUTOMATIC for its ProvisionedResourceCleanup field. If that field is set to AUTOMATIC , then the Lambda functions and layers will be deleted when this canary is deleted. Type: Boolean
+    /// </summary>
+    [CliFlag("--delete-lambda", NegatedName = "--no-delete-lambda")]
     public bool? DeleteLambda { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsImagebuilderListContainerRecipesOwner
 {
     [EnumValue("Self")]
-    Self = 1,
+    Self,
 
     [EnumValue("Shared")]
-    Shared = 2,
+    Shared,
 
     [EnumValue("Amazon")]
-    Amazon = 3,
+    Amazon,
 
     [EnumValue("ThirdParty")]
-    ThirdParty = 4,
+    ThirdParty,
 
     [EnumValue("AWSMarketplace")]
-    AwsMarketplace = 5
+    AwsMarketplace
 }

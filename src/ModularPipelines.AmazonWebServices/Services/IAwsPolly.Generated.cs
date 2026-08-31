@@ -32,16 +32,6 @@ public interface IAwsPolly
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name. When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by De- scribeVoices . For example, you want your news reader application to read news in a specific language, but giving a user the option to ch...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVoicesAsync(AwsPollyDescribeVoicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns the content of the specified pronunciation lexicon stored in an Amazon Web Services Region. For more information, see Managing Lexicons . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -108,7 +98,7 @@ public interface IAwsPolly
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SynthesizeSpeechAsync(AwsPollySynthesizeSpeechOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SynthesizeSpeechAsync(AwsPollySynthesizeSpeechOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

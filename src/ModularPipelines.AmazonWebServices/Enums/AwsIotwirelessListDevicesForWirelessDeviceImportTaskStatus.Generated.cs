@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotwirelessListDevicesForWirelessDeviceImportTaskStatus
 {
     [EnumValue("INITIALIZED")]
-    Initialized = 1,
+    Initialized,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("ONBOARDED")]
-    Onboarded = 3,
+    Onboarded,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkMessagingListChannelsPrivacy
 {
     [EnumValue("PUBLIC")]
-    Public = 1,
+    Public,
 
     [EnumValue("PRIVATE")]
-    Private = 2
+    Private
 }

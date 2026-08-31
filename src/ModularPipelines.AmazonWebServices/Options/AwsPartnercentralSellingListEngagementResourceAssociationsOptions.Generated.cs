@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsPartnercentralSellingListEngagementResourceAssociationsOptions 
     /// Filters the results to include only associations with resources of the specified type. Possible values: o Opportunity
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsPartnercentralSellingListEngagementResourceAssociationsResourceType? ResourceType { get; set; }
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource. Constraints: o pattern: O[0-9]{1,19}

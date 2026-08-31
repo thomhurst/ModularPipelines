@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsListKeyRotationsIncludeKeyMaterial
 {
     [EnumValue("ALL_KEY_MATERIAL")]
-    AllKeyMaterial = 1,
+    AllKeyMaterial,
 
     [EnumValue("ROTATIONS_ONLY")]
-    RotationsOnly = 2
+    RotationsOnly
 }

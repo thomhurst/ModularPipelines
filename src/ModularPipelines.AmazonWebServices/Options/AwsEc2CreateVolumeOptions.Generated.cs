@@ -35,7 +35,10 @@ public record AwsEc2CreateVolumeOptions : AwsOptions
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Indicates whether the volume should be encrypted. The effect of set- ting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by default in the Amazon EBS User Guide . Encrypted Amazon EBS volumes must be attached to instances that sup- port Amazon EBS encryption. For more information, see Supported in- stance types .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -80,7 +83,10 @@ public record AwsEc2CreateVolumeOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--multi-attach-enabled")]
+    /// <summary>
+    /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach in the Amazon EBS User Guide .
+    /// </summary>
+    [CliFlag("--multi-attach-enabled", NegatedName = "--no-multi-attach-enabled")]
     public bool? MultiAttachEnabled { get; set; }
 
     /// <summary>
@@ -108,7 +114,10 @@ public record AwsEc2CreateVolumeOptions : AwsOptions
     [CliOption("--operator")]
     public string? Operator { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

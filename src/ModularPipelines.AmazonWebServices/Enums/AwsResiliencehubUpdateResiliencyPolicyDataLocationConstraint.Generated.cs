@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubUpdateResiliencyPolicyDataLocationConstraint
 {
     [EnumValue("AnyLocation")]
-    AnyLocation = 1,
+    AnyLocation,
 
     [EnumValue("SameContinent")]
-    SameContinent = 2,
+    SameContinent,
 
     [EnumValue("SameCountry")]
-    SameCountry = 3
+    SameCountry
 }

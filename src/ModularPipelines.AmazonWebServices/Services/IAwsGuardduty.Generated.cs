@@ -532,16 +532,6 @@ public interface IAwsGuardduty
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Invites Amazon Web Services accounts to become members of an organiza- tion administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations . To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accou...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> InviteMembersAsync(AwsGuarddutyInviteMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Lists coverage details for your GuardDuty account. If you're a Guard- Duty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -802,16 +792,6 @@ public interface IAwsGuardduty
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Updates the IPSet specified by the IPSet ID. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIpSetAsync(AwsGuarddutyUpdateIpSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Updates an existing Malware Protection plan resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -859,36 +839,6 @@ public interface IAwsGuardduty
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdatePublishingDestinationAsync(AwsGuarddutyUpdatePublishingDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Updates the threat entity set associated with the specified threatEnti- tySetId . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateThreatEntitySetAsync(AwsGuarddutyUpdateThreatEntitySetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateThreatIntelSetAsync(AwsGuarddutyUpdateThreatIntelSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Updates the trusted entity set associated with the specified trustedEn- titySetId . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrustedEntitySetAsync(AwsGuarddutyUpdateTrustedEntitySetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

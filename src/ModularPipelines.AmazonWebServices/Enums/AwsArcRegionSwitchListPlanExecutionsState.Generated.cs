@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsArcRegionSwitchListPlanExecutionsState
 {
     [EnumValue("inProgress")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("pausedByFailedStep")]
-    PausedByFailedStep = 2,
+    PausedByFailedStep,
 
     [EnumValue("pausedByOperator")]
-    PausedByOperator = 3,
+    PausedByOperator,
 
     [EnumValue("completed")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("completedWithExceptions")]
-    CompletedWithExceptions = 5,
+    CompletedWithExceptions,
 
     [EnumValue("canceled")]
-    Canceled = 6,
+    Canceled,
 
     [EnumValue("planExecutionTimedOut")]
-    PlanExecutionTimedOut = 7,
+    PlanExecutionTimedOut,
 
     [EnumValue("pendingManualApproval")]
-    PendingManualApproval = 8,
+    PendingManualApproval,
 
     [EnumValue("failed")]
-    Failed = 9,
+    Failed,
 
     [EnumValue("pending")]
-    Pending = 10
+    Pending
 }

@@ -37,7 +37,10 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--tracking-server-size")]
     public AwsSagemakerUpdateMlflowTrackingServerTrackingServerSize? TrackingServerSize { get; set; }
 
-    [CliFlag("--automatic-model-registration")]
+    /// <summary>
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False
+    /// </summary>
+    [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
@@ -52,7 +55,10 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }
 
-    [CliFlag("--s3-bucket-owner-verification")]
+    /// <summary>
+    /// Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+    /// </summary>
+    [CliFlag("--s3-bucket-owner-verification", NegatedName = "--no-s3-bucket-owner-verification")]
     public bool? S3BucketOwnerVerification { get; set; }
 
     [CliOption("--cli-input-json")]

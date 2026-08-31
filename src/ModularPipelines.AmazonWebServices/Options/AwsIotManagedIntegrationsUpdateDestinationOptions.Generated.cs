@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsIotManagedIntegrationsUpdateDestinationOptions : AwsOptions
     /// The destination type for the customer-managed destination. Possible values: o KINESIS
     /// </summary>
     [CliOption("--delivery-destination-type")]
-    public AwsIotManagedIntegrationsUpdateDestinationDeliveryDestinationType? DeliveryDestinationType { get; set; }
+    public string? DeliveryDestinationType { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the delivery destination role.

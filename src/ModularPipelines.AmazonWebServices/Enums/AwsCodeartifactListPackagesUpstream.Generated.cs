@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeartifactListPackagesUpstream
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("BLOCK")]
-    Block = 2
+    Block
 }

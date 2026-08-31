@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneCreateDomainDomainVersion
 {
     [EnumValue("V1")]
-    V1 = 1,
+    V1,
 
     [EnumValue("V2")]
-    V2 = 2
+    V2
 }

@@ -41,9 +41,15 @@ public record AwsEcsRunTaskOptions : AwsOptions
     [CliOption("--count")]
     public int? Count { get; set; }
 
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see Tagging Your Amazon ECS Resources in the Ama- zon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// Determines whether to use the execute command functionality for the containers in this task. If true , this enables execute command functionality on all containers in the task. If true , then the task definition must have a task role, or you must provide one as an override.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 

@@ -30,7 +30,10 @@ public record AwsEcsDeleteTaskSetOptions : AwsOptions
     [CliOption("--task-set")]
     public string? TaskSet { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If true , you can delete a task set even if it hasn't been scaled down to zero.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

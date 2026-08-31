@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsArtifactPutAccountSettingsNotificationSubscriptionStatus
 {
     [EnumValue("SUBSCRIBED")]
-    Subscribed = 1,
+    Subscribed,
 
     [EnumValue("NOT_SUBSCRIBED")]
-    NotSubscribed = 2
+    NotSubscribed
 }

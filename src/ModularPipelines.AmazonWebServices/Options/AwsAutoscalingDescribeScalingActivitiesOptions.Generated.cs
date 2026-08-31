@@ -34,7 +34,10 @@ public record AwsAutoscalingDescribeScalingActivitiesOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliFlag("--include-deleted-groups")]
+    /// <summary>
+    /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
+    /// </summary>
+    [CliFlag("--include-deleted-groups", NegatedName = "--no-include-deleted-groups")]
     public bool? IncludeDeletedGroups { get; set; }
 
     /// <summary>

@@ -64,7 +64,10 @@ public record AwsLightsailPutAlarmOptions : AwsOptions
     [CliOption("--notification-triggers", GroupValues = true)]
     public IEnumerable<string>? NotificationTriggers { get; set; }
 
-    [CliFlag("--notification-enabled")]
+    /// <summary>
+    /// Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this para- meter.
+    /// </summary>
+    [CliFlag("--notification-enabled", NegatedName = "--no-notification-enabled")]
     public bool? NotificationEnabled { get; set; }
 
     /// <summary>

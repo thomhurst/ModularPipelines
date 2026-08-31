@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeUpdatePhoneNumberProductType
 {
     [EnumValue("BusinessCalling")]
-    BusinessCalling = 1,
+    BusinessCalling,
 
     [EnumValue("VoiceConnector")]
-    VoiceConnector = 2,
+    VoiceConnector,
 
     [EnumValue("SipMediaApplicationDialIn")]
-    SipMediaApplicationDialIn = 3
+    SipMediaApplicationDialIn
 }

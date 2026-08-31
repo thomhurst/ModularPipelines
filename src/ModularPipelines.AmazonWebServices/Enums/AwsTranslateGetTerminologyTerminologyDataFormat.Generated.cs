@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranslateGetTerminologyTerminologyDataFormat
 {
     [EnumValue("CSV")]
-    Csv = 1,
+    Csv,
 
     [EnumValue("TMX")]
-    Tmx = 2,
+    Tmx,
 
     [EnumValue("TSV")]
-    Tsv = 3
+    Tsv
 }

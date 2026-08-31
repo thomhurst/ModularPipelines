@@ -27,7 +27,7 @@ public record AwsWickrUpdateGuestUserOptions : AwsOptions
     [CliOption("--username-hash")]
     public string? UsernameHash { get; set; }
 
-    [CliFlag("--block")]
+    [CliFlag("--block", NegatedName = "--no-block")]
     public bool? Block { get; set; }
 
     [CliOption("--cli-input-json")]

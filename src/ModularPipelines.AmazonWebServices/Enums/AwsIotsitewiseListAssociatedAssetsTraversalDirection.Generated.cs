@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListAssociatedAssetsTraversalDirection
 {
     [EnumValue("PARENT")]
-    Parent = 1,
+    Parent,
 
     [EnumValue("CHILD")]
-    Child = 2
+    Child
 }

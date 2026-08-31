@@ -24,7 +24,10 @@ public record AwsCodebuildDeleteReportGroupOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliFlag("--delete-reports")]
+    /// <summary>
+    /// If true , deletes any reports that belong to a report group before deleting the report group. If false , you must delete any reports in the report group. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown.
+    /// </summary>
+    [CliFlag("--delete-reports", NegatedName = "--no-delete-reports")]
     public bool? DeleteReports { get; set; }
 
     [CliOption("--cli-input-json")]

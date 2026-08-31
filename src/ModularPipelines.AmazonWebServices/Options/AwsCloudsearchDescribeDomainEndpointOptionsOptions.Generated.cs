@@ -24,7 +24,10 @@ public record AwsCloudsearchDescribeDomainEndpointOptionsOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliFlag("--deployed")]
+    /// <summary>
+    /// Whether to retrieve the latest configuration (which might be in a Processing state) or the current, active configuration. Defaults to false .
+    /// </summary>
+    [CliFlag("--deployed", NegatedName = "--no-deployed")]
     public bool? Deployed { get; set; }
 
     [CliOption("--cli-input-json")]

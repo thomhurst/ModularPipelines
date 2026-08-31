@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentListModelVersionsSourceType
 {
     [EnumValue("TRAINING")]
-    Training = 1,
+    Training,
 
     [EnumValue("RETRAINING")]
-    Retraining = 2,
+    Retraining,
 
     [EnumValue("IMPORT")]
-    Import = 3
+    Import
 }

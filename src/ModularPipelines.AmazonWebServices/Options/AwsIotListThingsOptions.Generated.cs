@@ -40,7 +40,10 @@ public record AwsIotListThingsOptions : AwsOptions
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; set; }
 
-    [CliFlag("--use-prefix-attribute-value")]
+    /// <summary>
+    /// When true , the action returns the thing resources with attribute values that start with the attributeValue provided. When false , or not present, the action returns only the thing re- sources with attribute values that match the entire attributeValue provided.
+    /// </summary>
+    [CliFlag("--use-prefix-attribute-value", NegatedName = "--no-use-prefix-attribute-value")]
     public bool? UsePrefixAttributeValue { get; set; }
 
     [CliOption("--cli-input-json")]

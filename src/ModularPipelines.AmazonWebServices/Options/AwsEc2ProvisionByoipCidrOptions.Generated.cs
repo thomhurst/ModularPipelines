@@ -30,7 +30,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--cidr-authorization-context")]
     public string? CidrAuthorizationContext { get; set; }
 
-    [CliFlag("--publicly-advertisable")]
+    /// <summary>
+    /// (IPv6 only) Indicate whether the address range will be publicly ad- vertised to the internet. Default: true
+    /// </summary>
+    [CliFlag("--publicly-advertisable", NegatedName = "--no-publicly-advertisable")]
     public bool? PubliclyAdvertisable { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -48,7 +54,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--pool-tag-specifications", GroupValues = true)]
     public IEnumerable<string>? PoolTagSpecifications { get; set; }
 
-    [CliFlag("--multi-region")]
+    /// <summary>
+    /// Reserved.
+    /// </summary>
+    [CliFlag("--multi-region", NegatedName = "--no-multi-region")]
     public bool? MultiRegion { get; set; }
 
     /// <summary>

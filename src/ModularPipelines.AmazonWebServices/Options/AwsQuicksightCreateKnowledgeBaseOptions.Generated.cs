@@ -55,13 +55,13 @@ public record AwsQuicksightCreateKnowledgeBaseOptions : AwsOptions
     public string? MediaExtractionConfiguration { get; set; }
 
     /// <summary>
-    /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled. isACLEnabled -&gt; (boolean) Specifies whether ACLs are enabled for the knowledge base. Shorthand Syntax: isACLEnabled=boolean JSON Syntax: { "isACLEnabled": true|false }
+    /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled. isACLEnabled -&gt; (boolean) Specifies whether ACLs are enabled for the knowledge base. This setting works together with the data source connector's ACL crawling. To enforce document-level access control end to end, set isACLEnabled to true and enable ACL crawling on the connec- tor. For example, for an Amazon S3 data source, set accessCon- trolConfiguration.crawlAcl to true in the connector template. For more information, see KbTemplateConfiguration . Enabling only one of the two settings does not produce a fully ACL-en- forced knowledge base. Shorthand Syntax: isACLEnabled=boolean JSON Syntax: { "isACLEnabled": true|false }
     /// </summary>
     [CliOption("--access-control-configuration")]
     public string? AccessControlConfiguration { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the primary owner for the knowl- edge base. The specified user is always granted owner access, re- gardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    /// The Amazon Resource Name (ARN) of the Amazon QuickSight user or group to set as the primary owner of the knowledge base. The speci- fied principal is always granted owner access, regardless of what is specified in the Permissions field. This must be an Amazon QuickSight principal ARN, not an IAM user or role ARN. The API caller is never assigned as the owner automati- cally. If you don't specify a primary owner and don't grant owner access in Permissions , the knowledge base is created without an owner, even when you call the operation as an Amazon QuickSight user. When you call CreateKnowledgeBase as an IAM user or an assumed IAM role, specify PrimaryOwnerArn (as an Amazon QuickSight principal ARN) or an owner entry in Permissions so that the knowledge base has an owner. Although optional, specifying a primary owner is recom- mended.
     /// </summary>
     [CliOption("--primary-owner-arn")]
     public string? PrimaryOwnerArn { get; set; }

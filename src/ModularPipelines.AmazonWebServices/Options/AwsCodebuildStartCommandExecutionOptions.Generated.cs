@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsCodebuildStartCommandExecutionOptions : AwsOptions
     /// The command type. Possible values: o SHELL
     /// </summary>
     [CliOption("--type")]
-    public AwsCodebuildStartCommandExecutionType? Type { get; set; }
+    public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

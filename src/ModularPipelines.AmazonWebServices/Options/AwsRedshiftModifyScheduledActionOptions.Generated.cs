@@ -60,7 +60,10 @@ public record AwsRedshiftModifyScheduledActionOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--enable")]
+    /// <summary>
+    /// A modified enable flag of the scheduled action. If true, the sched- uled action is active. If false, the scheduled action is disabled.
+    /// </summary>
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
 
     [CliOption("--cli-input-json")]

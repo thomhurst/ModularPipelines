@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListInferenceExperimentsStatusEquals
 {
     [EnumValue("Creating")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("Created")]
-    Created = 2,
+    Created,
 
     [EnumValue("Updating")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("Running")]
-    Running = 4,
+    Running,
 
     [EnumValue("Starting")]
-    Starting = 5,
+    Starting,
 
     [EnumValue("Stopping")]
-    Stopping = 6,
+    Stopping,
 
     [EnumValue("Completed")]
-    Completed = 7,
+    Completed,
 
     [EnumValue("Cancelled")]
-    Cancelled = 8
+    Cancelled
 }

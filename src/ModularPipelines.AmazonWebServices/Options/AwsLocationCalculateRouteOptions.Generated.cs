@@ -49,7 +49,10 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Sets the time of departure as the current time. Uses the current time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>
@@ -58,7 +61,10 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
     [CliOption("--distance-unit")]
     public AwsLocationCalculateRouteDistanceUnit? DistanceUnit { get; set; }
 
-    [CliFlag("--include-leg-geometry")]
+    /// <summary>
+    /// Set to include the geometry details in the result for each path be- tween a pair of positions. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--include-leg-geometry", NegatedName = "--no-include-leg-geometry")]
     public bool? IncludeLegGeometry { get; set; }
 
     /// <summary>

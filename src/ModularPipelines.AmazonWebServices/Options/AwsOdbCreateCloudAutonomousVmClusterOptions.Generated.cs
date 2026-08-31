@@ -58,7 +58,10 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--is-mtls-enabled-vm-cluster")]
+    /// <summary>
+    /// Specifies whether to enable mutual TLS (mTLS) authentication for the Autonomous VM cluster.
+    /// </summary>
+    [CliFlag("--is-mtls-enabled-vm-cluster", NegatedName = "--no-is-mtls-enabled-vm-cluster")]
     public bool? IsMtlsEnabledVmCluster { get; set; }
 
     /// <summary>

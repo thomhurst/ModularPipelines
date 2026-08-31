@@ -27,10 +27,16 @@ public record AwsLakeformationUpdateResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliFlag("--with-federation")]
+    /// <summary>
+    /// Whether or not the resource is a federated resource.
+    /// </summary>
+    [CliFlag("--with-federation", NegatedName = "--no-with-federation")]
     public bool? WithFederation { get; set; }
 
-    [CliFlag("--hybrid-access-enabled")]
+    /// <summary>
+    /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+    /// </summary>
+    [CliFlag("--hybrid-access-enabled", NegatedName = "--no-hybrid-access-enabled")]
     public bool? HybridAccessEnabled { get; set; }
 
     /// <summary>

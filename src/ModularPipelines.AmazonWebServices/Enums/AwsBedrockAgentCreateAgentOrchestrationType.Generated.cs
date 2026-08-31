@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentCreateAgentOrchestrationType
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("CUSTOM_ORCHESTRATION")]
-    CustomOrchestration = 2
+    CustomOrchestration
 }

@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("docdb-elastic", "copy-cluster-snapshot")]
 public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions
 {
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false .
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>

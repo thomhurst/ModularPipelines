@@ -27,7 +27,10 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions
     [CliOption("--wrapping-key-algorithm")]
     public string? WrappingKeyAlgorithm { get; set; }
 
-    [CliFlag("--reuse-last-generated-token")]
+    /// <summary>
+    /// Specifies whether to reuse the existing import token and wrapping key certificate. If set to true and a valid import token exists for the same key material type and wrapping key algorithm with at least 7 days of remaining validity, the existing token and wrapping key certificate are returned. Otherwise, a new import token and wrapping key certificate are generated. The default value is false , which generates a new import token and wrapping key certificate on every call.
+    /// </summary>
+    [CliFlag("--reuse-last-generated-token", NegatedName = "--no-reuse-last-generated-token")]
     public bool? ReuseLastGeneratedToken { get; set; }
 
     [CliOption("--cli-input-json")]

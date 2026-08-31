@@ -44,7 +44,10 @@ public record AwsElasticacheModifyUserOptions : AwsOptions
     [CliOption("--passwords", GroupValues = true)]
     public IEnumerable<string>? Passwords { get; set; }
 
-    [CliFlag("--no-password-required")]
+    /// <summary>
+    /// Indicates no password is required for the user.
+    /// </summary>
+    [CliFlag("--no-password-required", NegatedName = "--no-no-password-required")]
     public bool? NoPasswordRequired { get; set; }
 
     /// <summary>

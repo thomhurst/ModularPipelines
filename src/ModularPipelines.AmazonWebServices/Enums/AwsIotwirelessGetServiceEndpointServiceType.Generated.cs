@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotwirelessGetServiceEndpointServiceType
 {
     [EnumValue("CUPS")]
-    Cups = 1,
+    Cups,
 
     [EnumValue("LNS")]
-    Lns = 2
+    Lns
 }

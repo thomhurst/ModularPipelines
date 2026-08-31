@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsListRunsInBatchSubmissionStatus
 {
     [EnumValue("SUCCESS")]
-    Success = 1,
+    Success,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("CANCEL_SUCCESS")]
-    CancelSuccess = 3,
+    CancelSuccess,
 
     [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 4,
+    CancelFailed,
 
     [EnumValue("DELETE_SUCCESS")]
-    DeleteSuccess = 5,
+    DeleteSuccess,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 6,
+    DeleteFailed,
 
     [EnumValue("Constraints")]
-    Constraints = 7
+    Constraints
 }

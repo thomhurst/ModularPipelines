@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVpcLatticeListTargetGroupsTargetGroupType
 {
     [EnumValue("IP")]
-    Ip = 1,
+    Ip,
 
     [EnumValue("LAMBDA")]
-    Lambda = 2,
+    Lambda,
 
     [EnumValue("INSTANCE")]
-    Instance = 3,
+    Instance,
 
     [EnumValue("ALB")]
-    Alb = 4
+    Alb
 }

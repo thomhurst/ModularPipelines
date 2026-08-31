@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2UpdateIntegrationConnectionType
 {
     [EnumValue("INTERNET")]
-    Internet = 1,
+    Internet,
 
     [EnumValue("VPC_LINK")]
-    VpcLink = 2
+    VpcLink
 }

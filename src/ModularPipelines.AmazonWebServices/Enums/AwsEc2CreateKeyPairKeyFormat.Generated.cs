@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateKeyPairKeyFormat
 {
     [EnumValue("pem")]
-    Pem = 1,
+    Pem,
 
     [EnumValue("ppk")]
-    Ppk = 2
+    Ppk
 }

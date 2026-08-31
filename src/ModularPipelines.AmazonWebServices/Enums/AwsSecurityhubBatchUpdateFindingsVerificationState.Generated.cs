@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubBatchUpdateFindingsVerificationState
 {
     [EnumValue("UNKNOWN")]
-    Unknown = 1,
+    Unknown,
 
     [EnumValue("TRUE_POSITIVE")]
-    TruePositive = 2,
+    TruePositive,
 
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 3,
+    FalsePositive,
 
     [EnumValue("BENIGN_POSITIVE")]
-    BenignPositive = 4
+    BenignPositive
 }

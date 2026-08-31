@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -28,10 +27,16 @@ public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; set; }
 
-    [CliFlag("--ops-center-enabled")]
+    /// <summary>
+    /// When set to true , creates opsItems for any problems detected on an application.
+    /// </summary>
+    [CliFlag("--ops-center-enabled", NegatedName = "--no-ops-center-enabled")]
     public bool? OpsCenterEnabled { get; set; }
 
-    [CliFlag("--cwe-monitor-enabled")]
+    /// <summary>
+    /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated , failed deployment , and others.
+    /// </summary>
+    [CliFlag("--cwe-monitor-enabled", NegatedName = "--no-cwe-monitor-enabled")]
     public bool? CweMonitorEnabled { get; set; }
 
     /// <summary>
@@ -52,19 +57,28 @@ public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--auto-config-enabled")]
+    /// <summary>
+    /// Indicates whether Application Insights automatically configures un- monitored resources in the resource group.
+    /// </summary>
+    [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
 
-    [CliFlag("--auto-create")]
+    /// <summary>
+    /// Configures all of the resources in the resource group by applying the recommended configurations.
+    /// </summary>
+    [CliFlag("--auto-create", NegatedName = "--no-auto-create")]
     public bool? AutoCreate { get; set; }
 
     /// <summary>
     /// Application Insights can create applications based on a resource group or on an account. To create an account-based application using all of the resources in the account, set this parameter to AC- COUNT_BASED . Possible values: o ACCOUNT_BASED
     /// </summary>
     [CliOption("--grouping-type")]
-    public AwsApplicationInsightsCreateApplicationGroupingType? GroupingType { get; set; }
+    public string? GroupingType { get; set; }
 
-    [CliFlag("--attach-missing-permission")]
+    /// <summary>
+    /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+    /// </summary>
+    [CliFlag("--attach-missing-permission", NegatedName = "--no-attach-missing-permission")]
     public bool? AttachMissingPermission { get; set; }
 
     [CliOption("--cli-input-json")]

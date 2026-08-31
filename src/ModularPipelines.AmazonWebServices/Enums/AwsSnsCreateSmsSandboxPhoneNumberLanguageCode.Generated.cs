@@ -17,41 +17,41 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSnsCreateSmsSandboxPhoneNumberLanguageCode
 {
     [EnumValue("en-US")]
-    EnUs = 1,
+    EnUs,
 
     [EnumValue("en-GB")]
-    EnGb = 2,
+    EnGb,
 
     [EnumValue("es-419")]
-    Es_419 = 3,
+    Es_419,
 
     [EnumValue("es-ES")]
-    EsEs = 4,
+    EsEs,
 
     [EnumValue("de-DE")]
-    DeDe = 5,
+    DeDe,
 
     [EnumValue("fr-CA")]
-    FrCa = 6,
+    FrCa,
 
     [EnumValue("fr-FR")]
-    FrFr = 7,
+    FrFr,
 
     [EnumValue("it-IT")]
-    ItIt = 8,
+    ItIt,
 
     [EnumValue("ja-JP")]
-    JaJp = 9,
+    JaJp,
 
     [EnumValue("pt-BR")]
-    PtBr = 10,
+    PtBr,
 
     [EnumValue("kr-KR")]
-    KrKr = 11,
+    KrKr,
 
     [EnumValue("zh-CN")]
-    ZhCn = 12,
+    ZhCn,
 
     [EnumValue("zh-TW")]
-    ZhTw = 13
+    ZhTw
 }

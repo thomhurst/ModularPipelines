@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScansSortBy
 {
     [EnumValue("STATUS")]
-    Status = 1,
+    Status,
 
     [EnumValue("SCHEDULED_BY")]
-    ScheduledBy = 2,
+    ScheduledBy,
 
     [EnumValue("SCAN_START_DATE")]
-    ScanStartDate = 3,
+    ScanStartDate,
 
     [EnumValue("FAILED_CHECKS")]
-    FailedChecks = 4
+    FailedChecks
 }

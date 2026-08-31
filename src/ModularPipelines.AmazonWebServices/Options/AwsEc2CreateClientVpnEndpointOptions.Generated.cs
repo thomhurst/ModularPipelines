@@ -62,10 +62,16 @@ public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--split-tunnel")]
+    /// <summary>
+    /// Indicates whether split-tunnel is enabled on the Client VPN end- point. By default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide .
+    /// </summary>
+    [CliFlag("--split-tunnel", NegatedName = "--no-split-tunnel")]
     public bool? SplitTunnel { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -123,7 +129,10 @@ public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
     [CliOption("--client-route-enforcement-options")]
     public string? ClientRouteEnforcementOptions { get; set; }
 
-    [CliFlag("--disconnect-on-session-timeout")]
+    /// <summary>
+    /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true , users are prompted to reconnect client VPN. If false , client VPN attempts to reconnect automatically. The default value is true .
+    /// </summary>
+    [CliFlag("--disconnect-on-session-timeout", NegatedName = "--no-disconnect-on-session-timeout")]
     public bool? DisconnectOnSessionTimeout { get; set; }
 
     /// <summary>

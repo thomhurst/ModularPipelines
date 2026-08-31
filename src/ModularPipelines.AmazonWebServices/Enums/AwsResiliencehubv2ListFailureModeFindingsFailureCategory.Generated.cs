@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListFailureModeFindingsFailureCategory
 {
     [EnumValue("SHARED_FATE")]
-    SharedFate = 1,
+    SharedFate,
 
     [EnumValue("EXCESSIVE_LOAD")]
-    ExcessiveLoad = 2,
+    ExcessiveLoad,
 
     [EnumValue("EXCESSIVE_LATENCY")]
-    ExcessiveLatency = 3,
+    ExcessiveLatency,
 
     [EnumValue("MISCONFIGURATION_AND_BUGS")]
-    MisconfigurationAndBugs = 4,
+    MisconfigurationAndBugs,
 
     [EnumValue("SINGLE_POINT_OF_FAILURE")]
-    SinglePointOfFailure = 5
+    SinglePointOfFailure
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2GetComponentVersionArtifactIotEndpointType
 {
     [EnumValue("fips")]
-    Fips = 1,
+    Fips,
 
     [EnumValue("standard")]
-    Standard = 2
+    Standard
 }

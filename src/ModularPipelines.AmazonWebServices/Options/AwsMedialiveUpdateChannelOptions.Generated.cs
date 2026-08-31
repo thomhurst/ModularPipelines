@@ -54,7 +54,7 @@ public record AwsMedialiveUpdateChannelOptions : AwsOptions
     [CliOption("--channel-engine-version")]
     public string? ChannelEngineVersion { get; set; }
 
-    [CliFlag("--dry-run")]
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--anywhere-settings")]

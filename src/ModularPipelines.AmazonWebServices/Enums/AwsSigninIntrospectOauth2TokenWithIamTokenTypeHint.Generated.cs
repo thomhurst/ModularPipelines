@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSigninIntrospectOauth2TokenWithIamTokenTypeHint
 {
     [EnumValue("access_token")]
-    AccessToken = 0,
+    AccessToken,
 
     [EnumValue("refresh_token")]
-    RefreshToken = 1
+    RefreshToken
 }

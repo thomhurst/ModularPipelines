@@ -40,7 +40,10 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions
     [CliOption("--context-lines")]
     public int? ContextLines { get; set; }
 
-    [CliFlag("--ignore-whitespace")]
+    /// <summary>
+    /// Specifies whether to ignore whitespace-only changes when computing the diff. When true , the operation treats lines that differ only in whitespace as unchanged. Defaults to false .
+    /// </summary>
+    [CliFlag("--ignore-whitespace", NegatedName = "--no-ignore-whitespace")]
     public bool? IgnoreWhitespace { get; set; }
 
     [CliOption("--cli-input-json")]

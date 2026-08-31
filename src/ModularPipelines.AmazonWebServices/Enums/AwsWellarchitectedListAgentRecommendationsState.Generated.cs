@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListAgentRecommendationsState
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("CLOSED")]
-    Closed = 2
+    Closed
 }

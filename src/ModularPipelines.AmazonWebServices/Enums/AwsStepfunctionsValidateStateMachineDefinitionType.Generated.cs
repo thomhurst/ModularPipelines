@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStepfunctionsValidateStateMachineDefinitionType
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("EXPRESS")]
-    Express = 2
+    Express
 }

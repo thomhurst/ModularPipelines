@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateAutonomousDatabaseDatabaseEdition
 {
     [EnumValue("STANDARD_EDITION")]
-    StandardEdition = 1,
+    StandardEdition,
 
     [EnumValue("ENTERPRISE_EDITION")]
-    EnterpriseEdition = 2
+    EnterpriseEdition
 }

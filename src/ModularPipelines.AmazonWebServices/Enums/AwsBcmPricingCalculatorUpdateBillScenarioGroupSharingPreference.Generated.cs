@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBcmPricingCalculatorUpdateBillScenarioGroupSharingPreference
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("PRIORITIZED")]
-    Prioritized = 2,
+    Prioritized,
 
     [EnumValue("RESTRICTED")]
-    Restricted = 3
+    Restricted
 }

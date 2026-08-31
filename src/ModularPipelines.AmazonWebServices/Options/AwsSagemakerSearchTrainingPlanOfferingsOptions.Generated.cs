@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsSagemakerSearchTrainingPlanOfferingsOptions : AwsOptions
     /// The type of instance you want to search for in the available train- ing plan offerings. This field allows you to filter the search re- sults based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When search- ing for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs. Possible values: o ml.p4d.24xlarge o ml.p5.48xlarge o ml.p5e.48xlarge o ml.p5en.48xlarge o ml.trn1.32xlarge o ml.trn2.48xlarge o ml.p6-b200.48xlarge o ml.p4de.24xlarge o ml.p6e-gb200.36xlarge o ml.p5.4xlarge o ml.p6-b300.48xlarge
     /// </summary>
     [CliOption("--instance-type")]
-    public AwsSagemakerSearchTrainingPlanOfferingsInstanceType? InstanceType { get; set; }
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// The number of instances you want to reserve in the training plan of- ferings. This allows you to specify the quantity of compute re- sources needed for your SageMaker training jobs or SageMaker Hyper- Pod clusters, helping you find reserved capacity offerings that match your requirements. Constraints: o min: 0 o max: 256

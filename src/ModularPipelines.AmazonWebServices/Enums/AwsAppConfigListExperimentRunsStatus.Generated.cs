@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigListExperimentRunsStatus
 {
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("DONE")]
-    Done = 2
+    Done
 }

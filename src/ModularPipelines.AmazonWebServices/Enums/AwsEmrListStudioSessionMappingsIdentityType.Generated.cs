@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrListStudioSessionMappingsIdentityType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("GROUP")]
-    Group = 2
+    Group
 }

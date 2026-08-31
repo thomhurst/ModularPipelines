@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 12 months after creation. If a case was cre- ated more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
+/// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was cre- ated more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,16 +26,22 @@ public record AwsSupportDescribeCommunicationsOptions : AwsOptions
     public string? CaseId { get; set; }
 
     /// <summary>
-    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--before-time")]
     public string? BeforeTime { get; set; }
 
     /// <summary>
-    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--after-time")]
     public string? AfterTime { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning communications. When set to true , the request is validated but no communications are returned, and the operation returns a DryRunOper- ationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

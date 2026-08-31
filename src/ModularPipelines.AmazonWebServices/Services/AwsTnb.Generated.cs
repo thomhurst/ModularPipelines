@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -160,11 +160,11 @@ public class AwsTnb : IAwsTnb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSolFunctionPackageContentAsync(
-        AwsTnbGetSolFunctionPackageContentOptions? options = null,
+        AwsTnbGetSolFunctionPackageContentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsTnbGetSolFunctionPackageContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsTnb : IAwsTnb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSolFunctionPackageDescriptorAsync(
-        AwsTnbGetSolFunctionPackageDescriptorOptions? options = null,
+        AwsTnbGetSolFunctionPackageDescriptorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsTnbGetSolFunctionPackageDescriptorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsTnb : IAwsTnb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSolNetworkPackageContentAsync(
-        AwsTnbGetSolNetworkPackageContentOptions? options = null,
+        AwsTnbGetSolNetworkPackageContentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsTnbGetSolNetworkPackageContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsTnb : IAwsTnb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSolNetworkPackageDescriptorAsync(
-        AwsTnbGetSolNetworkPackageDescriptorOptions? options = null,
+        AwsTnbGetSolNetworkPackageDescriptorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsTnbGetSolNetworkPackageDescriptorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

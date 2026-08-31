@@ -38,7 +38,10 @@ public record AwsCustomerProfilesListIntegrationsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--include-hidden")]
+    /// <summary>
+    /// Boolean to indicate if hidden integration should be returned. De- faults to False .
+    /// </summary>
+    [CliFlag("--include-hidden", NegatedName = "--no-include-hidden")]
     public bool? IncludeHidden { get; set; }
 
     [CliOption("--cli-input-json")]

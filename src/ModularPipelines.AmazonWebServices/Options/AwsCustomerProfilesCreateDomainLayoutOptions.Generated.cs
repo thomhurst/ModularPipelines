@@ -34,7 +34,10 @@ public record AwsCustomerProfilesCreateDomainLayoutOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliFlag("--is-default")]
+    /// <summary>
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by de- fault, but it can be used to view data by explicitly selecting it in the console.
+    /// </summary>
+    [CliFlag("--is-default", NegatedName = "--no-is-default")]
     public bool? IsDefault { get; set; }
 
     [CliOption("--layout-type")]

@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "batch-modify-ipam-routing-policy-registrations")]
 public record AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-internet-registry-association-id")]
@@ -31,7 +34,10 @@ public record AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions : AwsOption
     [CliOption("--delta-json")]
     public string? DeltaJson { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the batch modification even if individual changes conflict with announced routes. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

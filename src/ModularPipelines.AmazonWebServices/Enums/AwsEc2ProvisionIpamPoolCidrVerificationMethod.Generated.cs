@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ProvisionIpamPoolCidrVerificationMethod
 {
     [EnumValue("remarks-x509")]
-    RemarksX509 = 1,
+    RemarksX509,
 
     [EnumValue("dns-token")]
-    DnsToken = 2
+    DnsToken
 }

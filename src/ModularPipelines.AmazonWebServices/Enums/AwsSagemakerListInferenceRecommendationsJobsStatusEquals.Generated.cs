@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListInferenceRecommendationsJobsStatusEquals
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("STOPPING")]
-    Stopping = 5,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 6,
+    Stopped,
 
     [EnumValue("DELETING")]
-    Deleting = 7,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 8
+    Deleted
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyTrafficMirrorFilterRuleTrafficDirection
 {
     [EnumValue("ingress")]
-    Ingress = 1,
+    Ingress,
 
     [EnumValue("egress")]
-    Egress = 2
+    Egress
 }

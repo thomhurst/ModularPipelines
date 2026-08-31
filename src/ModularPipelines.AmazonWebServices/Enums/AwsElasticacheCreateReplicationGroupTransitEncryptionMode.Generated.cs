@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticacheCreateReplicationGroupTransitEncryptionMode
 {
     [EnumValue("preferred")]
-    Preferred = 1,
+    Preferred,
 
     [EnumValue("required")]
-    Required = 2
+    Required
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListHubsSortBy
 {
     [EnumValue("HubName")]
-    HubName = 1,
+    HubName,
 
     [EnumValue("CreationTime")]
-    CreationTime = 2,
+    CreationTime,
 
     [EnumValue("HubStatus")]
-    HubStatus = 3,
+    HubStatus,
 
     [EnumValue("AccountIdOwner")]
-    AccountIdOwner = 4
+    AccountIdOwner
 }

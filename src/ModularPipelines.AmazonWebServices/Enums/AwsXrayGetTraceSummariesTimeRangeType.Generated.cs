@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsXrayGetTraceSummariesTimeRangeType
 {
     [EnumValue("TraceId")]
-    TraceId = 1,
+    TraceId,
 
     [EnumValue("Event")]
-    Event = 2,
+    Event,
 
     [EnumValue("Service")]
-    Service = 3
+    Service
 }

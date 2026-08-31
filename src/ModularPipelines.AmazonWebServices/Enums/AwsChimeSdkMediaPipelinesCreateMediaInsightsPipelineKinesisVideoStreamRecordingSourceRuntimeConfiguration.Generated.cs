@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineKinesisVideoStreamRecordingSourceRuntimeConfiguration
 {
     [EnumValue("ProducerTimestamp")]
-    ProducerTimestamp = 1,
+    ProducerTimestamp,
 
     [EnumValue("ServerTimestamp")]
-    ServerTimestamp = 2,
+    ServerTimestamp,
 
     [EnumValue("TimestampRange")]
-    TimestampRange = 3
+    TimestampRange
 }

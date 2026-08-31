@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmContactsListContactsType
 {
     [EnumValue("PERSONAL")]
-    Personal = 1,
+    Personal,
 
     [EnumValue("ESCALATION")]
-    Escalation = 2,
+    Escalation,
 
     [EnumValue("ONCALL_SCHEDULE")]
-    OncallSchedule = 3
+    OncallSchedule
 }

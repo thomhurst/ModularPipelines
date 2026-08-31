@@ -78,13 +78,22 @@ public record AwsSsmUpdateMaintenanceWindowOptions : AwsOptions
     [CliOption("--cutoff")]
     public int? Cutoff { get; set; }
 
-    [CliFlag("--allow-unassociated-targets")]
+    /// <summary>
+    /// Whether targets must be registered with the maintenance window be- fore tasks can be defined for those targets.
+    /// </summary>
+    [CliFlag("--allow-unassociated-targets", NegatedName = "--no-allow-unassociated-targets")]
     public bool? AllowUnassociatedTargets { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Whether the maintenance window is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True , then all fields that are required by the CreateMainte- nanceWindow operation are also required for this API request. Op- tional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]

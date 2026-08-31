@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2UpdateIntegrationPassthroughBehavior
 {
     [EnumValue("WHEN_NO_MATCH")]
-    WhenNoMatch = 0,
+    WhenNoMatch,
 
     [EnumValue("WHEN_NO_TEMPLATES")]
-    WhenNoTemplates = 1,
+    WhenNoTemplates,
 
     [EnumValue("and")]
-    And = 2,
+    And,
 
     [EnumValue("NEVER")]
-    Never = 3
+    Never
 }

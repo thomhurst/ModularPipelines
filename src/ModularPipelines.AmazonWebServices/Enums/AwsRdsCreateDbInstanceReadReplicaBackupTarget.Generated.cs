@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbInstanceReadReplicaBackupTarget
 {
     [EnumValue("local")]
-    Local = 1,
+    Local,
 
     [EnumValue("for")]
-    For = 2,
+    For,
 
     [EnumValue("Dedicated")]
-    Dedicated = 3,
+    Dedicated,
 
     [EnumValue("Zones")]
-    Zones = 4,
+    Zones,
 
     [EnumValue("region")]
-    Region = 5,
+    Region,
 
     [EnumValue("Amazon")]
-    Amazon = 6,
+    Amazon,
 
     [EnumValue("Web")]
-    Web = 7,
+    Web,
 
     [EnumValue("Services")]
-    Services = 8
+    Services
 }

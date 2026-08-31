@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListMetadataGenerationRunsStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("CANCELED")]
-    Canceled = 3,
+    Canceled,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 4,
+    Succeeded,
 
     [EnumValue("FAILED")]
-    Failed = 5,
+    Failed,
 
     [EnumValue("PARTIALLY_SUCCEEDED")]
-    PartiallySucceeded = 6
+    PartiallySucceeded
 }

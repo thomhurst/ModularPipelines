@@ -24,16 +24,28 @@ public record AwsEc2StopInstancesOptions : AwsOptions
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
-    [CliFlag("--hibernate")]
+    /// <summary>
+    /// Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide . Default: false
+    /// </summary>
+    [CliFlag("--hibernate", NegatedName = "--no-hibernate")]
     public bool? Hibernate { get; set; }
 
-    [CliFlag("--skip-os-shutdown")]
+    /// <summary>
+    /// Specifies whether to bypass the graceful OS shutdown process when the instance is stopped. WARNING: Bypassing the graceful OS shutdown might result in data loss or corruption (for example, memory contents not flushed to disk or loss of in-flight IOs) or skipped shutdown scripts. Default: false
+    /// </summary>
+    [CliFlag("--skip-os-shutdown", NegatedName = "--no-skip-os-shutdown")]
     public bool? SkipOsShutdown { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the instance to stop. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata. After using this option, you must perform file system check and re- pair procedures. This option is not recommended for Windows in- stances. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide . Default: false
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

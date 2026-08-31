@@ -24,7 +24,10 @@ public record AwsTimestreamInfluxdbDeleteDbInstanceOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--retain-automated-backups")]
+    /// <summary>
+    /// Specifies whether to retain automated backups after the DB instance is deleted. If set to true, automated backups are not deleted and can be restored later.
+    /// </summary>
+    [CliFlag("--retain-automated-backups", NegatedName = "--no-retain-automated-backups")]
     public bool? RetainAutomatedBackups { get; set; }
 
     [CliOption("--cli-input-json")]

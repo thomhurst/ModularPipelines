@@ -24,7 +24,10 @@ public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation
     [CliOption("--local-gateway-route-table-virtual-interface-group-association-id")]
     public string? LocalGatewayRouteTableVirtualInterfaceGroupAssociationId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

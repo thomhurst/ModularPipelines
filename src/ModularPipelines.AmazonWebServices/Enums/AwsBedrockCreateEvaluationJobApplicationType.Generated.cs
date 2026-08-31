@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockCreateEvaluationJobApplicationType
 {
     [EnumValue("ModelEvaluation")]
-    ModelEvaluation = 1,
+    ModelEvaluation,
 
     [EnumValue("RagEvaluation")]
-    RagEvaluation = 2
+    RagEvaluation
 }

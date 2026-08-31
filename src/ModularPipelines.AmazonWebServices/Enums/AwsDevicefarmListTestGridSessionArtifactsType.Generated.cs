@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevicefarmListTestGridSessionArtifactsType
 {
     [EnumValue("VIDEO")]
-    Video = 1,
+    Video,
 
     [EnumValue("LOG")]
-    Log = 2
+    Log
 }

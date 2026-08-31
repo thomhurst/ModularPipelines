@@ -28,6 +28,9 @@ public record AwsLicenseManagerListLicenseAssetRulesetsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
+    /// <summary>
+    /// cense-asset-rulesets (boolean) Specifies whether to show License Manager managed license asset rulesets.
+    /// </summary>
     [CliFlag("--show-aws-managed-license-asset-rulesets")]
     public bool? ShowAwsManagedLicenseAssetRulesets { get; set; }
 

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPiGetPerformanceAnalysisReportTextFormat
 {
     [EnumValue("PLAIN_TEXT")]
-    PlainText = 1,
+    PlainText,
 
     [EnumValue("MARKDOWN")]
-    Markdown = 2
+    Markdown
 }

@@ -24,6 +24,9 @@ public record AwsDsDeleteTrustOptions : AwsOptions
     [CliOption("--trust-id")]
     public string? TrustId { get; set; }
 
+    /// <summary>
+    /// ditional-forwarder (boolean) Delete a conditional forwarder as part of a DeleteTrustRequest.
+    /// </summary>
     [CliFlag("--delete-associated-conditional-forwarder")]
     public bool? DeleteAssociatedConditionalForwarder { get; set; }
 

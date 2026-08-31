@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions
     /// Specifies the desired service. Currently, TURN is the only valid value. Possible values: o TURN
     /// </summary>
     [CliOption("--service")]
-    public AwsKinesisVideoSignalingGetIceServerConfigService? Service { get; set; }
+    public string? Service { get; set; }
 
     /// <summary>
     /// An optional user ID to be associated with the credentials. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+

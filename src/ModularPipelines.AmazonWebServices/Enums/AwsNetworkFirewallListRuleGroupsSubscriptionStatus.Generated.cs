@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallListRuleGroupsSubscriptionStatus
 {
     [EnumValue("NOT_SUBSCRIBED")]
-    NotSubscribed = 1,
+    NotSubscribed,
 
     [EnumValue("SUBSCRIBED")]
-    Subscribed = 2
+    Subscribed
 }

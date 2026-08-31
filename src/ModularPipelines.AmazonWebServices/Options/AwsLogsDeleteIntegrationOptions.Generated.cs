@@ -24,7 +24,10 @@ public record AwsLogsDeleteIntegrationOptions : AwsOptions
     [CliOption("--integration-name")]
     public string? IntegrationName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Specify true to force the deletion of the integration even if vended logs dashboards currently exist. The default is false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

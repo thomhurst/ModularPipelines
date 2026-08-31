@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2ListDeploymentsHistoryFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("LATEST_ONLY")]
-    LatestOnly = 2
+    LatestOnly
 }

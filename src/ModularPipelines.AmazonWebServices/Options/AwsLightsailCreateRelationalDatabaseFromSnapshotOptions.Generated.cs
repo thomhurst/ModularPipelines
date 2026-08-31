@@ -30,7 +30,10 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same re- gion as your database.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -57,7 +60,10 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time. Default: false Constraints: Cannot be specified if the restore time parameter is provided.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>

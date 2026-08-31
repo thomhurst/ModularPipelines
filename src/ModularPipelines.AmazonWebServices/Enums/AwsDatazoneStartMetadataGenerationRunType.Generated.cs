@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneStartMetadataGenerationRunType
 {
     [EnumValue("BUSINESS_DESCRIPTIONS")]
-    BusinessDescriptions = 1,
+    BusinessDescriptions,
 
     [EnumValue("BUSINESS_NAMES")]
-    BusinessNames = 2
+    BusinessNames
 }

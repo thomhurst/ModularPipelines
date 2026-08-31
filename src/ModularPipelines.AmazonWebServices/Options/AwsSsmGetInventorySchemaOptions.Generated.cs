@@ -28,10 +28,16 @@ public record AwsSsmGetInventorySchemaOptions : AwsOptions
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CliFlag("--aggregator")]
+    /// <summary>
+    /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it sup- ports aggregation based on the PlatformName , PlatformType , and PlatformVersion attributes.
+    /// </summary>
+    [CliFlag("--aggregator", NegatedName = "--no-aggregator")]
     public bool? Aggregator { get; set; }
 
-    [CliFlag("--sub-type")]
+    /// <summary>
+    /// Returns the sub-type schema for a specified inventory type.
+    /// </summary>
+    [CliFlag("--sub-type", NegatedName = "--no-sub-type")]
     public bool? SubType { get; set; }
 
     [CliOption("--cli-input-json")]

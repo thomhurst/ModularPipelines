@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsListAnomaliesSuppressionState
 {
     [EnumValue("SUPPRESSED")]
-    Suppressed = 1,
+    Suppressed,
 
     [EnumValue("UNSUPPRESSED")]
-    Unsuppressed = 2
+    Unsuppressed
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCognitoIdpSetUserPoolMfaConfigMfaConfiguration
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("ON")]
-    On = 2,
+    On,
 
     [EnumValue("OPTIONAL")]
-    Optional = 3
+    Optional
 }

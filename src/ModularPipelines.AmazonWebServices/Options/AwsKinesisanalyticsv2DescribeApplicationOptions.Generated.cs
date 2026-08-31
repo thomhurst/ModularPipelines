@@ -24,7 +24,10 @@ public record AwsKinesisanalyticsv2DescribeApplicationOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliFlag("--include-additional-details")]
+    /// <summary>
+    /// Displays verbose information about a Managed Service for Apache Flink application, including the application's job plan.
+    /// </summary>
+    [CliFlag("--include-additional-details", NegatedName = "--no-include-additional-details")]
     public bool? IncludeAdditionalDetails { get; set; }
 
     [CliOption("--cli-input-json")]

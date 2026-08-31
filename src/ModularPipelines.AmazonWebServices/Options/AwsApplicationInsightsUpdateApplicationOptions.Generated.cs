@@ -24,10 +24,16 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; set; }
 
-    [CliFlag("--ops-center-enabled")]
+    /// <summary>
+    /// When set to true , creates opsItems for any problems detected on an application.
+    /// </summary>
+    [CliFlag("--ops-center-enabled", NegatedName = "--no-ops-center-enabled")]
     public bool? OpsCenterEnabled { get; set; }
 
-    [CliFlag("--cwe-monitor-enabled")]
+    /// <summary>
+    /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated , failed deployment , and others.
+    /// </summary>
+    [CliFlag("--cwe-monitor-enabled", NegatedName = "--no-cwe-monitor-enabled")]
     public bool? CweMonitorEnabled { get; set; }
 
     /// <summary>
@@ -42,13 +48,22 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions
     [CliOption("--sns-notification-arn")]
     public string? SnsNotificationArn { get; set; }
 
-    [CliFlag("--remove-sns-topic")]
+    /// <summary>
+    /// Disassociates the SNS topic from the opsItem created for detected problems.
+    /// </summary>
+    [CliFlag("--remove-sns-topic", NegatedName = "--no-remove-sns-topic")]
     public bool? RemoveSnsTopic { get; set; }
 
-    [CliFlag("--auto-config-enabled")]
+    /// <summary>
+    /// Turns auto-configuration on or off.
+    /// </summary>
+    [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
 
-    [CliFlag("--attach-missing-permission")]
+    /// <summary>
+    /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+    /// </summary>
+    [CliFlag("--attach-missing-permission", NegatedName = "--no-attach-missing-permission")]
     public bool? AttachMissingPermission { get; set; }
 
     [CliOption("--cli-input-json")]

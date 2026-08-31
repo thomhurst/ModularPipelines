@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsM2ListBatchJobExecutionsStatus
 {
     [EnumValue("Submitting")]
-    Submitting = 1,
+    Submitting,
 
     [EnumValue("Holding")]
-    Holding = 2,
+    Holding,
 
     [EnumValue("Dispatching")]
-    Dispatching = 3,
+    Dispatching,
 
     [EnumValue("Running")]
-    Running = 4,
+    Running,
 
     [EnumValue("Cancelling")]
-    Cancelling = 5,
+    Cancelling,
 
     [EnumValue("Cancelled")]
-    Cancelled = 6,
+    Cancelled,
 
     [EnumValue("Succeeded")]
-    Succeeded = 7,
+    Succeeded,
 
     [EnumValue("Failed")]
-    Failed = 8,
+    Failed,
 
     [EnumValue("Purged")]
-    Purged = 9,
+    Purged,
 
     [EnumValue("With")]
-    With = 10,
+    With,
 
     [EnumValue("Warning")]
-    Warning = 11
+    Warning
 }

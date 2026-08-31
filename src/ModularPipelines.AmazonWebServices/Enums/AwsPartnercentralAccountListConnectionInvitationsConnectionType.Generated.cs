@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralAccountListConnectionInvitationsConnectionType
 {
     [EnumValue("OPPORTUNITY_COLLABORATION")]
-    OpportunityCollaboration = 1,
+    OpportunityCollaboration,
 
     [EnumValue("SUBSIDIARY")]
-    Subsidiary = 2
+    Subsidiary
 }

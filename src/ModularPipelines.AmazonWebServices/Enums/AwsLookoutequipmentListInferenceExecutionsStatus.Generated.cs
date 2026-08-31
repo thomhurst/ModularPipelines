@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentListInferenceExecutionsStatus
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("SUCCESS")]
-    Success = 2,
+    Success,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsCreateSequenceStoreETagAlgorithmFamily
 {
     [EnumValue("MD5up")]
-    Md5Up = 1,
+    Md5Up,
 
     [EnumValue("SHA256up")]
-    Sha256Up = 2,
+    Sha256Up,
 
     [EnumValue("SHA512up")]
-    Sha512Up = 3
+    Sha512Up
 }

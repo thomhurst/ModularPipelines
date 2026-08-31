@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallDescribeRuleGroupMetadataType
 {
     [EnumValue("STATELESS")]
-    Stateless = 1,
+    Stateless,
 
     [EnumValue("STATEFUL")]
-    Stateful = 2,
+    Stateful,
 
     [EnumValue("STATEFUL_DOMAIN")]
-    StatefulDomain = 3
+    StatefulDomain
 }

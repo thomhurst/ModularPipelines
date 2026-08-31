@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBatchCreateJobQueueJobQueueType
 {
     [EnumValue("EKS")]
-    Eks = 1,
+    Eks,
 
     [EnumValue("ECS")]
-    Ecs = 2,
+    Ecs,
 
     [EnumValue("ECS_FARGATE")]
-    EcsFargate = 3,
+    EcsFargate,
 
     [EnumValue("SAGEMAKER_TRAINING")]
-    SagemakerTraining = 4,
+    SagemakerTraining,
 
     [EnumValue("ECS_MANAGED_INSTANCES")]
-    EcsManagedInstances = 5
+    EcsManagedInstances
 }

@@ -24,7 +24,7 @@ public record AwsGroundstationUpdateEphemerisOptions : AwsOptions
     [CliOption("--ephemeris-id")]
     public string? EphemerisId { get; set; }
 
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

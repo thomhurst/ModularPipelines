@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDescribeClientAuthenticationSettingsType
 {
     [EnumValue("SmartCard")]
-    SmartCard = 1,
+    SmartCard,
 
     [EnumValue("SmartCardOrPassword")]
-    SmartCardOrPassword = 2
+    SmartCardOrPassword
 }

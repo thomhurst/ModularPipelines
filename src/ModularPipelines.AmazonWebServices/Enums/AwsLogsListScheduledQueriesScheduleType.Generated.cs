@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsListScheduledQueriesScheduleType
 {
     [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 1,
+    CustomerManaged,
 
     [EnumValue("AWS_MANAGED")]
-    AwsManaged = 2
+    AwsManaged
 }

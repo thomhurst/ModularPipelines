@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStoragegatewayCreateNfsFileShareEncryptionType
 {
     [EnumValue("SseS3")]
-    SseS3 = 1,
+    SseS3,
 
     [EnumValue("SseKms")]
-    SseKms = 2,
+    SseKms,
 
     [EnumValue("DsseKms")]
-    DsseKms = 3
+    DsseKms
 }

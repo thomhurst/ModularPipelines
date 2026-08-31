@@ -31,7 +31,10 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CliFlag("--enable-map-auto-tagging")]
+    /// <summary>
+    /// Enable map auto tagging.
+    /// </summary>
+    [CliFlag("--enable-map-auto-tagging", NegatedName = "--no-enable-map-auto-tagging")]
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
@@ -52,13 +55,22 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Copy private Ip.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    /// <summary>
+    /// Associate public Ip address.
+    /// </summary>
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Copy tags.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -91,7 +103,10 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--large-volume-conf")]
     public string? LargeVolumeConf { get; set; }
 
-    [CliFlag("--enable-parameters-encryption")]
+    /// <summary>
+    /// Enable parameters encryption.
+    /// </summary>
+    [CliFlag("--enable-parameters-encryption", NegatedName = "--no-enable-parameters-encryption")]
     public bool? EnableParametersEncryption { get; set; }
 
     /// <summary>

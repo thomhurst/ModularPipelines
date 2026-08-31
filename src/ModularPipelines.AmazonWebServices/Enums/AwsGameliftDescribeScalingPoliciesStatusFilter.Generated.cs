@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftDescribeScalingPoliciesStatusFilter
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("UPDATE_REQUESTED")]
-    UpdateRequested = 2,
+    UpdateRequested,
 
     [EnumValue("UPDATING")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("DELETE_REQUESTED")]
-    DeleteRequested = 4,
+    DeleteRequested,
 
     [EnumValue("DELETING")]
-    Deleting = 5,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 6,
+    Deleted,
 
     [EnumValue("ERROR")]
-    Error = 7
+    Error
 }

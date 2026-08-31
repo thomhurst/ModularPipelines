@@ -24,7 +24,10 @@ public record AwsTimestreamInfluxdbDeleteDbClusterOptions : AwsOptions
     [CliOption("--db-cluster-id")]
     public string? DbClusterId { get; set; }
 
-    [CliFlag("--retain-automated-backups")]
+    /// <summary>
+    /// Specifies whether to retain automated backups after the DB cluster is deleted. If set to true, automated backups are not deleted and can be restored later.
+    /// </summary>
+    [CliFlag("--retain-automated-backups", NegatedName = "--no-retain-automated-backups")]
     public bool? RetainAutomatedBackups { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsUpdateManagedThingHubNetworkMode
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("NETWORK_WIDE_EXCLUSION")]
-    NetworkWideExclusion = 2
+    NetworkWideExclusion
 }

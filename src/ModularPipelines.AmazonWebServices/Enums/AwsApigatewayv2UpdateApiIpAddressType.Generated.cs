@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2UpdateApiIpAddressType
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("dualstack")]
-    Dualstack = 2
+    Dualstack
 }

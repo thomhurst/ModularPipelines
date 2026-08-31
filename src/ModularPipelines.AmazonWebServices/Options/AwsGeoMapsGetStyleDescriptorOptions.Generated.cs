@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-maps", "get-style-descriptor")]
-public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
+public record AwsGeoMapsGetStyleDescriptorOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--style")]
     public string? Style { get; set; }
@@ -65,7 +67,7 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// Adjusts how building details are rendered on the map. The following building styles are currently supported: o Buildings3D : Displays buildings as three-dimensional extrusions on the map. Buildings3D is valid only for the Standard and Monochrome map styles. Possible values: o Buildings3D
     /// </summary>
     [CliOption("--buildings")]
-    public AwsGeoMapsGetStyleDescriptorBuildings? Buildings { get; set; }
+    public string? Buildings { get; set; }
 
     /// <summary>
     /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parame- ter, the map renders at Default density. NOTE: The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Possible values: o Off o VerySparse o Sparse o Default o Dense o VeryDense

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkIdentityRegisterAppInstanceUserEndpointAllowMessages
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlUpdatePaymentConnectorType
 {
     [EnumValue("CoinbaseCDP")]
-    CoinbaseCdp = 1,
+    CoinbaseCdp,
 
     [EnumValue("StripePrivy")]
-    StripePrivy = 2
+    StripePrivy
 }

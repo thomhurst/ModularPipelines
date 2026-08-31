@@ -24,7 +24,10 @@ public record AwsAutoscalingDeleteAutoScalingGroupOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This action also deletes any outstanding lifecycle ac- tions associated with the group.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

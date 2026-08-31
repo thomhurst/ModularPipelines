@@ -36,7 +36,10 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions
     [CliOption("--flow-json")]
     public string? FlowJson { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish the Flow immediately after creation. Requires a valid flowJson that passes Meta's validation.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>

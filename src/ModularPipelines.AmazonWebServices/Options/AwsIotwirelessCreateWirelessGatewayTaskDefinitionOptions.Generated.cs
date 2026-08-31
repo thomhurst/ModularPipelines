@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iotwireless", "create-wireless-gateway-task-definition")]
 public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOptions
 {
-    [CliFlag("--auto-create-tasks")]
+    [CliFlag("--auto-create-tasks", NegatedName = "--no-auto-create-tasks")]
     public bool? AutoCreateTasks { get; set; }
 
     /// <summary>

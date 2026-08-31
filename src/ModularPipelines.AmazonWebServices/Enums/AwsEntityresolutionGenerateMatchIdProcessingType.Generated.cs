@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEntityresolutionGenerateMatchIdProcessingType
 {
     [EnumValue("CONSISTENT")]
-    Consistent = 1,
+    Consistent,
 
     [EnumValue("EVENTUAL")]
-    Eventual = 2,
+    Eventual,
 
     [EnumValue("EVENTUAL_NO_LOOKUP")]
-    EventualNoLookup = 3
+    EventualNoLookup
 }

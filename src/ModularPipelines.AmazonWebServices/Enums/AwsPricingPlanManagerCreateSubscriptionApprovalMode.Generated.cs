@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPricingPlanManagerCreateSubscriptionApprovalMode
 {
     [EnumValue("MANUAL")]
-    Manual = 1,
+    Manual,
 
     [EnumValue("IMMEDIATE")]
-    Immediate = 2
+    Immediate
 }

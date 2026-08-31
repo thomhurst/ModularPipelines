@@ -27,7 +27,10 @@ public record AwsKinesisDeleteStreamOptions : AwsOptions
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CliFlag("--enforce-consumer-deletion")]
+    /// <summary>
+    /// If this parameter is unset (null ) or if you set it to false , and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException .
+    /// </summary>
+    [CliFlag("--enforce-consumer-deletion", NegatedName = "--no-enforce-consumer-deletion")]
     public bool? EnforceConsumerDeletion { get; set; }
 
     /// <summary>

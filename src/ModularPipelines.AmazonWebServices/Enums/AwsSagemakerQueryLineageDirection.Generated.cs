@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerQueryLineageDirection
 {
     [EnumValue("Both")]
-    Both = 1,
+    Both,
 
     [EnumValue("Ascendants")]
-    Ascendants = 2,
+    Ascendants,
 
     [EnumValue("Descendants")]
-    Descendants = 3
+    Descendants
 }

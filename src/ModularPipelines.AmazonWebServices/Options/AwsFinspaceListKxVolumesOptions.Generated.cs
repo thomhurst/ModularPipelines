@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -43,7 +42,7 @@ public record AwsFinspaceListKxVolumesOptions : AwsOptions
     /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. Possible values: o NAS_1
     /// </summary>
     [CliOption("--volume-type")]
-    public AwsFinspaceListKxVolumesVolumeType? VolumeType { get; set; }
+    public string? VolumeType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -44,10 +44,16 @@ public record AwsHealthlakeStartDataTransformationJobOptions : AwsOptions
     [CliOption("--profile-id")]
     public string? ProfileId { get; set; }
 
-    [CliFlag("--drift-detection-enabled")]
+    /// <summary>
+    /// Specifies whether drift detection is enabled for this job. When en- abled, HealthLake writes a drift report to the output Amazon S3 lo- cation alongside the converted files.
+    /// </summary>
+    [CliFlag("--drift-detection-enabled", NegatedName = "--no-drift-detection-enabled")]
     public bool? DriftDetectionEnabled { get; set; }
 
-    [CliFlag("--provenance-enabled")]
+    /// <summary>
+    /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true . To disable prove- nance output, set this parameter to false .
+    /// </summary>
+    [CliFlag("--provenance-enabled", NegatedName = "--no-provenance-enabled")]
     public bool? ProvenanceEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

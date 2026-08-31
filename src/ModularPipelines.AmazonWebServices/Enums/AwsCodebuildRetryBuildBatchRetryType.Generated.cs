@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildRetryBuildBatchRetryType
 {
     [EnumValue("RETRY_ALL_BUILDS")]
-    RetryAllBuilds = 1,
+    RetryAllBuilds,
 
     [EnumValue("RETRY_FAILED_BUILDS")]
-    RetryFailedBuilds = 2
+    RetryFailedBuilds
 }

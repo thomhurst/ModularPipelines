@@ -40,10 +40,16 @@ public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions
     [CliOption("--deployment-pattern-version-name")]
     public string? DeploymentPatternVersionName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the update even if validation warnings are present.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

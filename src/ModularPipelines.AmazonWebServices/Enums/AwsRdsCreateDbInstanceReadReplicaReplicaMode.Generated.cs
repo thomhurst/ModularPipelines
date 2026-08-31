@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbInstanceReadReplicaReplicaMode
 {
     [EnumValue("open-read-only")]
-    OpenReadOnly = 1,
+    OpenReadOnly,
 
     [EnumValue("mounted")]
-    Mounted = 2
+    Mounted
 }

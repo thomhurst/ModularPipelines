@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloud9CreateEnvironmentEc2ConnectionType
 {
     [EnumValue("CONNECT_SSH")]
-    ConnectSsh = 1,
+    ConnectSsh,
 
     [EnumValue("CONNECT_SSM")]
-    ConnectSsm = 2
+    ConnectSsm
 }

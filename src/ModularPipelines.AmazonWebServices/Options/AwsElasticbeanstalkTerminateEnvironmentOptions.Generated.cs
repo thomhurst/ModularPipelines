@@ -33,10 +33,16 @@ public record AwsElasticbeanstalkTerminateEnvironmentOptions : AwsOptions
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CliFlag("--terminate-resources")]
+    /// <summary>
+    /// Indicates whether the associated AWS resources should shut down when the environment is terminated: o true : The specified environment as well as the associated AWS re- sources, such as Auto Scaling group and LoadBalancer, are termi- nated. o false : AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate. For more information, see the AWS Elastic Beanstalk User Guide. Default: true Valid Values: true | false
+    /// </summary>
+    [CliFlag("--terminate-resources", NegatedName = "--no-terminate-resources")]
     public bool? TerminateResources { get; set; }
 
-    [CliFlag("--force-terminate")]
+    /// <summary>
+    /// Terminates the target environment even if another environment in the same group is dependent on it.
+    /// </summary>
+    [CliFlag("--force-terminate", NegatedName = "--no-force-terminate")]
     public bool? ForceTerminate { get; set; }
 
     [CliOption("--cli-input-json")]

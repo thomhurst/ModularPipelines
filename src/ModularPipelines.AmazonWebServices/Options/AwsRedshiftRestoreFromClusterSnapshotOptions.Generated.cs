@@ -48,7 +48,7 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150 -65535 . For clusters with RG or RA3 nodes, must be within the ranges 5431 -5455 or 8191 -8215 .
     /// </summary>
     [CliOption("--port")]
-    public AwsRedshiftRestoreFromClusterSnapshotPort? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a Constraints: o max: 2147483647
@@ -56,7 +56,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CliFlag("--allow-version-upgrade")]
+    /// <summary>
+    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. Default: true
+    /// </summary>
+    [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
@@ -65,7 +68,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// If true , the cluster can be accessed from a public network. Default: false
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -140,7 +146,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
@@ -173,7 +182,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CliFlag("--availability-zone-relocation")]
+    /// <summary>
+    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is restored.
+    /// </summary>
+    [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
@@ -200,10 +212,16 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--target-reserved-node-offering-id")]
     public string? TargetReservedNodeOfferingId { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Enables support for restoring an unencrypted snapshot to a cluster encrypted with Key Management Service (KMS) and a customer managed key.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
-    [CliFlag("--manage-master-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
+    /// </summary>
+    [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
@@ -219,7 +237,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// If true, the snapshot will be restored to a cluster deployed in two Availability Zones.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>

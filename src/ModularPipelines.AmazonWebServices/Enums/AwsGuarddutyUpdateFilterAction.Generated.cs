@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGuarddutyUpdateFilterAction
 {
     [EnumValue("NOOP")]
-    Noop = 1,
+    Noop,
 
     [EnumValue("ARCHIVE")]
-    Archive = 2,
+    Archive,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDescribeUsageLimitsFeatureType
 {
     [EnumValue("spectrum")]
-    Spectrum = 1,
+    Spectrum,
 
     [EnumValue("concurrency-scaling")]
-    ConcurrencyScaling = 2,
+    ConcurrencyScaling,
 
     [EnumValue("cross-region-datasharing")]
-    CrossRegionDatasharing = 3
+    CrossRegionDatasharing
 }

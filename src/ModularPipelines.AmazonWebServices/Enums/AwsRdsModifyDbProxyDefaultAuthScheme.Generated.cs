@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyDbProxyDefaultAuthScheme
 {
     [EnumValue("IAM_AUTH")]
-    IamAuth = 1,
+    IamAuth,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

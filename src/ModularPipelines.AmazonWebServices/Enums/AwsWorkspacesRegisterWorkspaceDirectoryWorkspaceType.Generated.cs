@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesRegisterWorkspaceDirectoryWorkspaceType
 {
     [EnumValue("PERSONAL")]
-    Personal = 1,
+    Personal,
 
     [EnumValue("POOLS")]
-    Pools = 2
+    Pools
 }

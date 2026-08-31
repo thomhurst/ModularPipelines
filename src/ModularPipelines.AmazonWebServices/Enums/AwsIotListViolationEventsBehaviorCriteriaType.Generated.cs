@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListViolationEventsBehaviorCriteriaType
 {
     [EnumValue("STATIC")]
-    Static = 1,
+    Static,
 
     [EnumValue("STATISTICAL")]
-    Statistical = 2,
+    Statistical,
 
     [EnumValue("MACHINE_LEARNING")]
-    MachineLearning = 3
+    MachineLearning
 }

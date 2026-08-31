@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStoragegatewayCreateTapePoolRetentionLockType
 {
     [EnumValue("COMPLIANCE")]
-    Compliance = 1,
+    Compliance,
 
     [EnumValue("GOVERNANCE")]
-    Governance = 2,
+    Governance,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

@@ -59,7 +59,10 @@ public record AwsCleanroomsCreateMembershipOptions : AwsOptions
     [CliOption("--payment-configuration")]
     public string? PaymentConfiguration { get; set; }
 
-    [CliFlag("--is-metrics-enabled")]
+    /// <summary>
+    /// An indicator as to whether Amazon CloudWatch metrics have been en- abled or disabled for the membership. Amazon CloudWatch metrics are only available when the collaboration has metrics enabled. This option can be set by collaboration members who have the ability to run queries (analysis runners) or by members who are configured as payers. When true , metrics about query execution are collected in Amazon CloudWatch. The default value is false .
+    /// </summary>
+    [CliFlag("--is-metrics-enabled", NegatedName = "--no-is-metrics-enabled")]
     public bool? IsMetricsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

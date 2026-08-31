@@ -70,7 +70,10 @@ public record AwsAppintegrationsCreateApplicationOptions : AwsOptions
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
-    [CliFlag("--is-service")]
+    /// <summary>
+    /// Indicates whether the application is a service.
+    /// </summary>
+    [CliFlag("--is-service", NegatedName = "--no-is-service")]
     public bool? IsService { get; set; }
 
     /// <summary>

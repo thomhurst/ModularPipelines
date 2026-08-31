@@ -36,7 +36,7 @@ public record AwsElasticacheIncreaseReplicaCountOptions : AwsOptions
     [CliOption("--replica-configuration", GroupValues = true)]
     public IEnumerable<string>? ReplicaConfiguration { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

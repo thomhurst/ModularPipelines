@@ -31,7 +31,10 @@ public record AwsPaymentCryptographyImportKeyOptions : AwsOptions
     [CliOption("--key-check-value-algorithm")]
     public AwsPaymentCryptographyImportKeyKeyCheckValueAlgorithm? KeyCheckValueAlgorithm { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether import key is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

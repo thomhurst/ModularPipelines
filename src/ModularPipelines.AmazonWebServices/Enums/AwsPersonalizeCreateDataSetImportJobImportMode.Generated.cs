@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPersonalizeCreateDataSetImportJobImportMode
 {
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("INCREMENTAL")]
-    Incremental = 2
+    Incremental
 }

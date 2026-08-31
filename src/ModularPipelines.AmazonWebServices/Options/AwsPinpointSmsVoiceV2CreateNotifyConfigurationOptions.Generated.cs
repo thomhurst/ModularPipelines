@@ -49,7 +49,10 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the notify config- uration can't be deleted. You can change this value using the Up- dateNotifyConfiguration action.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

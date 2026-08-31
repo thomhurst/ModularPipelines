@@ -17,38 +17,38 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayGetDocumentationPartsType
 {
     [EnumValue("API")]
-    Api = 1,
+    Api,
 
     [EnumValue("AUTHORIZER")]
-    Authorizer = 2,
+    Authorizer,
 
     [EnumValue("MODEL")]
-    Model = 3,
+    Model,
 
     [EnumValue("RESOURCE")]
-    Resource = 4,
+    Resource,
 
     [EnumValue("METHOD")]
-    Method = 5,
+    Method,
 
     [EnumValue("PATH_PARAMETER")]
-    PathParameter = 6,
+    PathParameter,
 
     [EnumValue("QUERY_PARAMETER")]
-    QueryParameter = 7,
+    QueryParameter,
 
     [EnumValue("REQUEST_HEADER")]
-    RequestHeader = 8,
+    RequestHeader,
 
     [EnumValue("REQUEST_BODY")]
-    RequestBody = 9,
+    RequestBody,
 
     [EnumValue("RESPONSE")]
-    Response = 10,
+    Response,
 
     [EnumValue("RESPONSE_HEADER")]
-    ResponseHeader = 11,
+    ResponseHeader,
 
     [EnumValue("RESPONSE_BODY")]
-    ResponseBody = 12
+    ResponseBody
 }

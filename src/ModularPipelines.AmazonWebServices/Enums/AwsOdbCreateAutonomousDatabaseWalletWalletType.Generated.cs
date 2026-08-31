@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateAutonomousDatabaseWalletWalletType
 {
     [EnumValue("REGIONAL")]
-    Regional = 1,
+    Regional,
 
     [EnumValue("INSTANCE")]
-    Instance = 2
+    Instance
 }

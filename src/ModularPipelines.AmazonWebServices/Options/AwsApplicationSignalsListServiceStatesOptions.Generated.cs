@@ -28,7 +28,10 @@ public record AwsApplicationSignalsListServiceStatesOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include service states from source accounts in the returned data.
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>

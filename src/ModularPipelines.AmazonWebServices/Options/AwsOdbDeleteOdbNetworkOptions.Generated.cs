@@ -24,7 +24,7 @@ public record AwsOdbDeleteOdbNetworkOptions : AwsOptions
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; set; }
 
-    [CliFlag("--delete-associated-resources")]
+    [CliFlag("--delete-associated-resources", NegatedName = "--no-delete-associated-resources")]
     public bool? DeleteAssociatedResources { get; set; }
 
     [CliOption("--cli-input-json")]

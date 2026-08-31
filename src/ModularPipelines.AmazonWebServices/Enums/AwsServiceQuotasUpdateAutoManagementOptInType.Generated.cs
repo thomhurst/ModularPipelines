@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServiceQuotasUpdateAutoManagementOptInType
 {
     [EnumValue("NotifyOnly")]
-    NotifyOnly = 1,
+    NotifyOnly,
 
     [EnumValue("NotifyAndAdjust")]
-    NotifyAndAdjust = 2
+    NotifyAndAdjust
 }

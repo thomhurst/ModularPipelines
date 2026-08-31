@@ -52,7 +52,10 @@ public record AwsCloudformationActivateTypeOptions : AwsOptions
     [CliOption("--type-name-alias")]
     public string? TypeNameAlias { get; set; }
 
-    [CliFlag("--auto-update")]
+    /// <summary>
+    /// Whether to automatically update the extension in this account and Region when a new minor version is published by the extension pub- lisher. Major versions released by the publisher must be manually updated. The default is true .
+    /// </summary>
+    [CliFlag("--auto-update", NegatedName = "--no-auto-update")]
     public bool? AutoUpdate { get; set; }
 
     /// <summary>

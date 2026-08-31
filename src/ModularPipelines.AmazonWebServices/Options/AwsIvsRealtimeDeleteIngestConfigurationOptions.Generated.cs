@@ -24,7 +24,10 @@ public record AwsIvsRealtimeDeleteIngestConfigurationOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Optional field to force deletion of the IngestConfiguration. If this is set to true when a participant is actively publishing, the par- ticipant is disconnected from the stage, followed by deletion of the IngestConfiguration. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

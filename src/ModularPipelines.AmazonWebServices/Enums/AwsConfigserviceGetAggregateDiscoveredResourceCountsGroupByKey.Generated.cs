@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConfigserviceGetAggregateDiscoveredResourceCountsGroupByKey
 {
     [EnumValue("RESOURCE_TYPE")]
-    ResourceType = 1,
+    ResourceType,
 
     [EnumValue("ACCOUNT_ID")]
-    AccountId = 2,
+    AccountId,
 
     [EnumValue("AWS_REGION")]
-    AwsRegion = 3
+    AwsRegion
 }

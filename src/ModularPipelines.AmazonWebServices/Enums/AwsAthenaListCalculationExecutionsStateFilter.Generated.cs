@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAthenaListCalculationExecutionsStateFilter
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("CREATED")]
-    Created = 2,
+    Created,
 
     [EnumValue("QUEUED")]
-    Queued = 3,
+    Queued,
 
     [EnumValue("RUNNING")]
-    Running = 4,
+    Running,
 
     [EnumValue("CANCELING")]
-    Canceling = 5,
+    Canceling,
 
     [EnumValue("CANCELED")]
-    Canceled = 6,
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 7,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 8
+    Failed
 }

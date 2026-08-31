@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployContinueDeploymentDeploymentWaitType
 {
     [EnumValue("READY_WAIT")]
-    ReadyWait = 1,
+    ReadyWait,
 
     [EnumValue("TERMINATION_WAIT")]
-    TerminationWait = 2
+    TerminationWait
 }

@@ -47,7 +47,7 @@ public record AwsTimestreamInfluxdbUpdateDbClusterOptions : AwsOptions
     /// Update the DB cluster to use the specified DB instance Type. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge
     /// </summary>
     [CliOption("--db-instance-type")]
-    public AwsTimestreamInfluxdbUpdateDbClusterDbInstanceType? DbInstanceType { get; set; }
+    public string? DbInstanceType { get; set; }
 
     /// <summary>
     /// Update the DB cluster's failover behavior. Possible values: o AUTOMATIC o NO_FAILOVER

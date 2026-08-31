@@ -31,10 +31,16 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions
     [CliOption("--policy-levels", GroupValues = true)]
     public IEnumerable<string>? PolicyLevels { get; set; }
 
-    [CliFlag("--retrieve-actions")]
+    /// <summary>
+    /// Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes.
+    /// </summary>
+    [CliFlag("--retrieve-actions", NegatedName = "--no-retrieve-actions")]
     public bool? RetrieveActions { get; set; }
 
-    [CliFlag("--retrieve-results")]
+    /// <summary>
+    /// Specify if the operation should retrieve a list of the results com- puted by the Review Policies.
+    /// </summary>
+    [CliFlag("--retrieve-results", NegatedName = "--no-retrieve-results")]
     public bool? RetrieveResults { get; set; }
 
     /// <summary>

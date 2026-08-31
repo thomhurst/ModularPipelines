@@ -34,7 +34,10 @@ public record AwsWorkspacesRegisterWorkspaceDirectoryOptions : AwsOptions
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
-    [CliFlag("--enable-self-service")]
+    /// <summary>
+    /// Indicates whether self-service capabilities are enabled or disabled.
+    /// </summary>
+    [CliFlag("--enable-self-service", NegatedName = "--no-enable-self-service")]
     public bool? EnableSelfService { get; set; }
 
     /// <summary>

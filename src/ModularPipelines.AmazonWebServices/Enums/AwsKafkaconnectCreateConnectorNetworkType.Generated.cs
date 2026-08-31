@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKafkaconnectCreateConnectorNetworkType
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("DUAL")]
-    Dual = 2
+    Dual
 }

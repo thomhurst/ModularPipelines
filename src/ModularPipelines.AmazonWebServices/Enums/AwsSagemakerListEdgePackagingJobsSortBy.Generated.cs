@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListEdgePackagingJobsSortBy
 {
     [EnumValue("NAME")]
-    Name = 1,
+    Name,
 
     [EnumValue("MODEL_NAME")]
-    ModelName = 2,
+    ModelName,
 
     [EnumValue("CREATION_TIME")]
-    CreationTime = 3,
+    CreationTime,
 
     [EnumValue("LAST_MODIFIED_TIME")]
-    LastModifiedTime = 4,
+    LastModifiedTime,
 
     [EnumValue("STATUS")]
-    Status = 5
+    Status
 }

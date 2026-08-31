@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptunedataGetPropertygraphStreamIteratorType
 {
     [EnumValue("AT_SEQUENCE_NUMBER")]
-    AtSequenceNumber = 1,
+    AtSequenceNumber,
 
     [EnumValue("AFTER_SEQUENCE_NUMBER")]
-    AfterSequenceNumber = 2,
+    AfterSequenceNumber,
 
     [EnumValue("TRIM_HORIZON")]
-    TrimHorizon = 3,
+    TrimHorizon,
 
     [EnumValue("LATEST")]
-    Latest = 4
+    Latest
 }

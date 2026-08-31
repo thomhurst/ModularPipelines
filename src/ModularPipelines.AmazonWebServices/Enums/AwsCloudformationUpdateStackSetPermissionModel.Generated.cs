@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationUpdateStackSetPermissionModel
 {
     [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 1,
+    ServiceManaged,
 
     [EnumValue("SELF_MANAGED")]
-    SelfManaged = 2
+    SelfManaged
 }

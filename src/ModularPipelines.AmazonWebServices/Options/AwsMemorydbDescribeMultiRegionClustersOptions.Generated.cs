@@ -28,7 +28,10 @@ public record AwsMemorydbDescribeMultiRegionClustersOptions : AwsOptions
     [CliOption("--multi-region-cluster-name")]
     public string? MultiRegionClusterName { get; set; }
 
-    [CliFlag("--show-cluster-details")]
+    /// <summary>
+    /// Details about the multi-Region cluster.
+    /// </summary>
+    [CliFlag("--show-cluster-details", NegatedName = "--no-show-cluster-details")]
     public bool? ShowClusterDetails { get; set; }
 
     [CliOption("--cli-input-json")]

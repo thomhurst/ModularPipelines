@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -39,13 +38,13 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions
     /// This parameter is reserved for future use and currently accepts only one value. Possible values: o LINK
     /// </summary>
     [CliOption("--terms-source")]
-    public AwsCognitoIdpUpdateTermsTermsSource? TermsSource { get; set; }
+    public string? TermsSource { get; set; }
 
     /// <summary>
     /// This parameter is reserved for future use and currently accepts only one value. Possible values: o NONE
     /// </summary>
     [CliOption("--enforcement")]
-    public AwsCognitoIdpUpdateTermsEnforcement? Enforcement { get; set; }
+    public string? Enforcement { get; set; }
 
     /// <summary>
     /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cog- nito:default displays for all languages that don't have a lan- guage-specific URL. For example, "cognito:default": "https://terms.example.com", "cog- nito:spanish": "https://terms.example.com/es" . Constraints: o min: 1 o max: 13 key -&gt; (string) Constraints: o pattern: ^cognito:(default|dutch|english|french|spanish|ger- man|bahasa-indonesia|italian|japanese|korean|por- tuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}

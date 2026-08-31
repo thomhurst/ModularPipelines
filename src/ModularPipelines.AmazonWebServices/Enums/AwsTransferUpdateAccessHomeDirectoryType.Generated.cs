@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferUpdateAccessHomeDirectoryType
 {
     [EnumValue("PATH")]
-    Path = 1,
+    Path,
 
     [EnumValue("LOGICAL")]
-    Logical = 2
+    Logical
 }

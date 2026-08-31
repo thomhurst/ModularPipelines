@@ -27,7 +27,10 @@ public record AwsLogsPutDestinationPolicyOptions : AwsOptions
     [CliOption("--access-policy")]
     public string? AccessPolicy { get; set; }
 
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permis- sion to individual Amazon Web Services accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate , you are affirming that you have already up- dated the subscription filters. For more information, see Updating an existing cross-account subscription If you omit this parameter, the default of false is used.
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     [CliOption("--cli-input-json")]

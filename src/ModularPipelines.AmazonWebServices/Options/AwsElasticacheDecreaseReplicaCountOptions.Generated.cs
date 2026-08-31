@@ -42,7 +42,7 @@ public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions
     [CliOption("--replicas-to-remove", GroupValues = true)]
     public IEnumerable<string>? ReplicasToRemove { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

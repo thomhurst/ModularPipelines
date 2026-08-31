@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "get-sol-network-package-descriptor")]
-public record AwsTnbGetSolNetworkPackageDescriptorOptions : AwsOptions
+public record AwsTnbGetSolNetworkPackageDescriptorOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; set; }

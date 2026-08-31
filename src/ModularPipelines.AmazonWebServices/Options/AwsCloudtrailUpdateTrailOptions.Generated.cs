@@ -42,13 +42,22 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions
     [CliOption("--sns-topic-name")]
     public string? SnsTopicName { get; set; }
 
-    [CliFlag("--include-global-service-events")]
+    /// <summary>
+    /// Specifies whether the trail is publishing events from global ser- vices such as IAM to the log files.
+    /// </summary>
+    [CliFlag("--include-global-service-events", NegatedName = "--no-include-global-service-events")]
     public bool? IncludeGlobalServiceEvents { get; set; }
 
-    [CliFlag("--is-multi-region-trail")]
+    /// <summary>
+    /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (repli- cations of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, con- sider using trails that log events in all Regions.
+    /// </summary>
+    [CliFlag("--is-multi-region-trail", NegatedName = "--no-is-multi-region-trail")]
     public bool? IsMultiRegionTrail { get; set; }
 
-    [CliFlag("--enable-log-file-validation")]
+    /// <summary>
+    /// Specifies whether log file validation is enabled. The default is false. NOTE: When you disable log file integrity validation, the chain of di- gest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For exam- ple, if you enable log file integrity validation at noon on Jan- uary 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
+    /// </summary>
+    [CliFlag("--enable-log-file-validation", NegatedName = "--no-enable-log-file-validation")]
     public bool? EnableLogFileValidation { get; set; }
 
     /// <summary>
@@ -69,7 +78,10 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--is-organization-trail")]
+    /// <summary>
+    /// Specifies whether the trail is applied to all accounts in an organi- zation in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the manage- ment account for an organization in Organizations. If the trail is not an organization trail and this is set to true , the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false , the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization. NOTE: Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to an organization trail.
+    /// </summary>
+    [CliFlag("--is-organization-trail", NegatedName = "--no-is-organization-trail")]
     public bool? IsOrganizationTrail { get; set; }
 
     [CliOption("--cli-input-json")]

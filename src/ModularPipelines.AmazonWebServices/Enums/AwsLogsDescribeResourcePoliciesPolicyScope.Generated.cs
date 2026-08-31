@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsDescribeResourcePoliciesPolicyScope
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("RESOURCE")]
-    Resource = 2
+    Resource
 }

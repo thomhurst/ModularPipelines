@@ -533,7 +533,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAnnotationAsync(AwsS3apiGetObjectAnnotationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetObjectAnnotationAsync(AwsS3apiGetObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -573,7 +573,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAsync(AwsS3apiGetObjectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetObjectAsync(AwsS3apiGetObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -603,7 +603,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectTorrentAsync(AwsS3apiGetObjectTorrentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetObjectTorrentAsync(AwsS3apiGetObjectTorrentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -867,16 +867,6 @@ public interface IAwsS3Api
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Enables notifications of specified events for a bucket. For more infor- mation about event notifications, see Configuring Event Notifications . Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the speci- fied type...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketNotificationConfigurationAsync(AwsS3apiPutBucketNotificationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permis- sion. For more information about Amazon S3 permissions, see Specifying permissions in a policy . For information about Amazon S3 Object Ownership, see Using object own- ership . The following operations are related to PutBucketOwnershipControls : o GetBucketOwnershipControls o DeleteBucketOwnersh...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1053,7 +1043,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SelectObjectContentAsync(AwsS3apiSelectObjectContentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SelectObjectContentAsync(AwsS3apiSelectObjectContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsRestoreDbClusterToPointInTimeRestoreToTime
 {
     [EnumValue("Value")]
-    Value = 0,
+    Value,
 
     [EnumValue("must")]
-    Must = 1,
+    Must,
 
     [EnumValue("be")]
-    Be = 2,
+    Be,
 
     [EnumValue("a")]
-    A = 3,
+    A,
 
     [EnumValue("time")]
-    Time = 4,
+    Time,
 
     [EnumValue("in")]
-    In = 5,
+    In,
 
     [EnumValue("Universal")]
-    Universal = 6,
+    Universal,
 
     [EnumValue("Coordinated")]
-    Coordinated = 7
+    Coordinated
 }

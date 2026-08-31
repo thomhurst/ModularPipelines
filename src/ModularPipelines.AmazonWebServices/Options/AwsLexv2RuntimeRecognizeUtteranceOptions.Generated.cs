@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-runtime", "recognize-utterance")]
-public record AwsLexv2RuntimeRecognizeUtteranceOptions : AwsOptions
+public record AwsLexv2RuntimeRecognizeUtteranceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--bot-id")]
     public string? BotId { get; set; }

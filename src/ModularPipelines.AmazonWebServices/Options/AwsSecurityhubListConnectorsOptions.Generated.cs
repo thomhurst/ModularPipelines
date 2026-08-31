@@ -40,7 +40,7 @@ public record AwsSecurityhubListConnectorsOptions : AwsOptions
     /// The name of the cloud provider to filter connectors by. Possible values: o AZURE
     /// </summary>
     [CliOption("--provider-name")]
-    public AwsSecurityhubListConnectorsProviderName? ProviderName { get; set; }
+    public string? ProviderName { get; set; }
 
     /// <summary>
     /// The connectivity status to filter connectors by. Possible values: o CONNECTED o DEGRADED o FAILED_TO_CONNECT o UNKNOWN

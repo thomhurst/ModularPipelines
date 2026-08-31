@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubDisableOrganizationAdminAccountFeature
 {
     [EnumValue("SecurityHub")]
-    SecurityHub = 1,
+    SecurityHub,
 
     [EnumValue("SecurityHubV2")]
-    SecurityHubV2 = 2
+    SecurityHubV2
 }

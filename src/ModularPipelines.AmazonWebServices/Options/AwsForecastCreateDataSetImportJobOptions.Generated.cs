@@ -43,7 +43,10 @@ public record AwsForecastCreateDataSetImportJobOptions : AwsOptions
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CliFlag("--use-geolocation-for-time-zone")]
+    /// <summary>
+    /// Automatically derive time zone information from the geolocation at- tribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
+    /// </summary>
+    [CliFlag("--use-geolocation-for-time-zone", NegatedName = "--no-use-geolocation-for-time-zone")]
     public bool? UseGeolocationForTimeZone { get; set; }
 
     /// <summary>

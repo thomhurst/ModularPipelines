@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsS3apiListObjectsV2Options : AwsOptions
     /// Encoding type used by Amazon S3 to encode the object keys in the re- sponse. Responses are encoded only in UTF-8. An object key can con- tain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the re- sponse. For more information about characters to avoid in object key names, see Object key naming guidelines . NOTE: When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png . Possible values: o url
     /// </summary>
     [CliOption("--encoding-type")]
-    public AwsS3apiListObjectsV2EncodingType? EncodingType { get; set; }
+    public string? EncodingType { get; set; }
 
     /// <summary>
     /// Limits the response to keys that begin with the specified prefix. NOTE: Directory buckets - For directory buckets, only prefixes that end in a delimiter (/ ) are supported.
@@ -44,7 +43,10 @@ public record AwsS3apiListObjectsV2Options : AwsOptions
     [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CliFlag("--fetch-owner")]
+    /// <summary>
+    /// The owner field is not present in ListObjectsV2 by default. If you want to return the owner field with each key in the result, then set the FetchOwner field to true . NOTE: Directory buckets - For directory buckets, the bucket owner is returned as the object owner for all objects.
+    /// </summary>
+    [CliFlag("--fetch-owner", NegatedName = "--no-fetch-owner")]
     public bool? FetchOwner { get; set; }
 
     /// <summary>
@@ -57,7 +59,7 @@ public record AwsS3apiListObjectsV2Options : AwsOptions
     /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests. NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiListObjectsV2RequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).

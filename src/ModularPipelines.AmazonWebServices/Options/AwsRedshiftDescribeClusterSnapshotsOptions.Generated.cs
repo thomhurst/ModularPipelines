@@ -76,7 +76,10 @@ public record AwsRedshiftDescribeClusterSnapshotsOptions : AwsOptions
     [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
-    [CliFlag("--cluster-exists")]
+    /// <summary>
+    /// A value that indicates whether to return snapshots only for an ex- isting cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows: o If ClusterExists is set to true , ClusterIdentifier is required. o If ClusterExists is set to false and ClusterIdentifier isn't spec- ified, all snapshots associated with deleted clusters (orphaned snapshots) are returned. o If ClusterExists is set to false and ClusterIdentifier is speci- fied for a deleted cluster, snapshots associated with that cluster are returned. o If ClusterExists is set to false and ClusterIdentifier is speci- fied for an existing cluster, no snapshots are returned.
+    /// </summary>
+    [CliFlag("--cluster-exists", NegatedName = "--no-cluster-exists")]
     public bool? ClusterExists { get; set; }
 
     /// <summary>

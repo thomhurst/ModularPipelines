@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAthenaListSessionsStateFilter
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("CREATED")]
-    Created = 2,
+    Created,
 
     [EnumValue("IDLE")]
-    Idle = 3,
+    Idle,
 
     [EnumValue("BUSY")]
-    Busy = 4,
+    Busy,
 
     [EnumValue("TERMINATING")]
-    Terminating = 5,
+    Terminating,
 
     [EnumValue("TERMINATED")]
-    Terminated = 6,
+    Terminated,
 
     [EnumValue("DEGRADED")]
-    Degraded = 7,
+    Degraded,
 
     [EnumValue("FAILED")]
-    Failed = 8
+    Failed
 }

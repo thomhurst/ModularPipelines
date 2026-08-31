@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectSearchVocabulariesState
 {
     [EnumValue("CREATION_IN_PROGRESS")]
-    CreationInProgress = 1,
+    CreationInProgress,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("CREATION_FAILED")]
-    CreationFailed = 3,
+    CreationFailed,
 
     [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 4
+    DeleteInProgress
 }

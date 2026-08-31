@@ -49,7 +49,10 @@ public record AwsS3apiCreateSessionOptions : AwsOptions
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CliFlag("--bucket-key-enabled")]
+    /// <summary>
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't sup- ported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general pur- pose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Operations , or the im- port jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+    /// </summary>
+    [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

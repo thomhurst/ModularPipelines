@@ -48,7 +48,10 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions
     [CliOption("--security-configuration-id")]
     public string? SecurityConfigurationId { get; set; }
 
-    [CliFlag("--session-enabled")]
+    /// <summary>
+    /// Indicates whether the virtual cluster has session support enabled.
+    /// </summary>
+    [CliFlag("--session-enabled", NegatedName = "--no-session-enabled")]
     public bool? SessionEnabled { get; set; }
 
     /// <summary>

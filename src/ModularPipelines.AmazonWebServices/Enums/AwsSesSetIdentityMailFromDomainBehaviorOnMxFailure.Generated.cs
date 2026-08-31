@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesSetIdentityMailFromDomainBehaviorOnMxFailure
 {
     [EnumValue("UseDefaultValue")]
-    UseDefaultValue = 1,
+    UseDefaultValue,
 
     [EnumValue("RejectMessage")]
-    RejectMessage = 2
+    RejectMessage
 }

@@ -27,4 +27,10 @@ public record AwsEmrInstallApplicationsOptions : AwsOptions
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
+
 }

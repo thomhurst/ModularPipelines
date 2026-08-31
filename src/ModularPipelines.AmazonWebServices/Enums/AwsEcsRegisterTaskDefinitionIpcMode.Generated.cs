@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsRegisterTaskDefinitionIpcMode
 {
     [EnumValue("host")]
-    Host = 1,
+    Host,
 
     [EnumValue("task")]
-    Task = 2,
+    Task,
 
     [EnumValue("none")]
-    None = 3
+    None
 }

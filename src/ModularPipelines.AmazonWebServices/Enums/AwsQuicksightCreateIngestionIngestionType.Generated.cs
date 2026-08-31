@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightCreateIngestionIngestionType
 {
     [EnumValue("INCREMENTAL_REFRESH")]
-    IncrementalRefresh = 1,
+    IncrementalRefresh,
 
     [EnumValue("FULL_REFRESH")]
-    FullRefresh = 2
+    FullRefresh
 }

@@ -138,7 +138,7 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// The number of Apache Airflow schedulers to run in your environment. Valid values: o v2 - For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1 . o v1 - Accepts 1 . Constraints: o max: 5
     /// </summary>
     [CliOption("--schedulers")]
-    public AwsMwaaCreateEnvironmentSchedulers? Schedulers { get; set; }
+    public int? Schedulers { get; set; }
 
     /// <summary>
     /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE , Amazon MWAA will create and manage the required VPC end- points in your VPC. If set to CUSTOMER , you must create, and man- age, the VPC endpoints for your VPC. If you choose to create an en- vironment in a shared VPC, you must set this value to CUSTOMER . In a shared VPC deployment, the environment will remain in PENDING sta- tus until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CRE- ATE_FAILED . You can delete the failed environment and create a new one. Possible values: o CUSTOMER o SERVICE

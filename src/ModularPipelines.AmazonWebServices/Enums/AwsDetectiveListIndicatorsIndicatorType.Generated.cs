@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDetectiveListIndicatorsIndicatorType
 {
     [EnumValue("TTP_OBSERVED")]
-    TtpObserved = 1,
+    TtpObserved,
 
     [EnumValue("IMPOSSIBLE_TRAVEL")]
-    ImpossibleTravel = 2,
+    ImpossibleTravel,
 
     [EnumValue("FLAGGED_IP_ADDRESS")]
-    FlaggedIpAddress = 3,
+    FlaggedIpAddress,
 
     [EnumValue("NEW_GEOLOCATION")]
-    NewGeolocation = 4,
+    NewGeolocation,
 
     [EnumValue("NEW_ASO")]
-    NewAso = 5,
+    NewAso,
 
     [EnumValue("NEW_USER_AGENT")]
-    NewUserAgent = 6,
+    NewUserAgent,
 
     [EnumValue("RELATED_FINDING")]
-    RelatedFinding = 7,
+    RelatedFinding,
 
     [EnumValue("RELATED_FINDING_GROUP")]
-    RelatedFindingGroup = 8
+    RelatedFindingGroup
 }

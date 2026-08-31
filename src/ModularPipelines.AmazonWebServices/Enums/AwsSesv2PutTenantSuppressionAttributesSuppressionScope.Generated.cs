@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2PutTenantSuppressionAttributesSuppressionScope
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("TENANT")]
-    Tenant = 2
+    Tenant
 }

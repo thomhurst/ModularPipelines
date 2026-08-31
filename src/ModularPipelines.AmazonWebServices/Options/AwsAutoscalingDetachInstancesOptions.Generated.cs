@@ -30,6 +30,9 @@ public record AwsAutoscalingDetachInstancesOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether the Auto Scaling group decrements the desired ca- pacity value by the number of instances detached.
+    /// </summary>
     [CliFlag("--should-decrement-desired-capacity")]
     public bool? ShouldDecrementDesiredCapacity { get; set; }
 

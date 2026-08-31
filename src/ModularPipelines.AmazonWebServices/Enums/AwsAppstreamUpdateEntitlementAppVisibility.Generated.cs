@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamUpdateEntitlementAppVisibility
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("ASSOCIATED")]
-    Associated = 2
+    Associated
 }

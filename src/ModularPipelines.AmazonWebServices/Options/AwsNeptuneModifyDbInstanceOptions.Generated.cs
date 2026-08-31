@@ -55,7 +55,10 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the DB in- stance. If this parameter is set to false , changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBIn- stance , or the next failure reboot. Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -89,7 +92,10 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied dur- ing the next maintenance window unless the ApplyImmediately parame- ter is set to true for this request.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -98,10 +104,16 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// Indicates that major version upgrades are allowed. Changing this pa- rameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parame- ter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance win- dow, and a newer minor version is available, and Neptune has enabled auto patching for that engine version.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -160,7 +172,10 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -175,7 +190,10 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--db-port-number")]
     public int? DbPortNumber { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -196,10 +214,16 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
+    /// <summary>
+    /// tication (boolean) True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following data- base engines Not applicable. Mapping Amazon IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBClus- ter . Default: false
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// (Not supported by Neptune)
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -214,7 +238,10 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     [CliOption("--cloudwatch-logs-export-configuration")]
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB instance has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--cli-input-json")]

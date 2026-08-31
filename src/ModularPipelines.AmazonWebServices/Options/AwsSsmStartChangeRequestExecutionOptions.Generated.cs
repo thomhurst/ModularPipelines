@@ -57,7 +57,10 @@ public record AwsSsmStartChangeRequestExecutionOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--auto-approve")]
+    /// <summary>
+    /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting Au- toApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review. NOTE: Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED , change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the cal- endar state is again OPEN .
+    /// </summary>
+    [CliFlag("--auto-approve", NegatedName = "--no-auto-approve")]
     public bool? AutoApprove { get; set; }
 
     [CliOption("--runbooks", GroupValues = true)]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEksDescribeClusterVersionsVersionStatus
 {
     [EnumValue("UNSUPPORTED")]
-    Unsupported = 1,
+    Unsupported,
 
     [EnumValue("STANDARD_SUPPORT")]
-    StandardSupport = 2,
+    StandardSupport,
 
     [EnumValue("EXTENDED_SUPPORT")]
-    ExtendedSupport = 3
+    ExtendedSupport
 }

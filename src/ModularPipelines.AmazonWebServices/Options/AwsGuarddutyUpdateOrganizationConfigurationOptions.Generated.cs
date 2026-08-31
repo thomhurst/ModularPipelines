@@ -25,7 +25,10 @@ public record AwsGuarddutyUpdateOrganizationConfigurationOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliFlag("--auto-enable")]
+    /// <summary>
+    /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the ex- isting member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnable- OrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable .
+    /// </summary>
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; set; }
 
     /// <summary>

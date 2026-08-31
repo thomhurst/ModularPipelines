@@ -22,10 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mturk", "list-qualification-types")]
 public record AwsMturkListQualificationTypesOptions : AwsOptions
 {
-    [CliFlag("--must-be-requestable")]
+    [CliFlag("--must-be-requestable", NegatedName = "--no-must-be-requestable")]
     public bool? MustBeRequestable { get; set; }
 
-    [CliFlag("--must-be-owned-by-caller")]
+    /// <summary>
+    /// Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types.
+    /// </summary>
+    [CliFlag("--must-be-owned-by-caller", NegatedName = "--no-must-be-owned-by-caller")]
     public bool? MustBeOwnedByCaller { get; set; }
 
     /// <summary>

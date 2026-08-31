@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesThinClientUpdateEnvironmentSoftwareSetUpdateSchedule
 {
     [EnumValue("USE_MAINTENANCE_WINDOW")]
-    UseMaintenanceWindow = 1,
+    UseMaintenanceWindow,
 
     [EnumValue("APPLY_IMMEDIATELY")]
-    ApplyImmediately = 2
+    ApplyImmediately
 }

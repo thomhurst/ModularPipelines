@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "update-organization-configuration")]
 public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions
 {
-    [CliFlag("--auto-enable")]
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; set; }
 
     /// <summary>

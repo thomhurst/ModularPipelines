@@ -36,10 +36,16 @@ public record AwsEc2ModifyCapacityReservationFleetOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--remove-end-date")]
+    /// <summary>
+    /// Indicates whether to remove the end date from the Capacity Reserva- tion Fleet. If you remove the end date, the Capacity Reservation Fleet does not expire and it remains active until you explicitly cancel it using the CancelCapacityReservationFleet action. You can't specify RemoveEndDate and EndDate in the same request.
+    /// </summary>
+    [CliFlag("--remove-end-date", NegatedName = "--no-remove-end-date")]
     public bool? RemoveEndDate { get; set; }
 
     [CliOption("--cli-input-json")]

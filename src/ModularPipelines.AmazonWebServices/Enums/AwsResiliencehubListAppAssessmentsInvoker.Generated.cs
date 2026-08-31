@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubListAppAssessmentsInvoker
 {
     [EnumValue("User")]
-    User = 1,
+    User,
 
     [EnumValue("System")]
-    System = 2
+    System
 }

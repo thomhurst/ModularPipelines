@@ -31,7 +31,10 @@ public record AwsCloudformationWaitChangeSetCreateCompleteOptions : AwsOptions
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CliFlag("--include-property-values")]
+    /// <summary>
+    /// If true , the returned changes include detailed changes in the prop- erty values.
+    /// </summary>
+    [CliFlag("--include-property-values", NegatedName = "--no-include-property-values")]
     public bool? IncludePropertyValues { get; set; }
 
     [CliOption("--cli-input-json")]

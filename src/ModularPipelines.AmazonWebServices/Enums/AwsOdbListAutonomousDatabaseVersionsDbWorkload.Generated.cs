@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbListAutonomousDatabaseVersionsDbWorkload
 {
     [EnumValue("OLTP")]
-    Oltp = 1,
+    Oltp,
 
     [EnumValue("AJD")]
-    Ajd = 2,
+    Ajd,
 
     [EnumValue("APEX")]
-    Apex = 3,
+    Apex,
 
     [EnumValue("LH")]
-    Lh = 4
+    Lh
 }

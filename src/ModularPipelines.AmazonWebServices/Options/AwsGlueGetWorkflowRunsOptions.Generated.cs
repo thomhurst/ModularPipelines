@@ -25,7 +25,10 @@ public record AwsGlueGetWorkflowRunsOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--include-graph")]
+    /// <summary>
+    /// Specifies whether to include the workflow graph in response or not.
+    /// </summary>
+    [CliFlag("--include-graph", NegatedName = "--no-include-graph")]
     public bool? IncludeGraph { get; set; }
 
     [CliOption("--cli-input-json")]

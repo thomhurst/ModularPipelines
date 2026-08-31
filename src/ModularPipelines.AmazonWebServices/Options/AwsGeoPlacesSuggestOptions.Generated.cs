@@ -71,7 +71,7 @@ public record AwsGeoPlacesSuggestOptions : AwsOptions
     /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Currently, Suggest does not support storage of results. Possible values: o SingleUse
     /// </summary>
     [CliOption("--intended-use")]
-    public AwsGeoPlacesSuggestIntendedUse? IntendedUse { get; set; }
+    public string? IntendedUse { get; set; }
 
     /// <summary>
     /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car , Scooter , and Truck . Possible values: o Car o Scooter o Truck

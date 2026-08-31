@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSwfRegisterWorkflowTypeDefaultChildPolicy
 {
     [EnumValue("TERMINATE")]
-    Terminate = 1,
+    Terminate,
 
     [EnumValue("REQUEST_CANCEL")]
-    RequestCancel = 2,
+    RequestCancel,
 
     [EnumValue("ABANDON")]
-    Abandon = 3
+    Abandon
 }

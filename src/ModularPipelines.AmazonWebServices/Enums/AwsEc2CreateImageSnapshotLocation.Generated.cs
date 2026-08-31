@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateImageSnapshotLocation
 {
     [EnumValue("regional")]
-    Regional = 1,
+    Regional,
 
     [EnumValue("local")]
-    Local = 2
+    Local
 }

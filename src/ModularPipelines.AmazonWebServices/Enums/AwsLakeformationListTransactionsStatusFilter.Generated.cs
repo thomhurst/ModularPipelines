@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLakeformationListTransactionsStatusFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
 
     [EnumValue("COMMITTED")]
-    Committed = 4,
+    Committed,
 
     [EnumValue("ABORTED")]
-    Aborted = 5
+    Aborted
 }

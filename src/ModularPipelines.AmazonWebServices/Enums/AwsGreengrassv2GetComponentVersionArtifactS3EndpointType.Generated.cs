@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2GetComponentVersionArtifactS3EndpointType
 {
     [EnumValue("REGIONAL")]
-    Regional = 1,
+    Regional,
 
     [EnumValue("GLOBAL")]
-    Global = 2
+    Global
 }

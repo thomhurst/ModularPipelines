@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEfsUpdateFileSystemThroughputMode
 {
     [EnumValue("bursting")]
-    Bursting = 1,
+    Bursting,
 
     [EnumValue("provisioned")]
-    Provisioned = 2,
+    Provisioned,
 
     [EnumValue("elastic")]
-    Elastic = 3
+    Elastic
 }

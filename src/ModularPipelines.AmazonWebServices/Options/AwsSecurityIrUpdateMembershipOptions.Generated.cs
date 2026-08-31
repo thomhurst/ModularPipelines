@@ -48,7 +48,10 @@ public record AwsSecurityIrUpdateMembershipOptions : AwsOptions
     [CliOption("--membership-accounts-configurations-update")]
     public string? MembershipAccountsConfigurationsUpdate { get; set; }
 
-    [CliFlag("--undo-membership-cancellation")]
+    /// <summary>
+    /// The undoMembershipCancellation parameter is a boolean flag that in- dicates whether to reverse a previously requested membership cancel- lation. When set to true, this will revoke the cancellation request and maintain the membership status. This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet. o If set to true , the cancellation request will be revoked o If set to false the service will throw a ValidationException.
+    /// </summary>
+    [CliFlag("--undo-membership-cancellation", NegatedName = "--no-undo-membership-cancellation")]
     public bool? UndoMembershipCancellation { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -36,7 +36,10 @@ public record AwsDevicefarmUpdateInstanceProfileOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--package-cleanup")]
+    /// <summary>
+    /// The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
+    /// </summary>
+    [CliFlag("--package-cleanup", NegatedName = "--no-package-cleanup")]
     public bool? PackageCleanup { get; set; }
 
     /// <summary>
@@ -45,7 +48,10 @@ public record AwsDevicefarmUpdateInstanceProfileOptions : AwsOptions
     [CliOption("--exclude-app-packages-from-cleanup", GroupValues = true)]
     public IEnumerable<string>? ExcludeAppPackagesFromCleanup { get; set; }
 
-    [CliFlag("--reboot-after-use")]
+    /// <summary>
+    /// The updated choice for whether you want to reboot the device after use. The default value is true .
+    /// </summary>
+    [CliFlag("--reboot-after-use", NegatedName = "--no-reboot-after-use")]
     public bool? RebootAfterUse { get; set; }
 
     [CliOption("--cli-input-json")]

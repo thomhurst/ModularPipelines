@@ -46,7 +46,10 @@ public record AwsDatazoneUpdateDataSourceOptions : AwsOptions
     [CliOption("--enable-setting")]
     public AwsDatazoneUpdateDataSourceEnableSetting? EnableSetting { get; set; }
 
-    [CliFlag("--publish-on-import")]
+    /// <summary>
+    /// The publish on import setting to be updated as part of the Update- DataSource action.
+    /// </summary>
+    [CliFlag("--publish-on-import", NegatedName = "--no-publish-on-import")]
     public bool? PublishOnImport { get; set; }
 
     /// <summary>
@@ -73,6 +76,9 @@ public record AwsDatazoneUpdateDataSourceOptions : AwsOptions
     [CliOption("--recommendation")]
     public string? Recommendation { get; set; }
 
+    /// <summary>
+    /// voke-failure (boolean) Specifies that the granted permissions are retained in case of a self-subscribe functionality failure for a data source.
+    /// </summary>
     [CliFlag("--retain-permissions-on-revoke-failure")]
     public bool? RetainPermissionsOnRevokeFailure { get; set; }
 

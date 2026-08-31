@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMacie2UpdateAutomatedDiscoveryConfigurationAutoEnableOrganizationMembers
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("NEW")]
-    New = 2,
+    New,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

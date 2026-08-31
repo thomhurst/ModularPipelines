@@ -3197,16 +3197,6 @@ public interface IAwsSagemaker
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or de- scending order. You can query against the following value types: numeric, text, Boolean, and timestamp. NOTE: The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Re- sources Reference for more information. See...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAsync(AwsSagemakerSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Searches for available training plan offerings based on specified cri- teria. o Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration). o And then, they create a plan that best matches their needs using the ID of the plan offering they want to use. For more information about how to reserve GPU capacity for your Sage- Maker training jobs or SageMaker HyperPod clusters using Amazon Sage- Maker Training Plan , see `` CreateTrainingPl...
     /// </summary>
     /// <param name="options">The command options.</param>

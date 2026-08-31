@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlUpdateEvaluatorLevel
 {
     [EnumValue("TOOL_CALL")]
-    ToolCall = 1,
+    ToolCall,
 
     [EnumValue("TRACE")]
-    Trace = 2,
+    Trace,
 
     [EnumValue("SESSION")]
-    Session = 3
+    Session
 }

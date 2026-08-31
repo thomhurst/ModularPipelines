@@ -59,7 +59,10 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
     [CliOption("--external-secret-rotation-role-arn")]
     public string? ExternalSecretRotationRoleArn { get; set; }
 
-    [CliFlag("--rotate-immediately")]
+    /// <summary>
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in RotateSecretRequest$RotationRules . The default for RotateImmediately is true . If you don't specify this value, Secrets Manager rotates the secret immediately. If you set RotateImmediately to false , Secrets Manager tests the rotation configuration by running the ` testSecret step &lt;- https://docs.aws.amazon.com/secretsmanager/latest/userguide/ro- tate-secrets_how.html&gt;`__ of the Lambda rotation function. This test creates an AWSPENDING version of the secret and then removes it. When changing an existing rotation schedule and setting RotateImme- diately to false : o If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. o To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. Rotation is an asynchronous process. For more information, see How rotation works .
+    /// </summary>
+    [CliFlag("--rotate-immediately", NegatedName = "--no-rotate-immediately")]
     public bool? RotateImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

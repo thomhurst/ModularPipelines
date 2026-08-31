@@ -24,7 +24,7 @@ public record AwsCloudhsmv2ModifyBackupAttributesOptions : AwsOptions
     [CliOption("--backup-id")]
     public string? BackupId { get; set; }
 
-    [CliFlag("--never-expires")]
+    [CliFlag("--never-expires", NegatedName = "--no-never-expires")]
     public bool? NeverExpires { get; set; }
 
     [CliOption("--cli-input-json")]

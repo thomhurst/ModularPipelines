@@ -24,6 +24,9 @@ public record AwsDsStartSchemaExtensionOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
+    /// <summary>
+    /// fore-schema-extension (boolean) [required] If true, creates a snapshot of the directory before applying the schema extension.
+    /// </summary>
     [CliFlag("--create-snapshot-before-schema-extension")]
     public bool? CreateSnapshotBeforeSchemaExtension { get; set; }
 

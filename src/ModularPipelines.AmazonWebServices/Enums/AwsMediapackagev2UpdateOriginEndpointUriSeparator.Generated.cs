@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediapackagev2UpdateOriginEndpointUriSeparator
 {
     [EnumValue("UNDERSCORE")]
-    Underscore = 1,
+    Underscore,
 
     [EnumValue("HYPHEN")]
-    Hyphen = 2
+    Hyphen
 }

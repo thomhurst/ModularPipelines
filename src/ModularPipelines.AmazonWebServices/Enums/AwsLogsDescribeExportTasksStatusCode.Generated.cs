@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsDescribeExportTasksStatusCode
 {
     [EnumValue("CANCELLED")]
-    Cancelled = 1,
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("PENDING")]
-    Pending = 4,
+    Pending,
 
     [EnumValue("PENDING_CANCEL")]
-    PendingCancel = 5,
+    PendingCancel,
 
     [EnumValue("RUNNING")]
-    Running = 6
+    Running
 }

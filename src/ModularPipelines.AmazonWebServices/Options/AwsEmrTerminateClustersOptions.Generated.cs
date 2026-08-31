@@ -24,4 +24,10 @@ public record AwsEmrTerminateClustersOptions : AwsOptions
     [CliOption("--cluster-ids", GroupValues = true)]
     public IEnumerable<string>? ClusterIds { get; set; }
 
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
+
 }

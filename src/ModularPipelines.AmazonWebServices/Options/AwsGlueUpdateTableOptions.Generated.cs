@@ -43,7 +43,10 @@ public record AwsGlueUpdateTableOptions : AwsOptions
     [CliOption("--table-input")]
     public string? TableInput { get; set; }
 
-    [CliFlag("--skip-archive")]
+    /// <summary>
+    /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
+    /// </summary>
+    [CliFlag("--skip-archive", NegatedName = "--no-skip-archive")]
     public bool? SkipArchive { get; set; }
 
     /// <summary>
@@ -64,7 +67,10 @@ public record AwsGlueUpdateTableOptions : AwsOptions
     [CliOption("--view-update-action")]
     public AwsGlueUpdateTableViewUpdateAction? ViewUpdateAction { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

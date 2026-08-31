@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListLensesLensType
 {
     [EnumValue("AWS_OFFICIAL")]
-    AwsOfficial = 1,
+    AwsOfficial,
 
     [EnumValue("CUSTOM_SHARED")]
-    CustomShared = 2,
+    CustomShared,
 
     [EnumValue("CUSTOM_SELF")]
-    CustomSelf = 3
+    CustomSelf
 }

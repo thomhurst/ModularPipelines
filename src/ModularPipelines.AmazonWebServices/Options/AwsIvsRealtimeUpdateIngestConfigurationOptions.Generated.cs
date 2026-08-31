@@ -30,7 +30,10 @@ public record AwsIvsRealtimeUpdateIngestConfigurationOptions : AwsOptions
     [CliOption("--stage-arn")]
     public string? StageArn { get; set; }
 
-    [CliFlag("--redundant-ingest")]
+    /// <summary>
+    /// Indicates whether redundant ingest is enabled for the ingest config- uration. Default: false .
+    /// </summary>
+    [CliFlag("--redundant-ingest", NegatedName = "--no-redundant-ingest")]
     public bool? RedundantIngest { get; set; }
 
     [CliOption("--cli-input-json")]

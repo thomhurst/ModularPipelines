@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyDbInstanceAutomationMode
 {
     [EnumValue("full")]
-    Full = 1,
+    Full,
 
     [EnumValue("all-paused")]
-    AllPaused = 2
+    AllPaused
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentListBacklogTasksSortField
 {
     [EnumValue("CREATED_AT")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("PRIORITY")]
-    Priority = 2
+    Priority
 }

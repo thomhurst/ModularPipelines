@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerDrawKva
 {
     [EnumValue("POWER_5_KVA")]
-    Power_5Kva = 1,
+    Power_5Kva,
 
     [EnumValue("POWER_10_KVA")]
-    Power_10Kva = 2,
+    Power_10Kva,
 
     [EnumValue("POWER_15_KVA")]
-    Power_15Kva = 3,
+    Power_15Kva,
 
     [EnumValue("POWER_30_KVA")]
-    Power_30Kva = 4
+    Power_30Kva
 }

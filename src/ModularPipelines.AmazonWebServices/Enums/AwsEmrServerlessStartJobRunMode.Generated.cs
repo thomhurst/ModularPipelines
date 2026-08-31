@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrServerlessStartJobRunMode
 {
     [EnumValue("BATCH")]
-    Batch = 1,
+    Batch,
 
     [EnumValue("STREAMING")]
-    Streaming = 2
+    Streaming
 }

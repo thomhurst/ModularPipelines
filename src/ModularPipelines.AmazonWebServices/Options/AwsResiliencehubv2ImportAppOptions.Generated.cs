@@ -38,7 +38,10 @@ public record AwsResiliencehubv2ImportAppOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--skip-manually-added-resources")]
+    /// <summary>
+    /// Whether to skip manually added resources during import.
+    /// </summary>
+    [CliFlag("--skip-manually-added-resources", NegatedName = "--no-skip-manually-added-resources")]
     public bool? SkipManuallyAddedResources { get; set; }
 
     /// <summary>

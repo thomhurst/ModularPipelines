@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentListRetrainingSchedulersStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("STOPPING")]
-    Stopping = 3,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 4
+    Stopped
 }

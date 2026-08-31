@@ -30,7 +30,10 @@ public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions
     [CliOption("--minimum-load-balancer-capacity")]
     public string? MinimumLoadBalancerCapacity { get; set; }
 
-    [CliFlag("--reset-capacity-reservation")]
+    /// <summary>
+    /// Resets the capacity reservation.
+    /// </summary>
+    [CliFlag("--reset-capacity-reservation", NegatedName = "--no-reset-capacity-reservation")]
     public bool? ResetCapacityReservation { get; set; }
 
     [CliOption("--cli-input-json")]

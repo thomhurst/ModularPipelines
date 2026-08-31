@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBillingconductorUpdatePricingRuleType
 {
     [EnumValue("MARKUP")]
-    Markup = 1,
+    Markup,
 
     [EnumValue("DISCOUNT")]
-    Discount = 2,
+    Discount,
 
     [EnumValue("TIERING")]
-    Tiering = 3
+    Tiering
 }

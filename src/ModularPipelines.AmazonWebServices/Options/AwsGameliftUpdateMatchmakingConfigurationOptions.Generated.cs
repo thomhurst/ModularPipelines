@@ -49,7 +49,10 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
     [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
 
-    [CliFlag("--acceptance-required")]
+    /// <summary>
+    /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tick- ets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
+    /// </summary>
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNotificationsCreateNotificationConfigurationAggregationDuration
 {
     [EnumValue("LONG")]
-    Long = 1,
+    Long,
 
     [EnumValue("SHORT")]
-    Short = 2,
+    Short,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

@@ -31,7 +31,10 @@ public record AwsRamUpdateResourceShareOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--allow-external-principals")]
+    /// <summary>
+    /// Specifies whether principals outside your organization in Organiza- tions can be associated with a resource share.
+    /// </summary>
+    [CliFlag("--allow-external-principals", NegatedName = "--no-allow-external-principals")]
     public bool? AllowExternalPrincipals { get; set; }
 
     /// <summary>

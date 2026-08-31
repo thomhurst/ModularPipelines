@@ -27,7 +27,10 @@ public record AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOption
     [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; set; }
 
-    [CliFlag("--force-associate")]
+    /// <summary>
+    /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector Group and removes any previously existing associations. If false, does not associate any phone num- bers that have previously existing associations.
+    /// </summary>
+    [CliFlag("--force-associate", NegatedName = "--no-force-associate")]
     public bool? ForceAssociate { get; set; }
 
     [CliOption("--cli-input-json")]

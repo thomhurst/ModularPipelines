@@ -25,7 +25,10 @@ public record AwsAppsyncGetDataSourceIntrospectionOptions : AwsOptions
     [CliOption("--introspection-id")]
     public string? IntrospectionId { get; set; }
 
-    [CliFlag("--include-models-sdl")]
+    /// <summary>
+    /// A boolean flag that determines whether SDL should be generated for introspected types. If set to true , each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+    /// </summary>
+    [CliFlag("--include-models-sdl", NegatedName = "--no-include-models-sdl")]
     public bool? IncludeModelsSdl { get; set; }
 
     /// <summary>

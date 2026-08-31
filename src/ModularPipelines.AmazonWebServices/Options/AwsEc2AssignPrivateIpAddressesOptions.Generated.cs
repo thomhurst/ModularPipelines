@@ -48,7 +48,10 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
     [CliOption("--secondary-private-ip-address-count")]
     public int? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CliFlag("--allow-reassignment")]
+    /// <summary>
+    /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the speci- fied network interface.
+    /// </summary>
+    [CliFlag("--allow-reassignment", NegatedName = "--no-allow-reassignment")]
     public bool? AllowReassignment { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -38,6 +38,9 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
+    /// <summary>
+    /// rity-group (boolean) Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
+    /// </summary>
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
@@ -53,6 +56,9 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
+    /// <summary>
+    /// tion-server (boolean) Whether to use a dedicated Replication Server in the replication staging area.
+    /// </summary>
     [CliFlag("--use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
@@ -86,7 +92,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsDrsUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Whether to create a Public IP for the Recovery Instance by default.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -101,7 +110,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
-    [CliFlag("--auto-replicate-new-disks")]
+    /// <summary>
+    /// Whether to allow the AWS replication agent to automatically repli- cate newly added disks.
+    /// </summary>
+    [CliFlag("--auto-replicate-new-disks", NegatedName = "--no-auto-replicate-new-disks")]
     public bool? AutoReplicateNewDisks { get; set; }
 
     /// <summary>

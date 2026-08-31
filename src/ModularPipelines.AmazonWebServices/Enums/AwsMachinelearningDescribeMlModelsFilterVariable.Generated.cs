@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMachinelearningDescribeMlModelsFilterVariable
 {
     [EnumValue("CreatedAt")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("LastUpdatedAt")]
-    LastUpdatedAt = 2,
+    LastUpdatedAt,
 
     [EnumValue("Status")]
-    Status = 3,
+    Status,
 
     [EnumValue("Name")]
-    Name = 4,
+    Name,
 
     [EnumValue("IAMUser")]
-    IamUser = 5,
+    IamUser,
 
     [EnumValue("TrainingDataSourceId")]
-    TrainingDataSourceId = 6,
+    TrainingDataSourceId,
 
     [EnumValue("RealtimeEndpointStatus")]
-    RealtimeEndpointStatus = 7,
+    RealtimeEndpointStatus,
 
     [EnumValue("MLModelType")]
-    MlModelType = 8,
+    MlModelType,
 
     [EnumValue("Algorithm")]
-    Algorithm = 9,
+    Algorithm,
 
     [EnumValue("TrainingDataURI")]
-    TrainingDataUri = 10
+    TrainingDataUri
 }

@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -29,7 +28,7 @@ public record AwsInspectorDescribeFindingsOptions : AwsOptions
     /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the find- ing. Possible values: o EN_US
     /// </summary>
     [CliOption("--locale")]
-    public AwsInspectorDescribeFindingsLocale? Locale { get; set; }
+    public string? Locale { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

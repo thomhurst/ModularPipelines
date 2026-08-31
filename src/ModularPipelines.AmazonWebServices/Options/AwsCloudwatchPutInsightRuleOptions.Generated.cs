@@ -39,7 +39,10 @@ public record AwsCloudwatchPutInsightRuleOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--apply-on-transformed-logs")]
+    /// <summary>
+    /// Specify true to have this rule evaluate log events after they have been transformed by Log transformation . If you specify true , then the log events in log groups that have transformers will be evalu- ated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false NOTE: If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contrib- utor Insights. For information about investigating log transfor- mation failures, see Transformation metrics and errors .
+    /// </summary>
+    [CliFlag("--apply-on-transformed-logs", NegatedName = "--no-apply-on-transformed-logs")]
     public bool? ApplyOnTransformedLogs { get; set; }
 
     [CliOption("--cli-input-json")]

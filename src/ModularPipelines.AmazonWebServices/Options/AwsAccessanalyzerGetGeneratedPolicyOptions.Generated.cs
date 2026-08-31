@@ -24,10 +24,16 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CliFlag("--include-resource-placeholders")]
+    /// <summary>
+    /// The level of detail that you want to generate. You can specify whether to generate policies with placeholders for resource ARNs for actions that support resource level granularity in policies. For example, in the resource section of a policy, you can receive a placeholder such as "Resource":"arn:aws:s3:::${BucketName}" instead of "*" .
+    /// </summary>
+    [CliFlag("--include-resource-placeholders", NegatedName = "--no-include-resource-placeholders")]
     public bool? IncludeResourcePlaceholders { get; set; }
 
-    [CliFlag("--include-service-level-template")]
+    /// <summary>
+    /// The level of detail that you want to generate. You can specify whether to generate service-level policies. IAM Access Analyzer uses iam:servicelastaccessed to identify ser- vices that have been used recently to create this service-level tem- plate.
+    /// </summary>
+    [CliFlag("--include-service-level-template", NegatedName = "--no-include-service-level-template")]
     public bool? IncludeServiceLevelTemplate { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -57,6 +57,9 @@ public record AwsWorkmailCreateUserOptions : AwsOptions
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
+    /// <summary>
+    /// dress-list (boolean) If this parameter is enabled, the user will be hidden from the ad- dress book.
+    /// </summary>
     [CliFlag("--hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 

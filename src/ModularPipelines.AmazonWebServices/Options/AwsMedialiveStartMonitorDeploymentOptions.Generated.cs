@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "start-monitor-deployment")]
 public record AwsMedialiveStartMonitorDeploymentOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--identifier")]

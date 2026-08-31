@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationRecordHandlerProgressCurrentOperationStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("SUCCESS")]
-    Success = 3,
+    Success,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed
 }

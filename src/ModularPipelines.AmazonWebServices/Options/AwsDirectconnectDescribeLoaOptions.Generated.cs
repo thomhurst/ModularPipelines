@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsDirectconnectDescribeLoaOptions : AwsOptions
     /// The standard media type for the LOA-CFA document. The only supported value is application/pdf. Possible values: o application/pdf
     /// </summary>
     [CliOption("--loa-content-type")]
-    public AwsDirectconnectDescribeLoaLoaContentType? LoaContentType { get; set; }
+    public string? LoaContentType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

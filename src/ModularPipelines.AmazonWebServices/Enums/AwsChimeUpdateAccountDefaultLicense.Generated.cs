@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeUpdateAccountDefaultLicense
 {
     [EnumValue("Basic")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("Plus")]
-    Plus = 2,
+    Plus,
 
     [EnumValue("Pro")]
-    Pro = 3,
+    Pro,
 
     [EnumValue("ProTrial")]
-    ProTrial = 4
+    ProTrial
 }

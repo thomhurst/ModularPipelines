@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsImportKeyMaterialImportType
 {
     [EnumValue("NEW_KEY_MATERIAL")]
-    NewKeyMaterial = 1,
+    NewKeyMaterial,
 
     [EnumValue("EXISTING_KEY_MATERIAL")]
-    ExistingKeyMaterial = 2
+    ExistingKeyMaterial
 }

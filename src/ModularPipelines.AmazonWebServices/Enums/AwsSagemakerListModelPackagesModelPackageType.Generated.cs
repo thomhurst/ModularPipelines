@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListModelPackagesModelPackageType
 {
     [EnumValue("Versioned")]
-    Versioned = 1,
+    Versioned,
 
     [EnumValue("Unversioned")]
-    Unversioned = 2,
+    Unversioned,
 
     [EnumValue("Both")]
-    Both = 3
+    Both
 }

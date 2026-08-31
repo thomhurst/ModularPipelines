@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverCreateFirewallRuleFirewallDomainRedirectionAction
 {
     [EnumValue("INSPECT_REDIRECTION_DOMAIN")]
-    InspectRedirectionDomain = 1,
+    InspectRedirectionDomain,
 
     [EnumValue("TRUST_REDIRECTION_DOMAIN")]
-    TrustRedirectionDomain = 2
+    TrustRedirectionDomain
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComputeOptimizerPutRecommendationPreferencesLookBackPeriod
 {
     [EnumValue("DAYS_14")]
-    Days_14 = 1,
+    Days_14,
 
     [EnumValue("DAYS_32")]
-    Days_32 = 2,
+    Days_32,
 
     [EnumValue("DAYS_93")]
-    Days_93 = 3
+    Days_93
 }

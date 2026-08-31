@@ -57,6 +57,9 @@ public record AwsCloudwatchPutMetricStreamOptions : AwsOptions
     [CliOption("--statistics-configurations", GroupValues = true)]
     public IEnumerable<string>? StatisticsConfigurations { get; set; }
 
+    /// <summary>
+    /// rics (boolean) If you are creating a metric stream in a monitoring account, specify true to include metrics from source accounts in the metric stream.
+    /// </summary>
     [CliFlag("--include-linked-accounts-metrics")]
     public bool? IncludeLinkedAccountsMetrics { get; set; }
 

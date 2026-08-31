@@ -30,7 +30,10 @@ public record AwsDetectiveCreateMembersOptions : AwsOptions
     [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CliFlag("--disable-email-notification")]
+    /// <summary>
+    /// if set to true , then the invited accounts do not receive email no- tifications. By default, this is set to false , and the invited ac- counts receive email notifications. Organization accounts in the organization behavior graph do not re- ceive email notifications.
+    /// </summary>
+    [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
     [CliOption("--accounts", GroupValues = true)]

@@ -42,7 +42,10 @@ public record AwsIotUpdateThingOptions : AwsOptions
     [CliOption("--expected-version")]
     public int? ExpectedVersion { get; set; }
 
-    [CliFlag("--remove-thing-type")]
+    /// <summary>
+    /// Remove a thing type association. If true , the association is re- moved.
+    /// </summary>
+    [CliFlag("--remove-thing-type", NegatedName = "--no-remove-thing-type")]
     public bool? RemoveThingType { get; set; }
 
     [CliOption("--cli-input-json")]

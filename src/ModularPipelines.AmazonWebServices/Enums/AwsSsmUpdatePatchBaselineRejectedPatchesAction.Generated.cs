@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmUpdatePatchBaselineRejectedPatchesAction
 {
     [EnumValue("ALLOW_AS_DEPENDENCY")]
-    AllowAsDependency = 1,
+    AllowAsDependency,
 
     [EnumValue("BLOCK")]
-    Block = 2
+    Block
 }

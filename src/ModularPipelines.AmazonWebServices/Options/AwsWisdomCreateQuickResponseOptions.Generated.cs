@@ -57,7 +57,10 @@ public record AwsWisdomCreateQuickResponseOptions : AwsOptions
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
 
-    [CliFlag("--is-active")]
+    /// <summary>
+    /// Whether the quick response is active.
+    /// </summary>
+    [CliFlag("--is-active", NegatedName = "--no-is-active")]
     public bool? IsActive { get; set; }
 
     [CliOption("--knowledge-base-id")]

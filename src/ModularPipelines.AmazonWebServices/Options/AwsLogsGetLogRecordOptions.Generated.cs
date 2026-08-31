@@ -24,7 +24,10 @@ public record AwsLogsGetLogRecordOptions : AwsOptions
     [CliOption("--log-record-pointer")]
     public string? LogRecordPointer { get; set; }
 
-    [CliFlag("--unmask")]
+    /// <summary>
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false . To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    /// </summary>
+    [CliFlag("--unmask", NegatedName = "--no-unmask")]
     public bool? Unmask { get; set; }
 
     [CliOption("--cli-input-json")]

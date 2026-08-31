@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentUpdateCodeReviewValidationMode
 {
     [EnumValue("DISABLED")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("SIMULATED")]
-    Simulated = 2
+    Simulated
 }

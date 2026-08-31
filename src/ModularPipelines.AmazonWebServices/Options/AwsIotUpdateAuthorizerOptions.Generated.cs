@@ -53,7 +53,10 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions
     [CliOption("--status")]
     public AwsIotUpdateAuthorizerStatus? Status { get; set; }
 
-    [CliFlag("--enable-caching-for-http")]
+    /// <summary>
+    /// When true , the result from the authorizers Lambda function is cached for the time specified in refreshAfterInSeconds . The cached result is used while the device reuses the same HTTP connection.
+    /// </summary>
+    [CliFlag("--enable-caching-for-http", NegatedName = "--no-enable-caching-for-http")]
     public bool? EnableCachingForHttp { get; set; }
 
     [CliOption("--cli-input-json")]

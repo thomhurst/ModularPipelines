@@ -40,7 +40,10 @@ public record AwsLocationCreateKeyOptions : AwsOptions
     [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CliFlag("--no-expiry")]
+    /// <summary>
+    /// Optionally set to true to set no expiration time for the API key. One of NoExpiry or ExpireTime must be set.
+    /// </summary>
+    [CliFlag("--no-expiry", NegatedName = "--no-no-expiry")]
     public bool? NoExpiry { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoRoutesSnapToRoadsSnappedGeometryFormat
 {
     [EnumValue("FlexiblePolyline")]
-    FlexiblePolyline = 1,
+    FlexiblePolyline,
 
     [EnumValue("Simple")]
-    Simple = 2
+    Simple
 }

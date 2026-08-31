@@ -24,10 +24,16 @@ public record AwsDmsRebootReplicationInstanceOptions : AwsOptions
     [CliOption("--replication-instance-arn")]
     public string? ReplicationInstanceArn { get; set; }
 
-    [CliFlag("--force-failover")]
+    /// <summary>
+    /// If this parameter is true , the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
+    /// </summary>
+    [CliFlag("--force-failover", NegatedName = "--no-force-failover")]
     public bool? ForceFailover { get; set; }
 
-    [CliFlag("--force-planned-failover")]
+    /// <summary>
+    /// If this parameter is true , the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t config- ured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
+    /// </summary>
+    [CliFlag("--force-planned-failover", NegatedName = "--no-force-planned-failover")]
     public bool? ForcePlannedFailover { get; set; }
 
     [CliOption("--cli-input-json")]

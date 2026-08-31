@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -105,21 +105,6 @@ public class AwsSesv2 : IAwsSesv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateContactListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateContactAsync(
-        AwsSesv2CreateContactOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateContactOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -1620,21 +1605,6 @@ public class AwsSesv2 : IAwsSesv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateContactListOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateContactAsync(
-        AwsSesv2UpdateContactOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateContactOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionGetLabelDetectionSortBy
 {
     [EnumValue("NAME")]
-    Name = 1,
+    Name,
 
     [EnumValue("TIMESTAMP")]
-    Timestamp = 2
+    Timestamp
 }

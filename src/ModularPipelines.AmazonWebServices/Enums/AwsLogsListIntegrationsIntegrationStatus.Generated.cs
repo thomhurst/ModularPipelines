@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsListIntegrationsIntegrationStatus
 {
     [EnumValue("PROVISIONING")]
-    Provisioning = 1,
+    Provisioning,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

@@ -36,7 +36,10 @@ public record AwsDmsCreateDataProviderOptions : AwsOptions
     [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CliFlag("--virtual")]
+    /// <summary>
+    /// Indicates whether the data provider is virtual.
+    /// </summary>
+    [CliFlag("--virtual", NegatedName = "--no-virtual")]
     public bool? Virtual { get; set; }
 
     [CliOption("--settings")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListAccessPoliciesIdentityType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("GROUP")]
-    Group = 2,
+    Group,
 
     [EnumValue("IAM")]
-    Iam = 3
+    Iam
 }

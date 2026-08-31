@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerGeospatialGetTileOutputDataType
 {
     [EnumValue("INT32")]
-    Int32 = 1,
+    Int32,
 
     [EnumValue("FLOAT32")]
-    Float32 = 2,
+    Float32,
 
     [EnumValue("INT16")]
-    Int16 = 3,
+    Int16,
 
     [EnumValue("FLOAT64")]
-    Float64 = 4,
+    Float64,
 
     [EnumValue("UINT16")]
-    Uint16 = 5
+    Uint16
 }

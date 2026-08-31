@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListTrainingJobsWarmPoolStatusEquals
 {
     [EnumValue("Available")]
-    Available = 1,
+    Available,
 
     [EnumValue("Terminated")]
-    Terminated = 2,
+    Terminated,
 
     [EnumValue("Reused")]
-    Reused = 3,
+    Reused,
 
     [EnumValue("InUse")]
-    InUse = 4
+    InUse
 }

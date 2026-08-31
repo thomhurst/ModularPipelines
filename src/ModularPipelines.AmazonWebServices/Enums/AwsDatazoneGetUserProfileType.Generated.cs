@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneGetUserProfileType
 {
     [EnumValue("IAM")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("SSO")]
-    Sso = 2
+    Sso
 }

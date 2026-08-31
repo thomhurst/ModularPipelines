@@ -21,6 +21,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift-serverless", "restore-table-from-recovery-point")]
 public record AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions : AwsOptions
 {
+    /// <summary>
+    /// tive-identifier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
+    /// </summary>
     [CliFlag("--activate-case-sensitive-identifier")]
     public bool? ActivateCaseSensitiveIdentifier { get; set; }
 

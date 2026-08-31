@@ -35,7 +35,10 @@ public record AwsImagebuilderListComponentsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--by-name")]
+    /// <summary>
+    /// Returns the list of components for the specified name.
+    /// </summary>
+    [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsCreatePrivacyBudgetTemplateAutoRefresh
 {
     [EnumValue("CALENDAR_MONTH")]
-    CalendarMonth = 1,
+    CalendarMonth,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

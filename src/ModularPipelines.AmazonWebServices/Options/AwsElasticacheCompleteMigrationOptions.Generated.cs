@@ -24,7 +24,10 @@ public record AwsElasticacheCompleteMigrationOptions : AwsOptions
     [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

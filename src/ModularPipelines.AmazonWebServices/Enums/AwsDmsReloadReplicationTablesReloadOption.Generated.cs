@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDmsReloadReplicationTablesReloadOption
 {
     [EnumValue("data-reload")]
-    DataReload = 1,
+    DataReload,
 
     [EnumValue("validate-only")]
-    ValidateOnly = 2
+    ValidateOnly
 }

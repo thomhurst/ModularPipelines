@@ -66,7 +66,7 @@ public record AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions : Aw
     [CliOption("--evaluation-execution-role-arn")]
     public string? EvaluationExecutionRoleArn { get; set; }
 
-    [CliFlag("--enable-on-create")]
+    [CliFlag("--enable-on-create", NegatedName = "--no-enable-on-create")]
     public bool? EnableOnCreate { get; set; }
 
     /// <summary>

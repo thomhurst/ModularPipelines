@@ -25,7 +25,10 @@ public record AwsDrsStartRecoveryOptions : AwsOptions
     [CliOption("--source-servers", GroupValues = true)]
     public IEnumerable<string>? SourceServers { get; set; }
 
-    [CliFlag("--is-drill")]
+    /// <summary>
+    /// Whether this Source Server Recovery operation is a drill or not.
+    /// </summary>
+    [CliFlag("--is-drill", NegatedName = "--no-is-drill")]
     public bool? IsDrill { get; set; }
 
     /// <summary>

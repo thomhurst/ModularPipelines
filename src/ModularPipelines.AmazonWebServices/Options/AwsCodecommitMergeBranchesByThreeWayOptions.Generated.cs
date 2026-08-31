@@ -67,7 +67,10 @@ public record AwsCodecommitMergeBranchesByThreeWayOptions : AwsOptions
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .git- keep file is created for empty folders. The default is false.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>

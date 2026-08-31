@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodestarNotificationsUpdateNotificationRuleDetailType
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("FULL")]
-    Full = 2
+    Full
 }

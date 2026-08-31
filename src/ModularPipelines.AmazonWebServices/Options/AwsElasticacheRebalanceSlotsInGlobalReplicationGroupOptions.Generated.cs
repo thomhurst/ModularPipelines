@@ -24,7 +24,7 @@ public record AwsElasticacheRebalanceSlotsInGlobalReplicationGroupOptions : AwsO
     [CliOption("--global-replication-group-id")]
     public string? GlobalReplicationGroupId { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

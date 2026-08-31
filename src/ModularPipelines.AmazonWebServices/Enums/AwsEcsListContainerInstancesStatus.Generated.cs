@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListContainerInstancesStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("DRAINING")]
-    Draining = 2,
+    Draining,
 
     [EnumValue("REGISTERING")]
-    Registering = 3,
+    Registering,
 
     [EnumValue("DEREGISTERING")]
-    Deregistering = 4,
+    Deregistering,
 
     [EnumValue("REGISTRATION_FAILED")]
-    RegistrationFailed = 5
+    RegistrationFailed
 }

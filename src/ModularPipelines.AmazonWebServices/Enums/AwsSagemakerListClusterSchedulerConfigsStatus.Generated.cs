@@ -17,38 +17,38 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListClusterSchedulerConfigsStatus
 {
     [EnumValue("Creating")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("CreateFailed")]
-    CreateFailed = 2,
+    CreateFailed,
 
     [EnumValue("CreateRollbackFailed")]
-    CreateRollbackFailed = 3,
+    CreateRollbackFailed,
 
     [EnumValue("Created")]
-    Created = 4,
+    Created,
 
     [EnumValue("Updating")]
-    Updating = 5,
+    Updating,
 
     [EnumValue("UpdateFailed")]
-    UpdateFailed = 6,
+    UpdateFailed,
 
     [EnumValue("UpdateRollbackFailed")]
-    UpdateRollbackFailed = 7,
+    UpdateRollbackFailed,
 
     [EnumValue("Updated")]
-    Updated = 8,
+    Updated,
 
     [EnumValue("Deleting")]
-    Deleting = 9,
+    Deleting,
 
     [EnumValue("DeleteFailed")]
-    DeleteFailed = 10,
+    DeleteFailed,
 
     [EnumValue("DeleteRollbackFailed")]
-    DeleteRollbackFailed = 11,
+    DeleteRollbackFailed,
 
     [EnumValue("Deleted")]
-    Deleted = 12
+    Deleted
 }

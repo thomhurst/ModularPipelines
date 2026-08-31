@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerjobruntimeCompleteRolloutStatus
 {
     [EnumValue("ready")]
-    Ready = 1,
+    Ready,
 
     [EnumValue("failed")]
-    Failed = 2
+    Failed
 }

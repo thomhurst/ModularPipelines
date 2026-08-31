@@ -33,7 +33,10 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }
 
-    [CliFlag("--bypass-policy-lockout-check")]
+    /// <summary>
+    /// A flag to indicate whether to bypass the resource policy lockout safety check. WARNING: Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscrimi- nately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
+    /// </summary>
+    [CliFlag("--bypass-policy-lockout-check", NegatedName = "--no-bypass-policy-lockout-check")]
     public bool? BypassPolicyLockoutCheck { get; set; }
 
     [CliOption("--cli-input-json")]

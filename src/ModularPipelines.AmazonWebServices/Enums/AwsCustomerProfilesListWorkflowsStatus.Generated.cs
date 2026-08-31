@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesListWorkflowsStatus
 {
     [EnumValue("NOT_STARTED")]
-    NotStarted = 1,
+    NotStarted,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("COMPLETE")]
-    Complete = 3,
+    Complete,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("SPLIT")]
-    Split = 5,
+    Split,
 
     [EnumValue("RETRY")]
-    Retry = 6,
+    Retry,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 7
+    Cancelled
 }

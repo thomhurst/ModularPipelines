@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateVpcEndpointIpAddressType
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("dualstack")]
-    Dualstack = 2,
+    Dualstack,
 
     [EnumValue("ipv6")]
-    Ipv6 = 3
+    Ipv6
 }

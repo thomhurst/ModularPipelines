@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListAssociationsSortBy
 {
     [EnumValue("SourceArn")]
-    SourceArn = 1,
+    SourceArn,
 
     [EnumValue("DestinationArn")]
-    DestinationArn = 2,
+    DestinationArn,
 
     [EnumValue("SourceType")]
-    SourceType = 3,
+    SourceType,
 
     [EnumValue("DestinationType")]
-    DestinationType = 4,
+    DestinationType,
 
     [EnumValue("CreationTime")]
-    CreationTime = 5
+    CreationTime
 }

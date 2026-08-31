@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoRoutesCalculateIsolinesOptimizeIsolineFor
 {
     [EnumValue("AccurateCalculation")]
-    AccurateCalculation = 1,
+    AccurateCalculation,
 
     [EnumValue("BalancedCalculation")]
-    BalancedCalculation = 2,
+    BalancedCalculation,
 
     [EnumValue("FastCalculation")]
-    FastCalculation = 3
+    FastCalculation
 }

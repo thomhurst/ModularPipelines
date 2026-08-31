@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicecatalogSearchProductsSortBy
 {
     [EnumValue("Title")]
-    Title = 1,
+    Title,
 
     [EnumValue("VersionCount")]
-    VersionCount = 2,
+    VersionCount,
 
     [EnumValue("CreationDate")]
-    CreationDate = 3
+    CreationDate
 }

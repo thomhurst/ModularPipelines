@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigCreateDeploymentStrategyReplicateTo
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("SSM_DOCUMENT")]
-    SsmDocument = 2
+    SsmDocument
 }

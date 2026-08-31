@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotUpdateDomainConfigurationApplicationProtocol
 {
     [EnumValue("SECURE_MQTT")]
-    SecureMqtt = 1,
+    SecureMqtt,
 
     [EnumValue("MQTT_WSS")]
-    MqttWss = 2,
+    MqttWss,
 
     [EnumValue("HTTPS")]
-    Https = 3,
+    Https,
 
     [EnumValue("DEFAULT")]
-    Default = 4
+    Default
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecretsmanagerListSecretsSortOrder
 {
     [EnumValue("asc")]
-    Asc = 1,
+    Asc,
 
     [EnumValue("desc")]
-    Desc = 2
+    Desc
 }

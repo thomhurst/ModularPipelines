@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-geospatial", "get-tile")]
-public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
+public record AwsSagemakerGeospatialGetTileOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--arn")]
     public string? Arn { get; set; }
@@ -34,7 +36,10 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     [CliOption("--image-assets", GroupValues = true)]
     public IEnumerable<string>? ImageAssets { get; set; }
 
-    [CliFlag("--image-mask")]
+    /// <summary>
+    /// Determines whether or not to return a valid data mask.
+    /// </summary>
+    [CliFlag("--image-mask", NegatedName = "--no-image-mask")]
     public bool? ImageMask { get; set; }
 
     /// <summary>

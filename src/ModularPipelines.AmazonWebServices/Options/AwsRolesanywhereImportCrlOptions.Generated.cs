@@ -27,7 +27,10 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions
     [CliOption("--crl-data")]
     public string? CrlData { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether the certificate revocation list (CRL) is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

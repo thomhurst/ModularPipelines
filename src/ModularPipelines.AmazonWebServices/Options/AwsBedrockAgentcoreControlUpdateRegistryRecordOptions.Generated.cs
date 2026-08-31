@@ -70,7 +70,10 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
     [CliOption("--synchronization-configuration")]
     public string? SynchronizationConfiguration { get; set; }
 
-    [CliFlag("--trigger-synchronization")]
+    /// <summary>
+    /// Whether to trigger synchronization using the stored or provided con- figuration. When set to true , the service will synchronize the record metadata from the configured external source.
+    /// </summary>
+    [CliFlag("--trigger-synchronization", NegatedName = "--no-trigger-synchronization")]
     public bool? TriggerSynchronization { get; set; }
 
     [CliOption("--cli-input-json")]

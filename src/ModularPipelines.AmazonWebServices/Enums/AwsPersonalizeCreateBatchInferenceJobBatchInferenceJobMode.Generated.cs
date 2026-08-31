@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPersonalizeCreateBatchInferenceJobBatchInferenceJobMode
 {
     [EnumValue("BATCH_INFERENCE")]
-    BatchInference = 1,
+    BatchInference,
 
     [EnumValue("THEME_GENERATION")]
-    ThemeGeneration = 2
+    ThemeGeneration
 }

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentListFindingsConfidence
 {
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 1,
+    FalsePositive,
 
     [EnumValue("UNCONFIRMED")]
-    Unconfirmed = 2,
+    Unconfirmed,
 
     [EnumValue("LOW")]
-    Low = 3,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 4,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 5
+    High
 }

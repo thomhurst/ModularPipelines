@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesThinClientDeregisterDeviceTargetDeviceStatus
 {
     [EnumValue("DEREGISTERED")]
-    Deregistered = 1,
+    Deregistered,
 
     [EnumValue("ARCHIVED")]
-    Archived = 2
+    Archived
 }

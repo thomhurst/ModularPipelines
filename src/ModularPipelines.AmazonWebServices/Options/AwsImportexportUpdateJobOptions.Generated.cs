@@ -30,7 +30,7 @@ public record AwsImportexportUpdateJobOptions : AwsOptions
     [CliOption("--job-type")]
     public string? JobType { get; set; }
 
-    [CliFlag("--validate-only")]
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
 
     [CliOption("--api-version")]

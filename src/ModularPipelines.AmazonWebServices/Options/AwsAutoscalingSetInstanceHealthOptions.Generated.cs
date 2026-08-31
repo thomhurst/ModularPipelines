@@ -27,7 +27,10 @@ public record AwsAutoscalingSetInstanceHealthOptions : AwsOptions
     [CliOption("--health-status")]
     public string? HealthStatus { get; set; }
 
-    [CliFlag("--should-respect-grace-period")]
+    /// <summary>
+    /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False , to have the call not respect the grace period associated with the group. For more information about the health check grace period, see Set the health check grace period for an Auto Scaling group in the Ama- zon EC2 Auto Scaling User Guide .
+    /// </summary>
+    [CliFlag("--should-respect-grace-period", NegatedName = "--no-should-respect-grace-period")]
     public bool? ShouldRespectGracePeriod { get; set; }
 
     [CliOption("--cli-input-json")]

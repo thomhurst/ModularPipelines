@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectUpdateMetricContentUnit
 {
     [EnumValue("INTEGER")]
-    Integer = 1,
+    Integer,
 
     [EnumValue("DOUBLE")]
-    Double = 2,
+    Double,
 
     [EnumValue("PERCENT")]
-    Percent = 3,
+    Percent,
 
     [EnumValue("SECONDS")]
-    Seconds = 4
+    Seconds
 }

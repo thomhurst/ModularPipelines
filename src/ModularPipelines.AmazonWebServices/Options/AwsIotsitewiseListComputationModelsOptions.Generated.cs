@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -27,7 +26,7 @@ public record AwsIotsitewiseListComputationModelsOptions : AwsOptions
     /// The type of computation model. If a computationModelType is not pro- vided, all types of computation models are returned. Possible values: o ANOMALY_DETECTION
     /// </summary>
     [CliOption("--computation-model-type")]
-    public AwsIotsitewiseListComputationModelsComputationModelType? ComputationModelType { get; set; }
+    public string? ComputationModelType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

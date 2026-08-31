@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralAccountListConnectionInvitationsStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("ACCEPTED")]
-    Accepted = 2,
+    Accepted,
 
     [EnumValue("REJECTED")]
-    Rejected = 3,
+    Rejected,
 
     [EnumValue("CANCELED")]
-    Canceled = 4,
+    Canceled,
 
     [EnumValue("EXPIRED")]
-    Expired = 5
+    Expired
 }

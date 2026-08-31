@@ -27,7 +27,10 @@ public record AwsAmplifyCreateDomainAssociationOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliFlag("--enable-auto-sub-domain")]
+    /// <summary>
+    /// Enables the automated creation of subdomains for branches.
+    /// </summary>
+    [CliFlag("--enable-auto-sub-domain", NegatedName = "--no-enable-auto-sub-domain")]
     public bool? EnableAutoSubDomain { get; set; }
 
     [CliOption("--sub-domain-settings", GroupValues = true)]

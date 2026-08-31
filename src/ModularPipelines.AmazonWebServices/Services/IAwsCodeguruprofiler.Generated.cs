@@ -82,16 +82,6 @@ public interface IAwsCodeguruprofiler
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns a list of ` FindingsReportSummary https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html`__ objects that contain analysis results for all profiling groups in your AWS account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingsReportAccountSummaryAsync(AwsCodeguruprofilerGetFindingsReportAccountSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Get the current configuration for anomaly notifications for a profiling group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -118,7 +108,7 @@ public interface IAwsCodeguruprofiler
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileAsync(AwsCodeguruprofilerGetProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetProfileAsync(AwsCodeguruprofilerGetProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -132,16 +122,6 @@ public interface IAwsCodeguruprofiler
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// List the available reports for a given profiling group and time range. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFindingsReportsAsync(AwsCodeguruprofilerListFindingsReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Lists the start times of the available aggregated profiles of a profil- ing group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -149,16 +129,6 @@ public interface IAwsCodeguruprofiler
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListProfileTimesAsync(AwsCodeguruprofilerListProfileTimesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of profiling groups. The profiling groups are returned as ` ProfilingGroupDescription https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html`__ objects. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfilingGroupsAsync(AwsCodeguruprofilerListProfilingGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

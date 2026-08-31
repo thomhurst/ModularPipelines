@@ -24,7 +24,10 @@ public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Determines whether a final DB snapshot is created before the DB in- stance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB in- stance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica. NOTE: The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>

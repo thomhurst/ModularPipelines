@@ -32,7 +32,10 @@ public record AwsSecretsmanagerDeleteSecretOptions : AwsOptions
     [CliOption("--recovery-window-in-days")]
     public int? RecoveryWindowInDays { get; set; }
 
-    [CliFlag("--force-delete-without-recovery")]
+    /// <summary>
+    /// Specifies whether to delete the secret without any recovery window. You can't use both this parameter and RecoveryWindowInDays in the same call. If you don't use either, then by default Secrets Manager uses a 30 day recovery window. Secrets Manager performs the actual deletion with an asynchronous background process, so there might be a short delay before the se- cret is permanently deleted. If you delete a secret and then immedi- ately create a secret with the same name, use appropriate back off and retry logic. If you forcibly delete an already deleted or nonexistent secret, the operation does not return ResourceNotFoundException . WARNING: Use this parameter with caution. This parameter causes the oper- ation to skip the normal recovery window before the permanent deletion that Secrets Manager would normally impose with the Re- coveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithoutRecovery parameter, then you have no opportu- nity to recover the secret. You lose the secret permanently.
+    /// </summary>
+    [CliFlag("--force-delete-without-recovery", NegatedName = "--no-force-delete-without-recovery")]
     public bool? ForceDeleteWithoutRecovery { get; set; }
 
     [CliOption("--cli-input-json")]

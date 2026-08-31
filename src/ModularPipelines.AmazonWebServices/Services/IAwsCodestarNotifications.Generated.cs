@@ -42,16 +42,6 @@ public interface IAwsCodestarNotifications
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes a specified target for notifications. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTargetAsync(AwsCodestarNotificationsDeleteTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns information about a specified notification rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

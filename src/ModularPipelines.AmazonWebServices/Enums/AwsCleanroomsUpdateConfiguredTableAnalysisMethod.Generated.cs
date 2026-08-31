@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsUpdateConfiguredTableAnalysisMethod
 {
     [EnumValue("DIRECT_QUERY")]
-    DirectQuery = 1,
+    DirectQuery,
 
     [EnumValue("DIRECT_JOB")]
-    DirectJob = 2,
+    DirectJob,
 
     [EnumValue("MULTIPLE")]
-    Multiple = 3
+    Multiple
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamListPermissionsPermissionType
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("AWS_MANAGED")]
-    AwsManaged = 2,
+    AwsManaged,
 
     [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 3
+    CustomerManaged
 }

@@ -33,7 +33,10 @@ public record AwsLexv2ModelsDeleteSlotTypeOptions : AwsOptions
     [CliOption("--locale-id")]
     public string? LocaleId { get; set; }
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// By default, the DeleteSlotType operations throws a ResourceInUseEx- ception exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]

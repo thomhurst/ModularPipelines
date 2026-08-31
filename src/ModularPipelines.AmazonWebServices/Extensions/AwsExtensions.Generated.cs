@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.AmazonWebServices.Services;
 
 namespace ModularPipelines.AmazonWebServices.Extensions;
@@ -462,4 +461,5 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsXray, AwsXray>();
         return services;
     }
+
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds additional customer communication to an Amazon Web Services Sup- port case. Use the caseId parameter to identify the case to which to add communication. You can list a set of email addresses to copy on the communication by using the ccEmailAddresses parameter. The communica- tionBody value contains the text of the communication. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services...
+/// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSupportAddCommunicationToCaseOptions : AwsOptions
 {
     /// <summary>
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; set; }
@@ -37,10 +37,22 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>
-    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
+    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet . Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds .
     /// </summary>
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
+
+    /// <summary>
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--upload-ids", GroupValues = true)]
+    public IEnumerable<string>? UploadIds { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually adding the communication to the case. When set to true , the request is validated but the communication isn't added, and the operation re- turns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

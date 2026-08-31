@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubListConnectorsV2EnablementStatus
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("PENDING_ENABLEMENT")]
-    PendingEnablement = 2,
+    PendingEnablement,
 
     [EnumValue("FAILED_TO_ENABLE")]
-    FailedToEnable = 3,
+    FailedToEnable,
 
     [EnumValue("PENDING_UPDATE")]
-    PendingUpdate = 4,
+    PendingUpdate,
 
     [EnumValue("FAILED_TO_UPDATE")]
-    FailedToUpdate = 5,
+    FailedToUpdate,
 
     [EnumValue("PENDING_DELETION")]
-    PendingDeletion = 6,
+    PendingDeletion,
 
     [EnumValue("FAILED_TO_DELETE")]
-    FailedToDelete = 7
+    FailedToDelete
 }

@@ -86,7 +86,10 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     [CliOption("--notification-topic-status")]
     public string? NotificationTopicStatus { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow set- ting for the cluster. If false , changes to the cluster are applied on the next mainte- nance reboot, or the next failure reboot, whichever occurs first. WARNING: If you perform a ModifyCacheCluster before a pending modifica- tion is applied, the pending modification is replaced by the newer modification. However, a pending node-count increase on Memcached clusters cannot be superseded by a request to add fewer nodes. To change a pending node addition, first cancel it by setting NumCacheNodes equal to the current number of nodes in the cluster, then submit the new request. See the NumCacheNodes parameter for details on node scaling behavior. Valid values: true | false Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -101,7 +104,10 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPinpointSmsVoiceV2PutKeywordKeywordAction
 {
     [EnumValue("AUTOMATIC_RESPONSE")]
-    AutomaticResponse = 1,
+    AutomaticResponse,
 
     [EnumValue("OPT_OUT")]
-    OptOut = 2,
+    OptOut,
 
     [EnumValue("OPT_IN")]
-    OptIn = 3
+    OptIn
 }

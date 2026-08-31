@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsStopServiceDeploymentStopType
 {
     [EnumValue("ABORT")]
-    Abort = 1,
+    Abort,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 2
+    Rollback
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaCreateFunctionPackageType
 {
     [EnumValue("Zip")]
-    Zip = 1,
+    Zip,
 
     [EnumValue("Image")]
-    Image = 2
+    Image
 }

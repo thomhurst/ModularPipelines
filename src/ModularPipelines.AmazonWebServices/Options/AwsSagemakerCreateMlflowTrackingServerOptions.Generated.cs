@@ -43,7 +43,10 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliFlag("--automatic-model-registration")]
+    /// <summary>
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False .
+    /// </summary>
+    [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
@@ -64,7 +67,10 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }
 
-    [CliFlag("--s3-bucket-owner-verification")]
+    /// <summary>
+    /// Enable Amazon S3 Ownership checks when interacting with Amazon S3 buckets from a SageMaker Managed MLflow Tracking Server. Defaults to True if not provided.
+    /// </summary>
+    [CliFlag("--s3-bucket-owner-verification", NegatedName = "--no-s3-bucket-owner-verification")]
     public bool? S3BucketOwnerVerification { get; set; }
 
     [CliOption("--cli-input-json")]

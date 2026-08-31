@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkdocsUpdateUserType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("ADMIN")]
-    Admin = 2,
+    Admin,
 
     [EnumValue("POWERUSER")]
-    Poweruser = 3,
+    Poweruser,
 
     [EnumValue("MINIMALUSER")]
-    Minimaluser = 4,
+    Minimaluser,
 
     [EnumValue("WORKSPACESUSER")]
-    Workspacesuser = 5
+    Workspacesuser
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmDescribePatchPropertiesPatchSet
 {
     [EnumValue("OS")]
-    Os = 1,
+    Os,
 
     [EnumValue("APPLICATION")]
-    Application = 2
+    Application
 }

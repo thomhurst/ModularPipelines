@@ -73,9 +73,15 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     [CliOption("--db-workload")]
     public AwsOdbCreateAutonomousDatabaseDbWorkload? DbWorkload { get; set; }
 
-    [CliFlag("--is-auto-scaling-enabled")]
+    /// <summary>
+    /// Specifies whether to enable automatic scaling of the compute re- sources for the Autonomous Database.
+    /// </summary>
+    [CliFlag("--is-auto-scaling-enabled", NegatedName = "--no-is-auto-scaling-enabled")]
     public bool? IsAutoScalingEnabled { get; set; }
 
+    /// <summary>
+    /// age-enabled (boolean) Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    /// </summary>
     [CliFlag("--is-auto-scaling-for-storage-enabled")]
     public bool? IsAutoScalingForStorageEnabled { get; set; }
 
@@ -193,13 +199,22 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     [CliOption("--transportable-tablespace")]
     public string? TransportableTablespace { get; set; }
 
-    [CliFlag("--is-backup-retention-locked")]
+    /// <summary>
+    /// Specifies whether to lock the backup retention period of the Au- tonomous Database to prevent it from being shortened.
+    /// </summary>
+    [CliFlag("--is-backup-retention-locked", NegatedName = "--no-is-backup-retention-locked")]
     public bool? IsBackupRetentionLocked { get; set; }
 
-    [CliFlag("--is-local-data-guard-enabled")]
+    /// <summary>
+    /// Specifies whether to enable local Oracle Data Guard for the Au- tonomous Database.
+    /// </summary>
+    [CliFlag("--is-local-data-guard-enabled", NegatedName = "--no-is-local-data-guard-enabled")]
     public bool? IsLocalDataGuardEnabled { get; set; }
 
-    [CliFlag("--is-mtls-connection-required")]
+    /// <summary>
+    /// Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+    /// </summary>
+    [CliFlag("--is-mtls-connection-required", NegatedName = "--no-is-mtls-connection-required")]
     public bool? IsMtlsConnectionRequired { get; set; }
 
     /// <summary>

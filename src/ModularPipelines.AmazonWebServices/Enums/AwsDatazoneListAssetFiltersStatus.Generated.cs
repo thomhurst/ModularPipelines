@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListAssetFiltersStatus
 {
     [EnumValue("VALID")]
-    Valid = 1,
+    Valid,
 
     [EnumValue("INVALID")]
-    Invalid = 2
+    Invalid
 }

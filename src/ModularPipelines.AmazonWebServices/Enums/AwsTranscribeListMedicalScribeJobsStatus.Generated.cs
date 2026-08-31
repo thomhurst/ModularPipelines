@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranscribeListMedicalScribeJobsStatus
 {
     [EnumValue("QUEUED")]
-    Queued = 1,
+    Queued,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("COMPLETED")]
-    Completed = 4
+    Completed
 }

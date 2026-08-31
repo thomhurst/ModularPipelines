@@ -27,7 +27,10 @@ public record AwsIotCreateProvisioningTemplateVersionOptions : AwsOptions
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CliFlag("--set-as-default")]
+    /// <summary>
+    /// Sets a fleet provision template version as the default version.
+    /// </summary>
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
     public bool? SetAsDefault { get; set; }
 
     [CliOption("--cli-input-json")]

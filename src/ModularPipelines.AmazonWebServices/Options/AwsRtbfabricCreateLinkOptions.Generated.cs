@@ -34,7 +34,10 @@ public record AwsRtbfabricCreateLinkOptions : AwsOptions
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CliFlag("--http-responder-allowed")]
+    /// <summary>
+    /// Boolean to specify if an HTTP responder is allowed.
+    /// </summary>
+    [CliFlag("--http-responder-allowed", NegatedName = "--no-http-responder-allowed")]
     public bool? HttpResponderAllowed { get; set; }
 
     /// <summary>

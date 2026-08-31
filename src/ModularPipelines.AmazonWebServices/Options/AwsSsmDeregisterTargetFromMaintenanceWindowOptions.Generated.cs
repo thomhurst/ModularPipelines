@@ -27,7 +27,10 @@ public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions
     [CliOption("--window-target-id")]
     public string? WindowTargetId { get; set; }
 
-    [CliFlag("--safe")]
+    /// <summary>
+    /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and doesn't deregister the target from the maintenance window.
+    /// </summary>
+    [CliFlag("--safe", NegatedName = "--no-safe")]
     public bool? Safe { get; set; }
 
     [CliOption("--cli-input-json")]

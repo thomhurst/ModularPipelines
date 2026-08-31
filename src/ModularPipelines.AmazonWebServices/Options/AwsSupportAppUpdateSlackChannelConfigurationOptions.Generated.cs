@@ -37,6 +37,9 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--channel-role-arn")]
     public string? ChannelRoleArn { get; set; }
 
+    /// <summary>
+    /// dence-to-case (boolean) Whether you want to get notified when a support case has a new cor- respondence.
+    /// </summary>
     [CliFlag("--notify-on-add-correspondence-to-case")]
     public bool? NotifyOnAddCorrespondenceToCase { get; set; }
 
@@ -46,10 +49,16 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--notify-on-case-severity")]
     public AwsSupportAppUpdateSlackChannelConfigurationNotifyOnCaseSeverity? NotifyOnCaseSeverity { get; set; }
 
+    /// <summary>
+    /// open-case (boolean) Whether you want to get notified when a support case is created or reopened.
+    /// </summary>
     [CliFlag("--notify-on-create-or-reopen-case")]
     public bool? NotifyOnCreateOrReopenCase { get; set; }
 
-    [CliFlag("--notify-on-resolve-case")]
+    /// <summary>
+    /// Whether you want to get notified when a support case is resolved.
+    /// </summary>
+    [CliFlag("--notify-on-resolve-case", NegatedName = "--no-notify-on-resolve-case")]
     public bool? NotifyOnResolveCase { get; set; }
 
     [CliOption("--team-id")]

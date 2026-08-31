@@ -30,7 +30,10 @@ public record AwsEmrModifyClusterOptions : AwsOptions
     [CliOption("--step-concurrency-level")]
     public int? StepConcurrencyLevel { get; set; }
 
-    [CliFlag("--extended-support")]
+    /// <summary>
+    /// Reserved.
+    /// </summary>
+    [CliFlag("--extended-support", NegatedName = "--no-extended-support")]
     public bool? ExtendedSupport { get; set; }
 
     [CliOption("--cli-input-json")]

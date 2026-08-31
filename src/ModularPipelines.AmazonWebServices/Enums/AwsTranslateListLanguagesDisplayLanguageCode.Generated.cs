@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranslateListLanguagesDisplayLanguageCode
 {
     [EnumValue("de")]
-    De = 1,
+    De,
 
     [EnumValue("en")]
-    En = 2,
+    En,
 
     [EnumValue("es")]
-    Es = 3,
+    Es,
 
     [EnumValue("fr")]
-    Fr = 4,
+    Fr,
 
     [EnumValue("it")]
-    It = 5,
+    It,
 
     [EnumValue("ja")]
-    Ja = 6,
+    Ja,
 
     [EnumValue("ko")]
-    Ko = 7,
+    Ko,
 
     [EnumValue("pt")]
-    Pt = 8,
+    Pt,
 
     [EnumValue("zh")]
-    Zh = 9,
+    Zh,
 
     [EnumValue("zh-TW")]
-    ZhTw = 10
+    ZhTw
 }

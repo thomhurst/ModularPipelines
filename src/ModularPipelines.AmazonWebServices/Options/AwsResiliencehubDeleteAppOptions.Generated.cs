@@ -32,7 +32,10 @@ public record AwsResiliencehubDeleteAppOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// A boolean option to force the deletion of an Resilience Hub applica- tion.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

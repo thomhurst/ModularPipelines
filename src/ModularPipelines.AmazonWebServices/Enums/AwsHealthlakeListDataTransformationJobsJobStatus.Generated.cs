@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsHealthlakeListDataTransformationJobsJobStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("QUEUED")]
-    Queued = 2,
+    Queued,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 5,
+    CompletedWithErrors,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed
 }

@@ -30,7 +30,10 @@ public record AwsRdsModifyGlobalClusterOptions : AwsOptions
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the global data- base cluster. The global database cluster can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsRdsModifyGlobalClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// Specifies whether to allow major version upgrades. Constraints: Must be enabled if you specify a value for the EngineV- ersion parameter that's a different major version than the global cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     [CliOption("--cli-input-json")]

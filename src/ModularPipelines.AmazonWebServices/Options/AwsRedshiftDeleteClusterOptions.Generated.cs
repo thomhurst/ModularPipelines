@@ -24,7 +24,10 @@ public record AwsRedshiftDeleteClusterOptions : AwsOptions
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CliFlag("--skip-final-cluster-snapshot")]
+    /// <summary>
+    /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true , a final cluster snap- shot is not created. If false , a final cluster snapshot is created before the cluster is deleted. NOTE: The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-cluster-snapshot", NegatedName = "--no-skip-final-cluster-snapshot")]
     public bool? SkipFinalClusterSnapshot { get; set; }
 
     /// <summary>

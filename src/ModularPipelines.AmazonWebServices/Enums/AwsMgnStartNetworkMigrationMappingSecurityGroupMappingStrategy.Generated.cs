@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnStartNetworkMigrationMappingSecurityGroupMappingStrategy
 {
     [EnumValue("MAP")]
-    Map = 1,
+    Map,
 
     [EnumValue("SKIP")]
-    Skip = 2,
+    Skip,
 
     [EnumValue("MAP_DHCP")]
-    MapDhcp = 3
+    MapDhcp
 }

@@ -56,7 +56,10 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions
     [CliOption("--sort-order")]
     public AwsSagemakerListClusterNodesSortOrder? SortOrder { get; set; }
 
-    [CliFlag("--include-node-logical-ids")]
+    /// <summary>
+    /// Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (de- fault), only nodes with assigned InstanceIds are returned.
+    /// </summary>
+    [CliFlag("--include-node-logical-ids", NegatedName = "--no-include-node-logical-ids")]
     public bool? IncludeNodeLogicalIds { get; set; }
 
     [CliOption("--cli-input-json")]

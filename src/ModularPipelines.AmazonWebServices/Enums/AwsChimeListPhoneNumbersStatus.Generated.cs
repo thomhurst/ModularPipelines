@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeListPhoneNumbersStatus
 {
     [EnumValue("AcquireInProgress")]
-    AcquireInProgress = 1,
+    AcquireInProgress,
 
     [EnumValue("AcquireFailed")]
-    AcquireFailed = 2,
+    AcquireFailed,
 
     [EnumValue("Unassigned")]
-    Unassigned = 3,
+    Unassigned,
 
     [EnumValue("Assigned")]
-    Assigned = 4,
+    Assigned,
 
     [EnumValue("ReleaseInProgress")]
-    ReleaseInProgress = 5,
+    ReleaseInProgress,
 
     [EnumValue("DeleteInProgress")]
-    DeleteInProgress = 6,
+    DeleteInProgress,
 
     [EnumValue("ReleaseFailed")]
-    ReleaseFailed = 7,
+    ReleaseFailed,
 
     [EnumValue("DeleteFailed")]
-    DeleteFailed = 8
+    DeleteFailed
 }

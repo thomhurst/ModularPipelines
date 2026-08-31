@@ -25,7 +25,10 @@ public record AwsDrsStartSourceNetworkRecoveryOptions : AwsOptions
     [CliOption("--source-networks", GroupValues = true)]
     public IEnumerable<string>? SourceNetworks { get; set; }
 
-    [CliFlag("--deploy-as-new")]
+    /// <summary>
+    /// Don't update existing CloudFormation Stack, recover the network us- ing a new stack.
+    /// </summary>
+    [CliFlag("--deploy-as-new", NegatedName = "--no-deploy-as-new")]
     public bool? DeployAsNew { get; set; }
 
     /// <summary>

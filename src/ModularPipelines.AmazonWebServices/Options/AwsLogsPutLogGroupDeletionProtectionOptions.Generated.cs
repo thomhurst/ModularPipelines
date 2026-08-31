@@ -24,7 +24,7 @@ public record AwsLogsPutLogGroupDeletionProtectionOptions : AwsOptions
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

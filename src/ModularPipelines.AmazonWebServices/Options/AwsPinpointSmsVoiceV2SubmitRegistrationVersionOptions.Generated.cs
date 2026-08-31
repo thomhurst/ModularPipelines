@@ -24,7 +24,10 @@ public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
     [CliOption("--registration-id")]
     public string? RegistrationId { get; set; }
 
-    [CliFlag("--aws-review")]
+    /// <summary>
+    /// Set to true to request AWS review of the registration. When enabled, AWS will perform additional validation and review of the registra- tion submission before processing.
+    /// </summary>
+    [CliFlag("--aws-review", NegatedName = "--no-aws-review")]
     public bool? AwsReview { get; set; }
 
     [CliOption("--cli-input-json")]

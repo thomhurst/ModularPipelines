@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftUpdateContainerFleetNewGameSessionProtectionPolicy
 {
     [EnumValue("NoProtection")]
-    NoProtection = 1,
+    NoProtection,
 
     [EnumValue("FullProtection")]
-    FullProtection = 2
+    FullProtection
 }

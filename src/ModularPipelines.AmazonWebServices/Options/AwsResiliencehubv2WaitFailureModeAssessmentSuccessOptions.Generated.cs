@@ -48,7 +48,7 @@ public record AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions : AwsOpt
     /// The field to use for sorting failure mode assessments. Possible values: o STARTED_AT
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsResiliencehubv2WaitFailureModeAssessmentSuccessSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for results. Possible values: o ASC o DESC

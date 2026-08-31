@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSyntheticsCreateCanaryProvisionedResourceCleanup
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("OFF")]
-    Off = 2
+    Off
 }

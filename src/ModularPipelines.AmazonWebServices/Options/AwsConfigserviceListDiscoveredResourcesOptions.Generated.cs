@@ -37,7 +37,10 @@ public record AwsConfigserviceListDiscoveredResourcesOptions : AwsOptions
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CliFlag("--include-deleted-resources")]
+    /// <summary>
+    /// Specifies whether Config includes deleted resources in the results. By default, deleted resources are not included.
+    /// </summary>
+    [CliFlag("--include-deleted-resources", NegatedName = "--no-include-deleted-resources")]
     public bool? IncludeDeletedResources { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the ...
+/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -32,6 +32,12 @@ public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions
 
     [CliOption("--category-code")]
     public string? CategoryCode { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning case option data. When set to true , the request is validated but no options are returned, and the operation returns a DryRunOperationEx- ception . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

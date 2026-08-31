@@ -48,7 +48,10 @@ public record AwsDirectconnectCreateInterconnectOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether you want the interconnect to support MAC Security (MACsec).
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     [CliOption("--cli-input-json")]

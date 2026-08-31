@@ -24,7 +24,10 @@ public record AwsOdbRebootAutonomousDatabaseOptions : AwsOptions
     [CliOption("--autonomous-database-id")]
     public string? AutonomousDatabaseId { get; set; }
 
-    [CliFlag("--is-online-reboot")]
+    /// <summary>
+    /// Specifies whether to perform an online reboot of the Autonomous Database without interrupting active connections.
+    /// </summary>
+    [CliFlag("--is-online-reboot", NegatedName = "--no-is-online-reboot")]
     public bool? IsOnlineReboot { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudtrailListQueriesQueryStatus
 {
     [EnumValue("QUEUED")]
-    Queued = 1,
+    Queued,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("FINISHED")]
-    Finished = 3,
+    Finished,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 5,
+    Cancelled,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 6
+    TimedOut
 }

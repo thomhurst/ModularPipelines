@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsListManagedThingsRoleFilter
 {
     [EnumValue("CONTROLLER")]
-    Controller = 1,
+    Controller,
 
     [EnumValue("DEVICE")]
-    Device = 2
+    Device
 }

@@ -30,7 +30,10 @@ public record AwsMturkApproveAssignmentOptions : AwsOptions
     [CliOption("--requester-feedback")]
     public string? RequesterFeedback { get; set; }
 
-    [CliFlag("--override-rejection")]
+    /// <summary>
+    /// A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False .
+    /// </summary>
+    [CliFlag("--override-rejection", NegatedName = "--no-override-rejection")]
     public bool? OverrideRejection { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDlmGetLifecyclePoliciesDefaultPolicyType
 {
     [EnumValue("VOLUME")]
-    Volume = 1,
+    Volume,
 
     [EnumValue("INSTANCE")]
-    Instance = 2,
+    Instance,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

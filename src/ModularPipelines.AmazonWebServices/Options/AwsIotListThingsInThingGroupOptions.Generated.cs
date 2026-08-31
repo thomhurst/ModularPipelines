@@ -25,7 +25,10 @@ public record AwsIotListThingsInThingGroupOptions : AwsOptions
     [CliOption("--thing-group-name")]
     public string? ThingGroupName { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// When true, list things in this thing group and in all child groups as well.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     [CliOption("--cli-input-json")]

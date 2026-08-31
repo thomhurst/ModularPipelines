@@ -85,6 +85,9 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -118,10 +121,16 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB cluster. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -154,7 +163,10 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB cluster is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB cluster is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB cluster is public. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -187,7 +199,10 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to turn on Performance Insights for the DB clus- ter.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -226,10 +241,16 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--enable-vpc-networking")]
+    /// <summary>
+    /// Specifies whether to enable VPC networking for the restored DB clus- ter. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGate- way . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-vpc-networking", NegatedName = "--no-enable-vpc-networking")]
     public bool? EnableVpcNetworking { get; set; }
 
-    [CliFlag("--enable-internet-access-gateway")]
+    /// <summary>
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-internet-access-gateway", NegatedName = "--no-enable-internet-access-gateway")]
     public bool? EnableInternetAccessGateway { get; set; }
 
     /// <summary>

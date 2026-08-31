@@ -30,7 +30,10 @@ public record AwsOpensearchDescribeDryRunProgressOptions : AwsOptions
     [CliOption("--dry-run-id")]
     public string? DryRunId { get; set; }
 
-    [CliFlag("--load-dry-run-config")]
+    /// <summary>
+    /// Whether to include the configuration of the dry run in the response. The configuration specifies the updates that you're planning to make on the domain.
+    /// </summary>
+    [CliFlag("--load-dry-run-config", NegatedName = "--no-load-dry-run-config")]
     public bool? LoadDryRunConfig { get; set; }
 
     [CliOption("--cli-input-json")]

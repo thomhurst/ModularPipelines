@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMedicalImagingListDatastoresDatastoreStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 2,
+    CreateFailed,
 
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
 
     [EnumValue("DELETING")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 5
+    Deleted
 }

@@ -34,7 +34,10 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
     [CliOption("--access-group-id")]
     public string? AccessGroupId { get; set; }
 
-    [CliFlag("--authorize-all-groups")]
+    /// <summary>
+    /// Indicates whether to grant access to all clients. Specify true to grant all clients who successfully establish a VPN connection access to the network. Must be set to true if AccessGroupId is not speci- fied.
+    /// </summary>
+    [CliFlag("--authorize-all-groups", NegatedName = "--no-authorize-all-groups")]
     public bool? AuthorizeAllGroups { get; set; }
 
     /// <summary>
@@ -50,7 +53,10 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

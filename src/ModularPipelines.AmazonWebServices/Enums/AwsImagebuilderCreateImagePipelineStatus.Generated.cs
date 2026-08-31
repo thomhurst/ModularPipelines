@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsImagebuilderCreateImagePipelineStatus
 {
     [EnumValue("DISABLED")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("ENABLED")]
-    Enabled = 2
+    Enabled
 }

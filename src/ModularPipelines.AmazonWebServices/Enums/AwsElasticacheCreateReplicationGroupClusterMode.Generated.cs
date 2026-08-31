@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticacheCreateReplicationGroupClusterMode
 {
     [EnumValue("enabled")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("disabled")]
-    Disabled = 2,
+    Disabled,
 
     [EnumValue("compatible")]
-    Compatible = 3
+    Compatible
 }

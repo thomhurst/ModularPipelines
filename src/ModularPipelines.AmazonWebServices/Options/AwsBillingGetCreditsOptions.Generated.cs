@@ -33,7 +33,10 @@ public record AwsBillingGetCreditsOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliFlag("--payer-account-flag")]
+    /// <summary>
+    /// When true and the caller is the management account, the response ag- gregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId .
+    /// </summary>
+    [CliFlag("--payer-account-flag", NegatedName = "--no-payer-account-flag")]
     public bool? PayerAccountFlag { get; set; }
 
     [CliOption("--cli-input-json")]

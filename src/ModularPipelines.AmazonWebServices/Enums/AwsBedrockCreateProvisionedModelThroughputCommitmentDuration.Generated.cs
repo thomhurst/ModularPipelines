@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockCreateProvisionedModelThroughputCommitmentDuration
 {
     [EnumValue("OneMonth")]
-    OneMonth = 1,
+    OneMonth,
 
     [EnumValue("SixMonths")]
-    SixMonths = 2
+    SixMonths
 }

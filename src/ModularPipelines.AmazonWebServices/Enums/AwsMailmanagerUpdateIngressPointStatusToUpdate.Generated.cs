@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMailmanagerUpdateIngressPointStatusToUpdate
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("CLOSED")]
-    Closed = 2
+    Closed
 }

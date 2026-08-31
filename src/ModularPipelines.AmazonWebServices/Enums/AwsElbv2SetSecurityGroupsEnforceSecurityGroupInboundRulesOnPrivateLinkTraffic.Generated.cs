@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2SetSecurityGroupsEnforceSecurityGroupInboundRulesOnPrivateLinkTraffic
 {
     [EnumValue("on")]
-    On = 1,
+    On,
 
     [EnumValue("off")]
-    Off = 2
+    Off
 }

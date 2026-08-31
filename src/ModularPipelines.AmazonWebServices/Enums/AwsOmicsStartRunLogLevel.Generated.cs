@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsStartRunLogLevel
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("FATAL")]
-    Fatal = 2,
+    Fatal,
 
     [EnumValue("ERROR")]
-    Error = 3,
+    Error,
 
     [EnumValue("ALL")]
-    All = 4,
+    All,
 
     [EnumValue("Constraints")]
-    Constraints = 5
+    Constraints
 }

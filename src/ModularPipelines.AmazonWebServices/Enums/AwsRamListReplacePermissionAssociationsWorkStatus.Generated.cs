@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamListReplacePermissionAssociationsWorkStatus
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

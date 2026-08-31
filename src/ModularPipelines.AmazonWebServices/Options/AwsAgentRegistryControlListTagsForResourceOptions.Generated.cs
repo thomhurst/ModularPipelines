@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List the tags on a resource See also: AWS API Documentation
+/// Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the re- source. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

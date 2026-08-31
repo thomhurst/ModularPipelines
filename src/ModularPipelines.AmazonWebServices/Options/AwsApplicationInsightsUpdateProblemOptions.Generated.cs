@@ -29,7 +29,7 @@ public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions
     /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING . Possible values: o RESOLVED
     /// </summary>
     [CliOption("--update-status")]
-    public AwsApplicationInsightsUpdateProblemUpdateStatus? UpdateStatus { get; set; }
+    public string? UpdateStatus { get; set; }
 
     /// <summary>
     /// The visibility of a problem. When you pass a value of IGNORED , the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED ac- tion is reversed. Possible values: o IGNORED o VISIBLE

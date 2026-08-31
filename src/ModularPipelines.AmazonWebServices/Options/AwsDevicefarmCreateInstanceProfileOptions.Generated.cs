@@ -30,7 +30,10 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--package-cleanup")]
+    /// <summary>
+    /// When set to true , Device Farm removes app packages after a test run. The default value is false for private devices.
+    /// </summary>
+    [CliFlag("--package-cleanup", NegatedName = "--no-package-cleanup")]
     public bool? PackageCleanup { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions
     [CliOption("--exclude-app-packages-from-cleanup", GroupValues = true)]
     public IEnumerable<string>? ExcludeAppPackagesFromCleanup { get; set; }
 
-    [CliFlag("--reboot-after-use")]
+    /// <summary>
+    /// When set to true , Device Farm reboots the instance after a test run. The default value is true .
+    /// </summary>
+    [CliFlag("--reboot-after-use", NegatedName = "--no-reboot-after-use")]
     public bool? RebootAfterUse { get; set; }
 
     [CliOption("--cli-input-json")]

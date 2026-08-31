@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMailmanagerUpdateIngressPointTlsPolicy
 {
     [EnumValue("REQUIRED")]
-    Required = 1,
+    Required,
 
     [EnumValue("OPTIONAL")]
-    Optional = 2,
+    Optional,
 
     [EnumValue("FIPS")]
-    Fips = 3
+    Fips
 }

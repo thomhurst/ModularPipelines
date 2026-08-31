@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEfsDeleteReplicationConfigurationDeletionMode
 {
     [EnumValue("ALL_CONFIGURATIONS")]
-    AllConfigurations = 1,
+    AllConfigurations,
 
     [EnumValue("LOCAL_CONFIGURATION_ONLY")]
-    LocalConfigurationOnly = 2
+    LocalConfigurationOnly
 }

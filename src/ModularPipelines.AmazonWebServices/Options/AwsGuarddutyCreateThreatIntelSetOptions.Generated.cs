@@ -35,7 +35,7 @@ public record AwsGuarddutyCreateThreatIntelSetOptions : AwsOptions
     [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CliFlag("--activate")]
+    [CliFlag("--activate", NegatedName = "--no-activate")]
     public bool? Activate { get; set; }
 
     /// <summary>

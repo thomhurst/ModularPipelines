@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchCreateOutboundConnectionConnectionMode
 {
     [EnumValue("DIRECT")]
-    Direct = 1,
+    Direct,
 
     [EnumValue("VPC_ENDPOINT")]
-    VpcEndpoint = 2
+    VpcEndpoint
 }

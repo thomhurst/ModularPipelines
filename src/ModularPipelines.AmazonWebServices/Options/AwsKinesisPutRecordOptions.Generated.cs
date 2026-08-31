@@ -34,13 +34,13 @@ public record AwsKinesisPutRecordOptions : AwsOptions
     public string? PartitionKey { get; set; }
 
     /// <summary>
-    /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash. Constraints: o pattern: 0|([1-9]\d{0,38})
+    /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$
     /// </summary>
     [CliOption("--explicit-hash-key")]
     public string? ExplicitHashKey { get; set; }
 
     /// <summary>
-    /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the Sequen- ceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1 ). If this para- meter is not set, records are coarsely ordered based on arrival time. Constraints: o pattern: 0|([1-9]\d{0,128})
+    /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the Sequen- ceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1 ). If this para- meter is not set, records are coarsely ordered based on arrival time. Constraints: o pattern: ^(0|([1-9]\d{0,128}))$
     /// </summary>
     [CliOption("--sequence-number-for-ordering")]
     public string? SequenceNumberForOrdering { get; set; }

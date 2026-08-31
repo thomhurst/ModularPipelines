@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComprehendCreateDataSetDataSetType
 {
     [EnumValue("TRAIN")]
-    Train = 1,
+    Train,
 
     [EnumValue("TEST")]
-    Test = 2
+    Test
 }

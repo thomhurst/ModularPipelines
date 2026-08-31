@@ -43,7 +43,10 @@ public record AwsResiliencehubv2ListResourcesOptions : AwsOptions
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
-    [CliFlag("--billable")]
+    /// <summary>
+    /// Specifies whether to filter non-billable resources. When true (the default), the operation returns only billable resources.
+    /// </summary>
+    [CliFlag("--billable", NegatedName = "--no-billable")]
     public bool? Billable { get; set; }
 
     [CliOption("--cli-input-json")]

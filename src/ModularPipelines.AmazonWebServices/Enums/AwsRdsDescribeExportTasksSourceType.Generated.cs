@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsDescribeExportTasksSourceType
 {
     [EnumValue("SNAPSHOT")]
-    Snapshot = 1,
+    Snapshot,
 
     [EnumValue("CLUSTER")]
-    Cluster = 2
+    Cluster
 }

@@ -57,10 +57,16 @@ public record AwsEc2CreateCapacityReservationOptions : AwsOptions
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CliFlag("--ebs-optimized")]
+    /// <summary>
+    /// Indicates whether the Capacity Reservation supports EBS-optimized instances. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O per- formance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS- optimized in- stance.
+    /// </summary>
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
-    [CliFlag("--ephemeral-storage")]
+    /// <summary>
+    /// Deprecated.
+    /// </summary>
+    [CliFlag("--ephemeral-storage", NegatedName = "--no-ephemeral-storage")]
     public bool? EphemeralStorage { get; set; }
 
     /// <summary>
@@ -87,7 +93,10 @@ public record AwsEc2CreateCapacityReservationOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

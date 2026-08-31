@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationCreateStackOnFailure
 {
     [EnumValue("DO_NOTHING")]
-    DoNothing = 1,
+    DoNothing,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 2,
+    Rollback,
 
     [EnumValue("DELETE")]
-    Delete = 3
+    Delete
 }

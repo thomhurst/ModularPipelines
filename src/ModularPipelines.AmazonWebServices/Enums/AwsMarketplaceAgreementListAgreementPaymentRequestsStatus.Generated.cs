@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMarketplaceAgreementListAgreementPaymentRequestsStatus
 {
     [EnumValue("VALIDATING")]
-    Validating = 1,
+    Validating,
 
     [EnumValue("VALIDATION_FAILED")]
-    ValidationFailed = 2,
+    ValidationFailed,
 
     [EnumValue("PENDING_APPROVAL")]
-    PendingApproval = 3,
+    PendingApproval,
 
     [EnumValue("APPROVED")]
-    Approved = 4,
+    Approved,
 
     [EnumValue("REJECTED")]
-    Rejected = 5,
+    Rejected,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 6
+    Cancelled
 }

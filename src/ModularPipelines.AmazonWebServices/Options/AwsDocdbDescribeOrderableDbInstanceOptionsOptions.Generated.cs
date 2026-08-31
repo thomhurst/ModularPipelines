@@ -43,7 +43,10 @@ public record AwsDocdbDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
 
-    [CliFlag("--vpc")]
+    /// <summary>
+    /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
+    /// </summary>
+    [CliFlag("--vpc", NegatedName = "--no-vpc")]
     public bool? Vpc { get; set; }
 
     /// <summary>

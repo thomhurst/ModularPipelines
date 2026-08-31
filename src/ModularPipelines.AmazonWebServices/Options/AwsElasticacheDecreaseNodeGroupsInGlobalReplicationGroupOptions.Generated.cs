@@ -39,7 +39,7 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
     [CliOption("--global-node-groups-to-retain", GroupValues = true)]
     public IEnumerable<string>? GlobalNodeGroupsToRetain { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

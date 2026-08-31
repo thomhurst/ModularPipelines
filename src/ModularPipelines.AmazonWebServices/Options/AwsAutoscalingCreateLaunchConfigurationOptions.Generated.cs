@@ -108,10 +108,16 @@ public record AwsAutoscalingCreateLaunchConfigurationOptions : AwsOptions
     [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CliFlag("--ebs-optimized")]
+    /// <summary>
+    /// Specifies whether the launch configuration is optimized for EBS I/O (true ) or not (false ). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you en- able EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide . The default value is false .
+    /// </summary>
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    /// <summary>
+    /// Specifies whether to assign a public IPv4 address to the group's in- stances. If the instance is launched into a default subnet, the de- fault is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the in- stance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to as- sign a public IPv4 address on the subnet. If you specify true , each instance in the Auto Scaling group re- ceives a unique public IPv4 address. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide . If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
+    /// </summary>
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
     /// <summary>

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "get-introspection-schema")]
-public record AwsAppsyncGetIntrospectionSchemaOptions : AwsOptions
+public record AwsAppsyncGetIntrospectionSchemaOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--api-id")]
     public string? ApiId { get; set; }
@@ -27,7 +29,10 @@ public record AwsAppsyncGetIntrospectionSchemaOptions : AwsOptions
     [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CliFlag("--include-directives")]
+    /// <summary>
+    /// A flag that specifies whether the schema introspection should con- tain directives. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliFlag("--include-directives", NegatedName = "--no-include-directives")]
     public bool? IncludeDirectives { get; set; }
 
 }

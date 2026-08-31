@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsStartRunRetentionMode
 {
     [EnumValue("RETAIN")]
-    Retain = 1,
+    Retain,
 
     [EnumValue("REMOVE")]
-    Remove = 2,
+    Remove,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

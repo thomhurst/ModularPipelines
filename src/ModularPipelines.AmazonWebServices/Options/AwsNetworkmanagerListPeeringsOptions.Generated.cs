@@ -33,7 +33,7 @@ public record AwsNetworkmanagerListPeeringsOptions : AwsOptions
     /// Returns a list of a peering requests. Possible values: o TRANSIT_GATEWAY
     /// </summary>
     [CliOption("--peering-type")]
-    public AwsNetworkmanagerListPeeringsPeeringType? PeeringType { get; set; }
+    public string? PeeringType { get; set; }
 
     /// <summary>
     /// Returns a list edge locations for the Constraints: o min: 1 o max: 63 o pattern: [\s\S]*

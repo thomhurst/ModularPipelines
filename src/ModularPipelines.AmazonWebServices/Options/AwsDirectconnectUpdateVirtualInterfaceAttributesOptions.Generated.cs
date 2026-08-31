@@ -30,7 +30,10 @@ public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptio
     [CliOption("--mtu")]
     public int? Mtu { get; set; }
 
-    [CliFlag("--enable-site-link")]
+    /// <summary>
+    /// Indicates whether to enable or disable SiteLink.
+    /// </summary>
+    [CliFlag("--enable-site-link", NegatedName = "--no-enable-site-link")]
     public bool? EnableSiteLink { get; set; }
 
     /// <summary>

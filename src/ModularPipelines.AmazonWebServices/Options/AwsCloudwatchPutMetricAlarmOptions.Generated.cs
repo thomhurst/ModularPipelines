@@ -31,7 +31,10 @@ public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
     [CliOption("--alarm-description")]
     public string? AlarmDescription { get; set; }
 
-    [CliFlag("--actions-enabled")]
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>
@@ -92,7 +95,7 @@ public record AwsCloudwatchPutMetricAlarmOptions : AwsOptions
     /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network inter- faces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggre- gated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit , CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
     /// </summary>
     [CliOption("--unit")]
-    public string? Unit { get; set; }
+    public AwsCloudwatchPutMetricAlarmUnit? Unit { get; set; }
 
     /// <summary>
     /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. Constraints: o min: 1

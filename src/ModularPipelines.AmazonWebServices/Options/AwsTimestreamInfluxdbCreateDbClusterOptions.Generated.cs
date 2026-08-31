@@ -85,7 +85,10 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
     [CliOption("--network-type")]
     public AwsTimestreamInfluxdbCreateDbClusterNetworkType? NetworkType { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     [CliOption("--vpc-subnet-ids", GroupValues = true)]
@@ -98,7 +101,7 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions
     /// Specifies the type of cluster to create. Possible values: o MULTI_NODE_READ_REPLICAS
     /// </summary>
     [CliOption("--deployment-type")]
-    public AwsTimestreamInfluxdbCreateDbClusterDeploymentType? DeploymentType { get; set; }
+    public string? DeploymentType { get; set; }
 
     /// <summary>
     /// Specifies the behavior of failure recovery when the primary node of the cluster fails. Possible values: o AUTOMATIC o NO_FAILOVER

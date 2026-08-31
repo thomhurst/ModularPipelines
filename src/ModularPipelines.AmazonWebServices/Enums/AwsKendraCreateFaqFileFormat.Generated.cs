@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKendraCreateFaqFileFormat
 {
     [EnumValue("CSV")]
-    Csv = 1,
+    Csv,
 
     [EnumValue("CSV_WITH_HEADER")]
-    CsvWithHeader = 2,
+    CsvWithHeader,
 
     [EnumValue("JSON")]
-    Json = 3
+    Json
 }

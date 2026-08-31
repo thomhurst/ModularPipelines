@@ -17,41 +17,41 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListEnvironmentsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("CREATING")]
-    Creating = 2,
+    Creating,
 
     [EnumValue("UPDATING")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("DELETING")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 5,
+    CreateFailed,
 
     [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 6,
+    UpdateFailed,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 7,
+    DeleteFailed,
 
     [EnumValue("VALIDATION_FAILED")]
-    ValidationFailed = 8,
+    ValidationFailed,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 9,
+    Suspended,
 
     [EnumValue("DISABLED")]
-    Disabled = 10,
+    Disabled,
 
     [EnumValue("EXPIRED")]
-    Expired = 11,
+    Expired,
 
     [EnumValue("DELETED")]
-    Deleted = 12,
+    Deleted,
 
     [EnumValue("INACCESSIBLE")]
-    Inaccessible = 13
+    Inaccessible
 }

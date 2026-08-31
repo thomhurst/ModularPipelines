@@ -35,7 +35,10 @@ public record AwsIvsRealtimeListParticipantsOptions : AwsOptions
     [CliOption("--filter-by-user-id")]
     public string? FilterByUserId { get; set; }
 
-    [CliFlag("--filter-by-published")]
+    /// <summary>
+    /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId , filterByPub- lished , filterByState , or filterByRecordingState can be provided per request.
+    /// </summary>
+    [CliFlag("--filter-by-published", NegatedName = "--no-filter-by-published")]
     public bool? FilterByPublished { get; set; }
 
     /// <summary>

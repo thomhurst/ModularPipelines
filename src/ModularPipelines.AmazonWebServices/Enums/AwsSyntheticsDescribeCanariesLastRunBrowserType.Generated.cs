@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSyntheticsDescribeCanariesLastRunBrowserType
 {
     [EnumValue("CHROME")]
-    Chrome = 1,
+    Chrome,
 
     [EnumValue("FIREFOX")]
-    Firefox = 2
+    Firefox
 }

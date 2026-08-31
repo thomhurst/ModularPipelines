@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkdocsDescribeFolderContentsType
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("DOCUMENT")]
-    Document = 2,
+    Document,
 
     [EnumValue("FOLDER")]
-    Folder = 3
+    Folder
 }

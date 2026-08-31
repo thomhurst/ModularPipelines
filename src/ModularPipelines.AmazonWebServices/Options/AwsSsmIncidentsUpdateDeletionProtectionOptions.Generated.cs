@@ -32,7 +32,7 @@ public record AwsSsmIncidentsUpdateDeletionProtectionOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--deletion-protected")]
+    [CliFlag("--deletion-protected", NegatedName = "--no-deletion-protected")]
     public bool? DeletionProtected { get; set; }
 
     [CliOption("--cli-input-json")]

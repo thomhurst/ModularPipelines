@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateAutonomousDatabasePermissionLevel
 {
     [EnumValue("RESTRICTED")]
-    Restricted = 1,
+    Restricted,
 
     [EnumValue("UNRESTRICTED")]
-    Unrestricted = 2
+    Unrestricted
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamCreateUserMessageAction
 {
     [EnumValue("SUPPRESS")]
-    Suppress = 1,
+    Suppress,
 
     [EnumValue("RESEND")]
-    Resend = 2
+    Resend
 }

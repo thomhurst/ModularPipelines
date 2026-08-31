@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateFlowFlowSize
 {
     [EnumValue("MEDIUM")]
-    Medium = 1,
+    Medium,
 
     [EnumValue("LARGE")]
-    Large = 2,
+    Large,
 
     [EnumValue("LARGE_4X")]
-    Large_4X = 3
+    Large_4X
 }

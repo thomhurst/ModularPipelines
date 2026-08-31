@@ -38,6 +38,9 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
+    /// <summary>
+    /// rity-group (boolean) Update replication configuration associate default Application Mi- gration Service Security group request.
+    /// </summary>
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
@@ -53,6 +56,9 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
+    /// <summary>
+    /// tion-server (boolean) Update replication configuration use dedicated Replication Server request.
+    /// </summary>
     [CliFlag("--use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
@@ -92,7 +98,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Update replication configuration create Public IP request.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -101,7 +110,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Update replication configuration use Fips Endpoint.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -116,7 +128,10 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Update replication configuration store snapshot on local zone.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>

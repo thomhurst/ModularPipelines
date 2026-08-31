@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesThinClientUpdateEnvironmentSoftwareSetUpdateMode
 {
     [EnumValue("USE_LATEST")]
-    UseLatest = 1,
+    UseLatest,
 
     [EnumValue("USE_DESIRED")]
-    UseDesired = 2
+    UseDesired
 }

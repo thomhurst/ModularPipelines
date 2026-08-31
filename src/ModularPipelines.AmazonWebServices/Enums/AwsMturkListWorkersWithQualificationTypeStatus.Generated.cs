@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMturkListWorkersWithQualificationTypeStatus
 {
     [EnumValue("Granted")]
-    Granted = 1,
+    Granted,
 
     [EnumValue("Revoked")]
-    Revoked = 2
+    Revoked
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStoragegatewayActivateGatewayTapeDriveType
 {
     [EnumValue("IBM-ULT3580-TD5")]
-    IbmUlt3580Td5 = 0,
+    IbmUlt3580Td5,
 
     [EnumValue("Constraints")]
-    Constraints = 1
+    Constraints
 }

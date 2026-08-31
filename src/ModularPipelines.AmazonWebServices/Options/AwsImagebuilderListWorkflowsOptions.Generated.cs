@@ -35,7 +35,10 @@ public record AwsImagebuilderListWorkflowsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--by-name")]
+    /// <summary>
+    /// Specify all or part of the workflow name to streamline results.
+    /// </summary>
+    [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     [CliOption("--cli-input-json")]

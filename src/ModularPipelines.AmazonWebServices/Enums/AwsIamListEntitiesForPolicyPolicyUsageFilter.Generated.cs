@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamListEntitiesForPolicyPolicyUsageFilter
 {
     [EnumValue("PermissionsPolicy")]
-    PermissionsPolicy = 1,
+    PermissionsPolicy,
 
     [EnumValue("PermissionsBoundary")]
-    PermissionsBoundary = 2
+    PermissionsBoundary
 }

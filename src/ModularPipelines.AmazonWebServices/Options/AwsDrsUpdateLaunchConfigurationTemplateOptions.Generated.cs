@@ -37,10 +37,16 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Copy private IP.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Copy tags.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -55,10 +61,16 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--export-bucket-arn")]
     public string? ExportBucketArn { get; set; }
 
-    [CliFlag("--post-launch-enabled")]
+    /// <summary>
+    /// Whether we want to activate post-launch actions.
+    /// </summary>
+    [CliFlag("--post-launch-enabled", NegatedName = "--no-post-launch-enabled")]
     public bool? PostLaunchEnabled { get; set; }
 
-    [CliFlag("--launch-into-source-instance")]
+    /// <summary>
+    /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+    /// </summary>
+    [CliFlag("--launch-into-source-instance", NegatedName = "--no-launch-into-source-instance")]
     public bool? LaunchIntoSourceInstance { get; set; }
 
     /// <summary>

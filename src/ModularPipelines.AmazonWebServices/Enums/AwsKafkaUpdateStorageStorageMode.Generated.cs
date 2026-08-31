@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKafkaUpdateStorageStorageMode
 {
     [EnumValue("LOCAL")]
-    Local = 1,
+    Local,
 
     [EnumValue("TIERED")]
-    Tiered = 2
+    Tiered
 }

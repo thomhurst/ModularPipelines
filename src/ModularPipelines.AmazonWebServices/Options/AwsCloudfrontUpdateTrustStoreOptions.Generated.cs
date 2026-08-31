@@ -30,6 +30,9 @@ public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions
     [CliOption("--ca-certificates-bundle-source")]
     public string? CaCertificatesBundleSource { get; set; }
 
+    /// <summary>
+    /// cate-ocsp-endpoint (boolean) A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    /// </summary>
     [CliFlag("--use-client-certificate-ocsp-endpoint")]
     public bool? UseClientCertificateOcspEndpoint { get; set; }
 

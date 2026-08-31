@@ -67,10 +67,16 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     [CliOption("--failure-threshold")]
     public int? FailureThreshold { get; set; }
 
-    [CliFlag("--inverted")]
+    /// <summary>
+    /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
+    /// </summary>
+    [CliFlag("--inverted", NegatedName = "--no-inverted")]
     public bool? Inverted { get; set; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// Stops Route 53 from performing health checks. When you disable a health check, here's what happens: o Health checks that check the health of endpoints: Route 53 stops submitting requests to your application, server, or other re- source. o Calculated health checks: Route 53 stops aggregating the status of the referenced health checks. o Health checks that monitor CloudWatch alarms: Route 53 stops moni- toring the corresponding CloudWatch metrics. After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. Additionally, in disabled state, you can also invert the status of the health check to route traffic differently. For more information, see Inverted . Charges for a health check still apply when the health check is dis- abled. For more information, see Amazon Route 53 Pricing .
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
@@ -85,7 +91,10 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     [CliOption("--child-health-checks", GroupValues = true)]
     public IEnumerable<string>? ChildHealthChecks { get; set; }
 
-    [CliFlag("--enable-sni")]
+    /// <summary>
+    /// Specify whether you want Amazon Route 53 to send the value of Ful- lyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure . A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Al- ternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName . If the endpoint responds to the client_hello message with a cer- tificate that does not include the domain name that you specified in FullyQualifiedDomainName , a health checker will retry the hand- shake. In the second attempt, the health checker will omit Ful- lyQualifiedDomainName from the client_hello message.
+    /// </summary>
+    [CliFlag("--enable-sni", NegatedName = "--no-enable-sni")]
     public bool? EnableSni { get; set; }
 
     /// <summary>

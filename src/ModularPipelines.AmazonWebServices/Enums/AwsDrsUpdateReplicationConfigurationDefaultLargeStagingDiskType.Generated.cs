@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsUpdateReplicationConfigurationDefaultLargeStagingDiskType
 {
     [EnumValue("GP2")]
-    Gp2 = 1,
+    Gp2,
 
     [EnumValue("GP3")]
-    Gp3 = 2,
+    Gp3,
 
     [EnumValue("ST1")]
-    St1 = 3,
+    St1,
 
     [EnumValue("AUTO")]
-    Auto = 4
+    Auto
 }

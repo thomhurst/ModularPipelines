@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionSearchFacesByImageQualityFilter
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("AUTO")]
-    Auto = 2,
+    Auto,
 
     [EnumValue("LOW")]
-    Low = 3,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 4,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 5
+    High
 }

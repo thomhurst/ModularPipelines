@@ -56,10 +56,16 @@ public record AwsIotCreateAuthorizerOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--signing-disabled")]
+    /// <summary>
+    /// Specifies whether IoT validates the token signature in an authoriza- tion request.
+    /// </summary>
+    [CliFlag("--signing-disabled", NegatedName = "--no-signing-disabled")]
     public bool? SigningDisabled { get; set; }
 
-    [CliFlag("--enable-caching-for-http")]
+    /// <summary>
+    /// When true , the result from the authorizers Lambda function is cached for clients that use persistent HTTP connections. The results are cached for the time specified by the Lambda function in refre- shAfterInSeconds . This value does not affect authorization of clients that use MQTT connections. The default value is false .
+    /// </summary>
+    [CliFlag("--enable-caching-for-http", NegatedName = "--no-enable-caching-for-http")]
     public bool? EnableCachingForHttp { get; set; }
 
     [CliOption("--cli-input-json")]

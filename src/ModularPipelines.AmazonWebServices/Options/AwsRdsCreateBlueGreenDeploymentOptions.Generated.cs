@@ -57,7 +57,10 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions
     [CliOption("--target-db-instance-class")]
     public string? TargetDbInstanceClass { get; set; }
 
-    [CliFlag("--upgrade-target-storage-config")]
+    /// <summary>
+    /// Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see Upgrading the storage file system for a DB instance .
+    /// </summary>
+    [CliFlag("--upgrade-target-storage-config", NegatedName = "--no-upgrade-target-storage-config")]
     public bool? UpgradeTargetStorageConfig { get; set; }
 
     /// <summary>

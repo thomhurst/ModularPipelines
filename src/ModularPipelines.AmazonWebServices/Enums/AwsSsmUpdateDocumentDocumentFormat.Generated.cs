@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmUpdateDocumentDocumentFormat
 {
     [EnumValue("YAML")]
-    Yaml = 1,
+    Yaml,
 
     [EnumValue("JSON")]
-    Json = 2,
+    Json,
 
     [EnumValue("TEXT")]
-    Text = 3
+    Text
 }

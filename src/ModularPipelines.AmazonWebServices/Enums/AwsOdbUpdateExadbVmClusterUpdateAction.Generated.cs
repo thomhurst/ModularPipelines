@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateExadbVmClusterUpdateAction
 {
     [EnumValue("ROLLING_APPLY")]
-    RollingApply = 1,
+    RollingApply,
 
     [EnumValue("NON_ROLLING_APPLY")]
-    NonRollingApply = 2,
+    NonRollingApply,
 
     [EnumValue("PRECHECK")]
-    Precheck = 3,
+    Precheck,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 4
+    Rollback
 }

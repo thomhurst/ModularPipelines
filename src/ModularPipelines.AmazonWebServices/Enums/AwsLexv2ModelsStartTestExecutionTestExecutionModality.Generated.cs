@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLexv2ModelsStartTestExecutionTestExecutionModality
 {
     [EnumValue("Text")]
-    Text = 1,
+    Text,
 
     [EnumValue("Audio")]
-    Audio = 2
+    Audio
 }

@@ -24,7 +24,10 @@ public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions
     [CliOption("--import-task-ids", GroupValues = true)]
     public IEnumerable<string>? ImportTaskIds { get; set; }
 
-    [CliFlag("--delete-history")]
+    /// <summary>
+    /// Set to true to remove the deleted import task from DescribeImport- Tasks .
+    /// </summary>
+    [CliFlag("--delete-history", NegatedName = "--no-delete-history")]
     public bool? DeleteHistory { get; set; }
 
     [CliOption("--cli-input-json")]

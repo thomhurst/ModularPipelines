@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateFlowLogsTrafficType
 {
     [EnumValue("ACCEPT")]
-    Accept = 1,
+    Accept,
 
     [EnumValue("REJECT")]
-    Reject = 2,
+    Reject,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

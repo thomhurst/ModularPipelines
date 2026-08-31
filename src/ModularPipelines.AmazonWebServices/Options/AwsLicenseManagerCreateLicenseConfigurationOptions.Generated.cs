@@ -39,7 +39,10 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     [CliOption("--license-count")]
     public int? LicenseCount { get; set; }
 
-    [CliFlag("--license-count-hard-limit")]
+    /// <summary>
+    /// Indicates whether hard or soft license enforcement is used. Exceed- ing a hard limit blocks the launch of new instances.
+    /// </summary>
+    [CliFlag("--license-count-hard-limit", NegatedName = "--no-license-count-hard-limit")]
     public bool? LicenseCountHardLimit { get; set; }
 
     /// <summary>
@@ -54,7 +57,10 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--disassociate-when-not-found")]
+    /// <summary>
+    /// When true, disassociates a resource when software is uninstalled.
+    /// </summary>
+    [CliFlag("--disassociate-when-not-found", NegatedName = "--no-disassociate-when-not-found")]
     public bool? DisassociateWhenNotFound { get; set; }
 
     /// <summary>

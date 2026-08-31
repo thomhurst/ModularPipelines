@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPinpointSmsVoiceV2SendVoiceMessageMessageBodyTextType
 {
     [EnumValue("TEXT")]
-    Text = 1,
+    Text,
 
     [EnumValue("SSML")]
-    Ssml = 2
+    Ssml
 }

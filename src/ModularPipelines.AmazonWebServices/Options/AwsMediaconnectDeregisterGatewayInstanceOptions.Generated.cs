@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconnect", "deregister-gateway-instance")]
 public record AwsMediaconnectDeregisterGatewayInstanceOptions : AwsOptions
 {
-    [CliFlag("--force")]
+    /// <summary>
+    /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--gateway-instance-arn")]

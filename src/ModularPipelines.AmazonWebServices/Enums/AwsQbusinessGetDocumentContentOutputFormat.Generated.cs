@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessGetDocumentContentOutputFormat
 {
     [EnumValue("RAW")]
-    Raw = 1,
+    Raw,
 
     [EnumValue("EXTRACTED")]
-    Extracted = 2
+    Extracted
 }

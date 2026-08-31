@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListClustersSortOrder
 {
     [EnumValue("Ascending")]
-    Ascending = 1,
+    Ascending,
 
     [EnumValue("Descending")]
-    Descending = 2
+    Descending
 }

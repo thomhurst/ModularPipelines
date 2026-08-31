@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamCreateImportedImageAgentSoftwareVersion
 {
     [EnumValue("CURRENT_LATEST")]
-    CurrentLatest = 1,
+    CurrentLatest,
 
     [EnumValue("ALWAYS_LATEST")]
-    AlwaysLatest = 2
+    AlwaysLatest
 }

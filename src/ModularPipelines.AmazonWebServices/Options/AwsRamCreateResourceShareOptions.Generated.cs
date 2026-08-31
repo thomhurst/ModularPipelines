@@ -43,7 +43,10 @@ public record AwsRamCreateResourceShareOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--allow-external-principals")]
+    /// <summary>
+    /// Specifies whether principals outside your organization in Organiza- tions can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your ac- count is a member of an Amazon Web Services Organization. The de- fault value is true .
+    /// </summary>
+    [CliFlag("--allow-external-principals", NegatedName = "--no-allow-external-principals")]
     public bool? AllowExternalPrincipals { get; set; }
 
     /// <summary>

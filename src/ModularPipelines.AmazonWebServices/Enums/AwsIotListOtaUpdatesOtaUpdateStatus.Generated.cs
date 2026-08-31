@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListOtaUpdatesOtaUpdateStatus
 {
     [EnumValue("CREATE_PENDING")]
-    CreatePending = 1,
+    CreatePending,
 
     [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 2,
+    CreateInProgress,
 
     [EnumValue("CREATE_COMPLETE")]
-    CreateComplete = 3,
+    CreateComplete,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
     [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 5,
+    DeleteInProgress,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 6
+    DeleteFailed
 }

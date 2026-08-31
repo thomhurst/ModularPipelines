@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudwatchPutMetricAlarmExtendedStatistic
 {
     [EnumValue("p90")]
-    P90 = 1,
+    P90,
 
     [EnumValue("tm90")]
-    Tm90 = 2,
+    Tm90,
 
     [EnumValue("tc90")]
-    Tc90 = 3,
+    Tc90,
 
     [EnumValue("ts90")]
-    Ts90 = 4,
+    Ts90,
 
     [EnumValue("wm90")]
-    Wm90 = 5,
+    Wm90,
 
     [EnumValue("IQM")]
-    Iqm = 6,
+    Iqm,
 
     [EnumValue("PR")]
-    Pr = 7
+    Pr
 }

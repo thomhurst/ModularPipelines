@@ -43,7 +43,10 @@ public record AwsLocationCalculateRouteMatrixOptions : AwsOptions
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Sets the time of departure as the current time. Uses the current time to calculate the route matrix. You can't set both DepartureTime and DepartNow . If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route ma- trix. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>

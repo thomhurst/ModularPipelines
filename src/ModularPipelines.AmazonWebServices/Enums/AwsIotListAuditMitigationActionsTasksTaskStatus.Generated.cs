@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListAuditMitigationActionsTasksTaskStatus
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("CANCELED")]
-    Canceled = 4
+    Canceled
 }

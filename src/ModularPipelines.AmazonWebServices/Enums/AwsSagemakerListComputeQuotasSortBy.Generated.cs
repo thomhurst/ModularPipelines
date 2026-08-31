@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListComputeQuotasSortBy
 {
     [EnumValue("Name")]
-    Name = 1,
+    Name,
 
     [EnumValue("CreationTime")]
-    CreationTime = 2,
+    CreationTime,
 
     [EnumValue("Status")]
-    Status = 3,
+    Status,
 
     [EnumValue("ClusterArn")]
-    ClusterArn = 4
+    ClusterArn
 }

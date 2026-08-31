@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDaxCreateClusterClusterEndpointEncryptionType
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("TLS")]
-    Tls = 2
+    Tls
 }

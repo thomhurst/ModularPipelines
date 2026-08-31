@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverUpdateResolverEndpointResolverEndpointType
 {
     [EnumValue("IPV6")]
-    Ipv6 = 1,
+    Ipv6,
 
     [EnumValue("IPV4")]
-    Ipv4 = 2,
+    Ipv4,
 
     [EnumValue("DUALSTACK")]
-    Dualstack = 3
+    Dualstack
 }

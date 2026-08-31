@@ -42,16 +42,6 @@ public interface IAwsFsx
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five backup copy requests in progress to a single destination Region per account. You can use cross-Region backup copies for cross-Region disaster recov- ery. You can periodically take backups and copy them to another Region so that in the event of a disaster in the primary Region, you ca...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyBackupAsync(AwsFsxCopyBackupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

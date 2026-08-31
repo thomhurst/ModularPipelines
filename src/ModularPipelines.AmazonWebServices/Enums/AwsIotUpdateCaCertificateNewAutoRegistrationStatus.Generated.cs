@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotUpdateCaCertificateNewAutoRegistrationStatus
 {
     [EnumValue("ENABLE")]
-    Enable = 1,
+    Enable,
 
     [EnumValue("DISABLE")]
-    Disable = 2
+    Disable
 }

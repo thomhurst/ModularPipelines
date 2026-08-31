@@ -24,7 +24,10 @@ public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; set; }
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// If true , all parameters in the specified parameter group will be reset to their default values. Default: true
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>

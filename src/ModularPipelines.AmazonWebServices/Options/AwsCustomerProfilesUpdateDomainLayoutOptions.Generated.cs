@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,14 +39,17 @@ public record AwsCustomerProfilesUpdateDomainLayoutOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliFlag("--is-default")]
+    /// <summary>
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by de- fault, but it can be used to view data by explicitly selecting it in the console.
+    /// </summary>
+    [CliFlag("--is-default", NegatedName = "--no-is-default")]
     public bool? IsDefault { get; set; }
 
     /// <summary>
     /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: o PROFILE_EXPLORER
     /// </summary>
     [CliOption("--layout-type")]
-    public AwsCustomerProfilesUpdateDomainLayoutLayoutType? LayoutType { get; set; }
+    public string? LayoutType { get; set; }
 
     /// <summary>
     /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: o min: 1 o max: 2000000

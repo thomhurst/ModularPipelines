@@ -53,7 +53,10 @@ public record AwsRamListPermissionAssociationsOptions : AwsOptions
     [CliOption("--feature-set")]
     public AwsRamListPermissionAssociationsFeatureSet? FeatureSet { get; set; }
 
-    [CliFlag("--default-version")]
+    /// <summary>
+    /// When true , specifies that you want to list only those associations with resource shares that use the default version of the specified managed permission. When false (the default value), lists associations with resource shares that use any version of the specified managed permission.
+    /// </summary>
+    [CliFlag("--default-version", NegatedName = "--no-default-version")]
     public bool? DefaultVersion { get; set; }
 
     /// <summary>

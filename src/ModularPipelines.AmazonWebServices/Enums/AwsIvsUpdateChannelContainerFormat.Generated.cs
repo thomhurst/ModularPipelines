@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIvsUpdateChannelContainerFormat
 {
     [EnumValue("TS")]
-    Ts = 1,
+    Ts,
 
     [EnumValue("FRAGMENTED_MP4")]
-    FragmentedMp4 = 2
+    FragmentedMp4
 }

@@ -50,7 +50,10 @@ public record AwsEbsStartSnapshotOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and ParentSnapshotId in the same re- quest. If you specify both parameters, the request fails with Vali- dationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>

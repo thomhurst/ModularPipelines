@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateCapacityReservationInstanceMatchCriteria
 {
     [EnumValue("open")]
-    Open = 1,
+    Open,
 
     [EnumValue("targeted")]
-    Targeted = 2
+    Targeted
 }

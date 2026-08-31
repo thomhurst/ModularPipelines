@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "get-image-frame")]
-public record AwsMedicalImagingGetImageFrameOptions : AwsOptions
+public record AwsMedicalImagingGetImageFrameOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; set; }

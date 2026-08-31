@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightUpdateTopicV2PublishOption
 {
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISH")]
-    Publish = 2
+    Publish
 }

@@ -24,7 +24,10 @@ public record AwsIotsecuretunnelingCloseTunnelOptions : AwsOptions
     [CliOption("--tunnel-id")]
     public string? TunnelId { get; set; }
 
-    [CliFlag("--delete")]
+    /// <summary>
+    /// When set to true, IoT Secure Tunneling deletes the tunnel data imme- diately.
+    /// </summary>
+    [CliFlag("--delete", NegatedName = "--no-delete")]
     public bool? Delete { get; set; }
 
     [CliOption("--cli-input-json")]

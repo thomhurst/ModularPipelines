@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightPredictQaResultsIncludeGeneratedAnswer
 {
     [EnumValue("INCLUDE")]
-    Include = 1,
+    Include,
 
     [EnumValue("EXCLUDE")]
-    Exclude = 2
+    Exclude
 }

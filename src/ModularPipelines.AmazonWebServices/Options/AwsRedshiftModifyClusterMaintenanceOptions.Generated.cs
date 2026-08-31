@@ -24,7 +24,10 @@ public record AwsRedshiftModifyClusterMaintenanceOptions : AwsOptions
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CliFlag("--defer-maintenance")]
+    /// <summary>
+    /// A boolean indicating whether to enable the deferred maintenance win- dow.
+    /// </summary>
+    [CliFlag("--defer-maintenance", NegatedName = "--no-defer-maintenance")]
     public bool? DeferMaintenance { get; set; }
 
     /// <summary>

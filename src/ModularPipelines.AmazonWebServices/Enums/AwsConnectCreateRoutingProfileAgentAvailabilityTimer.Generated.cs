@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectCreateRoutingProfileAgentAvailabilityTimer
 {
     [EnumValue("TIME_SINCE_LAST_ACTIVITY")]
-    TimeSinceLastActivity = 1,
+    TimeSinceLastActivity,
 
     [EnumValue("TIME_SINCE_LAST_INBOUND")]
-    TimeSinceLastInbound = 2
+    TimeSinceLastInbound
 }

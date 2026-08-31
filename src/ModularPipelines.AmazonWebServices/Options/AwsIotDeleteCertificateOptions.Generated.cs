@@ -24,7 +24,10 @@ public record AwsIotDeleteCertificateOptions : AwsOptions
     [CliOption("--certificate-id")]
     public string? CertificateId { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

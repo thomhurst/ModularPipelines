@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsStartQueryQueryLanguage
 {
     [EnumValue("CWLI")]
-    Cwli = 1,
+    Cwli,
 
     [EnumValue("SQL")]
-    Sql = 2,
+    Sql,
 
     [EnumValue("PPL")]
-    Ppl = 3
+    Ppl
 }

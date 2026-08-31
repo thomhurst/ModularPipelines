@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAcmRequestCertificateValidationMethod
 {
     [EnumValue("EMAIL")]
-    Email = 1,
+    Email,
 
     [EnumValue("DNS")]
-    Dns = 2,
+    Dns,
 
     [EnumValue("HTTP")]
-    Http = 3
+    Http
 }

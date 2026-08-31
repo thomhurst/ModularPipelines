@@ -57,7 +57,7 @@ public record AwsBedrockListProvisionedModelThroughputsOptions : AwsOptions
     /// The field by which to sort the returned list of Provisioned Through- puts. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListProvisionedModelThroughputsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order of the results. Possible values: o Ascending o Descending

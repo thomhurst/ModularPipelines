@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsVerifyMessageType
 {
     [EnumValue("RAW")]
-    Raw = 1,
+    Raw,
 
     [EnumValue("DIGEST")]
-    Digest = 2,
+    Digest,
 
     [EnumValue("EXTERNAL_MU")]
-    ExternalMu = 3
+    ExternalMu
 }

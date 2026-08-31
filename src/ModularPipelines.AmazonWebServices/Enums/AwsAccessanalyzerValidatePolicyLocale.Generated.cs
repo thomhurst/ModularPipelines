@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAccessanalyzerValidatePolicyLocale
 {
     [EnumValue("DE")]
-    De = 1,
+    De,
 
     [EnumValue("EN")]
-    En = 2,
+    En,
 
     [EnumValue("ES")]
-    Es = 3,
+    Es,
 
     [EnumValue("FR")]
-    Fr = 4,
+    Fr,
 
     [EnumValue("IT")]
-    It = 5,
+    It,
 
     [EnumValue("JA")]
-    Ja = 6,
+    Ja,
 
     [EnumValue("KO")]
-    Ko = 7,
+    Ko,
 
     [EnumValue("PT_BR")]
-    PtBr = 8,
+    PtBr,
 
     [EnumValue("ZH_CN")]
-    ZhCn = 9,
+    ZhCn,
 
     [EnumValue("ZH_TW")]
-    ZhTw = 10
+    ZhTw
 }

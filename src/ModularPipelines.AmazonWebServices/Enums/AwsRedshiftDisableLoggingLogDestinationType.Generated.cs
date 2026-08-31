@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDisableLoggingLogDestinationType
 {
     [EnumValue("s3")]
-    S3 = 1,
+    S3,
 
     [EnumValue("cloudwatch")]
-    Cloudwatch = 2,
+    Cloudwatch,
 
     [EnumValue("s3table")]
-    S3table = 3
+    S3table
 }

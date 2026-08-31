@@ -30,6 +30,9 @@ public record AwsAutoscalingEnterStandbyOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
+    /// </summary>
     [CliFlag("--should-decrement-desired-capacity")]
     public bool? ShouldDecrementDesiredCapacity { get; set; }
 

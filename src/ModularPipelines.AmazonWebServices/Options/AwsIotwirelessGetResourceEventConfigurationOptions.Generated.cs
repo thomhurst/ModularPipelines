@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsIotwirelessGetResourceEventConfigurationOptions : AwsOptions
     /// Partner type of the resource if the identifier type is PartnerAc- countId . Possible values: o Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
-    public AwsIotwirelessGetResourceEventConfigurationPartnerType? PartnerType { get; set; }
+    public string? PartnerType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

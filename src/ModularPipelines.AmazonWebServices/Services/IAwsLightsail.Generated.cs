@@ -42,16 +42,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Attaches a block storage disk to a running or stopped Lightsail in- stance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachDiskAsync(AwsLightsailAttachDiskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based ac- cess control via resource tags applied to the resource identified by load balancer name . For more information, see the Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -92,16 +82,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Copies a manual snapshot of an instance or disk as another manual snap- shot, or copies an automatic snapshot of an instance or disk as a man- ual snapshot. This operation can also be used to copy a manual or auto- matic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure t...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CopySnapshotAsync(AwsLightsailCopySnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Creates a new access key for the specified Amazon Lightsail bucket. Ac- cess keys consist of an access key ID and corresponding secret access key. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the GetBucketAccessKeys action to get a list of current access keys for a specific bucket. For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the Amazon Lightsai...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -109,16 +89,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> CreateBucketAccessKeyAsync(AwsLightsailCreateBucketAccessKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its de- scriptive metadata. For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBucketAsync(AwsLightsailCreateBucketOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -182,16 +152,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail in- stance in the same Availability Zone (us-east-2a ). The create disk from snapshot operation supports tag-based access con- trol via request tags and resource tags applied to the resource identi- fied by disk snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDiskFromSnapshotAsync(AwsLightsailCreateDiskFromSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Creates a block storage disk that can be attached to an Amazon Light- sail instance in the same Availability Zone (us-east-2a ). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -239,16 +199,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> CreateGuiSessionAccessDetailsAsync(AwsLightsailCreateGuiSessionAccessDetailsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstancesFromSnapshotAsync(AwsLightsailCreateInstancesFromSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -362,16 +312,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes a Amazon Lightsail bucket. NOTE: When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another Amazon Web Ser- vices account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketAsync(AwsLightsailDeleteBucketOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Deletes an SSL/TLS certificate for your Amazon Lightsail content deliv- ery network (CDN) distribution. Certificates that are currently attached to a distribution cannot be deleted. Use the DetachCertificateFromDistribution action to detach a certificate from a distribution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -412,16 +352,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDiskAsync(AwsLightsailDeleteDiskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremen- tal, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the disk. The delete disk snapshot operation supp...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -449,16 +379,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DeleteDomainAsync(AwsLightsailDeleteDomainOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceAsync(AwsLightsailDeleteInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -632,16 +552,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns the list of available instance images, or blueprints . You can use a blueprint to create a new instance already running a specific op- erating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose. NOTE: Use active blueprints when creating new instances. Inactive blue- prints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintsAsync(AwsLightsailGetBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns the existing access key IDs for the specified Amazon Lightsail bucket. WARNING: This action does not return the secret access key value of an access key. You can get a secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create a new access key. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -652,16 +562,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket bundle specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the UpdateBucketBundle action to update the bundle for a bucket. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketBundlesAsync(AwsLightsailGetBucketBundlesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (in- cluding object versions) and the storage space used by those objects. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -669,26 +569,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GetBucketMetricDataAsync(AwsLightsailGetBucketMetricDataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about one or more Amazon Lightsail buckets. The in- formation returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketsAsync(AwsLightsailGetBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns the bundles that you can apply to an Amazon Lightsail instance when you create it. A bundle describes the specifications of an instance, such as the monthly cost, amount of memory, the number of vCPUs, amount of storage space, and monthly network data transfer quota. NOTE: Bundles are referred to as instance plans in the Lightsail console. See also: AWS API Documentation get-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBundlesAsync(AwsLightsailGetBundlesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1002,16 +882,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns information about all key pairs in the user's account. See also: AWS API Documentation get-key-pairs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: keyPairs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKeyPairsAsync(AwsLightsailGetKeyPairsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns information about health metrics for your Lightsail load bal- ancer. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to main- tain the reliability, availability, and performance of your resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1092,16 +962,6 @@ public interface IAwsLightsail
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns a list of all valid regions for Amazon Lightsail. Use the in- clude availability zones parameter to also return the Availability Zones in a region. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegionsAsync(AwsLightsailGetRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes the major engine version of a database. You can use a blueprint ID to create a new database that runs a spe- cific database engine. See also: AWS API Documentation get-relational-database-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text a...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1109,16 +969,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GetRelationalDatabaseBlueprintsAsync(AwsLightsailGetRelationalDatabaseBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the performance specifications for a database. You can use a bundle ID to create a new database with explicit perfor- mance specifications. See also: AWS API Documentation get-relational-database-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRelationalDatabaseBundlesAsync(AwsLightsailGetRelationalDatabaseBundlesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1529,16 +1379,6 @@ public interface IAwsLightsail
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateBucketAsync(AwsLightsailUpdateBucketOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Updates the configuration of your Amazon Lightsail container service, such as its power, scale, and public domain names. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContainerServiceAsync(AwsLightsailUpdateContainerServiceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

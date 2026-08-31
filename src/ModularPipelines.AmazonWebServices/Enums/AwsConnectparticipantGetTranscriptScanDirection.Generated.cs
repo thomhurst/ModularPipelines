@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectparticipantGetTranscriptScanDirection
 {
     [EnumValue("FORWARD")]
-    Forward = 1,
+    Forward,
 
     [EnumValue("BACKWARD")]
-    Backward = 2
+    Backward
 }

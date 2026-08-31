@@ -32,7 +32,10 @@ public record AwsConfigservicePutEvaluationsOptions : AwsOptions
     [CliOption("--result-token")]
     public string? ResultToken { get; set; }
 
-    [CliFlag("--test-mode")]
+    /// <summary>
+    /// Use this parameter to specify a test run for PutEvaluations . You can verify whether your Lambda function will deliver evaluation re- sults to Config. No updates occur to your existing evaluations, and evaluation results are not sent to Config. NOTE: When TestMode is true , PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null.
+    /// </summary>
+    [CliFlag("--test-mode", NegatedName = "--no-test-mode")]
     public bool? TestMode { get; set; }
 
     [CliOption("--cli-input-json")]

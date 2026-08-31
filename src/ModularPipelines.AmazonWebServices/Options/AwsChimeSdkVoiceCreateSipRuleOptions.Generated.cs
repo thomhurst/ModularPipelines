@@ -30,7 +30,10 @@ public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions
     [CliOption("--trigger-value")]
     public string? TriggerValue { get; set; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// Disables or enables a SIP rule. You must disable SIP rules before you can delete them.
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     [CliOption("--target-applications", GroupValues = true)]

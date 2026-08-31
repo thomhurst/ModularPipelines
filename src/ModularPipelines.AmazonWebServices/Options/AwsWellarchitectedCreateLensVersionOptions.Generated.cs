@@ -28,7 +28,10 @@ public record AwsWellarchitectedCreateLensVersionOptions : AwsOptions
     [CliOption("--lens-version")]
     public string? LensVersion { get; set; }
 
-    [CliFlag("--is-major-version")]
+    /// <summary>
+    /// Set to true if this new major lens version.
+    /// </summary>
+    [CliFlag("--is-major-version", NegatedName = "--no-is-major-version")]
     public bool? IsMajorVersion { get; set; }
 
     /// <summary>

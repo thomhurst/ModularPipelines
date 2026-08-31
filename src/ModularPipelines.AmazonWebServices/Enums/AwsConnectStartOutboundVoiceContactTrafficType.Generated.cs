@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectStartOutboundVoiceContactTrafficType
 {
     [EnumValue("GENERAL")]
-    General = 1,
+    General,
 
     [EnumValue("CAMPAIGN")]
-    Campaign = 2
+    Campaign
 }

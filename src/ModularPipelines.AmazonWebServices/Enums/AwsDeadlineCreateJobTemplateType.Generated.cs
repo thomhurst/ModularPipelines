@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineCreateJobTemplateType
 {
     [EnumValue("JSON")]
-    Json = 1,
+    Json,
 
     [EnumValue("YAML")]
-    Yaml = 2
+    Yaml
 }

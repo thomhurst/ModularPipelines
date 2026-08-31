@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -44,7 +43,7 @@ public record AwsConnectStartContactMediaProcessingOptions : AwsOptions
     /// The desired behavior for failed message processing. Possible values: o DELIVER_UNPROCESSED_MESSAGE o DO_NOT_DELIVER_UNPROCESSED_MESSAGE
     /// </summary>
     [CliOption("--failure-mode")]
-    public AwsConnectStartContactMediaProcessingFailureMode? FailureMode { get; set; }
+    public string? FailureMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

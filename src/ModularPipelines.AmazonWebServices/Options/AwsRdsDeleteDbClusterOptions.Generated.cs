@@ -24,7 +24,10 @@ public record AwsRdsDeleteDbClusterOptions : AwsOptions
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Specifies whether to skip the creation of a final DB cluster snap- shot before RDS deletes the DB cluster. If you set this value to true , RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parame- ter is disabled, so RDS creates a final DB cluster snapshot. NOTE: If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -33,7 +36,10 @@ public record AwsRdsDeleteDbClusterOptions : AwsOptions
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
-    [CliFlag("--delete-automated-backups")]
+    /// <summary>
+    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The de- fault is to remove automated backups immediately after the DB clus- ter is deleted, unless the Amazon Web Services Backup policy speci- fies a point-in-time restore rule.
+    /// </summary>
+    [CliFlag("--delete-automated-backups", NegatedName = "--no-delete-automated-backups")]
     public bool? DeleteAutomatedBackups { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListLineageEventsProcessingStatus
 {
     [EnumValue("REQUESTED")]
-    Requested = 1,
+    Requested,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
 
     [EnumValue("SUCCESS")]
-    Success = 3,
+    Success,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed
 }

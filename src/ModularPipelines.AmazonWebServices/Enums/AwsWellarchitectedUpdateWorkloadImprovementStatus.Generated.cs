@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedUpdateWorkloadImprovementStatus
 {
     [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 1,
+    NotApplicable,
 
     [EnumValue("NOT_STARTED")]
-    NotStarted = 2,
+    NotStarted,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
     [EnumValue("COMPLETE")]
-    Complete = 4,
+    Complete,
 
     [EnumValue("RISK_ACKNOWLEDGED")]
-    RiskAcknowledged = 5
+    RiskAcknowledged
 }

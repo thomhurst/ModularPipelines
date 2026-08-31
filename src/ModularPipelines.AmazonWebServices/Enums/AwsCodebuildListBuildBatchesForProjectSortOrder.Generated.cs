@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildListBuildBatchesForProjectSortOrder
 {
     [EnumValue("ASCENDING")]
-    Ascending = 1,
+    Ascending,
 
     [EnumValue("DESCENDING")]
-    Descending = 2
+    Descending
 }

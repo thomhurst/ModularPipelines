@@ -24,10 +24,16 @@ public record AwsPersonalizeUpdateSolutionOptions : AwsOptions
     [CliOption("--solution-arn")]
     public string? SolutionArn { get; set; }
 
-    [CliFlag("--perform-auto-training")]
+    /// <summary>
+    /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about auto- matic training, see Configuring automatic training . After training starts, you can get the solution version's Amazon Re- source Name (ARN) with the ListSolutionVersions API operation. To get its status, use the DescribeSolutionVersion .
+    /// </summary>
+    [CliFlag("--perform-auto-training", NegatedName = "--no-perform-auto-training")]
     public bool? PerformAutoTraining { get; set; }
 
-    [CliFlag("--perform-incremental-update")]
+    /// <summary>
+    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more fre- quently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for so- lutions that use the semantic-similarity recipe.
+    /// </summary>
+    [CliFlag("--perform-incremental-update", NegatedName = "--no-perform-incremental-update")]
     public bool? PerformIncrementalUpdate { get; set; }
 
     /// <summary>

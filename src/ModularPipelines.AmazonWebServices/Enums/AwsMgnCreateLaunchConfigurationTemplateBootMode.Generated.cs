@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnCreateLaunchConfigurationTemplateBootMode
 {
     [EnumValue("LEGACY_BIOS")]
-    LegacyBios = 1,
+    LegacyBios,
 
     [EnumValue("UEFI")]
-    Uefi = 2,
+    Uefi,
 
     [EnumValue("USE_SOURCE")]
-    UseSource = 3
+    UseSource
 }

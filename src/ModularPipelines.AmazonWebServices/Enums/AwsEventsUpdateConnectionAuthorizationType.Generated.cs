@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEventsUpdateConnectionAuthorizationType
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("OAUTH_CLIENT_CREDENTIALS")]
-    OauthClientCredentials = 2,
+    OauthClientCredentials,
 
     [EnumValue("API_KEY")]
-    ApiKey = 3
+    ApiKey
 }

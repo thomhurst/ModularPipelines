@@ -24,7 +24,10 @@ public record AwsBedrockDeleteAutomatedReasoningPolicyOptions : AwsOptions
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Specifies whether to force delete the automated reasoning policy even if it has active resources. When false , Amazon Bedrock vali- dates if all artifacts have been deleted (e.g. policy version, test case, test result) for a policy before deletion. When true , Amazon Bedrock will delete the policy and all its artifacts without valida- tion. Default is false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateOdbNetworkS3Access
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

@@ -29,7 +29,10 @@ public record AwsIamListPoliciesOptions : AwsOptions
     [CliOption("--scope")]
     public AwsIamListPoliciesScope? Scope { get; set; }
 
-    [CliFlag("--only-attached")]
+    /// <summary>
+    /// A flag to filter the results to only the attached policies. When OnlyAttached is true , the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false , or when the parameter is not included, all policies are returned.
+    /// </summary>
+    [CliFlag("--only-attached", NegatedName = "--no-only-attached")]
     public bool? OnlyAttached { get; set; }
 
     /// <summary>

@@ -32,16 +32,6 @@ public interface IAwsEfs
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a new, empty file system. The operation requires a creation to- ken in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's Ama- zon Web Services account with the specified creation token, this opera- tion does the following: o Creates a new, empty file system. The file system will have an Amazon EFS assigned ID, and an initial lifecycle state ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFileSystemAsync(AwsEfsCreateFileSystemOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple sub- nets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access ...
     /// </summary>
     /// <param name="options">The command options.</param>

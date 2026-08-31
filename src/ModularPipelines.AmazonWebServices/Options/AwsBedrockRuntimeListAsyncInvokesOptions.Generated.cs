@@ -45,7 +45,7 @@ public record AwsBedrockRuntimeListAsyncInvokesOptions : AwsOptions
     /// How to sort the response. Possible values: o SubmissionTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockRuntimeListAsyncInvokesSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sorting order for the response. Possible values: o Ascending o Descending

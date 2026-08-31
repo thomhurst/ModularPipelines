@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsListManagedThingsProvisioningStatusFilter
 {
     [EnumValue("UNASSOCIATED")]
-    Unassociated = 1,
+    Unassociated,
 
     [EnumValue("PRE_ASSOCIATED")]
-    PreAssociated = 2,
+    PreAssociated,
 
     [EnumValue("DISCOVERED")]
-    Discovered = 3,
+    Discovered,
 
     [EnumValue("ACTIVATED")]
-    Activated = 4,
+    Activated,
 
     [EnumValue("DELETION_FAILED")]
-    DeletionFailed = 5,
+    DeletionFailed,
 
     [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 6,
+    DeleteInProgress,
 
     [EnumValue("ISOLATED")]
-    Isolated = 7,
+    Isolated,
 
     [EnumValue("DELETED")]
-    Deleted = 8
+    Deleted
 }

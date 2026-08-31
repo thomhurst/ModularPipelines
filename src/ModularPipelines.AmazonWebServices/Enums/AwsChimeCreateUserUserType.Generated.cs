@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeCreateUserUserType
 {
     [EnumValue("PrivateUser")]
-    PrivateUser = 1,
+    PrivateUser,
 
     [EnumValue("SharedDevice")]
-    SharedDevice = 2
+    SharedDevice
 }

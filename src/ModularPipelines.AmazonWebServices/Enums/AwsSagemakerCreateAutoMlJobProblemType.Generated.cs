@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerCreateAutoMlJobProblemType
 {
     [EnumValue("BinaryClassification")]
-    BinaryClassification = 1,
+    BinaryClassification,
 
     [EnumValue("MulticlassClassification")]
-    MulticlassClassification = 2,
+    MulticlassClassification,
 
     [EnumValue("Regression")]
-    Regression = 3
+    Regression
 }

@@ -54,7 +54,10 @@ public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions
     [CliOption("--high-capacity-database-storage-total-size-in-gbs")]
     public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; set; }
 
-    [CliFlag("--is-autoscale-enabled")]
+    /// <summary>
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    /// </summary>
+    [CliFlag("--is-autoscale-enabled", NegatedName = "--no-is-autoscale-enabled")]
     public bool? IsAutoscaleEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

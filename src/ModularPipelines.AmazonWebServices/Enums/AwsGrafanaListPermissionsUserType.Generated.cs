@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGrafanaListPermissionsUserType
 {
     [EnumValue("SSO_USER")]
-    SsoUser = 1,
+    SsoUser,
 
     [EnumValue("SSO_GROUP")]
-    SsoGroup = 2
+    SsoGroup
 }

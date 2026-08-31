@@ -24,7 +24,10 @@ public record AwsDatabrewStartProjectSessionOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--assume-control")]
+    /// <summary>
+    /// A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
+    /// </summary>
+    [CliFlag("--assume-control", NegatedName = "--no-assume-control")]
     public bool? AssumeControl { get; set; }
 
     [CliOption("--cli-input-json")]

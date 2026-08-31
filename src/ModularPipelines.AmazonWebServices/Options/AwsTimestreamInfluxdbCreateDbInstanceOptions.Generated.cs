@@ -58,7 +58,10 @@ public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Configures the DB instance with a public IP to facilitate access.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>

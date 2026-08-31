@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmCreatePatchBaselineAvailableSecurityUpdatesComplianceStatus
 {
     [EnumValue("COMPLIANT")]
-    Compliant = 1,
+    Compliant,
 
     [EnumValue("NON_COMPLIANT")]
-    NonCompliant = 2
+    NonCompliant
 }

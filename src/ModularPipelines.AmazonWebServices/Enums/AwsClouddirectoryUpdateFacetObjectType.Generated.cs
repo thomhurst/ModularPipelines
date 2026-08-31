@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsClouddirectoryUpdateFacetObjectType
 {
     [EnumValue("NODE")]
-    Node = 1,
+    Node,
 
     [EnumValue("LEAF_NODE")]
-    LeafNode = 2,
+    LeafNode,
 
     [EnumValue("POLICY")]
-    Policy = 3,
+    Policy,
 
     [EnumValue("INDEX")]
-    Index = 4
+    Index
 }

@@ -33,7 +33,10 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

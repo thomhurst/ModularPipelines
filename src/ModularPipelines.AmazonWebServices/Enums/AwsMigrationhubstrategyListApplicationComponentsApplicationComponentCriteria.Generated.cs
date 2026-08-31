@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyListApplicationComponentsApplicationComponentCriteria
 {
     [EnumValue("NOT_DEFINED")]
-    NotDefined = 1,
+    NotDefined,
 
     [EnumValue("APP_NAME")]
-    AppName = 2,
+    AppName,
 
     [EnumValue("SERVER_ID")]
-    ServerId = 3,
+    ServerId,
 
     [EnumValue("APP_TYPE")]
-    AppType = 4,
+    AppType,
 
     [EnumValue("STRATEGY")]
-    Strategy = 5,
+    Strategy,
 
     [EnumValue("DESTINATION")]
-    Destination = 6,
+    Destination,
 
     [EnumValue("ANALYSIS_STATUS")]
-    AnalysisStatus = 7,
+    AnalysisStatus,
 
     [EnumValue("ERROR_CATEGORY")]
-    ErrorCategory = 8
+    ErrorCategory
 }

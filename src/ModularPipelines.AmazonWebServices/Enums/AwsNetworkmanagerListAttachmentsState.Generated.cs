@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkmanagerListAttachmentsState
 {
     [EnumValue("REJECTED")]
-    Rejected = 1,
+    Rejected,
 
     [EnumValue("PENDING_ATTACHMENT_ACCEPTANCE")]
-    PendingAttachmentAcceptance = 2,
+    PendingAttachmentAcceptance,
 
     [EnumValue("CREATING")]
-    Creating = 3,
+    Creating,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("AVAILABLE")]
-    Available = 5,
+    Available,
 
     [EnumValue("UPDATING")]
-    Updating = 6,
+    Updating,
 
     [EnumValue("PENDING_NETWORK_UPDATE")]
-    PendingNetworkUpdate = 7,
+    PendingNetworkUpdate,
 
     [EnumValue("PENDING_TAG_ACCEPTANCE")]
-    PendingTagAcceptance = 8,
+    PendingTagAcceptance,
 
     [EnumValue("DELETING")]
-    Deleting = 9
+    Deleting
 }

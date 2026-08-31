@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -29,9 +28,12 @@ public record AwsSsmSapStopApplicationOptions : AwsOptions
     /// Specify the ConnectedEntityType . Accepted type is DBMS . If this parameter is included, the connected DBMS (Database Manage- ment System) will be stopped. Possible values: o DBMS
     /// </summary>
     [CliOption("--stop-connected-entity")]
-    public AwsSsmSapStopApplicationStopConnectedEntity? StopConnectedEntity { get; set; }
+    public string? StopConnectedEntity { get; set; }
 
-    [CliFlag("--include-ec2-instance-shutdown")]
+    /// <summary>
+    /// Boolean. If included and if set to True , the StopApplication opera- tion will shut down the associated Amazon EC2 instance in addition to the application.
+    /// </summary>
+    [CliFlag("--include-ec2-instance-shutdown", NegatedName = "--no-include-ec2-instance-shutdown")]
     public bool? IncludeEc2InstanceShutdown { get; set; }
 
     [CliOption("--cli-input-json")]

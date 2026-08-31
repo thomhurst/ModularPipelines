@@ -44,7 +44,10 @@ public record AwsEc2CopyVolumesOptions : AwsOptions
     [CliOption("--volume-type")]
     public AwsEc2CopyVolumesVolumeType? VolumeType { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -53,7 +56,10 @@ public record AwsEc2CopyVolumesOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--multi-attach-enabled")]
+    /// <summary>
+    /// Indicates whether to enable Amazon EBS Multi-Attach for the volume copy. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro instances in the same Availability Zone simultaneously. Supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach .
+    /// </summary>
+    [CliFlag("--multi-attach-enabled", NegatedName = "--no-multi-attach-enabled")]
     public bool? MultiAttachEnabled { get; set; }
 
     /// <summary>

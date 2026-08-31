@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-launch-template-version")]
 public record AwsEc2CreateLaunchTemplateVersionOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -59,7 +62,10 @@ public record AwsEc2CreateLaunchTemplateVersionOptions : AwsOptions
     [CliOption("--launch-template-data")]
     public string? LaunchTemplateData { get; set; }
 
-    [CliFlag("--resolve-alias")]
+    /// <summary>
+    /// If true , and if a Systems Manager parameter is specified for Im- ageId , the AMI ID is displayed in the response for imageID . For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide . Default: false
+    /// </summary>
+    [CliFlag("--resolve-alias", NegatedName = "--no-resolve-alias")]
     public bool? ResolveAlias { get; set; }
 
     [CliOption("--cli-input-json")]

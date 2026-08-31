@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrGetOnClusterAppUiPresignedUrlOnClusterAppUiType
 {
     [EnumValue("SparkHistoryServer")]
-    SparkHistoryServer = 1,
+    SparkHistoryServer,
 
     [EnumValue("YarnTimelineService")]
-    YarnTimelineService = 2,
+    YarnTimelineService,
 
     [EnumValue("TezUI")]
-    TezUi = 3,
+    TezUi,
 
     [EnumValue("ApplicationMaster")]
-    ApplicationMaster = 4,
+    ApplicationMaster,
 
     [EnumValue("JobHistoryServer")]
-    JobHistoryServer = 5,
+    JobHistoryServer,
 
     [EnumValue("ResourceManager")]
-    ResourceManager = 6
+    ResourceManager
 }

@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListCopyJobSummariesState
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("ABORTING")]
-    Aborting = 3,
+    Aborting,
 
     [EnumValue("ABORTED")]
-    Aborted = 4,
+    Aborted,
 
     [EnumValue("COMPLETING")]
-    Completing = 5,
+    Completing,
 
     [EnumValue("COMPLETED")]
-    Completed = 6,
+    Completed,
 
     [EnumValue("FAILING")]
-    Failing = 7,
+    Failing,
 
     [EnumValue("FAILED")]
-    Failed = 8,
+    Failed,
 
     [EnumValue("PARTIAL")]
-    Partial = 9,
+    Partial,
 
     [EnumValue("AGGREGATE_ALL")]
-    AggregateAll = 10,
+    AggregateAll,
 
     [EnumValue("ANY")]
-    Any = 11
+    Any
 }

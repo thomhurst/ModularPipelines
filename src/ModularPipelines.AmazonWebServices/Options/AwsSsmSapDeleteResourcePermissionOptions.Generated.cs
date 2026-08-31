@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsSsmSapDeleteResourcePermissionOptions : AwsOptions
     /// Delete or restore the permissions on the target database. Possible values: o RESTORE
     /// </summary>
     [CliOption("--action-type")]
-    public AwsSsmSapDeleteResourcePermissionActionType? ActionType { get; set; }
+    public string? ActionType { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the source resource. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+

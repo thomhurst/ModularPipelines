@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateAutonomousDatabaseOpenMode
 {
     [EnumValue("READ_ONLY")]
-    ReadOnly = 1,
+    ReadOnly,
 
     [EnumValue("READ_WRITE")]
-    ReadWrite = 2
+    ReadWrite
 }

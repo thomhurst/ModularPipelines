@@ -54,7 +54,7 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions
     /// Filter by enrichment job type. Currently only EVENT_DETECTION is supported. Use this filter to future-proof queries when additional job types are added. Possible values: o EVENT_DETECTION
     /// </summary>
     [CliOption("--job-type")]
-    public AwsIotsitewiseListEnrichmentJobsJobType? JobType { get; set; }
+    public string? JobType { get; set; }
 
     /// <summary>
     /// The exclusive start of the date range for filtering jobs by creation time. Jobs created after this timestamp are included. Use ISO 8601 format (e.g., 2024-01-01T00:00:00Z).

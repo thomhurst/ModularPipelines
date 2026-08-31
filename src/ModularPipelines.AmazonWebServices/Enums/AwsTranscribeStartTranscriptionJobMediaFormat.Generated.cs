@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranscribeStartTranscriptionJobMediaFormat
 {
     [EnumValue("mp3")]
-    Mp3 = 1,
+    Mp3,
 
     [EnumValue("mp4")]
-    Mp4 = 2,
+    Mp4,
 
     [EnumValue("wav")]
-    Wav = 3,
+    Wav,
 
     [EnumValue("flac")]
-    Flac = 4,
+    Flac,
 
     [EnumValue("ogg")]
-    Ogg = 5,
+    Ogg,
 
     [EnumValue("amr")]
-    Amr = 6,
+    Amr,
 
     [EnumValue("webm")]
-    Webm = 7,
+    Webm,
 
     [EnumValue("m4a")]
-    M4a = 8
+    M4a
 }

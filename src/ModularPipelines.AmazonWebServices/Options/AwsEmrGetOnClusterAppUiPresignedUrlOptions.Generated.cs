@@ -37,7 +37,10 @@ public record AwsEmrGetOnClusterAppUiPresignedUrlOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Determines if the user interface presigned URL is for a dry run.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDataListStatementsStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("PICKED")]
-    Picked = 2,
+    Picked,
 
     [EnumValue("STARTED")]
-    Started = 3,
+    Started,
 
     [EnumValue("FINISHED")]
-    Finished = 4,
+    Finished,
 
     [EnumValue("ABORTED")]
-    Aborted = 5,
+    Aborted,
 
     [EnumValue("FAILED")]
-    Failed = 6,
+    Failed,
 
     [EnumValue("ALL")]
-    All = 7
+    All
 }

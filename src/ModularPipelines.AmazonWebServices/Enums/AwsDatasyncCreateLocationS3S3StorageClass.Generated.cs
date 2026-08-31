@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncCreateLocationS3S3StorageClass
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("STANDARD_IA")]
-    StandardIa = 2,
+    StandardIa,
 
     [EnumValue("ONEZONE_IA")]
-    OnezoneIa = 3,
+    OnezoneIa,
 
     [EnumValue("INTELLIGENT_TIERING")]
-    IntelligentTiering = 4,
+    IntelligentTiering,
 
     [EnumValue("GLACIER")]
-    Glacier = 5,
+    Glacier,
 
     [EnumValue("DEEP_ARCHIVE")]
-    DeepArchive = 6,
+    DeepArchive,
 
     [EnumValue("OUTPOSTS")]
-    Outposts = 7,
+    Outposts,
 
     [EnumValue("GLACIER_INSTANT_RETRIEVAL")]
-    GlacierInstantRetrieval = 8
+    GlacierInstantRetrieval
 }

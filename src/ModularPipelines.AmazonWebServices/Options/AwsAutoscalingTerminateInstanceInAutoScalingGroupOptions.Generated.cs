@@ -39,6 +39,9 @@ public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOpti
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
+    /// </summary>
     [CliFlag("--should-decrement-desired-capacity")]
     public bool? ShouldDecrementDesiredCapacity { get; set; }
 

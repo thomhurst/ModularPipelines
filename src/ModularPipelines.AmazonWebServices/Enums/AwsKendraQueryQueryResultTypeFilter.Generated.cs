@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKendraQueryQueryResultTypeFilter
 {
     [EnumValue("DOCUMENT")]
-    Document = 1,
+    Document,
 
     [EnumValue("QUESTION_ANSWER")]
-    QuestionAnswer = 2,
+    QuestionAnswer,
 
     [EnumValue("ANSWER")]
-    Answer = 3
+    Answer
 }

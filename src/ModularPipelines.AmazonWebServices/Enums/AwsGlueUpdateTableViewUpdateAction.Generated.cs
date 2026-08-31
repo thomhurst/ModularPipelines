@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueUpdateTableViewUpdateAction
 {
     [EnumValue("ADD")]
-    Add = 1,
+    Add,
 
     [EnumValue("REPLACE")]
-    Replace = 2,
+    Replace,
 
     [EnumValue("ADD_OR_REPLACE")]
-    AddOrReplace = 3,
+    AddOrReplace,
 
     [EnumValue("DROP")]
-    Drop = 4
+    Drop
 }

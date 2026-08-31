@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneCreateSubscriptionTargetSubscriptionGrantCreationMode
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

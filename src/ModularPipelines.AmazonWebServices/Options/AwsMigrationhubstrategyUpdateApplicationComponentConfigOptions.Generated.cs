@@ -32,7 +32,10 @@ public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : A
     [CliOption("--application-component-id")]
     public string? ApplicationComponentId { get; set; }
 
-    [CliFlag("--configure-only")]
+    /// <summary>
+    /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are up- dated. If it is set to false, the source code and/or database cre- dentials are updated and an analysis is initiated.
+    /// </summary>
+    [CliFlag("--configure-only", NegatedName = "--no-configure-only")]
     public bool? ConfigureOnly { get; set; }
 
     /// <summary>

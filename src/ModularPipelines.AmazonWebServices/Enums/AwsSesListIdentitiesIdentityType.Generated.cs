@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesListIdentitiesIdentityType
 {
     [EnumValue("EmailAddress")]
-    EmailAddress = 1,
+    EmailAddress,
 
     [EnumValue("Domain")]
-    Domain = 2
+    Domain
 }

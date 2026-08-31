@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionR...
+/// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,6 +29,12 @@ public record AwsSupportDescribeSupportedLanguagesOptions : AwsOptions
 
     [CliOption("--category-code")]
     public string? CategoryCode { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning supported languages. When set to true , the request is validated but no languages are returned, and the operation returns a DryRunOpera- tionException . When omitted or set to false , the request runs nor- mally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

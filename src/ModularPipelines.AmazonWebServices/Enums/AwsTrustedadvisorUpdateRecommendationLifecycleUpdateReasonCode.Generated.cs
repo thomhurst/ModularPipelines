@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorUpdateRecommendationLifecycleUpdateReasonCode
 {
     [EnumValue("non_critical_account")]
-    NonCriticalAccount = 1,
+    NonCriticalAccount,
 
     [EnumValue("temporary_account")]
-    TemporaryAccount = 2,
+    TemporaryAccount,
 
     [EnumValue("valid_business_case")]
-    ValidBusinessCase = 3,
+    ValidBusinessCase,
 
     [EnumValue("other_methods_available")]
-    OtherMethodsAvailable = 4,
+    OtherMethodsAvailable,
 
     [EnumValue("low_priority")]
-    LowPriority = 5,
+    LowPriority,
 
     [EnumValue("not_applicable")]
-    NotApplicable = 6,
+    NotApplicable,
 
     [EnumValue("other")]
-    Other = 7
+    Other
 }

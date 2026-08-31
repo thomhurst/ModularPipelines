@@ -30,6 +30,9 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
+    /// <summary>
+    /// tion-to-shareable-service-network (boolean) Indicates whether to add the resource configuration to service net- works that are shared with other accounts.
+    /// </summary>
     [CliFlag("--allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAthenaGetQueryResultsQueryResultType
 {
     [EnumValue("DATA_MANIFEST")]
-    DataManifest = 1,
+    DataManifest,
 
     [EnumValue("DATA_ROWS")]
-    DataRows = 2
+    DataRows
 }

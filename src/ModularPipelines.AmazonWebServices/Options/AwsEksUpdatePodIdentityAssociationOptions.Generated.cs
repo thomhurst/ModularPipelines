@@ -41,7 +41,10 @@ public record AwsEksUpdatePodIdentityAssociationOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--disable-session-tags")]
+    /// <summary>
+    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it as- sumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity at- taches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Iden- tity, see List of session tags added by EKS Pod Identity in the Ama- zon EKS User Guide . Amazon Web Services compresses inline session policies, managed pol- icy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicat- ing the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+    /// </summary>
+    [CliFlag("--disable-session-tags", NegatedName = "--no-disable-session-tags")]
     public bool? DisableSessionTags { get; set; }
 
     /// <summary>

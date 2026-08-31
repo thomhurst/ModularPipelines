@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseUpdateVehicleAttributeUpdateMode
 {
     [EnumValue("Overwrite")]
-    Overwrite = 1,
+    Overwrite,
 
     [EnumValue("Merge")]
-    Merge = 2
+    Merge
 }

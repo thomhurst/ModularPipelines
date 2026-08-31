@@ -24,7 +24,10 @@ public record AwsFmsDeletePolicyOptions : AwsOptions
     [CliOption("--policy-id")]
     public string? PolicyId { get; set; }
 
-    [CliFlag("--delete-all-policy-resources")]
+    /// <summary>
+    /// If True , the request performs cleanup according to the policy type. For WAF and Shield Advanced policies, the cleanup does the follow- ing: o Deletes rule groups created by Firewall Manager o Removes web ACLs from in-scope resources o Deletes web ACLs that contain no rules or rule groups For security group policies, the cleanup does the following for each security group in the policy: o Disassociates the security group from in-scope resources o Deletes the security group if it was created through Firewall Man- ager and if it's no longer associated with any resources through another policy NOTE: For security group common policies, even if set to False , Fire- wall Manager deletes all security groups created by Firewall Manager that aren't associated with any other resources through another policy. After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope.
+    /// </summary>
+    [CliFlag("--delete-all-policy-resources", NegatedName = "--no-delete-all-policy-resources")]
     public bool? DeleteAllPolicyResources { get; set; }
 
     [CliOption("--cli-input-json")]

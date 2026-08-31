@@ -33,4 +33,10 @@ public record AwsEmrAddStepsOptions : AwsOptions
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
+
 }

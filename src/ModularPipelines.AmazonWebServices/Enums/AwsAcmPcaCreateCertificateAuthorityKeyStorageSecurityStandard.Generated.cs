@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAcmPcaCreateCertificateAuthorityKeyStorageSecurityStandard
 {
     [EnumValue("FIPS_140_2_LEVEL_2_OR_HIGHER")]
-    Fips_140_2Level_2OrHigher = 1,
+    Fips_140_2Level_2OrHigher,
 
     [EnumValue("FIPS_140_2_LEVEL_3_OR_HIGHER")]
-    Fips_140_2Level_3OrHigher = 2,
+    Fips_140_2Level_3OrHigher,
 
     [EnumValue("CCPC_LEVEL_1_OR_HIGHER")]
-    CcpcLevel_1OrHigher = 3
+    CcpcLevel_1OrHigher
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallListRuleGroupsManagedType
 {
     [EnumValue("AWS_MANAGED_THREAT_SIGNATURES")]
-    AwsManagedThreatSignatures = 1,
+    AwsManagedThreatSignatures,
 
     [EnumValue("AWS_MANAGED_DOMAIN_LISTS")]
-    AwsManagedDomainLists = 2,
+    AwsManagedDomainLists,
 
     [EnumValue("ACTIVE_THREAT_DEFENSE")]
-    ActiveThreatDefense = 3,
+    ActiveThreatDefense,
 
     [EnumValue("PARTNER_MANAGED")]
-    PartnerManaged = 4
+    PartnerManaged
 }

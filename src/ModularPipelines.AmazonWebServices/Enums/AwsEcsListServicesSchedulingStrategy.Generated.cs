@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListServicesSchedulingStrategy
 {
     [EnumValue("REPLICA")]
-    Replica = 1,
+    Replica,
 
     [EnumValue("DAEMON")]
-    Daemon = 2
+    Daemon
 }

@@ -38,7 +38,10 @@ public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions
     [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CliFlag("--should-overwrite")]
+    /// <summary>
+    /// Set to false to prevent overwriting the repository source creden- tials. Set to true to overwrite the repository source credentials. The default value is true .
+    /// </summary>
+    [CliFlag("--should-overwrite", NegatedName = "--no-should-overwrite")]
     public bool? ShouldOverwrite { get; set; }
 
     [CliOption("--cli-input-json")]

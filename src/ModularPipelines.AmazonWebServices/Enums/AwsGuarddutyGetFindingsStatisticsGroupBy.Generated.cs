@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGuarddutyGetFindingsStatisticsGroupBy
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("DATE")]
-    Date = 2,
+    Date,
 
     [EnumValue("FINDING_TYPE")]
-    FindingType = 3,
+    FindingType,
 
     [EnumValue("RESOURCE")]
-    Resource = 4,
+    Resource,
 
     [EnumValue("SEVERITY")]
-    Severity = 5
+    Severity
 }

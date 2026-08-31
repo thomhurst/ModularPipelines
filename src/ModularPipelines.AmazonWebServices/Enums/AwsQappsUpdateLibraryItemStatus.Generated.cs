@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQappsUpdateLibraryItemStatus
 {
     [EnumValue("PUBLISHED")]
-    Published = 1,
+    Published,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationListResourceScansScanTypeFilter
 {
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("PARTIAL")]
-    Partial = 2
+    Partial
 }

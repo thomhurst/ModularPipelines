@@ -59,7 +59,10 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--is-autoscale-enabled")]
+    /// <summary>
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    /// </summary>
+    [CliFlag("--is-autoscale-enabled", NegatedName = "--no-is-autoscale-enabled")]
     public bool? IsAutoscaleEnabled { get; set; }
 
     /// <summary>

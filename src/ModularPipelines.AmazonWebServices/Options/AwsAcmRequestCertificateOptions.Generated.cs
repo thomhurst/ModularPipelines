@@ -79,7 +79,7 @@ public record AwsAcmRequestCertificateOptions : AwsOptions
     /// Identifies the Amazon Web Services service that manages the certifi- cate issued by ACM. Possible values: o CLOUDFRONT
     /// </summary>
     [CliOption("--managed-by")]
-    public AwsAcmRequestCertificateManagedBy? ManagedBy { get; set; }
+    public string? ManagedBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeconnectionsUpdateSyncConfigurationTriggerResourceUpdateOn
 {
     [EnumValue("ANY_CHANGE")]
-    AnyChange = 1,
+    AnyChange,
 
     [EnumValue("FILE_CHANGE")]
-    FileChange = 2
+    FileChange
 }

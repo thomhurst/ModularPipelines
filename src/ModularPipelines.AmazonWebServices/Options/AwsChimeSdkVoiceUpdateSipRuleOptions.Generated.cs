@@ -27,7 +27,10 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// The new value that indicates whether the rule is disabled.
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>

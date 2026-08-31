@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,10 @@ public record AwsRdsCopyDbSnapshotOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags aren't copied.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -65,9 +67,12 @@ public record AwsRdsCopyDbSnapshotOptions : AwsOptions
     /// Configures the location where RDS will store copied snapshots. Valid Values: o local (Dedicated Local Zone) o outposts (Amazon Web Services Outposts) o region (Amazon Web Services Region)
     /// </summary>
     [CliOption("--snapshot-target")]
-    public AwsRdsCopyDbSnapshotSnapshotTarget? SnapshotTarget { get; set; }
+    public string? SnapshotTarget { get; set; }
 
-    [CliFlag("--copy-option-group")]
+    /// <summary>
+    /// Specifies whether to copy the DB option group associated with the source DB snapshot to the target Amazon Web Services account and as- sociate with the target DB snapshot. The associated option group can be copied only with cross-account snapshot copy calls.
+    /// </summary>
+    [CliFlag("--copy-option-group", NegatedName = "--no-copy-option-group")]
     public bool? CopyOptionGroup { get; set; }
 
     /// <summary>

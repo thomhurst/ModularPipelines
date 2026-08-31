@@ -32,7 +32,10 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
     [CliOption("--participant-token")]
     public string? ParticipantToken { get; set; }
 
-    [CliFlag("--connect-participant")]
+    /// <summary>
+    /// Amazon Connect Participant is used to mark the participant as con- nected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
+    /// </summary>
+    [CliFlag("--connect-participant", NegatedName = "--no-connect-participant")]
     public bool? ConnectParticipant { get; set; }
 
     [CliOption("--cli-input-json")]

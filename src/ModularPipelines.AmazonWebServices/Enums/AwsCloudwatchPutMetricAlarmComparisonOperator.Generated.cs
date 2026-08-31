@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudwatchPutMetricAlarmComparisonOperator
 {
     [EnumValue("GreaterThanOrEqualToThreshold")]
-    GreaterThanOrEqualToThreshold = 1,
+    GreaterThanOrEqualToThreshold,
 
     [EnumValue("GreaterThanThreshold")]
-    GreaterThanThreshold = 2,
+    GreaterThanThreshold,
 
     [EnumValue("LessThanThreshold")]
-    LessThanThreshold = 3,
+    LessThanThreshold,
 
     [EnumValue("LessThanOrEqualToThreshold")]
-    LessThanOrEqualToThreshold = 4,
+    LessThanOrEqualToThreshold,
 
     [EnumValue("LessThanLowerThreshold")]
-    LessThanLowerThreshold = 5,
+    LessThanLowerThreshold,
 
     [EnumValue("GreaterThanUpperThreshold")]
-    GreaterThanUpperThreshold = 6
+    GreaterThanUpperThreshold
 }

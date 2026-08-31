@@ -26,7 +26,10 @@ public record AwsLicenseManagerExtendLicenseConsumptionOptions : AwsOptions
     [CliOption("--license-consumption-token")]
     public string? LicenseConsumptionToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request. Provides an error response if you do not have the required permissions.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

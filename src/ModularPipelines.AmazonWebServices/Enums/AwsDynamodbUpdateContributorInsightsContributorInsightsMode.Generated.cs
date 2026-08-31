@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbUpdateContributorInsightsContributorInsightsMode
 {
     [EnumValue("ACCESSED_AND_THROTTLED_KEYS")]
-    AccessedAndThrottledKeys = 1,
+    AccessedAndThrottledKeys,
 
     [EnumValue("THROTTLED_KEYS")]
-    ThrottledKeys = 2
+    ThrottledKeys
 }

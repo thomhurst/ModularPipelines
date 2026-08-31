@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayGetDomainNameAccessAssociationsResourceOwner
 {
     [EnumValue("SELF")]
-    Self = 1,
+    Self,
 
     [EnumValue("OTHER_ACCOUNTS")]
-    OtherAccounts = 2
+    OtherAccounts
 }

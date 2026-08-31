@@ -51,7 +51,7 @@ public record AwsSagemakerListArtifactsOptions : AwsOptions
     /// The property used to sort results. The default value is CreationTime . Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListArtifactsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order. The default value is Descending . Possible values: o Ascending o Descending

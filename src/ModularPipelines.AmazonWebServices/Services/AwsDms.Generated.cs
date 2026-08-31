@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -160,21 +160,6 @@ public class AwsDms : IAwsDms
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsCreateDataProviderOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates an DMS event notification subscription. You can specify the type of source (SourceType ) you want to be noti- fied of, provide a list of DMS source IDs (SourceIds ) that triggers the events, and provide a list of event categories (EventCategories ) for events you want to be notified of. If you specify both the Source- Type and SourceIds , such as SourceType = replication-instance and SourceIdentifier = my-replinstance , you will be notified of all the replication instance events for the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateEventSubscriptionAsync(
-        AwsDmsCreateEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsCreateEventSubscriptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -1315,21 +1300,6 @@ public class AwsDms : IAwsDms
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsModifyDataProviderOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Modifies an existing DMS event notification subscription. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyEventSubscriptionAsync(
-        AwsDmsModifyEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDmsModifyEventSubscriptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

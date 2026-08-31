@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsUpdateAnomalySuppressionType
 {
     [EnumValue("LIMITED")]
-    Limited = 1,
+    Limited,
 
     [EnumValue("INFINITE")]
-    Infinite = 2
+    Infinite
 }

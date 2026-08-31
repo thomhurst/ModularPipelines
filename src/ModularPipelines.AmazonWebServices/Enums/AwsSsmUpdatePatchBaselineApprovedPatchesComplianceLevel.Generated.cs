@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmUpdatePatchBaselineApprovedPatchesComplianceLevel
 {
     [EnumValue("CRITICAL")]
-    Critical = 1,
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 2,
+    High,
 
     [EnumValue("MEDIUM")]
-    Medium = 3,
+    Medium,
 
     [EnumValue("LOW")]
-    Low = 4,
+    Low,
 
     [EnumValue("INFORMATIONAL")]
-    Informational = 5,
+    Informational,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 6
+    Unspecified
 }

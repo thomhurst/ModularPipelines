@@ -29,7 +29,10 @@ public record AwsSecurityhubEnableSecurityHubOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--enable-default-standards")]
+    /// <summary>
+    /// Whether to enable the security standards that Security Hub CSPM has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards , it is set to true . To not enable the automatically enabled standards, set EnableDefaultStandards to false .
+    /// </summary>
+    [CliFlag("--enable-default-standards", NegatedName = "--no-enable-default-standards")]
     public bool? EnableDefaultStandards { get; set; }
 
     /// <summary>

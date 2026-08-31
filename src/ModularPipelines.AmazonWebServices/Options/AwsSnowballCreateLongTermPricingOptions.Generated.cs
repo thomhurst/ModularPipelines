@@ -24,6 +24,9 @@ public record AwsSnowballCreateLongTermPricingOptions : AwsOptions
     [CliOption("--long-term-pricing-type")]
     public string? LongTermPricingType { get; set; }
 
+    /// <summary>
+    /// new (boolean) Specifies whether the current long-term pricing type for the device should be renewed.
+    /// </summary>
     [CliFlag("--is-long-term-pricing-auto-renew")]
     public bool? IsLongTermPricingAutoRenew { get; set; }
 

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFrauddetectorGetModelsModelType
 {
     [EnumValue("ONLINE_FRAUD_INSIGHTS")]
-    OnlineFraudInsights = 1,
+    OnlineFraudInsights,
 
     [EnumValue("TRANSACTION_FRAUD_INSIGHTS")]
-    TransactionFraudInsights = 2,
+    TransactionFraudInsights,
 
     [EnumValue("ACCOUNT_TAKEOVER_INSIGHTS")]
-    AccountTakeoverInsights = 3
+    AccountTakeoverInsights
 }

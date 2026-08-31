@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftstreamsRevokeStreamUrlRevocationMode
 {
     [EnumValue("REVOKE_URL")]
-    RevokeUrl = 1,
+    RevokeUrl,
 
     [EnumValue("REVOKE_AND_TERMINATE_SESSIONS")]
-    RevokeAndTerminateSessions = 2
+    RevokeAndTerminateSessions
 }

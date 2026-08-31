@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectCreateNotificationPriority
 {
     [EnumValue("HIGH")]
-    High = 1,
+    High,
 
     [EnumValue("LOW")]
-    Low = 2
+    Low
 }

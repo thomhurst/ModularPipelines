@@ -24,7 +24,10 @@ public record AwsEvsGetDepotUrlOptions : AwsOptions
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CliFlag("--rotate")]
+    /// <summary>
+    /// Revokes the current authentication token and returns a new depot URL with a new token. Previously issued depot URLs will stop working within 5 minutes of rotation.
+    /// </summary>
+    [CliFlag("--rotate", NegatedName = "--no-rotate")]
     public bool? Rotate { get; set; }
 
     [CliOption("--cli-input-json")]

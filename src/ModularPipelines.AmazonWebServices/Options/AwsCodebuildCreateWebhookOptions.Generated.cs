@@ -43,7 +43,10 @@ public record AwsCodebuildCreateWebhookOptions : AwsOptions
     [CliOption("--build-type")]
     public AwsCodebuildCreateWebhookBuildType? BuildType { get; set; }
 
-    [CliFlag("--manual-creation")]
+    /// <summary>
+    /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and secret values for the web- hook. The payloadUrl and secret values in the output can be used to manually create a webhook within GitHub. NOTE: manualCreation is only available for GitHub webhooks.
+    /// </summary>
+    [CliFlag("--manual-creation", NegatedName = "--no-manual-creation")]
     public bool? ManualCreation { get; set; }
 
     /// <summary>

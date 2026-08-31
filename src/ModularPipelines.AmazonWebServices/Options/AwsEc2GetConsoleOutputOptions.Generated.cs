@@ -24,10 +24,16 @@ public record AwsEc2GetConsoleOutputOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliFlag("--latest")]
+    /// <summary>
+    /// When enabled, retrieves the latest console output for the instance. Default: disabled (false )
+    /// </summary>
+    [CliFlag("--latest", NegatedName = "--no-latest")]
     public bool? Latest { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

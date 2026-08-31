@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeartifactGetRepositoryEndpointEndpointType
 {
     [EnumValue("dualstack")]
-    Dualstack = 1,
+    Dualstack,
 
     [EnumValue("ipv4")]
-    Ipv4 = 2
+    Ipv4
 }

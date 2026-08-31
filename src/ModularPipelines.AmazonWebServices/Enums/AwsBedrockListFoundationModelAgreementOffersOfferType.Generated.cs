@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListFoundationModelAgreementOffersOfferType
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("PUBLIC")]
-    Public = 2
+    Public
 }

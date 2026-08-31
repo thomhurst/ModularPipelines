@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudwatchPutMetricAlarmStatistic
 {
     [EnumValue("SampleCount")]
-    SampleCount = 1,
+    SampleCount,
 
     [EnumValue("Average")]
-    Average = 2,
+    Average,
 
     [EnumValue("Sum")]
-    Sum = 3,
+    Sum,
 
     [EnumValue("Minimum")]
-    Minimum = 4,
+    Minimum,
 
     [EnumValue("Maximum")]
-    Maximum = 5
+    Maximum
 }

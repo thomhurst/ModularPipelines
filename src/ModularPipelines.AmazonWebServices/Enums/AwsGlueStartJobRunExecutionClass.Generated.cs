@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueStartJobRunExecutionClass
 {
     [EnumValue("FLEX")]
-    Flex = 1,
+    Flex,
 
     [EnumValue("STANDARD")]
-    Standard = 2,
+    Standard,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

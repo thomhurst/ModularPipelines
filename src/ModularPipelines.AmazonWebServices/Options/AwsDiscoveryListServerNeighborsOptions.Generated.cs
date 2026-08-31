@@ -25,7 +25,10 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions
     [CliOption("--configuration-id")]
     public string? ConfigurationId { get; set; }
 
-    [CliFlag("--port-information-needed")]
+    /// <summary>
+    /// Flag to indicate if port and protocol information is needed as part of the response.
+    /// </summary>
+    [CliFlag("--port-information-needed", NegatedName = "--no-port-information-needed")]
     public bool? PortInformationNeeded { get; set; }
 
     /// <summary>

@@ -17,44 +17,44 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsDescribeOptionGroupsEngineName
 {
     [EnumValue("db2-ae")]
-    Db2Ae = 1,
+    Db2Ae,
 
     [EnumValue("db2-ce")]
-    Db2Ce = 2,
+    Db2Ce,
 
     [EnumValue("db2-se")]
-    Db2Se = 3,
+    Db2Se,
 
     [EnumValue("mariadb")]
-    Mariadb = 4,
+    Mariadb,
 
     [EnumValue("mysql")]
-    Mysql = 5,
+    Mysql,
 
     [EnumValue("oracle-ee")]
-    OracleEe = 6,
+    OracleEe,
 
     [EnumValue("oracle-ee-cdb")]
-    OracleEeCdb = 7,
+    OracleEeCdb,
 
     [EnumValue("oracle-se2")]
-    OracleSe2 = 8,
+    OracleSe2,
 
     [EnumValue("oracle-se2-cdb")]
-    OracleSe2Cdb = 9,
+    OracleSe2Cdb,
 
     [EnumValue("postgres")]
-    Postgres = 10,
+    Postgres,
 
     [EnumValue("sqlserver-ee")]
-    SqlServerEe = 11,
+    SqlServerEe,
 
     [EnumValue("sqlserver-se")]
-    SqlServerSe = 12,
+    SqlServerSe,
 
     [EnumValue("sqlserver-ex")]
-    SqlServerEx = 13,
+    SqlServerEx,
 
     [EnumValue("sqlserver-web")]
-    SqlServerWeb = 14
+    SqlServerWeb
 }

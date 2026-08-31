@@ -24,10 +24,16 @@ public record AwsEc2DisableFastLaunchOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the image settings to turn off Windows fast launch for your Windows AMI. This parameter overrides any errors that are encoun- tered while cleaning up resources in your account.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

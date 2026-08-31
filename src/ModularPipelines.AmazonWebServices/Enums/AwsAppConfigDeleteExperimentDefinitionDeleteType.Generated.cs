@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigDeleteExperimentDefinitionDeleteType
 {
     [EnumValue("ARCHIVE")]
-    Archive = 1,
+    Archive,
 
     [EnumValue("DESTROY")]
-    Destroy = 2
+    Destroy
 }

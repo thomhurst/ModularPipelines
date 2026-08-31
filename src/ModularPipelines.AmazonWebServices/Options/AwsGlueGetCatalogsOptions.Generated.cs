@@ -41,13 +41,22 @@ public record AwsGlueGetCatalogsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// Whether to list all catalogs across the catalog hierarchy, starting from the ParentCatalogId . Defaults to false . When true , all cata- log objects in the ParentCatalogID hierarchy are enumerated in the response.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
-    [CliFlag("--include-root")]
+    /// <summary>
+    /// Whether to list the default catalog in the account and region in the response. Defaults to false . When true and ParentCatalogId = NULL | Amazon Web Services Account ID , all catalogs and the default cata- log are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true , an InvalidInputException is thrown.
+    /// </summary>
+    [CliFlag("--include-root", NegatedName = "--no-include-root")]
     public bool? IncludeRoot { get; set; }
 
-    [CliFlag("--has-databases")]
+    /// <summary>
+    /// When true , the response only includes catalogs that can contain databases. Some catalogs are organizational containers that hold only other catalogs, not databases. When this parameter is set to true , those container-only catalogs are excluded, and only catalogs capable of containing databases are returned. Defaults to false .
+    /// </summary>
+    [CliFlag("--has-databases", NegatedName = "--no-has-databases")]
     public bool? HasDatabases { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsWorkmailPutInboundDmarcSettingsOptions : AwsOptions
     [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CliFlag("--enforced")]
+    [CliFlag("--enforced", NegatedName = "--no-enforced")]
     public bool? Enforced { get; set; }
 
     [CliOption("--cli-input-json")]

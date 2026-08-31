@@ -44,7 +44,10 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    /// <summary>
+    /// Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure , but not both. Default: false
+    /// </summary>
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     /// <summary>
@@ -114,10 +117,16 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--enable-termination-protection")]
+    /// <summary>
+    /// Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with termination protection en- abled, the operation fails and the stack remains unchanged. For more information, see Protect CloudFormation stacks from being deleted in the CloudFormation User Guide . Termination protection is deacti- vated on stacks by default. For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack.
+    /// </summary>
+    [CliFlag("--enable-termination-protection", NegatedName = "--no-enable-termination-protection")]
     public bool? EnableTerminationProtection { get; set; }
 
-    [CliFlag("--retain-except-on-create")]
+    /// <summary>
+    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// </summary>
+    [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     /// <summary>
@@ -126,7 +135,10 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]

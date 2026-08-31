@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLocationCalculateRouteMatrixDistanceUnit
 {
     [EnumValue("Kilometers")]
-    Kilometers = 1,
+    Kilometers,
 
     [EnumValue("Miles")]
-    Miles = 2
+    Miles
 }

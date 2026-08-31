@@ -43,7 +43,10 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions
     [CliOption("--inspection-level")]
     public AwsStepfunctionsTestStateInspectionLevel? InspectionLevel { get; set; }
 
-    [CliFlag("--reveal-secrets")]
+    /// <summary>
+    /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an Event- Bridge connection adds to modify the HTTP request headers, query pa- rameters, and body. Step Functions doesn't omit any information in- cluded in the state definition or the HTTP response. If you set revealSecrets to true , you must make sure that the IAM user that calls the TestState API has permission for the states:Re- vealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state . Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false .
+    /// </summary>
+    [CliFlag("--reveal-secrets", NegatedName = "--no-reveal-secrets")]
     public bool? RevealSecrets { get; set; }
 
     /// <summary>

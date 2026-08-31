@@ -31,10 +31,13 @@ public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
     [CliOption("--key-check-value-algorithm")]
     public AwsPaymentCryptographyCreateKeyKeyCheckValueAlgorithm? KeyCheckValueAlgorithm { get; set; }
 
-    [CliFlag("--exportable")]
+    [CliFlag("--exportable", NegatedName = "--no-exportable")]
     public bool? Exportable { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

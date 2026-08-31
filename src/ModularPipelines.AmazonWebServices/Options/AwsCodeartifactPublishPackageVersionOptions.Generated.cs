@@ -57,7 +57,10 @@ public record AwsCodeartifactPublishPackageVersionOptions : AwsOptions
     [CliOption("--asset-sha256")]
     public string? AssetSha256 { get; set; }
 
-    [CliFlag("--unfinished")]
+    /// <summary>
+    /// Specifies whether the package version should remain in the unfin- ished state. If omitted, the package version status will be set to Published (see Package version status in the CodeArtifact User Guide ). Valid values: unfinished
+    /// </summary>
+    [CliFlag("--unfinished", NegatedName = "--no-unfinished")]
     public bool? Unfinished { get; set; }
 
     [CliOption("--cli-input-json")]

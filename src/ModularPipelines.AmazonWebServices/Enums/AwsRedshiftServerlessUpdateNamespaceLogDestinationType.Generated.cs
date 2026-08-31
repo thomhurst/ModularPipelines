@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftServerlessUpdateNamespaceLogDestinationType
 {
     [EnumValue("s3table")]
-    S3table = 1,
+    S3table,
 
     [EnumValue("cloudwatch")]
-    Cloudwatch = 2
+    Cloudwatch
 }

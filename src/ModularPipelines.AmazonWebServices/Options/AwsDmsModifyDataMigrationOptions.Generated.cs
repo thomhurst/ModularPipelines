@@ -31,7 +31,10 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions
     [CliOption("--data-migration-name")]
     public string? DataMigrationName { get; set; }
 
-    [CliFlag("--enable-cloudwatch-logs")]
+    /// <summary>
+    /// Whether to enable Cloudwatch logs for the data migration.
+    /// </summary>
+    [CliFlag("--enable-cloudwatch-logs", NegatedName = "--no-enable-cloudwatch-logs")]
     public bool? EnableCloudwatchLogs { get; set; }
 
     /// <summary>

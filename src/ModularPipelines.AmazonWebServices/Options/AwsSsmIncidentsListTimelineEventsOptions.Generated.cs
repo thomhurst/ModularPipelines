@@ -36,7 +36,7 @@ public record AwsSsmIncidentsListTimelineEventsOptions : AwsOptions
     /// Sort timeline events by the specified key value pair. Possible values: o EVENT_TIME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSsmIncidentsListTimelineEventsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Sorts the order of timeline events by the value specified in the sortBy field. Possible values: o ASCENDING o DESCENDING

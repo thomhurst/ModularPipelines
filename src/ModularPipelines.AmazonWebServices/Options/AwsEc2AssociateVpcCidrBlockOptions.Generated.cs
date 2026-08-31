@@ -73,7 +73,7 @@ public record AwsEc2AssociateVpcCidrBlockOptions : AwsOptions
     public string? VpcId { get; set; }
 
     /// <summary>
-    /// | --no-amazon-pro- vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
+    /// vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of the CIDR block.
     /// </summary>
     [CliFlag("--amazon-provided-ipv6-cidr-block")]
     public bool? AmazonProvidedIpv6CidrBlock { get; set; }

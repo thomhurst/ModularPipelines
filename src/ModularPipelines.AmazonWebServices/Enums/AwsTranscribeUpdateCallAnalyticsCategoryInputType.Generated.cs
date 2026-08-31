@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranscribeUpdateCallAnalyticsCategoryInputType
 {
     [EnumValue("REAL_TIME")]
-    RealTime = 1,
+    RealTime,
 
     [EnumValue("POST_CALL")]
-    PostCall = 2
+    PostCall
 }

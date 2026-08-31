@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceCreateVoiceConnectorNetworkType
 {
     [EnumValue("IPV4_ONLY")]
-    Ipv4Only = 1,
+    Ipv4Only,
 
     [EnumValue("DUAL_STACK")]
-    DualStack = 2
+    DualStack
 }

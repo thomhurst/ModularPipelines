@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbBatchExecuteStatementReturnConsumedCapacity
 {
     [EnumValue("INDEXES")]
-    Indexes = 1,
+    Indexes,
 
     [EnumValue("TOTAL")]
-    Total = 2,
+    Total,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

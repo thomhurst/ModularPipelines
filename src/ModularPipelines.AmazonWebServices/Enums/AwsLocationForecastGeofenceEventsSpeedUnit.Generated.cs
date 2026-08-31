@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLocationForecastGeofenceEventsSpeedUnit
 {
     [EnumValue("KilometersPerHour")]
-    KilometersPerHour = 1,
+    KilometersPerHour,
 
     [EnumValue("MilesPerHour")]
-    MilesPerHour = 2
+    MilesPerHour
 }

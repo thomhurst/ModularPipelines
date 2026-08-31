@@ -27,9 +27,15 @@ public record AwsRdsBacktrackDbClusterOptions : AwsOptions
     [CliOption("--backtrack-to")]
     public string? BacktrackTo { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Specifies whether to force the DB cluster to backtrack when binary logging is enabled. Otherwise, an error occurs when binary logging is enabled.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
+    /// <summary>
+    /// est-time-on-point-in-time-unavailable (boolean) Specifies whether to backtrack the DB cluster to the earliest possi- ble backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
+    /// </summary>
     [CliFlag("--use-earliest-time-on-point-in-time-unavailable")]
     public bool? UseEarliestTimeOnPointInTimeUnavailable { get; set; }
 

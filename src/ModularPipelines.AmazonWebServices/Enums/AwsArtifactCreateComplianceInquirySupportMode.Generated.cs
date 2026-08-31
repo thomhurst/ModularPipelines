@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsArtifactCreateComplianceInquirySupportMode
 {
     [EnumValue("AI_ONLY")]
-    AiOnly = 1,
+    AiOnly,
 
     [EnumValue("FULL_SUPPORT")]
-    FullSupport = 2
+    FullSupport
 }

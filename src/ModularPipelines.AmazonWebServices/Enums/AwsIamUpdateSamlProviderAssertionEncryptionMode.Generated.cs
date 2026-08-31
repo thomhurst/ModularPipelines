@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamUpdateSamlProviderAssertionEncryptionMode
 {
     [EnumValue("Required")]
-    Required = 1,
+    Required,
 
     [EnumValue("Allowed")]
-    Allowed = 2
+    Allowed
 }

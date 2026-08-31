@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateNatGatewayConnectivityType
 {
     [EnumValue("private")]
-    Private = 1,
+    Private,
 
     [EnumValue("public")]
-    Public = 2
+    Public
 }

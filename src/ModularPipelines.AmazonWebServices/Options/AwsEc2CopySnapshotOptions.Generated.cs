@@ -39,7 +39,10 @@ public record AwsEc2CopySnapshotOptions : AwsOptions
     [CliOption("--destination-region")]
     public string? DestinationRegion { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// To encrypt a copy of an unencrypted snapshot if encryption by de- fault is not enabled, enable encryption using this parameter. Other- wise, omit this parameter. Copies of encrypted snapshots are en- crypted, even if you omit this parameter and encryption by default is not enabled. You cannot set this parameter to false. For more in- formation, see Amazon EBS encryption in the Amazon EBS User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -78,7 +81,10 @@ public record AwsEc2CopySnapshotOptions : AwsOptions
     [CliOption("--destination-availability-zone")]
     public string? DestinationAvailabilityZone { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

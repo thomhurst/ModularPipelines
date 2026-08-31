@@ -34,7 +34,10 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
     [CliOption("--message-types", GroupValues = true)]
     public IEnumerable<string>? MessageTypes { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

@@ -27,7 +27,10 @@ public record AwsAutoscalingAttachTrafficSourcesOptions : AwsOptions
     [CliOption("--traffic-sources", GroupValues = true)]
     public IEnumerable<string>? TrafficSources { get; set; }
 
-    [CliFlag("--skip-zonal-shift-validation")]
+    /// <summary>
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true . For more information, see Auto Scal- ing group zonal shift in the Amazon EC2 Auto Scaling User Guide .
+    /// </summary>
+    [CliFlag("--skip-zonal-shift-validation", NegatedName = "--no-skip-zonal-shift-validation")]
     public bool? SkipZonalShiftValidation { get; set; }
 
     [CliOption("--cli-input-json")]

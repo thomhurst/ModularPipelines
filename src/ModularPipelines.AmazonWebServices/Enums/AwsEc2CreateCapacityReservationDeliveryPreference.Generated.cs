@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateCapacityReservationDeliveryPreference
 {
     [EnumValue("fixed")]
-    Fixed = 1,
+    Fixed,
 
     [EnumValue("incremental")]
-    Incremental = 2
+    Incremental
 }

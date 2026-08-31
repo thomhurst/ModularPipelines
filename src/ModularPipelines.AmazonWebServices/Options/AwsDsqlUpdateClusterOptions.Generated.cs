@@ -25,7 +25,10 @@ public record AwsDsqlUpdateClusterOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection in your cluster.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

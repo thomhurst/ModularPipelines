@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerCreateImageVersionVendorGuidance
 {
     [EnumValue("NOT_PROVIDED")]
-    NotProvided = 1,
+    NotProvided,
 
     [EnumValue("STABLE")]
-    Stable = 2,
+    Stable,
 
     [EnumValue("TO_BE_ARCHIVED")]
-    ToBeArchived = 3,
+    ToBeArchived,
 
     [EnumValue("ARCHIVED")]
-    Archived = 4
+    Archived
 }

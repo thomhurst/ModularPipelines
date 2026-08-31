@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediatailorListPrefetchSchedulesScheduleType
 {
     [EnumValue("SINGLE")]
-    Single = 1,
+    Single,
 
     [EnumValue("RECURRING")]
-    Recurring = 2,
+    Recurring,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

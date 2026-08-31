@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMachinelearningWaitEvaluationAvailableSortOrder
 {
     [EnumValue("asc")]
-    Asc = 1,
+    Asc,
 
     [EnumValue("dsc")]
-    Dsc = 2
+    Dsc
 }

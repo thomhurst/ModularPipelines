@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyPrivateDnsNamePrivateDnsHostnameType
 {
     [EnumValue("ip-name")]
-    IpName = 1,
+    IpName,
 
     [EnumValue("resource-name")]
-    ResourceName = 2
+    ResourceName
 }

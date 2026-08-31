@@ -34,7 +34,10 @@ public record AwsSwfListActivityTypesOptions : AwsOptions
     [CliOption("--registration-status")]
     public string? RegistrationStatus { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]

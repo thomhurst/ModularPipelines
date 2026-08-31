@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStoragegatewayUpdateSmbFileShareObjectAcl
 {
     [EnumValue("private")]
-    Private = 1,
+    Private,
 
     [EnumValue("public-read")]
-    PublicRead = 2,
+    PublicRead,
 
     [EnumValue("public-read-write")]
-    PublicReadWrite = 3,
+    PublicReadWrite,
 
     [EnumValue("authenticated-read")]
-    AuthenticatedRead = 4,
+    AuthenticatedRead,
 
     [EnumValue("bucket-owner-read")]
-    BucketOwnerRead = 5,
+    BucketOwnerRead,
 
     [EnumValue("bucket-owner-full-control")]
-    BucketOwnerFullControl = 6,
+    BucketOwnerFullControl,
 
     [EnumValue("aws-exec-read")]
-    AwsExecRead = 7
+    AwsExecRead
 }

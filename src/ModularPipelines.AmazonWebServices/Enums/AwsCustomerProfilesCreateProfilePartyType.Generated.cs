@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesCreateProfilePartyType
 {
     [EnumValue("INDIVIDUAL")]
-    Individual = 1,
+    Individual,
 
     [EnumValue("BUSINESS")]
-    Business = 2,
+    Business,
 
     [EnumValue("OTHER")]
-    Other = 3
+    Other
 }

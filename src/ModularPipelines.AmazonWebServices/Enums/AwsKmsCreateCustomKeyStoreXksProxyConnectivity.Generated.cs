@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsCreateCustomKeyStoreXksProxyConnectivity
 {
     [EnumValue("PUBLIC_ENDPOINT")]
-    PublicEndpoint = 1,
+    PublicEndpoint,
 
     [EnumValue("VPC_ENDPOINT_SERVICE")]
-    VpcEndpointService = 2
+    VpcEndpointService
 }

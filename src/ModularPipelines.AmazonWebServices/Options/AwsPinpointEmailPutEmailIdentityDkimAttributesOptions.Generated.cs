@@ -24,7 +24,10 @@ public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; set; }
 
-    [CliFlag("--signing-enabled")]
+    /// <summary>
+    /// Sets the DKIM signing configuration for the identity. When you set this value true , then the messages that Amazon Pin- point sends from the identity are DKIM-signed. When you set this value to false , then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
+    /// </summary>
+    [CliFlag("--signing-enabled", NegatedName = "--no-signing-enabled")]
     public bool? SigningEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptuneGraphExecuteQueryExplainMode
 {
     [EnumValue("STATIC")]
-    Static = 1,
+    Static,
 
     [EnumValue("DETAILS")]
-    Details = 2
+    Details
 }

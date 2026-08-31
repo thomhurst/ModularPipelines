@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerUpdateModelPackageModelPackageRegistrationType
 {
     [EnumValue("Logged")]
-    Logged = 1,
+    Logged,
 
     [EnumValue("Registered")]
-    Registered = 2
+    Registered
 }

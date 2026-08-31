@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFsxCreateStorageVirtualMachineRootVolumeSecurityStyle
 {
     [EnumValue("UNIX")]
-    Unix = 1,
+    Unix,
 
     [EnumValue("NTFS")]
-    Ntfs = 2,
+    Ntfs,
 
     [EnumValue("MIXED")]
-    Mixed = 3
+    Mixed
 }

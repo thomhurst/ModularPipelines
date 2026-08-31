@@ -24,7 +24,10 @@ public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// If this value is set to true , the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Oth- erwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

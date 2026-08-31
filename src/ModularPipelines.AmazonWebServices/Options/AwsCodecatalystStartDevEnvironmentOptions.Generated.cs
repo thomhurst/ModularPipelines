@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -41,7 +40,7 @@ public record AwsCodecatalystStartDevEnvironmentOptions : AwsOptions
     /// The Amazon EC2 instace type to use for the Dev Environment. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge
     /// </summary>
     [CliOption("--instance-type")]
-    public AwsCodecatalystStartDevEnvironmentInstanceType? InstanceType { get; set; }
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are al- lowed. Dev Environments consume compute minutes when running. Constraints: o min: 0 o max: 1200

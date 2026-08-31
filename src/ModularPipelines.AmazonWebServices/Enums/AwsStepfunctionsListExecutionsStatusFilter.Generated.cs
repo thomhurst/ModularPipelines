@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStepfunctionsListExecutionsStatusFilter
 {
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 2,
+    Succeeded,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 4,
+    TimedOut,
 
     [EnumValue("ABORTED")]
-    Aborted = 5,
+    Aborted,
 
     [EnumValue("PENDING_REDRIVE")]
-    PendingRedrive = 6
+    PendingRedrive
 }

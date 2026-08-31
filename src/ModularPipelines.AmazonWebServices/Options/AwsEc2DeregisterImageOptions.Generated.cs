@@ -24,10 +24,16 @@ public record AwsEc2DeregisterImageOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliFlag("--delete-associated-snapshots")]
+    /// <summary>
+    /// Specifies whether to delete the snapshots associated with the AMI during deregistration. NOTE: If a snapshot is associated with multiple AMIs, it is not deleted, regardless of this setting. Default: The snapshots are not deleted.
+    /// </summary>
+    [CliFlag("--delete-associated-snapshots", NegatedName = "--no-delete-associated-snapshots")]
     public bool? DeleteAssociatedSnapshots { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

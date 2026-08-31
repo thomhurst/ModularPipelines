@@ -30,7 +30,10 @@ public record AwsEcrPublicDeleteRepositoryOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// The force option can be used to delete a repository that contains images. If the force option is not used, the repository must be empty prior to deletion.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

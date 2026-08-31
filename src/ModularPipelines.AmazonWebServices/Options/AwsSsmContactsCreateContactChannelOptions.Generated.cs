@@ -34,7 +34,10 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions
     [CliOption("--delivery-address")]
     public string? DeliveryAddress { get; set; }
 
-    [CliFlag("--defer-activation")]
+    /// <summary>
+    /// If you want to activate the channel at a later time, you can choose to defer activation. Incident Manager can't engage your contact channel until it has been activated.
+    /// </summary>
+    [CliFlag("--defer-activation", NegatedName = "--no-defer-activation")]
     public bool? DeferActivation { get; set; }
 
     /// <summary>

@@ -34,7 +34,10 @@ public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions
     [CliOption("--message-type")]
     public string? MessageType { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the UpdatePool action.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

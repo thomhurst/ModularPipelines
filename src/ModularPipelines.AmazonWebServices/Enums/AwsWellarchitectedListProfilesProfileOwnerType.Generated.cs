@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListProfilesProfileOwnerType
 {
     [EnumValue("SELF")]
-    Self = 1,
+    Self,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

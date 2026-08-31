@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsListBatchStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("SUBMITTING")]
-    Submitting = 3,
+    Submitting,
 
     [EnumValue("INPROGRESS")]
-    Inprogress = 4,
+    Inprogress,
 
     [EnumValue("STOPPING")]
-    Stopping = 5,
+    Stopping,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 6,
+    Cancelled,
 
     [EnumValue("FAILED")]
-    Failed = 7,
+    Failed,
 
     [EnumValue("PROCESSED")]
-    Processed = 8,
+    Processed,
 
     [EnumValue("RUNS_DELETING")]
-    RunsDeleting = 9,
+    RunsDeleting,
 
     [EnumValue("RUNS_DELETED")]
-    RunsDeleted = 10,
+    RunsDeleted,
 
     [EnumValue("Constraints")]
-    Constraints = 11
+    Constraints
 }

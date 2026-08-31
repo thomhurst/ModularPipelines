@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamListPermissionAssociationsFeatureSet
 {
     [EnumValue("CREATED_FROM_POLICY")]
-    CreatedFromPolicy = 1,
+    CreatedFromPolicy,
 
     [EnumValue("PROMOTING_TO_STANDARD")]
-    PromotingToStandard = 2,
+    PromotingToStandard,
 
     [EnumValue("STANDARD")]
-    Standard = 3
+    Standard
 }

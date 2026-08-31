@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPinpointSmsVoiceV2ListNotifyCountriesTier
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("ADVANCED")]
-    Advanced = 2
+    Advanced
 }

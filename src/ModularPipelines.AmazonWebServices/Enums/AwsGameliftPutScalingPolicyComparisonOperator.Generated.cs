@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftPutScalingPolicyComparisonOperator
 {
     [EnumValue("GreaterThanOrEqualToThreshold")]
-    GreaterThanOrEqualToThreshold = 1,
+    GreaterThanOrEqualToThreshold,
 
     [EnumValue("GreaterThanThreshold")]
-    GreaterThanThreshold = 2,
+    GreaterThanThreshold,
 
     [EnumValue("LessThanThreshold")]
-    LessThanThreshold = 3,
+    LessThanThreshold,
 
     [EnumValue("LessThanOrEqualToThreshold")]
-    LessThanOrEqualToThreshold = 4
+    LessThanOrEqualToThreshold
 }

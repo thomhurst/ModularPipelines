@@ -39,6 +39,9 @@ public record AwsLicenseManagerUpdateServiceSettingsOptions : AwsOptions
     [CliOption("--organization-configuration")]
     public string? OrganizationConfiguration { get; set; }
 
+    /// <summary>
+    /// ery (boolean) Activates cross-account discovery.
+    /// </summary>
     [CliFlag("--enable-cross-accounts-discovery")]
     public bool? EnableCrossAccountsDiscovery { get; set; }
 

@@ -27,7 +27,10 @@ public record AwsQappsUpdateLibraryItemMetadataOptions : AwsOptions
     [CliOption("--library-item-id")]
     public string? LibraryItemId { get; set; }
 
-    [CliFlag("--is-verified")]
+    /// <summary>
+    /// The verification status of the library item
+    /// </summary>
+    [CliFlag("--is-verified", NegatedName = "--no-is-verified")]
     public bool? IsVerified { get; set; }
 
     [CliOption("--cli-input-json")]

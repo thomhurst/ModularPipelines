@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudwatchDescribeAlarmHistoryHistoryItemType
 {
     [EnumValue("ConfigurationUpdate")]
-    ConfigurationUpdate = 1,
+    ConfigurationUpdate,
 
     [EnumValue("StateUpdate")]
-    StateUpdate = 2,
+    StateUpdate,
 
     [EnumValue("Action")]
-    Action = 3,
+    Action,
 
     [EnumValue("AlarmContributorStateUpdate")]
-    AlarmContributorStateUpdate = 4,
+    AlarmContributorStateUpdate,
 
     [EnumValue("AlarmContributorAction")]
-    AlarmContributorAction = 5
+    AlarmContributorAction
 }

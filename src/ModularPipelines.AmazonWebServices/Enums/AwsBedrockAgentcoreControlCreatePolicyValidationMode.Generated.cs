@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlCreatePolicyValidationMode
 {
     [EnumValue("FAIL_ON_ANY_FINDINGS")]
-    FailOnAnyFindings = 1,
+    FailOnAnyFindings,
 
     [EnumValue("IGNORE_ALL_FINDINGS")]
-    IgnoreAllFindings = 2
+    IgnoreAllFindings
 }

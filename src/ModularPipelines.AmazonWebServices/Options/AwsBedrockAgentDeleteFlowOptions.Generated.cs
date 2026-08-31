@@ -24,7 +24,10 @@ public record AwsBedrockAgentDeleteFlowOptions : AwsOptions
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; set; }
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// By default, this value is false and deletion is stopped if the re- source is in use. If you set it to true , the resource will be deleted even if the resource is in use.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]

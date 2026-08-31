@@ -49,7 +49,10 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     [CliOption("--resource-oauth2-return-url")]
     public string? ResourceOauth2ReturnUrl { get; set; }
 
-    [CliFlag("--force-authentication")]
+    /// <summary>
+    /// Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
+    /// </summary>
+    [CliFlag("--force-authentication", NegatedName = "--no-force-authentication")]
     public bool? ForceAuthentication { get; set; }
 
     /// <summary>

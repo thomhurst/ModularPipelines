@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifySnapshotAttributeOperationType
 {
     [EnumValue("add")]
-    Add = 1,
+    Add,
 
     [EnumValue("remove")]
-    Remove = 2
+    Remove
 }

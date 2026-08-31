@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbImportTableInputCompressionType
 {
     [EnumValue("GZIP")]
-    Gzip = 1,
+    Gzip,
 
     [EnumValue("ZSTD")]
-    Zstd = 2,
+    Zstd,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

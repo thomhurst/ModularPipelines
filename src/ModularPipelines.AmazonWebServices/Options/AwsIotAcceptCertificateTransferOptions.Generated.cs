@@ -24,7 +24,10 @@ public record AwsIotAcceptCertificateTransferOptions : AwsOptions
     [CliOption("--certificate-id")]
     public string? CertificateId { get; set; }
 
-    [CliFlag("--set-as-active")]
+    /// <summary>
+    /// Specifies whether the certificate is active.
+    /// </summary>
+    [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
     [CliOption("--cli-input-json")]

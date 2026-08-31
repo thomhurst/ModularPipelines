@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMacie2UpdateFindingsFilterAction
 {
     [EnumValue("ARCHIVE")]
-    Archive = 1,
+    Archive,
 
     [EnumValue("NOOP")]
-    Noop = 2
+    Noop
 }

@@ -25,7 +25,7 @@ public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; set; }
 
-    [CliFlag("--enable-export")]
+    [CliFlag("--enable-export", NegatedName = "--no-enable-export")]
     public bool? EnableExport { get; set; }
 
     /// <summary>

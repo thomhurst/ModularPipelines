@@ -34,7 +34,10 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// True to enable the provisioning template, otherwise false.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--provisioning-role-arn")]

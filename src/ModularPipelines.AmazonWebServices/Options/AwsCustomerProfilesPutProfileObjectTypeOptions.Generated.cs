@@ -49,7 +49,10 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CliFlag("--allow-profile-creation")]
+    /// <summary>
+    /// Indicates whether a profile should be created when data is received if one doesnt exist for an object of this type. The default is FALSE . If the AllowProfileCreation flag is set to FALSE , then the ser- vice tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE , and if no match is found, then the service creates a new standard profile.
+    /// </summary>
+    [CliFlag("--allow-profile-creation", NegatedName = "--no-allow-profile-creation")]
     public bool? AllowProfileCreation { get; set; }
 
     /// <summary>

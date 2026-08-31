@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitPutFileFileMode
 {
     [EnumValue("EXECUTABLE")]
-    Executable = 1,
+    Executable,
 
     [EnumValue("NORMAL")]
-    Normal = 2,
+    Normal,
 
     [EnumValue("SYMLINK")]
-    Symlink = 3
+    Symlink
 }

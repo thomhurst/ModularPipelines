@@ -39,7 +39,10 @@ public record AwsDocdbCopyDbClusterSnapshotOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false . The default is false .
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>

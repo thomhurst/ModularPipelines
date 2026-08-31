@@ -38,7 +38,10 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     [CliOption("--target-capacity-unit-type")]
     public AwsEc2GetSpotPlacementScoresTargetCapacityUnitType? TargetCapacityUnitType { get; set; }
 
-    [CliFlag("--single-availability-zone")]
+    /// <summary>
+    /// Specify true so that the response returns a list of scored Avail- ability Zones. Otherwise, the response returns a list of scored Re- gions. A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
+    /// </summary>
+    [CliFlag("--single-availability-zone", NegatedName = "--no-single-availability-zone")]
     public bool? SingleAvailabilityZone { get; set; }
 
     /// <summary>
@@ -53,10 +56,16 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     [CliOption("--instance-requirements-with-metadata")]
     public string? InstanceRequirementsWithMetadata { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--include-local-zones")]
+    /// <summary>
+    /// Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
+    /// </summary>
+    [CliFlag("--include-local-zones", NegatedName = "--no-include-local-zones")]
     public bool? IncludeLocalZones { get; set; }
 
     [CliOption("--cli-input-json")]

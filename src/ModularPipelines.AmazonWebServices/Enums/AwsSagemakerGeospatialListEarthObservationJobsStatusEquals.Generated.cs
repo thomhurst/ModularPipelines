@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerGeospatialListEarthObservationJobsStatusEquals
 {
     [EnumValue("INITIALIZING")]
-    Initializing = 1,
+    Initializing,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("STOPPING")]
-    Stopping = 3,
+    Stopping,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("STOPPED")]
-    Stopped = 5,
+    Stopped,
 
     [EnumValue("FAILED")]
-    Failed = 6,
+    Failed,
 
     [EnumValue("DELETING")]
-    Deleting = 7,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 8
+    Deleted
 }

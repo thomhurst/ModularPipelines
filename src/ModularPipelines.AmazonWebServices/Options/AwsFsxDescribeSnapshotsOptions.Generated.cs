@@ -34,7 +34,10 @@ public record AwsFsxDescribeSnapshotsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-shared")]
+    /// <summary>
+    /// Set to false (default) if you want to only see the snapshots owned by your Amazon Web Services account. Set to true if you want to see the snapshots in your account and the ones shared with you from an- other account.
+    /// </summary>
+    [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
 
     [CliOption("--cli-input-json")]

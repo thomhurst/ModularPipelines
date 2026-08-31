@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "put-deliverability-dashboard-option")]
 public record AwsSesv2PutDeliverabilityDashboardOptionOptions : AwsOptions
 {
-    [CliFlag("--dashboard-enabled")]
+    [CliFlag("--dashboard-enabled", NegatedName = "--no-dashboard-enabled")]
     public bool? DashboardEnabled { get; set; }
 
     /// <summary>

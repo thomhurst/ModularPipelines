@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsCreateWorkflowEngine
 {
     [EnumValue("WDL")]
-    Wdl = 1,
+    Wdl,
 
     [EnumValue("NEXTFLOW")]
-    Nextflow = 2,
+    Nextflow,
 
     [EnumValue("CWL")]
-    Cwl = 3,
+    Cwl,
 
     [EnumValue("WDL_LENIENT")]
-    WdlLenient = 4,
+    WdlLenient,
 
     [EnumValue("Constraints")]
-    Constraints = 5
+    Constraints
 }

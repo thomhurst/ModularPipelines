@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentListRecommendationsPriority
 {
     [EnumValue("HIGH")]
-    High = 1,
+    High,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("LOW")]
-    Low = 3
+    Low
 }

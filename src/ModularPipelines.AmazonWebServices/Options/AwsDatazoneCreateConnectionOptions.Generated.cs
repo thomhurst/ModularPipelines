@@ -66,6 +66,9 @@ public record AwsDatazoneCreateConnectionOptions : AwsOptions
     [CliOption("--props")]
     public string? Props { get; set; }
 
+    /// <summary>
+    /// tity-propagation (boolean) Specifies whether the trusted identity propagation is enabled.
+    /// </summary>
     [CliFlag("--enable-trusted-identity-propagation")]
     public bool? EnableTrustedIdentityPropagation { get; set; }
 

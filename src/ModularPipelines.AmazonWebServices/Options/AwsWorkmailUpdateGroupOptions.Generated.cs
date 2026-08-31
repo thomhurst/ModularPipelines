@@ -27,6 +27,9 @@ public record AwsWorkmailUpdateGroupOptions : AwsOptions
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
+    /// <summary>
+    /// dress-list (boolean) If enabled, the group is hidden from the global address list.
+    /// </summary>
     [CliFlag("--hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 

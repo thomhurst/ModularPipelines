@@ -30,7 +30,10 @@ public record AwsCloudsearchDescribeSuggestersOptions : AwsOptions
     [CliOption("--suggester-names", GroupValues = true)]
     public IEnumerable<string>? SuggesterNames { get; set; }
 
-    [CliFlag("--deployed")]
+    /// <summary>
+    /// Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    /// </summary>
+    [CliFlag("--deployed", NegatedName = "--no-deployed")]
     public bool? Deployed { get; set; }
 
     [CliOption("--cli-input-json")]

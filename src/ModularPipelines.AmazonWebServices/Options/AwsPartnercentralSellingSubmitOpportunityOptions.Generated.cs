@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsPartnercentralSellingSubmitOpportunityOptions : AwsOptions
     /// Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full. Valid values: o Full : The opportunity is fully visible to AWS sales. o Limited : The opportunity has restricted visibility to AWS sales. Possible values: o Full o Limited
     /// </summary>
     [CliOption("--visibility")]
-    public AwsPartnercentralSellingSubmitOpportunityVisibility? Visibility { get; set; }
+    public string? Visibility { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

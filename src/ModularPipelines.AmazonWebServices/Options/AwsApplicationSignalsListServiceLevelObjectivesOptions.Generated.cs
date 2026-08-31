@@ -47,7 +47,10 @@ public record AwsApplicationSignalsListServiceLevelObjectivesOptions : AwsOption
     [CliOption("--metric-source-types", GroupValues = true)]
     public IEnumerable<string>? MetricSourceTypes { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data. When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAc- counts to filter the returned data to only a single source account.
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>

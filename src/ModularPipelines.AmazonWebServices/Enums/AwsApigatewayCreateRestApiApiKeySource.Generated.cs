@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayCreateRestApiApiKeySource
 {
     [EnumValue("HEADER")]
-    Header = 1,
+    Header,
 
     [EnumValue("AUTHORIZER")]
-    Authorizer = 2
+    Authorizer
 }

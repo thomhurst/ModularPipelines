@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFrauddetectorUpdateListUpdateMode
 {
     [EnumValue("REPLACE")]
-    Replace = 1,
+    Replace,
 
     [EnumValue("APPEND")]
-    Append = 2,
+    Append,
 
     [EnumValue("REMOVE")]
-    Remove = 3
+    Remove
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchStartServiceSoftwareUpdateScheduleAt
 {
     [EnumValue("NOW")]
-    Now = 1,
+    Now,
 
     [EnumValue("TIMESTAMP")]
-    Timestamp = 2,
+    Timestamp,
 
     [EnumValue("OFF_PEAK_WINDOW")]
-    OffPeakWindow = 3
+    OffPeakWindow
 }

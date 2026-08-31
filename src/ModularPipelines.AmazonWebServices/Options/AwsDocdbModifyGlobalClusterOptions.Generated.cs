@@ -30,7 +30,10 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--cli-input-json")]

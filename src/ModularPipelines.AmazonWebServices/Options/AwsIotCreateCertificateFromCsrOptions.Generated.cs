@@ -24,7 +24,10 @@ public record AwsIotCreateCertificateFromCsrOptions : AwsOptions
     [CliOption("--certificate-signing-request")]
     public string? CertificateSigningRequest { get; set; }
 
-    [CliFlag("--set-as-active")]
+    /// <summary>
+    /// Specifies whether the certificate is active.
+    /// </summary>
+    [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
     [CliOption("--certificate-pem-outfile")]

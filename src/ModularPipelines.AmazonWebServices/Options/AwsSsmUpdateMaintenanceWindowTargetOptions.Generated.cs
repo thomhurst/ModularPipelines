@@ -51,7 +51,10 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True , then all fields that are required by the RegisterTar- getWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]

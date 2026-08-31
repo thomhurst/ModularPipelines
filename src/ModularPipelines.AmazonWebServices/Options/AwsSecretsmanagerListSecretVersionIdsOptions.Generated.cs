@@ -39,7 +39,10 @@ public record AwsSecretsmanagerListSecretVersionIdsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--include-deprecated")]
+    /// <summary>
+    /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Man- ager. By default, versions without staging labels aren't included.
+    /// </summary>
+    [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
 
     [CliOption("--cli-input-json")]

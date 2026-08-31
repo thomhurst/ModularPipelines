@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnUpdateReplicationConfigurationInternetProtocol
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("IPV6")]
-    Ipv6 = 2
+    Ipv6
 }

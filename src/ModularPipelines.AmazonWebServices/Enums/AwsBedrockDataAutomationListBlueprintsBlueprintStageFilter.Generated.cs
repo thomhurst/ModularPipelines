@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockDataAutomationListBlueprintsBlueprintStageFilter
 {
     [EnumValue("DEVELOPMENT")]
-    Development = 1,
+    Development,
 
     [EnumValue("LIVE")]
-    Live = 2,
+    Live,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

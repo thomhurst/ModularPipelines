@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -45,21 +45,6 @@ public class AwsEfs : IAwsEfs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEfsCreateAccessPointOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates a new, empty file system. The operation requires a creation to- ken in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's Ama- zon Web Services account with the specified creation token, this opera- tion does the following: o Creates a new, empty file system. The file system will have an Amazon EFS assigned ID, and an initial lifecycle state ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateFileSystemAsync(
-        AwsEfsCreateFileSystemOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEfsCreateFileSystemOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

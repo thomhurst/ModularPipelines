@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLocationCreateGeofenceCollectionPricingPlan
 {
     [EnumValue("RequestBasedUsage")]
-    RequestBasedUsage = 1,
+    RequestBasedUsage,
 
     [EnumValue("MobileAssetTracking")]
-    MobileAssetTracking = 2,
+    MobileAssetTracking,
 
     [EnumValue("MobileAssetManagement")]
-    MobileAssetManagement = 3
+    MobileAssetManagement
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployCreateDeploymentFileExistsBehavior
 {
     [EnumValue("DISALLOW")]
-    Disallow = 1,
+    Disallow,
 
     [EnumValue("OVERWRITE")]
-    Overwrite = 2,
+    Overwrite,
 
     [EnumValue("RETAIN")]
-    Retain = 3
+    Retain
 }

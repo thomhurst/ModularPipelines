@@ -30,7 +30,10 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
-    [CliFlag("--disassociate-schedule")]
+    /// <summary>
+    /// A boolean to indicate whether to remove the assoiciation between the cluster and the schedule.
+    /// </summary>
+    [CliFlag("--disassociate-schedule", NegatedName = "--no-disassociate-schedule")]
     public bool? DisassociateSchedule { get; set; }
 
     [CliOption("--cli-input-json")]

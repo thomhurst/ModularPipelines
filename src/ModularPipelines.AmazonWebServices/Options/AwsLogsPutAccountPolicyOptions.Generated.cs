@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsLogsPutAccountPolicyOptions : AwsOptions
     /// Currently the only valid value for this parameter is ALL , which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used. Possible values: o ALL
     /// </summary>
     [CliOption("--scope")]
-    public AwsLogsPutAccountPolicyScope? Scope { get; set; }
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination. Specifying selectionCriteria is valid only when you specify SUB- SCRIPTION_FILTER_POLICY , FIELD_INDEX_POLICY or TRANSFORMER_POLICY for policyType . o If policyType is SUBSCRIPTION_FILTER_POLICY , the only supported selectionCriteria filter is LogGroupName NOT IN [] o If policyType is TRANSFORMER_POLICY , the only supported selec- tionCriteria filter is LogGroupNamePrefix o If policyType is FIELD_INDEX_POLICY , the supported selectionCri- teria filters are: o LogGroupNamePrefix o DataSourceName AND DataSourceType When you specify selectionCriteria for a field index policy you can use either LogGroupNamePrefix by itself or DataSourceName and Data- SourceType together. The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POL- ICY is useful to help prevent infinite loops. For more information, see Log recursion prevention .

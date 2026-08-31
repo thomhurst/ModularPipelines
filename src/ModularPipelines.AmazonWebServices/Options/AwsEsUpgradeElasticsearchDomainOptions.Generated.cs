@@ -27,7 +27,10 @@ public record AwsEsUpgradeElasticsearchDomainOptions : AwsOptions
     [CliOption("--target-version")]
     public string? TargetVersion { get; set; }
 
-    [CliFlag("--perform-check-only")]
+    /// <summary>
+    /// This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Up- grade.
+    /// </summary>
+    [CliFlag("--perform-check-only", NegatedName = "--no-perform-check-only")]
     public bool? PerformCheckOnly { get; set; }
 
     [CliOption("--cli-input-json")]

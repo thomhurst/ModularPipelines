@@ -54,7 +54,10 @@ public record AwsIamCreateDelegationRequestOptions : AwsOptions
     [CliOption("--session-duration")]
     public int? SessionDuration { get; set; }
 
-    [CliFlag("--only-send-by-owner")]
+    /// <summary>
+    /// Specifies whether the delegation token should only be sent by the owner. This flag prevents any party other than the owner from calling Send- DelegationToken API for this delegation request. This behavior be- comes useful when the delegation request owner needs to be present for subsequent partner interactions, but the delegation request was sent to a more privileged user for approval due to the owner lacking sufficient delegation permissions.
+    /// </summary>
+    [CliFlag("--only-send-by-owner", NegatedName = "--no-only-send-by-owner")]
     public bool? OnlySendByOwner { get; set; }
 
     [CliOption("--cli-input-json")]

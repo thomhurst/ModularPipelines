@@ -57,7 +57,10 @@ public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
-    [CliFlag("--user-authorization-required")]
+    /// <summary>
+    /// Enables use of a user role requirement in your chat configuration.
+    /// </summary>
+    [CliFlag("--user-authorization-required", NegatedName = "--no-user-authorization-required")]
     public bool? UserAuthorizationRequired { get; set; }
 
     /// <summary>

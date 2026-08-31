@@ -30,7 +30,7 @@ public record AwsImportexportCreateJobOptions : AwsOptions
     [CliOption("--manifest-addendum")]
     public string? ManifestAddendum { get; set; }
 
-    [CliFlag("--validate-only")]
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
 
     [CliOption("--api-version")]

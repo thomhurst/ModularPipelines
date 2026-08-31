@@ -44,7 +44,10 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--retrieve-azs")]
+    /// <summary>
+    /// An optional parameter that specifies the Availability Zones for the domain.
+    /// </summary>
+    [CliFlag("--retrieve-azs", NegatedName = "--no-retrieve-azs")]
     public bool? RetrieveAzs { get; set; }
 
     /// <summary>

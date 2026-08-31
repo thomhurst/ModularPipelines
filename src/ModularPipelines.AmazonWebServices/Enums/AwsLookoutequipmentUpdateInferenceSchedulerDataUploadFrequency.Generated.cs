@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentUpdateInferenceSchedulerDataUploadFrequency
 {
     [EnumValue("PT5M")]
-    Pt5M = 1,
+    Pt5M,
 
     [EnumValue("PT10M")]
-    Pt10M = 2,
+    Pt10M,
 
     [EnumValue("PT15M")]
-    Pt15M = 3,
+    Pt15M,
 
     [EnumValue("PT30M")]
-    Pt30M = 4,
+    Pt30M,
 
     [EnumValue("PT1H")]
-    Pt1H = 5
+    Pt1H
 }

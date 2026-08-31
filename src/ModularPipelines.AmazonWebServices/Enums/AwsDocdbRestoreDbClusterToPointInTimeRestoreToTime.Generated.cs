@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDocdbRestoreDbClusterToPointInTimeRestoreToTime
 {
     [EnumValue("A")]
-    A = 0,
+    A,
 
     [EnumValue("time")]
-    Time = 1,
+    Time,
 
     [EnumValue("in")]
-    In = 2,
+    In,
 
     [EnumValue("Universal")]
-    Universal = 3,
+    Universal,
 
     [EnumValue("Coordinated")]
-    Coordinated = 4
+    Coordinated
 }

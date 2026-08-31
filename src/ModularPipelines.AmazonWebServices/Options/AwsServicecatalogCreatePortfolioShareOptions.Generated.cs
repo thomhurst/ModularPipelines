@@ -42,10 +42,16 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
 
-    [CliFlag("--share-tag-options")]
+    /// <summary>
+    /// Enables or disables TagOptions sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
+    /// </summary>
+    [CliFlag("--share-tag-options", NegatedName = "--no-share-tag-options")]
     public bool? ShareTagOptions { get; set; }
 
-    [CliFlag("--share-principals")]
+    /// <summary>
+    /// This parameter is only supported for portfolios with an Organiza- tionalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT . Enables or disables Principal sharing when creating the portfolio share. If you do not provide this flag, principal sharing is dis- abled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the port- folio. Once shared, the share recipient can view associations of PrincipalType : IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
+    /// </summary>
+    [CliFlag("--share-principals", NegatedName = "--no-share-principals")]
     public bool? SharePrincipals { get; set; }
 
     [CliOption("--cli-input-json")]

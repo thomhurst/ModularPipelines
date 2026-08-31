@@ -33,7 +33,7 @@ public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
     [CliOption("--event-bridge-rule-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? EventBridgeRuleTemplateGroupIdentifiers { get; set; }
 
-    [CliFlag("--force-rediscovery")]
+    [CliFlag("--force-rediscovery", NegatedName = "--no-force-rediscovery")]
     public bool? ForceRediscovery { get; set; }
 
     [CliOption("--identifier")]

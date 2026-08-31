@@ -24,7 +24,10 @@ public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOpti
     [CliOption("--image-builder-name")]
     public string? ImageBuilderName { get; set; }
 
-    [CliFlag("--retry-failed-deployments")]
+    /// <summary>
+    /// Whether to retry previously failed license included application de- ployments.
+    /// </summary>
+    [CliFlag("--retry-failed-deployments", NegatedName = "--no-retry-failed-deployments")]
     public bool? RetryFailedDeployments { get; set; }
 
     [CliOption("--cli-input-json")]

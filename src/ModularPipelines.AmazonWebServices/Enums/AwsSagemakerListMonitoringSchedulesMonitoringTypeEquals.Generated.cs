@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListMonitoringSchedulesMonitoringTypeEquals
 {
     [EnumValue("DataQuality")]
-    DataQuality = 1,
+    DataQuality,
 
     [EnumValue("ModelQuality")]
-    ModelQuality = 2,
+    ModelQuality,
 
     [EnumValue("ModelBias")]
-    ModelBias = 3,
+    ModelBias,
 
     [EnumValue("ModelExplainability")]
-    ModelExplainability = 4
+    ModelExplainability
 }

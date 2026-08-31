@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTaxsettingsPutTaxInheritanceHeritageStatus
 {
     [EnumValue("OptIn")]
-    OptIn = 1,
+    OptIn,
 
     [EnumValue("OptOut")]
-    OptOut = 2
+    OptOut
 }

@@ -27,7 +27,10 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CliFlag("--use-cognito-provided-values")]
+    /// <summary>
+    /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding editor. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+    /// </summary>
+    [CliFlag("--use-cognito-provided-values", NegatedName = "--no-use-cognito-provided-values")]
     public bool? UseCognitoProvidedValues { get; set; }
 
     /// <summary>

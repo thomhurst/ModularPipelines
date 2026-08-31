@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightUpdateDlpSettingProviderOutageAction
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("WARN")]
-    Warn = 2,
+    Warn,
 
     [EnumValue("BLOCK")]
-    Block = 3
+    Block
 }

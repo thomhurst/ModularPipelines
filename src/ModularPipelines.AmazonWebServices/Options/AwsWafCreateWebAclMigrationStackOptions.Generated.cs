@@ -27,7 +27,7 @@ public record AwsWafCreateWebAclMigrationStackOptions : AwsOptions
     [CliOption("--s3-bucket-name")]
     public string? S3BucketName { get; set; }
 
-    [CliFlag("--ignore-unsupported-type")]
+    [CliFlag("--ignore-unsupported-type", NegatedName = "--no-ignore-unsupported-type")]
     public bool? IgnoreUnsupportedType { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevicefarmListTestGridSessionsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("CLOSED")]
-    Closed = 2,
+    Closed,
 
     [EnumValue("ERRORED")]
-    Errored = 3
+    Errored
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateExadbVmClusterShapeAttribute
 {
     [EnumValue("SMART_STORAGE")]
-    SmartStorage = 1,
+    SmartStorage,
 
     [EnumValue("BLOCK_STORAGE")]
-    BlockStorage = 2
+    BlockStorage
 }

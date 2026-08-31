@@ -28,7 +28,10 @@ public record AwsElasticacheDescribeGlobalReplicationGroupsOptions : AwsOptions
     [CliOption("--global-replication-group-id")]
     public string? GlobalReplicationGroupId { get; set; }
 
-    [CliFlag("--show-member-info")]
+    /// <summary>
+    /// Returns the list of members that comprise the Global datastore.
+    /// </summary>
+    [CliFlag("--show-member-info", NegatedName = "--no-show-member-info")]
     public bool? ShowMemberInfo { get; set; }
 
     [CliOption("--cli-input-json")]

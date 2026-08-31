@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlobalacceleratorUpdateListenerProtocol
 {
     [EnumValue("TCP")]
-    Tcp = 1,
+    Tcp,
 
     [EnumValue("UDP")]
-    Udp = 2
+    Udp
 }

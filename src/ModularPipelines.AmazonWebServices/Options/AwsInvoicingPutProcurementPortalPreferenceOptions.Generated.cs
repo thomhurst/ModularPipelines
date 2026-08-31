@@ -50,7 +50,10 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions
     [CliOption("--test-env-preference")]
     public string? TestEnvPreference { get; set; }
 
-    [CliFlag("--einvoice-delivery-enabled")]
+    /// <summary>
+    /// [required] Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
+    /// </summary>
+    [CliFlag("--einvoice-delivery-enabled", NegatedName = "--no-einvoice-delivery-enabled")]
     public bool? EinvoiceDeliveryEnabled { get; set; }
 
     /// <summary>
@@ -59,6 +62,9 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions
     [CliOption("--einvoice-delivery-preference")]
     public string? EinvoiceDeliveryPreference { get; set; }
 
+    /// <summary>
+    /// abled (boolean) [required] Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
+    /// </summary>
     [CliFlag("--purchase-order-retrieval-enabled")]
     public bool? PurchaseOrderRetrievalEnabled { get; set; }
 

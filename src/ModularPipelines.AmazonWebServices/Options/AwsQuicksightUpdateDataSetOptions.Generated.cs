@@ -15,7 +15,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation. See also: AWS API Documentation
+/// Updates a dataset. Partial updates are not supported by this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

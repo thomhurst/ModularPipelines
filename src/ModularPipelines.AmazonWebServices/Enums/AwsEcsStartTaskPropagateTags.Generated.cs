@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsStartTaskPropagateTags
 {
     [EnumValue("TASK_DEFINITION")]
-    TaskDefinition = 1,
+    TaskDefinition,
 
     [EnumValue("SERVICE")]
-    Service = 2,
+    Service,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

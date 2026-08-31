@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,10 +36,16 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     [CliOption("--advanced-event-selectors", GroupValues = true)]
     public IEnumerable<string>? AdvancedEventSelectors { get; set; }
 
-    [CliFlag("--multi-region-enabled")]
+    /// <summary>
+    /// Specifies whether an event data store collects events from all Re- gions, or only from the Region in which it was created.
+    /// </summary>
+    [CliFlag("--multi-region-enabled", NegatedName = "--no-multi-region-enabled")]
     public bool? MultiRegionEnabled { get; set; }
 
-    [CliFlag("--organization-enabled")]
+    /// <summary>
+    /// Specifies whether an event data store collects events logged for an organization in Organizations. NOTE: Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to an or- ganization event data store.
+    /// </summary>
+    [CliFlag("--organization-enabled", NegatedName = "--no-organization-enabled")]
     public bool? OrganizationEnabled { get; set; }
 
     /// <summary>
@@ -49,7 +54,10 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
@@ -62,7 +70,7 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     /// NOTE: You can't change the billing mode from EXTENDABLE_RETEN- TION_PRICING to FIXED_RETENTION_PRICING . If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETEN- TION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RE- TENTION_PRICING . The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values: o EXTENDABLE_RETENTION_PRICING - This billing mode is generally rec- ommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days. o FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days. For more information about CloudTrail pricing, see CloudTrail Pric- ing and Managing CloudTrail Lake costs . Possible values: o EXTENDABLE_RETENTION_PRICING o FIXED_RETENTION_PRICING
     /// </summary>
     [CliOption("--billing-mode")]
-    public AwsCloudtrailUpdateEventDataStoreBillingMode? BillingMode { get; set; }
+    public string? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

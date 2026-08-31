@@ -57,10 +57,16 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliFlag("--include-result-metadata")]
+    /// <summary>
+    /// A value that indicates whether to include metadata in the results.
+    /// </summary>
+    [CliFlag("--include-result-metadata", NegatedName = "--no-include-result-metadata")]
     public bool? IncludeResultMetadata { get; set; }
 
-    [CliFlag("--continue-after-timeout")]
+    /// <summary>
+    /// A value that indicates whether to continue running the statement af- ter the call times out. By default, the statement stops running when the call times out. NOTE: For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
+    /// </summary>
+    [CliFlag("--continue-after-timeout", NegatedName = "--no-continue-after-timeout")]
     public bool? ContinueAfterTimeout { get; set; }
 
     /// <summary>

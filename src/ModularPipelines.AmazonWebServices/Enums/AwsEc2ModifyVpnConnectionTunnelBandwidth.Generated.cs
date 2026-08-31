@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyVpnConnectionTunnelBandwidth
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("large")]
-    Large = 2
+    Large
 }

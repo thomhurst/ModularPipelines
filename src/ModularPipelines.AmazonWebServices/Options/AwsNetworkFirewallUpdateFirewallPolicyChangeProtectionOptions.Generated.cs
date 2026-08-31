@@ -41,6 +41,9 @@ public record AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions : Aw
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
+    /// <summary>
+    /// tection (boolean) [required] A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
     [CliFlag("--firewall-policy-change-protection")]
     public bool? FirewallPolicyChangeProtection { get; set; }
 

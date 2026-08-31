@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOrganizationsCreateAccountIamUserAccessToBilling
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("DENY")]
-    Deny = 2
+    Deny
 }

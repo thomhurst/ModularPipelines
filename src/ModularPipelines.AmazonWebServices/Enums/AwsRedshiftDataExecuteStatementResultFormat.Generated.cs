@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDataExecuteStatementResultFormat
 {
     [EnumValue("JSON")]
-    Json = 1,
+    Json,
 
     [EnumValue("CSV")]
-    Csv = 2
+    Csv
 }

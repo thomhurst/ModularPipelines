@@ -45,7 +45,10 @@ public record AwsRdsCreateEventSubscriptionOptions : AwsOptions
     [CliOption("--source-ids", GroupValues = true)]
     public IEnumerable<string>? SourceIds { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether to activate the subscription. If the event notifi- cation subscription isn't activated, the subscription is created but not active.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

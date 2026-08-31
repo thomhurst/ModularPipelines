@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRbinListRulesLockState
 {
     [EnumValue("locked")]
-    Locked = 1,
+    Locked,
 
     [EnumValue("pending_unlock")]
-    PendingUnlock = 2,
+    PendingUnlock,
 
     [EnumValue("unlocked")]
-    Unlocked = 3
+    Unlocked
 }

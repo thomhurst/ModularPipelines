@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyActivityStreamAuditPolicyState
 {
     [EnumValue("locked")]
-    Locked = 1,
+    Locked,
 
     [EnumValue("unlocked")]
-    Unlocked = 2
+    Unlocked
 }

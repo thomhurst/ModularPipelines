@@ -42,7 +42,10 @@ public record AwsRdsModifyEventSubscriptionOptions : AwsOptions
     [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether to activate the subscription.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

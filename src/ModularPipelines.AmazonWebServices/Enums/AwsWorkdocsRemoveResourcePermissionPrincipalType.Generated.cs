@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkdocsRemoveResourcePermissionPrincipalType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("GROUP")]
-    Group = 2,
+    Group,
 
     [EnumValue("INVITE")]
-    Invite = 3,
+    Invite,
 
     [EnumValue("ANONYMOUS")]
-    Anonymous = 4,
+    Anonymous,
 
     [EnumValue("ORGANIZATION")]
-    Organization = 5
+    Organization
 }

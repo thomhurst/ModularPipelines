@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListMonitoringExecutionsSortBy
 {
     [EnumValue("CreationTime")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("ScheduledTime")]
-    ScheduledTime = 2,
+    ScheduledTime,
 
     [EnumValue("Status")]
-    Status = 3
+    Status
 }

@@ -31,7 +31,10 @@ public record AwsStoragegatewayUpdateSmbFileShareOptions : AwsOptions
     [CliOption("--encryption-type")]
     public AwsStoragegatewayUpdateSmbFileShareEncryptionType? EncryptionType { get; set; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the En- cryptionType parameter instead. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -52,19 +55,34 @@ public record AwsStoragegatewayUpdateSmbFileShareOptions : AwsOptions
     [CliOption("--object-acl")]
     public AwsStoragegatewayUpdateSmbFileShareObjectAcl? ObjectAcl { get; set; }
 
-    [CliFlag("--read-only")]
+    /// <summary>
+    /// A value that sets the write status of a file share. Set this value to true to set write status to read-only, otherwise set to false . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--read-only", NegatedName = "--no-read-only")]
     public bool? ReadOnly { get; set; }
 
-    [CliFlag("--guess-mime-type-enabled")]
+    /// <summary>
+    /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false . The default value is true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--guess-mime-type-enabled", NegatedName = "--no-guess-mime-type-enabled")]
     public bool? GuessMimeTypeEnabled { get; set; }
 
-    [CliFlag("--requester-pays")]
+    /// <summary>
+    /// A value that sets who pays the cost of the request and the cost as- sociated with data download from the S3 bucket. If this value is set to true , the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. NOTE: RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--requester-pays", NegatedName = "--no-requester-pays")]
     public bool? RequesterPays { get; set; }
 
-    [CliFlag("--smbacl-enabled")]
+    /// <summary>
+    /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permis- sions to the POSIX permissions. For more information, see Using Windows ACLs to limit SMB file share access in the Amazon S3 File Gateway User Guide . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--smbacl-enabled", NegatedName = "--no-smbacl-enabled")]
     public bool? SmbaclEnabled { get; set; }
 
-    [CliFlag("--access-based-enumeration")]
+    /// <summary>
+    /// The files and folders on this share will only be visible to users with read access.
+    /// </summary>
+    [CliFlag("--access-based-enumeration", NegatedName = "--no-access-based-enumeration")]
     public bool? AccessBasedEnumeration { get; set; }
 
     /// <summary>
@@ -115,7 +133,10 @@ public record AwsStoragegatewayUpdateSmbFileShareOptions : AwsOptions
     [CliOption("--notification-policy")]
     public string? NotificationPolicy { get; set; }
 
-    [CliFlag("--oplocks-enabled")]
+    /// <summary>
+    /// Specifies whether opportunistic locking is enabled for the SMB file share. NOTE: Enabling opportunistic locking on case-sensitive shares is not recommended for workloads that involve access to files with the same name in different case. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--oplocks-enabled", NegatedName = "--no-oplocks-enabled")]
     public bool? OplocksEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

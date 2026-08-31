@@ -53,10 +53,16 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
     [CliOption("--segment-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentConfigurations { get; set; }
 
-    [CliFlag("--auto-update")]
+    /// <summary>
+    /// The option to specify whether you want to apply all the future addi- tions and corrections automatically to the dataview, when you ingest new changesets. The default value is false.
+    /// </summary>
+    [CliFlag("--auto-update", NegatedName = "--no-auto-update")]
     public bool? AutoUpdate { get; set; }
 
-    [CliFlag("--read-write")]
+    /// <summary>
+    /// The option to specify whether you want to make the dataview writable to perform database maintenance. The following are some considera- tions related to writable dataviews. o You cannot create partial writable dataviews. When you create writeable dataviews you must provide the entire database path. o You cannot perform updates on a writeable dataview. Hence, autoUp- date must be set as False if readWrite is True for a dataview. o You must also use a unique volume for creating a writeable dataview. So, if you choose a volume that is already in use by an- other dataview, the dataview creation fails. o Once you create a dataview as writeable, you cannot change it to read-only. So, you cannot update the readWrite parameter later.
+    /// </summary>
+    [CliFlag("--read-write", NegatedName = "--no-read-write")]
     public bool? ReadWrite { get; set; }
 
     /// <summary>

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectListTestCaseExecutionRecordsStatus
 {
     [EnumValue("INITIATED")]
-    Initiated = 1,
+    Initiated,
 
     [EnumValue("PASSED")]
-    Passed = 2,
+    Passed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 4,
+    InProgress,
 
     [EnumValue("STOPPED")]
-    Stopped = 5
+    Stopped
 }

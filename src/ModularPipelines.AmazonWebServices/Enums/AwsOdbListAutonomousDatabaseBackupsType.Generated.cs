@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbListAutonomousDatabaseBackupsType
 {
     [EnumValue("INCREMENTAL")]
-    Incremental = 1,
+    Incremental,
 
     [EnumValue("FULL")]
-    Full = 2,
+    Full,
 
     [EnumValue("LONGTERM")]
-    Longterm = 3,
+    Longterm,
 
     [EnumValue("VIRTUAL_FULL")]
-    VirtualFull = 4,
+    VirtualFull,
 
     [EnumValue("CUMULATIVE_INCREMENTAL")]
-    CumulativeIncremental = 5,
+    CumulativeIncremental,
 
     [EnumValue("ROLL_FORWARD_IMAGE_COPY")]
-    RollForwardImageCopy = 6
+    RollForwardImageCopy
 }

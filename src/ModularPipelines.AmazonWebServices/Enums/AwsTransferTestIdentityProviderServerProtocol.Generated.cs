@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferTestIdentityProviderServerProtocol
 {
     [EnumValue("SFTP")]
-    Sftp = 1,
+    Sftp,
 
     [EnumValue("FTP")]
-    Ftp = 2,
+    Ftp,
 
     [EnumValue("FTPS")]
-    Ftps = 3,
+    Ftps,
 
     [EnumValue("AS2")]
-    As2 = 4
+    As2
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAcmPcaCreateCertificateAuthorityUsageMode
 {
     [EnumValue("GENERAL_PURPOSE")]
-    GeneralPurpose = 1,
+    GeneralPurpose,
 
     [EnumValue("SHORT_LIVED_CERTIFICATE")]
-    ShortLivedCertificate = 2
+    ShortLivedCertificate
 }

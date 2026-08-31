@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListRulesAction
 {
     [EnumValue("CREATE_LISTING_CHANGE_SET")]
-    CreateListingChangeSet = 1,
+    CreateListingChangeSet,
 
     [EnumValue("CREATE_SUBSCRIPTION_REQUEST")]
-    CreateSubscriptionRequest = 2
+    CreateSubscriptionRequest
 }

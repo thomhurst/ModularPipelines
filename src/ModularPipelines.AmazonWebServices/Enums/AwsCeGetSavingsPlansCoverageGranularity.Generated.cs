@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCeGetSavingsPlansCoverageGranularity
 {
     [EnumValue("DAILY")]
-    Daily = 1,
+    Daily,
 
     [EnumValue("MONTHLY")]
-    Monthly = 2,
+    Monthly,
 
     [EnumValue("HOURLY")]
-    Hourly = 3
+    Hourly
 }

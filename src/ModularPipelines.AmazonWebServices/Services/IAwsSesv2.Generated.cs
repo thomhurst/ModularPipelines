@@ -72,16 +72,6 @@ public interface IAwsSesv2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactAsync(AwsSesv2CreateContactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Creates a new custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1079,16 +1069,6 @@ public interface IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateContactListAsync(AwsSesv2UpdateContactListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactAsync(AwsSesv2UpdateContactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

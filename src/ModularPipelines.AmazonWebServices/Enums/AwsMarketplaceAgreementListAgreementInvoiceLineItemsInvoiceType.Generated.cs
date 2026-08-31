@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMarketplaceAgreementListAgreementInvoiceLineItemsInvoiceType
 {
     [EnumValue("INVOICE")]
-    Invoice = 1,
+    Invoice,
 
     [EnumValue("CREDIT_MEMO")]
-    CreditMemo = 2
+    CreditMemo
 }

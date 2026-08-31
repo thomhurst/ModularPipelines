@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLightsailPutAlarmTreatMissingData
 {
     [EnumValue("breaching")]
-    Breaching = 1,
+    Breaching,
 
     [EnumValue("notBreaching")]
-    NotBreaching = 2,
+    NotBreaching,
 
     [EnumValue("ignore")]
-    Ignore = 3,
+    Ignore,
 
     [EnumValue("missing")]
-    Missing = 4
+    Missing
 }

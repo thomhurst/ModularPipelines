@@ -51,7 +51,10 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
     [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CliFlag("--with-event")]
+    /// <summary>
+    /// A value that indicates whether to send an event to the Amazon Event- Bridge event bus after the SQL statements run.
+    /// </summary>
+    [CliFlag("--with-event", NegatedName = "--no-with-event")]
     public bool? WithEvent { get; set; }
 
     /// <summary>

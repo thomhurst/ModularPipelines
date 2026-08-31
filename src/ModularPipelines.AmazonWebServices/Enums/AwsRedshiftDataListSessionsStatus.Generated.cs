@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDataListSessionsStatus
 {
     [EnumValue("AVAILABLE")]
-    Available = 1,
+    Available,
 
     [EnumValue("BUSY")]
-    Busy = 2,
+    Busy,
 
     [EnumValue("CLOSED")]
-    Closed = 3
+    Closed
 }

@@ -33,7 +33,10 @@ public record AwsMachinelearningCreateDataSourceFromS3Options : AwsOptions
     [CliOption("--data-spec")]
     public string? DataSpec { get; set; }
 
-    [CliFlag("--compute-statistics")]
+    /// <summary>
+    /// The compute statistics for a DataSource . The statistics are gener- ated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This pa- rameter must be set to true if the DataSourceneeds to be used for MLModel training.
+    /// </summary>
+    [CliFlag("--compute-statistics", NegatedName = "--no-compute-statistics")]
     public bool? ComputeStatistics { get; set; }
 
     [CliOption("--cli-input-json")]

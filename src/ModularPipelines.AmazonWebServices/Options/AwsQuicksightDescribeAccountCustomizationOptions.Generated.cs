@@ -30,7 +30,10 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliFlag("--resolved")]
+    /// <summary>
+    /// The Resolved flag works with the other parameters to determine which view of Quick Sight customizations is returned. You can add this flag to your command to use the same view that Quick Sight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved , to reveal customizations that are configured at different levels.
+    /// </summary>
+    [CliFlag("--resolved", NegatedName = "--no-resolved")]
     public bool? Resolved { get; set; }
 
     [CliOption("--cli-input-json")]

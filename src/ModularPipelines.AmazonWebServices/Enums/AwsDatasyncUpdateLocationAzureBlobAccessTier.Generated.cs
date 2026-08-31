@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncUpdateLocationAzureBlobAccessTier
 {
     [EnumValue("HOT")]
-    Hot = 1,
+    Hot,
 
     [EnumValue("COOL")]
-    Cool = 2,
+    Cool,
 
     [EnumValue("ARCHIVE")]
-    Archive = 3
+    Archive
 }

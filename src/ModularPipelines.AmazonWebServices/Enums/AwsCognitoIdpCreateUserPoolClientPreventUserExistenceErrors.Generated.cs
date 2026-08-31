@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCognitoIdpCreateUserPoolClientPreventUserExistenceErrors
 {
     [EnumValue("LEGACY")]
-    Legacy = 1,
+    Legacy,
 
     [EnumValue("ENABLED")]
-    Enabled = 2
+    Enabled
 }

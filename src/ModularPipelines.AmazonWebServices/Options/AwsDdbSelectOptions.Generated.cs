@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ddb", "select")]
-public record AwsDdbSelectOptions : AwsOptions
+public record AwsDdbSelectOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TableName
+) : AwsOptions
 {
     /// <summary>
     /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index.
@@ -52,10 +54,16 @@ public record AwsDdbSelectOptions : AwsOptions
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// Determines the read consistency model: If set to --consistent-read , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads. Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with --consistent-read , you will receive a ValidationException .
+    /// </summary>
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
-    [CliFlag("--return-consumed-capacity")]
+    /// <summary>
+    /// Will include the aggregate ConsumedCapacity for the operation. If --index-name is also specified, then the ConsumedCapacity for each table and secondary index that was accessed will be returned.
+    /// </summary>
+    [CliFlag("--return-consumed-capacity", NegatedName = "--no-return-consumed-capacity")]
     public bool? ReturnConsumedCapacity { get; set; }
 
     /// <summary>

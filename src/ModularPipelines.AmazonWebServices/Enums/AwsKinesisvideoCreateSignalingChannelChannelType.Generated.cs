@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisvideoCreateSignalingChannelChannelType
 {
     [EnumValue("SINGLE_MASTER")]
-    SingleMaster = 1,
+    SingleMaster,
 
     [EnumValue("FULL_MESH")]
-    FullMesh = 2
+    FullMesh
 }

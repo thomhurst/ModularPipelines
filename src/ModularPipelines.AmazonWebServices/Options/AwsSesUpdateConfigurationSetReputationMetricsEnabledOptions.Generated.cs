@@ -24,7 +24,7 @@ public record AwsSesUpdateConfigurationSetReputationMetricsEnabledOptions : AwsO
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

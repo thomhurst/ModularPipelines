@@ -31,9 +31,15 @@ public record AwsEcsStartTaskOptions : AwsOptions
     [CliOption("--container-instances", GroupValues = true)]
     public IEnumerable<string>? ContainerInstances { get; set; }
 
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see Tagging Your Amazon ECS Resources in the Ama- zon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// Whether or not the execute command functionality is turned on for the task. If true , this turns on the execute command functionality on all containers in the task.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 

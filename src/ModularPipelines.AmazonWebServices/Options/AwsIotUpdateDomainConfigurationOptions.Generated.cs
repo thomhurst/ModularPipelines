@@ -37,7 +37,10 @@ public record AwsIotUpdateDomainConfigurationOptions : AwsOptions
     [CliOption("--domain-configuration-status")]
     public AwsIotUpdateDomainConfigurationDomainConfigurationStatus? DomainConfigurationStatus { get; set; }
 
-    [CliFlag("--remove-authorizer-config")]
+    /// <summary>
+    /// Removes the authorization configuration from a domain.
+    /// </summary>
+    [CliFlag("--remove-authorizer-config", NegatedName = "--no-remove-authorizer-config")]
     public bool? RemoveAuthorizerConfig { get; set; }
 
     /// <summary>

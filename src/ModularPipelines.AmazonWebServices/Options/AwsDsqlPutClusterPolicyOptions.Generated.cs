@@ -28,6 +28,9 @@ public record AwsDsqlPutClusterPolicyOptions : AwsOptions
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
+    /// <summary>
+    /// out-safety-check (boolean) A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    /// </summary>
     [CliFlag("--bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 

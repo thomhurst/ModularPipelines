@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMedicalImagingListDicomImportJobsJobStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed
 }

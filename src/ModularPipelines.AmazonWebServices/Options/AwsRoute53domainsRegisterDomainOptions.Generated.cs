@@ -33,7 +33,10 @@ public record AwsRoute53domainsRegisterDomainOptions : AwsOptions
     [CliOption("--duration-in-years")]
     public int? DurationInYears { get; set; }
 
-    [CliFlag("--auto-renew")]
+    /// <summary>
+    /// Indicates whether the domain will be automatically renewed (true ) or not (false ). Auto renewal only takes effect after the account is charged. Default: true
+    /// </summary>
+    [CliFlag("--auto-renew", NegatedName = "--no-auto-renew")]
     public bool? AutoRenew { get; set; }
 
     [CliOption("--admin-contact")]
@@ -45,13 +48,22 @@ public record AwsRoute53domainsRegisterDomainOptions : AwsOptions
     [CliOption("--tech-contact")]
     public string? TechContact { get; set; }
 
-    [CliFlag("--privacy-protect-admin-contact")]
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the admin contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts. Default: true
+    /// </summary>
+    [CliFlag("--privacy-protect-admin-contact", NegatedName = "--no-privacy-protect-admin-contact")]
     public bool? PrivacyProtectAdminContact { get; set; }
 
+    /// <summary>
+    /// trant-contact (boolean) Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the registrant contact (the domain owner). NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts. Default: true
+    /// </summary>
     [CliFlag("--privacy-protect-registrant-contact")]
     public bool? PrivacyProtectRegistrantContact { get; set; }
 
-    [CliFlag("--privacy-protect-tech-contact")]
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the technical contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts. Default: true
+    /// </summary>
+    [CliFlag("--privacy-protect-tech-contact", NegatedName = "--no-privacy-protect-tech-contact")]
     public bool? PrivacyProtectTechContact { get; set; }
 
     /// <summary>
@@ -60,6 +72,9 @@ public record AwsRoute53domainsRegisterDomainOptions : AwsOptions
     [CliOption("--billing-contact")]
     public string? BillingContact { get; set; }
 
+    /// <summary>
+    /// tact (boolean) Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the billing contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// </summary>
     [CliFlag("--privacy-protect-billing-contact")]
     public bool? PrivacyProtectBillingContact { get; set; }
 

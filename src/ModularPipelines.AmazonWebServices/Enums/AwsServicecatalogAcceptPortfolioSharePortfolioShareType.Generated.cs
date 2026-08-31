@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicecatalogAcceptPortfolioSharePortfolioShareType
 {
     [EnumValue("IMPORTED")]
-    Imported = 1,
+    Imported,
 
     [EnumValue("AWS_SERVICECATALOG")]
-    AwsServicecatalog = 2,
+    AwsServicecatalog,
 
     [EnumValue("AWS_ORGANIZATIONS")]
-    AwsOrganizations = 3
+    AwsOrganizations
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeInstanceTypeOfferingsLocationType
 {
     [EnumValue("region")]
-    Region = 1,
+    Region,
 
     [EnumValue("availability-zone")]
-    AvailabilityZone = 2,
+    AvailabilityZone,
 
     [EnumValue("availability-zone-id")]
-    AvailabilityZoneId = 3,
+    AvailabilityZoneId,
 
     [EnumValue("outpost")]
-    Outpost = 4
+    Outpost
 }

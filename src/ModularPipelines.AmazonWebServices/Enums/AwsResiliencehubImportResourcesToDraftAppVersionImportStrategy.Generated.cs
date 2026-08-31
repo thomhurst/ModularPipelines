@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubImportResourcesToDraftAppVersionImportStrategy
 {
     [EnumValue("AddOnly")]
-    AddOnly = 1,
+    AddOnly,
 
     [EnumValue("ReplaceAll")]
-    ReplaceAll = 2
+    ReplaceAll
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppintegrationsListApplicationsApplicationType
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("SERVICE")]
-    Service = 2,
+    Service,
 
     [EnumValue("MCP_SERVER")]
-    McpServer = 3
+    McpServer
 }

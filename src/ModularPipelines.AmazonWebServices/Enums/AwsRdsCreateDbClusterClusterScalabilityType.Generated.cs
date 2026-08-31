@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbClusterClusterScalabilityType
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("limitless")]
-    Limitless = 2
+    Limitless
 }

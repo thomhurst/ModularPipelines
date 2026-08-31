@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -27,7 +26,7 @@ public record AwsIotfleetwiseListFleetsOptions : AwsOptions
     /// When you set the listResponseScope parameter to METADATA_ONLY , the list response includes: fleet ID, Amazon Resource Name (ARN), cre- ation time, and last modification time. Possible values: o METADATA_ONLY
     /// </summary>
     [CliOption("--list-response-scope")]
-    public AwsIotfleetwiseListFleetsListResponseScope? ListResponseScope { get; set; }
+    public string? ListResponseScope { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

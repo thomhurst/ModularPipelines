@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptuneGraphExecuteQueryPlanCache
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
 
     [EnumValue("AUTO")]
-    Auto = 3
+    Auto
 }

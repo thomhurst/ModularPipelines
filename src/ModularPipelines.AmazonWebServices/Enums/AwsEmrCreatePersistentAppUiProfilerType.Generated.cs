@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrCreatePersistentAppUiProfilerType
 {
     [EnumValue("SHS")]
-    Shs = 1,
+    Shs,
 
     [EnumValue("TEZUI")]
-    Tezui = 2,
+    Tezui,
 
     [EnumValue("YTS")]
-    Yts = 3
+    Yts
 }

@@ -66,9 +66,15 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions
     [CliOption("--widget-date-range-override")]
     public string? WidgetDateRangeOverride { get; set; }
 
-    [CliFlag("--clear-widget-ids")]
+    /// <summary>
+    /// Set to true to clear existing widgetIds.
+    /// </summary>
+    [CliFlag("--clear-widget-ids", NegatedName = "--no-clear-widget-ids")]
     public bool? ClearWidgetIds { get; set; }
 
+    /// <summary>
+    /// ride (boolean) Set to true to clear existing widgetDateRangeOverride.
+    /// </summary>
     [CliFlag("--clear-widget-date-range-override")]
     public bool? ClearWidgetDateRangeOverride { get; set; }
 

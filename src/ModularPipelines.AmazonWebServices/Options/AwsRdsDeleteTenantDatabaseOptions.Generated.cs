@@ -27,7 +27,10 @@ public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions
     [CliOption("--tenant-db-name")]
     public string? TenantDbName { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Specifies whether to skip the creation of a final DB snapshot before removing the tenant database from your DB instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't en- able this parameter, RDS creates a DB snapshot before it deletes the tenant database. By default, RDS doesn't skip the final snapshot. If you don't enable this parameter, you must specify the FinalDBSnap- shotIdentifier parameter.
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>

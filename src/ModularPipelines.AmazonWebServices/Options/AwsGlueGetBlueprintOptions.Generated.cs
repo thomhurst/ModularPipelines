@@ -24,10 +24,16 @@ public record AwsGlueGetBlueprintOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--include-blueprint")]
+    /// <summary>
+    /// Specifies whether or not to include the blueprint in the response.
+    /// </summary>
+    [CliFlag("--include-blueprint", NegatedName = "--no-include-blueprint")]
     public bool? IncludeBlueprint { get; set; }
 
-    [CliFlag("--include-parameter-spec")]
+    /// <summary>
+    /// Specifies whether or not to include the parameter specification.
+    /// </summary>
+    [CliFlag("--include-parameter-spec", NegatedName = "--no-include-parameter-spec")]
     public bool? IncludeParameterSpec { get; set; }
 
     [CliOption("--cli-input-json")]

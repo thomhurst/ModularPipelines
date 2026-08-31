@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockRuntimeInvokeModelPerformanceConfigLatency
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("optimized")]
-    Optimized = 2
+    Optimized
 }

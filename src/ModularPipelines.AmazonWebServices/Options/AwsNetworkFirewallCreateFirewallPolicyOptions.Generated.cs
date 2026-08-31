@@ -39,7 +39,10 @@ public record AwsNetworkFirewallCreateFirewallPolicyOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Indicates whether you want Network Firewall to just check the valid- ity of the request, rather than run the request. If set to TRUE , Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE , but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE , Network Firewall makes the requested changes to your resources.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamInfluxdbUpdateDbClusterFailoverMode
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("NO_FAILOVER")]
-    NoFailover = 2
+    NoFailover
 }

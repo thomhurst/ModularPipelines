@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServiceQuotasListRequestedServiceQuotaChangeHistoryByQuotaStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("CASE_OPENED")]
-    CaseOpened = 2,
+    CaseOpened,
 
     [EnumValue("APPROVED")]
-    Approved = 3,
+    Approved,
 
     [EnumValue("DENIED")]
-    Denied = 4,
+    Denied,
 
     [EnumValue("CASE_CLOSED")]
-    CaseClosed = 5,
+    CaseClosed,
 
     [EnumValue("NOT_APPROVED")]
-    NotApproved = 6,
+    NotApproved,
 
     [EnumValue("INVALID_REQUEST")]
-    InvalidRequest = 7
+    InvalidRequest
 }

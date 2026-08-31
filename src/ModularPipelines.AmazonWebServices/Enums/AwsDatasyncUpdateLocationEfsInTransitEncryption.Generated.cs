@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncUpdateLocationEfsInTransitEncryption
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("TLS1_2")]
-    Tls1_2 = 2
+    Tls1_2
 }

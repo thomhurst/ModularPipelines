@@ -32,12 +32,18 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions
     [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CliFlag("--delete-directory")]
+    [CliFlag("--delete-directory", NegatedName = "--no-delete-directory")]
     public bool? DeleteDirectory { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes a WorkMail organization even if the organization has enabled users.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
+    /// <summary>
+    /// plication (boolean) Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
+    /// </summary>
     [CliFlag("--delete-identity-center-application")]
     public bool? DeleteIdentityCenterApplication { get; set; }
 

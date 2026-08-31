@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseCreateCampaignDiagnosticsMode
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("SEND_ACTIVE_DTCS")]
-    SendActiveDtcs = 2
+    SendActiveDtcs
 }

@@ -27,7 +27,10 @@ public record AwsRdsModifyCertificatesOptions : AwsOptions
     [CliOption("--certificate-identifier")]
     public string? CertificateIdentifier { get; set; }
 
-    [CliFlag("--remove-customer-override")]
+    /// <summary>
+    /// Specifies whether to remove the override for the default certifi- cate. If the override is removed, the default certificate is the system default.
+    /// </summary>
+    [CliFlag("--remove-customer-override", NegatedName = "--no-remove-customer-override")]
     public bool? RemoveCustomerOverride { get; set; }
 
     [CliOption("--cli-input-json")]

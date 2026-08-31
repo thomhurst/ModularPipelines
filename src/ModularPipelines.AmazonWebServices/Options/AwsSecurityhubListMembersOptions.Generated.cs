@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "list-members")]
 public record AwsSecurityhubListMembersOptions : AwsOptions
 {
-    [CliFlag("--only-associated")]
+    /// <summary>
+    /// Specifies which member accounts to include in the response based on their relationship status with the administrator account. The de- fault value is TRUE . If OnlyAssociated is set to TRUE , the response includes member ac- counts whose relationship status with the administrator account is set to ENABLED . If OnlyAssociated is set to FALSE , the response includes all exist- ing member accounts.
+    /// </summary>
+    [CliFlag("--only-associated", NegatedName = "--no-only-associated")]
     public bool? OnlyAssociated { get; set; }
 
     [CliOption("--cli-input-json")]

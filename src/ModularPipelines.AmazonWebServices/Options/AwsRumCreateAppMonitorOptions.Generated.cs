@@ -50,7 +50,10 @@ public record AwsRumCreateAppMonitorOptions : AwsOptions
     [CliOption("--app-monitor-configuration")]
     public string? AppMonitorConfiguration { get; set; }
 
-    [CliFlag("--cw-log-enabled")]
+    /// <summary>
+    /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false .
+    /// </summary>
+    [CliFlag("--cw-log-enabled", NegatedName = "--no-cw-log-enabled")]
     public bool? CwLogEnabled { get; set; }
 
     /// <summary>

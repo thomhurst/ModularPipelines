@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListInferenceProfilesTypeEquals
 {
     [EnumValue("SYSTEM_DEFINED")]
-    SystemDefined = 1,
+    SystemDefined,
 
     [EnumValue("APPLICATION")]
-    Application = 2
+    Application
 }

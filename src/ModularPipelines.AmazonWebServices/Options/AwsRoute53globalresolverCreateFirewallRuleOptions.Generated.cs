@@ -30,7 +30,7 @@ public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions
     /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Possible values: o CNAME
     /// </summary>
     [CliOption("--block-override-dns-type")]
-    public AwsRoute53globalresolverCreateFirewallRuleBlockOverrideDnsType? BlockOverrideDnsType { get; set; }
+    public string? BlockOverrideDnsType { get; set; }
 
     /// <summary>
     /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+

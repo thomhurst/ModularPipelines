@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsShieldUpdateProtectionGroupResourceType
 {
     [EnumValue("CLOUDFRONT_DISTRIBUTION")]
-    CloudfrontDistribution = 1,
+    CloudfrontDistribution,
 
     [EnumValue("ROUTE_53_HOSTED_ZONE")]
-    Route_53HostedZone = 2,
+    Route_53HostedZone,
 
     [EnumValue("ELASTIC_IP_ALLOCATION")]
-    ElasticIpAllocation = 3,
+    ElasticIpAllocation,
 
     [EnumValue("CLASSIC_LOAD_BALANCER")]
-    ClassicLoadBalancer = 4,
+    ClassicLoadBalancer,
 
     [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 5,
+    ApplicationLoadBalancer,
 
     [EnumValue("GLOBAL_ACCELERATOR")]
-    GlobalAccelerator = 6
+    GlobalAccelerator
 }

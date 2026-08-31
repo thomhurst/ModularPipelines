@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateCapacityReservationEndDateType
 {
     [EnumValue("unlimited")]
-    Unlimited = 1,
+    Unlimited,
 
     [EnumValue("limited")]
-    Limited = 2
+    Limited
 }

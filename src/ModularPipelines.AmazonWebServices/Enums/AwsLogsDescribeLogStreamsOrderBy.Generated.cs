@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsDescribeLogStreamsOrderBy
 {
     [EnumValue("LogStreamName")]
-    LogStreamName = 1,
+    LogStreamName,
 
     [EnumValue("LastEventTime")]
-    LastEventTime = 2
+    LastEventTime
 }

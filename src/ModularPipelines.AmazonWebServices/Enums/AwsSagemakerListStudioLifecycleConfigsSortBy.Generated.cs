@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListStudioLifecycleConfigsSortBy
 {
     [EnumValue("CreationTime")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("LastModifiedTime")]
-    LastModifiedTime = 2,
+    LastModifiedTime,
 
     [EnumValue("Name")]
-    Name = 3
+    Name
 }

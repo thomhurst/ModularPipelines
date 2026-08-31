@@ -24,7 +24,10 @@ public record AwsQuicksightDescribeKeyRegistrationOptions : AwsOptions
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CliFlag("--default-key-only")]
+    /// <summary>
+    /// Determines whether the request returns the default key only.
+    /// </summary>
+    [CliFlag("--default-key-only", NegatedName = "--no-default-key-only")]
     public bool? DefaultKeyOnly { get; set; }
 
     [CliOption("--cli-input-json")]

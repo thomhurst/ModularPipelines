@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVpcLatticeCreateResourceGatewayResourceConfigDnsResolution
 {
     [EnumValue("IN_VPC")]
-    InVpc = 1,
+    InVpc,
 
     [EnumValue("PUBLIC")]
-    Public = 2
+    Public
 }

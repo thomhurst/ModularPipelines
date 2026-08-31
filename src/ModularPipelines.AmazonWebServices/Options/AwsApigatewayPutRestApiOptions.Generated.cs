@@ -32,7 +32,10 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions
     [CliOption("--mode")]
     public AwsApigatewayPutRestApiMode? Mode { get; set; }
 
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// A query parameter to indicate whether to rollback the API update (true ) or not (false ) when a warning is encountered. The default value is false .
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     /// <summary>

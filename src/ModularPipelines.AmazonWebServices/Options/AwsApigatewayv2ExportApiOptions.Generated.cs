@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "export-api")]
-public record AwsApigatewayv2ExportApiOptions : AwsOptions
+public record AwsApigatewayv2ExportApiOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--api-id")]
     public string? ApiId { get; set; }
@@ -30,7 +32,10 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     [CliOption("--export-version")]
     public string? ExportVersion { get; set; }
 
-    [CliFlag("--include-extensions")]
+    /// <summary>
+    /// Specifies whether to include API Gateway extensions in the exported API definition. API Gateway extensions are included by default.
+    /// </summary>
+    [CliFlag("--include-extensions", NegatedName = "--no-include-extensions")]
     public bool? IncludeExtensions { get; set; }
 
     [CliOption("--output-type")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionGetCelebrityRecognitionSortBy
 {
     [EnumValue("ID")]
-    Id = 1,
+    Id,
 
     [EnumValue("TIMESTAMP")]
-    Timestamp = 2
+    Timestamp
 }

@@ -24,7 +24,10 @@ public record AwsSsmGetParametersOptions : AwsOptions
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]

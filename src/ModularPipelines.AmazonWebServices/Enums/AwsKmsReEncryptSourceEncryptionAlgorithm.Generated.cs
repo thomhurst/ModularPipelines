@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsReEncryptSourceEncryptionAlgorithm
 {
     [EnumValue("SYMMETRIC_DEFAULT")]
-    SymmetricDefault = 1,
+    SymmetricDefault,
 
     [EnumValue("RSAES_OAEP_SHA_1")]
-    RsaesOaepSha_1 = 2,
+    RsaesOaepSha_1,
 
     [EnumValue("RSAES_OAEP_SHA_256")]
-    RsaesOaepSha_256 = 3,
+    RsaesOaepSha_256,
 
     [EnumValue("SM2PKE")]
-    Sm2Pke = 4
+    Sm2Pke
 }

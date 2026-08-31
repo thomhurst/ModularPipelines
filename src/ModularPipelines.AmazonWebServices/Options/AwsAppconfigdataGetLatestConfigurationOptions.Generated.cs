@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfigdata", "get-latest-configuration")]
-public record AwsAppconfigdataGetLatestConfigurationOptions : AwsOptions
+public record AwsAppconfigdataGetLatestConfigurationOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [SecretValue]
     [CliOption("--configuration-token")]

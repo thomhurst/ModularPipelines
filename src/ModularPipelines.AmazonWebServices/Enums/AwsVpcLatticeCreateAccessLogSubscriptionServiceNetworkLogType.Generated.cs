@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVpcLatticeCreateAccessLogSubscriptionServiceNetworkLogType
 {
     [EnumValue("SERVICE")]
-    Service = 1,
+    Service,
 
     [EnumValue("RESOURCE")]
-    Resource = 2
+    Resource
 }

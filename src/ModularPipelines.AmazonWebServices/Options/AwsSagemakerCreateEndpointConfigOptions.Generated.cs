@@ -75,7 +75,10 @@ public record AwsSagemakerCreateEndpointConfigOptions : AwsOptions
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CliFlag("--enable-network-isolation")]
+    /// <summary>
+    /// Sets whether all model containers deployed to the endpoint are iso- lated. If they are, no inbound or outbound network calls can be made to or from the model containers.
+    /// </summary>
+    [CliFlag("--enable-network-isolation", NegatedName = "--no-enable-network-isolation")]
     public bool? EnableNetworkIsolation { get; set; }
 
     /// <summary>

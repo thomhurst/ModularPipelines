@@ -30,7 +30,10 @@ public record AwsMghDisassociateSourceResourceOptions : AwsOptions
     [CliOption("--source-resource-name")]
     public string? SourceResourceName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

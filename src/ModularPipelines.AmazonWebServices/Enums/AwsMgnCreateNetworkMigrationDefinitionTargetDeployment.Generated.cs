@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnCreateNetworkMigrationDefinitionTargetDeployment
 {
     [EnumValue("SINGLE_ACCOUNT")]
-    SingleAccount = 1,
+    SingleAccount,
 
     [EnumValue("MULTI_ACCOUNT")]
-    MultiAccount = 2
+    MultiAccount
 }

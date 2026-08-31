@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -44,9 +43,12 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiDeleteObjectRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Indicates whether S3 Object Lock should bypass Governance-mode re- strictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     /// <summary>

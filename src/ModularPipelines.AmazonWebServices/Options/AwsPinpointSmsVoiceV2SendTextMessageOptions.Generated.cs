@@ -80,7 +80,10 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions
     [CliOption("--destination-country-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationCountryParameters { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun . The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see Message Parts per Second (MPS) limits in the End User Messaging SMS User Guide ..
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -89,7 +92,10 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; set; }
 
-    [CliFlag("--message-feedback-enabled")]
+    /// <summary>
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback .
+    /// </summary>
+    [CliFlag("--message-feedback-enabled", NegatedName = "--no-message-feedback-enabled")]
     public bool? MessageFeedbackEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,6 +21,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("m2", "update-environment")]
 public record AwsM2UpdateEnvironmentOptions : AwsOptions
 {
+    /// <summary>
+    /// dow (boolean) Indicates whether to update the runtime environment during the main- tenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest , it will fail if applyDuringMaintenanceWindow is set to true.
+    /// </summary>
     [CliFlag("--apply-during-maintenance-window")]
     public bool? ApplyDuringMaintenanceWindow { get; set; }
 
@@ -39,7 +42,10 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are on- going application-related activities in the environment. If you use this option, be aware that it could lead to data corrup- tion in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is pre- ferredMaintenanceWindow .
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     /// <summary>

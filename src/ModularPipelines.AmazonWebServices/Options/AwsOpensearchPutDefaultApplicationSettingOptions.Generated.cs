@@ -24,7 +24,7 @@ public record AwsOpensearchPutDefaultApplicationSettingOptions : AwsOptions
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
-    [CliFlag("--set-as-default")]
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
     public bool? SetAsDefault { get; set; }
 
     [CliOption("--cli-input-json")]

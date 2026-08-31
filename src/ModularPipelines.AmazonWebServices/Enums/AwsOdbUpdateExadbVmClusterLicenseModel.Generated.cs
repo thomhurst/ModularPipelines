@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateExadbVmClusterLicenseModel
 {
     [EnumValue("BRING_YOUR_OWN_LICENSE")]
-    BringYourOwnLicense = 1,
+    BringYourOwnLicense,
 
     [EnumValue("LICENSE_INCLUDED")]
-    LicenseIncluded = 2
+    LicenseIncluded
 }

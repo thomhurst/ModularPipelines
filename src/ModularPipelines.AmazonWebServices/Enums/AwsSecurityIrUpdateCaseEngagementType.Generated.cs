@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityIrUpdateCaseEngagementType
 {
     [EnumValue("Security")]
-    Security = 1,
+    Security,
 
     [EnumValue("Incident")]
-    Incident = 2,
+    Incident,
 
     [EnumValue("Investigation")]
-    Investigation = 3
+    Investigation
 }

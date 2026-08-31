@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStepfunctionsTestStateInspectionLevel
 {
     [EnumValue("INFO")]
-    Info = 1,
+    Info,
 
     [EnumValue("DEBUG")]
-    Debug = 2,
+    Debug,
 
     [EnumValue("TRACE")]
-    Trace = 3
+    Trace
 }

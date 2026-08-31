@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAutoscalingPutWarmPoolPoolState
 {
     [EnumValue("Stopped")]
-    Stopped = 1,
+    Stopped,
 
     [EnumValue("Running")]
-    Running = 2,
+    Running,
 
     [EnumValue("Hibernated")]
-    Hibernated = 3
+    Hibernated
 }

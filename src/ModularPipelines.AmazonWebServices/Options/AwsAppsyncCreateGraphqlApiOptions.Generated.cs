@@ -59,7 +59,10 @@ public record AwsAppsyncCreateGraphqlApiOptions : AwsOptions
     [CliOption("--additional-authentication-providers", GroupValues = true)]
     public IEnumerable<string>? AdditionalAuthenticationProviders { get; set; }
 
-    [CliFlag("--xray-enabled")]
+    /// <summary>
+    /// A flag indicating whether to use X-Ray tracing for the GraphqlApi .
+    /// </summary>
+    [CliFlag("--xray-enabled", NegatedName = "--no-xray-enabled")]
     public bool? XrayEnabled { get; set; }
 
     /// <summary>

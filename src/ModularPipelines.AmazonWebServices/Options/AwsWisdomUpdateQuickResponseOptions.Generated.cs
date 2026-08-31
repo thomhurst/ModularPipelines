@@ -51,7 +51,10 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
 
-    [CliFlag("--is-active")]
+    /// <summary>
+    /// Whether the quick response is active.
+    /// </summary>
+    [CliFlag("--is-active", NegatedName = "--no-is-active")]
     public bool? IsActive { get; set; }
 
     [CliOption("--knowledge-base-id")]
@@ -72,13 +75,22 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions
     [CliOption("--quick-response-id")]
     public string? QuickResponseId { get; set; }
 
-    [CliFlag("--remove-description")]
+    /// <summary>
+    /// Whether to remove the description from the quick response.
+    /// </summary>
+    [CliFlag("--remove-description", NegatedName = "--no-remove-description")]
     public bool? RemoveDescription { get; set; }
 
-    [CliFlag("--remove-grouping-configuration")]
+    /// <summary>
+    /// Whether to remove the grouping configuration of the quick response.
+    /// </summary>
+    [CliFlag("--remove-grouping-configuration", NegatedName = "--no-remove-grouping-configuration")]
     public bool? RemoveGroupingConfiguration { get; set; }
 
-    [CliFlag("--remove-shortcut-key")]
+    /// <summary>
+    /// Whether to remove the shortcut key of the quick response.
+    /// </summary>
+    [CliFlag("--remove-shortcut-key", NegatedName = "--no-remove-shortcut-key")]
     public bool? RemoveShortcutKey { get; set; }
 
     /// <summary>

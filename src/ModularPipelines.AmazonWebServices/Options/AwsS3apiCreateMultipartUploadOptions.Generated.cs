@@ -111,7 +111,7 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can spec- ify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide . NOTE: o Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones. o Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. Possible values: o STANDARD o REDUCED_REDUNDANCY o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_IR o SNOW o EXPRESS_ONEZONE o FSX_OPENZFS o FSX_ONTAP o AWS_BACKUP_WARM o AWS_BACKUP_LOW_COST_WARM
     /// </summary>
     [CliOption("--storage-class")]
-    public string? StorageClass { get; set; }
+    public AwsS3apiCreateMultipartUploadStorageClass? StorageClass { get; set; }
 
     /// <summary>
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object meta- data. NOTE: This functionality is not supported for directory buckets.
@@ -149,14 +149,17 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CliFlag("--bucket-key-enabled")]
+    /// <summary>
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key. Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between direc- tory buckets, through CopyObject , UploadPartCopy , the Copy op- eration in Batch Operations , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+    /// </summary>
+    [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }
 
     /// <summary>
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiCreateMultipartUploadRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. NOTE: This functionality is not supported for directory buckets.

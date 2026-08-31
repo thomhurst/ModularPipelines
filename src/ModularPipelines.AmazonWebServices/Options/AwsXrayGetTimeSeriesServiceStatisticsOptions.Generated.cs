@@ -52,7 +52,10 @@ public record AwsXrayGetTimeSeriesServiceStatisticsOptions : AwsOptions
     [CliOption("--period")]
     public int? Period { get; set; }
 
-    [CliFlag("--forecast-statistics")]
+    /// <summary>
+    /// The forecasted high and low fault count values. Forecast enabled re- quests require the EntitySelectorExpression ID be provided.
+    /// </summary>
+    [CliFlag("--forecast-statistics", NegatedName = "--no-forecast-statistics")]
     public bool? ForecastStatistics { get; set; }
 
     [CliOption("--cli-input-json")]

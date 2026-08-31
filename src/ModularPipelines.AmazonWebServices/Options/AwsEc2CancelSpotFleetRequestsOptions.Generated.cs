@@ -21,13 +21,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "cancel-spot-fleet-requests")]
 public record AwsEc2CancelSpotFleetRequestsOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--spot-fleet-request-ids", GroupValues = true)]
     public IEnumerable<string>? SpotFleetRequestIds { get; set; }
 
-    [CliFlag("--terminate-instances")]
+    [CliFlag("--terminate-instances", NegatedName = "--no-terminate-instances")]
     public bool? TerminateInstances { get; set; }
 
     [CliOption("--cli-input-json")]

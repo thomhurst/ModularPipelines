@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockDataAutomationGetBlueprintBlueprintStage
 {
     [EnumValue("DEVELOPMENT")]
-    Development = 1,
+    Development,
 
     [EnumValue("LIVE")]
-    Live = 2
+    Live
 }

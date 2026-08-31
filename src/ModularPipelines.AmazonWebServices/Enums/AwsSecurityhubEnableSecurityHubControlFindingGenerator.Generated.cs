@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubEnableSecurityHubControlFindingGenerator
 {
     [EnumValue("STANDARD_CONTROL")]
-    StandardControl = 1,
+    StandardControl,
 
     [EnumValue("SECURITY_CONTROL")]
-    SecurityControl = 2
+    SecurityControl
 }

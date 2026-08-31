@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudtrailListInsightsMetricDataDataType
 {
     [EnumValue("FillWithZeros")]
-    FillWithZeros = 1,
+    FillWithZeros,
 
     [EnumValue("NonZeroData")]
-    NonZeroData = 2
+    NonZeroData
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentGetFlowIncludedData
 {
     [EnumValue("ALL_DATA")]
-    AllData = 1,
+    AllData,
 
     [EnumValue("METADATA_ONLY")]
-    MetadataOnly = 2
+    MetadataOnly
 }

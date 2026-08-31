@@ -59,7 +59,7 @@ public record AwsGeoPlacesGetPlaceOptions : AwsOptions
     /// Specifies how address names are returned. When set to Administrative , the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States. Possible values: o Administrative
     /// </summary>
     [CliOption("--address-names-mode")]
-    public AwsGeoPlacesGetPlaceAddressNamesMode? AddressNamesMode { get; set; }
+    public string? AddressNamesMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

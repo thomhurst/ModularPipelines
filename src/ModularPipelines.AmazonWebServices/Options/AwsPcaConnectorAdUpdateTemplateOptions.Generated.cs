@@ -27,6 +27,9 @@ public record AwsPcaConnectorAdUpdateTemplateOptions : AwsOptions
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
+    /// <summary>
+    /// cate-holders (boolean) This setting allows the major version of a template to be increased automatically. All members of Active Directory groups that are al- lowed to enroll with a template will receive a new certificate is- sued using that template.
+    /// </summary>
     [CliFlag("--reenroll-all-certificate-holders")]
     public bool? ReenrollAllCertificateHolders { get; set; }
 

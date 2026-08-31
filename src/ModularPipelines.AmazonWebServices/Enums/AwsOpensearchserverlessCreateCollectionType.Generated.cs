@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchserverlessCreateCollectionType
 {
     [EnumValue("SEARCH")]
-    Search = 1,
+    Search,
 
     [EnumValue("TIMESERIES")]
-    Timeseries = 2,
+    Timeseries,
 
     [EnumValue("VECTORSEARCH")]
-    Vectorsearch = 3
+    Vectorsearch
 }

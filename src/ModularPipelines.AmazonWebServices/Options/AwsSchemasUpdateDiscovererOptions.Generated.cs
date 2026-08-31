@@ -30,7 +30,10 @@ public record AwsSchemasUpdateDiscovererOptions : AwsOptions
     [CliOption("--discoverer-id")]
     public string? DiscovererId { get; set; }
 
-    [CliFlag("--cross-account")]
+    /// <summary>
+    /// Support discovery of schemas in events sent to the bus from another account. (default: true)
+    /// </summary>
+    [CliFlag("--cross-account", NegatedName = "--no-cross-account")]
     public bool? CrossAccount { get; set; }
 
     [CliOption("--cli-input-json")]

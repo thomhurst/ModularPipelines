@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSustainabilityGetEstimatedCarbonEmissionsGranularity
 {
     [EnumValue("YEARLY_CALENDAR")]
-    YearlyCalendar = 1,
+    YearlyCalendar,
 
     [EnumValue("YEARLY_FISCAL")]
-    YearlyFiscal = 2,
+    YearlyFiscal,
 
     [EnumValue("QUARTERLY_CALENDAR")]
-    QuarterlyCalendar = 3,
+    QuarterlyCalendar,
 
     [EnumValue("QUARTERLY_FISCAL")]
-    QuarterlyFiscal = 4,
+    QuarterlyFiscal,
 
     [EnumValue("MONTHLY")]
-    Monthly = 5
+    Monthly
 }

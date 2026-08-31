@@ -42,10 +42,16 @@ public record AwsDmsModifyDataProviderOptions : AwsOptions
     [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CliFlag("--virtual")]
+    /// <summary>
+    /// Indicates whether the data provider is virtual.
+    /// </summary>
+    [CliFlag("--virtual", NegatedName = "--no-virtual")]
     public bool? Virtual { get; set; }
 
-    [CliFlag("--exact-settings")]
+    /// <summary>
+    /// If this attribute is Y, the current call to ModifyDataProvider re- places all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things: o It replaces any data provider settings that already exist with new values, for settings with the same names. o It creates new data provider settings that you specify in the call, for settings with different names.
+    /// </summary>
+    [CliFlag("--exact-settings", NegatedName = "--no-exact-settings")]
     public bool? ExactSettings { get; set; }
 
     /// <summary>

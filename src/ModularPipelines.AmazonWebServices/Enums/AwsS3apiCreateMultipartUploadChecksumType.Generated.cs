@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCreateMultipartUploadChecksumType
 {
     [EnumValue("COMPOSITE")]
-    Composite = 1,
+    Composite,
 
     [EnumValue("FULL_OBJECT")]
-    FullObject = 2
+    FullObject
 }

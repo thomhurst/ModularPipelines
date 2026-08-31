@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCognitoIdpAdminUpdateDeviceStatusDeviceRememberedStatus
 {
     [EnumValue("remembered")]
-    Remembered = 1,
+    Remembered,
 
     [EnumValue("not_remembered")]
-    NotRemembered = 2
+    NotRemembered
 }

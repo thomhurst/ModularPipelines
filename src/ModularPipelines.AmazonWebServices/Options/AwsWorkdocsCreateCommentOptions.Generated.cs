@@ -57,7 +57,10 @@ public record AwsWorkdocsCreateCommentOptions : AwsOptions
     [CliOption("--visibility")]
     public AwsWorkdocsCreateCommentVisibility? Visibility { get; set; }
 
-    [CliFlag("--notify-collaborators")]
+    /// <summary>
+    /// Set this parameter to TRUE to send an email out to the document col- laborators after the comment is created.
+    /// </summary>
+    [CliFlag("--notify-collaborators", NegatedName = "--no-notify-collaborators")]
     public bool? NotifyCollaborators { get; set; }
 
     [CliOption("--cli-input-json")]

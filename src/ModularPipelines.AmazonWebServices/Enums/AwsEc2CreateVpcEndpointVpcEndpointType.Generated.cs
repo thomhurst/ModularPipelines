@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateVpcEndpointVpcEndpointType
 {
     [EnumValue("Interface")]
-    Interface = 1,
+    Interface,
 
     [EnumValue("Gateway")]
-    Gateway = 2,
+    Gateway,
 
     [EnumValue("GatewayLoadBalancer")]
-    GatewayLoadBalancer = 3,
+    GatewayLoadBalancer,
 
     [EnumValue("Resource")]
-    Resource = 4,
+    Resource,
 
     [EnumValue("ServiceNetwork")]
-    ServiceNetwork = 5
+    ServiceNetwork
 }

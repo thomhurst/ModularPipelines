@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftRestoreFromClusterSnapshotAquaConfigurationStatus
 {
     [EnumValue("enabled")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("disabled")]
-    Disabled = 2,
+    Disabled,
 
     [EnumValue("auto")]
-    Auto = 3
+    Auto
 }

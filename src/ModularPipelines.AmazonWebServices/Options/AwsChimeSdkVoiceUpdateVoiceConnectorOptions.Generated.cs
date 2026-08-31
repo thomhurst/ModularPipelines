@@ -27,7 +27,7 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--require-encryption")]
+    [CliFlag("--require-encryption", NegatedName = "--no-require-encryption")]
     public bool? RequireEncryption { get; set; }
 
     [CliOption("--cli-input-json")]

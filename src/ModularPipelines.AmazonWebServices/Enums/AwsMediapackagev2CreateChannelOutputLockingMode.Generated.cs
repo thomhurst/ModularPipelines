@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediapackagev2CreateChannelOutputLockingMode
 {
     [EnumValue("EPOCH_LOCKED")]
-    EpochLocked = 1,
+    EpochLocked,
 
     [EnumValue("NON_EPOCH_LOCKED")]
-    NonEpochLocked = 2
+    NonEpochLocked
 }

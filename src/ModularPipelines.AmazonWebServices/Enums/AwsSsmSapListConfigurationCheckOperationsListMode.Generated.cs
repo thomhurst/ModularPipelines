@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmSapListConfigurationCheckOperationsListMode
 {
     [EnumValue("ALL_OPERATIONS")]
-    AllOperations = 1,
+    AllOperations,
 
     [EnumValue("LATEST_PER_CHECK")]
-    LatestPerCheck = 2
+    LatestPerCheck
 }

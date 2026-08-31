@@ -29,7 +29,10 @@ public record AwsBackupListBackupVaultsOptions : AwsOptions
     [CliOption("--by-vault-type")]
     public AwsBackupListBackupVaultsByVaultType? ByVaultType { get; set; }
 
-    [CliFlag("--by-shared")]
+    /// <summary>
+    /// This parameter will sort the list of vaults by shared vaults.
+    /// </summary>
+    [CliFlag("--by-shared", NegatedName = "--no-by-shared")]
     public bool? ByShared { get; set; }
 
     [CliOption("--cli-input-json")]

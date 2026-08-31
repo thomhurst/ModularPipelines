@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptunedataGetPropertygraphSummaryMode
 {
     [EnumValue("basic")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("detailed")]
-    Detailed = 2
+    Detailed
 }

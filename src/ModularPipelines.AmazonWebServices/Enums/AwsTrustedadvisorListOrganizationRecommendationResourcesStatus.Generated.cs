@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListOrganizationRecommendationResourcesStatus
 {
     [EnumValue("ok")]
-    Ok = 1,
+    Ok,
 
     [EnumValue("warning")]
-    Warning = 2,
+    Warning,
 
     [EnumValue("error")]
-    Error = 3
+    Error
 }

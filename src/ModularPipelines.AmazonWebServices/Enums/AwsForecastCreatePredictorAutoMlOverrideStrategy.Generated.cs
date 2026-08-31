@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsForecastCreatePredictorAutoMlOverrideStrategy
 {
     [EnumValue("LatencyOptimized")]
-    LatencyOptimized = 1,
+    LatencyOptimized,
 
     [EnumValue("AccuracyOptimized")]
-    AccuracyOptimized = 2
+    AccuracyOptimized
 }

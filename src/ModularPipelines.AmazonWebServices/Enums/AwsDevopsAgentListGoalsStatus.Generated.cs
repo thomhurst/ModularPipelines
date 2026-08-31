@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentListGoalsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("PAUSED")]
-    Paused = 2,
+    Paused,
 
     [EnumValue("COMPLETE")]
-    Complete = 3
+    Complete
 }

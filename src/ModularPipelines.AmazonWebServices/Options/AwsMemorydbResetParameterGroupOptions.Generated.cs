@@ -24,7 +24,10 @@ public record AwsMemorydbResetParameterGroupOptions : AwsOptions
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; set; }
 
-    [CliFlag("--all-parameters")]
+    /// <summary>
+    /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by Parameter- Names are reset to their default values.
+    /// </summary>
+    [CliFlag("--all-parameters", NegatedName = "--no-all-parameters")]
     public bool? AllParameters { get; set; }
 
     /// <summary>

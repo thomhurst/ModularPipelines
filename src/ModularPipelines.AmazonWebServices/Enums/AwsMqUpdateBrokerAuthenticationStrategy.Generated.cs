@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMqUpdateBrokerAuthenticationStrategy
 {
     [EnumValue("SIMPLE")]
-    Simple = 1,
+    Simple,
 
     [EnumValue("LDAP")]
-    Ldap = 2,
+    Ldap,
 
     [EnumValue("CONFIG_MANAGED")]
-    ConfigManaged = 3
+    ConfigManaged
 }

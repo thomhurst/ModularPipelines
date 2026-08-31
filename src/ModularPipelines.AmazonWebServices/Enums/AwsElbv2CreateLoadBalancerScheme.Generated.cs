@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2CreateLoadBalancerScheme
 {
     [EnumValue("internet-facing")]
-    InternetFacing = 1,
+    InternetFacing,
 
     [EnumValue("internal")]
-    Internal = 2
+    Internal
 }

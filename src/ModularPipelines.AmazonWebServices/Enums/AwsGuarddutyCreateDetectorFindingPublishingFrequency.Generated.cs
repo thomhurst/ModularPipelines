@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGuarddutyCreateDetectorFindingPublishingFrequency
 {
     [EnumValue("FIFTEEN_MINUTES")]
-    FifteenMinutes = 1,
+    FifteenMinutes,
 
     [EnumValue("ONE_HOUR")]
-    OneHour = 2,
+    OneHour,
 
     [EnumValue("SIX_HOURS")]
-    SixHours = 3
+    SixHours
 }

@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -49,14 +48,17 @@ public record AwsLightsailUpdateDistributionOptions : AwsOptions
     [CliOption("--cache-behaviors", GroupValues = true)]
     public IEnumerable<string>? CacheBehaviors { get; set; }
 
-    [CliFlag("--is-enabled")]
+    /// <summary>
+    /// Indicates whether to enable the distribution.
+    /// </summary>
+    [CliFlag("--is-enabled", NegatedName = "--no-is-enabled")]
     public bool? IsEnabled { get; set; }
 
     /// <summary>
     /// Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution. Possible values: o TLSv1.1_2016 o TLSv1.2_2018 o TLSv1.2_2019 o TLSv1.2_2021
     /// </summary>
     [CliOption("--viewer-minimum-tls-protocol-version")]
-    public AwsLightsailUpdateDistributionViewerMinimumTlsProtocolVersion? ViewerMinimumTlsProtocolVersion { get; set; }
+    public string? ViewerMinimumTlsProtocolVersion { get; set; }
 
     /// <summary>
     /// The name of the SSL/TLS certificate that you want to attach to the distribution. Only certificates with a status of ISSUED can be attached to a dis- tribution. Use the GetCertificates action to get a list of certificate names that you can specify. Constraints: o pattern: \w[\w\-]*\w
@@ -64,7 +66,10 @@ public record AwsLightsailUpdateDistributionOptions : AwsOptions
     [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CliFlag("--use-default-certificate")]
+    /// <summary>
+    /// Indicates whether the default SSL/TLS certificate is attached to the distribution. The default value is true . When true , the distribu- tion uses the default domain name such as d111111abcdef8.cloud- front.net . Set this value to false to attach a new certificate to the distribu- tion.
+    /// </summary>
+    [CliFlag("--use-default-certificate", NegatedName = "--no-use-default-certificate")]
     public bool? UseDefaultCertificate { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftListAliasesRoutingStrategyType
 {
     [EnumValue("SIMPLE")]
-    Simple = 1,
+    Simple,
 
     [EnumValue("TERMINAL")]
-    Terminal = 2
+    Terminal
 }

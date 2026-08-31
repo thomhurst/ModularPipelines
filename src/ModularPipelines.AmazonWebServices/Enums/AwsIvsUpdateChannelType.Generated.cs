@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIvsUpdateChannelType
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("STANDARD")]
-    Standard = 2,
+    Standard,
 
     [EnumValue("ADVANCED_SD")]
-    AdvancedSd = 3,
+    AdvancedSd,
 
     [EnumValue("ADVANCED_HD")]
-    AdvancedHd = 4
+    AdvancedHd
 }

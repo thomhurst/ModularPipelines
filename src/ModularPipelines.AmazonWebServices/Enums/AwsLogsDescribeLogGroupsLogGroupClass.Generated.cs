@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsDescribeLogGroupsLogGroupClass
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("INFREQUENT_ACCESS")]
-    InfrequentAccess = 2,
+    InfrequentAccess,
 
     [EnumValue("DELIVERY")]
-    Delivery = 3
+    Delivery
 }

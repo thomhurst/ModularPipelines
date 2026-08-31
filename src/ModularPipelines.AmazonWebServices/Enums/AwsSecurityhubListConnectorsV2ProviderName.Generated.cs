@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubListConnectorsV2ProviderName
 {
     [EnumValue("JIRA_CLOUD")]
-    JiraCloud = 1,
+    JiraCloud,
 
     [EnumValue("SERVICENOW")]
-    Servicenow = 2,
+    Servicenow,
 
     [EnumValue("AZURE")]
-    Azure = 3
+    Azure
 }

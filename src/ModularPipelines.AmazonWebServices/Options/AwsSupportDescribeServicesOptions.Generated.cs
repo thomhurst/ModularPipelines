@@ -28,10 +28,16 @@ public record AwsSupportDescribeServicesOptions : AwsOptions
     public IEnumerable<string>? ServiceCodeList { get; set; }
 
     /// <summary>
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") and Korean (ko). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning the list of services. When set to true , the request is validated but no services are returned, and the operation returns a DryRunOp- erationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

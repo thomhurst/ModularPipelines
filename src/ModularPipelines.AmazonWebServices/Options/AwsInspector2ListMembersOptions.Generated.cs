@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector2", "list-members")]
 public record AwsInspector2ListMembersOptions : AwsOptions
 {
-    [CliFlag("--only-associated")]
+    /// <summary>
+    /// Specifies whether to list only currently associated members if True or to list all members within the organization if False .
+    /// </summary>
+    [CliFlag("--only-associated", NegatedName = "--no-only-associated")]
     public bool? OnlyAssociated { get; set; }
 
     [CliOption("--cli-input-json")]

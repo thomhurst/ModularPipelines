@@ -38,6 +38,9 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
+    /// <summary>
+    /// rity-group (boolean) Update replication configuration template associate default Applica- tion Migration Service Security group request.
+    /// </summary>
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
@@ -53,6 +56,9 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
+    /// <summary>
+    /// tion-server (boolean) Update replication configuration template use dedicated Replication Server request.
+    /// </summary>
     [CliFlag("--use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
@@ -86,7 +92,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Update replication configuration template create Public IP request.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -95,7 +104,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Update replication configuration template use Fips Endpoint request.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -104,7 +116,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Update replication configuration template store snapshot on local zone request.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferUpdateServerEndpointType
 {
     [EnumValue("PUBLIC")]
-    Public = 1,
+    Public,
 
     [EnumValue("VPC")]
-    Vpc = 2,
+    Vpc,
 
     [EnumValue("VPC_ENDPOINT")]
-    VpcEndpoint = 3
+    VpcEndpoint
 }

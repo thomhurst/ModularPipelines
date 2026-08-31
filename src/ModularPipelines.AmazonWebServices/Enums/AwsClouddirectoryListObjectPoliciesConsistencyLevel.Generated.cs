@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsClouddirectoryListObjectPoliciesConsistencyLevel
 {
     [EnumValue("SERIALIZABLE")]
-    Serializable = 1,
+    Serializable,
 
     [EnumValue("EVENTUAL")]
-    Eventual = 2
+    Eventual
 }

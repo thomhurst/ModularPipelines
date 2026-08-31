@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "describe-capacity-block-offerings")]
 public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -64,7 +67,10 @@ public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
     [CliOption("--ultraserver-count")]
     public int? UltraserverCount { get; set; }
 
-    [CliFlag("--all-availability-zones")]
+    /// <summary>
+    /// Include all Availability Zones and Local Zones, regardless of your opt-in status. If you do not use this parameter, the results include available offerings from all Availability Zones in the Amazon Web Services Region and Local Zones you are opted into.
+    /// </summary>
+    [CliFlag("--all-availability-zones", NegatedName = "--no-all-availability-zones")]
     public bool? AllAvailabilityZones { get; set; }
 
     [CliOption("--cli-input-json")]

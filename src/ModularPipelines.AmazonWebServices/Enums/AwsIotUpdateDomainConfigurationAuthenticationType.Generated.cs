@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotUpdateDomainConfigurationAuthenticationType
 {
     [EnumValue("CUSTOM_AUTH_X509")]
-    CustomAuthX509 = 1,
+    CustomAuthX509,
 
     [EnumValue("CUSTOM_AUTH")]
-    CustomAuth = 2,
+    CustomAuth,
 
     [EnumValue("AWS_X509")]
-    AwsX509 = 3,
+    AwsX509,
 
     [EnumValue("AWS_SIGV4")]
-    AwsSigv4 = 4,
+    AwsSigv4,
 
     [EnumValue("DEFAULT")]
-    Default = 5
+    Default
 }

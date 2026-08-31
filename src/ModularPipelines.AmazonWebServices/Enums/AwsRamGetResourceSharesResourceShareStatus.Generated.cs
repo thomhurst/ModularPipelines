@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamGetResourceSharesResourceShareStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("DELETING")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("DELETED")]
-    Deleted = 5
+    Deleted
 }

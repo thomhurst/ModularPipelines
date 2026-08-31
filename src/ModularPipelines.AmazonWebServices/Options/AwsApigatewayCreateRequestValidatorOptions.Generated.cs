@@ -30,10 +30,16 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--validate-request-body")]
+    /// <summary>
+    /// A Boolean flag to indicate whether to validate request body accord- ing to the configured model schema for the method (true ) or not (false ).
+    /// </summary>
+    [CliFlag("--validate-request-body", NegatedName = "--no-validate-request-body")]
     public bool? ValidateRequestBody { get; set; }
 
-    [CliFlag("--validate-request-parameters")]
+    /// <summary>
+    /// A Boolean flag to indicate whether to validate request parameters, true , or not false .
+    /// </summary>
+    [CliFlag("--validate-request-parameters", NegatedName = "--no-validate-request-parameters")]
     public bool? ValidateRequestParameters { get; set; }
 
     [CliOption("--cli-input-json")]

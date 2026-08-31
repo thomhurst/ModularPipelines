@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2PutEmailIdentityMailFromAttributesBehaviorOnMxFailure
 {
     [EnumValue("USE_DEFAULT_VALUE")]
-    UseDefaultValue = 1,
+    UseDefaultValue,
 
     [EnumValue("REJECT_MESSAGE")]
-    RejectMessage = 2
+    RejectMessage
 }

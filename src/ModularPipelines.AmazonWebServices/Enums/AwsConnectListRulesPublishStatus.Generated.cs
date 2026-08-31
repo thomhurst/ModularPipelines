@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectListRulesPublishStatus
 {
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 2
+    Published
 }

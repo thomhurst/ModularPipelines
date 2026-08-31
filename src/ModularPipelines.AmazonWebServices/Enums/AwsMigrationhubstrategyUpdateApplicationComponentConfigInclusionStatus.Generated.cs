@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyUpdateApplicationComponentConfigInclusionStatus
 {
     [EnumValue("excludeFromAssessment")]
-    ExcludeFromAssessment = 1,
+    ExcludeFromAssessment,
 
     [EnumValue("includeInAssessment")]
-    IncludeInAssessment = 2
+    IncludeInAssessment
 }

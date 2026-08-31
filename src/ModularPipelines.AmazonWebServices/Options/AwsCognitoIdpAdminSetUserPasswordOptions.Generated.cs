@@ -32,7 +32,10 @@ public record AwsCognitoIdpAdminSetUserPasswordOptions : AwsOptions
     [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CliFlag("--permanent")]
+    /// <summary>
+    /// Set to true to set a password that the user can immediately sign in with. Set to false to set a temporary password that the user must change on their next sign-in.
+    /// </summary>
+    [CliFlag("--permanent", NegatedName = "--no-permanent")]
     public bool? Permanent { get; set; }
 
     [CliOption("--cli-input-json")]

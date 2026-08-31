@@ -27,7 +27,10 @@ public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions
     [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

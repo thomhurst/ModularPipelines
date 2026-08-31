@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPollySynthesizeSpeechTextType
 {
     [EnumValue("ssml")]
-    Ssml = 1,
+    Ssml,
 
     [EnumValue("text")]
-    Text = 2
+    Text
 }

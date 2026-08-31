@@ -62,11 +62,14 @@ public record AwsSagemakerCreatePartnerAppOptions : AwsOptions
     public string? AuthType { get; set; }
 
     /// <summary>
-    /// | --no-enable-iam-ses- sion-based-identity (boolean) When set to TRUE , the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the iden- tity of the SageMaker Partner AI App user.
+    /// sion-based-identity (boolean) When set to TRUE , the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the iden- tity of the SageMaker Partner AI App user.
     /// </summary>
     [CliFlag("--enable-iam-session-based-identity")]
     public bool? EnableIamSessionBasedIdentity { get; set; }
 
+    /// <summary>
+    /// sion-upgrade (boolean) When set to TRUE , the SageMaker Partner AI App is automatically up- graded to the latest minor version during the next scheduled mainte- nance window, if one is available. Default is FALSE .
+    /// </summary>
     [CliFlag("--enable-auto-minor-version-upgrade")]
     public bool? EnableAutoMinorVersionUpgrade { get; set; }
 

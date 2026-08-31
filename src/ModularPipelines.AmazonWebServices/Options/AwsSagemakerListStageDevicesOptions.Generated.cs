@@ -25,6 +25,9 @@ public record AwsSagemakerListStageDevicesOptions : AwsOptions
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; set; }
 
+    /// <summary>
+    /// ployed-in-other-stage (boolean) Toggle for excluding devices deployed in other stages.
+    /// </summary>
     [CliFlag("--exclude-devices-deployed-in-other-stage")]
     public bool? ExcludeDevicesDeployedInOtherStage { get; set; }
 

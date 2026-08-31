@@ -32,7 +32,10 @@ public record AwsBedrockAgentcoreControlDeleteHarnessOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--delete-managed-memory")]
+    /// <summary>
+    /// Whether to delete the managed memory on harness deletion. Default: true. If false, the memory is disassociated and becomes a regular customer-owned resource.
+    /// </summary>
+    [CliFlag("--delete-managed-memory", NegatedName = "--no-delete-managed-memory")]
     public bool? DeleteManagedMemory { get; set; }
 
     [CliOption("--cli-input-json")]

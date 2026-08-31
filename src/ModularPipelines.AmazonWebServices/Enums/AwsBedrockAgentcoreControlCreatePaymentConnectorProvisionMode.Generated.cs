@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlCreatePaymentConnectorProvisionMode
 {
     [EnumValue("MANUAL")]
-    Manual = 1,
+    Manual,
 
     [EnumValue("QUICK_CREATE")]
-    QuickCreate = 2
+    QuickCreate
 }

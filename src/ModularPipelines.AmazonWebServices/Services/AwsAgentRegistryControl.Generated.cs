@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -148,7 +148,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// List the tags on a resource See also: AWS API Documentation
+    /// Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the re- source. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -178,7 +178,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Tag a resource with key-value pairs See also: AWS API Documentation
+    /// Adds or overwrites one or more tags for the specified Amazon Web Ser- vices Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -193,7 +193,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Remove tags from a resource by key See also: AWS API Documentation
+    /// Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

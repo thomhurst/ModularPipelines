@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListScanJobsByResourceType
 {
     [EnumValue("EBS")]
-    Ebs = 1,
+    Ebs,
 
     [EnumValue("EC2")]
-    Ec2 = 2,
+    Ec2,
 
     [EnumValue("S3")]
-    S3 = 3
+    S3
 }

@@ -44,7 +44,10 @@ public record AwsMgnPutSourceServerActionOptions : AwsOptions
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// Source server post migration custom action active status.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     /// <summary>
@@ -53,7 +56,10 @@ public record AwsMgnPutSourceServerActionOptions : AwsOptions
     [CliOption("--timeout-seconds")]
     public int? TimeoutSeconds { get; set; }
 
-    [CliFlag("--must-succeed-for-cutover")]
+    /// <summary>
+    /// Source server post migration custom action must succeed for cutover.
+    /// </summary>
+    [CliFlag("--must-succeed-for-cutover", NegatedName = "--no-must-succeed-for-cutover")]
     public bool? MustSucceedForCutover { get; set; }
 
     /// <summary>

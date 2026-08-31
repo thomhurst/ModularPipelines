@@ -40,7 +40,10 @@ public record AwsApigatewayPutMethodOptions : AwsOptions
     [CliOption("--authorizer-id")]
     public string? AuthorizerId { get; set; }
 
-    [CliFlag("--api-key-required")]
+    /// <summary>
+    /// Specifies whether the method required a valid ApiKey.
+    /// </summary>
+    [CliFlag("--api-key-required", NegatedName = "--no-api-key-required")]
     public bool? ApiKeyRequired { get; set; }
 
     /// <summary>

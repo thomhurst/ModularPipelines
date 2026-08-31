@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -2628,6 +2628,21 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
+    /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This op- eration returns whether cross-region routing is currently enabled or disabled (isolated) for the instance. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetCrossRegionRoutingAsync(
+        AwsConnectGetCrossRegionRoutingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectGetCrossRegionRoutingOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Gets the real-time metric data from the specified Connect Customer in- stance. For a description of each metric, see Metrics definitions in the Con- nect Customer Administrator Guide . NOTE: When you make a successful API request, you can expect the following metric values in the response: o Metric value is null : The calculation cannot be performed due to divide by zero or insufficient data o Metric value is a number (including 0) of defined type : The num- ber provided is the calculation resul...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5130,6 +5145,21 @@ public class AwsConnect : IAwsConnect
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectUpdateContactTaskTemplateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true , this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use t...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateCrossRegionRoutingAsync(
+        AwsConnectUpdateCrossRegionRoutingOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectUpdateCrossRegionRoutingOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

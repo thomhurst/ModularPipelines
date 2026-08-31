@@ -25,7 +25,10 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions
     [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// Retrieve all parameters within a hierarchy. WARNING: If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a , then the user can also access /a/b . Even if a user has explicitly been denied access in IAM for parameter /a/b , they can still call the GetParametersByPath API operation re- cursively for /a and view /a/b .
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -34,7 +37,10 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions
     [CliOption("--parameter-filters", GroupValues = true)]
     public IEnumerable<string>? ParameterFilters { get; set; }
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Retrieve all parameters in a hierarchy with their value decrypted.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]

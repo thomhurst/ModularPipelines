@@ -77,13 +77,22 @@ public record AwsAmplifyCreateAppOptions : AwsOptions
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
-    [CliFlag("--enable-branch-auto-build")]
+    /// <summary>
+    /// Enables the auto building of branches for an Amplify app.
+    /// </summary>
+    [CliFlag("--enable-branch-auto-build", NegatedName = "--no-enable-branch-auto-build")]
     public bool? EnableBranchAutoBuild { get; set; }
 
-    [CliFlag("--enable-branch-auto-deletion")]
+    /// <summary>
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
+    /// </summary>
+    [CliFlag("--enable-branch-auto-deletion", NegatedName = "--no-enable-branch-auto-deletion")]
     public bool? EnableBranchAutoDeletion { get; set; }
 
-    [CliFlag("--enable-basic-auth")]
+    /// <summary>
+    /// Enables basic authorization for an Amplify app. This will apply to all branches that are part of this app.
+    /// </summary>
+    [CliFlag("--enable-basic-auth", NegatedName = "--no-enable-basic-auth")]
     public bool? EnableBasicAuth { get; set; }
 
     /// <summary>
@@ -117,7 +126,10 @@ public record AwsAmplifyCreateAppOptions : AwsOptions
     [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CliFlag("--enable-auto-branch-creation")]
+    /// <summary>
+    /// Enables automated branch creation for an Amplify app.
+    /// </summary>
+    [CliFlag("--enable-auto-branch-creation", NegatedName = "--no-enable-auto-branch-creation")]
     public bool? EnableAutoBranchCreation { get; set; }
 
     /// <summary>

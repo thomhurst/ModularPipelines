@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListJobExecutionsForJobStatus
 {
     [EnumValue("QUEUED")]
-    Queued = 1,
+    Queued,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 3,
+    Succeeded,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 5,
+    TimedOut,
 
     [EnumValue("REJECTED")]
-    Rejected = 6,
+    Rejected,
 
     [EnumValue("REMOVED")]
-    Removed = 7,
+    Removed,
 
     [EnumValue("CANCELED")]
-    Canceled = 8
+    Canceled
 }

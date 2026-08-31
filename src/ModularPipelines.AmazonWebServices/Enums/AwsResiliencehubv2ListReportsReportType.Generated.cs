@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListReportsReportType
 {
     [EnumValue("FAILURE_MODE")]
-    FailureMode = 1,
+    FailureMode,
 
     [EnumValue("TESTING")]
-    Testing = 2
+    Testing
 }

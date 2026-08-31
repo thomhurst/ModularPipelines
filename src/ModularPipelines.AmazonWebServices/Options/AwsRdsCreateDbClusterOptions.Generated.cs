@@ -126,7 +126,10 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the DB cluster is encrypted. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -141,6 +144,9 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -198,13 +204,22 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB cluster is publicly accessible. Valid for Cluster Type: Multi-AZ DB clusters only When the DB cluster is publicly accessible and you connect from out- side of the DB cluster's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is con- trolled by its security group settings. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified de- pends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to true . If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default , in which case Pub- liclyAccessible defaults to true . If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS re- turns an error.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor en- gine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -213,10 +228,16 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; set; }
 
-    [CliFlag("--enable-http-endpoint")]
+    /// <summary>
+    /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web ser- vice API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-http-endpoint", NegatedName = "--no-enable-http-endpoint")]
     public bool? EnableHttpEndpoint { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -231,7 +252,10 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
-    [CliFlag("--enable-global-write-forwarding")]
+    /// <summary>
+    /// Specifies whether to enable this DB cluster to forward write opera- tions to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a sec- ondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-global-write-forwarding", NegatedName = "--no-enable-global-write-forwarding")]
     public bool? EnableGlobalWriteForwarding { get; set; }
 
     /// <summary>
@@ -264,7 +288,10 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsCreateDbClusterDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to turn on Performance Insights for the DB clus- ter. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -279,7 +306,10 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
-    [CliFlag("--enable-limitless-database")]
+    /// <summary>
+    /// Specifies whether to enable Aurora Limitless Database. You must en- able Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only NOTE: This setting is no longer used. Instead use the ClusterScalabil- ityType setting.
+    /// </summary>
+    [CliFlag("--enable-limitless-database", NegatedName = "--no-enable-limitless-database")]
     public bool? EnableLimitlessDatabase { get; set; }
 
     /// <summary>
@@ -294,10 +324,16 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--db-system-id")]
     public string? DbSystemId { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
-    [CliFlag("--enable-local-write-forwarding")]
+    /// <summary>
+    /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-local-write-forwarding", NegatedName = "--no-enable-local-write-forwarding")]
     public bool? EnableLocalWriteForwarding { get; set; }
 
     /// <summary>
@@ -331,7 +367,10 @@ public record AwsRdsCreateDbClusterOptions : AwsOptions
     [CliOption("--master-user-authentication-type")]
     public AwsRdsCreateDbClusterMasterUserAuthenticationType? MasterUserAuthenticationType { get; set; }
 
-    [CliFlag("--with-express-configuration")]
+    /// <summary>
+    /// Specifies to create an Aurora DB Cluster with express configuration in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parame- ters of this API. Valid for Cluster Type: Aurora DB clusters
+    /// </summary>
+    [CliFlag("--with-express-configuration", NegatedName = "--no-with-express-configuration")]
     public bool? WithExpressConfiguration { get; set; }
 
     /// <summary>

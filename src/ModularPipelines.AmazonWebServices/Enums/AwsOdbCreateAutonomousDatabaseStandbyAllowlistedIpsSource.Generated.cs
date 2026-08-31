@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateAutonomousDatabaseStandbyAllowlistedIpsSource
 {
     [EnumValue("PRIMARY")]
-    Primary = 1,
+    Primary,
 
     [EnumValue("SEPARATE")]
-    Separate = 2,
+    Separate,
 
     [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 3
+    NotApplicable
 }

@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsAccessanalyzerListAnalyzedResourcesOptions : AwsOptions
     /// The type of resource. Possible values: o AWS::S3::Bucket o AWS::IAM::Role o AWS::SQS::Queue o AWS::Lambda::Function o AWS::Lambda::LayerVersion o AWS::KMS::Key o AWS::SecretsManager::Secret o AWS::EFS::FileSystem o AWS::EC2::Snapshot o AWS::ECR::Repository o AWS::RDS::DBSnapshot o AWS::RDS::DBClusterSnapshot o AWS::SNS::Topic o AWS::S3Express::DirectoryBucket o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::IAM::User
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsAccessanalyzerListAnalyzedResourcesResourceType? ResourceType { get; set; }
+    public string? ResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2ListExportJobsExportSourceType
 {
     [EnumValue("METRICS_DATA")]
-    MetricsData = 1,
+    MetricsData,
 
     [EnumValue("MESSAGE_INSIGHTS")]
-    MessageInsights = 2
+    MessageInsights
 }

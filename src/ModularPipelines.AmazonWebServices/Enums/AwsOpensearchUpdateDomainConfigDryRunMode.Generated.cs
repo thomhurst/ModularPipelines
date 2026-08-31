@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchUpdateDomainConfigDryRunMode
 {
     [EnumValue("Basic")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("Verbose")]
-    Verbose = 2
+    Verbose
 }

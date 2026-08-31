@@ -24,7 +24,10 @@ public record AwsNeptuneRebootDbInstanceOptions : AwsOptions
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
-    [CliFlag("--force-failover")]
+    /// <summary>
+    /// When true , the reboot is conducted through a MultiAZ failover. Constraint: You can't specify true if the instance is not configured for MultiAZ.
+    /// </summary>
+    [CliFlag("--force-failover", NegatedName = "--no-force-failover")]
     public bool? ForceFailover { get; set; }
 
     [CliOption("--cli-input-json")]

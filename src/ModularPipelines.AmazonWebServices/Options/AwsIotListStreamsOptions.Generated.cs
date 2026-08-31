@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "list-streams")]
 public record AwsIotListStreamsOptions : AwsOptions
 {
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Set to true to return the list of streams in ascending order.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamCreateAppBlockPackagingType
 {
     [EnumValue("CUSTOM")]
-    Custom = 1,
+    Custom,
 
     [EnumValue("APPSTREAM2")]
-    Appstream2 = 2
+    Appstream2
 }

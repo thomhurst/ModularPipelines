@@ -45,7 +45,7 @@ public record AwsBedrockListImportedModelsOptions : AwsOptions
     /// The field to sort by in the returned list of imported models. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListImportedModelsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies whetehr to sort the results in ascending or descending or- der. Possible values: o Ascending o Descending

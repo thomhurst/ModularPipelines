@@ -41,7 +41,7 @@ public record AwsPiGetPerformanceAnalysisReportOptions : AwsOptions
     /// The text language in the report. The default language is EN_US (Eng- lish). Possible values: o EN_US
     /// </summary>
     [CliOption("--accept-language")]
-    public AwsPiGetPerformanceAnalysisReportAcceptLanguage? AcceptLanguage { get; set; }
+    public string? AcceptLanguage { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

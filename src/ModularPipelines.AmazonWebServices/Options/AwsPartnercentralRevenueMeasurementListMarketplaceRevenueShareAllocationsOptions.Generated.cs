@@ -51,7 +51,7 @@ public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllo
     /// The field to sort marketplace revenue share allocations by. Possible values: o EffectiveFrom
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The direction to sort results. Defaults to DESCENDING. Possible values: o ASCENDING o DESCENDING

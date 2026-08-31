@@ -63,7 +63,7 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
     [CliOption("--vcf-version")]
     public string? VcfVersion { get; set; }
 
-    [CliFlag("--terms-accepted")]
+    [CliFlag("--terms-accepted", NegatedName = "--no-terms-accepted")]
     public bool? TermsAccepted { get; set; }
 
     [CliOption("--initial-vlans")]

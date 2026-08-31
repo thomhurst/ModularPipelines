@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkmailUpdateResourceType
 {
     [EnumValue("ROOM")]
-    Room = 1,
+    Room,
 
     [EnumValue("EQUIPMENT")]
-    Equipment = 2
+    Equipment
 }

@@ -31,7 +31,10 @@ public record AwsOmicsStartVariantImportJobOptions : AwsOptions
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
-    [CliFlag("--run-left-normalization")]
+    /// <summary>
+    /// The job's left normalization setting.
+    /// </summary>
+    [CliFlag("--run-left-normalization", NegatedName = "--no-run-left-normalization")]
     public bool? RunLeftNormalization { get; set; }
 
     /// <summary>

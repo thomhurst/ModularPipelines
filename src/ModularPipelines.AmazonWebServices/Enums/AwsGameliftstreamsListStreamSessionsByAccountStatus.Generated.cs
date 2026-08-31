@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftstreamsListStreamSessionsByAccountStatus
 {
     [EnumValue("ACTIVATING")]
-    Activating = 1,
+    Activating,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("CONNECTED")]
-    Connected = 3,
+    Connected,
 
     [EnumValue("PENDING_CLIENT_RECONNECTION")]
-    PendingClientReconnection = 4,
+    PendingClientReconnection,
 
     [EnumValue("RECONNECTING")]
-    Reconnecting = 5,
+    Reconnecting,
 
     [EnumValue("TERMINATING")]
-    Terminating = 6,
+    Terminating,
 
     [EnumValue("TERMINATED")]
-    Terminated = 7,
+    Terminated,
 
     [EnumValue("ERROR")]
-    Error = 8
+    Error
 }

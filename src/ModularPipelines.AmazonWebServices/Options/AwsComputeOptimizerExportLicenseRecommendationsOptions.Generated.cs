@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -47,9 +46,12 @@ public record AwsComputeOptimizerExportLicenseRecommendationsOptions : AwsOption
     /// The format of the export file. A CSV file is the only export format currently supported. Possible values: o Csv
     /// </summary>
     [CliOption("--file-format")]
-    public AwsComputeOptimizerExportLicenseRecommendationsFileFormat? FileFormat { get; set; }
+    public string? FileFormat { get; set; }
 
-    [CliFlag("--include-member-accounts")]
+    /// <summary>
+    /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the manage- ment account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organi- zation account. For more information, see Compute Optimizer and Ama- zon Web Services Organizations trusted access in the Compute Opti- mizer User Guide . If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file . This parameter cannot be specified together with the account IDs pa- rameter. The parameters are mutually exclusive.
+    /// </summary>
+    [CliFlag("--include-member-accounts", NegatedName = "--no-include-member-accounts")]
     public bool? IncludeMemberAccounts { get; set; }
 
     [CliOption("--cli-input-json")]

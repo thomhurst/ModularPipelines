@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConfigserviceGetResourceConfigHistoryChronologicalOrder
 {
     [EnumValue("Reverse")]
-    Reverse = 1,
+    Reverse,
 
     [EnumValue("Forward")]
-    Forward = 2
+    Forward
 }

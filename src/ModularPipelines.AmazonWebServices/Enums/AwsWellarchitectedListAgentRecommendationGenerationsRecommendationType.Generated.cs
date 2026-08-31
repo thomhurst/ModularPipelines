@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListAgentRecommendationGenerationsRecommendationType
 {
     [EnumValue("RESOURCE")]
-    Resource = 1,
+    Resource,
 
     [EnumValue("ARCHITECTURE")]
-    Architecture = 2,
+    Architecture,
 
     [EnumValue("APPLICATION")]
-    Application = 3
+    Application
 }

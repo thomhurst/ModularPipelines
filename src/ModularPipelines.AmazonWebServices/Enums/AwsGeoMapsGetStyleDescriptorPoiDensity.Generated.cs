@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStyleDescriptorPoiDensity
 {
     [EnumValue("Off")]
-    Off = 1,
+    Off,
 
     [EnumValue("VerySparse")]
-    VerySparse = 2,
+    VerySparse,
 
     [EnumValue("Sparse")]
-    Sparse = 3,
+    Sparse,
 
     [EnumValue("Default")]
-    Default = 4,
+    Default,
 
     [EnumValue("Dense")]
-    Dense = 5,
+    Dense,
 
     [EnumValue("VeryDense")]
-    VeryDense = 6
+    VeryDense
 }

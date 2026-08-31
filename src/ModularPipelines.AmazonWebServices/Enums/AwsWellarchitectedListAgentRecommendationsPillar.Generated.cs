@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListAgentRecommendationsPillar
 {
     [EnumValue("COST_OPTIMIZATION")]
-    CostOptimization = 1,
+    CostOptimization,
 
     [EnumValue("SECURITY")]
-    Security = 2,
+    Security,
 
     [EnumValue("RESILIENCE")]
-    Resilience = 3,
+    Resilience,
 
     [EnumValue("PERFORMANCE")]
-    Performance = 4,
+    Performance,
 
     [EnumValue("OPERATIONAL_EXCELLENCE")]
-    OperationalExcellence = 5
+    OperationalExcellence
 }

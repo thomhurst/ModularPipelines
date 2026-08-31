@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaInvokeLogType
 {
     [EnumValue("None")]
-    None = 1,
+    None,
 
     [EnumValue("Tail")]
-    Tail = 2
+    Tail
 }

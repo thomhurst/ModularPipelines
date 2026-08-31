@@ -34,7 +34,10 @@ public record AwsSnsSubscribeOptions : AwsOptions
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
-    [CliFlag("--return-subscription-arn")]
+    /// <summary>
+    /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true , the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addi- tion to the ARN for confirmed subscriptions, the response also in- cludes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the sub- scriber calls the ConfirmSubscription action with a confirmation to- ken. The default value is false .
+    /// </summary>
+    [CliFlag("--return-subscription-arn", NegatedName = "--no-return-subscription-arn")]
     public bool? ReturnSubscriptionArn { get; set; }
 
     /// <summary>

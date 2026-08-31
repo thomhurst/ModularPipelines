@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2UpdateIntegrationIntegrationType
 {
     [EnumValue("AWS")]
-    Aws = 1,
+    Aws,
 
     [EnumValue("HTTP")]
-    Http = 2,
+    Http,
 
     [EnumValue("MOCK")]
-    Mock = 3,
+    Mock,
 
     [EnumValue("HTTP_PROXY")]
-    HttpProxy = 4,
+    HttpProxy,
 
     [EnumValue("AWS_PROXY")]
-    AwsProxy = 5
+    AwsProxy
 }

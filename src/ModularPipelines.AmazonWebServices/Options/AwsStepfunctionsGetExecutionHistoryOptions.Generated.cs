@@ -25,10 +25,16 @@ public record AwsStepfunctionsGetExecutionHistoryOptions : AwsOptions
     [CliOption("--execution-arn")]
     public string? ExecutionArn { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Lists events in descending order of their timeStamp .
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// You can select whether execution data (input or output of a history event) is returned. The default is true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     [CliOption("--cli-input-json")]

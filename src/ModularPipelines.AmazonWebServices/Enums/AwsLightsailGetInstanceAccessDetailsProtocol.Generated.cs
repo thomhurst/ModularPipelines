@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLightsailGetInstanceAccessDetailsProtocol
 {
     [EnumValue("ssh")]
-    Ssh = 1,
+    Ssh,
 
     [EnumValue("rdp")]
-    Rdp = 2
+    Rdp
 }

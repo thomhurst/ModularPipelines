@@ -27,7 +27,10 @@ public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is be- ing used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by an- other resource.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]

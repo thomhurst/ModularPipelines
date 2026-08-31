@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2CreateTargetGroupTargetType
 {
     [EnumValue("instance")]
-    Instance = 1,
+    Instance,
 
     [EnumValue("ip")]
-    Ip = 2,
+    Ip,
 
     [EnumValue("lambda")]
-    Lambda = 3,
+    Lambda,
 
     [EnumValue("alb")]
-    Alb = 4
+    Alb
 }

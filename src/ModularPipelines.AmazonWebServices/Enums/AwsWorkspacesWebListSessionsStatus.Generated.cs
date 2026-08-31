@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesWebListSessionsStatus
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Terminated")]
-    Terminated = 2
+    Terminated
 }

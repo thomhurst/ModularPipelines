@@ -35,7 +35,10 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Specifies whether to encrypt the snapshots of the copied image. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Man- agement Service (KMS) KMS key using KmsKeyId . For more information, see Use encryption with EBS-backed AMIs in the Amazon EC2 User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -59,7 +62,10 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--destination-outpost-arn")]
     public string? DestinationOutpostArn { get; set; }
 
-    [CliFlag("--copy-image-tags")]
+    /// <summary>
+    /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied: o System tags (prefixed with aws: ) o For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts Default: Your user-defined AMI tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-image-tags", NegatedName = "--no-copy-image-tags")]
     public bool? CopyImageTags { get; set; }
 
     /// <summary>
@@ -86,7 +92,10 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--destination-availability-zone-id")]
     public string? DestinationAvailabilityZoneId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

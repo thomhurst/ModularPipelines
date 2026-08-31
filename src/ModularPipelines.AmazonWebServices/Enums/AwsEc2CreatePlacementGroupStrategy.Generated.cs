@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreatePlacementGroupStrategy
 {
     [EnumValue("cluster")]
-    Cluster = 1,
+    Cluster,
 
     [EnumValue("spread")]
-    Spread = 2,
+    Spread,
 
     [EnumValue("partition")]
-    Partition = 3,
+    Partition,
 
     [EnumValue("precision-time")]
-    PrecisionTime = 4
+    PrecisionTime
 }

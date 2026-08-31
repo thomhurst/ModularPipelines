@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListSubscriptionTargetsSortBy
 {
     [EnumValue("CREATED_AT")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("UPDATED_AT")]
-    UpdatedAt = 2
+    UpdatedAt
 }

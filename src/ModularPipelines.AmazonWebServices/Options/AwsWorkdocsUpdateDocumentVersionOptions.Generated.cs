@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsWorkdocsUpdateDocumentVersionOptions : AwsOptions
     /// The status of the version. Possible values: o ACTIVE
     /// </summary>
     [CliOption("--version-status")]
-    public AwsWorkdocsUpdateDocumentVersionVersionStatus? VersionStatus { get; set; }
+    public string? VersionStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

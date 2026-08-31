@@ -111,7 +111,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to Amazon Aurora because the DB instance Availability Zones (AZs) are managed by the DB cluster.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -120,7 +123,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor en- gine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVer- sionUpgrade to false . For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -159,7 +165,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--nchar-character-set-name")]
     public string? NcharCharacterSetName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is controlled by its security group settings. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified de- pends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to false for Aurora instances and true for non-Aurora instances. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default , in which case Pub- liclyAccessible defaults to true . If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS re- turns an error.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -194,7 +203,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The en- cryption for DB instances is managed by the DB cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -234,7 +246,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -267,6 +282,9 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide . This setting doesn't apply to the following DB instances: o Amazon Aurora (Mapping Amazon Web Services IAM accounts to data- base accounts is managed by the DB cluster.) o RDS Custom
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -276,7 +294,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsCreateDbInstanceDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to enable Performance Insights for the DB in- stance. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -303,7 +324,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance . This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster . DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB clus- ter.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -312,7 +336,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--max-allocated-storage")]
     public int? MaxAllocatedStorage { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your lo- cal network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -325,7 +352,7 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     /// The location for storing automated backups and manual snapshots. Valid Values: o local (Dedicated Local Zone) o outposts (Amazon Web Services Outposts) o region (Amazon Web Services Region) Default: region For more information, see Working with Amazon RDS on Amazon Web Ser- vices Outposts in the Amazon RDS User Guide .
     /// </summary>
     [CliOption("--backup-target")]
-    public AwsRdsCreateDbInstanceBackupTarget? BackupTarget { get; set; }
+    public string? BackupTarget { get; set; }
 
     /// <summary>
     /// The instance profile associated with the underlying Amazon EC2 in- stance of an RDS Custom DB instance. This setting is required for RDS Custom. Constraints: o The profile must exist in your account. o The profile must have an IAM role that Amazon EC2 has permissions to assume. o The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom . For the list of permissions required for the IAM role, see Configure IAM and your VPC in the Amazon RDS User Guide .
@@ -345,7 +372,10 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
@@ -355,10 +385,16 @@ public record AwsRdsCreateDbInstanceOptions : AwsOptions
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CliFlag("--multi-tenant")]
+    /// <summary>
+    /// Specifies whether to use the multi-tenant configuration or the sin- gle-tenant configuration (default). This parameter only applies to RDS for Oracle container database (CDB) engines. Note the following restrictions: o The DB engine that you specify in the request must support the multi-tenant configuration. If you attempt to enable the multi-tenant configuration on a DB engine that doesn't support it, the request fails. o If you specify the multi-tenant configuration when you create your DB instance, you can't later modify this DB instance to use the single-tenant configuration.
+    /// </summary>
+    [CliFlag("--multi-tenant", NegatedName = "--no-multi-tenant")]
     public bool? MultiTenant { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>

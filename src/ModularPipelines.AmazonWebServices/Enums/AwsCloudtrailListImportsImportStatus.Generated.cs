@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudtrailListImportsImportStatus
 {
     [EnumValue("INITIALIZING")]
-    Initializing = 1,
+    Initializing,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("STOPPED")]
-    Stopped = 4,
+    Stopped,
 
     [EnumValue("COMPLETED")]
-    Completed = 5
+    Completed
 }

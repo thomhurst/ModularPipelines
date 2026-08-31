@@ -28,10 +28,16 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions
     [CliOption("--ttl")]
     public int? Ttl { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
-    [CliFlag("--at-rest-encryption-enabled")]
+    /// <summary>
+    /// At-rest encryption flag for cache. You cannot update this setting after creation.
+    /// </summary>
+    [CliFlag("--at-rest-encryption-enabled", NegatedName = "--no-at-rest-encryption-enabled")]
     public bool? AtRestEncryptionEnabled { get; set; }
 
     [CliOption("--api-caching-behavior")]

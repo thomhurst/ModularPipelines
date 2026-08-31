@@ -37,7 +37,10 @@ public record AwsIotUpdatePackageOptions : AwsOptions
     [CliOption("--default-version-name")]
     public string? DefaultVersionName { get; set; }
 
-    [CliFlag("--unset-default-version")]
+    /// <summary>
+    /// Indicates whether you want to remove the named default package ver- sion from the software package. Set as true to remove the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVer- sion equal to true at the same time.
+    /// </summary>
+    [CliFlag("--unset-default-version", NegatedName = "--no-unset-default-version")]
     public bool? UnsetDefaultVersion { get; set; }
 
     /// <summary>

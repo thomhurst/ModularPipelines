@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployListApplicationRevisionsSortBy
 {
     [EnumValue("registerTime")]
-    RegisterTime = 1,
+    RegisterTime,
 
     [EnumValue("firstUsedTime")]
-    FirstUsedTime = 2,
+    FirstUsedTime,
 
     [EnumValue("lastUsedTime")]
-    LastUsedTime = 3
+    LastUsedTime
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53RecoveryControlConfigCreateClusterNetworkType
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("DUALSTACK")]
-    Dualstack = 2
+    Dualstack
 }

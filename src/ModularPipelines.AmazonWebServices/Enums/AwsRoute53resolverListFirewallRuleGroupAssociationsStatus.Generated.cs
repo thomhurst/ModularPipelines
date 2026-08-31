@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverListFirewallRuleGroupAssociationsStatus
 {
     [EnumValue("COMPLETE")]
-    Complete = 1,
+    Complete,
 
     [EnumValue("DELETING")]
-    Deleting = 2,
+    Deleting,
 
     [EnumValue("UPDATING")]
-    Updating = 3
+    Updating
 }

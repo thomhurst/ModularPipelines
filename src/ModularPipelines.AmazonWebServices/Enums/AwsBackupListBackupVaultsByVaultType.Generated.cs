@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListBackupVaultsByVaultType
 {
     [EnumValue("BACKUP_VAULT")]
-    BackupVault = 1,
+    BackupVault,
 
     [EnumValue("RESTORE_ACCESS_BACKUP_VAULT")]
-    RestoreAccessBackupVault = 2
+    RestoreAccessBackupVault
 }

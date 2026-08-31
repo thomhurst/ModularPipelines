@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListDeviceFleetsSortBy
 {
     [EnumValue("NAME")]
-    Name = 1,
+    Name,
 
     [EnumValue("CREATION_TIME")]
-    CreationTime = 2,
+    CreationTime,
 
     [EnumValue("LAST_MODIFIED_TIME")]
-    LastModifiedTime = 3
+    LastModifiedTime
 }

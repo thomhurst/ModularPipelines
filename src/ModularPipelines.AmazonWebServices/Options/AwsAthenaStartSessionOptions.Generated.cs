@@ -71,7 +71,10 @@ public record AwsAthenaStartSessionOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--copy-work-group-tags")]
+    /// <summary>
+    /// Copies the tags from the Workgroup to the Session when.
+    /// </summary>
+    [CliFlag("--copy-work-group-tags", NegatedName = "--no-copy-work-group-tags")]
     public bool? CopyWorkGroupTags { get; set; }
 
     [CliOption("--cli-input-json")]

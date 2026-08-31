@@ -28,7 +28,10 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions
     [CliOption("--import-options")]
     public string? ImportOptions { get; set; }
 
-    [CliFlag("--fail-on-error")]
+    /// <summary>
+    /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
+    /// </summary>
+    [CliFlag("--fail-on-error", NegatedName = "--no-fail-on-error")]
     public bool? FailOnError { get; set; }
 
     [CliOption("--source")]
@@ -44,13 +47,13 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions
     /// The parquet type of the import task. Possible values: o COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
-    public AwsNeptuneGraphStartImportTaskParquetType? ParquetType { get; set; }
+    public string? ParquetType { get; set; }
 
     /// <summary>
     /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: o convertToIri
     /// </summary>
     [CliOption("--blank-node-handling")]
-    public AwsNeptuneGraphStartImportTaskBlankNodeHandling? BlankNodeHandling { get; set; }
+    public string? BlankNodeHandling { get; set; }
 
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; set; }

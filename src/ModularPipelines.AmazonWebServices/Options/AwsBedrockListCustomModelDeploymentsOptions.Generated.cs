@@ -45,7 +45,7 @@ public record AwsBedrockListCustomModelDeploymentsOptions : AwsOptions
     /// The field to sort the results by. The only supported value is Cre- ationTime . Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListCustomModelDeploymentsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for the results. Valid values are Ascending and De- scending . Default is Descending . Possible values: o Ascending o Descending

@@ -30,7 +30,10 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions
     [CliOption("--tape-barcode")]
     public string? TapeBarcode { get; set; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -45,7 +48,10 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
-    [CliFlag("--worm")]
+    /// <summary>
+    /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
+    /// </summary>
+    [CliFlag("--worm", NegatedName = "--no-worm")]
     public bool? Worm { get; set; }
 
     /// <summary>

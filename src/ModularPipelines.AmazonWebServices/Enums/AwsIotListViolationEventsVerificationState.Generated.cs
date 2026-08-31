@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListViolationEventsVerificationState
 {
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 1,
+    FalsePositive,
 
     [EnumValue("BENIGN_POSITIVE")]
-    BenignPositive = 2,
+    BenignPositive,
 
     [EnumValue("TRUE_POSITIVE")]
-    TruePositive = 3,
+    TruePositive,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 4
+    Unknown
 }

@@ -81,7 +81,7 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
     /// Field to sort by. Possible values: o EffectiveFrom
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Sort direction. Defaults to ASCENDING. Possible values: o ASCENDING o DESCENDING

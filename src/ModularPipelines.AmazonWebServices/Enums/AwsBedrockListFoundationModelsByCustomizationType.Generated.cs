@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListFoundationModelsByCustomizationType
 {
     [EnumValue("FINE_TUNING")]
-    FineTuning = 1,
+    FineTuning,
 
     [EnumValue("CONTINUED_PRE_TRAINING")]
-    ContinuedPreTraining = 2,
+    ContinuedPreTraining,
 
     [EnumValue("DISTILLATION")]
-    Distillation = 3
+    Distillation
 }

@@ -38,7 +38,10 @@ public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -53,7 +56,10 @@ public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliFlag("--delete-replaced-root-volume")]
+    /// <summary>
+    /// Indicates whether to automatically delete the original root volume after the root volume replacement task completes. To delete the original root volume, specify true . If you choose to keep the orig- inal root volume after the replacement task completes, you must man- ually delete it when you no longer need it.
+    /// </summary>
+    [CliFlag("--delete-replaced-root-volume", NegatedName = "--no-delete-replaced-root-volume")]
     public bool? DeleteReplacedRootVolume { get; set; }
 
     /// <summary>

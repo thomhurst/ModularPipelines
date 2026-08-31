@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueGetConnectionApplyOverrideForComputeEnvironment
 {
     [EnumValue("SPARK")]
-    Spark = 1,
+    Spark,
 
     [EnumValue("ATHENA")]
-    Athena = 2,
+    Athena,
 
     [EnumValue("PYTHON")]
-    Python = 3
+    Python
 }

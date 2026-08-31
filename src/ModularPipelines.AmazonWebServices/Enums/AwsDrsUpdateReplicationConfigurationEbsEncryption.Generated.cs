@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsUpdateReplicationConfigurationEbsEncryption
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("CUSTOM")]
-    Custom = 2,
+    Custom,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

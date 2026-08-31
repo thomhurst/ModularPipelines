@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -195,21 +195,6 @@ public class AwsManagedblockchain : IAwsManagedblockchain
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsManagedblockchainListInvitationsOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Returns a list of the members in a network and properties of their con- figurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMembersAsync(
-        AwsManagedblockchainListMembersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsManagedblockchainListMembersOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

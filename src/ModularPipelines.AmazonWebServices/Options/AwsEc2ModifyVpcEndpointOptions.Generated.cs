@@ -22,13 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-vpc-endpoint")]
 public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
-    [CliFlag("--reset-policy")]
+    /// <summary>
+    /// (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the ser- vice.
+    /// </summary>
+    [CliFlag("--reset-policy", NegatedName = "--no-reset-policy")]
     public bool? ResetPolicy { get; set; }
 
     /// <summary>
@@ -85,7 +91,10 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
     [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
 
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// (Interface endpoint) Indicates whether a private hosted zone is as- sociated with the VPC.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>

@@ -26,6 +26,9 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
+    /// <summary>
+    /// rity-group (boolean) [required] Request to associate the default Application Migration Service Secu- rity group with the Replication Settings template.
+    /// </summary>
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
@@ -35,6 +38,9 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
+    /// <summary>
+    /// tion-server (boolean) [required] Request to use Dedicated Replication Servers during Replication Set- tings template creation.
+    /// </summary>
     [CliFlag("--use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
@@ -56,13 +62,16 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public string? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Request to use Fips Endpoint during Replication Settings template creation.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -77,7 +86,10 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnCreateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Request to store snapshot on local zone during Replication Settings template creation.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncUpdateLocationHdfsAuthenticationType
 {
     [EnumValue("SIMPLE")]
-    Simple = 1,
+    Simple,
 
     [EnumValue("KERBEROS")]
-    Kerberos = 2
+    Kerberos
 }

@@ -27,7 +27,7 @@ public record AwsRoute53domainsGetDomainSuggestionsOptions : AwsOptions
     [CliOption("--suggestion-count")]
     public int? SuggestionCount { get; set; }
 
-    [CliFlag("--only-available")]
+    [CliFlag("--only-available", NegatedName = "--no-only-available")]
     public bool? OnlyAvailable { get; set; }
 
     [CliOption("--cli-input-json")]

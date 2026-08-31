@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotdeviceadvisorGetEndpointAuthenticationMethod
 {
     [EnumValue("X509ClientCertificate")]
-    X509ClientCertificate = 1,
+    X509ClientCertificate,
 
     [EnumValue("SignatureVersion4")]
-    SignatureVersion4 = 2
+    SignatureVersion4
 }

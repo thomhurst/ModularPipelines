@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGluePutResourcePolicyPolicyExistsCondition
 {
     [EnumValue("MUST_EXIST")]
-    MustExist = 1,
+    MustExist,
 
     [EnumValue("NOT_EXIST")]
-    NotExist = 2,
+    NotExist,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

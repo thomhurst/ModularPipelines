@@ -24,7 +24,10 @@ public record AwsStoragegatewayDetachVolumeOptions : AwsOptions
     [CliOption("--volume-arn")]
     public string? VolumeArn { get; set; }
 
-    [CliFlag("--force-detach")]
+    /// <summary>
+    /// Set to true to forcibly remove the iSCSI connection of the target volume and detach the volume. The default is false . If this value is set to false , you must manually disconnect the iSCSI connection from the target volume. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--force-detach", NegatedName = "--no-force-detach")]
     public bool? ForceDetach { get; set; }
 
     [CliOption("--cli-input-json")]

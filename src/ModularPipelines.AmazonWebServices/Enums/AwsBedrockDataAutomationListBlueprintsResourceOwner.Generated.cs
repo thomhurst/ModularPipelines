@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockDataAutomationListBlueprintsResourceOwner
 {
     [EnumValue("SERVICE")]
-    Service = 1,
+    Service,
 
     [EnumValue("ACCOUNT")]
-    Account = 2
+    Account
 }

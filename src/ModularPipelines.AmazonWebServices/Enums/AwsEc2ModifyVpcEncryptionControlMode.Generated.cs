@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyVpcEncryptionControlMode
 {
     [EnumValue("monitor")]
-    Monitor = 1,
+    Monitor,
 
     [EnumValue("enforce")]
-    Enforce = 2
+    Enforce
 }

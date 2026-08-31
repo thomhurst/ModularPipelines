@@ -32,7 +32,10 @@ public record AwsDynamodbExecuteStatementOptions : AwsOptions
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// The consistency of a read operation. If set to true , then a strongly consistent read is used; otherwise, an eventually consis- tent read is used.
+    /// </summary>
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallListRuleGroupsScope
 {
     [EnumValue("MANAGED")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("ACCOUNT")]
-    Account = 2
+    Account
 }

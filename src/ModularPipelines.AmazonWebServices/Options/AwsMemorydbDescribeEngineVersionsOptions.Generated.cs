@@ -40,7 +40,10 @@ public record AwsMemorydbDescribeEngineVersionsOptions : AwsOptions
     [CliOption("--parameter-group-family")]
     public string? ParameterGroupFamily { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
     [CliOption("--cli-input-json")]

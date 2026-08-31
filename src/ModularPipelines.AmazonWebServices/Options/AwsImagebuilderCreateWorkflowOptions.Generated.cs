@@ -75,7 +75,10 @@ public record AwsImagebuilderCreateWorkflowOptions : AwsOptions
     [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an er- ror response. Upon a successful request, the error response is DryRunOperationException .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

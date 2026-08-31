@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftServerlessUpdateNamespaceS3TableAction
 {
     [EnumValue("Enable")]
-    Enable = 1,
+    Enable,
 
     [EnumValue("Disable")]
-    Disable = 2
+    Disable
 }

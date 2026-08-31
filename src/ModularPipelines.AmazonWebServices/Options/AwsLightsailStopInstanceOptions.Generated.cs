@@ -24,7 +24,10 @@ public record AwsLightsailStopInstanceOptions : AwsOptions
     [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// When set to True , forces a Lightsail instance that is stuck in a stopping state to stop. WARNING: Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

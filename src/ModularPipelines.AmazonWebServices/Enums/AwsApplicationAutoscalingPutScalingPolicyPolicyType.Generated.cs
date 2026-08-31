@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationAutoscalingPutScalingPolicyPolicyType
 {
     [EnumValue("StepScaling")]
-    StepScaling = 1,
+    StepScaling,
 
     [EnumValue("TargetTrackingScaling")]
-    TargetTrackingScaling = 2,
+    TargetTrackingScaling,
 
     [EnumValue("PredictiveScaling")]
-    PredictiveScaling = 3
+    PredictiveScaling
 }

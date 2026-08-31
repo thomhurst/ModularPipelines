@@ -39,7 +39,10 @@ public record AwsRedshiftRevokeEndpointAccessOptions : AwsOptions
     [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Indicates whether to force the revoke action. If true, the Red- shift-managed VPC endpoints associated with the endpoint authoriza- tion are also deleted.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

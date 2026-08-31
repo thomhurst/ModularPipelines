@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsRegisterCertificateType
 {
     [EnumValue("ClientCertAuth")]
-    ClientCertAuth = 1,
+    ClientCertAuth,
 
     [EnumValue("ClientLDAPS")]
-    ClientLdaps = 2
+    ClientLdaps
 }

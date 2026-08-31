@@ -59,7 +59,10 @@ public record AwsResiliencehubListAppsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// The application list is sorted based on the values of lastAppCompli- anceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True .
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>

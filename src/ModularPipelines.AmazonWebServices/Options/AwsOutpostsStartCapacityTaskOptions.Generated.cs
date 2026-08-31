@@ -46,7 +46,10 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions
     [CliOption("--instances-to-exclude")]
     public string? InstancesToExclude { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// You can request a dry run to determine if the instance type and in- stance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

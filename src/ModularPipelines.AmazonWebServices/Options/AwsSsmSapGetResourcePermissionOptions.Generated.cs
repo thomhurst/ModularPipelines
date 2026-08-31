@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsSsmSapGetResourcePermissionOptions : AwsOptions
     /// Possible values: o RESTORE
     /// </summary>
     [CliOption("--action-type")]
-    public AwsSsmSapGetResourcePermissionActionType? ActionType { get; set; }
+    public string? ActionType { get; set; }
 
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }

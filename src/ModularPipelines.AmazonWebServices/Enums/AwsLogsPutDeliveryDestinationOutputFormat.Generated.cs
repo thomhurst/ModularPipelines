@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsPutDeliveryDestinationOutputFormat
 {
     [EnumValue("json")]
-    Json = 1,
+    Json,
 
     [EnumValue("plain")]
-    Plain = 2,
+    Plain,
 
     [EnumValue("w3c")]
-    W3c = 3,
+    W3c,
 
     [EnumValue("raw")]
-    Raw = 4,
+    Raw,
 
     [EnumValue("parquet")]
-    Parquet = 5
+    Parquet
 }

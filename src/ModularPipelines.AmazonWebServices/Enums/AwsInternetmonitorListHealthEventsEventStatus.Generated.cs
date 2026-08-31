@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInternetmonitorListHealthEventsEventStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2
+    Resolved
 }

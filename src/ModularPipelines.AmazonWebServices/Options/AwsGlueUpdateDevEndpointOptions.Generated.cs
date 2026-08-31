@@ -49,7 +49,10 @@ public record AwsGlueUpdateDevEndpointOptions : AwsOptions
     [CliOption("--custom-libraries")]
     public string? CustomLibraries { get; set; }
 
-    [CliFlag("--update-etl-libraries")]
+    /// <summary>
+    /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False if otherwise.
+    /// </summary>
+    [CliFlag("--update-etl-libraries", NegatedName = "--no-update-etl-libraries")]
     public bool? UpdateEtlLibraries { get; set; }
 
     /// <summary>

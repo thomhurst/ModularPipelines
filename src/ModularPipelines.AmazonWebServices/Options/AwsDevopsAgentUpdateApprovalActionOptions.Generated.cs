@@ -48,7 +48,10 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions
     [CliOption("--ttl-seconds")]
     public int? TtlSeconds { get; set; }
 
-    [CliFlag("--single-use")]
+    /// <summary>
+    /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when action is APPROVED; must be absent when action is REJECTED. When true, ttlSec- onds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse win- dow. Cross-field invariants are enforced by service-side validation.
+    /// </summary>
+    [CliFlag("--single-use", NegatedName = "--no-single-use")]
     public bool? SingleUse { get; set; }
 
     [CliOption("--cli-input-json")]

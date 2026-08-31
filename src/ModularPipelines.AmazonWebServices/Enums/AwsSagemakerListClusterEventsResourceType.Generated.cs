@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListClusterEventsResourceType
 {
     [EnumValue("Cluster")]
-    Cluster = 1,
+    Cluster,
 
     [EnumValue("InstanceGroup")]
-    InstanceGroup = 2,
+    InstanceGroup,
 
     [EnumValue("Instance")]
-    Instance = 3
+    Instance
 }

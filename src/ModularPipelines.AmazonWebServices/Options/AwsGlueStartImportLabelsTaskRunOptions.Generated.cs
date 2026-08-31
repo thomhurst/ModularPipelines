@@ -27,7 +27,10 @@ public record AwsGlueStartImportLabelsTaskRunOptions : AwsOptions
     [CliOption("--input-s3-path")]
     public string? InputS3Path { get; set; }
 
-    [CliFlag("--replace-all-labels")]
+    /// <summary>
+    /// Indicates whether to overwrite your existing labels.
+    /// </summary>
+    [CliFlag("--replace-all-labels", NegatedName = "--no-replace-all-labels")]
     public bool? ReplaceAllLabels { get; set; }
 
     [CliOption("--cli-input-json")]

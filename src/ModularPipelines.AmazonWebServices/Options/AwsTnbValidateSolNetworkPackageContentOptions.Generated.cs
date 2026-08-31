@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsTnbValidateSolNetworkPackageContentOptions : AwsOptions
     /// Network package content type. Possible values: o application/zip
     /// </summary>
     [CliOption("--content-type")]
-    public AwsTnbValidateSolNetworkPackageContentContentType? ContentType { get; set; }
+    public string? ContentType { get; set; }
 
     [CliOption("--file")]
     public string? File { get; set; }

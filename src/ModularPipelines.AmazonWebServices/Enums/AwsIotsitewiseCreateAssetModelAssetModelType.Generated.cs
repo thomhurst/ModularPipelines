@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseCreateAssetModelAssetModelType
 {
     [EnumValue("ASSET_MODEL")]
-    AssetModel = 1,
+    AssetModel,
 
     [EnumValue("COMPONENT_MODEL")]
-    ComponentModel = 2,
+    ComponentModel,
 
     [EnumValue("INTERFACE")]
-    Interface = 3
+    Interface
 }

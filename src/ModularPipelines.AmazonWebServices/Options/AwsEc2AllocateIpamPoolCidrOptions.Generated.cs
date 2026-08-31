@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "allocate-ipam-pool-cidr")]
 public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-pool-id")]
@@ -54,7 +57,10 @@ public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--preview-next-cidr")]
+    /// <summary>
+    /// A preview of the next available CIDR in a pool.
+    /// </summary>
+    [CliFlag("--preview-next-cidr", NegatedName = "--no-preview-next-cidr")]
     public bool? PreviewNextCidr { get; set; }
 
     /// <summary>

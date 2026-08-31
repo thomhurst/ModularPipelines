@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticbeanstalkDescribeEnvironmentManagedActionsStatus
 {
     [EnumValue("Scheduled")]
-    Scheduled = 1,
+    Scheduled,
 
     [EnumValue("Pending")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("Running")]
-    Running = 3,
+    Running,
 
     [EnumValue("Unknown")]
-    Unknown = 4
+    Unknown
 }

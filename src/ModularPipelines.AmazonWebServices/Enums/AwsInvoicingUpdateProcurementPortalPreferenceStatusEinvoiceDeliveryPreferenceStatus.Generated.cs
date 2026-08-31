@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInvoicingUpdateProcurementPortalPreferenceStatusEinvoiceDeliveryPreferenceStatus
 {
     [EnumValue("PENDING_VERIFICATION")]
-    PendingVerification = 1,
+    PendingVerification,
 
     [EnumValue("VALIDATED")]
-    Validated = 2,
+    Validated,
 
     [EnumValue("TEST_INITIALIZED")]
-    TestInitialized = 3,
+    TestInitialized,
 
     [EnumValue("TEST_INITIALIZATION_FAILED")]
-    TestInitializationFailed = 4,
+    TestInitializationFailed,
 
     [EnumValue("TEST_FAILED")]
-    TestFailed = 5,
+    TestFailed,
 
     [EnumValue("ACTIVE")]
-    Active = 6,
+    Active,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 7
+    Suspended
 }

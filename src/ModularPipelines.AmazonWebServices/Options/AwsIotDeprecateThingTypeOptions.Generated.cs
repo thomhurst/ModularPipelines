@@ -24,7 +24,10 @@ public record AwsIotDeprecateThingTypeOptions : AwsOptions
     [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; set; }
 
-    [CliFlag("--undo-deprecate")]
+    /// <summary>
+    /// Whether to undeprecate a deprecated thing type. If true , the thing type will not be deprecated anymore and you can associate it with things.
+    /// </summary>
+    [CliFlag("--undo-deprecate", NegatedName = "--no-undo-deprecate")]
     public bool? UndoDeprecate { get; set; }
 
     [CliOption("--cli-input-json")]

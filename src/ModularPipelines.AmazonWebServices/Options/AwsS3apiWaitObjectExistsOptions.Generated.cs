@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -122,7 +121,7 @@ public record AwsS3apiWaitObjectExistsOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiWaitObjectExistsRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// Part number of the object being read. This is a positive integer be- tween 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
@@ -140,7 +139,7 @@ public record AwsS3apiWaitObjectExistsOptions : AwsOptions
     /// To retrieve the checksum, this parameter must be enabled. General purpose buckets - If you enable checksum mode and the object is uploaded with a checksum and encrypted with an Key Management Service (KMS) key, you must have permission to use the kms:Decrypt action to retrieve the checksum. Directory buckets - If you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Ama- zon Web Services KMS), you must also have the kms:Generate- DataKey and kms:Decrypt permissions in IAM identity-based poli- cies and KMS key policies for the KMS key to retrieve the check- sum of the object. Possible values: o ENABLED
     /// </summary>
     [CliOption("--checksum-mode")]
-    public AwsS3apiWaitObjectExistsChecksumMode? ChecksumMode { get; set; }
+    public string? ChecksumMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

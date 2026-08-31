@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2PutConfigurationSetDeliveryTlsPolicy
 {
     [EnumValue("REQUIRE")]
-    Require = 1,
+    Require,
 
     [EnumValue("OPTIONAL")]
-    Optional = 2
+    Optional
 }

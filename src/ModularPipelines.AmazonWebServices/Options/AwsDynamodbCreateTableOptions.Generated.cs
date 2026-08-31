@@ -85,7 +85,10 @@ public record AwsDynamodbCreateTableOptions : AwsOptions
     [CliOption("--table-class")]
     public AwsDynamodbCreateTableTableClass? TableClass { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

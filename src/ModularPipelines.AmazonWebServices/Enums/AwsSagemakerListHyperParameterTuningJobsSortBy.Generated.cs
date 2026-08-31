@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListHyperParameterTuningJobsSortBy
 {
     [EnumValue("Name")]
-    Name = 1,
+    Name,
 
     [EnumValue("Status")]
-    Status = 2,
+    Status,
 
     [EnumValue("CreationTime")]
-    CreationTime = 3
+    CreationTime
 }

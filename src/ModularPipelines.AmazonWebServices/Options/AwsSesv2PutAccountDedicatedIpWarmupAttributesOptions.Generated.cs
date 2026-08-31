@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "put-account-dedicated-ip-warmup-attributes")]
 public record AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions : AwsOptions
 {
-    [CliFlag("--auto-warmup-enabled")]
+    /// <summary>
+    /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the auto- matic warm-up feature, or set to false to disable it.
+    /// </summary>
+    [CliFlag("--auto-warmup-enabled", NegatedName = "--no-auto-warmup-enabled")]
     public bool? AutoWarmupEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

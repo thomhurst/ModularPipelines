@@ -103,7 +103,7 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values: o For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) o For clusters with dc2 nodes - Select a port within the range 1150-65535 .
     /// </summary>
     [CliOption("--port")]
-    public AwsRedshiftCreateClusterPort? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0 Constraints: o max: 2147483647
@@ -111,7 +111,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CliFlag("--allow-version-upgrade")]
+    /// <summary>
+    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
+    /// </summary>
+    [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
@@ -120,10 +123,16 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// If true , the cluster can be accessed from a public network. Default: false
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// If true , the data in the cluster is encrypted at rest. If you set the value on this parameter to false , the request will fail. Default: true
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -156,7 +165,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
@@ -183,7 +195,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--snapshot-schedule-identifier")]
     public string? SnapshotScheduleIdentifier { get; set; }
 
-    [CliFlag("--availability-zone-relocation")]
+    /// <summary>
+    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is created.
+    /// </summary>
+    [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
@@ -204,7 +219,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--load-sample-data")]
     public string? LoadSampleData { get; set; }
 
-    [CliFlag("--manage-master-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage this clus- ter's admin credentials. You can't use MasterUserPassword if Manage- MasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    /// </summary>
+    [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
@@ -220,7 +238,10 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -235,6 +256,9 @@ public record AwsRedshiftCreateClusterOptions : AwsOptions
     [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 

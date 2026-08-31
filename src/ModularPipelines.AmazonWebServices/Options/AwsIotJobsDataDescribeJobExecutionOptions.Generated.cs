@@ -27,7 +27,10 @@ public record AwsIotJobsDataDescribeJobExecutionOptions : AwsOptions
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CliFlag("--include-job-document")]
+    /// <summary>
+    /// Optional. Unless set to false, the response contains the job docu- ment. The default is true.
+    /// </summary>
+    [CliFlag("--include-job-document", NegatedName = "--no-include-job-document")]
     public bool? IncludeJobDocument { get; set; }
 
     /// <summary>

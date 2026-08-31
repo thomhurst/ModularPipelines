@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateClientVpnEndpointTransportProtocol
 {
     [EnumValue("tcp")]
-    Tcp = 1,
+    Tcp,
 
     [EnumValue("udp")]
-    Udp = 2
+    Udp
 }

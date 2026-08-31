@@ -36,7 +36,10 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP ad- dress. A value of false represents an instance profile with a pri- vate IP address. The default value is true .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>

@@ -27,7 +27,10 @@ public record AwsFrauddetectorDeleteEventOptions : AwsOptions
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; set; }
 
-    [CliFlag("--delete-audit-history")]
+    /// <summary>
+    /// Specifies whether or not to delete any predictions associated with the event. If set to True ,
+    /// </summary>
+    [CliFlag("--delete-audit-history", NegatedName = "--no-delete-audit-history")]
     public bool? DeleteAuditHistory { get; set; }
 
     [CliOption("--cli-input-json")]

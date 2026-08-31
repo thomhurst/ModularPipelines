@@ -46,7 +46,7 @@ public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
     [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
 
-    [CliFlag("--retain-stacks")]
+    [CliFlag("--retain-stacks", NegatedName = "--no-retain-stacks")]
     public bool? RetainStacks { get; set; }
 
     /// <summary>

@@ -30,7 +30,10 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// True to enable the provisioning template, otherwise false.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -51,7 +54,10 @@ public record AwsIotUpdateProvisioningTemplateOptions : AwsOptions
     [CliOption("--pre-provisioning-hook")]
     public string? PreProvisioningHook { get; set; }
 
-    [CliFlag("--remove-pre-provisioning-hook")]
+    /// <summary>
+    /// Removes pre-provisioning hook template.
+    /// </summary>
+    [CliFlag("--remove-pre-provisioning-hook", NegatedName = "--no-remove-pre-provisioning-hook")]
     public bool? RemovePreProvisioningHook { get; set; }
 
     [CliOption("--cli-input-json")]

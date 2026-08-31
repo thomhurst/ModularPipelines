@@ -29,7 +29,10 @@ public record AwsCognitoIdpCreateUserPoolClientOptions : AwsOptions
     [CliOption("--client-name")]
     public string? ClientName { get; set; }
 
-    [CliFlag("--generate-secret")]
+    /// <summary>
+    /// When true , generates a client secret for the app client. Client se- crets are used with server-side and machine-to-machine applications. Client secrets are automatically generated; you can't specify a se- cret value. For more information, see App client types .
+    /// </summary>
+    [CliFlag("--generate-secret", NegatedName = "--no-generate-secret")]
     public bool? GenerateSecret { get; set; }
 
     /// <summary>
@@ -122,7 +125,7 @@ public record AwsCognitoIdpCreateUserPoolClientOptions : AwsOptions
     public IEnumerable<string>? AllowedOAuthScopes { get; set; }
 
     /// <summary>
-    /// | --no-al- lowed-o-auth-flows-user-pool-client (boolean) Set to true to use OAuth 2.0 authorization server features in your app client. This parameter must have a value of true before you can configure the following features in your app client. o CallBackURLs : Callback URLs. o LogoutURLs : Sign-out redirect URLs. o AllowedOAuthScopes : OAuth 2.0 scopes. o AllowedOAuthFlows : Support for authorization code, implicit, and client credentials OAuth 2.0 grants. To use authorization server features, configure one of these fea- tures in the Amazon Cognito console or set AllowedOAuthFlowsUser- PoolClient to true in a CreateUserPoolClient or UpdateUserPoolClient API request. If you don't set a value for AllowedOAuthFlowsUserPool- Client in a request with the CLI or SDKs, it defaults to false . When false , only SDK-based API sign-in is permitted.
+    /// lowed-o-auth-flows-user-pool-client (boolean) Set to true to use OAuth 2.0 authorization server features in your app client. This parameter must have a value of true before you can configure the following features in your app client. o CallBackURLs : Callback URLs. o LogoutURLs : Sign-out redirect URLs. o AllowedOAuthScopes : OAuth 2.0 scopes. o AllowedOAuthFlows : Support for authorization code, implicit, and client credentials OAuth 2.0 grants. To use authorization server features, configure one of these fea- tures in the Amazon Cognito console or set AllowedOAuthFlowsUser- PoolClient to true in a CreateUserPoolClient or UpdateUserPoolClient API request. If you don't set a value for AllowedOAuthFlowsUserPool- Client in a request with the CLI or SDKs, it defaults to false . When false , only SDK-based API sign-in is permitted.
     /// </summary>
     [CliFlag("--allowed-o-auth-flows-user-pool-client")]
     public bool? AllowedOAuthFlowsUserPoolClient { get; set; }
@@ -139,9 +142,15 @@ public record AwsCognitoIdpCreateUserPoolClientOptions : AwsOptions
     [CliOption("--prevent-user-existence-errors")]
     public AwsCognitoIdpCreateUserPoolClientPreventUserExistenceErrors? PreventUserExistenceErrors { get; set; }
 
-    [CliFlag("--enable-token-revocation")]
+    /// <summary>
+    /// Activates or deactivates token revocation in the target app client. If you don't include this parameter, token revocation is automati- cally activated for the new user pool client.
+    /// </summary>
+    [CliFlag("--enable-token-revocation", NegatedName = "--no-enable-token-revocation")]
     public bool? EnableTokenRevocation { get; set; }
 
+    /// <summary>
+    /// gate-additional-user-context-data (boolean) When true , your application can include additional UserContextData in authentication requests. This data includes the IP address, and contributes to analysis by threat protection features. For more in- formation about propagation of user context data, see Adding session data to API requests . If you dont include this parameter, you can't send the source IP address to Amazon Cognito threat protection fea- tures. You can only activate EnablePropagateAdditionalUserContext- Data in an app client that has a client secret.
+    /// </summary>
     [CliFlag("--enable-propagate-additional-user-context-data")]
     public bool? EnablePropagateAdditionalUserContextData { get; set; }
 

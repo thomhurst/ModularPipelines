@@ -33,7 +33,10 @@ public record AwsCodecommitDeleteFileOptions : AwsOptions
     [CliOption("--parent-commit-id")]
     public string? ParentCommitId { get; set; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If a file is the only object in the folder or directory, specifies whether to delete the folder or directory that contains the file. By default, empty folders are deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>

@@ -25,7 +25,10 @@ public record AwsMqUpdateUserOptions : AwsOptions
     [CliOption("--broker-id")]
     public string? BrokerId { get; set; }
 
-    [CliFlag("--console-access")]
+    /// <summary>
+    /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+    /// </summary>
+    [CliFlag("--console-access", NegatedName = "--no-console-access")]
     public bool? ConsoleAccess { get; set; }
 
     /// <summary>
@@ -44,7 +47,10 @@ public record AwsMqUpdateUserOptions : AwsOptions
     [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CliFlag("--replication-user")]
+    /// <summary>
+    /// Defines whether the user is intended for data replication.
+    /// </summary>
+    [CliFlag("--replication-user", NegatedName = "--no-replication-user")]
     public bool? ReplicationUser { get; set; }
 
     [CliOption("--cli-input-json")]

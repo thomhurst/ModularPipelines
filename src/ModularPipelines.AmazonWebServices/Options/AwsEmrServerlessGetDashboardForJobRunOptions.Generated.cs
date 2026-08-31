@@ -33,7 +33,10 @@ public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions
     [CliOption("--attempt")]
     public int? Attempt { get; set; }
 
-    [CliFlag("--access-system-profile-logs")]
+    /// <summary>
+    /// Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
+    /// </summary>
+    [CliFlag("--access-system-profile-logs", NegatedName = "--no-access-system-profile-logs")]
     public bool? AccessSystemProfileLogs { get; set; }
 
     [CliOption("--cli-input-json")]

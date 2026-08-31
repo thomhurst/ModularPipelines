@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEsCreateElasticsearchDomainUseCase
 {
     [EnumValue("SEARCH")]
-    Search = 1,
+    Search,
 
     [EnumValue("VECTOR")]
-    Vector = 2,
+    Vector,
 
     [EnumValue("OBSERVABILITY")]
-    Observability = 3,
+    Observability,
 
     [EnumValue("MIXED")]
-    Mixed = 4
+    Mixed
 }

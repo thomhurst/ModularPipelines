@@ -45,7 +45,10 @@ public record AwsDsUpdateDirectorySetupOptions : AwsOptions
     [CliOption("--network-update-settings")]
     public string? NetworkUpdateSettings { get; set; }
 
-    [CliFlag("--create-snapshot-before-update")]
+    /// <summary>
+    /// Specifies whether to create a directory snapshot before performing the update.
+    /// </summary>
+    [CliFlag("--create-snapshot-before-update", NegatedName = "--no-create-snapshot-before-update")]
     public bool? CreateSnapshotBeforeUpdate { get; set; }
 
     [CliOption("--cli-input-json")]

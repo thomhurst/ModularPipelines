@@ -24,7 +24,10 @@ public record AwsDocdbDeleteDbClusterOptions : AwsOptions
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted. NOTE: If SkipFinalSnapshot is false , you must specify a FinalDBSnap- shotIdentifier parameter. Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>

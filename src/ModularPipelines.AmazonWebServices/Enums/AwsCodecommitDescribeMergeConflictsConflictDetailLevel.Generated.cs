@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitDescribeMergeConflictsConflictDetailLevel
 {
     [EnumValue("FILE_LEVEL")]
-    FileLevel = 1,
+    FileLevel,
 
     [EnumValue("LINE_LEVEL")]
-    LineLevel = 2
+    LineLevel
 }

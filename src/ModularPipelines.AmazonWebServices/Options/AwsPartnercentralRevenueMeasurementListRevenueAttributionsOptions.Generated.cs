@@ -48,7 +48,7 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     /// The field to sort revenue attributions by. Possible values: o LastModifiedDate
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsPartnercentralRevenueMeasurementListRevenueAttributionsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The direction to sort results. Possible values: o ASCENDING o DESCENDING

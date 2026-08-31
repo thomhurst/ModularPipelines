@@ -116,7 +116,10 @@ public record AwsOpensearchUpdateDomainConfigOptions : AwsOptions
     [CliOption("--auto-tune-options")]
     public string? AutoTuneOptions { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// This flag, when set to True, specifies whether the UpdateDomain re- quest should return the results of a dry run analysis without actu- ally applying the change. A dry run determines what type of deploy- ment the update will cause.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

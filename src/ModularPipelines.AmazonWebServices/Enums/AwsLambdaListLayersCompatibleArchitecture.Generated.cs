@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaListLayersCompatibleArchitecture
 {
     [EnumValue("x86_64")]
-    X86_64 = 1,
+    X86_64,
 
     [EnumValue("arm64")]
-    Arm64 = 2
+    Arm64
 }

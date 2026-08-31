@@ -33,7 +33,10 @@ public record AwsIamListServiceSpecificCredentialsOptions : AwsOptions
     [CliOption("--service-name")]
     public string? ServiceName { get; set; }
 
-    [CliFlag("--all-users")]
+    /// <summary>
+    /// A flag indicating whether to list service specific credentials for all users. This parameter cannot be specified together with User- Name. When true, returns all credentials associated with the speci- fied service.
+    /// </summary>
+    [CliFlag("--all-users", NegatedName = "--no-all-users")]
     public bool? AllUsers { get; set; }
 
     /// <summary>

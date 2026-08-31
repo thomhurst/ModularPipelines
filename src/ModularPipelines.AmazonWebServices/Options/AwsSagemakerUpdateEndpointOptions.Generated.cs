@@ -27,7 +27,10 @@ public record AwsSagemakerUpdateEndpointOptions : AwsOptions
     [CliOption("--endpoint-config-name")]
     public string? EndpointConfigName { get; set; }
 
-    [CliFlag("--retain-all-variant-properties")]
+    /// <summary>
+    /// When updating endpoint resources, enables or disables the retention of variant properties , such as the instance count or the variant weight. To retain the variant properties of an endpoint when updat- ing it, set RetainAllVariantProperties to true . To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false . The default is false .
+    /// </summary>
+    [CliFlag("--retain-all-variant-properties", NegatedName = "--no-retain-all-variant-properties")]
     public bool? RetainAllVariantProperties { get; set; }
 
     /// <summary>
@@ -42,7 +45,10 @@ public record AwsSagemakerUpdateEndpointOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--retain-deployment-config")]
+    /// <summary>
+    /// Specifies whether to reuse the last deployment configuration. The default value is false (the configuration is not reused).
+    /// </summary>
+    [CliFlag("--retain-deployment-config", NegatedName = "--no-retain-deployment-config")]
     public bool? RetainDeploymentConfig { get; set; }
 
     [CliOption("--cli-input-json")]

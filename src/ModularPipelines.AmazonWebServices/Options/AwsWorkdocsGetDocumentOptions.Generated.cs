@@ -32,7 +32,10 @@ public record AwsWorkdocsGetDocumentOptions : AwsOptions
     [CliOption("--document-id")]
     public string? DocumentId { get; set; }
 
-    [CliFlag("--include-custom-metadata")]
+    /// <summary>
+    /// Set this to TRUE to include custom metadata in the response.
+    /// </summary>
+    [CliFlag("--include-custom-metadata", NegatedName = "--no-include-custom-metadata")]
     public bool? IncludeCustomMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

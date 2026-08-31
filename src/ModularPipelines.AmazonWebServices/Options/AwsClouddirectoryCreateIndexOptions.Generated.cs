@@ -27,7 +27,7 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions
     [CliOption("--ordered-indexed-attribute-list", GroupValues = true)]
     public IEnumerable<string>? OrderedIndexedAttributeList { get; set; }
 
-    [CliFlag("--is-unique")]
+    [CliFlag("--is-unique", NegatedName = "--no-is-unique")]
     public bool? IsUnique { get; set; }
 
     /// <summary>

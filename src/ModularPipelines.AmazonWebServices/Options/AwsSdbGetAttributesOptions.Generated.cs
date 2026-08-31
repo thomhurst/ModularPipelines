@@ -30,7 +30,7 @@ public record AwsSdbGetAttributesOptions : AwsOptions
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
-    [CliFlag("--consistent-read")]
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
     [CliOption("--cli-input-json")]

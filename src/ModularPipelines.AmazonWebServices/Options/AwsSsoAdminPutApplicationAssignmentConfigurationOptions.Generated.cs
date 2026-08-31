@@ -24,7 +24,7 @@ public record AwsSsoAdminPutApplicationAssignmentConfigurationOptions : AwsOptio
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
-    [CliFlag("--assignment-required")]
+    [CliFlag("--assignment-required", NegatedName = "--no-assignment-required")]
     public bool? AssignmentRequired { get; set; }
 
     [CliOption("--cli-input-json")]

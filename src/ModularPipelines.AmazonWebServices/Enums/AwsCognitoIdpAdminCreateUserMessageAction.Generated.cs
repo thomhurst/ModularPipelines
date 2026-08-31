@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCognitoIdpAdminCreateUserMessageAction
 {
     [EnumValue("RESEND")]
-    Resend = 1,
+    Resend,
 
     [EnumValue("SUPPRESS")]
-    Suppress = 2
+    Suppress
 }

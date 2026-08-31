@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnStartImportFileEnrichmentIpAssignmentStrategy
 {
     [EnumValue("STATIC")]
-    Static = 1,
+    Static,
 
     [EnumValue("DYNAMIC")]
-    Dynamic = 2
+    Dynamic
 }

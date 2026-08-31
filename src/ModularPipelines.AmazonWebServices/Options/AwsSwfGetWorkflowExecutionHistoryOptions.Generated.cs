@@ -28,7 +28,10 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions
     [CliOption("--execution")]
     public string? Execution { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]

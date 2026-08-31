@@ -17,41 +17,41 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsRestoreDbClusterFromS3NetworkType
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("DUAL")]
-    Dual = 2,
+    Dual,
 
     [EnumValue("The")]
-    The = 3,
+    The,
 
     [EnumValue("network")]
-    Network = 4,
+    Network,
 
     [EnumValue("type")]
-    Type = 5,
+    Type,
 
     [EnumValue("is")]
-    Is = 6,
+    Is,
 
     [EnumValue("determined")]
-    Determined = 7,
+    Determined,
 
     [EnumValue("by")]
-    By = 8,
+    By,
 
     [EnumValue("DBSubnetGroup")]
-    DbSubnetGroup = 9,
+    DbSubnetGroup,
 
     [EnumValue("specified")]
-    Specified = 10,
+    Specified,
 
     [EnumValue("for")]
-    For = 11,
+    For,
 
     [EnumValue("DB")]
-    Db = 12,
+    Db,
 
     [EnumValue("cluster")]
-    Cluster = 13
+    Cluster
 }

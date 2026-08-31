@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightStartAssetBundleExportJobIncludeFolderMembers
 {
     [EnumValue("RECURSE")]
-    Recurse = 1,
+    Recurse,
 
     [EnumValue("ONE_LEVEL")]
-    OneLevel = 2,
+    OneLevel,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

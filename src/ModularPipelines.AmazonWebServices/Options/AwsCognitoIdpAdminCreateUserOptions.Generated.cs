@@ -49,7 +49,10 @@ public record AwsCognitoIdpAdminCreateUserOptions : AwsOptions
     [CliOption("--temporary-password")]
     public string? TemporaryPassword { get; set; }
 
-    [CliFlag("--force-alias-creation")]
+    /// <summary>
+    /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True . Otherwise, it is ignored. If this parameter is set to True and the phone number or email ad- dress specified in the UserAttributes parameter already exists as an alias with a different user, this request migrates the alias from the previous user to the newly-created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False , the API throws an AliasExistsEx- ception error if the alias already exists. The default value is False .
+    /// </summary>
+    [CliFlag("--force-alias-creation", NegatedName = "--no-force-alias-creation")]
     public bool? ForceAliasCreation { get; set; }
 
     /// <summary>

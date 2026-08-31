@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseStartSearchSearchType
 {
     [EnumValue("DEEP")]
-    Deep = 1,
+    Deep,
 
     [EnumValue("QUICK")]
-    Quick = 2
+    Quick
 }

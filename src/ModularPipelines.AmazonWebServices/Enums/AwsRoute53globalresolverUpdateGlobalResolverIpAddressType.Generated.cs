@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53globalresolverUpdateGlobalResolverIpAddressType
 {
     [EnumValue("IPV4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("DUAL_STACK")]
-    DualStack = 2
+    DualStack
 }

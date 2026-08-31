@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLightsailGetRelationalDatabaseMasterUserPasswordPasswordVersion
 {
     [EnumValue("CURRENT")]
-    Current = 1,
+    Current,
 
     [EnumValue("PREVIOUS")]
-    Previous = 2,
+    Previous,
 
     [EnumValue("PENDING")]
-    Pending = 3
+    Pending
 }

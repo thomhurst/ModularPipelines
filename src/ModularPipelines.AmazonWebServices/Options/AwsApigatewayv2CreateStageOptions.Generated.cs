@@ -31,7 +31,10 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions
     [CliOption("--api-id")]
     public string? ApiId { get; set; }
 
-    [CliFlag("--auto-deploy")]
+    /// <summary>
+    /// Specifies whether updates to an API automatically trigger a new de- ployment. The default value is false.
+    /// </summary>
+    [CliFlag("--auto-deploy", NegatedName = "--no-auto-deploy")]
     public bool? AutoDeploy { get; set; }
 
     /// <summary>

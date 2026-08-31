@@ -21,13 +21,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "detach-network-interface")]
 public record AwsEc2DetachNetworkInterfaceOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Specifies whether to force a detachment. NOTE: o Use the Force parameter only as a last resort to detach a net- work interface from a failed instance. o If you use the Force parameter to detach a network interface, you might not be able to attach a different network interface to the same index on the instance without first stopping and starting the instance. o If you force the detachment of a network interface, the instance metadata might not get updated. This means that the attributes associated with the detached network interface might still be visible. The instance metadata will get updated when you stop and start the instance.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

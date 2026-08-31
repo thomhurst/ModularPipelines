@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightCreateAgentAgentLifecycle
 {
     [EnumValue("PREVIEW")]
-    Preview = 1,
+    Preview,
 
     [EnumValue("PUBLISHED")]
-    Published = 2
+    Published
 }

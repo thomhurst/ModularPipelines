@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScanResultsAggregatedByChecksSortOrder
 {
     [EnumValue("ASC")]
-    Asc = 1,
+    Asc,
 
     [EnumValue("DESC")]
-    Desc = 2
+    Desc
 }

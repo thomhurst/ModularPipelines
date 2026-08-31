@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerUpdateMlflowTrackingServerTrackingServerSize
 {
     [EnumValue("Small")]
-    Small = 1,
+    Small,
 
     [EnumValue("Medium")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("Large")]
-    Large = 3
+    Large
 }

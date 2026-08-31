@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudfrontListOriginRequestPoliciesType
 {
     [EnumValue("managed")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("custom")]
-    Custom = 2
+    Custom
 }

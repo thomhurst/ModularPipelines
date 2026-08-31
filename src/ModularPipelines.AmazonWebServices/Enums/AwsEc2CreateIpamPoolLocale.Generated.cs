@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateIpamPoolLocale
 {
     [EnumValue("Any")]
-    Any = 0,
+    Any,
 
     [EnumValue("Amazon")]
-    Amazon = 1,
+    Amazon,
 
     [EnumValue("Web")]
-    Web = 2,
+    Web,
 
     [EnumValue("Services")]
-    Services = 3,
+    Services,
 
     [EnumValue("Region")]
-    Region = 4,
+    Region,
 
     [EnumValue("or")]
-    Or = 5,
+    Or,
 
     [EnumValue("supported")]
-    Supported = 6,
+    Supported,
 
     [EnumValue("Local")]
-    Local = 7,
+    Local,
 
     [EnumValue("Zone")]
-    Zone = 8
+    Zone
 }

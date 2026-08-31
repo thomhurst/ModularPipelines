@@ -111,7 +111,10 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions
     [CliOption("--s3-output-encryption-kms-key")]
     public string? S3OutputEncryptionKmsKey { get; set; }
 
-    [CliFlag("--enable-managed-spot-training")]
+    /// <summary>
+    /// Optimizes the cost of training machine-learning models by using Ama- zon Elastic Compute Cloud spot instances. The default is False .
+    /// </summary>
+    [CliFlag("--enable-managed-spot-training", NegatedName = "--no-enable-managed-spot-training")]
     public bool? EnableManagedSpotTraining { get; set; }
 
     /// <summary>

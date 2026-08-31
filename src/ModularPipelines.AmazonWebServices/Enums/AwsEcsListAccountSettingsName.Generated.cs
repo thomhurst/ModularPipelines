@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListAccountSettingsName
 {
     [EnumValue("serviceLongArnFormat")]
-    ServiceLongArnFormat = 1,
+    ServiceLongArnFormat,
 
     [EnumValue("taskLongArnFormat")]
-    TaskLongArnFormat = 2,
+    TaskLongArnFormat,
 
     [EnumValue("awsvpcTrunking")]
-    AwsvpcTrunking = 3,
+    AwsvpcTrunking,
 
     [EnumValue("containerInsights")]
-    ContainerInsights = 4,
+    ContainerInsights,
 
     [EnumValue("fargateFIPSMode")]
-    FargateFipsMode = 5,
+    FargateFipsMode,
 
     [EnumValue("tagResourceAuthorization")]
-    TagResourceAuthorization = 6,
+    TagResourceAuthorization,
 
     [EnumValue("guardDutyActivate")]
-    GuardDutyActivate = 7,
+    GuardDutyActivate,
 
     [EnumValue("defaultLogDriverMode")]
-    DefaultLogDriverMode = 8,
+    DefaultLogDriverMode,
 
     [EnumValue("fargateEventWindows")]
-    FargateEventWindows = 9
+    FargateEventWindows
 }

@@ -62,10 +62,16 @@ public record AwsLogsGetLogEventsOptions : AwsOptions
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CliFlag("--start-from-head")]
+    /// <summary>
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead .
+    /// </summary>
+    [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
 
-    [CliFlag("--unmask")]
+    /// <summary>
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false . To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    /// </summary>
+    [CliFlag("--unmask", NegatedName = "--no-unmask")]
     public bool? Unmask { get; set; }
 
     [CliOption("--cli-input-json")]

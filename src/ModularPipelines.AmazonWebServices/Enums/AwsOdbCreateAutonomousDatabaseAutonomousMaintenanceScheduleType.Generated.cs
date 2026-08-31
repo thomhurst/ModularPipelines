@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateAutonomousDatabaseAutonomousMaintenanceScheduleType
 {
     [EnumValue("EARLY")]
-    Early = 1,
+    Early,
 
     [EnumValue("REGULAR")]
-    Regular = 2
+    Regular
 }

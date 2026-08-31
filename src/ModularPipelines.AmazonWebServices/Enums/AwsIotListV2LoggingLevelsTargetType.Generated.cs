@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListV2LoggingLevelsTargetType
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("THING_GROUP")]
-    ThingGroup = 2,
+    ThingGroup,
 
     [EnumValue("CLIENT_ID")]
-    ClientId = 3,
+    ClientId,
 
     [EnumValue("SOURCE_IP")]
-    SourceIp = 4,
+    SourceIp,
 
     [EnumValue("PRINCIPAL_ID")]
-    PrincipalId = 5
+    PrincipalId
 }

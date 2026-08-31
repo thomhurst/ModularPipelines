@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2UpdateIntegrationContentHandlingStrategy
 {
     [EnumValue("CONVERT_TO_BINARY")]
-    ConvertToBinary = 1,
+    ConvertToBinary,
 
     [EnumValue("CONVERT_TO_TEXT")]
-    ConvertToText = 2
+    ConvertToText
 }

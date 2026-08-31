@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEbsCompleteSnapshotChecksumAlgorithm
 {
     [EnumValue("SHA256")]
-    Sha256 = 1,
+    Sha256,
 
     [EnumValue("Constraints")]
-    Constraints = 2
+    Constraints
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeReservedInstancesOfferingsOfferingClass
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("convertible")]
-    Convertible = 2
+    Convertible
 }

@@ -36,6 +36,9 @@ public record AwsIvsUpdatePlaybackRestrictionPolicyOptions : AwsOptions
     [CliOption("--allowed-origins", GroupValues = true)]
     public IEnumerable<string>? AllowedOrigins { get; set; }
 
+    /// <summary>
+    /// ment (boolean) Whether channel playback is constrained by origin site. Default: false .
+    /// </summary>
     [CliFlag("--enable-strict-origin-enforcement")]
     public bool? EnableStrictOriginEnforcement { get; set; }
 

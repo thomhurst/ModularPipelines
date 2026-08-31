@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateRouterOutputRoutingScope
 {
     [EnumValue("REGIONAL")]
-    Regional = 1,
+    Regional,
 
     [EnumValue("GLOBAL")]
-    Global = 2
+    Global
 }

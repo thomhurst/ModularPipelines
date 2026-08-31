@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateIpamPoolAwsService
 {
     [EnumValue("ec2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("global-services")]
-    GlobalServices = 2
+    GlobalServices
 }

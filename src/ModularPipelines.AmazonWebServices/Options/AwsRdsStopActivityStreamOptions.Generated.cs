@@ -24,7 +24,10 @@ public record AwsRdsStopActivityStreamOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the data- base.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     [CliOption("--cli-input-json")]

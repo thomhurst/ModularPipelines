@@ -61,7 +61,10 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions
     [CliOption("--retry-delay-in-seconds")]
     public int? RetryDelayInSeconds { get; set; }
 
-    [CliFlag("--auto-granted")]
+    /// <summary>
+    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter can- not be true.
+    /// </summary>
+    [CliFlag("--auto-granted", NegatedName = "--no-auto-granted")]
     public bool? AutoGranted { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesSearchProfilesLogicalOperator
 {
     [EnumValue("AND")]
-    And = 1,
+    And,
 
     [EnumValue("OR")]
-    Or = 2
+    Or
 }

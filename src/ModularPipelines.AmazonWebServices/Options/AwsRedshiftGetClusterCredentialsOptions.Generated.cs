@@ -42,7 +42,10 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CliFlag("--auto-create")]
+    /// <summary>
+    /// Create a database user with the name specified for the user named in DbUser if one does not exist.
+    /// </summary>
+    [CliFlag("--auto-create", NegatedName = "--no-auto-create")]
     public bool? AutoCreate { get; set; }
 
     /// <summary>

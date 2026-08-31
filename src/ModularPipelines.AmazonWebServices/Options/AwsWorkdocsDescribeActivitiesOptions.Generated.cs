@@ -65,7 +65,10 @@ public record AwsWorkdocsDescribeActivitiesOptions : AwsOptions
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliFlag("--include-indirect-activities")]
+    /// <summary>
+    /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
+    /// </summary>
+    [CliFlag("--include-indirect-activities", NegatedName = "--no-include-indirect-activities")]
     public bool? IncludeIndirectActivities { get; set; }
 
     [CliOption("--cli-input-json")]

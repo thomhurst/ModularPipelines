@@ -30,7 +30,10 @@ public record AwsDmsStartMetadataModelImportOptions : AwsOptions
     [CliOption("--origin")]
     public string? Origin { get; set; }
 
-    [CliFlag("--refresh")]
+    /// <summary>
+    /// Specifies whether to refresh the selected metadata models from the data provider. When true , the import reloads the selected metadata models with current definitions and removes their existing subtree. When false (default), the import loads the full subtree that has not yet been loaded into the metadata tree.
+    /// </summary>
+    [CliFlag("--refresh", NegatedName = "--no-refresh")]
     public bool? Refresh { get; set; }
 
     [CliOption("--cli-input-json")]

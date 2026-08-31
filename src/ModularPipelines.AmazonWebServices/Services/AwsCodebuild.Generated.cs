@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -810,21 +810,6 @@ public class AwsCodebuild : IAwsCodebuild
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCodebuildUpdateReportGroupOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Updates the webhook associated with an CodeBuild build project. NOTE: If you use Bitbucket for your repository, rotateSecret is ignored. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateWebhookAsync(
-        AwsCodebuildUpdateWebhookOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCodebuildUpdateWebhookOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

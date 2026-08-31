@@ -36,7 +36,10 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; set; }
 
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// Indicates if private DNS is enabled for the service network resource association.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>

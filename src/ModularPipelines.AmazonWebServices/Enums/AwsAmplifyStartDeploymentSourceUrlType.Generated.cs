@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAmplifyStartDeploymentSourceUrlType
 {
     [EnumValue("ZIP")]
-    Zip = 1,
+    Zip,
 
     [EnumValue("BUCKET_PREFIX")]
-    BucketPrefix = 2
+    BucketPrefix
 }

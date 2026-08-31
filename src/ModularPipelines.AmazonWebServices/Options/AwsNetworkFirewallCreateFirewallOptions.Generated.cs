@@ -39,12 +39,21 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
-    [CliFlag("--delete-protection")]
+    /// <summary>
+    /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE .
+    /// </summary>
+    [CliFlag("--delete-protection", NegatedName = "--no-delete-protection")]
     public bool? DeleteProtection { get; set; }
 
-    [CliFlag("--subnet-change-protection")]
+    /// <summary>
+    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
+    [CliFlag("--subnet-change-protection", NegatedName = "--no-subnet-change-protection")]
     public bool? SubnetChangeProtection { get; set; }
 
+    /// <summary>
+    /// tection (boolean) A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
     [CliFlag("--firewall-policy-change-protection")]
     public bool? FirewallPolicyChangeProtection { get; set; }
 
@@ -85,7 +94,7 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
 
     /// <summary>
-    /// | --no-availabil- ity-zone-change-protection (boolean) Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtec- tion . Default value: FALSE
+    /// ity-zone-change-protection (boolean) Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtec- tion . Default value: FALSE
     /// </summary>
     [CliFlag("--availability-zone-change-protection")]
     public bool? AvailabilityZoneChangeProtection { get; set; }
@@ -102,7 +111,10 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     [CliOption("--proxy-settings")]
     public string? ProxySettings { get; set; }
 
-    [CliFlag("--no-source-preservation")]
+    /// <summary>
+    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE , the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP ad- dress as the source. When you set this to TRUE , you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings . You can't change this setting after you create the firewall. Default value: FALSE
+    /// </summary>
+    [CliFlag("--no-source-preservation", NegatedName = "--no-no-source-preservation")]
     public bool? NoSourcePreservation { get; set; }
 
     /// <summary>

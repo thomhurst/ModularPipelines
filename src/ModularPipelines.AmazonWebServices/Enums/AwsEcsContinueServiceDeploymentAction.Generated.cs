@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsContinueServiceDeploymentAction
 {
     [EnumValue("ROLLBACK")]
-    Rollback = 1,
+    Rollback,
 
     [EnumValue("CONTINUE")]
-    Continue = 2
+    Continue
 }

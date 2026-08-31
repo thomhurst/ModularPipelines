@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotCreateCommandNamespace
 {
     [EnumValue("AWS-IoT")]
-    AwsIoT = 1,
+    AwsIoT,
 
     [EnumValue("AWS-IoT-FleetWise")]
-    AwsIoTFleetWise = 2
+    AwsIoTFleetWise
 }

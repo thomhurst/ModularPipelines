@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListCustomModelDeploymentsStatusEquals
 {
     [EnumValue("Creating")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("Active")]
-    Active = 2,
+    Active,
 
     [EnumValue("Failed")]
-    Failed = 3
+    Failed
 }

@@ -35,7 +35,10 @@ public record AwsApplicationSignalsListGroupingAttributeDefinitionsOptions : Aws
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the re- turned data.
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     [CliOption("--cli-input-json")]

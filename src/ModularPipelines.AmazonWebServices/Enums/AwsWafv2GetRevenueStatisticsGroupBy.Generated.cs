@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafv2GetRevenueStatisticsGroupBy
 {
     [EnumValue("NAME")]
-    Name = 1,
+    Name,
 
     [EnumValue("CATEGORY")]
-    Category = 2,
+    Category,
 
     [EnumValue("INTENT")]
-    Intent = 3,
+    Intent,
 
     [EnumValue("ORGANIZATION")]
-    Organization = 4,
+    Organization,
 
     [EnumValue("WEBACL")]
-    Webacl = 5
+    Webacl
 }

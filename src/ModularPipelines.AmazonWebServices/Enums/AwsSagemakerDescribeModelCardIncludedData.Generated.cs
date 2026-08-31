@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerDescribeModelCardIncludedData
 {
     [EnumValue("AllData")]
-    AllData = 1,
+    AllData,
 
     [EnumValue("MetadataOnly")]
-    MetadataOnly = 2
+    MetadataOnly
 }

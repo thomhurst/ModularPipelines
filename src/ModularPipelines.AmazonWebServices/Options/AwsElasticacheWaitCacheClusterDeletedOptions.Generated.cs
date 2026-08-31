@@ -28,9 +28,15 @@ public record AwsElasticacheWaitCacheClusterDeletedOptions : AwsOptions
     [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; set; }
 
-    [CliFlag("--show-cache-node-info")]
+    /// <summary>
+    /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
+    /// </summary>
+    [CliFlag("--show-cache-node-info", NegatedName = "--no-show-cache-node-info")]
     public bool? ShowCacheNodeInfo { get; set; }
 
+    /// <summary>
+    /// ters-not-in-replication-groups (boolean) An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this means Memcached and single node Valkey or Redis OSS clusters.
+    /// </summary>
     [CliFlag("--show-cache-clusters-not-in-replication-groups")]
     public bool? ShowCacheClustersNotInReplicationGroups { get; set; }
 

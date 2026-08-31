@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildDescribeCodeCoveragesSortBy
 {
     [EnumValue("LINE_COVERAGE_PERCENTAGE")]
-    LineCoveragePercentage = 1,
+    LineCoveragePercentage,
 
     [EnumValue("FILE_PATH")]
-    FilePath = 2
+    FilePath
 }

@@ -51,7 +51,10 @@ public record AwsDatazoneUpdateRuleOptions : AwsOptions
     [CliOption("--detail")]
     public string? Detail { get; set; }
 
-    [CliFlag("--include-child-domain-units")]
+    /// <summary>
+    /// Specifies whether to update this rule in the child domain units.
+    /// </summary>
+    [CliFlag("--include-child-domain-units", NegatedName = "--no-include-child-domain-units")]
     public bool? IncludeChildDomainUnits { get; set; }
 
     [CliOption("--cli-input-json")]

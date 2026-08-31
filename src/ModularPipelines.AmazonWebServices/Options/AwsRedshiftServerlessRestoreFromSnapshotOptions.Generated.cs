@@ -29,10 +29,16 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions
     [CliOption("--admin-password-secret-kms-key-id")]
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
-    [CliFlag("--maintain-integration")]
+    /// <summary>
+    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// </summary>
+    [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
     public bool? MaintainIntegration { get; set; }
 
-    [CliFlag("--manage-admin-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
+    /// </summary>
+    [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
 
     [CliOption("--namespace-name")]

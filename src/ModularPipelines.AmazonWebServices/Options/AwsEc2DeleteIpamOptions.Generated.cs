@@ -21,13 +21,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "delete-ipam")]
 public record AwsEc2DeleteIpamOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-id")]
     public string? IpamId { get; set; }
 
-    [CliFlag("--cascade")]
+    /// <summary>
+    /// Enables you to quickly delete an IPAM, private scopes, pools in pri- vate scopes, and any allocations in the pools in private scopes. You cannot delete the IPAM with this option if there is a pool in your public scope. If you use this option, IPAM does the following: o Deallocates any CIDRs allocated to VPC resources (such as VPCs) in pools in private scopes. NOTE: No VPC resources are deleted as a result of enabling this op- tion. The CIDR associated with the resource will no longer be allocated from an IPAM pool, but the CIDR itself will remain un- changed. o Deprovisions all IPv4 CIDRs provisioned to IPAM pools in private scopes. o Deletes all IPAM pools in private scopes. o Deletes all non-default private scopes in the IPAM. o Deletes the default public and private scopes and the IPAM.
+    /// </summary>
+    [CliFlag("--cascade", NegatedName = "--no-cascade")]
     public bool? Cascade { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationListTypeRegistrationsRegistrationStatusFilter
 {
     [EnumValue("COMPLETE")]
-    Complete = 1,
+    Complete,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

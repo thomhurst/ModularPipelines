@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-managed-prefix-list")]
 public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--prefix-list-id")]
@@ -57,6 +60,9 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
     [CliOption("--max-entries")]
     public int? MaxEntries { get; set; }
 
+    /// <summary>
+    /// solver-sync-enabled (boolean) Indicates whether synchronization with an IPAM prefix list resolver should be enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the associated resolver's CIDR selection rules.
+    /// </summary>
     [CliFlag("--ipam-prefix-list-resolver-sync-enabled")]
     public bool? IpamPrefixListResolverSyncEnabled { get; set; }
 

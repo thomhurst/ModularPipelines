@@ -27,7 +27,7 @@ public record AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions : AwsOptions
     [CliOption("--voice-tone-analysis-task-id")]
     public string? VoiceToneAnalysisTaskId { get; set; }
 
-    [CliFlag("--is-caller")]
+    [CliFlag("--is-caller", NegatedName = "--no-is-caller")]
     public bool? IsCaller { get; set; }
 
     [CliOption("--cli-input-json")]

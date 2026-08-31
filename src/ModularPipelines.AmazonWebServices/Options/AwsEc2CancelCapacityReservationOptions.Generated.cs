@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -25,14 +24,17 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions
     [CliOption("--capacity-reservation-id")]
     public string? CapacityReservationId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
     /// Specifies the cancellation charge type to apply when cancelling a future-dated Capacity Reservation during its commitment duration. Possible values include commitment-wind-down , which continues billing for the remaining commitment duration without delivering ca- pacity. Possible values: o commitment-wind-down
     /// </summary>
     [CliOption("--apply-cancellation-charges")]
-    public AwsEc2CancelCapacityReservationApplyCancellationCharges? ApplyCancellationCharges { get; set; }
+    public string? ApplyCancellationCharges { get; set; }
 
     /// <summary>
     /// The ID of the cancellation quote to use for the cancellation. You can generate a cancellation quote by using the CreateCapacityReser- vationCancellationQuote action. The cancellation quote must be in an active state.

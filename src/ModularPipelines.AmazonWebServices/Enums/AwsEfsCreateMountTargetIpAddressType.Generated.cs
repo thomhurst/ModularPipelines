@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEfsCreateMountTargetIpAddressType
 {
     [EnumValue("IPV4_ONLY")]
-    Ipv4Only = 1,
+    Ipv4Only,
 
     [EnumValue("IPV6_ONLY")]
-    Ipv6Only = 2,
+    Ipv6Only,
 
     [EnumValue("DUAL_STACK")]
-    DualStack = 3
+    DualStack
 }

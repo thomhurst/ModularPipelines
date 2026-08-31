@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsGetReferenceFile
 {
     [EnumValue("SOURCE")]
-    Source = 1,
+    Source,
 
     [EnumValue("INDEX")]
-    Index = 2,
+    Index,
 
     [EnumValue("outfile")]
-    Outfile = 3
+    Outfile
 }

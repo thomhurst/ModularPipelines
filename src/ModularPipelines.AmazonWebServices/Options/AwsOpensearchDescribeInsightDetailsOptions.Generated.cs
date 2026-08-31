@@ -27,7 +27,10 @@ public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions
     [CliOption("--insight-id")]
     public string? InsightId { get; set; }
 
-    [CliFlag("--show-html-content")]
+    /// <summary>
+    /// Specifies whether to show response with HTML content in response or not.
+    /// </summary>
+    [CliFlag("--show-html-content", NegatedName = "--no-show-html-content")]
     public bool? ShowHtmlContent { get; set; }
 
     [CliOption("--cli-input-json")]

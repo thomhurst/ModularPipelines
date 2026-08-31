@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. A successful CreateCase request...
+/// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -52,7 +52,7 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") and Korean (ko). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
@@ -64,10 +64,22 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     public string? IssueType { get; set; }
 
     /// <summary>
-    /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
+    /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds .
     /// </summary>
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
+
+    /// <summary>
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--upload-ids", GroupValues = true)]
+    public IEnumerable<string>? UploadIds { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually creating the case. When set to true , the request is validated but no case is created, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

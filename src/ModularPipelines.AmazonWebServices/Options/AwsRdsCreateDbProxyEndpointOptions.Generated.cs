@@ -53,7 +53,7 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions
     /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
-    public AwsRdsCreateDbProxyEndpointEndpointNetworkType? EndpointNetworkType { get; set; }
+    public string? EndpointNetworkType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

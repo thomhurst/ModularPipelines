@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFrauddetectorCreateDetectorVersionRuleExecutionMode
 {
     [EnumValue("ALL_MATCHED")]
-    AllMatched = 1,
+    AllMatched,
 
     [EnumValue("FIRST_MATCHED")]
-    FirstMatched = 2
+    FirstMatched
 }

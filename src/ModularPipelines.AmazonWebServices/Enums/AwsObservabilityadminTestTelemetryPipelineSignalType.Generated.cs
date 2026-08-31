@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsObservabilityadminTestTelemetryPipelineSignalType
 {
     [EnumValue("LOG")]
-    Log = 1,
+    Log,
 
     [EnumValue("METRIC")]
-    Metric = 2
+    Metric
 }

@@ -47,7 +47,10 @@ public record AwsLogsDescribeLogStreamsOptions : AwsOptions
     [CliOption("--order-by")]
     public AwsLogsDescribeLogStreamsOrderBy? OrderBy { get; set; }
 
-    [CliFlag("--descending")]
+    /// <summary>
+    /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
+    /// </summary>
+    [CliFlag("--descending", NegatedName = "--no-descending")]
     public bool? Descending { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyStartRecommendationReportGenerationOutputFormat
 {
     [EnumValue("Excel")]
-    Excel = 1,
+    Excel,
 
     [EnumValue("Json")]
-    Json = 2
+    Json
 }

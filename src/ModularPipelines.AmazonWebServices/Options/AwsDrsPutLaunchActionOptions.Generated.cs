@@ -34,10 +34,10 @@ public record AwsDrsPutLaunchActionOptions : AwsOptions
     [CliOption("--action-id")]
     public string? ActionId { get; set; }
 
-    [CliFlag("--optional")]
+    [CliFlag("--optional", NegatedName = "--no-optional")]
     public bool? Optional { get; set; }
 
-    [CliFlag("--active")]
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     [CliOption("--name")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPersonalizeCreateDataSetExportJobIngestionMode
 {
     [EnumValue("BULK")]
-    Bulk = 1,
+    Bulk,
 
     [EnumValue("PUT")]
-    Put = 2,
+    Put,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

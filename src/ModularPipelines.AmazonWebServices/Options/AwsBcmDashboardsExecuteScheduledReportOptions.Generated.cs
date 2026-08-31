@@ -32,7 +32,10 @@ public record AwsBcmDashboardsExecuteScheduledReportOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to true , validates the scheduled report configuration without triggering an actual execution.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

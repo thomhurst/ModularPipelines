@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmDescribeMaintenanceWindowScheduleResourceType
 {
     [EnumValue("INSTANCE")]
-    Instance = 1,
+    Instance,
 
     [EnumValue("RESOURCE_GROUP")]
-    ResourceGroup = 2
+    ResourceGroup
 }

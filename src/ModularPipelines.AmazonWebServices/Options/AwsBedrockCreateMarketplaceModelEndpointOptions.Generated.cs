@@ -28,7 +28,10 @@ public record AwsBedrockCreateMarketplaceModelEndpointOptions : AwsOptions
     [CliOption("--endpoint-config")]
     public string? EndpointConfig { get; set; }
 
-    [CliFlag("--accept-eula")]
+    /// <summary>
+    /// Indicates whether you accept the end-user license agreement (EULA) for the model. Set to true to accept the EULA.
+    /// </summary>
+    [CliFlag("--accept-eula", NegatedName = "--no-accept-eula")]
     public bool? AcceptEula { get; set; }
 
     [CliOption("--endpoint-name")]

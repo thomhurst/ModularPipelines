@@ -37,10 +37,16 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions
     [CliOption("--persist-routes-duration")]
     public int? PersistRoutesDuration { get; set; }
 
-    [CliFlag("--sns-notifications-enabled")]
+    /// <summary>
+    /// Specifies whether to enable SNS notifications for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+    /// </summary>
+    [CliFlag("--sns-notifications-enabled", NegatedName = "--no-sns-notifications-enabled")]
     public bool? SnsNotificationsEnabled { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

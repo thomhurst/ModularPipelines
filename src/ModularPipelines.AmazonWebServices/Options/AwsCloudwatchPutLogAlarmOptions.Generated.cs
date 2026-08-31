@@ -45,7 +45,10 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
     [CliOption("--action-log-line-role-arn")]
     public string? ActionLogLineRoleArn { get; set; }
 
-    [CliFlag("--actions-enabled")]
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state. The default is true .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>

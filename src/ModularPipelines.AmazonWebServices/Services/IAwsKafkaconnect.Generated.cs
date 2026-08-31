@@ -172,6 +172,16 @@ public interface IAwsKafkaconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnec- torOperation to track the state of the restart. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RestartConnectorAsync(AwsKafkaconnectRestartConnectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Attaches tags to the specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbExecuteStatementReturnValuesOnConditionCheckFailure
 {
     [EnumValue("ALL_OLD")]
-    AllOld = 1,
+    AllOld,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEntityresolutionStartIdMappingJobJobType
 {
     [EnumValue("BATCH")]
-    Batch = 1,
+    Batch,
 
     [EnumValue("INCREMENTAL")]
-    Incremental = 2,
+    Incremental,
 
     [EnumValue("DELETE_ONLY")]
-    DeleteOnly = 3
+    DeleteOnly
 }

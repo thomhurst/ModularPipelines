@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDlmGetLifecyclePoliciesState
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
 
     [EnumValue("ERROR")]
-    Error = 3
+    Error
 }

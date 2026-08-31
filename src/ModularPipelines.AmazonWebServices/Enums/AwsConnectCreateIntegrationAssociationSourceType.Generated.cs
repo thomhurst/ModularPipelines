@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectCreateIntegrationAssociationSourceType
 {
     [EnumValue("SALESFORCE")]
-    Salesforce = 1,
+    Salesforce,
 
     [EnumValue("ZENDESK")]
-    Zendesk = 2,
+    Zendesk,
 
     [EnumValue("CASES")]
-    Cases = 3
+    Cases
 }

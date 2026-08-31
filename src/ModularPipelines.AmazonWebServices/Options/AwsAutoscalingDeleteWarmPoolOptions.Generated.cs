@@ -24,7 +24,10 @@ public record AwsAutoscalingDeleteWarmPoolOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Specifies that the warm pool is to be deleted along with all of its associated instances, without waiting for all instances to be termi- nated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

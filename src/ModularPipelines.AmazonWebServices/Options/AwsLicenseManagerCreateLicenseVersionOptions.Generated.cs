@@ -65,7 +65,10 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions
     [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CliFlag("--reset-usage")]
+    /// <summary>
+    /// Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not re- set.
+    /// </summary>
+    [CliFlag("--reset-usage", NegatedName = "--no-reset-usage")]
     public bool? ResetUsage { get; set; }
 
     [CliOption("--cli-input-json")]

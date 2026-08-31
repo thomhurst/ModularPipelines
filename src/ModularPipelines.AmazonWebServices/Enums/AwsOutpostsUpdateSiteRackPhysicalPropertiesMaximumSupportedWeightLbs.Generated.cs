@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesMaximumSupportedWeightLbs
 {
     [EnumValue("NO_LIMIT")]
-    NoLimit = 1,
+    NoLimit,
 
     [EnumValue("MAX_1400_LBS")]
-    Max_1400Lbs = 2,
+    Max_1400Lbs,
 
     [EnumValue("MAX_1600_LBS")]
-    Max_1600Lbs = 3,
+    Max_1600Lbs,
 
     [EnumValue("MAX_1800_LBS")]
-    Max_1800Lbs = 4,
+    Max_1800Lbs,
 
     [EnumValue("MAX_2000_LBS")]
-    Max_2000Lbs = 5
+    Max_2000Lbs
 }

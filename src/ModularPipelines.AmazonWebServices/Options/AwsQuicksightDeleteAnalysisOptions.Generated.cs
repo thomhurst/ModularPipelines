@@ -33,7 +33,10 @@ public record AwsQuicksightDeleteAnalysisOptions : AwsOptions
     [CliOption("--recovery-window-in-days")]
     public int? RecoveryWindowInDays { get; set; }
 
-    [CliFlag("--force-delete-without-recovery")]
+    /// <summary>
+    /// This option defaults to the value NoForceDeleteWithoutRecovery . To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
+    /// </summary>
+    [CliFlag("--force-delete-without-recovery", NegatedName = "--no-force-delete-without-recovery")]
     public bool? ForceDeleteWithoutRecovery { get; set; }
 
     [CliOption("--cli-input-json")]

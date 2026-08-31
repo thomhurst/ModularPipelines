@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlListCodeInterpretersType
 {
     [EnumValue("SYSTEM")]
-    System = 1,
+    System,
 
     [EnumValue("CUSTOM")]
-    Custom = 2
+    Custom
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMwaaUpdateEnvironmentWebserverAccessMode
 {
     [EnumValue("PRIVATE_ONLY")]
-    PrivateOnly = 1,
+    PrivateOnly,
 
     [EnumValue("PUBLIC_ONLY")]
-    PublicOnly = 2,
+    PublicOnly,
 
     [EnumValue("PUBLIC_AND_PRIVATE")]
-    PublicAndPrivate = 3
+    PublicAndPrivate
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigDeleteConfigurationProfileDeletionProtectionCheck
 {
     [EnumValue("ACCOUNT_DEFAULT")]
-    AccountDefault = 1,
+    AccountDefault,
 
     [EnumValue("APPLY")]
-    Apply = 2,
+    Apply,
 
     [EnumValue("BYPASS")]
-    Bypass = 3
+    Bypass
 }

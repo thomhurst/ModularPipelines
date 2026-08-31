@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateIpamPoolPublicIpSource
 {
     [EnumValue("amazon")]
-    Amazon = 1,
+    Amazon,
 
     [EnumValue("byoip")]
-    Byoip = 2
+    Byoip
 }

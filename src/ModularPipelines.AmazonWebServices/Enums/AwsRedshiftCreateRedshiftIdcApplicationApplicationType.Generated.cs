@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftCreateRedshiftIdcApplicationApplicationType
 {
     [EnumValue("None")]
-    None = 1,
+    None,
 
     [EnumValue("Lakehouse")]
-    Lakehouse = 2
+    Lakehouse
 }

@@ -33,7 +33,7 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CliFlag("--preserve-existing-data")]
+    [CliFlag("--preserve-existing-data", NegatedName = "--no-preserve-existing-data")]
     public bool? PreserveExistingData { get; set; }
 
     [CliOption("--target-name")]
@@ -42,7 +42,10 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions
     [CliOption("--network-interface-id")]
     public string? NetworkInterfaceId { get; set; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>

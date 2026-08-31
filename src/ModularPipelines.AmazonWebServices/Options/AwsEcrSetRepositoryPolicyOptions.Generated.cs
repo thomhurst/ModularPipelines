@@ -33,7 +33,10 @@ public record AwsEcrSetRepositoryPolicyOptions : AwsOptions
     [CliOption("--policy-text")]
     public string? PolicyText { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to pre- vent accidental repository lock outs.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

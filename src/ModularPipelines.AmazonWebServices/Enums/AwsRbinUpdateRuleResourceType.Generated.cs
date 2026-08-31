@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRbinUpdateRuleResourceType
 {
     [EnumValue("EBS_SNAPSHOT")]
-    EbsSnapshot = 1,
+    EbsSnapshot,
 
     [EnumValue("EC2_IMAGE")]
-    Ec2Image = 2,
+    Ec2Image,
 
     [EnumValue("EBS_VOLUME")]
-    EbsVolume = 3
+    EbsVolume
 }

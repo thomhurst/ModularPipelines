@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoPlacesAutocompletePostalCodeMode
 {
     [EnumValue("MergeAllSpannedLocalities")]
-    MergeAllSpannedLocalities = 1,
+    MergeAllSpannedLocalities,
 
     [EnumValue("EnumerateSpannedLocalities")]
-    EnumerateSpannedLocalities = 2,
+    EnumerateSpannedLocalities,
 
     [EnumValue("EnumerateSpannedDistricts")]
-    EnumerateSpannedDistricts = 3
+    EnumerateSpannedDistricts
 }

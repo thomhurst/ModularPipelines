@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKendraUpdateIndexUserContextPolicy
 {
     [EnumValue("ATTRIBUTE_FILTER")]
-    AttributeFilter = 1,
+    AttributeFilter,
 
     [EnumValue("USER_TOKEN")]
-    UserToken = 2
+    UserToken
 }

@@ -34,11 +34,14 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions
     [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
-    /// | --no-start-at-previ- ous-started-event (boolean) When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent Decision- TaskStarted event. By default, this parameter is set to false .
+    /// ous-started-event (boolean) When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent Decision- TaskStarted event. By default, this parameter is set to false .
     /// </summary>
     [CliFlag("--start-at-previous-started-event")]
     public bool? StartAtPreviousStartedEvent { get; set; }

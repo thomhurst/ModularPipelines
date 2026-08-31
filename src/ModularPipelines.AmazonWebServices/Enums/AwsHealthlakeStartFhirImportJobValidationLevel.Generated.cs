@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsHealthlakeStartFhirImportJobValidationLevel
 {
     [EnumValue("strict")]
-    Strict = 1,
+    Strict,
 
     [EnumValue("structure-only")]
-    StructureOnly = 2,
+    StructureOnly,
 
     [EnumValue("minimal")]
-    Minimal = 3
+    Minimal
 }

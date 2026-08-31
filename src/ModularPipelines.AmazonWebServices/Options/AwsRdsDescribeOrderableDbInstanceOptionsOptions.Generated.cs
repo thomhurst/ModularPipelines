@@ -49,7 +49,10 @@ public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     [CliOption("--availability-zone-group")]
     public string? AvailabilityZoneGroup { get; set; }
 
-    [CliFlag("--vpc")]
+    /// <summary>
+    /// Specifies whether to show only VPC or non-VPC offerings. RDS Custom supports only VPC offerings. RDS Custom supports only VPC offerings. If you describe non-VPC of- ferings for RDS Custom, the output shows VPC offerings.
+    /// </summary>
+    [CliFlag("--vpc", NegatedName = "--no-vpc")]
     public bool? Vpc { get; set; }
 
     /// <summary>

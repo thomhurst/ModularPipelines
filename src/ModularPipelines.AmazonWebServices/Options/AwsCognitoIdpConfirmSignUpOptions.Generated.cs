@@ -39,7 +39,10 @@ public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions
     [CliOption("--confirmation-code")]
     public string? ConfirmationCode { get; set; }
 
-    [CliFlag("--force-alias-creation")]
+    /// <summary>
+    /// When true , forces user confirmation despite any existing aliases. Defaults to false . A value of true migrates the alias from an ex- isting user to the new user if an existing user already has the phone number or email address as an alias. Say, for example, that an existing user has an email attribute of bob@example.com and email is an alias in your user pool. If the new user also has an email of bob@example.com and your ConfirmSignUp re- sponse sets ForceAliasCreation to true , the new user can sign in with a username of bob@example.com and the existing user can no longer do so. If false and an attribute belongs to an existing alias, this request returns an AliasExistsException error. For more information about sign-in aliases, see Customizing sign-in attributes .
+    /// </summary>
+    [CliFlag("--force-alias-creation", NegatedName = "--no-force-alias-creation")]
     public bool? ForceAliasCreation { get; set; }
 
     /// <summary>

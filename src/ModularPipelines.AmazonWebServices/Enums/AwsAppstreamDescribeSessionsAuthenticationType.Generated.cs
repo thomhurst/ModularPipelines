@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamDescribeSessionsAuthenticationType
 {
     [EnumValue("API")]
-    Api = 1,
+    Api,
 
     [EnumValue("SAML")]
-    Saml = 2,
+    Saml,
 
     [EnumValue("USERPOOL")]
-    Userpool = 3,
+    Userpool,
 
     [EnumValue("AWS_AD")]
-    AwsAd = 4
+    AwsAd
 }

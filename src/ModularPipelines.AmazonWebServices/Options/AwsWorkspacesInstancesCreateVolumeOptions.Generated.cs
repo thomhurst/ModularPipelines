@@ -33,7 +33,10 @@ public record AwsWorkspacesInstancesCreateVolumeOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Indicates if the volume should be encrypted.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>

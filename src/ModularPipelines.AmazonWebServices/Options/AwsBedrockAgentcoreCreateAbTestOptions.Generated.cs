@@ -50,7 +50,10 @@ public record AwsBedrockAgentcoreCreateAbTestOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliFlag("--enable-on-create")]
+    /// <summary>
+    /// Whether to enable the A/B test immediately upon creation. If true, traffic splitting begins automatically.
+    /// </summary>
+    [CliFlag("--enable-on-create", NegatedName = "--no-enable-on-create")]
     public bool? EnableOnCreate { get; set; }
 
     /// <summary>

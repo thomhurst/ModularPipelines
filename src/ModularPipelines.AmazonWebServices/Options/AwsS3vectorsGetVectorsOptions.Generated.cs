@@ -42,10 +42,16 @@ public record AwsS3vectorsGetVectorsOptions : AwsOptions
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
-    [CliFlag("--return-data")]
+    /// <summary>
+    /// Indicates whether to include the vector data in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-data", NegatedName = "--no-return-data")]
     public bool? ReturnData { get; set; }
 
-    [CliFlag("--return-metadata")]
+    /// <summary>
+    /// Indicates whether to include metadata in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]
     public bool? ReturnMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

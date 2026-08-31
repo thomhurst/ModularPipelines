@@ -31,7 +31,10 @@ public record AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions : Aws
     [CliOption("--configured-audience-model-association-name")]
     public string? ConfiguredAudienceModelAssociationName { get; set; }
 
-    [CliFlag("--manage-resource-policies")]
+    /// <summary>
+    /// [required] When TRUE , indicates that the resource policy for the configured audience model resource being associated is configured for Clean Rooms to manage permissions related to the given collaboration. When FALSE , indicates that the configured audience model resource owner will manage permissions related to the given collaboration. Setting this to TRUE requires you to have permissions to create, up- date, and delete the resource policy for the cleanrooms-ml resource when you call the DeleteConfiguredAudienceModelAssociation re- source. In addition, if you are the collaboration creator and spec- ify TRUE , you must have the same permissions when you call the DeleteMember and DeleteCollaboration APIs.
+    /// </summary>
+    [CliFlag("--manage-resource-policies", NegatedName = "--no-manage-resource-policies")]
     public bool? ManageResourcePolicies { get; set; }
 
     /// <summary>

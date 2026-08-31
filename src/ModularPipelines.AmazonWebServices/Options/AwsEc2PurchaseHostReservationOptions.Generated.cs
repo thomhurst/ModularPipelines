@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsEc2PurchaseHostReservationOptions : AwsOptions
     /// The currency in which the totalUpfrontPrice , LimitPrice , and to- talHourlyPrice amounts are specified. At this time, the only sup- ported currency is USD . Possible values: o USD
     /// </summary>
     [CliOption("--currency-code")]
-    public AwsEc2PurchaseHostReservationCurrencyCode? CurrencyCode { get; set; }
+    public string? CurrencyCode { get; set; }
 
     [CliOption("--host-id-set", GroupValues = true)]
     public IEnumerable<string>? HostIdSet { get; set; }

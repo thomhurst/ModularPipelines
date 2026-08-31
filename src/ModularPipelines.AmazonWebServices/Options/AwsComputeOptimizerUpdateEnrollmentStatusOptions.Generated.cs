@@ -24,7 +24,10 @@ public record AwsComputeOptimizerUpdateEnrollmentStatusOptions : AwsOptions
     [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CliFlag("--include-member-accounts")]
+    /// <summary>
+    /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
+    /// </summary>
+    [CliFlag("--include-member-accounts", NegatedName = "--no-include-member-accounts")]
     public bool? IncludeMemberAccounts { get; set; }
 
     [CliOption("--cli-input-json")]

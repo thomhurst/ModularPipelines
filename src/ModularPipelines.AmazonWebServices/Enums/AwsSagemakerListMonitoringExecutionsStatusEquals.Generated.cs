@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListMonitoringExecutionsStatusEquals
 {
     [EnumValue("Pending")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("Completed")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("CompletedWithViolations")]
-    CompletedWithViolations = 3,
+    CompletedWithViolations,
 
     [EnumValue("InProgress")]
-    InProgress = 4,
+    InProgress,
 
     [EnumValue("Failed")]
-    Failed = 5,
+    Failed,
 
     [EnumValue("Stopping")]
-    Stopping = 6,
+    Stopping,
 
     [EnumValue("Stopped")]
-    Stopped = 7
+    Stopped
 }

@@ -46,7 +46,10 @@ public record AwsGlueGetPartitionsOptions : AwsOptions
     [CliOption("--segment")]
     public string? Segment { get; set; }
 
-    [CliFlag("--exclude-column-schema")]
+    /// <summary>
+    /// When true, specifies not returning the partition column schema. Use- ful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.
+    /// </summary>
+    [CliFlag("--exclude-column-schema", NegatedName = "--no-exclude-column-schema")]
     public bool? ExcludeColumnSchema { get; set; }
 
     /// <summary>

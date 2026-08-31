@@ -52,10 +52,16 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
     [CliOption("--registration-id")]
     public string? RegistrationId { get; set; }
 
-    [CliFlag("--international-sending-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    /// </summary>
+    [CliFlag("--international-sending-enabled", NegatedName = "--no-international-sending-enabled")]
     public bool? InternationalSendingEnabled { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the phone number can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2CreateLoadBalancerIpAddressType
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("dualstack")]
-    Dualstack = 2,
+    Dualstack,
 
     [EnumValue("dualstack-without-public-ipv4")]
-    DualstackWithoutPublicIpv4 = 3
+    DualstackWithoutPublicIpv4
 }

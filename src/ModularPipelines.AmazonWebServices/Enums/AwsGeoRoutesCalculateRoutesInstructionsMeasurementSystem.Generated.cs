@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoRoutesCalculateRoutesInstructionsMeasurementSystem
 {
     [EnumValue("Metric")]
-    Metric = 1,
+    Metric,
 
     [EnumValue("Imperial")]
-    Imperial = 2
+    Imperial
 }

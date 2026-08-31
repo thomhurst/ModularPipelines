@@ -39,7 +39,10 @@ public record AwsSagemakerUpdateDeviceFleetOptions : AwsOptions
     [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
-    [CliFlag("--enable-iot-role-alias")]
+    /// <summary>
+    /// Whether to create an Amazon Web Services IoT Role Alias during de- vice fleet creation. The name of the role alias generated will match this pattern: "SageMakerEdge-{DeviceFleetName}". For example, if your device fleet is called "demo-fleet", the name of the role alias will be "SageMakerEdge-demo-fleet".
+    /// </summary>
+    [CliFlag("--enable-iot-role-alias", NegatedName = "--no-enable-iot-role-alias")]
     public bool? EnableIotRoleAlias { get; set; }
 
     [CliOption("--cli-input-json")]

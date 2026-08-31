@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsCreateTrustTrustType
 {
     [EnumValue("Forest")]
-    Forest = 1,
+    Forest,
 
     [EnumValue("External")]
-    External = 2
+    External
 }

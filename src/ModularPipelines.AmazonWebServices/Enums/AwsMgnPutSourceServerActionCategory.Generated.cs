@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnPutSourceServerActionCategory
 {
     [EnumValue("DISASTER_RECOVERY")]
-    DisasterRecovery = 1,
+    DisasterRecovery,
 
     [EnumValue("OPERATING_SYSTEM")]
-    OperatingSystem = 2,
+    OperatingSystem,
 
     [EnumValue("LICENSE_AND_SUBSCRIPTION")]
-    LicenseAndSubscription = 3,
+    LicenseAndSubscription,
 
     [EnumValue("VALIDATION")]
-    Validation = 4,
+    Validation,
 
     [EnumValue("OBSERVABILITY")]
-    Observability = 5,
+    Observability,
 
     [EnumValue("REFACTORING")]
-    Refactoring = 6,
+    Refactoring,
 
     [EnumValue("SECURITY")]
-    Security = 7,
+    Security,
 
     [EnumValue("NETWORKING")]
-    Networking = 8,
+    Networking,
 
     [EnumValue("CONFIGURATION")]
-    Configuration = 9,
+    Configuration,
 
     [EnumValue("BACKUP")]
-    Backup = 10,
+    Backup,
 
     [EnumValue("OTHER")]
-    Other = 11
+    Other
 }

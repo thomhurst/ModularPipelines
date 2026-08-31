@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsStartCapacityTaskTaskActionOnBlockingInstances
 {
     [EnumValue("WAIT_FOR_EVACUATION")]
-    WaitForEvacuation = 1,
+    WaitForEvacuation,
 
     [EnumValue("FAIL_TASK")]
-    FailTask = 2
+    FailTask
 }

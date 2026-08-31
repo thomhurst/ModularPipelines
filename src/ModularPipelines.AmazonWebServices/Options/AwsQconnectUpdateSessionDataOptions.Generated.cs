@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions
     /// The namespace into which the session data is stored. Supported name- spaces are: Custom Possible values: o Custom
     /// </summary>
     [CliOption("--namespace")]
-    public AwsQconnectUpdateSessionDataNamespace? Namespace { get; set; }
+    public string? Namespace { get; set; }
 
     [CliOption("--data", GroupValues = true)]
     public IEnumerable<string>? Data { get; set; }

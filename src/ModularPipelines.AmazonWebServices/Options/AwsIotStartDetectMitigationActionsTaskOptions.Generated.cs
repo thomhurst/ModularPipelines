@@ -37,10 +37,16 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions
     [CliOption("--violation-event-occurrence-range")]
     public string? ViolationEventOccurrenceRange { get; set; }
 
-    [CliFlag("--include-only-active-violations")]
+    /// <summary>
+    /// Specifies to list only active violations.
+    /// </summary>
+    [CliFlag("--include-only-active-violations", NegatedName = "--no-include-only-active-violations")]
     public bool? IncludeOnlyActiveViolations { get; set; }
 
-    [CliFlag("--include-suppressed-alerts")]
+    /// <summary>
+    /// Specifies to include suppressed alerts.
+    /// </summary>
+    [CliFlag("--include-suppressed-alerts", NegatedName = "--no-include-suppressed-alerts")]
     public bool? IncludeSuppressedAlerts { get; set; }
 
     /// <summary>

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemakerjobruntime", "sample")]
-public record AwsSagemakerjobruntimeSampleOptions : AwsOptions
+public record AwsSagemakerjobruntimeSampleOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--job-arn")]
     public string? JobArn { get; set; }

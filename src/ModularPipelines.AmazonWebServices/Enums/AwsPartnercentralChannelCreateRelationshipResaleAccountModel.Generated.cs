@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralChannelCreateRelationshipResaleAccountModel
 {
     [EnumValue("DISTRIBUTOR")]
-    Distributor = 1,
+    Distributor,
 
     [EnumValue("END_CUSTOMER")]
-    EndCustomer = 2,
+    EndCustomer,
 
     [EnumValue("SOLUTION_PROVIDER")]
-    SolutionProvider = 3
+    SolutionProvider
 }

@@ -46,13 +46,22 @@ public record AwsDocdbDescribeDbEngineVersionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
-    [CliFlag("--list-supported-character-sets")]
+    /// <summary>
+    /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance , the response in- cludes a list of supported character sets for each engine version.
+    /// </summary>
+    [CliFlag("--list-supported-character-sets", NegatedName = "--no-list-supported-character-sets")]
     public bool? ListSupportedCharacterSets { get; set; }
 
-    [CliFlag("--list-supported-timezones")]
+    /// <summary>
+    /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance , the response includes a list of supported time zones for each engine version.
+    /// </summary>
+    [CliFlag("--list-supported-timezones", NegatedName = "--no-list-supported-timezones")]
     public bool? ListSupportedTimezones { get; set; }
 
     [CliOption("--cli-input-json")]

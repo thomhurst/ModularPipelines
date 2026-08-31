@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesDescribeApplicationsLicenseType
 {
     [EnumValue("LICENSED")]
-    Licensed = 1,
+    Licensed,
 
     [EnumValue("UNLICENSED")]
-    Unlicensed = 2
+    Unlicensed
 }

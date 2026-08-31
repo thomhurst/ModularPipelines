@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLicenseManagerUpdateLicenseConfigurationLicenseConfigurationStatus
 {
     [EnumValue("AVAILABLE")]
-    Available = 1,
+    Available,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyPutPortfolioPreferencesApplicationMode
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("KNOWN")]
-    Known = 2,
+    Known,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

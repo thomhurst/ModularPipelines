@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListScanJobSummariesScanResultStatus
 {
     [EnumValue("NO_THREATS_FOUND")]
-    NoThreatsFound = 1,
+    NoThreatsFound,
 
     [EnumValue("THREATS_FOUND")]
-    ThreatsFound = 2,
+    ThreatsFound,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

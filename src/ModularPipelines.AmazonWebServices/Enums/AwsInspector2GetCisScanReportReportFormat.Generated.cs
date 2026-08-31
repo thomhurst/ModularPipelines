@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2GetCisScanReportReportFormat
 {
     [EnumValue("PDF")]
-    Pdf = 1,
+    Pdf,
 
     [EnumValue("CSV")]
-    Csv = 2
+    Csv
 }

@@ -44,7 +44,10 @@ public record AwsWorkdocsDeleteCustomMetadataOptions : AwsOptions
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
-    [CliFlag("--delete-all")]
+    /// <summary>
+    /// Flag to indicate removal of all custom metadata properties from the specified resource.
+    /// </summary>
+    [CliFlag("--delete-all", NegatedName = "--no-delete-all")]
     public bool? DeleteAll { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
     /// (SINGLE, GROUP) The protocol accepted by the resource configuration. Possible values: o TCP
     /// </summary>
     [CliOption("--protocol")]
-    public AwsVpcLatticeCreateResourceConfigurationProtocol? Protocol { get; set; }
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configu- ration, this value is inherited from the parent resource configura- tion. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
@@ -60,6 +59,9 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
+    /// <summary>
+    /// tion-to-shareable-service-network (boolean) (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
+    /// </summary>
     [CliFlag("--allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 

@@ -33,6 +33,9 @@ public record AwsDynamodbPutResourcePolicyOptions : AwsOptions
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }
 
+    /// <summary>
+    /// source-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
+    /// </summary>
     [CliFlag("--confirm-remove-self-resource-access")]
     public bool? ConfirmRemoveSelfResourceAccess { get; set; }
 

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationGetTemplateTemplateStage
 {
     [EnumValue("Original")]
-    Original = 1,
+    Original,
 
     [EnumValue("Processed")]
-    Processed = 2
+    Processed
 }

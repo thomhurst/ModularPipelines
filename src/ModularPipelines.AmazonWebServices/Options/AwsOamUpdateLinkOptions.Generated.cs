@@ -24,7 +24,10 @@ public record AwsOamUpdateLinkOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--include-tags")]
+    /// <summary>
+    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForRe- source , the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForRe- source , the API will raise an exception. The default value is false .
+    /// </summary>
+    [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>

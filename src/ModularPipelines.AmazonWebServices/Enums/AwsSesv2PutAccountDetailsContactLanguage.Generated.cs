@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2PutAccountDetailsContactLanguage
 {
     [EnumValue("EN")]
-    En = 1,
+    En,
 
     [EnumValue("JA")]
-    Ja = 2
+    Ja
 }

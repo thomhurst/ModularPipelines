@@ -24,10 +24,16 @@ public record AwsIotDeleteOtaUpdateOptions : AwsOptions
     [CliOption("--ota-update-id")]
     public string? OtaUpdateId { get; set; }
 
-    [CliFlag("--delete-stream")]
+    /// <summary>
+    /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
+    /// </summary>
+    [CliFlag("--delete-stream", NegatedName = "--no-delete-stream")]
     public bool? DeleteStream { get; set; }
 
-    [CliFlag("--force-delete-aws-job")]
+    /// <summary>
+    /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The de- fault is false.
+    /// </summary>
+    [CliFlag("--force-delete-aws-job", NegatedName = "--no-force-delete-aws-job")]
     public bool? ForceDeleteAwsJob { get; set; }
 
     [CliOption("--cli-input-json")]

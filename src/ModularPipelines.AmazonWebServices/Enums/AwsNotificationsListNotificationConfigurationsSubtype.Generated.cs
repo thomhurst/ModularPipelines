@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNotificationsListNotificationConfigurationsSubtype
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("ADMIN_MANAGED")]
-    AdminManaged = 2
+    AdminManaged
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerCreateImageVersionJobType
 {
     [EnumValue("TRAINING")]
-    Training = 1,
+    Training,
 
     [EnumValue("INFERENCE")]
-    Inference = 2,
+    Inference,
 
     [EnumValue("NOTEBOOK_KERNEL")]
-    NotebookKernel = 3
+    NotebookKernel
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationCreateChangeSetChangeSetType
 {
     [EnumValue("CREATE")]
-    Create = 1,
+    Create,
 
     [EnumValue("UPDATE")]
-    Update = 2,
+    Update,
 
     [EnumValue("IMPORT")]
-    Import = 3
+    Import
 }

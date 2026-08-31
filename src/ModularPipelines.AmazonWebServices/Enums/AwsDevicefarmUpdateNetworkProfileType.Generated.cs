@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevicefarmUpdateNetworkProfileType
 {
     [EnumValue("CURATED")]
-    Curated = 1,
+    Curated,
 
     [EnumValue("PRIVATE")]
-    Private = 2
+    Private
 }

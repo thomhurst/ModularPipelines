@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsXrayListRetrievedTracesTraceFormat
 {
     [EnumValue("XRAY")]
-    Xray = 1,
+    Xray,
 
     [EnumValue("OTEL")]
-    Otel = 2
+    Otel
 }

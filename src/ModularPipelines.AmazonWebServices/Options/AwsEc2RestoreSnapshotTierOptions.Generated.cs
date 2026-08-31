@@ -30,10 +30,16 @@ public record AwsEc2RestoreSnapshotTierOptions : AwsOptions
     [CliOption("--temporary-restore-days")]
     public int? TemporaryRestoreDays { get; set; }
 
-    [CliFlag("--permanent-restore")]
+    /// <summary>
+    /// Indicates whether to permanently restore an archived snapshot. To permanently restore an archived snapshot, specify true and omit the RestoreSnapshotTierRequest$TemporaryRestoreDays parameter.
+    /// </summary>
+    [CliFlag("--permanent-restore", NegatedName = "--no-permanent-restore")]
     public bool? PermanentRestore { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

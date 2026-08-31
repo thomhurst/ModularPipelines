@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerUpdateModelCardModelCardStatus
 {
     [EnumValue("Draft")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PendingReview")]
-    PendingReview = 2,
+    PendingReview,
 
     [EnumValue("Approved")]
-    Approved = 3,
+    Approved,
 
     [EnumValue("Archived")]
-    Archived = 4
+    Archived
 }

@@ -22,10 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "update-capacity-manager-organizations-access")]
 public record AwsEc2UpdateCapacityManagerOrganizationsAccessOptions : AwsOptions
 {
-    [CliFlag("--organizations-access")]
+    [CliFlag("--organizations-access", NegatedName = "--no-organizations-access")]
     public bool? OrganizationsAccess { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

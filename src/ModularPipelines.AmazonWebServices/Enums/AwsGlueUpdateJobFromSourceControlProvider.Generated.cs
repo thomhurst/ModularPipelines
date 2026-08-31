@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueUpdateJobFromSourceControlProvider
 {
     [EnumValue("GITHUB")]
-    Github = 0,
+    Github,
 
     [EnumValue("AWS_CODE_COMMIT")]
-    AwsCodeCommit = 1,
+    AwsCodeCommit,
 
     [EnumValue("GITLAB")]
-    Gitlab = 2,
+    Gitlab,
 
     [EnumValue("BITBUCKET")]
-    Bitbucket = 3
+    Bitbucket
 }

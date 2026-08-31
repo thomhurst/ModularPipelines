@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListFoundationModelsByInferenceType
 {
     [EnumValue("ON_DEMAND")]
-    OnDemand = 1,
+    OnDemand,
 
     [EnumValue("PROVISIONED")]
-    Provisioned = 2
+    Provisioned
 }

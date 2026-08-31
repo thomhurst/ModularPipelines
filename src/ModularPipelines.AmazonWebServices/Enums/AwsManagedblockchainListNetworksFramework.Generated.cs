@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsManagedblockchainListNetworksFramework
 {
     [EnumValue("HYPERLEDGER_FABRIC")]
-    HyperledgerFabric = 1,
+    HyperledgerFabric,
 
     [EnumValue("ETHEREUM")]
-    Ethereum = 2
+    Ethereum
 }

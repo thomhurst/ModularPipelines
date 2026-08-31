@@ -27,7 +27,10 @@ public record AwsDatazoneDeleteProjectOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--skip-deletion-check")]
+    /// <summary>
+    /// Specifies the optional flag to delete all child entities within the project.
+    /// </summary>
+    [CliFlag("--skip-deletion-check", NegatedName = "--no-skip-deletion-check")]
     public bool? SkipDeletionCheck { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMacie2GetUsageStatisticsTimeRange
 {
     [EnumValue("MONTH_TO_DATE")]
-    MonthToDate = 1,
+    MonthToDate,
 
     [EnumValue("PAST_30_DAYS")]
-    Past_30Days = 2
+    Past_30Days
 }

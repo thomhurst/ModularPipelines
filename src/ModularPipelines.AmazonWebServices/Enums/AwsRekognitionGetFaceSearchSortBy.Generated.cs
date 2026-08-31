@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionGetFaceSearchSortBy
 {
     [EnumValue("INDEX")]
-    Index = 1,
+    Index,
 
     [EnumValue("TIMESTAMP")]
-    Timestamp = 2
+    Timestamp
 }

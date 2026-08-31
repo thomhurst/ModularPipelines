@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("BASIC")]
-    Basic = 2,
+    Basic,
 
     [EnumValue("IN_AWS")]
-    InAws = 3
+    InAws
 }

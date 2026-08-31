@@ -17,38 +17,38 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateFlowSourceProtocol
 {
     [EnumValue("zixi-push")]
-    ZixiPush = 1,
+    ZixiPush,
 
     [EnumValue("rtp-fec")]
-    RtpFec = 2,
+    RtpFec,
 
     [EnumValue("rtp")]
-    Rtp = 3,
+    Rtp,
 
     [EnumValue("zixi-pull")]
-    ZixiPull = 4,
+    ZixiPull,
 
     [EnumValue("rist")]
-    Rist = 5,
+    Rist,
 
     [EnumValue("st2110-jpegxs")]
-    St2110Jpegxs = 6,
+    St2110Jpegxs,
 
     [EnumValue("cdi")]
-    Cdi = 7,
+    Cdi,
 
     [EnumValue("srt-listener")]
-    SrtListener = 8,
+    SrtListener,
 
     [EnumValue("srt-caller")]
-    SrtCaller = 9,
+    SrtCaller,
 
     [EnumValue("fujitsu-qos")]
-    FujitsuQos = 10,
+    FujitsuQos,
 
     [EnumValue("udp")]
-    Udp = 11,
+    Udp,
 
     [EnumValue("ndi-speed-hq")]
-    NdiSpeedHq = 12
+    NdiSpeedHq
 }

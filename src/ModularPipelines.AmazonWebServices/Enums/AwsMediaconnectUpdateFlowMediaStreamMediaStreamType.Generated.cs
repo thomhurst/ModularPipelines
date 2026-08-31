@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateFlowMediaStreamMediaStreamType
 {
     [EnumValue("video")]
-    Video = 1,
+    Video,
 
     [EnumValue("audio")]
-    Audio = 2,
+    Audio,
 
     [EnumValue("ancillary-data")]
-    AncillaryData = 3
+    AncillaryData
 }

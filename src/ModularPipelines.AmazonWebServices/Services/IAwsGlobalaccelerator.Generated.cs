@@ -52,26 +52,6 @@ public interface IAwsGlobalaccelerator
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP ad- dresses and ports in the subnet. Note that you cannot specify IP ad- dresses or ports outside of the range that you configured for the end- point group. After you make changes, you can verify that the updates are complete...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> AllowCustomRoutingTrafficAsync(AwsGlobalacceleratorAllowCustomRoutingTrafficOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more end- point groups, each of which includes endpoints, such as Network Load Balancers. WARNING: Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with ac- celerators. That is, for example, specify --region us-west-2 on Ama- zon...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAcceleratorAsync(AwsGlobalacceleratorCreateAcceleratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You spec- ify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -79,16 +59,6 @@ public interface IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> CreateCrossAccountAttachmentAsync(AwsGlobalacceleratorCreateCrossAccountAttachmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Create a custom routing accelerator. A custom routing accelerator di- rects traffic to one of possibly thousands of Amazon EC2 instance des- tinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC sub- net endpoint cannot receive traffic. To enable all destinations to re- ceive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WAR...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomRoutingAcceleratorAsync(AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -199,16 +169,6 @@ public interface IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DeleteListenerAsync(AwsGlobalacceleratorDeleteListenerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP ad- dresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the sta...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DenyCustomRoutingTrafficAsync(AwsGlobalacceleratorDenyCustomRoutingTrafficOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -502,16 +462,6 @@ public interface IAwsGlobalaccelerator
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Update an accelerator to make changes, such as the following: o Change the name of the accelerator. o Disable the accelerator so that it no longer accepts or routes traf- fic, or so that you can delete it. o Enable the accelerator, if it is disabled. o Change the IP address type to dual-stack if it is IPv4, or change the IP address type to IPv4 if it's dual-stack. Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator a...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAcceleratorAsync(AwsGlobalacceleratorUpdateAcceleratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Update a cross-account attachment to add or remove principals or re- sources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the per- mission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -529,16 +479,6 @@ public interface IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateCustomRoutingAcceleratorAttributesAsync(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Update a custom routing accelerator. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCustomRoutingAcceleratorAsync(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

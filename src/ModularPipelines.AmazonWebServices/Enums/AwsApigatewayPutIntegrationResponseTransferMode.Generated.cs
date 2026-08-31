@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayPutIntegrationResponseTransferMode
 {
     [EnumValue("BUFFERED")]
-    Buffered = 1,
+    Buffered,
 
     [EnumValue("STREAM")]
-    Stream = 2
+    Stream
 }

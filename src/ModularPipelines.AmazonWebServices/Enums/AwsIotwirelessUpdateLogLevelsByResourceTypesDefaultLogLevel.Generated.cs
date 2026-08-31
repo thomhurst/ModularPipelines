@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotwirelessUpdateLogLevelsByResourceTypesDefaultLogLevel
 {
     [EnumValue("INFO")]
-    Info = 1,
+    Info,
 
     [EnumValue("ERROR")]
-    Error = 2,
+    Error,
 
     [EnumValue("DISABLED")]
-    Disabled = 3
+    Disabled
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLexv2ModelsCreateBotBotType
 {
     [EnumValue("Bot")]
-    Bot = 1,
+    Bot,
 
     [EnumValue("BotNetwork")]
-    BotNetwork = 2
+    BotNetwork
 }

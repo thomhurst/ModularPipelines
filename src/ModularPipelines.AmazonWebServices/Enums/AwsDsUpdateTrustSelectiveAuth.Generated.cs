@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsUpdateTrustSelectiveAuth
 {
     [EnumValue("Enabled")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("Disabled")]
-    Disabled = 2
+    Disabled
 }

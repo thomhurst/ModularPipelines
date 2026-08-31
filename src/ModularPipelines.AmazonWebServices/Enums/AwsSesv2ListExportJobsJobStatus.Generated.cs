@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2ListExportJobsJobStatus
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 5
+    Cancelled
 }

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-runtime", "invoke-endpoint")]
-public record AwsSagemakerRuntimeInvokeEndpointOptions : AwsOptions
+public record AwsSagemakerRuntimeInvokeEndpointOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }

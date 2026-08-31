@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkCount
 {
     [EnumValue("UPLINK_COUNT_1")]
-    UplinkCount_1 = 1,
+    UplinkCount_1,
 
     [EnumValue("UPLINK_COUNT_2")]
-    UplinkCount_2 = 2,
+    UplinkCount_2,
 
     [EnumValue("UPLINK_COUNT_3")]
-    UplinkCount_3 = 3,
+    UplinkCount_3,
 
     [EnumValue("UPLINK_COUNT_4")]
-    UplinkCount_4 = 4,
+    UplinkCount_4,
 
     [EnumValue("UPLINK_COUNT_5")]
-    UplinkCount_5 = 5,
+    UplinkCount_5,
 
     [EnumValue("UPLINK_COUNT_6")]
-    UplinkCount_6 = 6,
+    UplinkCount_6,
 
     [EnumValue("UPLINK_COUNT_7")]
-    UplinkCount_7 = 7,
+    UplinkCount_7,
 
     [EnumValue("UPLINK_COUNT_8")]
-    UplinkCount_8 = 8,
+    UplinkCount_8,
 
     [EnumValue("UPLINK_COUNT_12")]
-    UplinkCount_12 = 9,
+    UplinkCount_12,
 
     [EnumValue("UPLINK_COUNT_16")]
-    UplinkCount_16 = 10
+    UplinkCount_16
 }

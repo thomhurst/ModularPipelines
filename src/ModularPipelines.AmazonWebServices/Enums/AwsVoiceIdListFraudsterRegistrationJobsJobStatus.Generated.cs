@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVoiceIdListFraudsterRegistrationJobsJobStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 4,
+    CompletedWithErrors,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed
 }

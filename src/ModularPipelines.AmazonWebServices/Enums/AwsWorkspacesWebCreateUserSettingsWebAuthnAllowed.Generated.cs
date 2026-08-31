@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesWebCreateUserSettingsWebAuthnAllowed
 {
     [EnumValue("Disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("Enabled")]
-    Enabled = 2
+    Enabled
 }

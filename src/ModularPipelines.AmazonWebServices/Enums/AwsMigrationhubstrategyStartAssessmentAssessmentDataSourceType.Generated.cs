@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyStartAssessmentAssessmentDataSourceType
 {
     [EnumValue("ManualImport")]
-    ManualImport = 1,
+    ManualImport,
 
     [EnumValue("ApplicationDiscoveryService")]
-    ApplicationDiscoveryService = 2
+    ApplicationDiscoveryService
 }

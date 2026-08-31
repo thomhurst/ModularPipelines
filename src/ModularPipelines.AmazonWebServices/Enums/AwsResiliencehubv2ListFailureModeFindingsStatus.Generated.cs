@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListFailureModeFindingsStatus
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2,
+    Resolved,
 
     [EnumValue("IRRELEVANT")]
-    Irrelevant = 3
+    Irrelevant
 }

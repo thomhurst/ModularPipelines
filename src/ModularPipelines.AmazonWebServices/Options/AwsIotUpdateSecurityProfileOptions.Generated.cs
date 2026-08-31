@@ -55,12 +55,21 @@ public record AwsIotUpdateSecurityProfileOptions : AwsOptions
     [CliOption("--additional-metrics-to-retain-v2", GroupValues = true)]
     public IEnumerable<string>? AdditionalMetricsToRetainV2 { get; set; }
 
-    [CliFlag("--delete-behaviors")]
+    /// <summary>
+    /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
+    /// </summary>
+    [CliFlag("--delete-behaviors", NegatedName = "--no-delete-behaviors")]
     public bool? DeleteBehaviors { get; set; }
 
-    [CliFlag("--delete-alert-targets")]
+    /// <summary>
+    /// If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation, an excep- tion occurs.
+    /// </summary>
+    [CliFlag("--delete-alert-targets", NegatedName = "--no-delete-alert-targets")]
     public bool? DeleteAlertTargets { get; set; }
 
+    /// <summary>
+    /// rics-to-retain (boolean) If true, delete all additionalMetricsToRetain defined for this secu- rity profile. If any additionalMetricsToRetain are defined in the current invocation, an exception occurs.
+    /// </summary>
     [CliFlag("--delete-additional-metrics-to-retain")]
     public bool? DeleteAdditionalMetricsToRetain { get; set; }
 
@@ -76,7 +85,10 @@ public record AwsIotUpdateSecurityProfileOptions : AwsOptions
     [CliOption("--metrics-export-config")]
     public string? MetricsExportConfig { get; set; }
 
-    [CliFlag("--delete-metrics-export-config")]
+    /// <summary>
+    /// Set the value as true to delete metrics export related configura- tions.
+    /// </summary>
+    [CliFlag("--delete-metrics-export-config", NegatedName = "--no-delete-metrics-export-config")]
     public bool? DeleteMetricsExportConfig { get; set; }
 
     [CliOption("--cli-input-json")]

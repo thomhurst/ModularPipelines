@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayv2CreateRouteAuthorizationType
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("AWS_IAM")]
-    AwsIam = 2,
+    AwsIam,
 
     [EnumValue("CUSTOM")]
-    Custom = 3,
+    Custom,
 
     [EnumValue("JWT")]
-    Jwt = 4
+    Jwt
 }

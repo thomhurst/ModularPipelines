@@ -24,7 +24,10 @@ public record AwsPinpointEmailPutConfigurationSetReputationOptionsOptions : AwsO
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--reputation-metrics-enabled")]
+    /// <summary>
+    /// If true , tracking of reputation metrics is enabled for the configu- ration set. If false , tracking of reputation metrics is disabled for the configuration set.
+    /// </summary>
+    [CliFlag("--reputation-metrics-enabled", NegatedName = "--no-reputation-metrics-enabled")]
     public bool? ReputationMetricsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

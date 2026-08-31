@@ -36,7 +36,10 @@ public record AwsCloudwatchPutMetricDataOptions : AwsOptions
     [CliOption("--entity-metric-data", GroupValues = true)]
     public IEnumerable<string>? EntityMetricData { get; set; }
 
-    [CliFlag("--strict-entity-validation")]
+    /// <summary>
+    /// Whether to accept valid metric data when an invalid entity is sent. o When set to true : Any validation error (for entity or metric data) will fail the entire request, and no data will be ingested. The failed operation will return a 400 result with the error. o When set to false : Validation errors in the entity will not asso- ciate the metric with the entity, but the metric data will still be accepted and ingested. Validation errors in the metric data will fail the entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a 200 status, but an additional response header will contain information about the validation errors. The new header, X-Amzn-Failure-Message is an enumeration of the following values: o InvalidEntity - The provided entity is invalid. o InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid. o InvalidAttributes - The provided Attributes of an entity is in- valid. o InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid. o EntitySizeTooLarge - The number of EntityMetricData objects al- lowed is 2. o MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type . For details of the requirements for specifying an entity, see How to add related information to telemetry in the CloudWatch User Guide . This parameter is required when EntityMetricData is included.
+    /// </summary>
+    [CliFlag("--strict-entity-validation", NegatedName = "--no-strict-entity-validation")]
     public bool? StrictEntityValidation { get; set; }
 
     [CliOption("--metric-name")]

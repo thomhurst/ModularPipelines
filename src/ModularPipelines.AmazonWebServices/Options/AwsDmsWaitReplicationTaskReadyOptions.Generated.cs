@@ -28,7 +28,10 @@ public record AwsDmsWaitReplicationTaskReadyOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--without-settings")]
+    /// <summary>
+    /// An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true ; otherwise, choose false (the de- fault).
+    /// </summary>
+    [CliFlag("--without-settings", NegatedName = "--no-without-settings")]
     public bool? WithoutSettings { get; set; }
 
     [CliOption("--cli-input-json")]

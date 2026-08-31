@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallUpdateProxyRuleAction
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("DENY")]
-    Deny = 2,
+    Deny,
 
     [EnumValue("ALERT")]
-    Alert = 3
+    Alert
 }

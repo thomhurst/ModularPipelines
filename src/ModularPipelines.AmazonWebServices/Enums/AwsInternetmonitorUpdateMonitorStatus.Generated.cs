@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInternetmonitorUpdateMonitorStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("ACTIVE")]
-    Active = 2,
+    Active,
 
     [EnumValue("INACTIVE")]
-    Inactive = 3,
+    Inactive,
 
     [EnumValue("ERROR")]
-    Error = 4
+    Error
 }

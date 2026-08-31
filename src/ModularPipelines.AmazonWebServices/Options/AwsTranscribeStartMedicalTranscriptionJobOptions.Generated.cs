@@ -75,7 +75,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
     /// Labels all personal health information (PHI) identified in your transcript. For more information, see Identifying personal health information (PHI) in a transcription . Possible values: o PHI
     /// </summary>
     [CliOption("--content-identification-type")]
-    public AwsTranscribeStartMedicalTranscriptionJobContentIdentificationType? ContentIdentificationType { get; set; }
+    public string? ContentIdentificationType { get; set; }
 
     [CliOption("--specialty")]
     public string? Specialty { get; set; }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentListGoalsGoalType
 {
     [EnumValue("CUSTOMER_DEFINED")]
-    CustomerDefined = 1,
+    CustomerDefined,
 
     [EnumValue("ONCALL_REPORT")]
-    OncallReport = 2
+    OncallReport
 }

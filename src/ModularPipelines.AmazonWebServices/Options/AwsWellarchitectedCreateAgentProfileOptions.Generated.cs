@@ -46,7 +46,10 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
     [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether deletion protection is enabled for the profile.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--execution-role-arn")]

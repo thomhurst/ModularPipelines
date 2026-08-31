@@ -24,7 +24,10 @@ public record AwsPinpointEmailPutConfigurationSetSendingOptionsOptions : AwsOpti
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--sending-enabled")]
+    /// <summary>
+    /// If true , email sending is enabled for the configuration set. If false , email sending is disabled for the configuration set.
+    /// </summary>
+    [CliFlag("--sending-enabled", NegatedName = "--no-sending-enabled")]
     public bool? SendingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

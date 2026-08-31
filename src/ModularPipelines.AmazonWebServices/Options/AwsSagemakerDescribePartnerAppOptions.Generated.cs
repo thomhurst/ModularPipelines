@@ -24,7 +24,10 @@ public record AwsSagemakerDescribePartnerAppOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliFlag("--include-available-upgrade")]
+    /// <summary>
+    /// When set to TRUE , the response includes available upgrade informa- tion for the SageMaker Partner AI App. Default is FALSE .
+    /// </summary>
+    [CliFlag("--include-available-upgrade", NegatedName = "--no-include-available-upgrade")]
     public bool? IncludeAvailableUpgrade { get; set; }
 
     [CliOption("--cli-input-json")]

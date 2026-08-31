@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbListAutonomousDatabaseBackupsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("CREATING")]
-    Creating = 2,
+    Creating,
 
     [EnumValue("UPDATING")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("DELETING")]
-    Deleting = 4,
+    Deleting,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed
 }

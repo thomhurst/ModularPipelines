@@ -34,7 +34,10 @@ public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions : AwsOptions
     [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the graph has deletion protection en- abled. The graph can't be deleted when deletion protection is en- abled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -49,7 +52,10 @@ public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions : AwsOptions
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CliFlag("--public-connectivity")]
+    /// <summary>
+    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable).
+    /// </summary>
+    [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     [CliOption("--cli-input-json")]

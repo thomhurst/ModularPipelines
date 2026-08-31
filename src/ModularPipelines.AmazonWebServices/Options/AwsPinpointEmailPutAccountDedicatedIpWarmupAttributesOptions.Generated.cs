@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("pinpoint-email", "put-account-dedicated-ip-warmup-attributes")]
 public record AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions : AwsOptions
 {
-    [CliFlag("--auto-warmup-enabled")]
+    /// <summary>
+    /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
+    /// </summary>
+    [CliFlag("--auto-warmup-enabled", NegatedName = "--no-auto-warmup-enabled")]
     public bool? AutoWarmupEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,10 @@ public record AwsCodeartifactListAssociatedPackagesOptions : AwsOptions
     [CliOption("--package-group")]
     public string? PackageGroup { get; set; }
 
-    [CliFlag("--preview")]
+    /// <summary>
+    /// When this flag is included, ListAssociatedPackages will return a list of packages that would be associated with a package group, even if it does not exist.
+    /// </summary>
+    [CliFlag("--preview", NegatedName = "--no-preview")]
     public bool? Preview { get; set; }
 
     [CliOption("--cli-input-json")]

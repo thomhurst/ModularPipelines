@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediapackagev2CreateOriginEndpointStreamNameOutputMode
 {
     [EnumValue("INDEX")]
-    Index = 1,
+    Index,
 
     [EnumValue("PASSTHROUGH_NAME")]
-    PassthroughName = 2
+    PassthroughName
 }

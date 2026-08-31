@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "put-composite-alarm")]
 public record AwsCloudwatchPutCompositeAlarmOptions : AwsOptions
 {
-    [CliFlag("--actions-enabled")]
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>

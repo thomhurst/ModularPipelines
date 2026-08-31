@@ -27,7 +27,7 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliFlag("--protected-from-scale-in")]
+    [CliFlag("--protected-from-scale-in", NegatedName = "--no-protected-from-scale-in")]
     public bool? ProtectedFromScaleIn { get; set; }
 
     [CliOption("--cli-input-json")]

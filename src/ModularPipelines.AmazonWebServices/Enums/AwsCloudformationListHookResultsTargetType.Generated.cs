@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationListHookResultsTargetType
 {
     [EnumValue("CHANGE_SET")]
-    ChangeSet = 1,
+    ChangeSet,
 
     [EnumValue("STACK")]
-    Stack = 2,
+    Stack,
 
     [EnumValue("RESOURCE")]
-    Resource = 3,
+    Resource,
 
     [EnumValue("CLOUD_CONTROL")]
-    CloudControl = 4
+    CloudControl
 }

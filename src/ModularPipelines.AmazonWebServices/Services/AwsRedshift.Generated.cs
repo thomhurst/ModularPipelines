@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -163,21 +163,6 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the settings for a set of cluster snapshots. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchModifyClusterSnapshotsAsync(
-        AwsRedshiftBatchModifyClusterSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftBatchModifyClusterSnapshotsOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Cancels a resize operation for a cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -325,21 +310,6 @@ public class AwsRedshift : IAwsRedshift
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftCreateEndpointAccessOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications wil...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateEventSubscriptionAsync(
-        AwsRedshiftCreateEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftCreateEventSubscriptionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -1843,21 +1813,6 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies an existing Amazon Redshift event notification subscription. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyEventSubscriptionAsync(
-        AwsRedshiftModifyEventSubscriptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftModifyEventSubscriptionOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Modifies a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1870,21 +1825,6 @@ public class AwsRedshift : IAwsRedshift
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftModifyIntegrationOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyLakehouseConfigurationAsync(
-        AwsRedshiftModifyLakehouseConfigurationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftModifyLakehouseConfigurationOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -2080,21 +2020,6 @@ public class AwsRedshift : IAwsRedshift
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftResetClusterParameterGroupOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ResizeClusterAsync(
-        AwsRedshiftResizeClusterOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftResizeClusterOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

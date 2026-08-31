@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferUpdateServerIdentityProviderType
 {
     [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 1,
+    ServiceManaged,
 
     [EnumValue("API_GATEWAY")]
-    ApiGateway = 2,
+    ApiGateway,
 
     [EnumValue("AWS_DIRECTORY_SERVICE")]
-    AwsDirectoryService = 3,
+    AwsDirectoryService,
 
     [EnumValue("AWS_LAMBDA")]
-    AwsLambda = 4
+    AwsLambda
 }

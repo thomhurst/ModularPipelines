@@ -24,7 +24,10 @@ public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Set to true to force the application to stop. If you set Force to true , Managed Service for Apache Flink stops the application with- out taking a snapshot. NOTE: Force-stopping your application may lead to data loss or dupli- cation. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Managed Service for Apache Flink applica- tion. You can't force stop a SQL-based Kinesis Data Analytics appli- cation. The application must be in the STARTING , UPDATING , STOPPING , AU- TOSCALING , or RUNNING status.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

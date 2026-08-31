@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTranscribeListLanguageModelsStatusEquals
 {
     [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("COMPLETED")]
-    Completed = 3
+    Completed
 }

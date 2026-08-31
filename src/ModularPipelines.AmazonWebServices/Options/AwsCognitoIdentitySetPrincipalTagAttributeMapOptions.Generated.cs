@@ -28,7 +28,10 @@ public record AwsCognitoIdentitySetPrincipalTagAttributeMapOptions : AwsOptions
     [CliOption("--identity-provider-name")]
     public string? IdentityProviderName { get; set; }
 
-    [CliFlag("--use-defaults")]
+    /// <summary>
+    /// You can use this operation to use default (username and clientID) attribute mappings.
+    /// </summary>
+    [CliFlag("--use-defaults", NegatedName = "--no-use-defaults")]
     public bool? UseDefaults { get; set; }
 
     /// <summary>

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-maps", "get-glyphs")]
-public record AwsGeoMapsGetGlyphsOptions : AwsOptions
+public record AwsGeoMapsGetGlyphsOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--font-stack")]
     public string? FontStack { get; set; }

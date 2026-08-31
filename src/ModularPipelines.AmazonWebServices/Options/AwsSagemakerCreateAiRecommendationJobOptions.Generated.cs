@@ -45,7 +45,10 @@ public record AwsSagemakerCreateAiRecommendationJobOptions : AwsOptions
     [CliOption("--inference-specification")]
     public string? InferenceSpecification { get; set; }
 
-    [CliFlag("--optimize-model")]
+    /// <summary>
+    /// Whether to allow model optimization techniques such as quantization, speculative decoding, and kernel tuning. The default is true .
+    /// </summary>
+    [CliFlag("--optimize-model", NegatedName = "--no-optimize-model")]
     public bool? OptimizeModel { get; set; }
 
     /// <summary>

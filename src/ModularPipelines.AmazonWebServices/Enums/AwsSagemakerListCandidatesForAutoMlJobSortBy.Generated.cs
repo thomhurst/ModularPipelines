@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListCandidatesForAutoMlJobSortBy
 {
     [EnumValue("CreationTime")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("Status")]
-    Status = 2,
+    Status,
 
     [EnumValue("FinalObjectiveMetricValue")]
-    FinalObjectiveMetricValue = 3
+    FinalObjectiveMetricValue
 }

@@ -36,7 +36,10 @@ public record AwsSsoAdminUpdateInstanceOptions : AwsOptions
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CliFlag("--permission-sets-enabled")]
+    /// <summary>
+    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. NOTE: You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate Up- dateInstance calls. These calls can be made in parallel.
+    /// </summary>
+    [CliFlag("--permission-sets-enabled", NegatedName = "--no-permission-sets-enabled")]
     public bool? PermissionSetsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

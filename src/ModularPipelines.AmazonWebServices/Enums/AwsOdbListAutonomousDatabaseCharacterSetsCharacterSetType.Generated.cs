@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbListAutonomousDatabaseCharacterSetsCharacterSetType
 {
     [EnumValue("DATABASE")]
-    Database = 1,
+    Database,
 
     [EnumValue("NATIONAL")]
-    National = 2
+    National
 }

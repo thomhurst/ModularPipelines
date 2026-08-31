@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectUpdateHoursOfOperationOverrideOverrideType
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("OPEN")]
-    Open = 2,
+    Open,
 
     [EnumValue("CLOSED")]
-    Closed = 3
+    Closed
 }

@@ -37,7 +37,7 @@ public record AwsEc2ModifyInstanceMetadataOptionsOptions : AwsOptions
     /// The desired HTTP PUT response hop limit for instance metadata re- quests. The larger the number, the further instance metadata re- quests can travel. If no parameter is specified, the existing state is maintained. Possible values: Integers from 1 to 64
     /// </summary>
     [CliOption("--http-put-response-hop-limit")]
-    public AwsEc2ModifyInstanceMetadataHttpPutResponseHopLimit? HttpPutResponseHopLimit { get; set; }
+    public int? HttpPutResponseHopLimit { get; set; }
 
     /// <summary>
     /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled , you cannot access your instance metadata. Possible values: o disabled o enabled
@@ -45,7 +45,10 @@ public record AwsEc2ModifyInstanceMetadataOptionsOptions : AwsOptions
     [CliOption("--http-endpoint")]
     public AwsEc2ModifyInstanceMetadataHttpEndpoint? HttpEndpoint { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -24,6 +24,9 @@ public record AwsElasticacheDeleteGlobalReplicationGroupOptions : AwsOptions
     [CliOption("--global-replication-group-id")]
     public string? GlobalReplicationGroupId { get; set; }
 
+    /// <summary>
+    /// tion-group (boolean) [required] The primary replication group is retained as a standalone replica- tion group.
+    /// </summary>
     [CliFlag("--retain-primary-replication-group")]
     public bool? RetainPrimaryReplicationGroup { get; set; }
 

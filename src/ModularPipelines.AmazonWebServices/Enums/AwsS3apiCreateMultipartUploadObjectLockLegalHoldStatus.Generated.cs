@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCreateMultipartUploadObjectLockLegalHoldStatus
 {
     [EnumValue("ON")]
-    On = 1,
+    On,
 
     [EnumValue("OFF")]
-    Off = 2
+    Off
 }

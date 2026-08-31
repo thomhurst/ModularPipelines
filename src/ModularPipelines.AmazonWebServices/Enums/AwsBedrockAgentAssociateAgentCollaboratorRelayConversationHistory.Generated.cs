@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentAssociateAgentCollaboratorRelayConversationHistory
 {
     [EnumValue("TO_COLLABORATOR")]
-    ToCollaborator = 1,
+    ToCollaborator,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

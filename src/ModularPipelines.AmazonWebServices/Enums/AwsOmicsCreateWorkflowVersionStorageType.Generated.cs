@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsCreateWorkflowVersionStorageType
 {
     [EnumValue("STATIC")]
-    Static = 1,
+    Static,
 
     [EnumValue("DYNAMIC")]
-    Dynamic = 2,
+    Dynamic,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

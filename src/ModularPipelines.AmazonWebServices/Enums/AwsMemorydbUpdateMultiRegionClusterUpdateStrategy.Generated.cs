@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMemorydbUpdateMultiRegionClusterUpdateStrategy
 {
     [EnumValue("coordinated")]
-    Coordinated = 1,
+    Coordinated,
 
     [EnumValue("uncoordinated")]
-    Uncoordinated = 2
+    Uncoordinated
 }

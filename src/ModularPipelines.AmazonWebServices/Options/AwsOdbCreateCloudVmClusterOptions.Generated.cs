@@ -81,10 +81,16 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--is-local-backup-enabled")]
+    /// <summary>
+    /// Specifies whether to enable database backups to local Exadata stor- age for the VM cluster.
+    /// </summary>
+    [CliFlag("--is-local-backup-enabled", NegatedName = "--no-is-local-backup-enabled")]
     public bool? IsLocalBackupEnabled { get; set; }
 
-    [CliFlag("--is-sparse-diskgroup-enabled")]
+    /// <summary>
+    /// Specifies whether to create a sparse disk group for the VM cluster.
+    /// </summary>
+    [CliFlag("--is-sparse-diskgroup-enabled", NegatedName = "--no-is-sparse-diskgroup-enabled")]
     public bool? IsSparseDiskgroupEnabled { get; set; }
 
     /// <summary>

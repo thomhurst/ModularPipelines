@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectcampaignsv2DeleteConnectInstanceConfigCampaignDeletionPolicy
 {
     [EnumValue("RETAIN_ALL")]
-    RetainAll = 1,
+    RetainAll,
 
     [EnumValue("DELETE_ALL")]
-    DeleteAll = 2
+    DeleteAll
 }

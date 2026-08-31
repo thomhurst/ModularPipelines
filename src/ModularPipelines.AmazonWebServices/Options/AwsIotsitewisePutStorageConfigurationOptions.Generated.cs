@@ -55,7 +55,10 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions
     [CliOption("--warm-tier-retention-period")]
     public string? WarmTierRetentionPeriod { get; set; }
 
-    [CliFlag("--disallow-ingest-null-na-n")]
+    /// <summary>
+    /// Describes the configuration for ingesting NULL and NaN data. By de- fault the feature is allowed. The feature is disallowed if the value is true .
+    /// </summary>
+    [CliFlag("--disallow-ingest-null-na-n", NegatedName = "--no-disallow-ingest-null-na-n")]
     public bool? DisallowIngestNullNaN { get; set; }
 
     [CliOption("--cli-input-json")]

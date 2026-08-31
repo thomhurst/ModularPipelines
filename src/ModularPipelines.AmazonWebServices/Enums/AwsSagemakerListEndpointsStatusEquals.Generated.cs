@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListEndpointsStatusEquals
 {
     [EnumValue("OutOfService")]
-    OutOfService = 1,
+    OutOfService,
 
     [EnumValue("Creating")]
-    Creating = 2,
+    Creating,
 
     [EnumValue("Updating")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("SystemUpdating")]
-    SystemUpdating = 4,
+    SystemUpdating,
 
     [EnumValue("RollingBack")]
-    RollingBack = 5,
+    RollingBack,
 
     [EnumValue("InService")]
-    InService = 6,
+    InService,
 
     [EnumValue("Deleting")]
-    Deleting = 7,
+    Deleting,
 
     [EnumValue("Failed")]
-    Failed = 8,
+    Failed,
 
     [EnumValue("UpdateRollbackFailed")]
-    UpdateRollbackFailed = 9
+    UpdateRollbackFailed
 }

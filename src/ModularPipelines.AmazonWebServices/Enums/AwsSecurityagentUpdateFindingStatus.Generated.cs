@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentUpdateFindingStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2,
+    Resolved,
 
     [EnumValue("ACCEPTED")]
-    Accepted = 3,
+    Accepted,
 
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 4
+    FalsePositive
 }

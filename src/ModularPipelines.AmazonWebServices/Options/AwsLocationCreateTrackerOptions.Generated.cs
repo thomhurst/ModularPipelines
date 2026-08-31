@@ -60,11 +60,17 @@ public record AwsLocationCreateTrackerOptions : AwsOptions
     /// Specifies the position filtering for the tracker resource. Valid values: o TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your up- date frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. o DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of ge- ofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. o AccuracyBased - If the device has moved less than the measured ac- curacy, location updates are ignored. For example, if two consecu- tive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the ef- fects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations. This field is optional. If not specified, the default value is Time- Based . Possible values: o TimeBased o DistanceBased o AccuracyBased
     /// </summary>
     [CliOption("--position-filtering")]
-    public AwsLocationCreateTrackerPositionFiltering? PositionFiltering { get; set; }
+    public string? PositionFiltering { get; set; }
 
-    [CliFlag("--event-bridge-enabled")]
+    /// <summary>
+    /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge. NOTE: You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+    /// </summary>
+    [CliFlag("--event-bridge-enabled", NegatedName = "--no-event-bridge-enabled")]
     public bool? EventBridgeEnabled { get; set; }
 
+    /// <summary>
+    /// tial-queries (boolean) Enables GeospatialQueries for a tracker that uses a Amazon Web Ser- vices KMS customer managed key . This parameter is only used if you are using a KMS customer managed key. NOTE: If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default. This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, how- ever; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries fea- ture. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when creating or updating a Tracker.
+    /// </summary>
     [CliFlag("--kms-key-enable-geospatial-queries")]
     public bool? KmsKeyEnableGeospatialQueries { get; set; }
 

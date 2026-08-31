@@ -35,7 +35,10 @@ public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOption
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CliFlag("--export-source-images")]
+    /// <summary>
+    /// The source images provided to the Earth Observation job being ex- ported.
+    /// </summary>
+    [CliFlag("--export-source-images", NegatedName = "--no-export-source-images")]
     public bool? ExportSourceImages { get; set; }
 
     [CliOption("--output-config")]

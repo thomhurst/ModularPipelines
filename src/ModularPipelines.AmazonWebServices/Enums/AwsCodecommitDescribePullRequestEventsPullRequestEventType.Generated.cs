@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitDescribePullRequestEventsPullRequestEventType
 {
     [EnumValue("PULL_REQUEST_CREATED")]
-    PullRequestCreated = 1,
+    PullRequestCreated,
 
     [EnumValue("PULL_REQUEST_STATUS_CHANGED")]
-    PullRequestStatusChanged = 2
+    PullRequestStatusChanged
 }

@@ -41,7 +41,10 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--mode")]
     public AwsNeptunedataStartLoaderJobMode? Mode { get; set; }
 
-    [CliFlag("--fail-on-error")]
+    /// <summary>
+    /// ** failOnError ** - A flag to toggle a complete stop on an er- ror. Allowed values : "TRUE" , "FALSE" . Default value : "TRUE" . When this parameter is set to "FALSE" , the loader tries to load all the data in the location specified, skipping any entries with er- rors. When this parameter is set to "TRUE" , the loader stops as soon as it encounters an error. Data loaded up to that point persists.
+    /// </summary>
+    [CliFlag("--fail-on-error", NegatedName = "--no-fail-on-error")]
     public bool? FailOnError { get; set; }
 
     /// <summary>
@@ -56,10 +59,16 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--parser-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParserConfiguration { get; set; }
 
+    /// <summary>
+    /// ity-properties (boolean) updateSingleCardinalityProperties is an optional parameter that controls how the bulk loader treats a new value for single-car- dinality vertex or edge properties. This is not supported for loading openCypher data. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" . By default, or when updateSingleCardinalityProperties is explicitly set to "FALSE" , the loader treats a new value as an error, because it violates single cardinality. When updateSingleCardinalityProperties is set to "TRUE" , on the other hand, the bulk loader replaces the existing value with the new one. If multiple edge or single-cardinality vertex property values are provided in the source file(s) being loaded, the final value at the end of the bulk load could be any one of those new values. The loader only guarantees that the existing value has been replaced by one of the new ones.
+    /// </summary>
     [CliFlag("--update-single-cardinality-properties")]
     public bool? UpdateSingleCardinalityProperties { get; set; }
 
-    [CliFlag("--queue-request")]
+    /// <summary>
+    /// This is an optional flag parameter that indicates whether the load request can be queued up or not. You don't have to wait for one load job to complete before issuing the next one, because Neptune can queue up as many as 64 jobs at a time, provided that their queueRequest parameters are all set to "TRUE" . The queue order of the jobs will be first-in-first-out (FIFO). If the queueRequest parameter is omitted or set to "FALSE" , the load request will fail if another load job is already running. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" .
+    /// </summary>
+    [CliFlag("--queue-request", NegatedName = "--no-queue-request")]
     public bool? QueueRequest { get; set; }
 
     /// <summary>
@@ -68,10 +77,16 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--dependencies", GroupValues = true)]
     public IEnumerable<string>? Dependencies { get; set; }
 
-    [CliFlag("--user-provided-edge-ids")]
+    /// <summary>
+    /// This parameter is required only when loading openCypher data that contains relationship IDs. It must be included and set to True when openCypher relationship IDs are explicitly provided in the load data (recommended). When userProvidedEdgeIds is absent or set to True , an :ID column must be present in every relationship file in the load. When userProvidedEdgeIds is present and set to False , relationship files in the load must not contain an :ID column. Instead, the Nep- tune loader automatically generates an ID for each relationship. It's useful to provide relationship IDs explicitly so that the loader can resume loading after error in the CSV data have been fixed, without having to reload any relationships that have already been loaded. If relationship IDs have not been explicitly assigned, the loader cannot resume a failed load if any relationship file has had to be corrected, and must instead reload all the relationships.
+    /// </summary>
+    [CliFlag("--user-provided-edge-ids", NegatedName = "--no-user-provided-edge-ids")]
     public bool? UserProvidedEdgeIds { get; set; }
 
-    [CliFlag("--edge-only-load")]
+    /// <summary>
+    /// ** edgeOnlyLoad ** - A flag that controls file processing order during bulk loading. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" . When this parameter is set to "FALSE", the loader automatically loads vertex files first, then edge files afterwards. It does this by first scanning all files to determine their contents (vertices or edges). When this parameter is set to "TRUE", the loader skips the initial scanning phase and immediately loads all files in the order they appear.
+    /// </summary>
+    [CliFlag("--edge-only-load", NegatedName = "--no-edge-only-load")]
     public bool? EdgeOnlyLoad { get; set; }
 
     [CliOption("--cli-input-json")]

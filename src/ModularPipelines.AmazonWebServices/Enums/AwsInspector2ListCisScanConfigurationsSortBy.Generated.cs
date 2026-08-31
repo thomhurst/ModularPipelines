@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListCisScanConfigurationsSortBy
 {
     [EnumValue("SCAN_NAME")]
-    ScanName = 1,
+    ScanName,
 
     [EnumValue("SCAN_CONFIGURATION_ARN")]
-    ScanConfigurationArn = 2
+    ScanConfigurationArn
 }

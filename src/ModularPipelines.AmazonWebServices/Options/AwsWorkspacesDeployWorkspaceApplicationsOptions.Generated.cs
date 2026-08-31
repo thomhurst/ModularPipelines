@@ -24,7 +24,10 @@ public record AwsWorkspacesDeployWorkspaceApplicationsOptions : AwsOptions
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Indicates whether the force flag is applied for the specified Work- Space. When the force flag is enabled, it allows previously failed deployments to be retried.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

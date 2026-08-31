@@ -31,7 +31,10 @@ public record AwsConnectUpdateEvaluationFormOptions : AwsOptions
     [CliOption("--evaluation-form-version")]
     public int? EvaluationFormVersion { get; set; }
 
-    [CliFlag("--create-new-version")]
+    /// <summary>
+    /// A flag indicating whether the operation must create a new version.
+    /// </summary>
+    [CliFlag("--create-new-version", NegatedName = "--no-create-new-version")]
     public bool? CreateNewVersion { get; set; }
 
     [CliOption("--title")]
@@ -64,7 +67,10 @@ public record AwsConnectUpdateEvaluationFormOptions : AwsOptions
     [CliOption("--review-configuration")]
     public string? ReviewConfiguration { get; set; }
 
-    [CliFlag("--as-draft")]
+    /// <summary>
+    /// A boolean flag indicating whether to update evaluation form to draft state.
+    /// </summary>
+    [CliFlag("--as-draft", NegatedName = "--no-as-draft")]
     public bool? AsDraft { get; set; }
 
     /// <summary>

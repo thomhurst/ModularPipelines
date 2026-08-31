@@ -30,10 +30,16 @@ public record AwsEc2ModifyVpnTunnelOptionsOptions : AwsOptions
     [CliOption("--tunnel-options")]
     public string? TunnelOptions { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--skip-tunnel-replacement")]
+    /// <summary>
+    /// Choose whether or not to trigger immediate tunnel replacement. This is only applicable when turning on or off EnableTunnelLifecycleCon- trol . Valid values: True | False
+    /// </summary>
+    [CliFlag("--skip-tunnel-replacement", NegatedName = "--no-skip-tunnel-replacement")]
     public bool? SkipTunnelReplacement { get; set; }
 
     /// <summary>

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDataCreateGroupGroupScope
 {
     [EnumValue("DomainLocal")]
-    DomainLocal = 1,
+    DomainLocal,
 
     [EnumValue("Global")]
-    Global = 2,
+    Global,
 
     [EnumValue("Universal")]
-    Universal = 3,
+    Universal,
 
     [EnumValue("BuiltinLocal")]
-    BuiltinLocal = 4
+    BuiltinLocal
 }

@@ -118,7 +118,10 @@ public record AwsEcsRegisterTaskDefinitionOptions : AwsOptions
     [CliOption("--runtime-platform")]
     public string? RuntimePlatform { get; set; }
 
-    [CliFlag("--enable-fault-injection")]
+    /// <summary>
+    /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false .
+    /// </summary>
+    [CliFlag("--enable-fault-injection", NegatedName = "--no-enable-fault-injection")]
     public bool? EnableFaultInjection { get; set; }
 
     [CliOption("--cli-input-json")]

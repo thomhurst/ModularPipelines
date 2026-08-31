@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftListBuildsStatus
 {
     [EnumValue("INITIALIZED")]
-    Initialized = 1,
+    Initialized,
 
     [EnumValue("READY")]
-    Ready = 2,
+    Ready,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

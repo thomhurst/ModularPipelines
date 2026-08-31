@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsSecurityagentDeleteMembershipOptions : AwsOptions
     /// The type of member to remove. Possible values: o USER
     /// </summary>
     [CliOption("--member-type")]
-    public AwsSecurityagentDeleteMembershipMemberType? MemberType { get; set; }
+    public string? MemberType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

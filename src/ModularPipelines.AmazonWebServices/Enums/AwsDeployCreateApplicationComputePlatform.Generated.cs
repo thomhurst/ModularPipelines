@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeployCreateApplicationComputePlatform
 {
     [EnumValue("Server")]
-    Server = 1,
+    Server,
 
     [EnumValue("Lambda")]
-    Lambda = 2,
+    Lambda,
 
     [EnumValue("ECS")]
-    Ecs = 3
+    Ecs
 }

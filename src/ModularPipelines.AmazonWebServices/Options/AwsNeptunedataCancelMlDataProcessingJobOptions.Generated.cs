@@ -30,7 +30,10 @@ public record AwsNeptunedataCancelMlDataProcessingJobOptions : AwsOptions
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
-    [CliFlag("--clean")]
+    /// <summary>
+    /// If set to TRUE , this flag specifies that all Neptune ML S3 arti- facts should be deleted when the job is stopped. The default is FALSE .
+    /// </summary>
+    [CliFlag("--clean", NegatedName = "--no-clean")]
     public bool? Clean { get; set; }
 
     [CliOption("--cli-input-json")]

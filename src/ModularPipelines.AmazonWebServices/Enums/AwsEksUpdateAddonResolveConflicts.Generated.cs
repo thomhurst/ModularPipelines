@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEksUpdateAddonResolveConflicts
 {
     [EnumValue("OVERWRITE")]
-    Overwrite = 1,
+    Overwrite,
 
     [EnumValue("NONE")]
-    None = 2,
+    None,
 
     [EnumValue("PRESERVE")]
-    Preserve = 3
+    Preserve
 }

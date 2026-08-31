@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAthenaListExecutorsExecutorStateFilter
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("CREATED")]
-    Created = 2,
+    Created,
 
     [EnumValue("REGISTERED")]
-    Registered = 3,
+    Registered,
 
     [EnumValue("TERMINATING")]
-    Terminating = 4,
+    Terminating,
 
     [EnumValue("TERMINATED")]
-    Terminated = 5,
+    Terminated,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed
 }

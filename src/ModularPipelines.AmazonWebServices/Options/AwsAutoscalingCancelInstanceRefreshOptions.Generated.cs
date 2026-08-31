@@ -24,6 +24,9 @@ public record AwsAutoscalingCancelInstanceRefreshOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
+    /// <summary>
+    /// stances (boolean) When cancelling an instance refresh, this indicates whether to wait for in-flight launches and terminations to complete. The default is true. When set to false, Amazon EC2 Auto Scaling cancels the instance re- fresh without waiting for any pending launches or terminations to complete.
+    /// </summary>
     [CliFlag("--wait-for-transitioning-instances")]
     public bool? WaitForTransitioningInstances { get; set; }
 

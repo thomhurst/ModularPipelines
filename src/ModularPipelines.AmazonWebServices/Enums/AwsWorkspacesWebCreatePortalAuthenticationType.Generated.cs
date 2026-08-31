@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesWebCreatePortalAuthenticationType
 {
     [EnumValue("Standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("IAM_Identity_Center")]
-    IamIdentityCenter = 2
+    IamIdentityCenter
 }

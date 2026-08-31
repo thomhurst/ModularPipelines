@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsVpcLatticeUpdateServiceAuthType
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("AWS_IAM")]
-    AwsIam = 2
+    AwsIam
 }

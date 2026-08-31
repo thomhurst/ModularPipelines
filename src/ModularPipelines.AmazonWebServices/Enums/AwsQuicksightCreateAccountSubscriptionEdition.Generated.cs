@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightCreateAccountSubscriptionEdition
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("ENTERPRISE")]
-    Enterprise = 2,
+    Enterprise,
 
     [EnumValue("ENTERPRISE_AND_Q")]
-    EnterpriseAndQ = 3
+    EnterpriseAndQ
 }

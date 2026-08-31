@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessChatSyncChatMode
 {
     [EnumValue("RETRIEVAL_MODE")]
-    RetrievalMode = 1,
+    RetrievalMode,
 
     [EnumValue("CREATOR_MODE")]
-    CreatorMode = 2,
+    CreatorMode,
 
     [EnumValue("PLUGIN_MODE")]
-    PluginMode = 3
+    PluginMode
 }

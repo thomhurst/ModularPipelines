@@ -30,7 +30,10 @@ public record AwsEc2GetInstanceTpmEkPubOptions : AwsOptions
     [CliOption("--key-format")]
     public string? KeyFormat { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Specify this parameter to verify whether the request will succeed, without actually making the request. If the request will succeed, the response is DryRunOperation . Otherwise, the response is Unau- thorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

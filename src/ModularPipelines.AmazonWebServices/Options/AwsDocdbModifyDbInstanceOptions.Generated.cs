@@ -30,7 +30,10 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions
     [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the instance. If this parameter is set to false , changes to the instance are ap- plied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// This parameter does not apply to Amazon DocumentDB. Amazon Docu- mentDB does not perform minor version upgrades regardless of the value set.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -54,7 +60,10 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -63,7 +72,10 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see Using Amazon Performance Insights .
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -72,7 +84,10 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions
     [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
-    [CliFlag("--certificate-rotation-restart")]
+    /// <summary>
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB in- stance is restarted. WARNING: Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see Updating Your Amazon DocumentDB TLS Certificates and Encrypting Data in Tran- sit in the Amazon DocumentDB Developer Guide .
+    /// </summary>
+    [CliFlag("--certificate-rotation-restart", NegatedName = "--no-certificate-rotation-restart")]
     public bool? CertificateRotationRestart { get; set; }
 
     [CliOption("--cli-input-json")]

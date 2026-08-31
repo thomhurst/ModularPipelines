@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKmsGenerateDataKeyWithoutPlaintextKeySpec
 {
     [EnumValue("AES_256")]
-    Aes_256 = 1,
+    Aes_256,
 
     [EnumValue("AES_128")]
-    Aes_128 = 2
+    Aes_128
 }

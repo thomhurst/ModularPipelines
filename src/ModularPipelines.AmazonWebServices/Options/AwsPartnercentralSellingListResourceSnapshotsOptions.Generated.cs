@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions
     /// Filters the response to include only snapshots of the specified re- source type. Possible values: o Opportunity
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsPartnercentralSellingListResourceSnapshotsResourceType? ResourceType { get; set; }
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Filters the response to include only snapshots of the specified re- source. Constraints: o pattern: O[0-9]{1,19}

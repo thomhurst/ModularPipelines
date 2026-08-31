@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsRegisterTaskDefinitionPidMode
 {
     [EnumValue("host")]
-    Host = 1,
+    Host,
 
     [EnumValue("task")]
-    Task = 2
+    Task
 }

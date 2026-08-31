@@ -41,7 +41,10 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     [CliOption("--forecast-types", GroupValues = true)]
     public IEnumerable<string>? ForecastTypes { get; set; }
 
-    [CliFlag("--perform-auto-ml")]
+    /// <summary>
+    /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false . In this case, you are required to spec- ify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
+    /// </summary>
+    [CliFlag("--perform-auto-ml", NegatedName = "--no-perform-auto-ml")]
     public bool? PerformAutoMl { get; set; }
 
     /// <summary>
@@ -50,7 +53,10 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     [CliOption("--auto-ml-override-strategy")]
     public AwsForecastCreatePredictorAutoMlOverrideStrategy? AutoMlOverrideStrategy { get; set; }
 
-    [CliFlag("--perform-hpo")]
+    /// <summary>
+    /// Whether to perform hyperparameter optimization (HPO). HPO finds op- timal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false . In this case, Amazon Forecast uses de- fault hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, option- ally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters partici- pate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and Perfor- mAutoML must be false. The following algorithms support HPO: o DeepAR+ o CNN-QR
+    /// </summary>
+    [CliFlag("--perform-hpo", NegatedName = "--no-perform-hpo")]
     public bool? PerformHpo { get; set; }
 
     /// <summary>

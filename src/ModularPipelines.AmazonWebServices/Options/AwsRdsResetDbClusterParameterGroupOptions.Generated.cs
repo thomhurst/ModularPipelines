@@ -24,7 +24,10 @@ public record AwsRdsResetDbClusterParameterGroupOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Specifies whether to reset all parameters in the DB cluster parame- ter group to their default values. You can't use this parameter if there is a list of parameter names specified for the Parameters pa- rameter.
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>

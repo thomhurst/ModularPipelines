@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueSearchTablesResourceShareType
 {
     [EnumValue("FOREIGN")]
-    Foreign = 1,
+    Foreign,
 
     [EnumValue("ALL")]
-    All = 2,
+    All,
 
     [EnumValue("FEDERATED")]
-    Federated = 3
+    Federated
 }

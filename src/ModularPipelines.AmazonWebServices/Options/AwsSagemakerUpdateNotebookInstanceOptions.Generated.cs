@@ -29,7 +29,7 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions
     /// The Amazon ML compute instance type. Possible values: o ml.t2.medium o ml.t2.large o ml.t2.xlarge o ml.t2.2xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.m5d.large o ml.m5d.xlarge o ml.m5d.2xlarge o ml.m5d.4xlarge o ml.m5d.8xlarge o ml.m5d.12xlarge o ml.m5d.16xlarge o ml.m5d.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5d.xlarge o ml.c5d.2xlarge o ml.c5d.4xlarge o ml.c5d.9xlarge o ml.c5d.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.inf1.xlarge o ml.inf1.2xlarge o ml.inf1.6xlarge o ml.inf1.24xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p6-b200.48xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.c6i.large o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.4xlarge o ml.c6i.8xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.r6i.large o ml.r6i.xlarge o ml.r6i.2xlarge o ml.r6i.4xlarge o ml.r6i.8xlarge o ml.r6i.12xlarge o ml.r6i.16xlarge o ml.r6i.24xlarge o ml.r6i.32xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.m6id.large o ml.m6id.xlarge o ml.m6id.2xlarge o ml.m6id.4xlarge o ml.m6id.8xlarge o ml.m6id.12xlarge o ml.m6id.16xlarge o ml.m6id.24xlarge o ml.m6id.32xlarge o ml.c6id.large o ml.c6id.xlarge o ml.c6id.2xlarge o ml.c6id.4xlarge o ml.c6id.8xlarge o ml.c6id.12xlarge o ml.c6id.16xlarge o ml.c6id.24xlarge o ml.c6id.32xlarge o ml.r6id.large o ml.r6id.xlarge o ml.r6id.2xlarge o ml.r6id.4xlarge o ml.r6id.8xlarge o ml.r6id.12xlarge o ml.r6id.16xlarge o ml.r6id.24xlarge o ml.r6id.32xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.p5.4xlarge o ml.p5en.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge
     /// </summary>
     [CliOption("--instance-type")]
-    public AwsSagemakerUpdateNotebookInstanceInstanceType? InstanceType { get; set; }
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connec- tivity. The notebook instance must be stopped before updating this setting. When you specify dualstack , the subnet must support IPv6 addressing. Possible values: o ipv4 o dualstack
@@ -55,7 +55,10 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions
     [CliOption("--lifecycle-config-name")]
     public string? LifecycleConfigName { get; set; }
 
-    [CliFlag("--disassociate-lifecycle-config")]
+    /// <summary>
+    /// Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not as- sociated with the notebook instance when you call this method, it does not throw an error.
+    /// </summary>
+    [CliFlag("--disassociate-lifecycle-config", NegatedName = "--no-disassociate-lifecycle-config")]
     public bool? DisassociateLifecycleConfig { get; set; }
 
     /// <summary>
@@ -82,12 +85,21 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions
     [CliOption("--accelerator-types", GroupValues = true)]
     public IEnumerable<string>? AcceleratorTypes { get; set; }
 
-    [CliFlag("--disassociate-accelerator-types")]
+    /// <summary>
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
+    /// </summary>
+    [CliFlag("--disassociate-accelerator-types", NegatedName = "--no-disassociate-accelerator-types")]
     public bool? DisassociateAcceleratorTypes { get; set; }
 
+    /// <summary>
+    /// fault-code-repository (boolean) The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
+    /// </summary>
     [CliFlag("--disassociate-default-code-repository")]
     public bool? DisassociateDefaultCodeRepository { get; set; }
 
+    /// <summary>
+    /// tional-code-repositories (boolean) A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
+    /// </summary>
     [CliFlag("--disassociate-additional-code-repositories")]
     public bool? DisassociateAdditionalCodeRepositories { get; set; }
 

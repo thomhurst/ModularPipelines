@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-ipam-routing-policy-registration")]
 public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-internet-registry-association-id")]
@@ -34,6 +37,9 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
     [CliOption("--asns", GroupValues = true)]
     public IEnumerable<string>? Asns { get; set; }
 
+    /// <summary>
+    /// nouncements (boolean) Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false .
+    /// </summary>
     [CliFlag("--permit-more-specific-announcements")]
     public bool? PermitMoreSpecificAnnouncements { get; set; }
 
@@ -49,7 +55,10 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the creation of the routing policy registration even if it conflicts with an announced route. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCopyObjectMetadataDirective
 {
     [EnumValue("COPY")]
-    Copy = 1,
+    Copy,
 
     [EnumValue("REPLACE")]
-    Replace = 2
+    Replace
 }

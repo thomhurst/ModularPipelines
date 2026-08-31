@@ -41,7 +41,7 @@ public record AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions : AwsOptio
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliFlag("--delete-protection")]
+    [CliFlag("--delete-protection", NegatedName = "--no-delete-protection")]
     public bool? DeleteProtection { get; set; }
 
     [CliOption("--cli-input-json")]

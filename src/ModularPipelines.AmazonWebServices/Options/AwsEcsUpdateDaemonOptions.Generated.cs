@@ -43,9 +43,15 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions
     [CliOption("--propagate-tags")]
     public AwsEcsUpdateDaemonPropagateTags? PropagateTags { get; set; }
 
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS re- sources in the Amazon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// If true , the execute command functionality is turned on for all tasks in the daemon. If false , the execute command functionality is turned off.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 

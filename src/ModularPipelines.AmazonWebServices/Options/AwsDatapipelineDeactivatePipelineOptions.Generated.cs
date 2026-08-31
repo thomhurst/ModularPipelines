@@ -24,7 +24,10 @@ public record AwsDatapipelineDeactivatePipelineOptions : AwsOptions
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CliFlag("--cancel-active")]
+    /// <summary>
+    /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED . If this value is false, the pipeline is deactivated after all running objects finish.
+    /// </summary>
+    [CliFlag("--cancel-active", NegatedName = "--no-cancel-active")]
     public bool? CancelActive { get; set; }
 
     [CliOption("--cli-input-json")]

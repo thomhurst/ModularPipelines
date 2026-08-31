@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesListProfileHistoryRecordsActionType
 {
     [EnumValue("ADDED_PROFILE_KEY")]
-    AddedProfileKey = 1,
+    AddedProfileKey,
 
     [EnumValue("DELETED_PROFILE_KEY")]
-    DeletedProfileKey = 2,
+    DeletedProfileKey,
 
     [EnumValue("CREATED")]
-    Created = 3,
+    Created,
 
     [EnumValue("UPDATED")]
-    Updated = 4,
+    Updated,
 
     [EnumValue("INGESTED")]
-    Ingested = 5,
+    Ingested,
 
     [EnumValue("DELETED_BY_CUSTOMER")]
-    DeletedByCustomer = 6,
+    DeletedByCustomer,
 
     [EnumValue("EXPIRED")]
-    Expired = 7,
+    Expired,
 
     [EnumValue("MERGED")]
-    Merged = 8,
+    Merged,
 
     [EnumValue("DELETED_BY_MERGE")]
-    DeletedByMerge = 9
+    DeletedByMerge
 }

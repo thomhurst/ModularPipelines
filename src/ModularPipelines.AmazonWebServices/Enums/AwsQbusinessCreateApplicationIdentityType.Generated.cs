@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessCreateApplicationIdentityType
 {
     [EnumValue("AWS_IAM_IDP_SAML")]
-    AwsIamIdpSaml = 1,
+    AwsIamIdpSaml,
 
     [EnumValue("AWS_IAM_IDP_OIDC")]
-    AwsIamIdpOidc = 2,
+    AwsIamIdpOidc,
 
     [EnumValue("AWS_IAM_IDC")]
-    AwsIamIdc = 3,
+    AwsIamIdc,
 
     [EnumValue("AWS_QUICKSIGHT_IDP")]
-    AwsQuicksightIdp = 4,
+    AwsQuicksightIdp,
 
     [EnumValue("ANONYMOUS")]
-    Anonymous = 5
+    Anonymous
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStyleDescriptorContourDensity
 {
     [EnumValue("Low")]
-    Low = 1,
+    Low,
 
     [EnumValue("Medium")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("High")]
-    High = 3
+    High
 }

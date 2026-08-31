@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamInfluxdbCreateDbClusterDbStorageType
 {
     [EnumValue("InfluxIOIncludedT1")]
-    InfluxIoIncludedT1 = 1,
+    InfluxIoIncludedT1,
 
     [EnumValue("InfluxIOIncludedT2")]
-    InfluxIoIncludedT2 = 2,
+    InfluxIoIncludedT2,
 
     [EnumValue("InfluxIOIncludedT3")]
-    InfluxIoIncludedT3 = 3
+    InfluxIoIncludedT3
 }

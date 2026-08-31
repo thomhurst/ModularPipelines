@@ -27,7 +27,10 @@ public record AwsPinpointSmsVoiceV2UpdateSenderIdOptions : AwsOptions
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

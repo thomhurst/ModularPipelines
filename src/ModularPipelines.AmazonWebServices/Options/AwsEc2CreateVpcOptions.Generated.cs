@@ -82,7 +82,10 @@ public record AwsEc2CreateVpcOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -92,7 +95,7 @@ public record AwsEc2CreateVpcOptions : AwsOptions
     public AwsEc2CreateVpcInstanceTenancy? InstanceTenancy { get; set; }
 
     /// <summary>
-    /// | --no-amazon-pro- vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
+    /// vided-ipv6-cidr-block (boolean) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
     /// </summary>
     [CliFlag("--amazon-provided-ipv6-cidr-block")]
     public bool? AmazonProvidedIpv6CidrBlock { get; set; }

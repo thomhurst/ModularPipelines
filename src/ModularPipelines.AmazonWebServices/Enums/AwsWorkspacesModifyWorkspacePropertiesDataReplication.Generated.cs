@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesModifyWorkspacePropertiesDataReplication
 {
     [EnumValue("NO_REPLICATION")]
-    NoReplication = 1,
+    NoReplication,
 
     [EnumValue("PRIMARY_AS_SOURCE")]
-    PrimaryAsSource = 2
+    PrimaryAsSource
 }

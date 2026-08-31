@@ -68,7 +68,7 @@ public record AwsLightsailCreateDistributionOptions : AwsOptions
     /// The minimum TLS protocol version for the SSL/TLS certificate. Possible values: o TLSv1.1_2016 o TLSv1.2_2018 o TLSv1.2_2019 o TLSv1.2_2021
     /// </summary>
     [CliOption("--viewer-minimum-tls-protocol-version")]
-    public AwsLightsailCreateDistributionViewerMinimumTlsProtocolVersion? ViewerMinimumTlsProtocolVersion { get; set; }
+    public string? ViewerMinimumTlsProtocolVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

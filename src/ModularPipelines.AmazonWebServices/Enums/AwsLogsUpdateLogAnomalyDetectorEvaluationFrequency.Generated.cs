@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsUpdateLogAnomalyDetectorEvaluationFrequency
 {
     [EnumValue("ONE_MIN")]
-    OneMin = 1,
+    OneMin,
 
     [EnumValue("FIVE_MIN")]
-    FiveMin = 2,
+    FiveMin,
 
     [EnumValue("TEN_MIN")]
-    TenMin = 3,
+    TenMin,
 
     [EnumValue("FIFTEEN_MIN")]
-    FifteenMin = 4,
+    FifteenMin,
 
     [EnumValue("THIRTY_MIN")]
-    ThirtyMin = 5,
+    ThirtyMin,
 
     [EnumValue("ONE_HOUR")]
-    OneHour = 6
+    OneHour
 }

@@ -49,7 +49,10 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions
     [CliOption("--suppression-period")]
     public string? SuppressionPeriod { get; set; }
 
-    [CliFlag("--baseline")]
+    /// <summary>
+    /// Set this to true to prevent CloudWatch Logs from displaying this be- havior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
+    /// </summary>
+    [CliFlag("--baseline", NegatedName = "--no-baseline")]
     public bool? Baseline { get; set; }
 
     [CliOption("--cli-input-json")]

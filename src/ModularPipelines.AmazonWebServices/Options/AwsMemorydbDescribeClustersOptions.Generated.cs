@@ -28,7 +28,10 @@ public record AwsMemorydbDescribeClustersOptions : AwsOptions
     [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CliFlag("--show-shard-details")]
+    /// <summary>
+    /// An optional flag that can be included in the request to retrieve in- formation about the individual shard(s).
+    /// </summary>
+    [CliFlag("--show-shard-details", NegatedName = "--no-show-shard-details")]
     public bool? ShowShardDetails { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("odb", "initialize-service")]
 public record AwsOdbInitializeServiceOptions : AwsOptions
 {
-    [CliFlag("--oci-identity-domain")]
+    /// <summary>
+    /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
+    /// </summary>
+    [CliFlag("--oci-identity-domain", NegatedName = "--no-oci-identity-domain")]
     public bool? OciIdentityDomain { get; set; }
 
     /// <summary>

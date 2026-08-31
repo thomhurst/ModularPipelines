@@ -29,7 +29,10 @@ public record AwsIotListAuthorizersOptions : AwsOptions
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Return the list of authorizers in ascending alphabetical order.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     /// <summary>

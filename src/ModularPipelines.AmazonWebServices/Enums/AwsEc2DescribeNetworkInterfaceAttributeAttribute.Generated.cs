@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeNetworkInterfaceAttributeAttribute
 {
     [EnumValue("description")]
-    Description = 1,
+    Description,
 
     [EnumValue("groupSet")]
-    GroupSet = 2,
+    GroupSet,
 
     [EnumValue("sourceDestCheck")]
-    SourceDestCheck = 3,
+    SourceDestCheck,
 
     [EnumValue("attachment")]
-    Attachment = 4,
+    Attachment,
 
     [EnumValue("associatePublicIpAddress")]
-    AssociatePublicIpAddress = 5
+    AssociatePublicIpAddress
 }

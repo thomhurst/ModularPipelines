@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoPlacesSuggestTravelMode
 {
     [EnumValue("Car")]
-    Car = 1,
+    Car,
 
     [EnumValue("Scooter")]
-    Scooter = 2,
+    Scooter,
 
     [EnumValue("Truck")]
-    Truck = 3
+    Truck
 }

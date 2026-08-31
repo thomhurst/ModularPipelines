@@ -63,7 +63,7 @@ public record AwsBedrockListModelCopyJobsOptions : AwsOptions
     /// The field to sort by in the returned list of model copy jobs. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListModelCopyJobsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies whether to sort the results in ascending or descending or- der. Possible values: o Ascending o Descending

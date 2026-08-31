@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAuditManagerUpdateAssessmentControlControlStatus
 {
     [EnumValue("UNDER_REVIEW")]
-    UnderReview = 1,
+    UnderReview,
 
     [EnumValue("REVIEWED")]
-    Reviewed = 2,
+    Reviewed,
 
     [EnumValue("INACTIVE")]
-    Inactive = 3
+    Inactive
 }

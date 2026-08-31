@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -67,7 +68,7 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions
     /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric . Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
     /// </summary>
     [CliOption("--unit")]
-    public string? Unit { get; set; }
+    public AwsIotUpdateFleetMetricUnit? Unit { get; set; }
 
     /// <summary>
     /// The expected version of the fleet metric record in the registry.

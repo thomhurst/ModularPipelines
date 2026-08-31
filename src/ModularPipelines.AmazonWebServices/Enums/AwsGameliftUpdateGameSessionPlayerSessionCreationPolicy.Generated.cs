@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftUpdateGameSessionPlayerSessionCreationPolicy
 {
     [EnumValue("ACCEPT_ALL")]
-    AcceptAll = 1,
+    AcceptAll,
 
     [EnumValue("DENY_ALL")]
-    DenyAll = 2
+    DenyAll
 }

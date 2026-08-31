@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("BASIC")]
-    Basic = 2
+    Basic
 }

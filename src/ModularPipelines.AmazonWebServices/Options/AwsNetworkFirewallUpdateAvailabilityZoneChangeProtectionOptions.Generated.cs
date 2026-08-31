@@ -42,7 +42,7 @@ public record AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions : 
     public string? FirewallName { get; set; }
 
     /// <summary>
-    /// | --no-availabil- ity-zone-change-protection (boolean) [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// ity-zone-change-protection (boolean) [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
     /// </summary>
     [CliFlag("--availability-zone-change-protection")]
     public bool? AvailabilityZoneChangeProtection { get; set; }

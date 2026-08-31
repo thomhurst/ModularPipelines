@@ -48,7 +48,7 @@ public record AwsSagemakerListLabelingJobsForWorkteamOptions : AwsOptions
     /// The field to sort results by. The default is CreationTime . Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListLabelingJobsForWorkteamSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for results. The default is Ascending . Possible values: o Ascending o Descending

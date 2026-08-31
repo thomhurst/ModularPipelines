@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateVerifiedAccessTrustProviderUserTrustProviderType
 {
     [EnumValue("iam-identity-center")]
-    IamIdentityCenter = 1,
+    IamIdentityCenter,
 
     [EnumValue("oidc")]
-    Oidc = 2
+    Oidc
 }

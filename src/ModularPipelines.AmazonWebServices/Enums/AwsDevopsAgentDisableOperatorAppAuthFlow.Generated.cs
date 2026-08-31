@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDevopsAgentDisableOperatorAppAuthFlow
 {
     [EnumValue("iam")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("idc")]
-    Idc = 2,
+    Idc,
 
     [EnumValue("idp")]
-    Idp = 3
+    Idp
 }

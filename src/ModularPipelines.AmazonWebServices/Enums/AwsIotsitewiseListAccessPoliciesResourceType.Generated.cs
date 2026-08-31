@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListAccessPoliciesResourceType
 {
     [EnumValue("PORTAL")]
-    Portal = 1,
+    Portal,
 
     [EnumValue("PROJECT")]
-    Project = 2
+    Project
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDaxDescribeEventsSourceType
 {
     [EnumValue("CLUSTER")]
-    Cluster = 1,
+    Cluster,
 
     [EnumValue("PARAMETER_GROUP")]
-    ParameterGroup = 2,
+    ParameterGroup,
 
     [EnumValue("SUBNET_GROUP")]
-    SubnetGroup = 3
+    SubnetGroup
 }

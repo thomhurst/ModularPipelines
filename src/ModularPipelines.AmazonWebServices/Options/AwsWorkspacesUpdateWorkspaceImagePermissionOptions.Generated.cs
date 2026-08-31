@@ -24,7 +24,7 @@ public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliFlag("--allow-copy-image")]
+    [CliFlag("--allow-copy-image", NegatedName = "--no-allow-copy-image")]
     public bool? AllowCopyImage { get; set; }
 
     [CliOption("--shared-account-id")]

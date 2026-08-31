@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQconnectListAiPromptVersionsOrigin
 {
     [EnumValue("SYSTEM")]
-    System = 1,
+    System,
 
     [EnumValue("CUSTOMER")]
-    Customer = 2
+    Customer
 }

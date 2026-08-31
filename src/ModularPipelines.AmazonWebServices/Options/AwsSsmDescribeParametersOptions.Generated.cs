@@ -34,7 +34,10 @@ public record AwsSsmDescribeParametersOptions : AwsOptions
     [CliOption("--parameter-filters", GroupValues = true)]
     public IEnumerable<string>? ParameterFilters { get; set; }
 
-    [CliFlag("--shared")]
+    /// <summary>
+    /// Lists parameters that are shared with you. NOTE: By default when using this option, the command returns parame- ters that have been shared using a standard Resource Access Man- ager Resource Share. In order for a parameter that was shared using the PutResourcePolicy command to be returned, the associ- ated RAM Resource Share Created From Policy must have been pro- moted to a standard Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation. For more information about sharing parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide .
+    /// </summary>
+    [CliFlag("--shared", NegatedName = "--no-shared")]
     public bool? Shared { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConfigserviceGetAggregateConfigRuleComplianceSummaryGroupByKey
 {
     [EnumValue("ACCOUNT_ID")]
-    AccountId = 1,
+    AccountId,
 
     [EnumValue("AWS_REGION")]
-    AwsRegion = 2
+    AwsRegion
 }

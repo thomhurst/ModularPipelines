@@ -24,7 +24,10 @@ public record AwsAppflowDeleteFlowOptions : AwsOptions
     [CliOption("--flow-name")]
     public string? FlowName { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

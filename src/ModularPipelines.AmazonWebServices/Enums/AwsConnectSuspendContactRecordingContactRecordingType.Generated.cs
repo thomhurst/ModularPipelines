@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectSuspendContactRecordingContactRecordingType
 {
     [EnumValue("AGENT")]
-    Agent = 1,
+    Agent,
 
     [EnumValue("IVR")]
-    Ivr = 2,
+    Ivr,
 
     [EnumValue("SCREEN")]
-    Screen = 3
+    Screen
 }

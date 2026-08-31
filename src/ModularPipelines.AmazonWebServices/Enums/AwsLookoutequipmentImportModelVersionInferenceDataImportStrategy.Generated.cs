@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentImportModelVersionInferenceDataImportStrategy
 {
     [EnumValue("NO_IMPORT")]
-    NoImport = 1,
+    NoImport,
 
     [EnumValue("ADD_WHEN_EMPTY")]
-    AddWhenEmpty = 2,
+    AddWhenEmpty,
 
     [EnumValue("OVERWRITE")]
-    Overwrite = 3
+    Overwrite
 }

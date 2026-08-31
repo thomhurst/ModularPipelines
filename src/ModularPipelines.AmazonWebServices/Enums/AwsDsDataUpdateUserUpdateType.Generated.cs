@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDataUpdateUserUpdateType
 {
     [EnumValue("ADD")]
-    Add = 1,
+    Add,
 
     [EnumValue("REPLACE")]
-    Replace = 2,
+    Replace,
 
     [EnumValue("REMOVE")]
-    Remove = 3
+    Remove
 }

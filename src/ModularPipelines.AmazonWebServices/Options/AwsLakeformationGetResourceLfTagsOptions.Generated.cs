@@ -30,7 +30,10 @@ public record AwsLakeformationGetResourceLfTagsOptions : AwsOptions
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliFlag("--show-assigned-lf-tags")]
+    /// <summary>
+    /// Indicates whether to show the assigned LF-tags.
+    /// </summary>
+    [CliFlag("--show-assigned-lf-tags", NegatedName = "--no-show-assigned-lf-tags")]
     public bool? ShowAssignedLfTags { get; set; }
 
     [CliOption("--cli-input-json")]

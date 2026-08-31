@@ -24,7 +24,10 @@ public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; set; }
 
-    [CliFlag("--enable-accelerated-recovery")]
+    /// <summary>
+    /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to dis- able it.
+    /// </summary>
+    [CliFlag("--enable-accelerated-recovery", NegatedName = "--no-enable-accelerated-recovery")]
     public bool? EnableAcceleratedRecovery { get; set; }
 
     [CliOption("--cli-input-json")]

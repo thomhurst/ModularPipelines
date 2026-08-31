@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverUpdateFirewallRuleAction
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("BLOCK")]
-    Block = 2,
+    Block,
 
     [EnumValue("ALERT")]
-    Alert = 3
+    Alert
 }

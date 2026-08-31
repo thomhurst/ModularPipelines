@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLakeformationListTableStorageOptimizersStorageOptimizerType
 {
     [EnumValue("COMPACTION")]
-    Compaction = 1,
+    Compaction,
 
     [EnumValue("GARBAGE_COLLECTION")]
-    GarbageCollection = 2,
+    GarbageCollection,
 
     [EnumValue("ALL")]
-    All = 3
+    All
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2ListComponentsScope
 {
     [EnumValue("PRIVATE")]
-    Private = 1,
+    Private,
 
     [EnumValue("PUBLIC")]
-    Public = 2
+    Public
 }

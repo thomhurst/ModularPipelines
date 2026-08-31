@@ -24,7 +24,10 @@ public record AwsStoragegatewayDisassociateFileSystemOptions : AwsOptions
     [CliOption("--file-system-association-arn")]
     public string? FileSystemAssociationArn { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// If this value is set to true, the operation disassociates an Amazon FSx file system immediately. It ends all data uploads to the file system, and the file system association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx file system does not disassociate until all data is uploaded.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

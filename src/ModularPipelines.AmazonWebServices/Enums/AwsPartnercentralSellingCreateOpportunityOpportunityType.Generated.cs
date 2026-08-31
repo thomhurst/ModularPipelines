@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralSellingCreateOpportunityOpportunityType
 {
     [EnumValue("Net")]
-    Net = 1,
+    Net,
 
     [EnumValue("New")]
-    New = 2,
+    New,
 
     [EnumValue("Business")]
-    Business = 3,
+    Business,
 
     [EnumValue("Flat")]
-    Flat = 4,
+    Flat,
 
     [EnumValue("Renewal")]
-    Renewal = 5,
+    Renewal,
 
     [EnumValue("Expansion")]
-    Expansion = 6
+    Expansion
 }

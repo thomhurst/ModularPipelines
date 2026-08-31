@@ -52,7 +52,10 @@ public record AwsConnectUpdateAgentStatusOptions : AwsOptions
     [CliOption("--display-order")]
     public int? DisplayOrder { get; set; }
 
-    [CliFlag("--reset-order-number")]
+    /// <summary>
+    /// A number indicating the reset order of the agent status.
+    /// </summary>
+    [CliFlag("--reset-order-number", NegatedName = "--no-reset-order-number")]
     public bool? ResetOrderNumber { get; set; }
 
     [CliOption("--cli-input-json")]

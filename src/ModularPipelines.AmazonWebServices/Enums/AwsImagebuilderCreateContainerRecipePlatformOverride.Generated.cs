@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsImagebuilderCreateContainerRecipePlatformOverride
 {
     [EnumValue("Windows")]
-    Windows = 1,
+    Windows,
 
     [EnumValue("Linux")]
-    Linux = 2,
+    Linux,
 
     [EnumValue("macOS")]
-    MacOs = 3
+    MacOs
 }

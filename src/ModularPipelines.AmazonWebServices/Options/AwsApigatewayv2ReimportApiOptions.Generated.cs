@@ -33,7 +33,10 @@ public record AwsApigatewayv2ReimportApiOptions : AwsOptions
     [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// Specifies whether to rollback the API creation when a warning is en- countered. By default, API creation continues if a warning is en- countered.
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     [CliOption("--cli-input-json")]

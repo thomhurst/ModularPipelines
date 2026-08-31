@@ -54,7 +54,7 @@ public record AwsSagemakerListClusterEventsOptions : AwsOptions
     /// The field to use for sorting the event list. Currently, the only supported value is EventTime . Possible values: o EventTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListClusterEventsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending ). Possible values: o Ascending o Descending

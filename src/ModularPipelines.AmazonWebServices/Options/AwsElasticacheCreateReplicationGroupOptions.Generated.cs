@@ -41,10 +41,16 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     [CliOption("--primary-cluster-id")]
     public string? PrimaryClusterId { get; set; }
 
-    [CliFlag("--automatic-failover-enabled")]
+    /// <summary>
+    /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails. AutomaticFailoverEnabled must be enabled for Valkey or Redis OSS (cluster mode enabled) replication groups. Default: false
+    /// </summary>
+    [CliFlag("--automatic-failover-enabled", NegatedName = "--no-automatic-failover-enabled")]
     public bool? AutomaticFailoverEnabled { get; set; }
 
-    [CliFlag("--multi-az-enabled")]
+    /// <summary>
+    /// A flag indicating if you have Multi-AZ enabled to enhance fault tol- erance. For more information, see Minimizing Downtime: Multi-AZ .
+    /// </summary>
+    [CliFlag("--multi-az-enabled", NegatedName = "--no-multi-az-enabled")]
     public bool? MultiAzEnabled { get; set; }
 
     /// <summary>
@@ -155,7 +161,10 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for pre- vious versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -177,10 +186,16 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     [CliOption("--auth-token")]
     public string? AuthToken { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables in-transit encryption when set to true . This parameter is valid only if the Engine parameter is redis , the EngineVersion parameter is 3.2.6 , 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup . Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6 , 4.x or later. Default: false WARNING: For HIPAA compliance, you must specify TransitEncryptionEnabled as true , an AuthToken , and a CacheSubnetGroup .
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
-    [CliFlag("--at-rest-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables encryption at-rest on the replication group when set to true . In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the ef- fective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. Default: true when using Valkey, false when using Redis OSS
+    /// </summary>
+    [CliFlag("--at-rest-encryption-enabled", NegatedName = "--no-at-rest-encryption-enabled")]
     public bool? AtRestEncryptionEnabled { get; set; }
 
     /// <summary>
@@ -201,7 +216,10 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
-    [CliFlag("--data-tiering-enabled")]
+    /// <summary>
+    /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering .
+    /// </summary>
+    [CliFlag("--data-tiering-enabled", NegatedName = "--no-data-tiering-enabled")]
     public bool? DataTieringEnabled { get; set; }
 
     /// <summary>

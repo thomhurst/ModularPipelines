@@ -73,13 +73,22 @@ public record AwsSagemakerCreateTrainingJobOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--enable-network-isolation")]
+    /// <summary>
+    /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker down- loads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network ac- cess.
+    /// </summary>
+    [CliFlag("--enable-network-isolation", NegatedName = "--no-enable-network-isolation")]
     public bool? EnableNetworkIsolation { get; set; }
 
+    /// <summary>
+    /// tainer-traffic-encryption (boolean) To encrypt all communications between ML compute instances in dis- tributed training, choose True . Encryption provides greater secu- rity for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in dis- tributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job .
+    /// </summary>
     [CliFlag("--enable-inter-container-traffic-encryption")]
     public bool? EnableInterContainerTrafficEncryption { get; set; }
 
-    [CliFlag("--enable-managed-spot-training")]
+    /// <summary>
+    /// To train models using managed spot training, choose True . Managed spot training provides a fully managed and scalable infrastructure for training machine learning models. this option is useful when training jobs can be interrupted and when there is flexibility when the training job is run. The complete and intermediate results of jobs are stored in an Ama- zon S3 bucket, and can be used as a starting point to train models incrementally. Amazon SageMaker provides metrics and logs in Cloud- Watch. They can be used to see when managed spot training jobs are running, interrupted, resumed, or completed.
+    /// </summary>
+    [CliFlag("--enable-managed-spot-training", NegatedName = "--no-enable-managed-spot-training")]
     public bool? EnableManagedSpotTraining { get; set; }
 
     /// <summary>

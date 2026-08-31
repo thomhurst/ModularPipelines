@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateFlowLogsLogDestinationType
 {
     [EnumValue("cloud-watch-logs")]
-    CloudWatchLogs = 1,
+    CloudWatchLogs,
 
     [EnumValue("s3")]
-    S3 = 2,
+    S3,
 
     [EnumValue("kinesis-data-firehose")]
-    KinesisDataFirehose = 3
+    KinesisDataFirehose
 }

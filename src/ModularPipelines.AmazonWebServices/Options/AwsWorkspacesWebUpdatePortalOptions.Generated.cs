@@ -41,7 +41,7 @@ public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions
     /// The type and resources of the underlying instance. Possible values: o standard.regular o standard.large o standard.xlarge
     /// </summary>
     [CliOption("--instance-type")]
-    public AwsWorkspacesWebUpdatePortalInstanceType? InstanceType { get; set; }
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// The maximum number of concurrent sessions for the portal. Constraints: o min: 1 o max: 5000

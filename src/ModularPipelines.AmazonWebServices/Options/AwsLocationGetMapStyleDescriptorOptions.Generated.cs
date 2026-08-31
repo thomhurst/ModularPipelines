@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "get-map-style-descriptor")]
-public record AwsLocationGetMapStyleDescriptorOptions : AwsOptions
+public record AwsLocationGetMapStyleDescriptorOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--map-name")]
     public string? MapName { get; set; }

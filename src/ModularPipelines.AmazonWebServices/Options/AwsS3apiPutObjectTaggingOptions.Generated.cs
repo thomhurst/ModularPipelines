@@ -59,7 +59,7 @@ public record AwsS3apiPutObjectTaggingOptions : AwsOptions
     /// Confirms that the requester knows that she or he will be charged for the tagging object request. Bucket owners need not specify this pa- rameter in their requests. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiPutObjectTaggingRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

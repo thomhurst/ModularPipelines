@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotCreateProvisioningTemplateType
 {
     [EnumValue("FLEET_PROVISIONING")]
-    FleetProvisioning = 1,
+    FleetProvisioning,
 
     [EnumValue("JITP")]
-    Jitp = 2
+    Jitp
 }

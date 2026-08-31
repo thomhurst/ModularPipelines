@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPaymentCryptographyDataTranslateKeyMaterialKeyCheckValueAlgorithm
 {
     [EnumValue("CMAC")]
-    Cmac = 1,
+    Cmac,
 
     [EnumValue("ANSI_X9_24")]
-    AnsiX9_24 = 2,
+    AnsiX9_24,
 
     [EnumValue("HMAC")]
-    Hmac = 3,
+    Hmac,
 
     [EnumValue("SHA_1")]
-    Sha_1 = 4
+    Sha_1
 }

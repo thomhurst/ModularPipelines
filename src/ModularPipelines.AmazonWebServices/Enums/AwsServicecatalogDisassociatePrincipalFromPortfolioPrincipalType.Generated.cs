@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicecatalogDisassociatePrincipalFromPortfolioPrincipalType
 {
     [EnumValue("IAM")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("IAM_PATTERN")]
-    IamPattern = 2
+    IamPattern
 }

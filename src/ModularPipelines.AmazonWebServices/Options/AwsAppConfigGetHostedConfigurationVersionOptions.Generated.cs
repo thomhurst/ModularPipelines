@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "get-hosted-configuration-version")]
-public record AwsAppConfigGetHostedConfigurationVersionOptions : AwsOptions
+public record AwsAppConfigGetHostedConfigurationVersionOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }

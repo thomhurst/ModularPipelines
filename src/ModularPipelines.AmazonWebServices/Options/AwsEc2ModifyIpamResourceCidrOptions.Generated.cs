@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-ipam-resource-cidr")]
 public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--resource-id")]
@@ -42,7 +45,7 @@ public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions
     [CliOption("--destination-ipam-scope-id")]
     public string? DestinationIpamScopeId { get; set; }
 
-    [CliFlag("--monitored")]
+    [CliFlag("--monitored", NegatedName = "--no-monitored")]
     public bool? Monitored { get; set; }
 
     [CliOption("--cli-input-json")]

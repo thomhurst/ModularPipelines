@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicecatalogUpdateProvisioningArtifactGuidance
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("DEPRECATED")]
-    Deprecated = 2
+    Deprecated
 }

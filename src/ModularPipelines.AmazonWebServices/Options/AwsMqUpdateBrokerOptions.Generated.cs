@@ -28,7 +28,10 @@ public record AwsMqUpdateBrokerOptions : AwsOptions
     [CliOption("--authentication-strategy")]
     public AwsMqUpdateBrokerAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual bro- ker reboot. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     [CliOption("--broker-id")]

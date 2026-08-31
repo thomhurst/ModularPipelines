@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSupportAppUpdateSlackChannelConfigurationNotifyOnCaseSeverity
 {
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("all")]
-    All = 2,
+    All,
 
     [EnumValue("high")]
-    High = 3
+    High
 }

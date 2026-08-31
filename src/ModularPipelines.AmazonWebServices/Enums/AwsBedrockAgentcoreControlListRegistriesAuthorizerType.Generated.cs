@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlListRegistriesAuthorizerType
 {
     [EnumValue("CUSTOM_JWT")]
-    CustomJwt = 1,
+    CustomJwt,
 
     [EnumValue("AWS_IAM")]
-    AwsIam = 2
+    AwsIam
 }

@@ -40,7 +40,10 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
     [CliOption("--avoid")]
     public string? Avoid { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// When true, uses the current time as the departure time and takes current traffic conditions into account. This attribute cannot be used together with DepartureTime or ArrivalTime .
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>

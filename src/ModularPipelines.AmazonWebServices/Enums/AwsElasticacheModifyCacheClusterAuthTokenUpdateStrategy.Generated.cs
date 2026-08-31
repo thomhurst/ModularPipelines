@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticacheModifyCacheClusterAuthTokenUpdateStrategy
 {
     [EnumValue("SET")]
-    Set = 1,
+    Set,
 
     [EnumValue("ROTATE")]
-    Rotate = 2,
+    Rotate,
 
     [EnumValue("DELETE")]
-    Delete = 3
+    Delete
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsStartRunNetworkingMode
 {
     [EnumValue("RESTRICTED")]
-    Restricted = 1,
+    Restricted,
 
     [EnumValue("VPC")]
-    Vpc = 2
+    Vpc
 }

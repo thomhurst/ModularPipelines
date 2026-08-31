@@ -38,7 +38,7 @@ public record AwsS3apiPutBucketPolicyOptions : AwsOptions
     public AwsS3apiPutBucketPolicyChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// | --no-confirm-re- move-self-bucket-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This functionality is not supported for directory buckets.
+    /// move-self-bucket-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliFlag("--confirm-remove-self-bucket-access")]
     public bool? ConfirmRemoveSelfBucketAccess { get; set; }

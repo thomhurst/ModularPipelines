@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationSignalsListAuditFindingsDetailLevel
 {
     [EnumValue("BRIEF")]
-    Brief = 1,
+    Brief,
 
     [EnumValue("DETAILED")]
-    Detailed = 2
+    Detailed
 }

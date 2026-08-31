@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListPipelineExecutionsSortBy
 {
     [EnumValue("CreationTime")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("PipelineExecutionArn")]
-    PipelineExecutionArn = 2
+    PipelineExecutionArn
 }

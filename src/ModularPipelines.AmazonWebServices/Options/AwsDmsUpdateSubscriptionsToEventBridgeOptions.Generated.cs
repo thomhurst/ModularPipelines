@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("dms", "update-subscriptions-to-event-bridge")]
 public record AwsDmsUpdateSubscriptionsToEventBridgeOptions : AwsOptions
 {
-    [CliFlag("--force-move")]
+    /// <summary>
+    /// When set to true, this operation migrates DMS subscriptions for Ama- zon SNS notifications no matter what your replication instance ver- sion is. If not set or set to false, this operation runs only when all your replication instances are from DMS version 3.4.5 or higher.
+    /// </summary>
+    [CliFlag("--force-move", NegatedName = "--no-force-move")]
     public bool? ForceMove { get; set; }
 
     [CliOption("--cli-input-json")]

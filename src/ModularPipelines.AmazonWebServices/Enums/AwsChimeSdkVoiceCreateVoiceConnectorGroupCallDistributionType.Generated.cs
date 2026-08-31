@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceCreateVoiceConnectorGroupCallDistributionType
 {
     [EnumValue("PriorityWeightedDistribution")]
-    PriorityWeightedDistribution = 1,
+    PriorityWeightedDistribution,
 
     [EnumValue("LoadBalancedDistribution")]
-    LoadBalancedDistribution = 2
+    LoadBalancedDistribution
 }

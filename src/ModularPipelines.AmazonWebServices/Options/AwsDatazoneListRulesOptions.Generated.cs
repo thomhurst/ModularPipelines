@@ -56,10 +56,16 @@ public record AwsDatazoneListRulesOptions : AwsOptions
     [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
-    [CliFlag("--data-product")]
+    /// <summary>
+    /// The data product of the rule.
+    /// </summary>
+    [CliFlag("--data-product", NegatedName = "--no-data-product")]
     public bool? DataProduct { get; set; }
 
-    [CliFlag("--include-cascaded")]
+    /// <summary>
+    /// Specifies whether to include cascading rules in the results.
+    /// </summary>
+    [CliFlag("--include-cascaded", NegatedName = "--no-include-cascaded")]
     public bool? IncludeCascaded { get; set; }
 
     [CliOption("--cli-input-json")]

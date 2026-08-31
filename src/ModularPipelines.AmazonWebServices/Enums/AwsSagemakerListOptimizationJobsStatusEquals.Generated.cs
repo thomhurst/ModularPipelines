@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListOptimizationJobsStatusEquals
 {
     [EnumValue("INPROGRESS")]
-    Inprogress = 1,
+    Inprogress,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("STARTING")]
-    Starting = 4,
+    Starting,
 
     [EnumValue("STOPPING")]
-    Stopping = 5,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 6
+    Stopped
 }

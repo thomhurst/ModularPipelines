@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCopyObjectServerSideEncryption
 {
     [EnumValue("AES256")]
-    Aes256 = 1,
+    Aes256,
 
     [EnumValue("aws")]
-    Aws = 2
+    Aws
 }

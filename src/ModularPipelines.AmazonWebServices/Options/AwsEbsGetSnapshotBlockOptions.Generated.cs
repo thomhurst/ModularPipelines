@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ebs", "get-snapshot-block")]
-public record AwsEbsGetSnapshotBlockOptions : AwsOptions
+public record AwsEbsGetSnapshotBlockOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }

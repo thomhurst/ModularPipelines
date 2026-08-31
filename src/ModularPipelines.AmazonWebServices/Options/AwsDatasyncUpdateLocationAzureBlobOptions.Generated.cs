@@ -48,7 +48,7 @@ public record AwsDatasyncUpdateLocationAzureBlobOptions : AwsOptions
     /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage docu- mentation . Possible values: o BLOCK
     /// </summary>
     [CliOption("--blob-type")]
-    public AwsDatasyncUpdateLocationAzureBlobBlobType? BlobType { get; set; }
+    public string? BlobType { get; set; }
 
     /// <summary>
     /// Specifies the access tier that you want your objects or files trans- ferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers . Possible values: o HOT o COOL o ARCHIVE

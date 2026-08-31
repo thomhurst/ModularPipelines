@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecretsmanagerListSecretsSortBy
 {
     [EnumValue("created-date")]
-    CreatedDate = 1,
+    CreatedDate,
 
     [EnumValue("last-accessed-date")]
-    LastAccessedDate = 2,
+    LastAccessedDate,
 
     [EnumValue("last-changed-date")]
-    LastChangedDate = 3,
+    LastChangedDate,
 
     [EnumValue("name")]
-    Name = 4
+    Name
 }

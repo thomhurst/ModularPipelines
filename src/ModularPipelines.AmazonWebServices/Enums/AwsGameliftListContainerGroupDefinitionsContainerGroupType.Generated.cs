@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftListContainerGroupDefinitionsContainerGroupType
 {
     [EnumValue("GAME_SERVER")]
-    GameServer = 1,
+    GameServer,
 
     [EnumValue("PER_INSTANCE")]
-    PerInstance = 2
+    PerInstance
 }

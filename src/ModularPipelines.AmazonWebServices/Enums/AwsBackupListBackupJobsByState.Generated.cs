@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBackupListBackupJobsByState
 {
     [EnumValue("CREATED")]
-    Created = 1,
+    Created,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("RUNNING")]
-    Running = 3,
+    Running,
 
     [EnumValue("ABORTING")]
-    Aborting = 4,
+    Aborting,
 
     [EnumValue("ABORTED")]
-    Aborted = 5,
+    Aborted,
 
     [EnumValue("COMPLETED")]
-    Completed = 6,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 7,
+    Failed,
 
     [EnumValue("EXPIRED")]
-    Expired = 8,
+    Expired,
 
     [EnumValue("PARTIAL")]
-    Partial = 9
+    Partial
 }

@@ -39,7 +39,7 @@ public record AwsBackupListScanJobSummariesOptions : AwsOptions
     /// Returns only the scan jobs for the specified malware scanner. Cur- rently the only MalwareScanner is GUARDDUTY . But the field also supports ANY , and AGGREGATE_ALL . Possible values: o GUARDDUTY
     /// </summary>
     [CliOption("--malware-scanner")]
-    public AwsBackupListScanJobSummariesMalwareScanner? MalwareScanner { get; set; }
+    public string? MalwareScanner { get; set; }
 
     /// <summary>
     /// Returns only the scan jobs for the specified scan results. Possible values: o NO_THREATS_FOUND o THREATS_FOUND o UNKNOWN

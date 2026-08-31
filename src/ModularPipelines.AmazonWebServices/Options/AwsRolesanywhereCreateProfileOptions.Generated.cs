@@ -24,7 +24,10 @@ public record AwsRolesanywhereCreateProfileOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--require-instance-properties")]
+    /// <summary>
+    /// Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
+    /// </summary>
+    [CliFlag("--require-instance-properties", NegatedName = "--no-require-instance-properties")]
     public bool? RequireInstanceProperties { get; set; }
 
     /// <summary>
@@ -48,7 +51,10 @@ public record AwsRolesanywhereCreateProfileOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether the profile is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -57,7 +63,10 @@ public record AwsRolesanywhereCreateProfileOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--accept-role-session-name")]
+    /// <summary>
+    /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+    /// </summary>
+    [CliFlag("--accept-role-session-name", NegatedName = "--no-accept-role-session-name")]
     public bool? AcceptRoleSessionName { get; set; }
 
     [CliOption("--cli-input-json")]

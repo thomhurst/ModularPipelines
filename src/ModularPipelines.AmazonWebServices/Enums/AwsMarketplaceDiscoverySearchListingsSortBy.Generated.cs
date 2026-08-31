@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMarketplaceDiscoverySearchListingsSortBy
 {
     [EnumValue("RELEVANCE")]
-    Relevance = 1,
+    Relevance,
 
     [EnumValue("AVERAGE_CUSTOMER_RATING")]
-    AverageCustomerRating = 2
+    AverageCustomerRating
 }

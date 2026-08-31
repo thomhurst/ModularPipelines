@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyAccountVpcEncryptionControlVpcLattice
 {
     [EnumValue("enable")]
-    Enable = 1,
+    Enable,
 
     [EnumValue("disable")]
-    Disable = 2
+    Disable
 }

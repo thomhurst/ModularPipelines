@@ -30,7 +30,10 @@ public record AwsStoragegatewayRefreshCacheOptions : AwsOptions
     [CliOption("--folder-list", GroupValues = true)]
     public IEnumerable<string>? FolderList { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true , each folder that is listed in FolderList is recursively up- dated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true . Valid Values: true | false
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     [CliOption("--cli-input-json")]

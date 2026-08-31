@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverCreateFirewallRuleConfidenceThreshold
 {
     [EnumValue("LOW")]
-    Low = 1,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 3
+    High
 }

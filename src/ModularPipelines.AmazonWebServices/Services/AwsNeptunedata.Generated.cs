@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -205,11 +205,11 @@ public class AwsNeptunedata : IAwsNeptunedata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteGremlinExplainQueryAsync(
-        AwsNeptunedataExecuteGremlinExplainQueryOptions? options = null,
+        AwsNeptunedataExecuteGremlinExplainQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunedataExecuteGremlinExplainQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsNeptunedata : IAwsNeptunedata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteGremlinProfileQueryAsync(
-        AwsNeptunedataExecuteGremlinProfileQueryOptions? options = null,
+        AwsNeptunedataExecuteGremlinProfileQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunedataExecuteGremlinProfileQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsNeptunedata : IAwsNeptunedata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteOpenCypherExplainQueryAsync(
-        AwsNeptunedataExecuteOpenCypherExplainQueryOptions? options = null,
+        AwsNeptunedataExecuteOpenCypherExplainQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunedataExecuteOpenCypherExplainQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -300,21 +300,6 @@ public class AwsNeptunedata : IAwsNeptunedata
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunedataGetGremlinQueryStatusOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 er- ror details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM ac- tion in that cluster.. See also: AWS API Documentation get-loader-jo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetLoaderJobStatusAsync(
-        AwsNeptunedataGetLoaderJobStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptunedataGetLoaderJobStatusOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

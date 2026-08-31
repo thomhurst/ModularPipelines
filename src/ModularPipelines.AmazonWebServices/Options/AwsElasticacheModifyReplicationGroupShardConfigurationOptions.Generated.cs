@@ -27,7 +27,7 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
     [CliOption("--node-group-count")]
     public int? NodeGroupCount { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>

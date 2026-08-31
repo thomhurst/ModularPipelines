@@ -24,7 +24,10 @@ public record AwsIotManagedIntegrationsDeleteManagedThingOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// When set to TRUE , a forceful deteletion of the managed thing will occur. When set to FALSE , a non-forceful deletion of the managed thing will occur.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

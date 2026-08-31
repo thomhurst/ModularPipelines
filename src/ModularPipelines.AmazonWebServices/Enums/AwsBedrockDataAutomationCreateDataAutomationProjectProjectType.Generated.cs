@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockDataAutomationCreateDataAutomationProjectProjectType
 {
     [EnumValue("ASYNC")]
-    Async = 1,
+    Async,
 
     [EnumValue("SYNC")]
-    Sync = 2
+    Sync
 }

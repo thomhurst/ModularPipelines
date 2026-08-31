@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitListRepositoriesSortBy
 {
     [EnumValue("repositoryName")]
-    RepositoryName = 1,
+    RepositoryName,
 
     [EnumValue("lastModifiedDate")]
-    LastModifiedDate = 2
+    LastModifiedDate
 }

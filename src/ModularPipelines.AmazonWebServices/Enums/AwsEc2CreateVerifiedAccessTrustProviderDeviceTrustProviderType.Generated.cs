@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateVerifiedAccessTrustProviderDeviceTrustProviderType
 {
     [EnumValue("jamf")]
-    Jamf = 1,
+    Jamf,
 
     [EnumValue("crowdstrike")]
-    Crowdstrike = 2,
+    Crowdstrike,
 
     [EnumValue("jumpcloud")]
-    Jumpcloud = 3
+    Jumpcloud
 }

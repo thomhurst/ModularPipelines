@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaUpdateFunctionUrlConfigInvokeMode
 {
     [EnumValue("BUFFERED")]
-    Buffered = 1,
+    Buffered,
 
     [EnumValue("RESPONSE_STREAM")]
-    ResponseStream = 2
+    ResponseStream
 }

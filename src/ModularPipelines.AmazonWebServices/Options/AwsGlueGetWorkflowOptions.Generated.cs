@@ -24,7 +24,10 @@ public record AwsGlueGetWorkflowOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--include-graph")]
+    /// <summary>
+    /// Specifies whether to include a graph when returning the workflow re- source metadata.
+    /// </summary>
+    [CliFlag("--include-graph", NegatedName = "--no-include-graph")]
     public bool? IncludeGraph { get; set; }
 
     [CliOption("--cli-input-json")]

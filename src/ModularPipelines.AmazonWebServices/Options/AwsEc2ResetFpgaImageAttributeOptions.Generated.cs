@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "reset-fpga-image-attribute")]
 public record AwsEc2ResetFpgaImageAttributeOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--fpga-image-id")]
@@ -32,7 +34,7 @@ public record AwsEc2ResetFpgaImageAttributeOptions : AwsOptions
     /// The attribute. Possible values: o loadPermission
     /// </summary>
     [CliOption("--attribute")]
-    public AwsEc2ResetFpgaImageAttributeAttribute? Attribute { get; set; }
+    public string? Attribute { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

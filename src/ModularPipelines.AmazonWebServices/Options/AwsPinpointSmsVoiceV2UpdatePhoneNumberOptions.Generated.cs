@@ -24,7 +24,10 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; set; }
 
-    [CliFlag("--two-way-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// </summary>
+    [CliFlag("--two-way-enabled", NegatedName = "--no-two-way-enabled")]
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
@@ -39,7 +42,10 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
-    [CliFlag("--self-managed-opt-outs-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to false and an end recip- ient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// </summary>
+    [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
@@ -48,10 +54,16 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
-    [CliFlag("--international-sending-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    /// </summary>
+    [CliFlag("--international-sending-enabled", NegatedName = "--no-international-sending-enabled")]
     public bool? InternationalSendingEnabled { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the phone number can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

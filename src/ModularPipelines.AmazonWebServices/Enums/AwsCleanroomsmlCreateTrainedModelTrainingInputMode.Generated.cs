@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsmlCreateTrainedModelTrainingInputMode
 {
     [EnumValue("File")]
-    File = 1,
+    File,
 
     [EnumValue("FastFile")]
-    FastFile = 2,
+    FastFile,
 
     [EnumValue("Pipe")]
-    Pipe = 3
+    Pipe
 }

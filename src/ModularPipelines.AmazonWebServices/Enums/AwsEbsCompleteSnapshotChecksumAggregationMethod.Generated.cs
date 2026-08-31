@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEbsCompleteSnapshotChecksumAggregationMethod
 {
     [EnumValue("LINEAR")]
-    Linear = 1,
+    Linear,
 
     [EnumValue("Constraints")]
-    Constraints = 2
+    Constraints
 }

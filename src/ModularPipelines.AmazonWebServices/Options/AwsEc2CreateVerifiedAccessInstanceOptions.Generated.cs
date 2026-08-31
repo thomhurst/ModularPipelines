@@ -41,10 +41,16 @@ public record AwsEc2CreateVerifiedAccessInstanceOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--fips-enabled")]
+    /// <summary>
+    /// Enable or disable support for Federal Information Processing Stan- dards (FIPS) on the instance.
+    /// </summary>
+    [CliFlag("--fips-enabled", NegatedName = "--no-fips-enabled")]
     public bool? FipsEnabled { get; set; }
 
     /// <summary>

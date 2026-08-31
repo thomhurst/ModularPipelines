@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSyntheticsGetCanaryRunsRunType
 {
     [EnumValue("CANARY_RUN")]
-    CanaryRun = 1,
+    CanaryRun,
 
     [EnumValue("DRY_RUN")]
-    DryRun = 2
+    DryRun
 }

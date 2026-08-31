@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListFeatureGroupsSortBy
 {
     [EnumValue("Name")]
-    Name = 1,
+    Name,
 
     [EnumValue("FeatureGroupStatus")]
-    FeatureGroupStatus = 2,
+    FeatureGroupStatus,
 
     [EnumValue("OfflineStoreStatus")]
-    OfflineStoreStatus = 3,
+    OfflineStoreStatus,
 
     [EnumValue("CreationTime")]
-    CreationTime = 4
+    CreationTime
 }

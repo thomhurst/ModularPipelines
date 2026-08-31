@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRumCreateAppMonitorPlatform
 {
     [EnumValue("Web")]
-    Web = 1,
+    Web,
 
     [EnumValue("Android")]
-    Android = 2,
+    Android,
 
     [EnumValue("iOS")]
-    IOs = 3
+    IOs
 }

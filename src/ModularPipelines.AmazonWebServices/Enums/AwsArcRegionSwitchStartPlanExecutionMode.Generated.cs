@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsArcRegionSwitchStartPlanExecutionMode
 {
     [EnumValue("graceful")]
-    Graceful = 1,
+    Graceful,
 
     [EnumValue("ungraceful")]
-    Ungraceful = 2
+    Ungraceful
 }

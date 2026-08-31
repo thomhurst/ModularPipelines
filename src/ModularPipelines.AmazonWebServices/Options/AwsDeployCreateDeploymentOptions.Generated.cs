@@ -49,6 +49,9 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// ures (boolean) If true, then if an ApplicationStop , BeforeBlockTraffic , or Af- terBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment contin- ues with DownloadBundle . If BeforeBlockTraffic fails, the deploy- ment continues with BlockTraffic . If AfterBlockTraffic fails, the deployment continues with ApplicationStop . If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted. During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop , BeforeBlockTraffic , and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run success- fully, the deployment can fail. If the cause of the failure is a script from the last successful de- ployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the Applica- tionStop , BeforeBlockTraffic , and AfterBlockTraffic failures should be ignored.
+    /// </summary>
     [CliFlag("--ignore-application-stop-failures")]
     public bool? IgnoreApplicationStopFailures { get; set; }
 
@@ -64,7 +67,10 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
     [CliOption("--auto-rollback-configuration")]
     public string? AutoRollbackConfiguration { get; set; }
 
-    [CliFlag("--update-outdated-instances-only")]
+    /// <summary>
+    /// Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
+    /// </summary>
+    [CliFlag("--update-outdated-instances-only", NegatedName = "--no-update-outdated-instances-only")]
     public bool? UpdateOutdatedInstancesOnly { get; set; }
 
     /// <summary>

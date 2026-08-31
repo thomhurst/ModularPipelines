@@ -27,7 +27,10 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
     [CliOption("--component-name")]
     public string? ComponentName { get; set; }
 
-    [CliFlag("--monitor")]
+    /// <summary>
+    /// Indicates whether the application component is monitored.
+    /// </summary>
+    [CliFlag("--monitor", NegatedName = "--no-monitor")]
     public bool? Monitor { get; set; }
 
     /// <summary>
@@ -42,7 +45,10 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
     [CliOption("--component-configuration")]
     public string? ComponentConfiguration { get; set; }
 
-    [CliFlag("--auto-config-enabled")]
+    /// <summary>
+    /// Automatically configures the component by applying the recommended configurations.
+    /// </summary>
+    [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

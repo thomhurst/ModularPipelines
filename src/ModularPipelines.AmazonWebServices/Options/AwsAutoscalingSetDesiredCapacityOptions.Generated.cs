@@ -27,7 +27,10 @@ public record AwsAutoscalingSetDesiredCapacityOptions : AwsOptions
     [CliOption("--desired-capacity")]
     public int? DesiredCapacity { get; set; }
 
-    [CliFlag("--honor-cooldown")]
+    /// <summary>
+    /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown pe- riod to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling ac- tivities.
+    /// </summary>
+    [CliFlag("--honor-cooldown", NegatedName = "--no-honor-cooldown")]
     public bool? HonorCooldown { get; set; }
 
     [CliOption("--cli-input-json")]

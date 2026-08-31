@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlListRegistriesStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("READY")]
-    Ready = 2,
+    Ready,
 
     [EnumValue("UPDATING")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
     [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 5,
+    UpdateFailed,
 
     [EnumValue("DELETING")]
-    Deleting = 6,
+    Deleting,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 7
+    DeleteFailed
 }

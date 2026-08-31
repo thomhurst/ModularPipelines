@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineListFleetsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 2,
+    CreateInProgress,
 
     [EnumValue("UPDATE_IN_PROGRESS")]
-    UpdateInProgress = 3,
+    UpdateInProgress,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
     [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 5,
+    UpdateFailed,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 6
+    Suspended
 }

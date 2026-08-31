@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferCreateServerDomain
 {
     [EnumValue("S3")]
-    S3 = 1,
+    S3,
 
     [EnumValue("EFS")]
-    Efs = 2
+    Efs
 }

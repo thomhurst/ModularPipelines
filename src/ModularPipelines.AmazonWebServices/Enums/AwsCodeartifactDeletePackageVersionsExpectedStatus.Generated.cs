@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeartifactDeletePackageVersionsExpectedStatus
 {
     [EnumValue("Published")]
-    Published = 1,
+    Published,
 
     [EnumValue("Unfinished")]
-    Unfinished = 2,
+    Unfinished,
 
     [EnumValue("Unlisted")]
-    Unlisted = 3,
+    Unlisted,
 
     [EnumValue("Archived")]
-    Archived = 4,
+    Archived,
 
     [EnumValue("Disposed")]
-    Disposed = 5,
+    Disposed,
 
     [EnumValue("Deleted")]
-    Deleted = 6
+    Deleted
 }

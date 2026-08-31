@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafv2ListSettlementRecordsSortBy
 {
     [EnumValue("TIMESTAMP")]
-    Timestamp = 1,
+    Timestamp,
 
     [EnumValue("AMOUNT")]
-    Amount = 2,
+    Amount,
 
     [EnumValue("NAME")]
-    Name = 3,
+    Name,
 
     [EnumValue("STATUS")]
-    Status = 4
+    Status
 }

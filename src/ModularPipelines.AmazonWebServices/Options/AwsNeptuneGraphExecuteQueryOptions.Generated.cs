@@ -21,7 +21,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "execute-query")]
-public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
+public record AwsNeptuneGraphExecuteQueryOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; set; }

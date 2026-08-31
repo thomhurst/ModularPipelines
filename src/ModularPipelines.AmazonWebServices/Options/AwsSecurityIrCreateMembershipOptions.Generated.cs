@@ -48,7 +48,10 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--cover-entire-organization")]
+    /// <summary>
+    /// The coverEntireOrganization parameter is a boolean flag that deter- mines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts. This parameter is optional. If not specified, the default value is false. o If set to true : The membership will automatically include all ex- isting and future accounts in the Amazon Web Services Organiza- tion. o If set to false : The membership will only apply to explicitly specified accounts.
+    /// </summary>
+    [CliFlag("--cover-entire-organization", NegatedName = "--no-cover-entire-organization")]
     public bool? CoverEntireOrganization { get; set; }
 
     [CliOption("--cli-input-json")]

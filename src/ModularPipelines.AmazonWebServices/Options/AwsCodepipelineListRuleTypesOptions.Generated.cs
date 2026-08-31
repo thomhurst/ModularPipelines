@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +25,7 @@ public record AwsCodepipelineListRuleTypesOptions : AwsOptions
     /// The rule owner to filter on. Possible values: o AWS
     /// </summary>
     [CliOption("--rule-owner-filter")]
-    public AwsCodepipelineListRuleTypesRuleOwnerFilter? RuleOwnerFilter { get; set; }
+    public string? RuleOwnerFilter { get; set; }
 
     /// <summary>
     /// The rule Region to filter on. Constraints: o min: 4 o max: 30

@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmCreateDocumentDocumentType
 {
     [EnumValue("Command")]
-    Command = 1,
+    Command,
 
     [EnumValue("Policy")]
-    Policy = 2,
+    Policy,
 
     [EnumValue("Automation")]
-    Automation = 3,
+    Automation,
 
     [EnumValue("Session")]
-    Session = 4,
+    Session,
 
     [EnumValue("Package")]
-    Package = 5,
+    Package,
 
     [EnumValue("ApplicationConfiguration")]
-    ApplicationConfiguration = 6,
+    ApplicationConfiguration,
 
     [EnumValue("DeploymentStrategy")]
-    DeploymentStrategy = 7,
+    DeploymentStrategy,
 
     [EnumValue("ChangeCalendar")]
-    ChangeCalendar = 8
+    ChangeCalendar
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPinpointSmsVoiceV2SendTextMessageMessageType
 {
     [EnumValue("TRANSACTIONAL")]
-    Transactional = 1,
+    Transactional,
 
     [EnumValue("PROMOTIONAL")]
-    Promotional = 2
+    Promotional
 }

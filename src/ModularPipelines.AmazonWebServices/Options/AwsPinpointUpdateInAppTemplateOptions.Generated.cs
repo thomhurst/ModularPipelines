@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("pinpoint", "update-in-app-template")]
 public record AwsPinpointUpdateInAppTemplateOptions : AwsOptions
 {
-    [CliFlag("--create-new-version")]
+    /// <summary>
+    /// Specifies whether to save the updates as a new version of the mes- sage template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest ex- isting version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
+    /// </summary>
+    [CliFlag("--create-new-version", NegatedName = "--no-create-new-version")]
     public bool? CreateNewVersion { get; set; }
 
     [CliOption("--in-app-template-request")]

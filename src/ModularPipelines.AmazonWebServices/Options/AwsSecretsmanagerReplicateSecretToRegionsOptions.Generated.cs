@@ -29,7 +29,10 @@ public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions
     [CliOption("--add-replica-regions", GroupValues = true)]
     public IEnumerable<string>? AddReplicaRegions { get; set; }
 
-    [CliFlag("--force-overwrite-replica-secret")]
+    /// <summary>
+    /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
+    /// </summary>
+    [CliFlag("--force-overwrite-replica-secret", NegatedName = "--no-force-overwrite-replica-secret")]
     public bool? ForceOverwriteReplicaSecret { get; set; }
 
     [CliOption("--cli-input-json")]

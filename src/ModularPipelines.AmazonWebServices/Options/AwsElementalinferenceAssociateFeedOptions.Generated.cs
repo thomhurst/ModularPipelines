@@ -33,7 +33,10 @@ public record AwsElementalinferenceAssociateFeedOptions : AwsOptions
     [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true if you want to do a dry run of the associate action. Elemental Inference will validate that the real request would suc- ceed without actually making any changes. A dry run catches errors such as missing IAM permissions, quota limits exceeded, conflicting outputs, and so on. If the dry run fails, the action returns a 4xx error code. After you've fixed the errors, resubmit the request.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

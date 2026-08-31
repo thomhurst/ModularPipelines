@@ -31,7 +31,10 @@ public record AwsDatazoneListEnvironmentBlueprintsOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--managed")]
+    /// <summary>
+    /// Specifies whether the environment blueprint is managed by Amazon DataZone.
+    /// </summary>
+    [CliFlag("--managed", NegatedName = "--no-managed")]
     public bool? Managed { get; set; }
 
     [CliOption("--cli-input-json")]

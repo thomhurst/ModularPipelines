@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQconnectListMessagesFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("TEXT_ONLY")]
-    TextOnly = 2
+    TextOnly
 }

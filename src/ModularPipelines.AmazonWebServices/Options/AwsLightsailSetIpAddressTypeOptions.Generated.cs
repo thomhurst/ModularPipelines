@@ -30,7 +30,10 @@ public record AwsLightsailSetIpAddressTypeOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--accept-bundle-update")]
+    /// <summary>
+    /// Required parameter to accept the instance bundle update when chang- ing to, and from, IPv6-only. NOTE: An instance bundle will change when switching from dual-stack or ipv4 , to ipv6 . It also changes when switching from ipv6 , to dual-stack or ipv4 . You must include this parameter in the command to update the bundle. For example, if you switch from dual-stack to ipv6 , the bundle will be updated, and billing for the IPv6-only instance bundle begins immediately.
+    /// </summary>
+    [CliFlag("--accept-bundle-update", NegatedName = "--no-accept-bundle-update")]
     public bool? AcceptBundleUpdate { get; set; }
 
     [CliOption("--cli-input-json")]

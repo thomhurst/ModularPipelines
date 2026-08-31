@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListEnrichmentJobsStatus
 {
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 5,
+    TimedOut,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 6
+    Cancelled
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsListOrderableInstanceTypesOutpostGenerationFilter
 {
     [EnumValue("GENERATION_2")]
-    Generation_2 = 1,
+    Generation_2,
 
     [EnumValue("GENERATION_1")]
-    Generation_1 = 2
+    Generation_1
 }

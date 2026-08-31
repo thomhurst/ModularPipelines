@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesInstancesDisassociateVolumeDisassociateMode
 {
     [EnumValue("FORCE")]
-    Force = 1,
+    Force,
 
     [EnumValue("NO_FORCE")]
-    NoForce = 2
+    NoForce
 }

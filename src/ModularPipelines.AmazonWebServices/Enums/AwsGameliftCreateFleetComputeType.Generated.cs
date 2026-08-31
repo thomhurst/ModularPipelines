@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftCreateFleetComputeType
 {
     [EnumValue("EC2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("ANYWHERE")]
-    Anywhere = 2
+    Anywhere
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatasyncCreateLocationObjectStorageServerProtocol
 {
     [EnumValue("HTTPS")]
-    Https = 1,
+    Https,
 
     [EnumValue("HTTP")]
-    Http = 2
+    Http
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightStartAssetBundleImportJobFailureAction
 {
     [EnumValue("DO_NOTHING")]
-    DoNothing = 1,
+    DoNothing,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 2
+    Rollback
 }

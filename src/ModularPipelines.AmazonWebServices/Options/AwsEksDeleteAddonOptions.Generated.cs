@@ -27,7 +27,10 @@ public record AwsEksDeleteAddonOptions : AwsOptions
     [CliOption("--addon-name")]
     public string? AddonName { get; set; }
 
-    [CliFlag("--preserve")]
+    /// <summary>
+    /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it isn't removed.
+    /// </summary>
+    [CliFlag("--preserve", NegatedName = "--no-preserve")]
     public bool? Preserve { get; set; }
 
     [CliOption("--cli-input-json")]

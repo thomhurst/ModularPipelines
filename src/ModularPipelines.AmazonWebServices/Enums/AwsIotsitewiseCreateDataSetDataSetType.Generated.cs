@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseCreateDataSetDataSetType
 {
     [EnumValue("SESSION")]
-    Session = 1,
+    Session,
 
     [EnumValue("CURATED")]
-    Curated = 2,
+    Curated,
 
     [EnumValue("EXTERNAL")]
-    External = 3
+    External
 }

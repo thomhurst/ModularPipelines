@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListRecommendationsForResourcePillar
 {
     [EnumValue("cost_optimizing")]
-    CostOptimizing = 1,
+    CostOptimizing,
 
     [EnumValue("performance")]
-    Performance = 2,
+    Performance,
 
     [EnumValue("security")]
-    Security = 3,
+    Security,
 
     [EnumValue("service_limits")]
-    ServiceLimits = 4,
+    ServiceLimits,
 
     [EnumValue("fault_tolerance")]
-    FaultTolerance = 5,
+    FaultTolerance,
 
     [EnumValue("operational_excellence")]
-    OperationalExcellence = 6
+    OperationalExcellence
 }

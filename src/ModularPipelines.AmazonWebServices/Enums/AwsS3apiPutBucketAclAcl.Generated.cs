@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiPutBucketAclAcl
 {
     [EnumValue("private")]
-    Private = 1,
+    Private,
 
     [EnumValue("public-read")]
-    PublicRead = 2,
+    PublicRead,
 
     [EnumValue("public-read-write")]
-    PublicReadWrite = 3,
+    PublicReadWrite,
 
     [EnumValue("authenticated-read")]
-    AuthenticatedRead = 4
+    AuthenticatedRead
 }

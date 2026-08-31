@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsM2ListEnvironmentsEngineType
 {
     [EnumValue("microfocus")]
-    Microfocus = 1,
+    Microfocus,
 
     [EnumValue("bluage")]
-    Bluage = 2
+    Bluage
 }

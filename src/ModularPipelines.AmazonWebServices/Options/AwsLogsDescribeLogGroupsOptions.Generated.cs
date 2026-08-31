@@ -41,7 +41,10 @@ public record AwsLogsDescribeLogGroupsOptions : AwsOptions
     [CliOption("--log-group-name-pattern")]
     public string? LogGroupNamePattern { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdenti- fiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListClustersSortBy
 {
     [EnumValue("CREATION_TIME")]
-    CreationTime = 1,
+    CreationTime,
 
     [EnumValue("NAME")]
-    Name = 2
+    Name
 }

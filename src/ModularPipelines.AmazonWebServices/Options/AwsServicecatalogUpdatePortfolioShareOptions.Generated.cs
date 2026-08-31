@@ -42,10 +42,16 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
 
-    [CliFlag("--share-tag-options")]
+    /// <summary>
+    /// Enables or disables TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+    /// </summary>
+    [CliFlag("--share-tag-options", NegatedName = "--no-share-tag-options")]
     public bool? ShareTagOptions { get; set; }
 
-    [CliFlag("--share-principals")]
+    /// <summary>
+    /// A flag to enables or disables Principals sharing in the portfolio. If this field is not provided, the current state of the Principals sharing on the portfolio share will not be modified.
+    /// </summary>
+    [CliFlag("--share-principals", NegatedName = "--no-share-principals")]
     public bool? SharePrincipals { get; set; }
 
     [CliOption("--cli-input-json")]

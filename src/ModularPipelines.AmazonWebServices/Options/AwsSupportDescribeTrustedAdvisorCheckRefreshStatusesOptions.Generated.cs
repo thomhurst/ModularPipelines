@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port pl...
+/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

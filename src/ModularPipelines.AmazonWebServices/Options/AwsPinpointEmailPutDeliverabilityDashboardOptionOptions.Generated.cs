@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("pinpoint-email", "put-deliverability-dashboard-option")]
 public record AwsPinpointEmailPutDeliverabilityDashboardOptionOptions : AwsOptions
 {
-    [CliFlag("--dashboard-enabled")]
+    [CliFlag("--dashboard-enabled", NegatedName = "--no-dashboard-enabled")]
     public bool? DashboardEnabled { get; set; }
 
     /// <summary>

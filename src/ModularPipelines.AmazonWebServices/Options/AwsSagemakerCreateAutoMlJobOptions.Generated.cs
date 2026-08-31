@@ -52,6 +52,9 @@ public record AwsSagemakerCreateAutoMlJobOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
+    /// <summary>
+    /// tions-only (boolean) Generates possible candidates without training the models. A candi- date is a combination of data preprocessors, algorithms, and algo- rithm parameter settings.
+    /// </summary>
     [CliFlag("--generate-candidate-definitions-only")]
     public bool? GenerateCandidateDefinitionsOnly { get; set; }
 

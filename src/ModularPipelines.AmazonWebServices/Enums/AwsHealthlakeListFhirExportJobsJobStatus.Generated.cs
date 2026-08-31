@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsHealthlakeListFhirExportJobsJobStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("QUEUED")]
-    Queued = 2,
+    Queued,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
     [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 4,
+    CompletedWithErrors,
 
     [EnumValue("COMPLETED")]
-    Completed = 5,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 6,
+    Failed,
 
     [EnumValue("CANCEL_SUBMITTED")]
-    CancelSubmitted = 7,
+    CancelSubmitted,
 
     [EnumValue("CANCEL_IN_PROGRESS")]
-    CancelInProgress = 8,
+    CancelInProgress,
 
     [EnumValue("CANCEL_COMPLETED")]
-    CancelCompleted = 9,
+    CancelCompleted,
 
     [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 10
+    CancelFailed
 }

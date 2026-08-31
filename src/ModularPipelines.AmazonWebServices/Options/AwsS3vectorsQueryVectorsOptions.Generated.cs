@@ -52,10 +52,16 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CliFlag("--return-metadata")]
+    /// <summary>
+    /// Indicates whether to include metadata in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]
     public bool? ReturnMetadata { get; set; }
 
-    [CliFlag("--return-distance")]
+    /// <summary>
+    /// Indicates whether to include the computed distance in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-distance", NegatedName = "--no-return-distance")]
     public bool? ReturnDistance { get; set; }
 
     [CliOption("--cli-input-json")]

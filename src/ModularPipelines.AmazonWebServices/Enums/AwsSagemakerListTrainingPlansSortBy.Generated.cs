@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListTrainingPlansSortBy
 {
     [EnumValue("TrainingPlanName")]
-    TrainingPlanName = 1,
+    TrainingPlanName,
 
     [EnumValue("StartTime")]
-    StartTime = 2,
+    StartTime,
 
     [EnumValue("Status")]
-    Status = 3
+    Status
 }

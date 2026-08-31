@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticbeanstalkDescribeEventsSeverity
 {
     [EnumValue("TRACE")]
-    Trace = 1,
+    Trace,
 
     [EnumValue("DEBUG")]
-    Debug = 2,
+    Debug,
 
     [EnumValue("INFO")]
-    Info = 3,
+    Info,
 
     [EnumValue("WARN")]
-    Warn = 4,
+    Warn,
 
     [EnumValue("ERROR")]
-    Error = 5,
+    Error,
 
     [EnumValue("FATAL")]
-    Fatal = 6
+    Fatal
 }

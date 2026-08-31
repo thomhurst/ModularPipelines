@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsCreateDirectoryNetworkType
 {
     [EnumValue("Dual-stack")]
-    DualStack = 1,
+    DualStack,
 
     [EnumValue("IPv4")]
-    IPv4 = 2,
+    IPv4,
 
     [EnumValue("IPv6")]
-    IPv6 = 3
+    IPv6
 }

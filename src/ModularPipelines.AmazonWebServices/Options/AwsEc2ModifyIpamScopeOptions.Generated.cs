@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-ipam-scope")]
 public record AwsEc2ModifyIpamScopeOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-scope-id")]
@@ -39,6 +42,9 @@ public record AwsEc2ModifyIpamScopeOptions : AwsOptions
     [CliOption("--external-authority-configuration")]
     public string? ExternalAuthorityConfiguration { get; set; }
 
+    /// <summary>
+    /// thority-configuration (boolean) Remove the external authority configuration. true to remove.
+    /// </summary>
     [CliFlag("--remove-external-authority-configuration")]
     public bool? RemoveExternalAuthorityConfiguration { get; set; }
 

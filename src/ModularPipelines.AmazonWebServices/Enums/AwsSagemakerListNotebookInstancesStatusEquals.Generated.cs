@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListNotebookInstancesStatusEquals
 {
     [EnumValue("Pending")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("InService")]
-    InService = 2,
+    InService,
 
     [EnumValue("Stopping")]
-    Stopping = 3,
+    Stopping,
 
     [EnumValue("Stopped")]
-    Stopped = 4,
+    Stopped,
 
     [EnumValue("Failed")]
-    Failed = 5,
+    Failed,
 
     [EnumValue("Deleting")]
-    Deleting = 6,
+    Deleting,
 
     [EnumValue("Updating")]
-    Updating = 7,
+    Updating,
 
     [EnumValue("PendingMaintenance")]
-    PendingMaintenance = 8,
+    PendingMaintenance,
 
     [EnumValue("InMaintenance")]
-    InMaintenance = 9
+    InMaintenance
 }

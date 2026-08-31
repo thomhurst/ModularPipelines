@@ -33,7 +33,10 @@ public record AwsIotUpdateAuditSuppressionOptions : AwsOptions
     [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
 
-    [CliFlag("--suppress-indefinitely")]
+    /// <summary>
+    /// Indicates whether a suppression should exist indefinitely or not.
+    /// </summary>
+    [CliFlag("--suppress-indefinitely", NegatedName = "--no-suppress-indefinitely")]
     public bool? SuppressIndefinitely { get; set; }
 
     /// <summary>

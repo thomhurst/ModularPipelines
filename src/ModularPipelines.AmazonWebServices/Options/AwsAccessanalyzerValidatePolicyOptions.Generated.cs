@@ -39,7 +39,7 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions
     /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY . For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Ana- lyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies. Possible values: o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3::MultiRegionAccessPoint o AWS::S3ObjectLambda::AccessPoint o AWS::IAM::AssumeRolePolicyDocument o AWS::DynamoDB::Table
     /// </summary>
     [CliOption("--validate-policy-resource-type")]
-    public AwsAccessanalyzerValidatePolicyValidatePolicyResourceType? ValidatePolicyResourceType { get; set; }
+    public string? ValidatePolicyResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

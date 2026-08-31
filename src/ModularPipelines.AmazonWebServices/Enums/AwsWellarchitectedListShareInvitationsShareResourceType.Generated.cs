@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListShareInvitationsShareResourceType
 {
     [EnumValue("WORKLOAD")]
-    Workload = 1,
+    Workload,
 
     [EnumValue("LENS")]
-    Lens = 2,
+    Lens,
 
     [EnumValue("PROFILE")]
-    Profile = 3,
+    Profile,
 
     [EnumValue("TEMPLATE")]
-    Template = 4
+    Template
 }

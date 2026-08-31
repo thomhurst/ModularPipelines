@@ -132,16 +132,6 @@ public interface IAwsManagedblockchain
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns a list of the members in a network and properties of their con- figurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMembersAsync(AwsManagedblockchainListMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

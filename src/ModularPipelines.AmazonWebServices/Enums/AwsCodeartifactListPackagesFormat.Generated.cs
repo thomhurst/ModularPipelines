@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeartifactListPackagesFormat
 {
     [EnumValue("npm")]
-    Npm = 1,
+    Npm,
 
     [EnumValue("pypi")]
-    Pypi = 2,
+    Pypi,
 
     [EnumValue("maven")]
-    Maven = 3,
+    Maven,
 
     [EnumValue("nuget")]
-    NuGet = 4,
+    NuGet,
 
     [EnumValue("generic")]
-    Generic = 5,
+    Generic,
 
     [EnumValue("ruby")]
-    Ruby = 6,
+    Ruby,
 
     [EnumValue("swift")]
-    Swift = 7,
+    Swift,
 
     [EnumValue("cargo")]
-    Cargo = 8
+    Cargo
 }

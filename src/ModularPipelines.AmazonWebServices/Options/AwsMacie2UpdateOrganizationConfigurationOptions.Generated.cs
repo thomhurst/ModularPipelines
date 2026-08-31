@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("macie2", "update-organization-configuration")]
 public record AwsMacie2UpdateOrganizationConfigurationOptions : AwsOptions
 {
-    [CliFlag("--auto-enable")]
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; set; }
 
     [CliOption("--cli-input-json")]

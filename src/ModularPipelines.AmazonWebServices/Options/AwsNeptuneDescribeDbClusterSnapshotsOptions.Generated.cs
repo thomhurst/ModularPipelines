@@ -46,10 +46,16 @@ public record AwsNeptuneDescribeDbClusterSnapshotsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-shared")]
+    /// <summary>
+    /// True to include shared manual DB cluster snapshots from other Amazon accounts that this Amazon account has been given permission to copy or restore, and otherwise false. The default is false . You can give an Amazon account permission to restore a manual DB cluster snapshot from another Amazon account by the ModifyDBClus- terSnapshotAttribute API action.
+    /// </summary>
+    [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
 
-    [CliFlag("--include-public")]
+    /// <summary>
+    /// True to include manual DB cluster snapshots that are public and can be copied or restored by any Amazon account, and otherwise false. The default is false . The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
+    /// </summary>
+    [CliFlag("--include-public", NegatedName = "--no-include-public")]
     public bool? IncludePublic { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -55,7 +55,10 @@ public record AwsLambdaListDurableExecutionsByFunctionOptions : AwsOptions
     [CliOption("--started-before")]
     public string? StartedBefore { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Set to true to return results in chronological order (oldest first). Default is false.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>

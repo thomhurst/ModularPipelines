@@ -24,7 +24,10 @@ public record AwsVerifiedpermissionsGetPolicyStoreOptions : AwsOptions
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; set; }
 
-    [CliFlag("--tags")]
+    /// <summary>
+    /// Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned. NOTE: If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
+    /// </summary>
+    [CliFlag("--tags", NegatedName = "--no-tags")]
     public bool? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

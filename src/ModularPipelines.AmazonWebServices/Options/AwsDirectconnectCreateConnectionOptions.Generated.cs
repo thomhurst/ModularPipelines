@@ -48,7 +48,10 @@ public record AwsDirectconnectCreateConnectionOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For in- formation about MAC Security (MACsec) prerequisites, see MAC Secu- rity in Direct Connect in the Direct Connect User Guide .
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     [CliOption("--cli-input-json")]

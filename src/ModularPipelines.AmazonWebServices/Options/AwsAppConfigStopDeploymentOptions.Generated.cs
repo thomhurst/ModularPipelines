@@ -30,7 +30,10 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions
     [CliOption("--deployment-number")]
     public int? DeploymentNumber { get; set; }
 
-    [CliFlag("--allow-revert")]
+    /// <summary>
+    /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deploy- ment to a status of REVERTED .
+    /// </summary>
+    [CliFlag("--allow-revert", NegatedName = "--no-allow-revert")]
     public bool? AllowRevert { get; set; }
 
     [CliOption("--cli-input-json")]

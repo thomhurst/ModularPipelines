@@ -35,7 +35,10 @@ public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--hide-disabled")]
+    /// <summary>
+    /// An optional boolean parameter that allows you to hide disabled iden- tities. If omitted, the ListIdentities API will include disabled identities in the response.
+    /// </summary>
+    [CliFlag("--hide-disabled", NegatedName = "--no-hide-disabled")]
     public bool? HideDisabled { get; set; }
 
     [CliOption("--cli-input-json")]

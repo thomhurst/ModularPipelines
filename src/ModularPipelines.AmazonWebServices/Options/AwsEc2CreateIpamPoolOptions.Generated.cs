@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-ipam-pool")]
 public record AwsEc2CreateIpamPoolOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-scope-id")]
@@ -50,10 +53,16 @@ public record AwsEc2CreateIpamPoolOptions : AwsOptions
     [CliOption("--address-family")]
     public string? AddressFamily { get; set; }
 
-    [CliFlag("--auto-import")]
+    /// <summary>
+    /// If selected, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compli- ance with the pool's allocation rules, so a resource might be im- ported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will ran- domly import one of them only. A locale must be set on the pool for this feature to work.
+    /// </summary>
+    [CliFlag("--auto-import", NegatedName = "--no-auto-import")]
     public bool? AutoImport { get; set; }
 
-    [CliFlag("--publicly-advertisable")]
+    /// <summary>
+    /// Determines if the pool is publicly advertisable. The request can only contain PubliclyAdvertisable if AddressFamily is ipv6 and Pub- licIpSource is byoip .
+    /// </summary>
+    [CliFlag("--publicly-advertisable", NegatedName = "--no-publicly-advertisable")]
     public bool? PubliclyAdvertisable { get; set; }
 
     /// <summary>

@@ -31,7 +31,10 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Indicates whether to list step executions in reverse order by start time. The default value is 'false'.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]

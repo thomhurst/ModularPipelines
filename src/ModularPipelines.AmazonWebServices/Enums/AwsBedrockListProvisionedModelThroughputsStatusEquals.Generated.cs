@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListProvisionedModelThroughputsStatusEquals
 {
     [EnumValue("Creating")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("InService")]
-    InService = 2,
+    InService,
 
     [EnumValue("Updating")]
-    Updating = 3,
+    Updating,
 
     [EnumValue("Failed")]
-    Failed = 4
+    Failed
 }

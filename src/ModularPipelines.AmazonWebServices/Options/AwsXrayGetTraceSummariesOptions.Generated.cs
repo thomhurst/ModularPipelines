@@ -35,7 +35,10 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions
     [CliOption("--time-range-type")]
     public AwsXrayGetTraceSummariesTimeRangeType? TimeRangeType { get; set; }
 
-    [CliFlag("--sampling")]
+    /// <summary>
+    /// Set to true to get summaries for only a subset of available traces.
+    /// </summary>
+    [CliFlag("--sampling", NegatedName = "--no-sampling")]
     public bool? Sampling { get; set; }
 
     /// <summary>

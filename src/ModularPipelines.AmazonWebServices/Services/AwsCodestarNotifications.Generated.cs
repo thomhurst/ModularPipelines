@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -60,21 +60,6 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCodestarNotificationsDeleteNotificationRuleOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Deletes a specified target for notifications. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteTargetAsync(
-        AwsCodestarNotificationsDeleteTargetOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCodestarNotificationsDeleteTargetOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

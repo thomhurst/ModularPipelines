@@ -27,6 +27,9 @@ public record AwsEfsPutFileSystemPolicyOptions : AwsOptions
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
+    /// <summary>
+    /// out-safety-check (boolean) (Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check. The lockout safety check de- termines whether the policy in the request will lock out, or pre- vent, the IAM principal that is making the request from making fu- ture PutFileSystemPolicy requests on this file system. Set By- passPolicyLockoutSafetyCheck to True only when you intend to prevent the IAM principal that is making the request from making subsequent PutFileSystemPolicy requests on this file system. The default value is False .
+    /// </summary>
     [CliFlag("--bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 

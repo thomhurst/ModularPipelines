@@ -27,7 +27,10 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOpti
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CliFlag("--return-merged-resources")]
+    /// <summary>
+    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this para- meter, returns only values that you customized in your branding style.
+    /// </summary>
+    [CliFlag("--return-merged-resources", NegatedName = "--no-return-merged-resources")]
     public bool? ReturnMergedResources { get; set; }
 
     [CliOption("--cli-input-json")]

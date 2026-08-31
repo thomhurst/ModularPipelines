@@ -39,7 +39,10 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--primary")]
+    /// <summary>
+    /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attrib- utes must not be expressions.
+    /// </summary>
+    [CliFlag("--primary", NegatedName = "--no-primary")]
     public bool? Primary { get; set; }
 
     /// <summary>

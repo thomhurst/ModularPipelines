@@ -28,7 +28,10 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions
     [CliOption("--record", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Record { get; set; }
 
-    [CliFlag("--apply-normalization")]
+    /// <summary>
+    /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
+    /// </summary>
+    [CliFlag("--apply-normalization", NegatedName = "--no-apply-normalization")]
     public bool? ApplyNormalization { get; set; }
 
     [CliOption("--cli-input-json")]

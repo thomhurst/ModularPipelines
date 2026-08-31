@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCreateSessionSessionMode
 {
     [EnumValue("ReadOnly")]
-    ReadOnly = 1,
+    ReadOnly,
 
     [EnumValue("ReadWrite")]
-    ReadWrite = 2
+    ReadWrite
 }

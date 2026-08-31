@@ -57,7 +57,7 @@ public record AwsCodeartifactListPackageVersionsOptions : AwsOptions
     /// How to sort the requested list of package versions. Possible values: o PUBLISHED_TIME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsCodeartifactListPackageVersionsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The originType used to filter package versions. Only package ver- sions with the provided originType will be returned. Possible values: o INTERNAL o EXTERNAL o UNKNOWN

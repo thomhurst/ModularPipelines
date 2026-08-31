@@ -24,7 +24,10 @@ public record AwsAmplifybackendRemoveAllBackendsOptions : AwsOptions
     [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CliFlag("--clean-amplify-app")]
+    /// <summary>
+    /// Cleans up the Amplify Console app if this value is set to true.
+    /// </summary>
+    [CliFlag("--clean-amplify-app", NegatedName = "--no-clean-amplify-app")]
     public bool? CleanAmplifyApp { get; set; }
 
     [CliOption("--cli-input-json")]

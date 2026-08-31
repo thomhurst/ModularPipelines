@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDrsCreateReplicationConfigurationTemplateDataPlaneRouting
 {
     [EnumValue("PRIVATE_IP")]
-    PrivateIp = 1,
+    PrivateIp,
 
     [EnumValue("PUBLIC_IP")]
-    PublicIp = 2
+    PublicIp
 }

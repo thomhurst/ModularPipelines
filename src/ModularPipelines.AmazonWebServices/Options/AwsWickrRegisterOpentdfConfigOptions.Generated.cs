@@ -38,7 +38,10 @@ public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions
     [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Perform dry-run test connection of OpenTDF configuration (optional).
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "invoke-agent-runtime")]
-public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
+public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include ap- plication/json for JSON data. Constraints: o min: 1 o max: 256

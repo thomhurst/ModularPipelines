@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsListDeviceDiscoveriesTypeFilter
 {
     [EnumValue("ZWAVE")]
-    Zwave = 1,
+    Zwave,
 
     [EnumValue("ZIGBEE")]
-    Zigbee = 2,
+    Zigbee,
 
     [EnumValue("CLOUD")]
-    Cloud = 3,
+    Cloud,
 
     [EnumValue("CUSTOM")]
-    Custom = 4
+    Custom
 }

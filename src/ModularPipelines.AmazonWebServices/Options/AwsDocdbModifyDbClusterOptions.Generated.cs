@@ -31,7 +31,10 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false , changes to the cluster are ap- plied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdenti- fier and MasterUserPassword values. If you set this parameter value to false , the changes to the NewDBClusterIdentifier and MasterUser- Password values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -89,10 +92,16 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// A value that indicates whether major version upgrades are allowed. Constraints: o You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version. o Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes. NOTE: Performing an MVU directly impacts the following parameters: o MasterUserPassword o NewDBClusterIdentifier o VpcSecurityGroupIds o Port
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -107,7 +116,10 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPass- word . If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, Ama- zon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword .
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
@@ -117,7 +129,10 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CliFlag("--rotate-master-user-password")]
+    /// <summary>
+    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+    /// </summary>
+    [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
 
     /// <summary>

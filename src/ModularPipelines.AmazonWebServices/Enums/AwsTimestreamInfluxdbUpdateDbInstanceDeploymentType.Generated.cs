@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamInfluxdbUpdateDbInstanceDeploymentType
 {
     [EnumValue("SINGLE_AZ")]
-    SingleAz = 1,
+    SingleAz,
 
     [EnumValue("WITH_MULTIAZ_STANDBY")]
-    WithMultiazStandby = 2
+    WithMultiazStandby
 }

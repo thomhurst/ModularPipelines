@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3tablesListTableBucketsType
 {
     [EnumValue("customer")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("aws")]
-    Aws = 2
+    Aws
 }

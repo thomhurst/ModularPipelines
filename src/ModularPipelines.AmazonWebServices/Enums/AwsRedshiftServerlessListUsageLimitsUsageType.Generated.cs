@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftServerlessListUsageLimitsUsageType
 {
     [EnumValue("serverless-compute")]
-    ServerlessCompute = 1,
+    ServerlessCompute,
 
     [EnumValue("cross-region-datasharing")]
-    CrossRegionDatasharing = 2
+    CrossRegionDatasharing
 }

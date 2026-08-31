@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafv2ListResourcesForWebAclResourceType
 {
     [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 1,
+    ApplicationLoadBalancer,
 
     [EnumValue("API_GATEWAY")]
-    ApiGateway = 2,
+    ApiGateway,
 
     [EnumValue("APPSYNC")]
-    Appsync = 3,
+    Appsync,
 
     [EnumValue("COGNITO_USER_POOL")]
-    CognitoUserPool = 4,
+    CognitoUserPool,
 
     [EnumValue("APP_RUNNER_SERVICE")]
-    AppRunnerService = 5,
+    AppRunnerService,
 
     [EnumValue("VERIFIED_ACCESS_INSTANCE")]
-    VerifiedAccessInstance = 6,
+    VerifiedAccessInstance,
 
     [EnumValue("AMPLIFY")]
-    Amplify = 7,
+    Amplify,
 
     [EnumValue("AGENTCORE_GATEWAY")]
-    AgentcoreGateway = 8
+    AgentcoreGateway
 }

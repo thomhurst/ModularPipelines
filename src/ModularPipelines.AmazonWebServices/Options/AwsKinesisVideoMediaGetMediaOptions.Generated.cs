@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-media", "get-media")]
-public record AwsKinesisVideoMediaGetMediaOptions : AwsOptions
+public record AwsKinesisVideoMediaGetMediaOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName , you must specify the streamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+

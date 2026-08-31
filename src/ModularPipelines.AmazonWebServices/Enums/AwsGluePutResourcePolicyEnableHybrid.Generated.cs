@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGluePutResourcePolicyEnableHybrid
 {
     [EnumValue("TRUE")]
-    True = 1,
+    True,
 
     [EnumValue("FALSE")]
-    False = 2
+    False
 }

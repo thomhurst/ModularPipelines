@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-private-dns-name-options")]
 public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--instance-id")]
@@ -35,13 +38,13 @@ public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions
     public AwsEc2ModifyPrivateDnsNamePrivateDnsHostnameType? PrivateDnsHostnameType { get; set; }
 
     /// <summary>
-    /// | --no-enable-re- source-name-dns-a-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
+    /// source-name-dns-a-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
     /// </summary>
     [CliFlag("--enable-resource-name-dns-a-record")]
     public bool? EnableResourceNameDnsARecord { get; set; }
 
     /// <summary>
-    /// | --no-enable-re- source-name-dns-aaaa-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
+    /// source-name-dns-aaaa-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
     /// </summary>
     [CliFlag("--enable-resource-name-dns-aaaa-record")]
     public bool? EnableResourceNameDnsAaaaRecord { get; set; }

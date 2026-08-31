@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSignerListSigningJobsStatus
 {
     [EnumValue("InProgress")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("Failed")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("Succeeded")]
-    Succeeded = 3
+    Succeeded
 }

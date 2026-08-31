@@ -20,7 +20,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lex-runtime", "put-session")]
-public record AwsLexRuntimePutSessionOptions : AwsOptions
+public record AwsLexRuntimePutSessionOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--bot-name")]
     public string? BotName { get; set; }

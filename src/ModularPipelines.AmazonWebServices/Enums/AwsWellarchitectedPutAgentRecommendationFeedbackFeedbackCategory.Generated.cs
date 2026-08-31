@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedPutAgentRecommendationFeedbackFeedbackCategory
 {
     [EnumValue("OTHER")]
-    Other = 1,
+    Other,
 
     [EnumValue("RECOMMENDATION_NOT_RELEVANT")]
-    RecommendationNotRelevant = 2,
+    RecommendationNotRelevant,
 
     [EnumValue("RESOURCE_NOT_IMPORTANT")]
-    ResourceNotImportant = 3,
+    ResourceNotImportant,
 
     [EnumValue("RESOURCE_TYPE_NOT_IMPORTANT")]
-    ResourceTypeNotImportant = 4,
+    ResourceTypeNotImportant,
 
     [EnumValue("RECOMMENDATION_INCORRECT")]
-    RecommendationIncorrect = 5
+    RecommendationIncorrect
 }

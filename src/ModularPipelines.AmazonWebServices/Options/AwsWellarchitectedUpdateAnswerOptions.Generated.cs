@@ -50,7 +50,10 @@ public record AwsWellarchitectedUpdateAnswerOptions : AwsOptions
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CliFlag("--is-applicable")]
+    /// <summary>
+    /// Defines whether this question is applicable to a lens review.
+    /// </summary>
+    [CliFlag("--is-applicable", NegatedName = "--no-is-applicable")]
     public bool? IsApplicable { get; set; }
 
     /// <summary>

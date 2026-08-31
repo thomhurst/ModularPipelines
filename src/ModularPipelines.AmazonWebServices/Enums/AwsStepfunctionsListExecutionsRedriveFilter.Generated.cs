@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStepfunctionsListExecutionsRedriveFilter
 {
     [EnumValue("REDRIVEN")]
-    Redriven = 1,
+    Redriven,
 
     [EnumValue("NOT_REDRIVEN")]
-    NotRedriven = 2
+    NotRedriven
 }

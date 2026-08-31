@@ -43,7 +43,10 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions
     [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
 
-    [CliFlag("--remove-auto-registration")]
+    /// <summary>
+    /// If true, removes auto registration.
+    /// </summary>
+    [CliFlag("--remove-auto-registration", NegatedName = "--no-remove-auto-registration")]
     public bool? RemoveAutoRegistration { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListLineageNodeHistoryDirection
 {
     [EnumValue("UPSTREAM")]
-    Upstream = 1,
+    Upstream,
 
     [EnumValue("DOWNSTREAM")]
-    Downstream = 2
+    Downstream
 }

@@ -37,7 +37,10 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--cache-cluster-enabled")]
+    /// <summary>
+    /// Whether cache clustering is enabled for the stage.
+    /// </summary>
+    [CliFlag("--cache-cluster-enabled", NegatedName = "--no-cache-cluster-enabled")]
     public bool? CacheClusterEnabled { get; set; }
 
     /// <summary>
@@ -64,7 +67,10 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     [CliOption("--canary-settings")]
     public string? CanarySettings { get; set; }
 
-    [CliFlag("--tracing-enabled")]
+    /// <summary>
+    /// Specifies whether active tracing with X-ray is enabled for the Stage.
+    /// </summary>
+    [CliFlag("--tracing-enabled", NegatedName = "--no-tracing-enabled")]
     public bool? TracingEnabled { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53globalresolverUpdateAccessSourceProtocol
 {
     [EnumValue("DO53")]
-    Do53 = 1,
+    Do53,
 
     [EnumValue("DOH")]
-    Doh = 2,
+    Doh,
 
     [EnumValue("DOT")]
-    Dot = 3
+    Dot
 }

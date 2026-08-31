@@ -27,7 +27,10 @@ public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOption
     [CliOption("--meta-template-id")]
     public string? MetaTemplateId { get; set; }
 
-    [CliFlag("--delete-all-languages")]
+    /// <summary>
+    /// If true, deletes all language versions of the template.
+    /// </summary>
+    [CliFlag("--delete-all-languages", NegatedName = "--no-delete-all-languages")]
     public bool? DeleteAllLanguages { get; set; }
 
     [CliOption("--id")]

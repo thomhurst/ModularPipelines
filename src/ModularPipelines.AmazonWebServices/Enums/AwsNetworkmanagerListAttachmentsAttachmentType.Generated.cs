@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkmanagerListAttachmentsAttachmentType
 {
     [EnumValue("CONNECT")]
-    Connect = 1,
+    Connect,
 
     [EnumValue("SITE_TO_SITE_VPN")]
-    SiteToSiteVpn = 2,
+    SiteToSiteVpn,
 
     [EnumValue("VPC")]
-    Vpc = 3,
+    Vpc,
 
     [EnumValue("DIRECT_CONNECT_GATEWAY")]
-    DirectConnectGateway = 4,
+    DirectConnectGateway,
 
     [EnumValue("TRANSIT_GATEWAY_ROUTE_TABLE")]
-    TransitGatewayRouteTable = 5
+    TransitGatewayRouteTable
 }

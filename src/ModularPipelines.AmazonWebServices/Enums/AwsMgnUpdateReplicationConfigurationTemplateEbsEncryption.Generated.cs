@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMgnUpdateReplicationConfigurationTemplateEbsEncryption
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("CUSTOM")]
-    Custom = 2
+    Custom
 }

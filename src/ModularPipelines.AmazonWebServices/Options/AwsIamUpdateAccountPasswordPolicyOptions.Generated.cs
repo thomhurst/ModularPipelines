@@ -29,19 +29,34 @@ public record AwsIamUpdateAccountPasswordPolicyOptions : AwsOptions
     [CliOption("--minimum-password-length")]
     public int? MinimumPasswordLength { get; set; }
 
-    [CliFlag("--require-symbols")]
+    /// <summary>
+    /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one symbol character.
+    /// </summary>
+    [CliFlag("--require-symbols", NegatedName = "--no-require-symbols")]
     public bool? RequireSymbols { get; set; }
 
-    [CliFlag("--require-numbers")]
+    /// <summary>
+    /// Specifies whether IAM user passwords must contain at least one nu- meric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one numeric character.
+    /// </summary>
+    [CliFlag("--require-numbers", NegatedName = "--no-require-numbers")]
     public bool? RequireNumbers { get; set; }
 
-    [CliFlag("--require-uppercase-characters")]
+    /// <summary>
+    /// Specifies whether IAM user passwords must contain at least one up- percase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one uppercase character.
+    /// </summary>
+    [CliFlag("--require-uppercase-characters", NegatedName = "--no-require-uppercase-characters")]
     public bool? RequireUppercaseCharacters { get; set; }
 
-    [CliFlag("--require-lowercase-characters")]
+    /// <summary>
+    /// Specifies whether IAM user passwords must contain at least one low- ercase character from the ISO basic Latin alphabet (a to z). If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one lowercase character.
+    /// </summary>
+    [CliFlag("--require-lowercase-characters", NegatedName = "--no-require-lowercase-characters")]
     public bool? RequireLowercaseCharacters { get; set; }
 
-    [CliFlag("--allow-users-to-change-password")]
+    /// <summary>
+    /// Allows all IAM users in your account to use the Amazon Web Services Management Console to change their own passwords. For more informa- tion, see Permitting IAM users to change their own passwords in the IAM User Guide . If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users in the account do not automatically have permissions to change their own password.
+    /// </summary>
+    [CliFlag("--allow-users-to-change-password", NegatedName = "--no-allow-users-to-change-password")]
     public bool? AllowUsersToChangePassword { get; set; }
 
     /// <summary>
@@ -58,7 +73,10 @@ public record AwsIamUpdateAccountPasswordPolicyOptions : AwsOptions
     [CliOption("--password-reuse-prevention")]
     public int? PasswordReusePrevention { get; set; }
 
-    [CliFlag("--hard-expiry")]
+    /// <summary>
+    /// Prevents IAM users who are accessing the account via the Amazon Web Services Management Console from setting a new console password af- ter their password has expired. The IAM user cannot access the con- sole until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users can change their passwords after they expire and continue to sign in as the user. NOTE: In the Amazon Web Services Management Console, the custom pass- word policy option Allow users to change their own password gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM. IAM users with iam:ChangePassword permission and active ac- cess keys can reset their own expired console password using the CLI or API.
+    /// </summary>
+    [CliFlag("--hard-expiry", NegatedName = "--no-hard-expiry")]
     public bool? HardExpiry { get; set; }
 
     [CliOption("--cli-input-json")]

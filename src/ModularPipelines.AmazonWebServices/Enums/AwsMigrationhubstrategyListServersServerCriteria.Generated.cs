@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyListServersServerCriteria
 {
     [EnumValue("NOT_DEFINED")]
-    NotDefined = 1,
+    NotDefined,
 
     [EnumValue("OS_NAME")]
-    OsName = 2,
+    OsName,
 
     [EnumValue("STRATEGY")]
-    Strategy = 3,
+    Strategy,
 
     [EnumValue("DESTINATION")]
-    Destination = 4,
+    Destination,
 
     [EnumValue("SERVER_ID")]
-    ServerId = 5,
+    ServerId,
 
     [EnumValue("ANALYSIS_STATUS")]
-    AnalysisStatus = 6,
+    AnalysisStatus,
 
     [EnumValue("ERROR_CATEGORY")]
-    ErrorCategory = 7
+    ErrorCategory
 }

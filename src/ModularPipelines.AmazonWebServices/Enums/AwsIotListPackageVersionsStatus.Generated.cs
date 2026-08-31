@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListPackageVersionsStatus
 {
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 2,
+    Published,
 
     [EnumValue("DEPRECATED")]
-    Deprecated = 3
+    Deprecated
 }

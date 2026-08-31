@@ -40,7 +40,10 @@ public record AwsWisdomUpdateContentOptions : AwsOptions
     [CliOption("--override-link-out-uri")]
     public string? OverrideLinkOutUri { get; set; }
 
-    [CliFlag("--remove-override-link-out-uri")]
+    /// <summary>
+    /// Unset the existing overrideLinkOutUri if it exists.
+    /// </summary>
+    [CliFlag("--remove-override-link-out-uri", NegatedName = "--no-remove-override-link-out-uri")]
     public bool? RemoveOverrideLinkOutUri { get; set; }
 
     /// <summary>

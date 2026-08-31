@@ -45,7 +45,10 @@ public record AwsIotAddThingToThingGroupOptions : AwsOptions
     [CliOption("--thing-arn")]
     public string? ThingArn { get; set; }
 
-    [CliFlag("--override-dynamic-groups")]
+    /// <summary>
+    /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
+    /// </summary>
+    [CliFlag("--override-dynamic-groups", NegatedName = "--no-override-dynamic-groups")]
     public bool? OverrideDynamicGroups { get; set; }
 
     [CliOption("--cli-input-json")]

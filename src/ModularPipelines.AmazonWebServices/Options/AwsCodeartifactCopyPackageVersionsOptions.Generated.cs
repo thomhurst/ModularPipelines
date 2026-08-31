@@ -61,10 +61,16 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
     [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
-    [CliFlag("--allow-overwrite")]
+    /// <summary>
+    /// Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an AL- READY_EXISTS error code.
+    /// </summary>
+    [CliFlag("--allow-overwrite", NegatedName = "--no-allow-overwrite")]
     public bool? AllowOverwrite { get; set; }
 
-    [CliFlag("--include-from-upstream")]
+    /// <summary>
+    /// Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The de- fault setting is false. For more information, see Working with up- stream repositories .
+    /// </summary>
+    [CliFlag("--include-from-upstream", NegatedName = "--no-include-from-upstream")]
     public bool? IncludeFromUpstream { get; set; }
 
     [CliOption("--cli-input-json")]

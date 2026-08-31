@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiCopyObjectObjectLockMode
 {
     [EnumValue("GOVERNANCE")]
-    Governance = 1,
+    Governance,
 
     [EnumValue("COMPLIANCE")]
-    Compliance = 2
+    Compliance
 }

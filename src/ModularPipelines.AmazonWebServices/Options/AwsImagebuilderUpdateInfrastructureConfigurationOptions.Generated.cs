@@ -65,7 +65,10 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     [CliOption("--key-pair")]
     public string? KeyPair { get; set; }
 
-    [CliFlag("--terminate-instance-on-failure")]
+    /// <summary>
+    /// The terminate instance on failure setting of the infrastructure con- figuration. Set to false if you want Image Builder to retain the in- stance used to configure your AMI if the build or test phase of your workflow fails.
+    /// </summary>
+    [CliFlag("--terminate-instance-on-failure", NegatedName = "--no-terminate-instance-on-failure")]
     public bool? TerminateInstanceOnFailure { get; set; }
 
     /// <summary>

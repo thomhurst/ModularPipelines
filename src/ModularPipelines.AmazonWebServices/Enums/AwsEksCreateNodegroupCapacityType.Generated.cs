@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEksCreateNodegroupCapacityType
 {
     [EnumValue("ON_DEMAND")]
-    OnDemand = 1,
+    OnDemand,
 
     [EnumValue("SPOT")]
-    Spot = 2,
+    Spot,
 
     [EnumValue("CAPACITY_BLOCK")]
-    CapacityBlock = 3
+    CapacityBlock
 }

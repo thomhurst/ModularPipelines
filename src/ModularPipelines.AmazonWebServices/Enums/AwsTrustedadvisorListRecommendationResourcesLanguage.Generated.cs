@@ -17,35 +17,35 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListRecommendationResourcesLanguage
 {
     [EnumValue("en")]
-    En = 1,
+    En,
 
     [EnumValue("ja")]
-    Ja = 2,
+    Ja,
 
     [EnumValue("zh")]
-    Zh = 3,
+    Zh,
 
     [EnumValue("fr")]
-    Fr = 4,
+    Fr,
 
     [EnumValue("de")]
-    De = 5,
+    De,
 
     [EnumValue("ko")]
-    Ko = 6,
+    Ko,
 
     [EnumValue("zh_TW")]
-    ZhTw = 7,
+    ZhTw,
 
     [EnumValue("it")]
-    It = 8,
+    It,
 
     [EnumValue("es")]
-    Es = 9,
+    Es,
 
     [EnumValue("pt_BR")]
-    PtBr = 10,
+    PtBr,
 
     [EnumValue("id")]
-    Id = 11
+    Id
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2GetSpotPlacementScoresTargetCapacityUnitType
 {
     [EnumValue("vcpu")]
-    Vcpu = 1,
+    Vcpu,
 
     [EnumValue("memory-mib")]
-    MemoryMib = 2,
+    MemoryMib,
 
     [EnumValue("units")]
-    Units = 3
+    Units
 }

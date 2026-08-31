@@ -24,7 +24,10 @@ public record AwsDocdbRebootDbInstanceOptions : AwsOptions
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
-    [CliFlag("--force-failover")]
+    /// <summary>
+    /// When true , the reboot is conducted through a Multi-AZ failover. Constraint: You can't specify true if the instance is not configured for Multi-AZ.
+    /// </summary>
+    [CliFlag("--force-failover", NegatedName = "--no-force-failover")]
     public bool? ForceFailover { get; set; }
 
     [CliOption("--cli-input-json")]

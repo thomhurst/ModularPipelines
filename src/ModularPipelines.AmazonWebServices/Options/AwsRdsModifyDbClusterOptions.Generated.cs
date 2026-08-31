@@ -32,7 +32,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether the modifications in this request are asynchro- nously applied as soon as possible, regardless of the PreferredMain- tenanceWindow setting for the DB cluster. If this parameter is dis- abled, changes to the DB cluster are applied during the next mainte- nance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediatelyregardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -84,6 +87,9 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -105,7 +111,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -132,16 +141,28 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--scaling-configuration")]
     public string? ScalingConfiguration { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--enable-http-endpoint")]
+    /// <summary>
+    /// Specifies whether to enable the HTTP endpoint for an Aurora Server- less v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web ser- vice API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from in- side the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-http-endpoint", NegatedName = "--no-enable-http-endpoint")]
     public bool? EnableHttpEndpoint { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
-    [CliFlag("--enable-global-write-forwarding")]
+    /// <summary>
+    /// Specifies whether to enable this DB cluster to forward write opera- tions to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a sec- ondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-global-write-forwarding", NegatedName = "--no-enable-global-write-forwarding")]
     public bool? EnableGlobalWriteForwarding { get; set; }
 
     /// <summary>
@@ -168,7 +189,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor en- gine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -201,7 +225,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsModifyDbClusterDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to turn on Performance Insights for the DB clus- ter. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -216,13 +243,22 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Ama- zon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword . If the DB cluster already manages the master user password with Ama- zon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
-    [CliFlag("--rotate-master-user-password")]
+    /// <summary>
+    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o You must apply the change immediately when rotating the master user password.
+    /// </summary>
+    [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
 
-    [CliFlag("--enable-local-write-forwarding")]
+    /// <summary>
+    /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
+    /// </summary>
+    [CliFlag("--enable-local-write-forwarding", NegatedName = "--no-enable-local-write-forwarding")]
     public bool? EnableLocalWriteForwarding { get; set; }
 
     /// <summary>
@@ -238,7 +274,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--engine-mode")]
     public string? EngineMode { get; set; }
 
-    [CliFlag("--allow-engine-mode-change")]
+    /// <summary>
+    /// Specifies whether engine mode changes from serverless to provisioned are allowed. Valid for Cluster Type: Aurora Serverless v1 DB clusters only Constraints: o You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode.
+    /// </summary>
+    [CliFlag("--allow-engine-mode-change", NegatedName = "--no-allow-engine-mode-change")]
     public bool? AllowEngineModeChange { get; set; }
 
     /// <summary>
@@ -247,7 +286,10 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions
     [CliOption("--aws-backup-recovery-point-arn")]
     public string? AwsBackupRecoveryPointArn { get; set; }
 
-    [CliFlag("--enable-limitless-database")]
+    /// <summary>
+    /// Specifies whether to enable Aurora Limitless Database. You must en- able Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only NOTE: This setting is no longer used. Instead use the ClusterScalabil- ityType setting when you create your Aurora Limitless Database DB cluster.
+    /// </summary>
+    [CliFlag("--enable-limitless-database", NegatedName = "--no-enable-limitless-database")]
     public bool? EnableLimitlessDatabase { get; set; }
 
     /// <summary>

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbCreateTableBillingMode
 {
     [EnumValue("PROVISIONED")]
-    Provisioned = 1,
+    Provisioned,
 
     [EnumValue("PAY_PER_REQUEST")]
-    PayPerRequest = 2
+    PayPerRequest
 }

@@ -24,7 +24,10 @@ public record AwsTimestreamQueryPrepareQueryOptions : AwsOptions
     [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CliFlag("--validate-only")]
+    /// <summary>
+    /// By setting this value to true , Timestream will only validate that the query string is a valid Timestream query, and not store the pre- pared query for later use.
+    /// </summary>
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
 
     [CliOption("--cli-input-json")]

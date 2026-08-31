@@ -17,41 +17,41 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFreetierGetAccountActivityLanguageCode
 {
     [EnumValue("en-US")]
-    EnUs = 1,
+    EnUs,
 
     [EnumValue("en-GB")]
-    EnGb = 2,
+    EnGb,
 
     [EnumValue("id-ID")]
-    IdId = 3,
+    IdId,
 
     [EnumValue("de-DE")]
-    DeDe = 4,
+    DeDe,
 
     [EnumValue("es-ES")]
-    EsEs = 5,
+    EsEs,
 
     [EnumValue("fr-FR")]
-    FrFr = 6,
+    FrFr,
 
     [EnumValue("ja-JP")]
-    JaJp = 7,
+    JaJp,
 
     [EnumValue("it-IT")]
-    ItIt = 8,
+    ItIt,
 
     [EnumValue("pt-PT")]
-    PtPt = 9,
+    PtPt,
 
     [EnumValue("ko-KR")]
-    KoKr = 10,
+    KoKr,
 
     [EnumValue("zh-CN")]
-    ZhCn = 11,
+    ZhCn,
 
     [EnumValue("zh-TW")]
-    ZhTw = 12,
+    ZhTw,
 
     [EnumValue("tr-TR")]
-    TrTr = 13
+    TrTr
 }

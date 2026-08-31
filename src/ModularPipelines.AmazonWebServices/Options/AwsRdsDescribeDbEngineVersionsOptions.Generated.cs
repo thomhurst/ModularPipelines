@@ -46,16 +46,28 @@ public record AwsRdsDescribeDbEngineVersionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// Specifies whether to return only the default version of the speci- fied engine or the engine and major version combination.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
-    [CliFlag("--list-supported-character-sets")]
+    /// <summary>
+    /// Specifies whether to list the supported character sets for each en- gine version. If this parameter is enabled and the requested engine supports the CharacterSetName parameter for CreateDBInstance , the response in- cludes a list of supported character sets for each engine version. For RDS Custom, the default is not to list supported character sets. If you enable this parameter, RDS Custom returns no results.
+    /// </summary>
+    [CliFlag("--list-supported-character-sets", NegatedName = "--no-list-supported-character-sets")]
     public bool? ListSupportedCharacterSets { get; set; }
 
-    [CliFlag("--list-supported-timezones")]
+    /// <summary>
+    /// Specifies whether to list the supported time zones for each engine version. If this parameter is enabled and the requested engine supports the TimeZone parameter for CreateDBInstance , the response includes a list of supported time zones for each engine version. For RDS Custom, the default is not to list supported time zones. If you enable this parameter, RDS Custom returns no results.
+    /// </summary>
+    [CliFlag("--list-supported-timezones", NegatedName = "--no-list-supported-timezones")]
     public bool? ListSupportedTimezones { get; set; }
 
-    [CliFlag("--include-all")]
+    /// <summary>
+    /// Specifies whether to also list the engine versions that aren't available. The default is to list only available engine versions.
+    /// </summary>
+    [CliFlag("--include-all", NegatedName = "--no-include-all")]
     public bool? IncludeAll { get; set; }
 
     [CliOption("--cli-input-json")]

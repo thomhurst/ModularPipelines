@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsControltowerListEnabledControlsOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the target. The value depends on the target type: o Organizational unit (OU) Specify the ARN of the OU. o Account Specify the ARN of the account. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--target-identifier")]
     public string? TargetIdentifier { get; set; }
@@ -34,7 +34,10 @@ public record AwsControltowerListEnabledControlsOptions : AwsOptions
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CliFlag("--include-children")]
+    /// <summary>
+    /// Specifies whether to include enabled controls from child organiza- tional units and child accounts in the response.
+    /// </summary>
+    [CliFlag("--include-children", NegatedName = "--no-include-children")]
     public bool? IncludeChildren { get; set; }
 
     [CliOption("--cli-input-json")]

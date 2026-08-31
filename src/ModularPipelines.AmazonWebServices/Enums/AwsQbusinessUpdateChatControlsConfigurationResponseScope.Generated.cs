@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessUpdateChatControlsConfigurationResponseScope
 {
     [EnumValue("ENTERPRISE_CONTENT_ONLY")]
-    EnterpriseContentOnly = 1,
+    EnterpriseContentOnly,
 
     [EnumValue("EXTENDED_KNOWLEDGE_ENABLED")]
-    ExtendedKnowledgeEnabled = 2
+    ExtendedKnowledgeEnabled
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsModifyDbInstanceLicenseModel
 {
     [EnumValue("RDS")]
-    Rds = 1,
+    Rds,
 
     [EnumValue("for")]
-    For = 2,
+    For,
 
     [EnumValue("Db2")]
-    Db2 = 3
+    Db2
 }

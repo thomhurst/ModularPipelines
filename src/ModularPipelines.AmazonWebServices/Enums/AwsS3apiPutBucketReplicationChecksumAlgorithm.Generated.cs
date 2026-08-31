@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiPutBucketReplicationChecksumAlgorithm
 {
     [EnumValue("CRC32")]
-    Crc32 = 1,
+    Crc32,
 
     [EnumValue("CRC32C")]
-    Crc32C = 2,
+    Crc32C,
 
     [EnumValue("SHA1")]
-    Sha1 = 3,
+    Sha1,
 
     [EnumValue("SHA256")]
-    Sha256 = 4,
+    Sha256,
 
     [EnumValue("CRC64NVME")]
-    Crc64Nvme = 5,
+    Crc64Nvme,
 
     [EnumValue("SHA512")]
-    Sha512 = 6,
+    Sha512,
 
     [EnumValue("MD5")]
-    Md5 = 7,
+    Md5,
 
     [EnumValue("XXHASH64")]
-    Xxhash64 = 8,
+    Xxhash64,
 
     [EnumValue("XXHASH3")]
-    Xxhash3 = 9,
+    Xxhash3,
 
     [EnumValue("XXHASH128")]
-    Xxhash128 = 10
+    Xxhash128
 }

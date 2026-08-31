@@ -63,6 +63,9 @@ public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions
     [CliOption("--session-inactivity-duration")]
     public int? SessionInactivityDuration { get; set; }
 
+    /// <summary>
+    /// dling-enabled (boolean) Determines if automatic logout on user inactivity is enabled.
+    /// </summary>
     [CliFlag("--session-inactivity-handling-enabled")]
     public bool? SessionInactivityHandlingEnabled { get; set; }
 

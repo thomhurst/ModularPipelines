@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "execute-open-cypher-explain-query")]
-public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions : AwsOptions
+public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--open-cypher-query")]
     public string? OpenCypherQuery { get; set; }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftCreateGameServerGroupGameServerProtectionPolicy
 {
     [EnumValue("NO_PROTECTION")]
-    NoProtection = 1,
+    NoProtection,
 
     [EnumValue("FULL_PROTECTION")]
-    FullProtection = 2
+    FullProtection
 }

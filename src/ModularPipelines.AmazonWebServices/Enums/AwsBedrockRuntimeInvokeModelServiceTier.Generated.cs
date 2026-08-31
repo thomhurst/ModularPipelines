@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockRuntimeInvokeModelServiceTier
 {
     [EnumValue("priority")]
-    Priority = 1,
+    Priority,
 
     [EnumValue("default")]
-    Default = 2,
+    Default,
 
     [EnumValue("flex")]
-    Flex = 3,
+    Flex,
 
     [EnumValue("reserved")]
-    Reserved = 4
+    Reserved
 }

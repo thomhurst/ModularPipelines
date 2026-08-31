@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComputeOptimizerPutRecommendationPreferencesSavingsEstimationMode
 {
     [EnumValue("AfterDiscounts")]
-    AfterDiscounts = 1,
+    AfterDiscounts,
 
     [EnumValue("BeforeDiscounts")]
-    BeforeDiscounts = 2
+    BeforeDiscounts
 }

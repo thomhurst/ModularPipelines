@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkFirewallListFlowOperationsFlowOperationType
 {
     [EnumValue("FLOW_FLUSH")]
-    FlowFlush = 1,
+    FlowFlush,
 
     [EnumValue("FLOW_CAPTURE")]
-    FlowCapture = 2
+    FlowCapture
 }

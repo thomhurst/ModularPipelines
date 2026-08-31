@@ -31,7 +31,10 @@ public record AwsS3controlListCallerAccessGrantsOptions : AwsOptions
     [CliOption("--grant-scope")]
     public string? GrantScope { get; set; }
 
-    [CliFlag("--allowed-by-application")]
+    /// <summary>
+    /// If this optional parameter is passed in the request, a filter is ap- plied to the results. The results will include only the access grants for the caller's Identity Center application or for any other applications (ALL ).
+    /// </summary>
+    [CliFlag("--allowed-by-application", NegatedName = "--no-allowed-by-application")]
     public bool? AllowedByApplication { get; set; }
 
     [CliOption("--cli-input-json")]

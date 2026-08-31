@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamDescribeImagesType
 {
     [EnumValue("PUBLIC")]
-    Public = 1,
+    Public,
 
     [EnumValue("PRIVATE")]
-    Private = 2,
+    Private,
 
     [EnumValue("SHARED")]
-    Shared = 3
+    Shared
 }

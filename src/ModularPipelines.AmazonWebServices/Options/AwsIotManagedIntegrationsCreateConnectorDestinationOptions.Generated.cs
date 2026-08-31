@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -42,7 +41,7 @@ public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOp
     /// The authentication type used for the connector destination, which determines how credentials and access are managed. Possible values: o OAUTH
     /// </summary>
     [CliOption("--auth-type")]
-    public AwsIotManagedIntegrationsCreateConnectorDestinationAuthType? AuthType { get; set; }
+    public string? AuthType { get; set; }
 
     [CliOption("--auth-config")]
     public string? AuthConfig { get; set; }

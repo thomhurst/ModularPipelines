@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ImportPolicyMultiAzDisasterRecoveryApproach
 {
     [EnumValue("ACTIVE_ACTIVE")]
-    ActiveActive = 1,
+    ActiveActive,
 
     [EnumValue("HOT_STANDBY")]
-    HotStandby = 2,
+    HotStandby,
 
     [EnumValue("WARM_STANDBY")]
-    WarmStandby = 3,
+    WarmStandby,
 
     [EnumValue("PILOT_LIGHT")]
-    PilotLight = 4,
+    PilotLight,
 
     [EnumValue("BACKUP_AND_RESTORE")]
-    BackupAndRestore = 5
+    BackupAndRestore
 }

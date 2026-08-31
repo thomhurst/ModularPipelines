@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -81,7 +80,7 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions
     /// The output format for the notebook execution. Possible values: o HTML
     /// </summary>
     [CliOption("--output-notebook-format")]
-    public AwsEmrStartNotebookExecutionOutputNotebookFormat? OutputNotebookFormat { get; set; }
+    public string? OutputNotebookFormat { get; set; }
 
     /// <summary>
     /// The environment variables associated with the notebook execution. key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* value -&gt; (string) Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}

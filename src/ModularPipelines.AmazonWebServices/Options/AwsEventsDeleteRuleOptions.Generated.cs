@@ -30,7 +30,10 @@ public record AwsEventsDeleteRuleOptions : AwsOptions
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

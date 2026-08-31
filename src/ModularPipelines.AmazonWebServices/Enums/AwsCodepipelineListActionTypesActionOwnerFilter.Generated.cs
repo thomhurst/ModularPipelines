@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodepipelineListActionTypesActionOwnerFilter
 {
     [EnumValue("AWS")]
-    Aws = 1,
+    Aws,
 
     [EnumValue("ThirdParty")]
-    ThirdParty = 2,
+    ThirdParty,
 
     [EnumValue("Custom")]
-    Custom = 3
+    Custom
 }

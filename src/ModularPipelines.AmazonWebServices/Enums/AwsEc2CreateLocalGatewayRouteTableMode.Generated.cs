@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateLocalGatewayRouteTableMode
 {
     [EnumValue("direct-vpc-routing")]
-    DirectVpcRouting = 1,
+    DirectVpcRouting,
 
     [EnumValue("coip")]
-    Coip = 2
+    Coip
 }

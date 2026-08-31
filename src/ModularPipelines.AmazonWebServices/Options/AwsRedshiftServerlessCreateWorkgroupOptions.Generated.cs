@@ -33,9 +33,15 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
@@ -66,7 +72,10 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--price-performance-target")]
     public string? PricePerformanceTarget { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// A value that specifies whether the workgroup can be accessed from a public network.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>

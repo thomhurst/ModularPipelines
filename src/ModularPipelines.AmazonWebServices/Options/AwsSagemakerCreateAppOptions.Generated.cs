@@ -54,7 +54,10 @@ public record AwsSagemakerCreateAppOptions : AwsOptions
     [CliOption("--resource-spec")]
     public string? ResourceSpec { get; set; }
 
-    [CliFlag("--recovery-mode")]
+    /// <summary>
+    /// Indicates whether the application is launched in recovery mode.
+    /// </summary>
+    [CliFlag("--recovery-mode", NegatedName = "--no-recovery-mode")]
     public bool? RecoveryMode { get; set; }
 
     [CliOption("--cli-input-json")]

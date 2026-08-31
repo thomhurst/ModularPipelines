@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoRoutesCalculateIsolinesOptimizeRoutingFor
 {
     [EnumValue("FastestRoute")]
-    FastestRoute = 1,
+    FastestRoute,
 
     [EnumValue("ShortestRoute")]
-    ShortestRoute = 2
+    ShortestRoute
 }

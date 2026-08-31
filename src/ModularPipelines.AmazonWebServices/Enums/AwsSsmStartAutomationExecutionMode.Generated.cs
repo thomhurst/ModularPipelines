@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmStartAutomationExecutionMode
 {
     [EnumValue("Auto")]
-    Auto = 1,
+    Auto,
 
     [EnumValue("Interactive")]
-    Interactive = 2
+    Interactive
 }

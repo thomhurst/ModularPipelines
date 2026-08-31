@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateTransitGatewayMeteringPolicyEntrySourceTransitGatewayAttachmentType
 {
     [EnumValue("vpc")]
-    Vpc = 1,
+    Vpc,
 
     [EnumValue("vpn")]
-    Vpn = 2,
+    Vpn,
 
     [EnumValue("vpn-concentrator")]
-    VpnConcentrator = 3,
+    VpnConcentrator,
 
     [EnumValue("direct-connect-gateway")]
-    DirectConnectGateway = 4,
+    DirectConnectGateway,
 
     [EnumValue("connect")]
-    Connect = 5,
+    Connect,
 
     [EnumValue("peering")]
-    Peering = 6,
+    Peering,
 
     [EnumValue("tgw-peering")]
-    TgwPeering = 7,
+    TgwPeering,
 
     [EnumValue("network-function")]
-    NetworkFunction = 8,
+    NetworkFunction,
 
     [EnumValue("client-vpn")]
-    ClientVpn = 9
+    ClientVpn
 }

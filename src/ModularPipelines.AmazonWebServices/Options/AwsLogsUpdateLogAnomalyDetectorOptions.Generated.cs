@@ -43,7 +43,7 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions
     [CliOption("--anomaly-visibility-time")]
     public int? AnomalyVisibilityTime { get; set; }
 
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

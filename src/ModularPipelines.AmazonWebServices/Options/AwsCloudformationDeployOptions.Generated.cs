@@ -48,7 +48,7 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliFlag("--no-execute-changeset")]
     public bool? NoExecuteChangeSet { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     [CliOption("--role-arn")]
@@ -57,11 +57,11 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
-    [CliFlag("--fail-on-empty-changeset")]
+    /// <summary>
+    /// Specify if the CLI should return a non-zero exit code when there are no changes to be made to the stack. By default, a zero exit code is re- turned, and this is the same behavior that occurs when
+    /// </summary>
+    [CliFlag("--fail-on-empty-changeset", NegatedName = "--no-fail-on-empty-changeset")]
     public bool? FailOnEmptyChangeSet { get; set; }
-
-    [CliFlag("--no-fail-on-empty-changeset")]
-    public bool? NoFailOnEmptyChangeSet { get; set; }
 
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

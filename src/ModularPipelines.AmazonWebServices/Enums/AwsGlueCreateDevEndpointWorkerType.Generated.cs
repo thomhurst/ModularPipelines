@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueCreateDevEndpointWorkerType
 {
     [EnumValue("Standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("G")]
-    G = 2
+    G
 }

@@ -31,7 +31,10 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     [CliOption("--contains-labels", GroupValues = true)]
     public IEnumerable<string>? ContainsLabels { get; set; }
 
-    [CliFlag("--labeled")]
+    /// <summary>
+    /// Specify true to get only the JSON Lines where the image is labeled. Specify false to get only the JSON Lines where the image isn't la- beled. If you don't specify Labeled , ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
+    /// </summary>
+    [CliFlag("--labeled", NegatedName = "--no-labeled")]
     public bool? Labeled { get; set; }
 
     /// <summary>
@@ -40,7 +43,10 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     [CliOption("--source-ref-contains")]
     public string? SourceRefContains { get; set; }
 
-    [CliFlag("--has-errors")]
+    /// <summary>
+    /// Specifies an error filter for the response. Specify True to only in- clude entries that have errors.
+    /// </summary>
+    [CliFlag("--has-errors", NegatedName = "--no-has-errors")]
     public bool? HasErrors { get; set; }
 
     [CliOption("--cli-input-json")]

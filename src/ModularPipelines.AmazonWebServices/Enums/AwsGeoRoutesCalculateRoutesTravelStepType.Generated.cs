@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoRoutesCalculateRoutesTravelStepType
 {
     [EnumValue("Default")]
-    Default = 1,
+    Default,
 
     [EnumValue("TurnByTurn")]
-    TurnByTurn = 2
+    TurnByTurn
 }

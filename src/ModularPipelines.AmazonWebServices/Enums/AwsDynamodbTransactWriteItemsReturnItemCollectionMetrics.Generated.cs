@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbTransactWriteItemsReturnItemCollectionMetrics
 {
     [EnumValue("SIZE")]
-    Size = 1,
+    Size,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

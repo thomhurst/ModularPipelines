@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsGetWorkflowType
 {
     [EnumValue("PRIVATE")]
-    Private = 1,
+    Private,
 
     [EnumValue("READY2RUN")]
-    Ready2Run = 2,
+    Ready2Run,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

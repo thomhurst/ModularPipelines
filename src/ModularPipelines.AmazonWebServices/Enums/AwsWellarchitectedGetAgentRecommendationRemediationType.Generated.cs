@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedGetAgentRecommendationRemediationType
 {
     [EnumValue("AUTO_REMEDIATION")]
-    AutoRemediation = 1,
+    AutoRemediation,
 
     [EnumValue("CONSOLE")]
-    Console = 2,
+    Console,
 
     [EnumValue("CLI")]
-    Cli = 3,
+    Cli,
 
     [EnumValue("SDK")]
-    Sdk = 4,
+    Sdk,
 
     [EnumValue("IAC")]
-    Iac = 5,
+    Iac,
 
     [EnumValue("MCP")]
-    Mcp = 6
+    Mcp
 }

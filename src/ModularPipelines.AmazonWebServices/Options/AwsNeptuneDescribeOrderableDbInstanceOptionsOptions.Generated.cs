@@ -43,7 +43,10 @@ public record AwsNeptuneDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
 
-    [CliFlag("--vpc")]
+    /// <summary>
+    /// The VPC filter value. Specify this parameter to show only the avail- able VPC or non-VPC offerings.
+    /// </summary>
+    [CliFlag("--vpc", NegatedName = "--no-vpc")]
     public bool? Vpc { get; set; }
 
     /// <summary>

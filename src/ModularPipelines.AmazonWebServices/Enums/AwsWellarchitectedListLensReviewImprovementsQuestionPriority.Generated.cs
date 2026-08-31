@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListLensReviewImprovementsQuestionPriority
 {
     [EnumValue("PRIORITIZED")]
-    Prioritized = 1,
+    Prioritized,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

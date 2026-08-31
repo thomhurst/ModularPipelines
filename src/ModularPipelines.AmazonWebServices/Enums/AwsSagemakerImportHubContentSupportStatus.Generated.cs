@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerImportHubContentSupportStatus
 {
     [EnumValue("Supported")]
-    Supported = 1,
+    Supported,
 
     [EnumValue("Deprecated")]
-    Deprecated = 2,
+    Deprecated,
 
     [EnumValue("Restricted")]
-    Restricted = 3
+    Restricted
 }

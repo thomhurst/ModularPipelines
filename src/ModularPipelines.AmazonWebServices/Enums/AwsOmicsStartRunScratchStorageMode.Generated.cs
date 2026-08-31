@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsStartRunScratchStorageMode
 {
     [EnumValue("LOCAL")]
-    Local = 1,
+    Local,
 
     [EnumValue("SHARED")]
-    Shared = 2,
+    Shared,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

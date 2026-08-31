@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -730,21 +730,6 @@ public class AwsElasticache : IAwsElasticache
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticacheDescribeServiceUpdatesOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can option- ally describe a single snapshot, or just the snapshots associated with a particular cache cluster. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providin...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
-        AwsElasticacheDescribeSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticacheDescribeSnapshotsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

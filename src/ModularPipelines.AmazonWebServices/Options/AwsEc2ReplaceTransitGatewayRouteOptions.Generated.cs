@@ -33,10 +33,16 @@ public record AwsEc2ReplaceTransitGatewayRouteOptions : AwsOptions
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; set; }
 
-    [CliFlag("--blackhole")]
+    /// <summary>
+    /// Indicates whether traffic matching this route is to be dropped.
+    /// </summary>
+    [CliFlag("--blackhole", NegatedName = "--no-blackhole")]
     public bool? Blackhole { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -36,7 +36,10 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions
     [CliOption("--service-access-role-arn")]
     public string? ServiceAccessRoleArn { get; set; }
 
-    [CliFlag("--enable-cloudwatch-logs")]
+    /// <summary>
+    /// Specifies whether to enable CloudWatch logs for the data migration.
+    /// </summary>
+    [CliFlag("--enable-cloudwatch-logs", NegatedName = "--no-enable-cloudwatch-logs")]
     public bool? EnableCloudwatchLogs { get; set; }
 
     /// <summary>

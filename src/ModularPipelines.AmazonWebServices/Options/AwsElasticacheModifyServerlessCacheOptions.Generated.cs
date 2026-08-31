@@ -36,7 +36,10 @@ public record AwsElasticacheModifyServerlessCacheOptions : AwsOptions
     [CliOption("--cache-usage-limits")]
     public string? CacheUsageLimits { get; set; }
 
-    [CliFlag("--remove-user-group")]
+    /// <summary>
+    /// The identifier of the UserGroup to be removed from association with the Valkey and Redis OSS serverless cache. Available for Valkey and Redis OSS only. Default is NULL.
+    /// </summary>
+    [CliFlag("--remove-user-group", NegatedName = "--no-remove-user-group")]
     public bool? RemoveUserGroup { get; set; }
 
     /// <summary>

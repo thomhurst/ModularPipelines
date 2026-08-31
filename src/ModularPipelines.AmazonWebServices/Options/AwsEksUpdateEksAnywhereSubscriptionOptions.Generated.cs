@@ -25,7 +25,7 @@ public record AwsEksUpdateEksAnywhereSubscriptionOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliFlag("--auto-renew")]
+    [CliFlag("--auto-renew", NegatedName = "--no-auto-renew")]
     public bool? AutoRenew { get; set; }
 
     /// <summary>

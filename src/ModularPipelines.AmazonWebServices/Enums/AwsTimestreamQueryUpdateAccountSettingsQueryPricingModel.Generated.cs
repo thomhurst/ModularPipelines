@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamQueryUpdateAccountSettingsQueryPricingModel
 {
     [EnumValue("BYTES_SCANNED")]
-    BytesScanned = 1,
+    BytesScanned,
 
     [EnumValue("COMPUTE_UNITS")]
-    ComputeUnits = 2
+    ComputeUnits
 }

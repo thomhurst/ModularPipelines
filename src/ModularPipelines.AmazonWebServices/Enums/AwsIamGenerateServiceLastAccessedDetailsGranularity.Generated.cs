@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamGenerateServiceLastAccessedDetailsGranularity
 {
     [EnumValue("SERVICE_LEVEL")]
-    ServiceLevel = 1,
+    ServiceLevel,
 
     [EnumValue("ACTION_LEVEL")]
-    ActionLevel = 2
+    ActionLevel
 }

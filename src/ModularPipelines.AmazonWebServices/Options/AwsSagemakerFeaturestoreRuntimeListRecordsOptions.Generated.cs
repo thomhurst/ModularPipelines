@@ -25,7 +25,10 @@ public record AwsSagemakerFeaturestoreRuntimeListRecordsOptions : AwsOptions
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; set; }
 
-    [CliFlag("--include-soft-deleted-records")]
+    /// <summary>
+    /// If set to true , the result includes records that have been soft deleted.
+    /// </summary>
+    [CliFlag("--include-soft-deleted-records", NegatedName = "--no-include-soft-deleted-records")]
     public bool? IncludeSoftDeletedRecords { get; set; }
 
     [CliOption("--cli-input-json")]

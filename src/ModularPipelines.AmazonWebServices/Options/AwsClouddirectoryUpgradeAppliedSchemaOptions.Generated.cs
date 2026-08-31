@@ -27,7 +27,10 @@ public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Used for testing whether the major version schemas are backward com- patible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

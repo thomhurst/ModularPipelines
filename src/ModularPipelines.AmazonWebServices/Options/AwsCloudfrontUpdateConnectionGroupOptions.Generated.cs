@@ -24,7 +24,10 @@ public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliFlag("--ipv6-enabled")]
+    /// <summary>
+    /// Enable IPv6 for the connection group. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide .
+    /// </summary>
+    [CliFlag("--ipv6-enabled", NegatedName = "--no-ipv6-enabled")]
     public bool? Ipv6Enabled { get; set; }
 
     [CliOption("--if-match")]
@@ -36,7 +39,10 @@ public record AwsCloudfrontUpdateConnectionGroupOptions : AwsOptions
     [CliOption("--anycast-ip-list-id")]
     public string? AnycastIpListId { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Whether the connection group is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

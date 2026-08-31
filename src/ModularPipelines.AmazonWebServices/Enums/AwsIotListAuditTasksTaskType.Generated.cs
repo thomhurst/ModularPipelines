@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListAuditTasksTaskType
 {
     [EnumValue("ON_DEMAND_AUDIT_TASK")]
-    OnDemandAuditTask = 1,
+    OnDemandAuditTask,
 
     [EnumValue("SCHEDULED_AUDIT_TASK")]
-    ScheduledAuditTask = 2
+    ScheduledAuditTask
 }

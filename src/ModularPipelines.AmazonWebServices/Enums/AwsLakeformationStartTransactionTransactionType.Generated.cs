@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLakeformationStartTransactionTransactionType
 {
     [EnumValue("READ_AND_WRITE")]
-    ReadAndWrite = 1,
+    ReadAndWrite,
 
     [EnumValue("READ_ONLY")]
-    ReadOnly = 2
+    ReadOnly
 }

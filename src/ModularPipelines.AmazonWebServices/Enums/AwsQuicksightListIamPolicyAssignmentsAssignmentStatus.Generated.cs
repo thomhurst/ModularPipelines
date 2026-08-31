@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightListIamPolicyAssignmentsAssignmentStatus
 {
     [EnumValue("ENABLED")]
-    Enabled = 1,
+    Enabled,
 
     [EnumValue("DRAFT")]
-    Draft = 2,
+    Draft,
 
     [EnumValue("DISABLED")]
-    Disabled = 3
+    Disabled
 }

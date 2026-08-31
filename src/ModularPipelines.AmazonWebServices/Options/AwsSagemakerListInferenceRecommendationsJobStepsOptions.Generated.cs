@@ -36,7 +36,7 @@ public record AwsSagemakerListInferenceRecommendationsJobStepsOptions : AwsOptio
     /// A filter to return details about the specified type of subtask. BENCHMARK : Evaluate the performance of your model on different instance types. Possible values: o BENCHMARK
     /// </summary>
     [CliOption("--step-type")]
-    public AwsSagemakerListInferenceRecommendationsJobStepsStepType? StepType { get; set; }
+    public string? StepType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -24,7 +24,10 @@ public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions
     [CliOption("--blue-green-deployment-identifier")]
     public string? BlueGreenDeploymentIdentifier { get; set; }
 
-    [CliFlag("--delete-target")]
+    /// <summary>
+    /// Specifies whether to delete the resources in the green environment. You can't specify this option if the blue/green deployment status is SWITCHOVER_COMPLETED .
+    /// </summary>
+    [CliFlag("--delete-target", NegatedName = "--no-delete-target")]
     public bool? DeleteTarget { get; set; }
 
     [CliOption("--cli-input-json")]

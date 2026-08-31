@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("fms", "list-protocols-lists")]
 public record AwsFmsListProtocolsListsOptions : AwsOptions
 {
-    [CliFlag("--default-lists")]
+    /// <summary>
+    /// Specifies whether the lists to retrieve are default lists owned by Firewall Manager.
+    /// </summary>
+    [CliFlag("--default-lists", NegatedName = "--no-default-lists")]
     public bool? DefaultLists { get; set; }
 
     [CliOption("--cli-input-json")]

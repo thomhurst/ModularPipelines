@@ -30,7 +30,10 @@ public record AwsChimeSdkMessagingChannelFlowCallbackOptions : AwsOptions
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; set; }
 
-    [CliFlag("--delete-resource")]
+    /// <summary>
+    /// When a processor determines that a message needs to be DENIED , pass this parameter with a value of true.
+    /// </summary>
+    [CliFlag("--delete-resource", NegatedName = "--no-delete-resource")]
     public bool? DeleteResource { get; set; }
 
     [CliOption("--channel-message")]

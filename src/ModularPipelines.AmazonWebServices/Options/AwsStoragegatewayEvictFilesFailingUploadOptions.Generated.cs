@@ -24,7 +24,10 @@ public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; set; }
 
-    [CliFlag("--force-remove")]
+    /// <summary>
+    /// Specifies whether cache entries with full or partial file data cur- rently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments: o False - The cache clean operation skips cache entries failing up- load if they are associated with data currently stored on the gateway. This preserves the cached data. o True - The cache clean operation removes cache entries failing up- load even if they are associated with data currently stored on the gateway. This deletes the cached data. WARNING: If ForceRemove is set to True , the cache clean operation will delete file data from the gateway which might otherwise be re- coverable.
+    /// </summary>
+    [CliFlag("--force-remove", NegatedName = "--no-force-remove")]
     public bool? ForceRemove { get; set; }
 
     [CliOption("--cli-input-json")]

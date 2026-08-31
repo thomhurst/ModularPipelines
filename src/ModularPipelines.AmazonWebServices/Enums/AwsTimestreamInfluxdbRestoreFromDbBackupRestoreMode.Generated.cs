@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamInfluxdbRestoreFromDbBackupRestoreMode
 {
     [EnumValue("NEW_RESOURCE")]
-    NewResource = 1,
+    NewResource,
 
     [EnumValue("REPLACE_EXISTING")]
-    ReplaceExisting = 2
+    ReplaceExisting
 }

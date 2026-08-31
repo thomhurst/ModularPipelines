@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlDiscontinuityMode
 {
     [EnumValue("ALWAYS")]
-    Always = 1,
+    Always,
 
     [EnumValue("NEVER")]
-    Never = 2,
+    Never,
 
     [EnumValue("ON_DISCONTINUITY")]
-    OnDiscontinuity = 3
+    OnDiscontinuity
 }

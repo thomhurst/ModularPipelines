@@ -42,7 +42,10 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions
     [CliOption("--min-acu")]
     public int? MinAcu { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name Sys- tem (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP ad- dress. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB shard group is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB shard group is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB shard group is public.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>

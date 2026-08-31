@@ -24,7 +24,10 @@ public record AwsAthenaDeleteDataCatalogOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--delete-catalog-only")]
+    /// <summary>
+    /// Deletes the Athena Data Catalog. You can only use this with the FED- ERATED catalogs. You usually perform this before registering the connector with Glue Data Catalog. After deletion, you will have to manage the Glue Connection and Lambda function.
+    /// </summary>
+    [CliFlag("--delete-catalog-only", NegatedName = "--no-delete-catalog-only")]
     public bool? DeleteCatalogOnly { get; set; }
 
     [CliOption("--cli-input-json")]

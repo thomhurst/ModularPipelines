@@ -42,7 +42,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// This parameter does not apply to Amazon DocumentDB. Amazon Docu- mentDB does not perform minor version upgrades regardless of the value set. Default: false
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -54,7 +57,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -63,7 +69,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see Using Amazon Performance Insights .
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>

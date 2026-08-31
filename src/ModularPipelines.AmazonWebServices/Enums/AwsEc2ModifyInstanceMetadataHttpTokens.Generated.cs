@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyInstanceMetadataHttpTokens
 {
     [EnumValue("optional")]
-    Optional = 1,
+    Optional,
 
     [EnumValue("required")]
-    Required = 2
+    Required
 }

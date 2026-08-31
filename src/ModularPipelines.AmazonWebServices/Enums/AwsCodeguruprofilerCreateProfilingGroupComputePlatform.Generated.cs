@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeguruprofilerCreateProfilingGroupComputePlatform
 {
     [EnumValue("Default")]
-    Default = 1,
+    Default,
 
     [EnumValue("AWSLambda")]
-    AwsLambda = 2
+    AwsLambda
 }

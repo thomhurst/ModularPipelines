@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceListPhoneNumbersProductType
 {
     [EnumValue("VoiceConnector")]
-    VoiceConnector = 1,
+    VoiceConnector,
 
     [EnumValue("SipMediaApplicationDialIn")]
-    SipMediaApplicationDialIn = 2
+    SipMediaApplicationDialIn
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlListRegistryRecordsDescriptorType
 {
     [EnumValue("MCP")]
-    Mcp = 1,
+    Mcp,
 
     [EnumValue("A2A")]
-    A2A = 2,
+    A2A,
 
     [EnumValue("CUSTOM")]
-    Custom = 3,
+    Custom,
 
     [EnumValue("AGENT_SKILLS")]
-    AgentSkills = 4
+    AgentSkills
 }

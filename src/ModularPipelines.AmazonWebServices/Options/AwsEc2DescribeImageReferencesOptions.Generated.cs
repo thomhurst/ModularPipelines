@@ -25,7 +25,10 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions
     [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
-    [CliFlag("--include-all-resource-types")]
+    /// <summary>
+    /// Specifies whether to check all supported Amazon Web Services re- source types for image references. When specified, default values are applied for ResourceTypeOptions . For the default values, see How AMI reference checks work in the Amazon EC2 User Guide . If you also specify ResourceTypes with ResourceTypeOptions , your specified values override the default values. Supported resource types: ec2:Instance | ec2:LaunchTemplate | ssm:Parameter | imagebuilder:ImageRecipe | imagebuilder:Contain- erRecipe Either IncludeAllResourceTypes or ResourceTypes must be specified.
+    /// </summary>
+    [CliFlag("--include-all-resource-types", NegatedName = "--no-include-all-resource-types")]
     public bool? IncludeAllResourceTypes { get; set; }
 
     /// <summary>
@@ -34,7 +37,10 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

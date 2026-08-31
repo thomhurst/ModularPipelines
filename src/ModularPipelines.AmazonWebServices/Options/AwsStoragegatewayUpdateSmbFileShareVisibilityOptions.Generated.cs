@@ -24,7 +24,7 @@ public record AwsStoragegatewayUpdateSmbFileShareVisibilityOptions : AwsOptions
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; set; }
 
-    [CliFlag("--file-shares-visible")]
+    [CliFlag("--file-shares-visible", NegatedName = "--no-file-shares-visible")]
     public bool? FileSharesVisible { get; set; }
 
     [CliOption("--cli-input-json")]

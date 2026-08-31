@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerUpdateImageVersionProcessor
 {
     [EnumValue("CPU")]
-    Cpu = 1,
+    Cpu,
 
     [EnumValue("GPU")]
-    Gpu = 2
+    Gpu
 }

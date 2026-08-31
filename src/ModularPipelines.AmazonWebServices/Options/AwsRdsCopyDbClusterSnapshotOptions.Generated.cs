@@ -39,7 +39,10 @@ public record AwsRdsCopyDbClusterSnapshotOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the source DB cluster snap- shot to the target DB cluster snapshot. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>

@@ -27,7 +27,10 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether the trust anchor is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotCreateDomainConfigurationServiceType
 {
     [EnumValue("DATA")]
-    Data = 1,
+    Data,
 
     [EnumValue("CREDENTIAL_PROVIDER")]
-    CredentialProvider = 2,
+    CredentialProvider,
 
     [EnumValue("JOBS")]
-    Jobs = 3
+    Jobs
 }

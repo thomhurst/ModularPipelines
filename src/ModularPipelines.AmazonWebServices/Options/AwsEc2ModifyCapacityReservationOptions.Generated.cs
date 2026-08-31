@@ -43,10 +43,16 @@ public record AwsEc2ModifyCapacityReservationOptions : AwsOptions
     [CliOption("--end-date-type")]
     public AwsEc2ModifyCapacityReservationEndDateType? EndDateType { get; set; }
 
-    [CliFlag("--accept")]
+    /// <summary>
+    /// Reserved. Capacity Reservations you have created are accepted by de- fault.
+    /// </summary>
+    [CliFlag("--accept", NegatedName = "--no-accept")]
     public bool? Accept { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

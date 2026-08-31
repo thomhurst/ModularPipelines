@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeguruprofilerListProfileTimesOrderBy
 {
     [EnumValue("TimestampDescending")]
-    TimestampDescending = 1,
+    TimestampDescending,
 
     [EnumValue("TimestampAscending")]
-    TimestampAscending = 2
+    TimestampAscending
 }

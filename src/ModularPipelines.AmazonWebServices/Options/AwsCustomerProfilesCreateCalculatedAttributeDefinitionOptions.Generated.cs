@@ -58,7 +58,10 @@ public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : Aw
     [CliOption("--statistic")]
     public string? Statistic { get; set; }
 
-    [CliFlag("--use-historical-data")]
+    /// <summary>
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    /// </summary>
+    [CliFlag("--use-historical-data", NegatedName = "--no-use-historical-data")]
     public bool? UseHistoricalData { get; set; }
 
     /// <summary>

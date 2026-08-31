@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMqCreateBrokerStorageType
 {
     [EnumValue("EBS")]
-    Ebs = 1,
+    Ebs,
 
     [EnumValue("EFS")]
-    Efs = 2
+    Efs
 }

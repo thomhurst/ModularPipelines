@@ -21,10 +21,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "delete-instance-event-window")]
 public record AwsEc2DeleteInstanceEventWindowOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Specify true to force delete the event window. Use the force delete parameter if the event window is currently associated with targets.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--instance-event-window-id")]

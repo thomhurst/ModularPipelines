@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbCreateTableTableClass
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("STANDARD_INFREQUENT_ACCESS")]
-    StandardInfrequentAccess = 2
+    StandardInfrequentAccess
 }

@@ -23,7 +23,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "create-fleet")]
 public record AwsEc2CreateFleetOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -64,7 +67,7 @@ public record AwsEc2CreateFleetOptions : AwsOptions
     public string? TargetCapacitySpecification { get; set; }
 
     /// <summary>
-    /// | --no-terminate-in- stances-with-expiration (boolean) Indicates whether running instances should be terminated when the EC2 Fleet expires.
+    /// stances-with-expiration (boolean) Indicates whether running instances should be terminated when the EC2 Fleet expires.
     /// </summary>
     [CliFlag("--terminate-instances-with-expiration")]
     public bool? TerminateInstancesWithExpiration { get; set; }
@@ -87,7 +90,10 @@ public record AwsEc2CreateFleetOptions : AwsOptions
     [CliOption("--valid-until")]
     public string? ValidUntil { get; set; }
 
-    [CliFlag("--replace-unhealthy-instances")]
+    /// <summary>
+    /// Indicates whether EC2 Fleet should replace unhealthy Spot Instances. Supported only for fleets of type maintain . For more information, see EC2 Fleet health checks in the Amazon EC2 User Guide .
+    /// </summary>
+    [CliFlag("--replace-unhealthy-instances", NegatedName = "--no-replace-unhealthy-instances")]
     public bool? ReplaceUnhealthyInstances { get; set; }
 
     /// <summary>

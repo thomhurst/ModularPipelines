@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLakeformationListLfTagsResourceShareType
 {
     [EnumValue("FOREIGN")]
-    Foreign = 1,
+    Foreign,
 
     [EnumValue("ALL")]
-    All = 2
+    All
 }

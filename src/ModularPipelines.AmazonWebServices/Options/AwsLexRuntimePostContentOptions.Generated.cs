@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lex-runtime", "post-content")]
-public record AwsLexRuntimePostContentOptions : AwsOptions
+public record AwsLexRuntimePostContentOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--bot-name")]
     public string? BotName { get; set; }

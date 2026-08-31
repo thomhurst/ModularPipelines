@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2AllocateIpamPoolCidrCidr
 {
     [EnumValue("Any")]
-    Any = 0,
+    Any,
 
     [EnumValue("available")]
-    Available = 1,
+    Available,
 
     [EnumValue("IPv4")]
-    IPv4 = 2,
+    IPv4,
 
     [EnumValue("or")]
-    Or = 3,
+    Or,
 
     [EnumValue("IPv6")]
-    IPv6 = 4,
+    IPv6,
 
     [EnumValue("CIDR")]
-    Cidr = 5
+    Cidr
 }

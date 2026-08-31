@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "update-security-hub-configuration")]
 public record AwsSecurityhubUpdateSecurityHubConfigurationOptions : AwsOptions
 {
-    [CliFlag("--auto-enable-controls")]
+    /// <summary>
+    /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true , and new controls are enabled auto- matically. To not automatically enable new controls, set this to false . When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED . It can take up to several days for Se- curity Hub CSPM to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub CSPM will maintain that designation regardless of whether you have Au- toEnableControls set to true .
+    /// </summary>
+    [CliFlag("--auto-enable-controls", NegatedName = "--no-auto-enable-controls")]
     public bool? AutoEnableControls { get; set; }
 
     /// <summary>

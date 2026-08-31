@@ -26,7 +26,10 @@ public record AwsApigatewayv2CreateRouteOptions : AwsOptions
     [CliOption("--api-id")]
     public string? ApiId { get; set; }
 
-    [CliFlag("--api-key-required")]
+    /// <summary>
+    /// Specifies whether an API key is required for the route. Supported only for WebSocket APIs.
+    /// </summary>
+    [CliFlag("--api-key-required", NegatedName = "--no-api-key-required")]
     public bool? ApiKeyRequired { get; set; }
 
     /// <summary>

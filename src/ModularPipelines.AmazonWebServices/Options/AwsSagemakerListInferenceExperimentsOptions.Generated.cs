@@ -33,7 +33,7 @@ public record AwsSagemakerListInferenceExperimentsOptions : AwsOptions
     /// Selects inference experiments of this type. For the possible types of inference experiments, see CreateInferenceExperiment . Possible values: o ShadowMode
     /// </summary>
     [CliOption("--type")]
-    public AwsSagemakerListInferenceExperimentsType? Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// Selects inference experiments which are in this status. For the pos- sible statuses, see DescribeInferenceExperiment . Possible values: o Creating o Created o Updating o Running o Starting o Stopping o Completed o Cancelled

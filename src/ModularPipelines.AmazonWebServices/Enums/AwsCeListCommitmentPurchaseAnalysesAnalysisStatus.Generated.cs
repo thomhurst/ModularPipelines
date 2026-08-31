@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCeListCommitmentPurchaseAnalysesAnalysisStatus
 {
     [EnumValue("SUCCEEDED")]
-    Succeeded = 1,
+    Succeeded,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed
 }

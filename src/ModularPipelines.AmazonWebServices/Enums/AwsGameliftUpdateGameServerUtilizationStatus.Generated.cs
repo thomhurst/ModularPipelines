@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftUpdateGameServerUtilizationStatus
 {
     [EnumValue("AVAILABLE")]
-    Available = 1,
+    Available,
 
     [EnumValue("UTILIZED")]
-    Utilized = 2
+    Utilized
 }

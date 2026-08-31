@@ -47,7 +47,10 @@ public record AwsLambdaAddPermissionOptions : AwsOptions
     [CliOption("--function-url-auth-type")]
     public AwsLambdaAddPermissionFunctionUrlAuthType? FunctionUrlAuthType { get; set; }
 
-    [CliFlag("--invoked-via-function-url")]
+    /// <summary>
+    /// Indicates whether the permission applies when the function is in- voked through a function URL.
+    /// </summary>
+    [CliFlag("--invoked-via-function-url", NegatedName = "--no-invoked-via-function-url")]
     public bool? InvokedViaFunctionUrl { get; set; }
 
     /// <summary>

@@ -25,7 +25,10 @@ public record AwsIotListAttachedPoliciesOptions : AwsOptions
     [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// When true, recursively list attached policies.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>

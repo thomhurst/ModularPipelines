@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "get-code-binding-source")]
-public record AwsSchemasGetCodeBindingSourceOptions : AwsOptions
+public record AwsSchemasGetCodeBindingSourceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--language")]
     public string? Language { get; set; }

@@ -24,7 +24,10 @@ public record AwsM2StopApplicationOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliFlag("--force-stop")]
+    /// <summary>
+    /// Stopping an application process can take a long time. Setting this parameter to true lets you force stop the application so you don't need to wait until the process finishes to apply another action on the application. The default value is false.
+    /// </summary>
+    [CliFlag("--force-stop", NegatedName = "--no-force-stop")]
     public bool? ForceStop { get; set; }
 
     [CliOption("--cli-input-json")]

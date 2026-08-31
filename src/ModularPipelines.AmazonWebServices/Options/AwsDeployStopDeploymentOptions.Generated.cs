@@ -24,7 +24,10 @@ public record AwsDeployStopDeploymentOptions : AwsOptions
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CliFlag("--auto-rollback-enabled")]
+    /// <summary>
+    /// Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision.
+    /// </summary>
+    [CliFlag("--auto-rollback-enabled", NegatedName = "--no-auto-rollback-enabled")]
     public bool? AutoRollbackEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

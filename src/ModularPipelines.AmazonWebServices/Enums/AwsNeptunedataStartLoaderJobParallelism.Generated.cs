@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptunedataStartLoaderJobParallelism
 {
     [EnumValue("LOW")]
-    Low = 1,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 3,
+    High,
 
     [EnumValue("OVERSUBSCRIBE")]
-    Oversubscribe = 4
+    Oversubscribe
 }

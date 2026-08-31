@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPollyStartSpeechSynthesisTaskEngine
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("neural")]
-    Neural = 2,
+    Neural,
 
     [EnumValue("long-form")]
-    LongForm = 3,
+    LongForm,
 
     [EnumValue("generative")]
-    Generative = 4
+    Generative
 }

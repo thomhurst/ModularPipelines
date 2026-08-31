@@ -41,7 +41,10 @@ public record AwsNetworkFirewallUpdateSubnetChangeProtectionOptions : AwsOptions
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliFlag("--subnet-change-protection")]
+    /// <summary>
+    /// [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
+    [CliFlag("--subnet-change-protection", NegatedName = "--no-subnet-change-protection")]
     public bool? SubnetChangeProtection { get; set; }
 
     [CliOption("--cli-input-json")]

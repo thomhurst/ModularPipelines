@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2PutConfigurationSetTrackingHttpsPolicy
 {
     [EnumValue("REQUIRE")]
-    Require = 1,
+    Require,
 
     [EnumValue("REQUIRE_OPEN_ONLY")]
-    RequireOpenOnly = 2,
+    RequireOpenOnly,
 
     [EnumValue("OPTIONAL")]
-    Optional = 3
+    Optional
 }

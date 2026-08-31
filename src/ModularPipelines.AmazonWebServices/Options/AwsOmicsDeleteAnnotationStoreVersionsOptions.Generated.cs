@@ -27,7 +27,10 @@ public record AwsOmicsDeleteAnnotationStoreVersionsOptions : AwsOptions
     [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the deletion of an annotation store version when imports are in-progress..
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLocationCalculateRouteTravelMode
 {
     [EnumValue("Car")]
-    Car = 1,
+    Car,
 
     [EnumValue("Truck")]
-    Truck = 2,
+    Truck,
 
     [EnumValue("Walking")]
-    Walking = 3,
+    Walking,
 
     [EnumValue("Bicycle")]
-    Bicycle = 4,
+    Bicycle,
 
     [EnumValue("Motorcycle")]
-    Motorcycle = 5
+    Motorcycle
 }

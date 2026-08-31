@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEventsUpdateApiDestinationHttpMethod
 {
     [EnumValue("POST")]
-    Post = 1,
+    Post,
 
     [EnumValue("GET")]
-    Get = 2,
+    Get,
 
     [EnumValue("HEAD")]
-    Head = 3,
+    Head,
 
     [EnumValue("OPTIONS")]
-    Options = 4,
+    Options,
 
     [EnumValue("PUT")]
-    Put = 5,
+    Put,
 
     [EnumValue("PATCH")]
-    Patch = 6,
+    Patch,
 
     [EnumValue("DELETE")]
-    Delete = 7
+    Delete
 }

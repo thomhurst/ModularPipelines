@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CopyVolumesVolumeType
 {
     [EnumValue("standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("io1")]
-    Io1 = 2,
+    Io1,
 
     [EnumValue("io2")]
-    Io2 = 3,
+    Io2,
 
     [EnumValue("gp2")]
-    Gp2 = 4,
+    Gp2,
 
     [EnumValue("sc1")]
-    Sc1 = 5,
+    Sc1,
 
     [EnumValue("st1")]
-    St1 = 6,
+    St1,
 
     [EnumValue("gp3")]
-    Gp3 = 7
+    Gp3
 }

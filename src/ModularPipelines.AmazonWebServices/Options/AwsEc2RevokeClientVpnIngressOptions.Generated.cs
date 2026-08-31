@@ -33,10 +33,16 @@ public record AwsEc2RevokeClientVpnIngressOptions : AwsOptions
     [CliOption("--access-group-id")]
     public string? AccessGroupId { get; set; }
 
-    [CliFlag("--revoke-all-groups")]
+    /// <summary>
+    /// Indicates whether access should be revoked for all groups for a sin- gle TargetNetworkCidr that earlier authorized ingress for all groups using AuthorizeAllGroups . This does not impact other authorization rules that allowed ingress to the same TargetNetworkCidr with a spe- cific AccessGroupId .
+    /// </summary>
+    [CliFlag("--revoke-all-groups", NegatedName = "--no-revoke-all-groups")]
     public bool? RevokeAllGroups { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

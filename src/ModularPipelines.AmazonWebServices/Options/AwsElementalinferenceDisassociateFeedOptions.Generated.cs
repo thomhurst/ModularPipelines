@@ -30,7 +30,10 @@ public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions
     [CliOption("--associated-resource-name")]
     public string? AssociatedResourceName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would suc- ceed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

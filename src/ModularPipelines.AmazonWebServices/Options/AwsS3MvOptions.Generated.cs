@@ -40,7 +40,7 @@ public record AwsS3MvOptions(
     [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CliFlag("--follow-symlinks")]
+    [CliFlag("--follow-symlinks", NegatedName = "--no-follow-symlinks")]
     public bool? FollowSymlinks { get; set; }
 
     [CliFlag("--no-guess-mime-type")]

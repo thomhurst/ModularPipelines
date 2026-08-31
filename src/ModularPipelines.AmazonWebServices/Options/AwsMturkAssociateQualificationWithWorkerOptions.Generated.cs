@@ -33,7 +33,10 @@ public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions
     [CliOption("--integer-value")]
     public int? IntegerValue { get; set; }
 
-    [CliFlag("--send-notification")]
+    /// <summary>
+    /// Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default.
+    /// </summary>
+    [CliFlag("--send-notification", NegatedName = "--no-send-notification")]
     public bool? SendNotification { get; set; }
 
     [CliOption("--cli-input-json")]

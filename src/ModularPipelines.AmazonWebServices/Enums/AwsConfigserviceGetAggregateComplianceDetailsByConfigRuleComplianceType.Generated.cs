@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleComplianceType
 {
     [EnumValue("COMPLIANT")]
-    Compliant = 1,
+    Compliant,
 
     [EnumValue("NON_COMPLIANT")]
-    NonCompliant = 2,
+    NonCompliant,
 
     [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 3,
+    NotApplicable,
 
     [EnumValue("INSUFFICIENT_DATA")]
-    InsufficientData = 4
+    InsufficientData
 }

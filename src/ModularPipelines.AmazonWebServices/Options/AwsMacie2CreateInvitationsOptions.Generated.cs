@@ -24,7 +24,10 @@ public record AwsMacie2CreateInvitationsOptions : AwsOptions
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
-    [CliFlag("--disable-email-notification")]
+    /// <summary>
+    /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The de- fault value is false.
+    /// </summary>
+    [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
     /// <summary>

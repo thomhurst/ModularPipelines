@@ -28,7 +28,10 @@ public record AwsObservabilityadminListCentralizationRulesForOrganizationOptions
     [CliOption("--rule-name-prefix")]
     public string? RuleNamePrefix { get; set; }
 
-    [CliFlag("--all-regions")]
+    /// <summary>
+    /// A flag determining whether to return organization centralization rules from all regions or only the current region.
+    /// </summary>
+    [CliFlag("--all-regions", NegatedName = "--no-all-regions")]
     public bool? AllRegions { get; set; }
 
     [CliOption("--cli-input-json")]

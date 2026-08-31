@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesRegisterWorkspaceDirectoryUserIdentityType
 {
     [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 1,
+    CustomerManaged,
 
     [EnumValue("AWS_DIRECTORY_SERVICE")]
-    AwsDirectoryService = 2,
+    AwsDirectoryService,
 
     [EnumValue("AWS_IAM_IDENTITY_CENTER")]
-    AwsIamIdentityCenter = 3
+    AwsIamIdentityCenter
 }

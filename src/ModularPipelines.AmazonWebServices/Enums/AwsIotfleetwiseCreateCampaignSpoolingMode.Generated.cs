@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseCreateCampaignSpoolingMode
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("TO_DISK")]
-    ToDisk = 2
+    ToDisk
 }

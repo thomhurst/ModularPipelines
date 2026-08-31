@@ -24,7 +24,10 @@ public record AwsOpensearchCancelDomainConfigChangeOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to True , returns the list of change IDs and properties that will be cancelled without actually cancelling the change.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

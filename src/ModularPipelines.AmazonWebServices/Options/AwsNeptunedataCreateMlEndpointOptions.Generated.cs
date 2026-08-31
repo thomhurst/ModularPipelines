@@ -39,7 +39,10 @@ public record AwsNeptunedataCreateMlEndpointOptions : AwsOptions
     [CliOption("--ml-model-transform-job-id")]
     public string? MlModelTransformJobId { get; set; }
 
-    [CliFlag("--update")]
+    /// <summary>
+    /// If set to true , update indicates that this is an update request. The default is false . You must supply either the mlModelTrainingJo- bId or the mlModelTransformJobId .
+    /// </summary>
+    [CliFlag("--update", NegatedName = "--no-update")]
     public bool? Update { get; set; }
 
     /// <summary>

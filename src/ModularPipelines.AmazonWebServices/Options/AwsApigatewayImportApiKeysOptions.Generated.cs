@@ -27,7 +27,10 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions
     [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// A query parameter to indicate whether to rollback ApiKey importation (true ) or not (false ) when error is encountered.
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOmicsGetReadSetFile
 {
     [EnumValue("SOURCE1")]
-    Source1 = 1,
+    Source1,
 
     [EnumValue("SOURCE2")]
-    Source2 = 2,
+    Source2,
 
     [EnumValue("INDEX")]
-    Index = 3
+    Index
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudfrontListCachePoliciesType
 {
     [EnumValue("managed")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("custom")]
-    Custom = 2
+    Custom
 }

@@ -24,7 +24,10 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliFlag("--use-service-linked-role")]
+    /// <summary>
+    /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A ser- vice-linked role is a unique type of IAM role that is linked di- rectly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Forma- tion .
+    /// </summary>
+    [CliFlag("--use-service-linked-role", NegatedName = "--no-use-service-linked-role")]
     public bool? UseServiceLinkedRole { get; set; }
 
     /// <summary>
@@ -33,13 +36,22 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliFlag("--with-federation")]
+    /// <summary>
+    /// Whether or not the resource is a federated resource.
+    /// </summary>
+    [CliFlag("--with-federation", NegatedName = "--no-with-federation")]
     public bool? WithFederation { get; set; }
 
-    [CliFlag("--hybrid-access-enabled")]
+    /// <summary>
+    /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+    /// </summary>
+    [CliFlag("--hybrid-access-enabled", NegatedName = "--no-hybrid-access-enabled")]
     public bool? HybridAccessEnabled { get; set; }
 
-    [CliFlag("--with-privileged-access")]
+    /// <summary>
+    /// Grants the calling principal the permissions to perform all sup- ported Lake Formation operations on the registered data location.
+    /// </summary>
+    [CliFlag("--with-privileged-access", NegatedName = "--no-with-privileged-access")]
     public bool? WithPrivilegedAccess { get; set; }
 
     /// <summary>

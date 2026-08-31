@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListModelCardExportJobsStatusEquals
 {
     [EnumValue("InProgress")]
-    InProgress = 1,
+    InProgress,
 
     [EnumValue("Completed")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("Failed")]
-    Failed = 3
+    Failed
 }

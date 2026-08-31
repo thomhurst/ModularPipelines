@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmCreateAssociationComplianceSeverity
 {
     [EnumValue("CRITICAL")]
-    Critical = 1,
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 2,
+    High,
 
     [EnumValue("MEDIUM")]
-    Medium = 3,
+    Medium,
 
     [EnumValue("LOW")]
-    Low = 4,
+    Low,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 5
+    Unspecified
 }

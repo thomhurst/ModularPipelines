@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationDeactivateTypeType
 {
     [EnumValue("RESOURCE")]
-    Resource = 1,
+    Resource,
 
     [EnumValue("MODULE")]
-    Module = 2,
+    Module,
 
     [EnumValue("HOOK")]
-    Hook = 3
+    Hook
 }

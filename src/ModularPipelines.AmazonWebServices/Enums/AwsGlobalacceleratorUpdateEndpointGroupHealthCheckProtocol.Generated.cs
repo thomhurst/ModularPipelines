@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlobalacceleratorUpdateEndpointGroupHealthCheckProtocol
 {
     [EnumValue("TCP")]
-    Tcp = 1,
+    Tcp,
 
     [EnumValue("HTTP")]
-    Http = 2,
+    Http,
 
     [EnumValue("HTTPS")]
-    Https = 3
+    Https
 }

@@ -24,7 +24,10 @@ public record AwsAppflowUnregisterConnectorOptions : AwsOptions
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

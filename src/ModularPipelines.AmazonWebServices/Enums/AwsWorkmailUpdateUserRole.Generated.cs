@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkmailUpdateUserRole
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("RESOURCE")]
-    Resource = 2,
+    Resource,
 
     [EnumValue("SYSTEM_USER")]
-    SystemUser = 3,
+    SystemUser,
 
     [EnumValue("REMOTE_USER")]
-    RemoteUser = 4
+    RemoteUser
 }

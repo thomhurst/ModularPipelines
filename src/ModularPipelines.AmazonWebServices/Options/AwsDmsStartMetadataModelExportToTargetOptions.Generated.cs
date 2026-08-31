@@ -27,7 +27,10 @@ public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; set; }
 
-    [CliFlag("--overwrite-extension-pack")]
+    /// <summary>
+    /// Specifies whether to overwrite the extension pack if one already ex- ists on the target database. The default value is true .
+    /// </summary>
+    [CliFlag("--overwrite-extension-pack", NegatedName = "--no-overwrite-extension-pack")]
     public bool? OverwriteExtensionPack { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -30,7 +30,10 @@ public record AwsResiliencehubv2UpdateSystemOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--sharing-enabled")]
+    /// <summary>
+    /// Whether cross-account sharing is enabled for the system.
+    /// </summary>
+    [CliFlag("--sharing-enabled", NegatedName = "--no-sharing-enabled")]
     public bool? SharingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

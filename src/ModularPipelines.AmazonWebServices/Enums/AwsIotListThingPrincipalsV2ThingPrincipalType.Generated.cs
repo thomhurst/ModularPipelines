@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListThingPrincipalsV2ThingPrincipalType
 {
     [EnumValue("EXCLUSIVE_THING")]
-    ExclusiveThing = 1,
+    ExclusiveThing,
 
     [EnumValue("NON_EXCLUSIVE_THING")]
-    NonExclusiveThing = 2
+    NonExclusiveThing
 }

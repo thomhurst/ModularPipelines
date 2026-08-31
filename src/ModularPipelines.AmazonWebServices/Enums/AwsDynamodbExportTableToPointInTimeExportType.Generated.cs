@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbExportTableToPointInTimeExportType
 {
     [EnumValue("FULL_EXPORT")]
-    FullExport = 1,
+    FullExport,
 
     [EnumValue("INCREMENTAL_EXPORT")]
-    IncrementalExport = 2
+    IncrementalExport
 }

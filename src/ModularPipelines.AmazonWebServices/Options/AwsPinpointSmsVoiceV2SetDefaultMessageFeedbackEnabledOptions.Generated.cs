@@ -24,7 +24,10 @@ public record AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions : Aws
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--message-feedback-enabled")]
+    /// <summary>
+    /// [required] Set to true to enable message feedback.
+    /// </summary>
+    [CliFlag("--message-feedback-enabled", NegatedName = "--no-message-feedback-enabled")]
     public bool? MessageFeedbackEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

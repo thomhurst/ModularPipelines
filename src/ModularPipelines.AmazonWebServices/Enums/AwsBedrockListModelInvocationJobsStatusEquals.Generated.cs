@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListModelInvocationJobsStatusEquals
 {
     [EnumValue("Submitted")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("InProgress")]
-    InProgress = 2,
+    InProgress,
 
     [EnumValue("Completed")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("Stopping")]
-    Stopping = 5,
+    Stopping,
 
     [EnumValue("Stopped")]
-    Stopped = 6,
+    Stopped,
 
     [EnumValue("PartiallyCompleted")]
-    PartiallyCompleted = 7,
+    PartiallyCompleted,
 
     [EnumValue("Expired")]
-    Expired = 8,
+    Expired,
 
     [EnumValue("Validating")]
-    Validating = 9,
+    Validating,
 
     [EnumValue("Scheduled")]
-    Scheduled = 10
+    Scheduled
 }

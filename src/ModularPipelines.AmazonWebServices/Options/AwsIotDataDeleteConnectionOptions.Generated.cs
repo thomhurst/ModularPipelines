@@ -24,10 +24,16 @@ public record AwsIotDataDeleteConnectionOptions : AwsOptions
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CliFlag("--clean-session")]
+    /// <summary>
+    /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to pre- serve the session state for persistent sessions . For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
+    /// </summary>
+    [CliFlag("--clean-session", NegatedName = "--no-clean-session")]
     public bool? CleanSession { get; set; }
 
-    [CliFlag("--prevent-will-message")]
+    /// <summary>
+    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is pub- lished).
+    /// </summary>
+    [CliFlag("--prevent-will-message", NegatedName = "--no-prevent-will-message")]
     public bool? PreventWillMessage { get; set; }
 
     [CliOption("--cli-input-json")]

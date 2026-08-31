@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListFeatureGroupsOfflineStoreStatusEquals
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Blocked")]
-    Blocked = 2,
+    Blocked,
 
     [EnumValue("Disabled")]
-    Disabled = 3
+    Disabled
 }

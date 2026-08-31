@@ -104,7 +104,10 @@ public record AwsEsUpdateElasticsearchDomainConfigOptions : AwsOptions
     [CliOption("--auto-tune-options")]
     public string? AutoTuneOptions { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// This flag, when set to True, specifies whether the UpdateElastic- searchDomain request should return the results of validation checks without actually applying the change. This flag, when set to True, specifies the deployment mechanism through which the update shall be applied on the domain. This will not actually perform the Update.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -52,10 +52,16 @@ public record AwsS3vectorsListVectorsOptions : AwsOptions
     [CliOption("--segment-index")]
     public int? SegmentIndex { get; set; }
 
-    [CliFlag("--return-data")]
+    /// <summary>
+    /// If true, the vector data of each vector will be included in the re- sponse. The default value is false .
+    /// </summary>
+    [CliFlag("--return-data", NegatedName = "--no-return-data")]
     public bool? ReturnData { get; set; }
 
-    [CliFlag("--return-metadata")]
+    /// <summary>
+    /// If true, the metadata associated with each vector will be included in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]
     public bool? ReturnMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

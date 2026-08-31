@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift-serverless", "restore-from-recovery-point")]
 public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions
 {
-    [CliFlag("--maintain-integration")]
+    /// <summary>
+    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// </summary>
+    [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
     public bool? MaintainIntegration { get; set; }
 
     [CliOption("--namespace-name")]

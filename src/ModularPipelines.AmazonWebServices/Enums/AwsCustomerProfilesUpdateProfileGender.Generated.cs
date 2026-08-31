@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesUpdateProfileGender
 {
     [EnumValue("MALE")]
-    Male = 1,
+    Male,
 
     [EnumValue("FEMALE")]
-    Female = 2,
+    Female,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 3
+    Unspecified
 }

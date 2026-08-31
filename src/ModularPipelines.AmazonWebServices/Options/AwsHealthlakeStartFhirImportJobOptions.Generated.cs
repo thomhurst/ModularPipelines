@@ -66,10 +66,16 @@ public record AwsHealthlakeStartFhirImportJobOptions : AwsOptions
     [CliOption("--input-format")]
     public string? InputFormat { get; set; }
 
-    [CliFlag("--drift-detection-enabled")]
+    /// <summary>
+    /// Specifies whether to enable drift detection for the import job.
+    /// </summary>
+    [CliFlag("--drift-detection-enabled", NegatedName = "--no-drift-detection-enabled")]
     public bool? DriftDetectionEnabled { get; set; }
 
-    [CliFlag("--provenance-enabled")]
+    /// <summary>
+    /// Specifies whether to enable provenance for the import job.
+    /// </summary>
+    [CliFlag("--provenance-enabled", NegatedName = "--no-provenance-enabled")]
     public bool? ProvenanceEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

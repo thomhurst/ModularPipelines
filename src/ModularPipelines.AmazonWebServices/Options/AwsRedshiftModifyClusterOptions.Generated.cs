@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -93,7 +92,10 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CliFlag("--allow-version-upgrade")]
+    /// <summary>
+    /// If true , major version upgrades will be applied automatically to the cluster during the maintenance window. Default: false
+    /// </summary>
+    [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
@@ -114,7 +116,10 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--new-cluster-identifier")]
     public string? NewClusterIdentifier { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// If true , the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available. Default: false
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -123,7 +128,10 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--elastic-ip")]
     public string? ElasticIp { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
@@ -132,7 +140,10 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--maintenance-track-name")]
     public string? MaintenanceTrackName { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Indicates whether the cluster is encrypted. If the value is en- crypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId . If you don't provide a KmsKeyId , we encrypt with the default key. If the value is not encrypted (false), then the cluster is de- crypted.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -141,7 +152,10 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--availability-zone-relocation")]
+    /// <summary>
+    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster modification is complete.
+    /// </summary>
+    [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
@@ -154,9 +168,12 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     /// The option to change the port of an Amazon Redshift cluster. Valid Values: o For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215 . (If you have an existing cluster with RG or RA3 nodes, it isn't required that you change the port to these ranges.) o For clusters with dc2 nodes - Select a port within the range 1150-65535 .
     /// </summary>
     [CliOption("--port")]
-    public AwsRedshiftModifyClusterPort? Port { get; set; }
+    public int? Port { get; set; }
 
-    [CliFlag("--manage-master-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage this clus- ter's admin credentials. You can't use MasterUserPassword if Manage- MasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    /// </summary>
+    [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
@@ -172,9 +189,15 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// If true and the cluster is currently only deployed in a single Availability Zone, the cluster will be modified to be deployed in two Availability Zones.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
     [CliFlag("--extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 

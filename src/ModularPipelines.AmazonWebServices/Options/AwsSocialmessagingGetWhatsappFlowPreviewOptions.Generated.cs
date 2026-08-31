@@ -27,7 +27,10 @@ public record AwsSocialmessagingGetWhatsappFlowPreviewOptions : AwsOptions
     [CliOption("--flow-id")]
     public string? FlowId { get; set; }
 
-    [CliFlag("--invalidate")]
+    /// <summary>
+    /// Set to true to force generation of a new preview URL. Use this if the previous URL has been compromised or you want a fresh expiration period.
+    /// </summary>
+    [CliFlag("--invalidate", NegatedName = "--no-invalidate")]
     public bool? Invalidate { get; set; }
 
     [CliOption("--cli-input-json")]

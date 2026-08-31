@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDescribeEventCategoriesSourceType
 {
     [EnumValue("cluster")]
-    Cluster = 0,
+    Cluster,
 
     [EnumValue("cluster-snapshot")]
-    ClusterSnapshot = 1,
+    ClusterSnapshot,
 
     [EnumValue("cluster-parameter-group")]
-    ClusterParameterGroup = 2,
+    ClusterParameterGroup,
 
     [EnumValue("cluster-security-group")]
-    ClusterSecurityGroup = 3,
+    ClusterSecurityGroup,
 
     [EnumValue("and")]
-    And = 4,
+    And,
 
     [EnumValue("scheduled-action")]
-    ScheduledAction = 5
+    ScheduledAction
 }

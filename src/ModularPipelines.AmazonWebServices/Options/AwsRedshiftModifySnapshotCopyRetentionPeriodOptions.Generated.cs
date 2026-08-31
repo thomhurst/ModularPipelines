@@ -27,7 +27,10 @@ public record AwsRedshiftModifySnapshotCopyRetentionPeriodOptions : AwsOptions
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
 
-    [CliFlag("--manual")]
+    /// <summary>
+    /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
+    /// </summary>
+    [CliFlag("--manual", NegatedName = "--no-manual")]
     public bool? Manual { get; set; }
 
     [CliOption("--cli-input-json")]

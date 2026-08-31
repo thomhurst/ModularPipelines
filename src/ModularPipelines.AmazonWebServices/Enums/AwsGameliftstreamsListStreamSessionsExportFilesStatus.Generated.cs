@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftstreamsListStreamSessionsExportFilesStatus
 {
     [EnumValue("SUCCEEDED")]
-    Succeeded = 1,
+    Succeeded,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("PENDING")]
-    Pending = 3
+    Pending
 }

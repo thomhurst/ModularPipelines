@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLightsailCreateInstancesIpAddressType
 {
     [EnumValue("dualstack")]
-    Dualstack = 1,
+    Dualstack,
 
     [EnumValue("ipv4")]
-    Ipv4 = 2,
+    Ipv4,
 
     [EnumValue("ipv6")]
-    Ipv6 = 3
+    Ipv6
 }

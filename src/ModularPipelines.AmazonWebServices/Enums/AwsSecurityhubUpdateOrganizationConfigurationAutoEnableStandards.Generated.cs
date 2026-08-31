@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubUpdateOrganizationConfigurationAutoEnableStandards
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("DEFAULT")]
-    Default = 2
+    Default
 }

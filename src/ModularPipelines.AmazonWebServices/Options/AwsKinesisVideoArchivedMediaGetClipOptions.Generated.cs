@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-archived-media", "get-clip")]
-public record AwsKinesisVideoArchivedMediaGetClipOptions : AwsOptions
+public record AwsKinesisVideoArchivedMediaGetClipOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// The name of the stream for which to retrieve the media clip. You must specify either the StreamName or the StreamARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+

@@ -26,7 +26,10 @@ public record AwsApigatewayGetApiKeyOptions : AwsOptions
     [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CliFlag("--include-value")]
+    /// <summary>
+    /// A boolean flag to specify whether (true ) or not (false ) the result contains the key value.
+    /// </summary>
+    [CliFlag("--include-value", NegatedName = "--no-include-value")]
     public bool? IncludeValue { get; set; }
 
     [CliOption("--cli-input-json")]

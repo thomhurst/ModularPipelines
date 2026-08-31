@@ -62,10 +62,16 @@ public record AwsDlmCreateLifecyclePolicyOptions : AwsOptions
     [CliOption("--retain-interval")]
     public int? RetainInterval { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// [Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI. If you do not specify a value, the default is false . Default: false
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
-    [CliFlag("--extend-deletion")]
+    /// <summary>
+    /// [Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state. By default (ExtendDeletion=false ): o If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete previously created snapshots or AMIs, up to but not including the last one, based on the specified reten- tion period. If you want Amazon Data Lifecycle Manager to delete all snapshots or AMIs, including the last one, specify true . o If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting snapshots and AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs, including the last one, if the policy enters one of these states, specify true . If you enable extended deletion (ExtendDeletion=true ), you override both default behaviors simultaneously. If you do not specify a value, the default is false . Default: false
+    /// </summary>
+    [CliFlag("--extend-deletion", NegatedName = "--no-extend-deletion")]
     public bool? ExtendDeletion { get; set; }
 
     /// <summary>

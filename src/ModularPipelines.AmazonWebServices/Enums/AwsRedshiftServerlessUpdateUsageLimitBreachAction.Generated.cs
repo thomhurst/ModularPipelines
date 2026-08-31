@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftServerlessUpdateUsageLimitBreachAction
 {
     [EnumValue("log")]
-    Log = 1,
+    Log,
 
     [EnumValue("emit-metric")]
-    EmitMetric = 2,
+    EmitMetric,
 
     [EnumValue("deactivate")]
-    Deactivate = 3
+    Deactivate
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsFirehoseListDeliveryStreamsDeliveryStreamType
 {
     [EnumValue("DirectPut")]
-    DirectPut = 1,
+    DirectPut,
 
     [EnumValue("KinesisStreamAsSource")]
-    KinesisStreamAsSource = 2,
+    KinesisStreamAsSource,
 
     [EnumValue("MSKAsSource")]
-    MskAsSource = 3,
+    MskAsSource,
 
     [EnumValue("DatabaseAsSource")]
-    DatabaseAsSource = 4
+    DatabaseAsSource
 }

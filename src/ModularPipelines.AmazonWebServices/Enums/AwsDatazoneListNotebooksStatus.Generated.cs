@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListNotebooksStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("ARCHIVED")]
-    Archived = 2,
+    Archived,
 
     [EnumValue("SYNC_IN_PROGRESS")]
-    SyncInProgress = 3,
+    SyncInProgress,
 
     [EnumValue("SYNC_FAILED")]
-    SyncFailed = 4
+    SyncFailed
 }

@@ -52,6 +52,9 @@ public record AwsQconnectUpdateSessionOptions : AwsOptions
     [CliOption("--orchestrator-configuration-list", GroupValues = true)]
     public IEnumerable<string>? OrchestratorConfigurationList { get; set; }
 
+    /// <summary>
+    /// tor-configuration-list (boolean) The list of orchestrator configurations to remove from the session.
+    /// </summary>
     [CliFlag("--remove-orchestrator-configuration-list")]
     public bool? RemoveOrchestratorConfigurationList { get; set; }
 

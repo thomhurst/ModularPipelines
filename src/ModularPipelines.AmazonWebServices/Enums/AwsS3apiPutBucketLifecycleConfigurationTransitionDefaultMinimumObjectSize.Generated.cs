@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3apiPutBucketLifecycleConfigurationTransitionDefaultMinimumObjectSize
 {
     [EnumValue("varies_by_storage_class")]
-    VariesByStorageClass = 1,
+    VariesByStorageClass,
 
     [EnumValue("all_storage_classes_128K")]
-    AllStorageClasses_128K = 2
+    AllStorageClasses_128K
 }

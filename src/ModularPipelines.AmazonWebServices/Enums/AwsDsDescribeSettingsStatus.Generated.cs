@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDescribeSettingsStatus
 {
     [EnumValue("Requested")]
-    Requested = 1,
+    Requested,
 
     [EnumValue("Updating")]
-    Updating = 2,
+    Updating,
 
     [EnumValue("Updated")]
-    Updated = 3,
+    Updated,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("Default")]
-    Default = 5
+    Default
 }

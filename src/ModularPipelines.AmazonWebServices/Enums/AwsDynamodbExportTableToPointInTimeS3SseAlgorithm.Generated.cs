@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbExportTableToPointInTimeS3SseAlgorithm
 {
     [EnumValue("AES256")]
-    Aes256 = 1,
+    Aes256,
 
     [EnumValue("KMS")]
-    Kms = 2
+    Kms
 }

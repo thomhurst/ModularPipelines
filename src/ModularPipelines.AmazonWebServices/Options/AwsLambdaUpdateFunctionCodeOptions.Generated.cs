@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -53,7 +52,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     /// Specifies how the deployment package is stored. Valid values: o COPY (default) Uploads a copy of your deployment package to Lambda. o REFERENCE Lambda references the deployment package from the spec- ified Amazon S3 bucket. Possible values: o COPY o REFERENCE
     /// </summary>
     [CliOption("--s3-object-storage-mode")]
-    public AwsLambdaUpdateFunctionCodeS3ObjectStorageMode? S3ObjectStorageMode { get; set; }
+    public string? S3ObjectStorageMode { get; set; }
 
     /// <summary>
     /// URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
@@ -67,16 +66,22 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     [CliOption("--architectures", GroupValues = true)]
     public IEnumerable<string>? Architectures { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion sepa- rately.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
     /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
-    public AwsLambdaUpdateFunctionCodePublishTo? PublishTo { get; set; }
+    public string? PublishTo { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true to validate the request parameters and access permis- sions without modifying the function code.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

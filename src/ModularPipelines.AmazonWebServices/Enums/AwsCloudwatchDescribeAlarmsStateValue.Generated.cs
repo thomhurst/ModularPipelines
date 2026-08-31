@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudwatchDescribeAlarmsStateValue
 {
     [EnumValue("OK")]
-    Ok = 1,
+    Ok,
 
     [EnumValue("ALARM")]
-    Alarm = 2,
+    Alarm,
 
     [EnumValue("INSUFFICIENT_DATA")]
-    InsufficientData = 3
+    InsufficientData
 }

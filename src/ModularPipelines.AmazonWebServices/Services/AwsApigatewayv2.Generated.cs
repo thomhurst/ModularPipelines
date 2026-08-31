@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -60,21 +60,6 @@ public class AwsApigatewayv2 : IAwsApigatewayv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsApigatewayv2CreateApiOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Creates an Authorizer for an API. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateAuthorizerAsync(
-        AwsApigatewayv2CreateAuthorizerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsApigatewayv2CreateAuthorizerOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -640,11 +625,11 @@ public class AwsApigatewayv2 : IAwsApigatewayv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportApiAsync(
-        AwsApigatewayv2ExportApiOptions? options = null,
+        AwsApigatewayv2ExportApiOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsApigatewayv2ExportApiOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -1365,21 +1350,6 @@ public class AwsApigatewayv2 : IAwsApigatewayv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsApigatewayv2UpdateApiOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Updates an Authorizer. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAuthorizerAsync(
-        AwsApigatewayv2UpdateAuthorizerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsApigatewayv2UpdateAuthorizerOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

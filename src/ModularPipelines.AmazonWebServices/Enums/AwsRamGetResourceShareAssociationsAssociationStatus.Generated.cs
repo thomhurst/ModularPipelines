@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamGetResourceShareAssociationsAssociationStatus
 {
     [EnumValue("ASSOCIATING")]
-    Associating = 1,
+    Associating,
 
     [EnumValue("ASSOCIATED")]
-    Associated = 2,
+    Associated,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("DISASSOCIATING")]
-    Disassociating = 4,
+    Disassociating,
 
     [EnumValue("DISASSOCIATED")]
-    Disassociated = 5,
+    Disassociated,
 
     [EnumValue("SUSPENDED")]
-    Suspended = 6,
+    Suspended,
 
     [EnumValue("SUSPENDING")]
-    Suspending = 7,
+    Suspending,
 
     [EnumValue("RESTORING")]
-    Restoring = 8
+    Restoring
 }

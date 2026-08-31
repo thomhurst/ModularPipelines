@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoPlacesSearchNearbyIntendedUse
 {
     [EnumValue("SingleUse")]
-    SingleUse = 1,
+    SingleUse,
 
     [EnumValue("Storage")]
-    Storage = 2
+    Storage
 }

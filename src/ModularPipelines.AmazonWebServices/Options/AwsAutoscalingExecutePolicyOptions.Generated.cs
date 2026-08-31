@@ -30,7 +30,10 @@ public record AwsAutoscalingExecutePolicyOptions : AwsOptions
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CliFlag("--honor-cooldown")]
+    /// <summary>
+    /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown pe- riod to complete before executing the policy. Valid only if the policy type is SimpleScaling . For more informa- tion, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Ama- zon EC2 Auto Scaling User Guide .
+    /// </summary>
+    [CliFlag("--honor-cooldown", NegatedName = "--no-honor-cooldown")]
     public bool? HonorCooldown { get; set; }
 
     /// <summary>

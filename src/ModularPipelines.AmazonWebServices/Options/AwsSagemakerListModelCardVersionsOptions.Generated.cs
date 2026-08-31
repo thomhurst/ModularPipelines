@@ -48,7 +48,7 @@ public record AwsSagemakerListModelCardVersionsOptions : AwsOptions
     /// Sort listed model card versions by version. Sorts by version by de- fault. Possible values: o Version
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListModelCardVersionsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Sort model card versions by ascending or descending order. Possible values: o Ascending o Descending

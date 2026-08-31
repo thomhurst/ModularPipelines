@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsRegisterDaemonTaskDefinitionIpcMode
 {
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("shared")]
-    Shared = 2
+    Shared
 }

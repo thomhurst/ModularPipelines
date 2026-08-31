@@ -52,7 +52,10 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
-    [CliFlag("--require-tls")]
+    /// <summary>
+    /// Specifies whether Transport Layer Security (TLS) encryption is re- quired for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
+    /// </summary>
+    [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
 
     /// <summary>
@@ -61,7 +64,10 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CliFlag("--debug-logging")]
+    /// <summary>
+    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// </summary>
+    [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
 
     /// <summary>
@@ -74,13 +80,13 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
-    public AwsRdsCreateDbProxyEndpointNetworkType? EndpointNetworkType { get; set; }
+    public string? EndpointNetworkType { get; set; }
 
     /// <summary>
     /// The network type that the proxy uses to connect to the target data- base. The network type determines the IP version that the proxy uses for connections to the database. Valid values: o IPV4 - The proxy connects to the database using IPv4 only. o IPV6 - The proxy connects to the database using IPv6 only. Default: IPV4 Constraints: o If you specify IPV6 , the database must support dual-stack mode. RDS doesn't support IPv6-only databases. o All targets registered with the proxy must be compatible with the specified network type. Possible values: o IPV4 o IPV6
     /// </summary>
     [CliOption("--target-connection-network-type")]
-    public AwsRdsCreateDbProxyTargetConnectionNetworkType? TargetConnectionNetworkType { get; set; }
+    public string? TargetConnectionNetworkType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

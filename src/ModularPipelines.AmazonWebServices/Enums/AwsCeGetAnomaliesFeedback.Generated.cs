@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCeGetAnomaliesFeedback
 {
     [EnumValue("YES")]
-    Yes = 1,
+    Yes,
 
     [EnumValue("NO")]
-    No = 2,
+    No,
 
     [EnumValue("PLANNED_ACTIVITY")]
-    PlannedActivity = 3
+    PlannedActivity
 }

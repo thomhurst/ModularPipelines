@@ -41,7 +41,10 @@ public record AwsIotListActiveViolationsOptions : AwsOptions
     [CliOption("--behavior-criteria-type")]
     public AwsIotListActiveViolationsBehaviorCriteriaType? BehaviorCriteriaType { get; set; }
 
-    [CliFlag("--list-suppressed-alerts")]
+    /// <summary>
+    /// A list of all suppressed alerts.
+    /// </summary>
+    [CliFlag("--list-suppressed-alerts", NegatedName = "--no-list-suppressed-alerts")]
     public bool? ListSuppressedAlerts { get; set; }
 
     /// <summary>

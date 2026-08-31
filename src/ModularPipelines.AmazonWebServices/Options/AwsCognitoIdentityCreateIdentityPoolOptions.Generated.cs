@@ -25,10 +25,16 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
     [CliOption("--identity-pool-name")]
     public string? IdentityPoolName { get; set; }
 
+    /// <summary>
+    /// ties (boolean) [required] TRUE if the identity pool supports unauthenticated logins.
+    /// </summary>
     [CliFlag("--allow-unauthenticated-identities")]
     public bool? AllowUnauthenticatedIdentities { get; set; }
 
-    [CliFlag("--allow-classic-flow")]
+    /// <summary>
+    /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authen- tication Flow in the Amazon Cognito Developer Guide .
+    /// </summary>
+    [CliFlag("--allow-classic-flow", NegatedName = "--no-allow-classic-flow")]
     public bool? AllowClassicFlow { get; set; }
 
     /// <summary>

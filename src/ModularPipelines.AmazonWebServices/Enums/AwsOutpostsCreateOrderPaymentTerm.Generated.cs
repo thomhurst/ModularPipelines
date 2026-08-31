@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsCreateOrderPaymentTerm
 {
     [EnumValue("THREE_YEARS")]
-    ThreeYears = 1,
+    ThreeYears,
 
     [EnumValue("ONE_YEAR")]
-    OneYear = 2,
+    OneYear,
 
     [EnumValue("FIVE_YEARS")]
-    FiveYears = 3
+    FiveYears
 }

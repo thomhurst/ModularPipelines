@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-data", "get-thing-shadow")]
-public record AwsIotDataGetThingShadowOptions : AwsOptions
+public record AwsIotDataGetThingShadowOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }

@@ -42,7 +42,10 @@ public record AwsElbv2ModifyRuleOptions : AwsOptions
     [CliOption("--transforms", GroupValues = true)]
     public IEnumerable<string>? Transforms { get; set; }
 
-    [CliFlag("--reset-transforms")]
+    /// <summary>
+    /// Indicates whether to remove all transforms from the rule. If you specify ResetTransforms , you can't specify Transforms .
+    /// </summary>
+    [CliFlag("--reset-transforms", NegatedName = "--no-reset-transforms")]
     public bool? ResetTransforms { get; set; }
 
     [CliOption("--cli-input-json")]

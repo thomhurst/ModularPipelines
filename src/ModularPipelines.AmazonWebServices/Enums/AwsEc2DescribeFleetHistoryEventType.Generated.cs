@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeFleetHistoryEventType
 {
     [EnumValue("instance-change")]
-    InstanceChange = 1,
+    InstanceChange,
 
     [EnumValue("fleet-change")]
-    FleetChange = 2,
+    FleetChange,
 
     [EnumValue("service-error")]
-    ServiceError = 3
+    ServiceError
 }

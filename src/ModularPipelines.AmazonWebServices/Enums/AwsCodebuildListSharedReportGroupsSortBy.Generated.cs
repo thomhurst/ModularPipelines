@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodebuildListSharedReportGroupsSortBy
 {
     [EnumValue("ARN")]
-    Arn = 1,
+    Arn,
 
     [EnumValue("MODIFIED_TIME")]
-    ModifiedTime = 2
+    ModifiedTime
 }

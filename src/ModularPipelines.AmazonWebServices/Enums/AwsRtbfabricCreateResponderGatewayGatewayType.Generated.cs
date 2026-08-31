@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRtbfabricCreateResponderGatewayGatewayType
 {
     [EnumValue("EXTERNAL")]
-    External = 1,
+    External,
 
     [EnumValue("INTERNAL")]
-    Internal = 2
+    Internal
 }

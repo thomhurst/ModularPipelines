@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentUpdateFindingRiskLevel
 {
     [EnumValue("UNKNOWN")]
-    Unknown = 1,
+    Unknown,
 
     [EnumValue("INFORMATIONAL")]
-    Informational = 2,
+    Informational,
 
     [EnumValue("LOW")]
-    Low = 3,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 4,
+    Medium,
 
     [EnumValue("HIGH")]
-    High = 5,
+    High,
 
     [EnumValue("CRITICAL")]
-    Critical = 6
+    Critical
 }

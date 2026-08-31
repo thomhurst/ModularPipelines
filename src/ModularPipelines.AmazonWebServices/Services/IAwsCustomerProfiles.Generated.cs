@@ -32,6 +32,16 @@ public interface IAwsCustomerProfiles
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Associates an Amazon Kinesis data stream to receive segment membership events for a given domain. This is a domain-level configuration that applies to all segment subscriptions within the domain. A domain can have only one associated stream at a time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> AssociateStreamForSegmentsAsync(AwsCustomerProfilesAssociateStreamForSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -342,6 +352,16 @@ public interface IAwsCustomerProfiles
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Deletes a segment subscription for membership events. All active event notifications for this segment are stopped. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteSegmentSubscriptionAsync(AwsCustomerProfilesDeleteSegmentSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Deletes the specified workflow and all its corresponding resources. This is an async process. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -359,6 +379,16 @@ public interface IAwsCustomerProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DetectProfileObjectTypeAsync(AwsCustomerProfilesDetectProfileObjectTypeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Disassociates the Amazon Kinesis data stream configured for segment membership events. All active segment subscriptions delivering events to this stream are eventually stopped. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DisassociateStreamForSegmentsAsync(AwsCustomerProfilesDisassociateStreamForSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -592,6 +622,16 @@ public interface IAwsCustomerProfiles
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns the current subscription configuration, execution schedule, and status for segment membership events. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSegmentSubscriptionAsync(AwsCustomerProfilesGetSegmentSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId . You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING . See also: AWS API Documentation get-similar-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -599,6 +639,16 @@ public interface IAwsCustomerProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GetSimilarProfilesAsync(AwsCustomerProfilesGetSimilarProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Returns information about the segment membership event stream config- ured for a specific domain, including the stream state and associated segments. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetStreamForSegmentsAsync(AwsCustomerProfilesGetStreamForSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -872,6 +922,16 @@ public interface IAwsCustomerProfiles
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment. This operation is paginated. See also: AWS API Documentation list-segment-subscription-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSegmentSubscriptionEventsAsync(AwsCustomerProfilesListSegmentSubscriptionEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -949,6 +1009,16 @@ public interface IAwsCustomerProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> PutProfileObjectTypeAsync(AwsCustomerProfilesPutProfileObjectTypeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snap- shots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the n...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PutSegmentSubscriptionAsync(AwsCustomerProfilesPutSegmentSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

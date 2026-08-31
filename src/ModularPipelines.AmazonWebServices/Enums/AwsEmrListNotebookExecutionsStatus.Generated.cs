@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrListNotebookExecutionsStatus
 {
     [EnumValue("START_PENDING")]
-    StartPending = 1,
+    StartPending,
 
     [EnumValue("STARTING")]
-    Starting = 2,
+    Starting,
 
     [EnumValue("RUNNING")]
-    Running = 3,
+    Running,
 
     [EnumValue("FINISHING")]
-    Finishing = 4,
+    Finishing,
 
     [EnumValue("FINISHED")]
-    Finished = 5,
+    Finished,
 
     [EnumValue("FAILING")]
-    Failing = 6,
+    Failing,
 
     [EnumValue("FAILED")]
-    Failed = 7,
+    Failed,
 
     [EnumValue("STOP_PENDING")]
-    StopPending = 8,
+    StopPending,
 
     [EnumValue("STOPPING")]
-    Stopping = 9,
+    Stopping,
 
     [EnumValue("STOPPED")]
-    Stopped = 10
+    Stopped
 }

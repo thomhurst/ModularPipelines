@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesDescribeWorkspaceImagesImageType
 {
     [EnumValue("OWNED")]
-    Owned = 1,
+    Owned,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

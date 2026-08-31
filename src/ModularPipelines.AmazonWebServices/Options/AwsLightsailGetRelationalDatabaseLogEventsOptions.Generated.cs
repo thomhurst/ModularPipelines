@@ -40,7 +40,10 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--start-from-head")]
+    /// <summary>
+    /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log. NOTE: For PostgreSQL, the default value of false is the only option available.
+    /// </summary>
+    [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
 
     /// <summary>

@@ -24,7 +24,10 @@ public record AwsNeptunedataCancelOpenCypherQueryOptions : AwsOptions
     [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
-    [CliFlag("--silent")]
+    /// <summary>
+    /// If set to TRUE , causes the cancelation of the openCypher query to happen silently.
+    /// </summary>
+    [CliFlag("--silent", NegatedName = "--no-silent")]
     public bool? Silent { get; set; }
 
     [CliOption("--cli-input-json")]

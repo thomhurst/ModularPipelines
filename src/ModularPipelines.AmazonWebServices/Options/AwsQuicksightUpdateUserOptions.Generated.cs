@@ -42,7 +42,10 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions
     [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; set; }
 
-    [CliFlag("--unapply-custom-permissions")]
+    /// <summary>
+    /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
+    /// </summary>
+    [CliFlag("--unapply-custom-permissions", NegatedName = "--no-unapply-custom-permissions")]
     public bool? UnapplyCustomPermissions { get; set; }
 
     /// <summary>

@@ -92,7 +92,10 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     [CliOption("--allowed-result-regions", GroupValues = true)]
     public IEnumerable<string>? AllowedResultRegions { get; set; }
 
-    [CliFlag("--is-metrics-enabled")]
+    /// <summary>
+    /// An indicator as to whether metrics have been enabled or disabled for the collaboration. When true , collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false .
+    /// </summary>
+    [CliFlag("--is-metrics-enabled", NegatedName = "--no-is-metrics-enabled")]
     public bool? IsMetricsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

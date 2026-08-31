@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyTrafficMirrorFilterRuleRuleAction
 {
     [EnumValue("accept")]
-    Accept = 1,
+    Accept,
 
     [EnumValue("reject")]
-    Reject = 2
+    Reject
 }

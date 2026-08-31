@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppsyncUpdateResolverKind
 {
     [EnumValue("UNIT")]
-    Unit = 1,
+    Unit,
 
     [EnumValue("PIPELINE")]
-    Pipeline = 2
+    Pipeline
 }

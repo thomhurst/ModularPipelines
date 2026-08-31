@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateVpcInstanceTenancy
 {
     [EnumValue("default")]
-    Default = 1,
+    Default,
 
     [EnumValue("dedicated")]
-    Dedicated = 2,
+    Dedicated,
 
     [EnumValue("host")]
-    Host = 3
+    Host
 }

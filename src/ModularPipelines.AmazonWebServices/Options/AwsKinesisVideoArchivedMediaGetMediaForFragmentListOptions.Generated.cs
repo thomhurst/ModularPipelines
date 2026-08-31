@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-archived-media", "get-media-for-fragment-list")]
-public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOptions
+public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     /// <summary>
     /// The name of the stream from which to retrieve fragment media. Spec- ify either this parameter or the StreamARN parameter. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+

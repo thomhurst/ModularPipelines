@@ -50,7 +50,10 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CliFlag("--enable-interoperability")]
+    /// <summary>
+    /// When true , allows organization interoperability between WorkMail and Microsoft Exchange. If true , you must include a AD Connector directory ID in the request.
+    /// </summary>
+    [CliFlag("--enable-interoperability", NegatedName = "--no-enable-interoperability")]
     public bool? EnableInteroperability { get; set; }
 
     [CliOption("--cli-input-json")]

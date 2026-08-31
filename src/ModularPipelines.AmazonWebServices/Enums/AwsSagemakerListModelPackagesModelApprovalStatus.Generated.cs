@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListModelPackagesModelApprovalStatus
 {
     [EnumValue("Approved")]
-    Approved = 1,
+    Approved,
 
     [EnumValue("Rejected")]
-    Rejected = 2,
+    Rejected,
 
     [EnumValue("PendingManualApproval")]
-    PendingManualApproval = 3
+    PendingManualApproval
 }

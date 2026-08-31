@@ -32,7 +32,7 @@ public record AwsLogsListIntegrationsOptions : AwsOptions
     /// To limit the results to integrations of a certain type, specify that type here. Possible values: o OPENSEARCH
     /// </summary>
     [CliOption("--integration-type")]
-    public AwsLogsListIntegrationsIntegrationType? IntegrationType { get; set; }
+    public string? IntegrationType { get; set; }
 
     /// <summary>
     /// To limit the results to integrations with a certain status, specify that status here. Possible values: o PROVISIONING o ACTIVE o FAILED

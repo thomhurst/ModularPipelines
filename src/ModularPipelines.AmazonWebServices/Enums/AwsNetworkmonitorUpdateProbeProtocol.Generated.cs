@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNetworkmonitorUpdateProbeProtocol
 {
     [EnumValue("TCP")]
-    Tcp = 1,
+    Tcp,
 
     [EnumValue("ICMP")]
-    Icmp = 2
+    Icmp
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListSbomValidationResultsValidationResult
 {
     [EnumValue("FAILED")]
-    Failed = 1,
+    Failed,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 2
+    Succeeded
 }

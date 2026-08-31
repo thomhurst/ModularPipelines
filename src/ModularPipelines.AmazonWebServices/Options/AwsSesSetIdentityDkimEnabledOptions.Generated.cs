@@ -24,7 +24,7 @@ public record AwsSesSetIdentityDkimEnabledOptions : AwsOptions
     [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CliFlag("--dkim-enabled")]
+    [CliFlag("--dkim-enabled", NegatedName = "--no-dkim-enabled")]
     public bool? DkimEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

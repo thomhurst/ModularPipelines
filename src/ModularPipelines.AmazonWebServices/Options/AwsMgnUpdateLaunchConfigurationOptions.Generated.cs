@@ -43,10 +43,16 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Update Launch configuration copy Private IP request.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Update Launch configuration copy Tags request.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -67,7 +73,10 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CliFlag("--enable-map-auto-tagging")]
+    /// <summary>
+    /// Enable map auto tagging.
+    /// </summary>
+    [CliFlag("--enable-map-auto-tagging", NegatedName = "--no-enable-map-auto-tagging")]
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>

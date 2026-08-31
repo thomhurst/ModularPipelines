@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsUpdateDaemonPropagateTags
 {
     [EnumValue("DAEMON")]
-    Daemon = 1,
+    Daemon,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

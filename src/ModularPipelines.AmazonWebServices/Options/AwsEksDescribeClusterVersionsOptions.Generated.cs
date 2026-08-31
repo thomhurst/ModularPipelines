@@ -29,10 +29,16 @@ public record AwsEksDescribeClusterVersionsOptions : AwsOptions
     [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// Filter to show only default versions.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
-    [CliFlag("--include-all")]
+    /// <summary>
+    /// Include all available versions in the response.
+    /// </summary>
+    [CliFlag("--include-all", NegatedName = "--no-include-all")]
     public bool? IncludeAll { get; set; }
 
     /// <summary>

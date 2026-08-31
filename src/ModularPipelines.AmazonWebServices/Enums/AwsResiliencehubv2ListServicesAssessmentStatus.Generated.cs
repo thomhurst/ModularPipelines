@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListServicesAssessmentStatus
 {
     [EnumValue("NOT_STARTED")]
-    NotStarted = 1,
+    NotStarted,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("SUCCESS")]
-    Success = 5
+    Success
 }

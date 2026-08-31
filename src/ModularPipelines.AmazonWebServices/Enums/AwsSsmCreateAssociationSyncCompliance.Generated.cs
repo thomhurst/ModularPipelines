@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmCreateAssociationSyncCompliance
 {
     [EnumValue("AUTO")]
-    Auto = 1,
+    Auto,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

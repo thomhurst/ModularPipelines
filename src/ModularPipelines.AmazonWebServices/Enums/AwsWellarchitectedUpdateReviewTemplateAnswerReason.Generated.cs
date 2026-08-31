@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedUpdateReviewTemplateAnswerReason
 {
     [EnumValue("OUT_OF_SCOPE")]
-    OutOfScope = 1,
+    OutOfScope,
 
     [EnumValue("BUSINESS_PRIORITIES")]
-    BusinessPriorities = 2,
+    BusinessPriorities,
 
     [EnumValue("ARCHITECTURE_CONSTRAINTS")]
-    ArchitectureConstraints = 3,
+    ArchitectureConstraints,
 
     [EnumValue("OTHER")]
-    Other = 4,
+    Other,
 
     [EnumValue("NONE")]
-    None = 5
+    None
 }

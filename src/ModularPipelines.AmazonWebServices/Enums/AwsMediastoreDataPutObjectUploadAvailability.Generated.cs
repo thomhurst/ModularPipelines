@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediastoreDataPutObjectUploadAvailability
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("STREAMING")]
-    Streaming = 2,
+    Streaming,
 
     [EnumValue("Constraints")]
-    Constraints = 3
+    Constraints
 }

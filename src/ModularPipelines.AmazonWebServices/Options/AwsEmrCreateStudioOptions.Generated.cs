@@ -76,6 +76,9 @@ public record AwsEmrCreateStudioOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
+    /// <summary>
+    /// tion-enabled (boolean) A Boolean indicating whether to enable Trusted identity propagation for the Studio. The default value is false .
+    /// </summary>
     [CliFlag("--trusted-identity-propagation-enabled")]
     public bool? TrustedIdentityPropagationEnabled { get; set; }
 

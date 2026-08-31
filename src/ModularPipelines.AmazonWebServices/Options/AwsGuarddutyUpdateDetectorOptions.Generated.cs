@@ -25,7 +25,10 @@ public record AwsGuarddutyUpdateDetectorOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliFlag("--enable")]
+    /// <summary>
+    /// Specifies whether the detector is enabled or not enabled.
+    /// </summary>
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
 
     /// <summary>

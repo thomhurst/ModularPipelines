@@ -49,7 +49,10 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
     [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
-    [CliFlag("--excluded")]
+    /// <summary>
+    /// Indicates if a resource is excluded from an Resilience Hub applica- tion. NOTE: You can exclude only imported resources from an Resilience Hub application.
+    /// </summary>
+    [CliFlag("--excluded", NegatedName = "--no-excluded")]
     public bool? Excluded { get; set; }
 
     /// <summary>

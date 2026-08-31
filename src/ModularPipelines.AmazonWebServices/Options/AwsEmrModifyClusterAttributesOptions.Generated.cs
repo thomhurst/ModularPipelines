@@ -24,16 +24,19 @@ public record AwsEmrModifyClusterAttributesOptions : AwsOptions
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
 
-    [CliFlag("--visible-to-all-users")]
+    /// <summary>
+    /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If a user has the proper policy permissions set, they can also manage the cluster. Visibility is on by default. The --no-visible-to-all-users option is no longer supported. To restrict cluster visibility, use an IAM pol- icy.
+    /// </summary>
+    [CliFlag("--visible-to-all-users", NegatedName = "--no-visible-to-all-users")]
     public bool? VisibleToAllUsers { get; set; }
 
-    [CliFlag("--termination-protected")]
+    [CliFlag("--termination-protected", NegatedName = "--no-termination-protected")]
     public bool? TerminationProtected { get; set; }
 
-    [CliFlag("--auto-terminate")]
+    [CliFlag("--auto-terminate", NegatedName = "--no-auto-terminate")]
     public bool? AutoTerminate { get; set; }
 
-    [CliFlag("--unhealthy-node-replacement")]
+    [CliFlag("--unhealthy-node-replacement", NegatedName = "--no-unhealthy-node-replacement")]
     public bool? UnhealthyNodeReplacement { get; set; }
 
 }

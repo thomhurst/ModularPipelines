@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotRegisterCertificateWithoutCaStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("INACTIVE")]
-    Inactive = 2,
+    Inactive,
 
     [EnumValue("REVOKED")]
-    Revoked = 3,
+    Revoked,
 
     [EnumValue("PENDING_TRANSFER")]
-    PendingTransfer = 4,
+    PendingTransfer,
 
     [EnumValue("REGISTER_INACTIVE")]
-    RegisterInactive = 5,
+    RegisterInactive,
 
     [EnumValue("PENDING_ACTIVATION")]
-    PendingActivation = 6
+    PendingActivation
 }

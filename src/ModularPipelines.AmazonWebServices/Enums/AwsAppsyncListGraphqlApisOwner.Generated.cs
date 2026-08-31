@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppsyncListGraphqlApisOwner
 {
     [EnumValue("CURRENT_ACCOUNT")]
-    CurrentAccount = 1,
+    CurrentAccount,
 
     [EnumValue("OTHER_ACCOUNTS")]
-    OtherAccounts = 2
+    OtherAccounts
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceStartSpeakerSearchTaskCallLeg
 {
     [EnumValue("Caller")]
-    Caller = 1,
+    Caller,
 
     [EnumValue("Callee")]
-    Callee = 2
+    Callee
 }

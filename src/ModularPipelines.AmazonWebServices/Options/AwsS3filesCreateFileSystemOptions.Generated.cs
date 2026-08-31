@@ -53,7 +53,10 @@ public record AwsS3filesCreateFileSystemOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--accept-bucket-warning")]
+    /// <summary>
+    /// Set to true to acknowledge and accept any warnings about the bucket configuration. If not specified, the operation may fail if there are bucket configuration warnings.
+    /// </summary>
+    [CliFlag("--accept-bucket-warning", NegatedName = "--no-accept-bucket-warning")]
     public bool? AcceptBucketWarning { get; set; }
 
     [CliOption("--cli-input-json")]

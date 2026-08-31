@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateNatGatewayAvailabilityMode
 {
     [EnumValue("zonal")]
-    Zonal = 1,
+    Zonal,
 
     [EnumValue("regional")]
-    Regional = 2
+    Regional
 }

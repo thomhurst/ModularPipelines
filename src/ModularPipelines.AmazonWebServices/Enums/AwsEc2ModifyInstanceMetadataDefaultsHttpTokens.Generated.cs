@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyInstanceMetadataDefaultsHttpTokens
 {
     [EnumValue("optional")]
-    Optional = 1,
+    Optional,
 
     [EnumValue("required")]
-    Required = 2,
+    Required,
 
     [EnumValue("no-preference")]
-    NoPreference = 3
+    NoPreference
 }

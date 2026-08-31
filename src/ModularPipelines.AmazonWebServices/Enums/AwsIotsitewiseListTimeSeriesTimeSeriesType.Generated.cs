@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListTimeSeriesTimeSeriesType
 {
     [EnumValue("ASSOCIATED")]
-    Associated = 1,
+    Associated,
 
     [EnumValue("DISASSOCIATED")]
-    Disassociated = 2
+    Disassociated
 }

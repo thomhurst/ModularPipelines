@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerA2iRuntimeListHumanLoopsSortOrder
 {
     [EnumValue("Ascending")]
-    Ascending = 0,
+    Ascending,
 
     [EnumValue("and")]
-    And = 1,
+    And,
 
     [EnumValue("Descending")]
-    Descending = 2
+    Descending
 }

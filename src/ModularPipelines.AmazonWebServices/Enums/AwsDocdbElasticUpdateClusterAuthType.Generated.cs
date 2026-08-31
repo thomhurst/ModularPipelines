@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDocdbElasticUpdateClusterAuthType
 {
     [EnumValue("PLAIN_TEXT")]
-    PlainText = 1,
+    PlainText,
 
     [EnumValue("SECRET_ARN")]
-    SecretArn = 2
+    SecretArn
 }

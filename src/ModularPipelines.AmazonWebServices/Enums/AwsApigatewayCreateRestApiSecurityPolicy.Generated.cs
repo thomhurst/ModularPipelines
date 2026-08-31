@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayCreateRestApiSecurityPolicy
 {
     [EnumValue("TLS_1_0")]
-    Tls_1_0 = 1,
+    Tls_1_0,
 
     [EnumValue("TLS_1_2")]
-    Tls_1_2 = 2
+    Tls_1_2
 }

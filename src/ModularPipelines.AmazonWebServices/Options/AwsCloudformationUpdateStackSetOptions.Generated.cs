@@ -43,7 +43,10 @@ public record AwsCloudformationUpdateStackSetOptions : AwsOptions
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CliFlag("--use-previous-template")]
+    /// <summary>
+    /// Use the existing template that's associated with the StackSet that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL or set UsePreviousTemplate to true.
+    /// </summary>
+    [CliFlag("--use-previous-template", NegatedName = "--no-use-previous-template")]
     public bool? UsePreviousTemplate { get; set; }
 
     /// <summary>

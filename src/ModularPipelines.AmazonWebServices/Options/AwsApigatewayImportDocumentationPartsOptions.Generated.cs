@@ -31,7 +31,10 @@ public record AwsApigatewayImportDocumentationPartsOptions : AwsOptions
     [CliOption("--mode")]
     public AwsApigatewayImportDocumentationPartsMode? Mode { get; set; }
 
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// A query parameter to specify whether to rollback the documentation importation (true ) or not (false ) when a warning is encountered. The default value is false .
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     [CliOption("--body")]

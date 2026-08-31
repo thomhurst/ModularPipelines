@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift-serverless", "create-scheduled-action")]
 public record AwsRedshiftServerlessCreateScheduledActionOptions : AwsOptions
 {
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction .
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

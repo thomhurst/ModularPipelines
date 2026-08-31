@@ -24,7 +24,7 @@ public record AwsSesSetIdentityFeedbackForwardingEnabledOptions : AwsOptions
     [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CliFlag("--forwarding-enabled")]
+    [CliFlag("--forwarding-enabled", NegatedName = "--no-forwarding-enabled")]
     public bool? ForwardingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

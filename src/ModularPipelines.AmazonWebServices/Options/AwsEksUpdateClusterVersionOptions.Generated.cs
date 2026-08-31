@@ -32,7 +32,10 @@ public record AwsEksUpdateClusterVersionOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Set this value to true to override upgrade-blocking or roll- back-blocking readiness checks when updating a cluster.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>

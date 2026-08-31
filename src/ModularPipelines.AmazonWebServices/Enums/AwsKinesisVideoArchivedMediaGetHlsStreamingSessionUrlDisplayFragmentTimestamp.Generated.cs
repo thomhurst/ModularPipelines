@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlDisplayFragmentTimestamp
 {
     [EnumValue("ALWAYS")]
-    Always = 1,
+    Always,
 
     [EnumValue("NEVER")]
-    Never = 2
+    Never
 }

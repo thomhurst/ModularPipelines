@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneCreateUserProfileUserType
 {
     [EnumValue("IAM_USER")]
-    IamUser = 1,
+    IamUser,
 
     [EnumValue("IAM_ROLE")]
-    IamRole = 2,
+    IamRole,
 
     [EnumValue("SSO_USER")]
-    SsoUser = 3,
+    SsoUser,
 
     [EnumValue("IAM_ROLE_SESSION")]
-    IamRoleSession = 4
+    IamRoleSession
 }

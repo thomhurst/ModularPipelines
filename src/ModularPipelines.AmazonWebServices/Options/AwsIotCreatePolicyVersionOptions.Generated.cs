@@ -27,7 +27,10 @@ public record AwsIotCreatePolicyVersionOptions : AwsOptions
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CliFlag("--set-as-default")]
+    /// <summary>
+    /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+    /// </summary>
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
     public bool? SetAsDefault { get; set; }
 
     [CliOption("--cli-input-json")]

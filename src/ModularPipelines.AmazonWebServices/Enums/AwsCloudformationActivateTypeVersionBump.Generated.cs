@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudformationActivateTypeVersionBump
 {
     [EnumValue("MAJOR")]
-    Major = 1,
+    Major,
 
     [EnumValue("MINOR")]
-    Minor = 2
+    Minor
 }

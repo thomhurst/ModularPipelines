@@ -46,7 +46,7 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions
     [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
 
-    [CliFlag("--acceptance-required")]
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     [CliOption("--rule-set-name")]

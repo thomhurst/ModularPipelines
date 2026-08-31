@@ -36,6 +36,9 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// dress-list (boolean) If this parameter is enabled, the resource will be hidden from the address book.
+    /// </summary>
     [CliFlag("--hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 

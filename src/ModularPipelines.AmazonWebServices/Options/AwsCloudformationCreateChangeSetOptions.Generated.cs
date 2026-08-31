@@ -38,7 +38,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CliFlag("--use-previous-template")]
+    /// <summary>
+    /// Whether to reuse the template that's associated with the stack to create the change set. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are ap- plied correctly. For more information, see AWS::LanguageExtensions transform . Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
+    /// </summary>
+    [CliFlag("--use-previous-template", NegatedName = "--no-use-previous-template")]
     public bool? UsePreviousTemplate { get; set; }
 
     /// <summary>
@@ -111,7 +114,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--resources-to-import", GroupValues = true)]
     public IEnumerable<string>? ResourcesToImport { get; set; }
 
-    [CliFlag("--include-nested-stacks")]
+    /// <summary>
+    /// Creates a change set for the all nested stacks specified in the tem- plate. The default behavior of this action is set to False . To in- clude nested sets in a change set, specify True .
+    /// </summary>
+    [CliFlag("--include-nested-stacks", NegatedName = "--no-include-nested-stacks")]
     public bool? IncludeNestedStacks { get; set; }
 
     /// <summary>
@@ -120,14 +126,17 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--on-stack-failure")]
     public AwsCloudformationCreateChangeSetOnStackFailure? OnStackFailure { get; set; }
 
-    [CliFlag("--import-existing-resources")]
+    /// <summary>
+    /// Indicates if the change set auto-imports resources that already ex- ist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide . NOTE: This parameter can only import resources that have custom names in templates. For more information, see name type in the Cloud- Formation User Guide . To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
+    /// </summary>
+    [CliFlag("--import-existing-resources", NegatedName = "--no-import-existing-resources")]
     public bool? ImportExistingResources { get; set; }
 
     /// <summary>
     /// Determines how CloudFormation handles configuration drift during de- ployment. o REVERT_DRIFT Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state. For more information, see Using drift-aware change sets in the CloudFormation User Guide . Possible values: o REVERT_DRIFT
     /// </summary>
     [CliOption("--deployment-mode")]
-    public AwsCloudformationCreateChangeSetDeploymentMode? DeploymentMode { get; set; }
+    public string? DeploymentMode { get; set; }
 
     /// <summary>
     /// The deployment configuration for this stack operation, including the deployment mode. Mode -&gt; (string) Specifies the deployment mode for the stack operation. Possible values are: o STANDARD - Use the standard deployment behavior, ensuring re- sources are ready to serve traffic before completing the oper- ation. This is the default. You do not need to specify this value explicitly. o EXPRESS - Complete the stack operation when resource configu- ration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background. Possible values: o STANDARD o EXPRESS DisableRollback -&gt; (boolean) Specifies whether to disable rollback of the stack if the stack operation fails. Default: false Shorthand Syntax: Mode=string,DisableRollback=boolean JSON Syntax: { "Mode": "STANDARD"|"EXPRESS", "DisableRollback": true|false }
@@ -135,7 +144,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]

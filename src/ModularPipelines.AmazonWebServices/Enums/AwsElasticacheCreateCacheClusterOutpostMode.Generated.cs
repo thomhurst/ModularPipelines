@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElasticacheCreateCacheClusterOutpostMode
 {
     [EnumValue("single-outpost")]
-    SingleOutpost = 1,
+    SingleOutpost,
 
     [EnumValue("cross-outpost")]
-    CrossOutpost = 2
+    CrossOutpost
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotUpdateScheduledAuditFrequency
 {
     [EnumValue("DAILY")]
-    Daily = 1,
+    Daily,
 
     [EnumValue("WEEKLY")]
-    Weekly = 2,
+    Weekly,
 
     [EnumValue("BIWEEKLY")]
-    Biweekly = 3,
+    Biweekly,
 
     [EnumValue("MONTHLY")]
-    Monthly = 4
+    Monthly
 }

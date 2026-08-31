@@ -38,7 +38,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Specifies whether the DB instance is restored from the latest backup time. By default, the DB instance isn't restored from the latest backup time. Constraints: o Can't be specified if the RestoreTime parameter is provided.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -65,13 +68,22 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints: o You can't specify the AvailabilityZone parameter if the DB in- stance is a Multi-AZ deployment.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -90,7 +102,7 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Valid Values: o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web Default: The same as source Constraints: o Must be compatible with the engine of the source.
     /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public AwsRdsRestoreDbInstanceToPointInTimeEngine? Engine { get; set; }
 
     /// <summary>
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints: o Must be an integer greater than 1000.
@@ -110,7 +122,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -182,6 +197,9 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. This setting doesn't apply to RDS Custom. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
+    /// </summary>
     [CliFlag("--enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
@@ -197,7 +215,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--use-default-processor-features")]
+    /// <summary>
+    /// Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom.
+    /// </summary>
+    [CliFlag("--use-default-processor-features", NegatedName = "--no-use-default-processor-features")]
     public bool? UseDefaultProcessorFeatures { get; set; }
 
     /// <summary>
@@ -206,7 +227,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -221,7 +245,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--max-allocated-storage")]
     public int? MaxAllocatedStorage { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your lo- cal network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -240,7 +267,7 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values: o local (Dedicated Local Zone) o outposts (Amazon Web Services Outposts) o region (Amazon Web Services Region) Default: region For more information, see Working with Amazon RDS on Amazon Web Ser- vices Outposts in the Amazon RDS User Guide .
     /// </summary>
     [CliOption("--backup-target")]
-    public AwsRdsRestoreDbInstanceToPointInTimeBackupTarget? BackupTarget { get; set; }
+    public string? BackupTarget { get; set; }
 
     /// <summary>
     /// The instance profile associated with the underlying Amazon EC2 in- stance of an RDS Custom DB instance. The instance profile must meet the following requirements: o The profile must exist in your account. o The profile must have an IAM role that Amazon EC2 has permissions to assume. o The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom . For the list of permissions required for the IAM role, see Configure IAM and your VPC in the Amazon RDS User Guide . This setting is required for RDS Custom.
@@ -266,7 +293,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>
@@ -293,7 +323,10 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide . Constraints: o Applies to RDS for Oracle only.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>

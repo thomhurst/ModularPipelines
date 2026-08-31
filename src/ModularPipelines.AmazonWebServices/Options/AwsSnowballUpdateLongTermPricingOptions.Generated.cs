@@ -30,6 +30,9 @@ public record AwsSnowballUpdateLongTermPricingOptions : AwsOptions
     [CliOption("--replacement-job")]
     public string? ReplacementJob { get; set; }
 
+    /// <summary>
+    /// new (boolean) If set to true , specifies that the current long-term pricing type for the device should be automatically renewed before the long-term pricing contract expires.
+    /// </summary>
     [CliFlag("--is-long-term-pricing-auto-renew")]
     public bool? IsLongTermPricingAutoRenew { get; set; }
 

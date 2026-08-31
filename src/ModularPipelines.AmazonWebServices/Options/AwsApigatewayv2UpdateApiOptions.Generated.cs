@@ -52,10 +52,16 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--disable-schema-validation")]
+    /// <summary>
+    /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
+    /// </summary>
+    [CliFlag("--disable-schema-validation", NegatedName = "--no-disable-schema-validation")]
     public bool? DisableSchemaValidation { get; set; }
 
-    [CliFlag("--disable-execute-api-endpoint")]
+    /// <summary>
+    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com end- point. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+    /// </summary>
+    [CliFlag("--disable-execute-api-endpoint", NegatedName = "--no-disable-execute-api-endpoint")]
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>

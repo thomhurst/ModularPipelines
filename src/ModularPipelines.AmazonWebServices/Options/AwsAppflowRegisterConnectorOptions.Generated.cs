@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -39,7 +38,7 @@ public record AwsAppflowRegisterConnectorOptions : AwsOptions
     /// The provisioning type of the connector. Currently the only supported value is LAMBDA. Possible values: o LAMBDA
     /// </summary>
     [CliOption("--connector-provisioning-type")]
-    public AwsAppflowRegisterConnectorConnectorProvisioningType? ConnectorProvisioningType { get; set; }
+    public string? ConnectorProvisioningType { get; set; }
 
     /// <summary>
     /// The provisioning type of the connector. Currently the only supported value is LAMBDA. lambda -&gt; (structure) Contains information about the configuration of the lambda which is being registered as the connector. lambdaArn -&gt; (string) [required] Lambda ARN of the connector being registered. Constraints: o max: 512 o pattern: arn:aws:.*:.*:[0-9]+:.* Shorthand Syntax: lambda={lambdaArn=string} JSON Syntax: { "lambda": { "lambdaArn": "string" } }

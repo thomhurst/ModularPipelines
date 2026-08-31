@@ -28,7 +28,10 @@ public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions
     [CliOption("--permission-arn")]
     public string? PermissionArn { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// Specifies whether the specified permission should replace the exist- ing permission associated with the resource share. Use true to re- place the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false . NOTE: A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the opera- tion returns an error. This helps prevent accidental overwriting of a permission.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     /// <summary>

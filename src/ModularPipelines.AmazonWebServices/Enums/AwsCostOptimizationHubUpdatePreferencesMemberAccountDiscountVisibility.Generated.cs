@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCostOptimizationHubUpdatePreferencesMemberAccountDiscountVisibility
 {
     [EnumValue("All")]
-    All = 1,
+    All,
 
     [EnumValue("None")]
-    None = 2
+    None
 }

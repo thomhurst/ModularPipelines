@@ -27,7 +27,7 @@ public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions
     [CliOption("--notification-type")]
     public string? NotificationType { get; set; }
 
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrGetPersistentAppUiPresignedUrlPersistentAppUiType
 {
     [EnumValue("SHS")]
-    Shs = 1,
+    Shs,
 
     [EnumValue("TEZ")]
-    Tez = 2,
+    Tez,
 
     [EnumValue("YTS")]
-    Yts = 3
+    Yts
 }

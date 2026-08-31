@@ -24,7 +24,10 @@ public record AwsS3filesDeleteFileSystemOptions : AwsOptions
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; set; }
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// If true, allows deletion of a file system that contains data pending export to S3. If false (the default), the deletion will fail if there is data that has not yet been exported to the S3 bucket. Use this parameter with caution as it may result in data loss.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]

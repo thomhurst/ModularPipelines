@@ -28,7 +28,10 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions
     [CliOption("--target-version")]
     public string? TargetVersion { get; set; }
 
-    [CliFlag("--perform-check-only")]
+    /// <summary>
+    /// When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
+    /// </summary>
+    [CliFlag("--perform-check-only", NegatedName = "--no-perform-check-only")]
     public bool? PerformCheckOnly { get; set; }
 
     /// <summary>

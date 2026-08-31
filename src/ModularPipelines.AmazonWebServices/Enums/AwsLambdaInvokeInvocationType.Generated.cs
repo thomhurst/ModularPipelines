@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaInvokeInvocationType
 {
     [EnumValue("Event")]
-    Event = 1,
+    Event,
 
     [EnumValue("RequestResponse")]
-    RequestResponse = 2,
+    RequestResponse,
 
     [EnumValue("DryRun")]
-    DryRun = 3
+    DryRun
 }

@@ -43,7 +43,10 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
-    [CliFlag("--require-tls")]
+    /// <summary>
+    /// Whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy, even if the associated data- base doesn't use TLS.
+    /// </summary>
+    [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
 
     /// <summary>
@@ -52,7 +55,10 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CliFlag("--debug-logging")]
+    /// <summary>
+    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// </summary>
+    [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
 
     /// <summary>

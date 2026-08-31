@@ -77,7 +77,7 @@ public record AwsSagemakerCreateClusterOptions : AwsOptions
     /// The mode for provisioning nodes in the cluster. You can specify the following modes: o Continuous : Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into clus- ter events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters. Possible values: o Continuous
     /// </summary>
     [CliOption("--node-provisioning-mode")]
-    public AwsSagemakerCreateClusterNodeProvisioningMode? NodeProvisioningMode { get; set; }
+    public string? NodeProvisioningMode { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have per- missions for sagemaker:BatchAddClusterNodes and sage- maker:BatchDeleteClusterNodes . This is only required when autoscal- ing is enabled and when HyperPod is performing autoscaling opera- tions. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+

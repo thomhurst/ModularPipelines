@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerPhase
 {
     [EnumValue("SINGLE_PHASE")]
-    SinglePhase = 1,
+    SinglePhase,
 
     [EnumValue("THREE_PHASE")]
-    ThreePhase = 2
+    ThreePhase
 }

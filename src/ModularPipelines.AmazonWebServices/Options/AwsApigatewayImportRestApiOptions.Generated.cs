@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("apigateway", "import-rest-api")]
 public record AwsApigatewayImportRestApiOptions : AwsOptions
 {
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// A query parameter to indicate whether to rollback the API creation (true ) or not (false ) when a warning is encountered. The default value is false .
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     /// <summary>

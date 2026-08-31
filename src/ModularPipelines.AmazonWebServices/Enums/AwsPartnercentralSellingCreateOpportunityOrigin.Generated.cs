@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralSellingCreateOpportunityOrigin
 {
     [EnumValue("AWS")]
-    Aws = 1,
+    Aws,
 
     [EnumValue("Referral")]
-    Referral = 2,
+    Referral,
 
     [EnumValue("Partner")]
-    Partner = 3
+    Partner
 }

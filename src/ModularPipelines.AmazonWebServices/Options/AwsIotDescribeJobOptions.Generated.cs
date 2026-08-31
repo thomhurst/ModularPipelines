@@ -24,7 +24,10 @@ public record AwsIotDescribeJobOptions : AwsOptions
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CliFlag("--before-substitution")]
+    /// <summary>
+    /// Provides a view of the job document before and after the substitu- tion parameters have been resolved with their exact values.
+    /// </summary>
+    [CliFlag("--before-substitution", NegatedName = "--no-before-substitution")]
     public bool? BeforeSubstitution { get; set; }
 
     [CliOption("--cli-input-json")]

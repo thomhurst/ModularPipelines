@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApigatewayCreateDomainNameRoutingMode
 {
     [EnumValue("BASE_PATH_MAPPING_ONLY")]
-    BasePathMappingOnly = 1,
+    BasePathMappingOnly,
 
     [EnumValue("ROUTING_RULE_ONLY")]
-    RoutingRuleOnly = 2
+    RoutingRuleOnly
 }

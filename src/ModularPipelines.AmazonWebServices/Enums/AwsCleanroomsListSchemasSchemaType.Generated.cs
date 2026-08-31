@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsListSchemasSchemaType
 {
     [EnumValue("TABLE")]
-    Table = 1,
+    Table,
 
     [EnumValue("ID_MAPPING_TABLE")]
-    IdMappingTable = 2,
+    IdMappingTable,
 
     [EnumValue("INTERMEDIATE_TABLE")]
-    IntermediateTable = 3
+    IntermediateTable
 }

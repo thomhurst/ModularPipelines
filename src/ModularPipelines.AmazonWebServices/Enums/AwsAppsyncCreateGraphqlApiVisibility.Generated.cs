@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppsyncCreateGraphqlApiVisibility
 {
     [EnumValue("GLOBAL")]
-    Global = 1,
+    Global,
 
     [EnumValue("PRIVATE")]
-    Private = 2
+    Private
 }

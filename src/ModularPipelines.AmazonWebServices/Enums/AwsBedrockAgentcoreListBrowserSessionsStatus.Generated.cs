@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreListBrowserSessionsStatus
 {
     [EnumValue("READY")]
-    Ready = 1,
+    Ready,
 
     [EnumValue("TERMINATED")]
-    Terminated = 2
+    Terminated
 }

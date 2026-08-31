@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodeguruprofilerBatchGetFrameMetricDataTargetResolution
 {
     [EnumValue("PT5M")]
-    Pt5M = 1,
+    Pt5M,
 
     [EnumValue("PT1H")]
-    Pt1H = 2,
+    Pt1H,
 
     [EnumValue("P1D")]
-    P1D = 3
+    P1D
 }

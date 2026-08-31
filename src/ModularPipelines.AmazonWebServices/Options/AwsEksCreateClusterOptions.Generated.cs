@@ -75,7 +75,10 @@ public record AwsEksCreateClusterOptions : AwsOptions
     [CliOption("--access-config")]
     public string? AccessConfig { get; set; }
 
-    [CliFlag("--bootstrap-self-managed-addons")]
+    /// <summary>
+    /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking add-ons include vpc-cni , coredns , and kube-proxy . Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
+    /// </summary>
+    [CliFlag("--bootstrap-self-managed-addons", NegatedName = "--no-bootstrap-self-managed-addons")]
     public bool? BootstrapSelfManagedAddons { get; set; }
 
     /// <summary>
@@ -108,7 +111,10 @@ public record AwsEksCreateClusterOptions : AwsOptions
     [CliOption("--storage-config")]
     public string? StorageConfig { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster cannot be deleted unless deletion protec- tion is first disabled. This helps prevent accidental cluster dele- tion. Default value is false .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationSignalsGetInstrumentationConfigurationStatusStatus
 {
     [EnumValue("READY")]
-    Ready = 1,
+    Ready,
 
     [EnumValue("ERROR")]
-    Error = 2,
+    Error,
 
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
 
     [EnumValue("DISABLED")]
-    Disabled = 4
+    Disabled
 }

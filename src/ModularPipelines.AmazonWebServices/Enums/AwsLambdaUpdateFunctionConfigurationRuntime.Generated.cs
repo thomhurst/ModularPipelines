@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaUpdateFunctionConfigurationRuntime
 {
     [EnumValue("nodejs")]
-    Nodejs = 1,
+    Nodejs,
 
     [EnumValue("nodejs4")]
-    Nodejs4 = 2
+    Nodejs4
 }

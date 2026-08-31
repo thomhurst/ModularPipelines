@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsOpensearchRevokeVpcEndpointAccessOptions : AwsOptions
     /// The service SP to revoke access from. Possible values: o application.opensearchservice.amazonaws.com
     /// </summary>
     [CliOption("--service")]
-    public AwsOpensearchRevokeVpcEndpointAccessService? Service { get; set; }
+    public string? Service { get; set; }
 
     /// <summary>
     /// The options for the service, including the supported Regions for the endpoint access. SupportedRegions -&gt; (list) The list of supported Regions for the service. (string) An Amazon Web Services Region, such as us-east-1 . Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: SupportedRegions=string,string JSON Syntax: { "SupportedRegions": ["string", ...] }

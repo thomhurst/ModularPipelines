@@ -44,7 +44,10 @@ public record AwsSecurityhubCreateAutomationRuleOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--is-terminal")]
+    /// <summary>
+    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a find- ing matches the criteria for multiple rules, and each rule has dif- ferent actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't ter- minal.
+    /// </summary>
+    [CliFlag("--is-terminal", NegatedName = "--no-is-terminal")]
     public bool? IsTerminal { get; set; }
 
     [CliOption("--criteria")]

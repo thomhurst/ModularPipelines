@@ -55,6 +55,9 @@ public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
     [CliOption("--approved-patches-compliance-level")]
     public AwsSsmUpdatePatchBaselineApprovedPatchesComplianceLevel? ApprovedPatchesComplianceLevel { get; set; }
 
+    /// <summary>
+    /// able-non-security (boolean) Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false . Applies to Linux managed nodes only.
+    /// </summary>
     [CliFlag("--approved-patches-enable-non-security")]
     public bool? ApprovedPatchesEnableNonSecurity { get; set; }
 
@@ -88,7 +91,10 @@ public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
     [CliOption("--available-security-updates-compliance-status")]
     public AwsSsmUpdatePatchBaselineAvailableSecurityUpdatesComplianceStatus? AvailableSecurityUpdatesComplianceStatus { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True, then all fields that are required by the CreatePatchBase- line operation are also required for this API request. Optional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]

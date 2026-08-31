@@ -17,41 +17,41 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesOpticalStandard
 {
     [EnumValue("OPTIC_10GBASE_SR")]
-    Optic_10GbaseSr = 1,
+    Optic_10GbaseSr,
 
     [EnumValue("OPTIC_10GBASE_IR")]
-    Optic_10GbaseIr = 2,
+    Optic_10GbaseIr,
 
     [EnumValue("OPTIC_10GBASE_LR")]
-    Optic_10GbaseLr = 3,
+    Optic_10GbaseLr,
 
     [EnumValue("OPTIC_40GBASE_SR")]
-    Optic_40GbaseSr = 4,
+    Optic_40GbaseSr,
 
     [EnumValue("OPTIC_40GBASE_ESR")]
-    Optic_40GbaseEsr = 5,
+    Optic_40GbaseEsr,
 
     [EnumValue("OPTIC_40GBASE_IR4_LR4L")]
-    Optic_40GbaseIr4Lr4L = 6,
+    Optic_40GbaseIr4Lr4L,
 
     [EnumValue("OPTIC_40GBASE_LR4")]
-    Optic_40GbaseLr4 = 7,
+    Optic_40GbaseLr4,
 
     [EnumValue("OPTIC_100GBASE_SR4")]
-    Optic_100GbaseSr4 = 8,
+    Optic_100GbaseSr4,
 
     [EnumValue("OPTIC_100GBASE_CWDM4")]
-    Optic_100GbaseCwdm4 = 9,
+    Optic_100GbaseCwdm4,
 
     [EnumValue("OPTIC_100GBASE_LR4")]
-    Optic_100GbaseLr4 = 10,
+    Optic_100GbaseLr4,
 
     [EnumValue("OPTIC_100G_PSM4_MSA")]
-    Optic_100GPsm4Msa = 11,
+    Optic_100GPsm4Msa,
 
     [EnumValue("OPTIC_1000BASE_LX")]
-    Optic_1000BaseLx = 12,
+    Optic_1000BaseLx,
 
     [EnumValue("OPTIC_1000BASE_SX")]
-    Optic_1000BaseSx = 13
+    Optic_1000BaseSx
 }

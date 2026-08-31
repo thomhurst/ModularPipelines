@@ -24,7 +24,10 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Specifies whether to skip the creation of a final DB snapshot before deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS cre- ates a DB snapshot before the DB instance is deleted. By default, skip isn't enabled, and the DB snapshot is created. NOTE: If you don't enable this parameter, you must specify the Fi- nalDBSnapshotIdentifier parameter. When a DB instance is in a failure state and has a status of failed , incompatible-restore , or incompatible-network , RDS can delete the instance only if you enable this parameter. If you delete a read replica or an RDS Custom instance, you must en- able this setting. This setting is required for RDS Custom.
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -33,7 +36,10 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
-    [CliFlag("--delete-automated-backups")]
+    /// <summary>
+    /// Specifies whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The de- fault is to remove automated backups immediately after the DB in- stance is deleted.
+    /// </summary>
+    [CliFlag("--delete-automated-backups", NegatedName = "--no-delete-automated-backups")]
     public bool? DeleteAutomatedBackups { get; set; }
 
     [CliOption("--cli-input-json")]

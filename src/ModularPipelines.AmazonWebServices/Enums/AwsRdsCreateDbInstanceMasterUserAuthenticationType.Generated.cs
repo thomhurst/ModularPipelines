@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbInstanceMasterUserAuthenticationType
 {
     [EnumValue("password")]
-    Password = 1,
+    Password,
 
     [EnumValue("iam-db-auth")]
-    IamDbAuth = 2
+    IamDbAuth
 }

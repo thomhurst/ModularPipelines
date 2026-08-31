@@ -25,7 +25,7 @@ public record AwsWickrBatchToggleUserSuspendStatusOptions : AwsOptions
     [CliOption("--network-id")]
     public string? NetworkId { get; set; }
 
-    [CliFlag("--suspend")]
+    [CliFlag("--suspend", NegatedName = "--no-suspend")]
     public bool? Suspend { get; set; }
 
     [CliOption("--user-ids", GroupValues = true)]

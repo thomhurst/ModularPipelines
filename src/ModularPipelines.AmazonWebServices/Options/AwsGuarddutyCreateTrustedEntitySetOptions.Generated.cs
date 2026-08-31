@@ -41,7 +41,7 @@ public record AwsGuarddutyCreateTrustedEntitySetOptions : AwsOptions
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliFlag("--activate")]
+    [CliFlag("--activate", NegatedName = "--no-activate")]
     public bool? Activate { get; set; }
 
     /// <summary>

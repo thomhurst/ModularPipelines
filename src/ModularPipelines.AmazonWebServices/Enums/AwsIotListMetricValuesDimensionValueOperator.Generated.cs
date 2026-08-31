@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListMetricValuesDimensionValueOperator
 {
     [EnumValue("IN")]
-    In = 1,
+    In,
 
     [EnumValue("NOT_IN")]
-    NotIn = 2
+    NotIn
 }

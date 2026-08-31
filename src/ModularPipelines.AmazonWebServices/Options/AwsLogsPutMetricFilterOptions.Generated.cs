@@ -33,7 +33,10 @@ public record AwsLogsPutMetricFilterOptions : AwsOptions
     [CliOption("--metric-transformations", GroupValues = true)]
     public IEnumerable<string>? MetricTransformations { get; set; }
 
-    [CliFlag("--apply-on-transformed-logs")]
+    /// <summary>
+    /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer . If the log group uses either a log-group level or account-level transformer, and you specify true , the metric filter will be ap- plied on the transformed version of the log events instead of the original ingested log events.
+    /// </summary>
+    [CliFlag("--apply-on-transformed-logs", NegatedName = "--no-apply-on-transformed-logs")]
     public bool? ApplyOnTransformedLogs { get; set; }
 
     /// <summary>

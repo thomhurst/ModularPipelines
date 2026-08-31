@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOrganizationsCreateOrganizationFeatureSet
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("CONSOLIDATED_BILLING")]
-    ConsolidatedBilling = 2
+    ConsolidatedBilling
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsXrayUpdateTraceSegmentDestinationDestination
 {
     [EnumValue("XRay")]
-    XRay = 1,
+    XRay,
 
     [EnumValue("CloudWatchLogs")]
-    CloudWatchLogs = 2
+    CloudWatchLogs
 }

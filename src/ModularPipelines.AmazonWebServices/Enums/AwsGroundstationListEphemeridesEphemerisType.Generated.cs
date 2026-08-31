@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGroundstationListEphemeridesEphemerisType
 {
     [EnumValue("TLE")]
-    Tle = 1,
+    Tle,
 
     [EnumValue("OEM")]
-    Oem = 2,
+    Oem,
 
     [EnumValue("AZ_EL")]
-    AzEl = 3,
+    AzEl,
 
     [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 4
+    ServiceManaged
 }

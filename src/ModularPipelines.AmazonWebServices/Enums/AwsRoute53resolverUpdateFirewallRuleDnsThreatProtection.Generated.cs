@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53resolverUpdateFirewallRuleDnsThreatProtection
 {
     [EnumValue("DGA")]
-    Dga = 1,
+    Dga,
 
     [EnumValue("DNS_TUNNELING")]
-    DnsTunneling = 2,
+    DnsTunneling,
 
     [EnumValue("DICTIONARY_DGA")]
-    DictionaryDga = 3
+    DictionaryDga
 }

@@ -27,7 +27,10 @@ public record AwsEc2GetActiveVpnTunnelStatusOptions : AwsOptions
     [CliOption("--vpn-tunnel-outside-ip-address")]
     public string? VpnTunnelOutsideIpAddress { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

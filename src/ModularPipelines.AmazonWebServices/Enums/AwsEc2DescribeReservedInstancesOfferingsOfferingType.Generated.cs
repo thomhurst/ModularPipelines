@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeReservedInstancesOfferingsOfferingType
 {
     [EnumValue("Heavy")]
-    Heavy = 1,
+    Heavy,
 
     [EnumValue("Utilization")]
-    Utilization = 2,
+    Utilization,
 
     [EnumValue("Medium")]
-    Medium = 3,
+    Medium,
 
     [EnumValue("Light")]
-    Light = 4,
+    Light,
 
     [EnumValue("No")]
-    No = 5,
+    No,
 
     [EnumValue("Upfront")]
-    Upfront = 6,
+    Upfront,
 
     [EnumValue("Partial")]
-    Partial = 7,
+    Partial,
 
     [EnumValue("All")]
-    All = 8
+    All
 }

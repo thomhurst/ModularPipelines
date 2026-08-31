@@ -30,10 +30,16 @@ public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions
     [CliOption("--latest-version-id")]
     public string? LatestVersionId { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes: o Tag.StudyInstanceUID , Tag.SeriesInstanceUID , Tag.SOPInstanceUID , and Tag.StudyID o Adding, removing, or updating private tags for an individual SOP Instance
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--include-study-image-sets")]
+    /// <summary>
+    /// Flag to apply the metadata updates to all image sets in the same Study as the requested image set ID.
+    /// </summary>
+    [CliFlag("--include-study-image-sets", NegatedName = "--no-include-study-image-sets")]
     public bool? IncludeStudyImageSets { get; set; }
 
     [CliOption("--update-image-set-metadata-updates")]

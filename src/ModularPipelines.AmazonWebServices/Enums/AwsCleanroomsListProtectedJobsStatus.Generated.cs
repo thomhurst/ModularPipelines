@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsListProtectedJobsStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("STARTED")]
-    Started = 2,
+    Started,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 3,
+    Cancelled,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 4,
+    Cancelling,
 
     [EnumValue("FAILED")]
-    Failed = 5,
+    Failed,
 
     [EnumValue("SUCCESS")]
-    Success = 6
+    Success
 }

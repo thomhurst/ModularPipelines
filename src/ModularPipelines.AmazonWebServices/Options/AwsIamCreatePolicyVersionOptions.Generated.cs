@@ -27,7 +27,10 @@ public record AwsIamCreatePolicyVersionOptions : AwsOptions
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CliFlag("--set-as-default")]
+    /// <summary>
+    /// Specifies whether to set this version as the policy's default ver- sion. When this parameter is true , the new policy version becomes the op- erative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide .
+    /// </summary>
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
     public bool? SetAsDefault { get; set; }
 
     [CliOption("--cli-input-json")]

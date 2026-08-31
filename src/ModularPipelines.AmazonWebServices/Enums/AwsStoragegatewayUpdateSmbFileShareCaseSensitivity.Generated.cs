@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStoragegatewayUpdateSmbFileShareCaseSensitivity
 {
     [EnumValue("ClientSpecified")]
-    ClientSpecified = 1,
+    ClientSpecified,
 
     [EnumValue("CaseSensitive")]
-    CaseSensitive = 2
+    CaseSensitive
 }

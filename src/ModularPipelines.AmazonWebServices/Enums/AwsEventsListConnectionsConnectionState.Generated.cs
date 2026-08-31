@@ -17,29 +17,29 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEventsListConnectionsConnectionState
 {
     [EnumValue("CREATING")]
-    Creating = 1,
+    Creating,
 
     [EnumValue("UPDATING")]
-    Updating = 2,
+    Updating,
 
     [EnumValue("DELETING")]
-    Deleting = 3,
+    Deleting,
 
     [EnumValue("AUTHORIZED")]
-    Authorized = 4,
+    Authorized,
 
     [EnumValue("DEAUTHORIZED")]
-    Deauthorized = 5,
+    Deauthorized,
 
     [EnumValue("AUTHORIZING")]
-    Authorizing = 6,
+    Authorizing,
 
     [EnumValue("DEAUTHORIZING")]
-    Deauthorizing = 7,
+    Deauthorizing,
 
     [EnumValue("ACTIVE")]
-    Active = 8,
+    Active,
 
     [EnumValue("FAILED_CONNECTIVITY")]
-    FailedConnectivity = 9
+    FailedConnectivity
 }

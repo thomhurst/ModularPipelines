@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLookoutequipmentUpdateRetrainingSchedulerPromoteMode
 {
     [EnumValue("MANAGED")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

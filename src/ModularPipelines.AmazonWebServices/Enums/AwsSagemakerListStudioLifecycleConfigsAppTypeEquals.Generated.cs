@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListStudioLifecycleConfigsAppTypeEquals
 {
     [EnumValue("JupyterServer")]
-    JupyterServer = 1,
+    JupyterServer,
 
     [EnumValue("KernelGateway")]
-    KernelGateway = 2,
+    KernelGateway,
 
     [EnumValue("CodeEditor")]
-    CodeEditor = 3,
+    CodeEditor,
 
     [EnumValue("JupyterLab")]
-    JupyterLab = 4
+    JupyterLab
 }

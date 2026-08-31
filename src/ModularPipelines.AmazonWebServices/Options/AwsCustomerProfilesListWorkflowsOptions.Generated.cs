@@ -30,7 +30,7 @@ public record AwsCustomerProfilesListWorkflowsOptions : AwsOptions
     /// The type of workflow. The only supported value is APPFLOW_INTEGRA- TION. Possible values: o APPFLOW_INTEGRATION
     /// </summary>
     [CliOption("--workflow-type")]
-    public AwsCustomerProfilesListWorkflowsWorkflowType? WorkflowType { get; set; }
+    public string? WorkflowType { get; set; }
 
     /// <summary>
     /// Status of workflow execution. Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETE o FAILED o SPLIT o RETRY o CANCELLED

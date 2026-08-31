@@ -41,10 +41,16 @@ public record AwsRdsDescribeServerlessV2PlatformVersionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
-    [CliFlag("--include-all")]
+    /// <summary>
+    /// Specifies whether to also include platform versions which are no longer in use.
+    /// </summary>
+    [CliFlag("--include-all", NegatedName = "--no-include-all")]
     public bool? IncludeAll { get; set; }
 
     [CliOption("--cli-input-json")]

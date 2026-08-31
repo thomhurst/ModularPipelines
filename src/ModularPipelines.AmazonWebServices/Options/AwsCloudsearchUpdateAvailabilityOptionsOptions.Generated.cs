@@ -24,7 +24,7 @@ public record AwsCloudsearchUpdateAvailabilityOptionsOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliFlag("--multi-az")]
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     [CliOption("--cli-input-json")]

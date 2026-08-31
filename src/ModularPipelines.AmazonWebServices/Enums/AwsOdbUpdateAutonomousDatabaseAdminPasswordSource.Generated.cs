@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbUpdateAutonomousDatabaseAdminPasswordSource
 {
     [EnumValue("CUSTOMER_MANAGED_AWS_SECRET")]
-    CustomerManagedAwsSecret = 1,
+    CustomerManagedAwsSecret,
 
     [EnumValue("API_REQUEST_PARAMETER")]
-    ApiRequestParameter = 2
+    ApiRequestParameter
 }

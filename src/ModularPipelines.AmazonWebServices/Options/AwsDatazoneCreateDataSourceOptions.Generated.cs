@@ -77,7 +77,10 @@ public record AwsDatazoneCreateDataSourceOptions : AwsOptions
     [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CliFlag("--publish-on-import")]
+    /// <summary>
+    /// Specifies whether the assets that this data source creates in the inventory are to be also automatically published to the catalog.
+    /// </summary>
+    [CliFlag("--publish-on-import", NegatedName = "--no-publish-on-import")]
     public bool? PublishOnImport { get; set; }
 
     /// <summary>

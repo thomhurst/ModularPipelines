@@ -40,7 +40,10 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions
     [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>

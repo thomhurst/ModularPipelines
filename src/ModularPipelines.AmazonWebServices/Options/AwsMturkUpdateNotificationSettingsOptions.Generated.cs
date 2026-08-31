@@ -30,7 +30,10 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions
     [CliOption("--notification")]
     public string? Notification { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     [CliOption("--cli-input-json")]

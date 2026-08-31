@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDeadlineStartSessionsStatisticsAggregationPeriod
 {
     [EnumValue("HOURLY")]
-    Hourly = 1,
+    Hourly,
 
     [EnumValue("DAILY")]
-    Daily = 2,
+    Daily,
 
     [EnumValue("WEEKLY")]
-    Weekly = 3,
+    Weekly,
 
     [EnumValue("MONTHLY")]
-    Monthly = 4
+    Monthly
 }

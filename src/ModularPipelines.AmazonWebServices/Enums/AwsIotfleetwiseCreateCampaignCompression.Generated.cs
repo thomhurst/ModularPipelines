@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseCreateCampaignCompression
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("SNAPPY")]
-    Snappy = 2
+    Snappy
 }

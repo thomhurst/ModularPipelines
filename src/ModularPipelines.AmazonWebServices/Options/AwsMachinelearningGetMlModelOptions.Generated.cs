@@ -24,7 +24,10 @@ public record AwsMachinelearningGetMlModelOptions : AwsOptions
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; set; }
 
-    [CliFlag("--verbose")]
+    /// <summary>
+    /// Specifies whether the GetMLModel operation should return Recipe . If true, Recipe is returned. If false, Recipe is not returned.
+    /// </summary>
+    [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }
 
     [CliOption("--cli-input-json")]

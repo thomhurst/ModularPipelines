@@ -27,7 +27,10 @@ public record AwsLexv2ModelsDeleteBotAliasOptions : AwsOptions
     [CliOption("--bot-id")]
     public string? BotId { get; set; }
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// By default, Amazon Lex checks if any other resource, such as a bot network, is using the bot alias before it is deleted and throws a ResourceInUseException exception if the alias is being used by an- other resource. Set this parameter to true to skip this check and remove the alias even if it is being used by another resource.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]

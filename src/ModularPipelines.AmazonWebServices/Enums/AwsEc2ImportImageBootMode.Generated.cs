@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ImportImageBootMode
 {
     [EnumValue("legacy-bios")]
-    LegacyBios = 1,
+    LegacyBios,
 
     [EnumValue("uefi")]
-    Uefi = 2,
+    Uefi,
 
     [EnumValue("uefi-preferred")]
-    UefiPreferred = 3
+    UefiPreferred
 }

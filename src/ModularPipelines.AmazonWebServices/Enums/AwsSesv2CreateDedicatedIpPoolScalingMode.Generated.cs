@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSesv2CreateDedicatedIpPoolScalingMode
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("MANAGED")]
-    Managed = 2
+    Managed
 }

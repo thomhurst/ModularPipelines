@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBudgetsUpdateBudgetActionNotificationType
 {
     [EnumValue("ACTUAL")]
-    Actual = 1,
+    Actual,
 
     [EnumValue("FORECASTED")]
-    Forecasted = 2
+    Forecasted
 }

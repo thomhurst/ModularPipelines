@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkMessagingBatchCreateChannelMembershipType
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("HIDDEN")]
-    Hidden = 2
+    Hidden
 }

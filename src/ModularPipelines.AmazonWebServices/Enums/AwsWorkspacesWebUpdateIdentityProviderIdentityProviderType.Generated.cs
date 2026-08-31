@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesWebUpdateIdentityProviderIdentityProviderType
 {
     [EnumValue("SAML")]
-    Saml = 1,
+    Saml,
 
     [EnumValue("Facebook")]
-    Facebook = 2,
+    Facebook,
 
     [EnumValue("Google")]
-    Google = 3,
+    Google,
 
     [EnumValue("LoginWithAmazon")]
-    LoginWithAmazon = 4,
+    LoginWithAmazon,
 
     [EnumValue("SignInWithApple")]
-    SignInWithApple = 5,
+    SignInWithApple,
 
     [EnumValue("OIDC")]
-    Oidc = 6
+    Oidc
 }

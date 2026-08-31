@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmPutComplianceItemsUploadType
 {
     [EnumValue("COMPLETE")]
-    Complete = 1,
+    Complete,
 
     [EnumValue("PARTIAL")]
-    Partial = 2
+    Partial
 }

@@ -17,23 +17,23 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBatchListJobsJobStatus
 {
     [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    Submitted,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("RUNNABLE")]
-    Runnable = 3,
+    Runnable,
 
     [EnumValue("STARTING")]
-    Starting = 4,
+    Starting,
 
     [EnumValue("RUNNING")]
-    Running = 5,
+    Running,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 6,
+    Succeeded,
 
     [EnumValue("FAILED")]
-    Failed = 7
+    Failed
 }

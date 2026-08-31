@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSearchAvailablePhoneNumbersPhoneNumberType
 {
     [EnumValue("Local")]
-    Local = 1,
+    Local,
 
     [EnumValue("TollFree")]
-    TollFree = 2
+    TollFree
 }

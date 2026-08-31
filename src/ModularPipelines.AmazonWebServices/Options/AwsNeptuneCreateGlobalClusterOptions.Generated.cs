@@ -42,7 +42,10 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is en- abled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -57,7 +60,10 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// The storage encryption setting for the new global database cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -65,7 +64,7 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions
     /// Controls long-term memory extraction for this event. When set to SKIP , the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual. Possible values: o SKIP
     /// </summary>
     [CliOption("--extraction-mode")]
-    public AwsBedrockAgentcoreCreateEventExtractionMode? ExtractionMode { get; set; }
+    public string? ExtractionMode { get; set; }
 
     /// <summary>
     /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction. namespaceVariables -&gt; (map) A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory ex- traction to control namespace hierarchy. Constraints: o min: 1 o max: 5 key -&gt; (string) The name of the namespace variable key. The name cannot be a built-in variable name (actorId , sessionId , or memoryStrat- egyId ). Constraints: o min: 1 o max: 32 o pattern: (?!memoryStrategyId$|actorId$|ses- sionId$)[a-z][a-z0-9]* value -&gt; (string) The value of a namespace variable key. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9][a-z0-9-_]* Shorthand Syntax: namespaceVariables={KeyName1=string,KeyName2=string} JSON Syntax: { "namespaceVariables": {"string": "string" ...} }

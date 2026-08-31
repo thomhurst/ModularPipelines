@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcrUpdateRepositoryCreationTemplateImageTagMutability
 {
     [EnumValue("MUTABLE")]
-    Mutable = 1,
+    Mutable,
 
     [EnumValue("IMMUTABLE")]
-    Immutable = 2,
+    Immutable,
 
     [EnumValue("IMMUTABLE_WITH_EXCLUSION")]
-    ImmutableWithExclusion = 3,
+    ImmutableWithExclusion,
 
     [EnumValue("MUTABLE_WITH_EXCLUSION")]
-    MutableWithExclusion = 4
+    MutableWithExclusion
 }

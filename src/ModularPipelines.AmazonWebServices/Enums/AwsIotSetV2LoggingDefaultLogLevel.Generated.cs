@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotSetV2LoggingDefaultLogLevel
 {
     [EnumValue("DEBUG")]
-    Debug = 1,
+    Debug,
 
     [EnumValue("INFO")]
-    Info = 2,
+    Info,
 
     [EnumValue("ERROR")]
-    Error = 3,
+    Error,
 
     [EnumValue("WARN")]
-    Warn = 4,
+    Warn,
 
     [EnumValue("DISABLED")]
-    Disabled = 5
+    Disabled
 }

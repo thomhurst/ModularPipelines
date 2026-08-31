@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDynamodbListBackupsBackupType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("SYSTEM")]
-    System = 2,
+    System,
 
     [EnumValue("AWS_BACKUP")]
-    AwsBackup = 3,
+    AwsBackup,
 
     [EnumValue("ALL")]
-    All = 4
+    All
 }

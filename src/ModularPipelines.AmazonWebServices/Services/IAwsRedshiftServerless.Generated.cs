@@ -602,16 +602,6 @@ public interface IAwsRedshiftServerless
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLakehouseConfigurationAsync(AwsRedshiftServerlessUpdateLakehouseConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDes- tinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: A...
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWafv2GetRevenueStatisticsSortBy
 {
     [EnumValue("REVENUE")]
-    Revenue = 1,
+    Revenue,
 
     [EnumValue("PERCENTAGE")]
-    Percentage = 2,
+    Percentage,
 
     [EnumValue("NAME")]
-    Name = 3
+    Name
 }

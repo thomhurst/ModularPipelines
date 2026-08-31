@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsDataExecuteStatementFormatRecordsAs
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("JSON")]
-    Json = 2
+    Json
 }

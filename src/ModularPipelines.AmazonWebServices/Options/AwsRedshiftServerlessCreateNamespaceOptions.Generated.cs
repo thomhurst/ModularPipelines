@@ -72,7 +72,10 @@ public record AwsRedshiftServerlessCreateNamespaceOptions : AwsOptions
     [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
-    [CliFlag("--manage-admin-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage the name- space's admin credentials. You can't use adminUserPassword if man- ageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user ac- count's password.
+    /// </summary>
+    [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
 
     [CliOption("--namespace-name")]

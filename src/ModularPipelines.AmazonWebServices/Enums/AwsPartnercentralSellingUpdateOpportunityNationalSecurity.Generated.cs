@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralSellingUpdateOpportunityNationalSecurity
 {
     [EnumValue("Yes")]
-    Yes = 1,
+    Yes,
 
     [EnumValue("No")]
-    No = 2
+    No
 }

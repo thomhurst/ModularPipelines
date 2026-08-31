@@ -25,7 +25,10 @@ public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions
     [CliOption("--durable-execution-arn")]
     public string? DurableExecutionArn { get; set; }
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The de- fault is true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     /// <summary>
@@ -34,7 +37,10 @@ public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the history events in reverse chronologi- cal order (newest first). By default, events are returned in chrono- logical order (oldest first).
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]

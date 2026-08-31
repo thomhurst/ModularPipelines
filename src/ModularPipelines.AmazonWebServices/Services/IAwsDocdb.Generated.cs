@@ -127,16 +127,6 @@ public interface IAwsDocdb
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates an Amazon DocumentDB event notification subscription. This ac- tion requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Ama- zon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType ) that you want to be notified of. You can also provide a list of Amazon DocumentDB sour...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventSubscriptionAsync(AwsDocdbCreateEventSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Creates an Amazon DocumentDB global cluster that can span multiple mul- tiple Amazon Web Services Regions. The global cluster contains one pri- mary cluster with read-write capability, and up-to 10 read-only sec- ondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated in- frastructure with no impact to your workloads performance. You can create a global cluster that is initially empty, and then add a primary and a s...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -454,16 +444,6 @@ public interface IAwsDocdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ModifyDbSubnetGroupAsync(AwsDocdbModifyDbSubnetGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Modifies an existing Amazon DocumentDB event notification subscription. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEventSubscriptionAsync(AwsDocdbModifyEventSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

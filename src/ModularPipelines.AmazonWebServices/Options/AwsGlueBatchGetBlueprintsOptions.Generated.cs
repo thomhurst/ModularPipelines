@@ -24,10 +24,16 @@ public record AwsGlueBatchGetBlueprintsOptions : AwsOptions
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
-    [CliFlag("--include-blueprint")]
+    /// <summary>
+    /// Specifies whether or not to include the blueprint in the response.
+    /// </summary>
+    [CliFlag("--include-blueprint", NegatedName = "--no-include-blueprint")]
     public bool? IncludeBlueprint { get; set; }
 
-    [CliFlag("--include-parameter-spec")]
+    /// <summary>
+    /// Specifies whether or not to include the parameters, as a JSON string, for the blueprint in the response.
+    /// </summary>
+    [CliFlag("--include-parameter-spec", NegatedName = "--no-include-parameter-spec")]
     public bool? IncludeParameterSpec { get; set; }
 
     [CliOption("--cli-input-json")]

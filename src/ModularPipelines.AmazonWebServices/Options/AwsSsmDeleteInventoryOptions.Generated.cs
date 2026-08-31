@@ -32,7 +32,10 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions
     [CliOption("--schema-delete-option")]
     public AwsSsmDeleteInventorySchemaDeleteOption? SchemaDeleteOption { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

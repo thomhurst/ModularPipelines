@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerCreateClusterNodeRecovery
 {
     [EnumValue("Automatic")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("None")]
-    None = 2
+    None
 }

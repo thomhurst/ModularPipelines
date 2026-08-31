@@ -21,13 +21,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "get-console-screenshot")]
 public record AwsEc2GetConsoleScreenshotOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliFlag("--wake-up")]
+    /// <summary>
+    /// When set to true , acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
+    /// </summary>
+    [CliFlag("--wake-up", NegatedName = "--no-wake-up")]
     public bool? WakeUp { get; set; }
 
     [CliOption("--cli-input-json")]

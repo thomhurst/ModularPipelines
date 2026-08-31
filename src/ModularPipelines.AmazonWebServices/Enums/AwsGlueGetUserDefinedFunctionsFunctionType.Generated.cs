@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueGetUserDefinedFunctionsFunctionType
 {
     [EnumValue("REGULAR_FUNCTION")]
-    RegularFunction = 1,
+    RegularFunction,
 
     [EnumValue("AGGREGATE_FUNCTION")]
-    AggregateFunction = 2,
+    AggregateFunction,
 
     [EnumValue("STORED_PROCEDURE")]
-    StoredProcedure = 3
+    StoredProcedure
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppstreamUpdateThemeForStackThemeStyling
 {
     [EnumValue("LIGHT_BLUE")]
-    LightBlue = 1,
+    LightBlue,
 
     [EnumValue("BLUE")]
-    Blue = 2,
+    Blue,
 
     [EnumValue("PINK")]
-    Pink = 3,
+    Pink,
 
     [EnumValue("RED")]
-    Red = 4
+    Red
 }

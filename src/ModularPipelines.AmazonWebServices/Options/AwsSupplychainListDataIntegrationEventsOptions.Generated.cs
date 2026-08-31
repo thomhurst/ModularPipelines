@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsSupplychainListDataIntegrationEventsOptions : AwsOptions
     /// List data integration events for the specified eventType. Possible values: o scn.data.forecast o scn.data.inventorylevel o scn.data.inboundorder o scn.data.inboundorderline o scn.data.inboundorderlineschedule o scn.data.outboundorderline o scn.data.outboundshipment o scn.data.processheader o scn.data.processoperation o scn.data.processproduct o scn.data.reservation o scn.data.shipment o scn.data.shipmentstop o scn.data.shipmentstoporder o scn.data.supplyplan o scn.data.dataset
     /// </summary>
     [CliOption("--event-type")]
-    public AwsSupplychainListDataIntegrationEventsEventType? EventType { get; set; }
+    public string? EventType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -52,7 +52,7 @@ public record AwsDatazoneSearchTypesOptions : AwsOptions
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CliFlag("--managed")]
+    [CliFlag("--managed", NegatedName = "--no-managed")]
     public bool? Managed { get; set; }
 
     [CliOption("--cli-input-json")]

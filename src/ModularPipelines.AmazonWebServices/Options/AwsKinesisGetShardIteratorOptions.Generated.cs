@@ -34,7 +34,7 @@ public record AwsKinesisGetShardIteratorOptions : AwsOptions
     public string? ShardIteratorType { get; set; }
 
     /// <summary>
-    /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER. Constraints: o pattern: 0|([1-9]\d{0,128})
+    /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER. Constraints: o pattern: ^(0|([1-9]\d{0,128}))$
     /// </summary>
     [CliOption("--starting-sequence-number")]
     public string? StartingSequenceNumber { get; set; }

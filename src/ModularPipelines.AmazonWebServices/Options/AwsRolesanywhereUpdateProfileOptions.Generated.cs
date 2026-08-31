@@ -54,7 +54,10 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CliFlag("--accept-role-session-name")]
+    /// <summary>
+    /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+    /// </summary>
+    [CliFlag("--accept-role-session-name", NegatedName = "--no-accept-role-session-name")]
     public bool? AcceptRoleSessionName { get; set; }
 
     [CliOption("--cli-input-json")]

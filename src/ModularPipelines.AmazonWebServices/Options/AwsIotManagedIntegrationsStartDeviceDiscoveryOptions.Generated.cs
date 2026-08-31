@@ -61,7 +61,7 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions
     /// The type of authentication material used for device discovery jobs. Possible values: o ZWAVE_INSTALL_CODE
     /// </summary>
     [CliOption("--authentication-material-type")]
-    public AwsIotManagedIntegrationsStartDeviceDiscoveryAuthenticationMaterialType? AuthenticationMaterialType { get; set; }
+    public string? AuthenticationMaterialType { get; set; }
 
     /// <summary>
     /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+

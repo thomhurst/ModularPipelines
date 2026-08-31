@@ -30,7 +30,10 @@ public record AwsMghPutResourceAttributesOptions : AwsOptions
     [CliOption("--resource-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ResourceAttributeList { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

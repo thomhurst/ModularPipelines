@@ -24,7 +24,10 @@ public record AwsElasticacheResetCacheParameterGroupOptions : AwsOptions
     [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// If true , all parameters in the cache parameter group are reset to their default values. If false , only the parameters listed by Para- meterNameValues are reset to their default values. Valid values: true | false
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>

@@ -31,7 +31,10 @@ public record AwsCleanroomsmlStartAudienceGenerationJobOptions : AwsOptions
     [CliOption("--seed-audience")]
     public string? SeedAudience { get; set; }
 
-    [CliFlag("--include-seed-in-output")]
+    /// <summary>
+    /// Whether the seed audience is included in the audience generation output.
+    /// </summary>
+    [CliFlag("--include-seed-in-output", NegatedName = "--no-include-seed-in-output")]
     public bool? IncludeSeedInOutput { get; set; }
 
     /// <summary>

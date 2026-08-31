@@ -30,7 +30,10 @@ public record AwsEcsDeregisterContainerInstanceOptions : AwsOptions
     [CliOption("--container-instance")]
     public string? ContainerInstance { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the container instance to be deregistered. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the in- stance or the tasks stop through some other means, but they're or- phaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible. Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

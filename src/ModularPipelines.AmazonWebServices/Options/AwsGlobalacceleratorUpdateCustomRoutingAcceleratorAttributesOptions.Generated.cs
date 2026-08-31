@@ -24,7 +24,10 @@ public record AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOption
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; set; }
 
-    [CliFlag("--flow-logs-enabled")]
+    /// <summary>
+    /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow logs in the Global Accelerator Devel- oper Guide .
+    /// </summary>
+    [CliFlag("--flow-logs-enabled", NegatedName = "--no-flow-logs-enabled")]
     public bool? FlowLogsEnabled { get; set; }
 
     /// <summary>

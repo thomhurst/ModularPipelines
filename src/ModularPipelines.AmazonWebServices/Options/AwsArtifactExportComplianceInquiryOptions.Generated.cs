@@ -30,7 +30,10 @@ public record AwsArtifactExportComplianceInquiryOptions : AwsOptions
     [CliOption("--query-identifiers", GroupValues = true)]
     public IEnumerable<string>? QueryIdentifiers { get; set; }
 
-    [CliFlag("--include-citations")]
+    /// <summary>
+    /// When true, include citations in the exported document.
+    /// </summary>
+    [CliFlag("--include-citations", NegatedName = "--no-include-citations")]
     public bool? IncludeCitations { get; set; }
 
     [CliOption("--cli-input-json")]

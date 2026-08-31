@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPersonalizeCreateSolutionVersionTrainingMode
 {
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("UPDATE")]
-    Update = 2,
+    Update,
 
     [EnumValue("AUTOTRAIN")]
-    Autotrain = 3
+    Autotrain
 }

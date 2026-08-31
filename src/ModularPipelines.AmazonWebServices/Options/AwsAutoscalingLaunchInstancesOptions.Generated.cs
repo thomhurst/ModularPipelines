@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -58,7 +57,7 @@ public record AwsAutoscalingLaunchInstancesOptions : AwsOptions
     /// Specifies whether to retry asynchronously if the synchronous launch fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with group configuration). Possible values: o retry-with-group-configuration o none
     /// </summary>
     [CliOption("--retry-strategy")]
-    public AwsAutoscalingLaunchInstancesRetryStrategy? RetryStrategy { get; set; }
+    public string? RetryStrategy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

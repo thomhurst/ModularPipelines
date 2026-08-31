@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationInsightsListConfigurationHistoryEventStatus
 {
     [EnumValue("INFO")]
-    Info = 1,
+    Info,
 
     [EnumValue("WARN")]
-    Warn = 2,
+    Warn,
 
     [EnumValue("ERROR")]
-    Error = 3
+    Error
 }

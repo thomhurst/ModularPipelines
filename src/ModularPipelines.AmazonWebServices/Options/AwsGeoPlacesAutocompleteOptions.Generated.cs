@@ -71,7 +71,7 @@ public record AwsGeoPlacesAutocompleteOptions : AwsOptions
     /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Currently, Autocom- plete does not support storage of results. Possible values: o SingleUse
     /// </summary>
     [CliOption("--intended-use")]
-    public AwsGeoPlacesAutocompleteIntendedUse? IntendedUse { get; set; }
+    public string? IntendedUse { get; set; }
 
     /// <summary>
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000

@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("guardduty", "create-detector")]
 public record AwsGuarddutyCreateDetectorOptions : AwsOptions
 {
-    [CliFlag("--enable")]
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
 
     /// <summary>

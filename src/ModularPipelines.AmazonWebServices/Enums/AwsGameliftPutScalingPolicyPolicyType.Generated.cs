@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftPutScalingPolicyPolicyType
 {
     [EnumValue("RuleBased")]
-    RuleBased = 1,
+    RuleBased,
 
     [EnumValue("TargetBased")]
-    TargetBased = 2
+    TargetBased
 }

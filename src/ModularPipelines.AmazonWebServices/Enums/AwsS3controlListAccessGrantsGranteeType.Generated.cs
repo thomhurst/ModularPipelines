@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3controlListAccessGrantsGranteeType
 {
     [EnumValue("DIRECTORY_USER")]
-    DirectoryUser = 1,
+    DirectoryUser,
 
     [EnumValue("DIRECTORY_GROUP")]
-    DirectoryGroup = 2,
+    DirectoryGroup,
 
     [EnumValue("IAM")]
-    Iam = 3
+    Iam
 }

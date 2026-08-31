@@ -17,32 +17,32 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion
 {
     [EnumValue("us-east-1")]
-    UsEast_1 = 1,
+    UsEast_1,
 
     [EnumValue("us-west-2")]
-    UsWest_2 = 2,
+    UsWest_2,
 
     [EnumValue("ca-central-1")]
-    CaCentral_1 = 3,
+    CaCentral_1,
 
     [EnumValue("eu-central-1")]
-    EuCentral_1 = 4,
+    EuCentral_1,
 
     [EnumValue("eu-west-1")]
-    EuWest_1 = 5,
+    EuWest_1,
 
     [EnumValue("eu-west-2")]
-    EuWest_2 = 6,
+    EuWest_2,
 
     [EnumValue("ap-northeast-2")]
-    ApNortheast_2 = 7,
+    ApNortheast_2,
 
     [EnumValue("ap-northeast-1")]
-    ApNortheast_1 = 8,
+    ApNortheast_1,
 
     [EnumValue("ap-southeast-1")]
-    ApSoutheast_1 = 9,
+    ApSoutheast_1,
 
     [EnumValue("ap-southeast-2")]
-    ApSoutheast_2 = 10
+    ApSoutheast_2
 }

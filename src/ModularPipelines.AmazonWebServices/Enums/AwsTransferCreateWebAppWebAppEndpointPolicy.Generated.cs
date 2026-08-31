@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTransferCreateWebAppWebAppEndpointPolicy
 {
     [EnumValue("FIPS")]
-    Fips = 1,
+    Fips,
 
     [EnumValue("STANDARD")]
-    Standard = 2
+    Standard
 }

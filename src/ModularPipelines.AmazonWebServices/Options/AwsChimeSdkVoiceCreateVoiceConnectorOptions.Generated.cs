@@ -31,7 +31,7 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions
     [CliOption("--aws-region")]
     public AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion? AwsRegion { get; set; }
 
-    [CliFlag("--require-encryption")]
+    [CliFlag("--require-encryption", NegatedName = "--no-require-encryption")]
     public bool? RequireEncryption { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions
     /// The connectors for use with Connect Customer. The following options are available: o CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone net- work. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modern- ize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises mi- grating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration. NOTE: This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist. o CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to dis- play, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enter- prises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration. Possible values: o CONNECT_CALL_TRANSFER_CONNECTOR o CONNECT_ANALYTICS_CONNECTOR
     /// </summary>
     [CliOption("--integration-type")]
-    public AwsChimeSdkVoiceCreateVoiceConnectorIntegrationType? IntegrationType { get; set; }
+    public string? IntegrationType { get; set; }
 
     /// <summary>
     /// The type of network for the Voice Connector. Possible values: o IPV4_ONLY o DUAL_STACK

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhubstrategyStartImportFileTaskDataSourceType
 {
     [EnumValue("ApplicationDiscoveryService")]
-    ApplicationDiscoveryService = 1,
+    ApplicationDiscoveryService,
 
     [EnumValue("MPA")]
-    Mpa = 2,
+    Mpa,
 
     [EnumValue("Import")]
-    Import = 3
+    Import
 }

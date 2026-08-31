@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-volume")]
 public record AwsEc2ModifyVolumeOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--volume-id")]
@@ -52,7 +55,10 @@ public record AwsEc2ModifyVolumeOptions : AwsOptions
     [CliOption("--throughput")]
     public int? Throughput { get; set; }
 
-    [CliFlag("--multi-attach-enabled")]
+    /// <summary>
+    /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro-based in- stances in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach in the Amazon EBS User Guide .
+    /// </summary>
+    [CliFlag("--multi-attach-enabled", NegatedName = "--no-multi-attach-enabled")]
     public bool? MultiAttachEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

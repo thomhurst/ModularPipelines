@@ -49,7 +49,7 @@ public record AwsClouddirectoryListObjectParentsOptions : AwsOptions
     public AwsClouddirectoryListObjectParentsConsistencyLevel? ConsistencyLevel { get; set; }
 
     /// <summary>
-    /// | --no-in- clude-all-links-to-each-parent (boolean) When set to True, returns all ListObjectParentsResponse$ParentLinks . There could be multiple links between a parent-child pair.
+    /// clude-all-links-to-each-parent (boolean) When set to True, returns all ListObjectParentsResponse$ParentLinks . There could be multiple links between a parent-child pair.
     /// </summary>
     [CliFlag("--include-all-links-to-each-parent")]
     public bool? IncludeAllLinksToEachParent { get; set; }

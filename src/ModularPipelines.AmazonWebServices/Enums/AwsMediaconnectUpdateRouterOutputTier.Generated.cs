@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateRouterOutputTier
 {
     [EnumValue("OUTPUT_100")]
-    Output_100 = 1,
+    Output_100,
 
     [EnumValue("OUTPUT_50")]
-    Output_50 = 2,
+    Output_50,
 
     [EnumValue("OUTPUT_20")]
-    Output_20 = 3
+    Output_20
 }

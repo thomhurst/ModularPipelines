@@ -56,7 +56,10 @@ public record AwsQconnectCreateQuickResponseOptions : AwsOptions
     [CliOption("--shortcut-key")]
     public string? ShortcutKey { get; set; }
 
-    [CliFlag("--is-active")]
+    /// <summary>
+    /// Whether the quick response is active.
+    /// </summary>
+    [CliFlag("--is-active", NegatedName = "--no-is-active")]
     public bool? IsActive { get; set; }
 
     /// <summary>

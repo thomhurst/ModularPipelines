@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRamListResourceTypesResourceRegionScope
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("REGIONAL")]
-    Regional = 2,
+    Regional,
 
     [EnumValue("GLOBAL")]
-    Global = 3
+    Global
 }

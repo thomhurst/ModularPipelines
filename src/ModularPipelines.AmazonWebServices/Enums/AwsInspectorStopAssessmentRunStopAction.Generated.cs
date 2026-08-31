@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspectorStopAssessmentRunStopAction
 {
     [EnumValue("START_EVALUATION")]
-    StartEvaluation = 1,
+    StartEvaluation,
 
     [EnumValue("SKIP_EVALUATION")]
-    SkipEvaluation = 2
+    SkipEvaluation
 }

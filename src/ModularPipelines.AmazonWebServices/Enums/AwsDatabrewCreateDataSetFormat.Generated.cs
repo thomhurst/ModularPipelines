@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatabrewCreateDataSetFormat
 {
     [EnumValue("CSV")]
-    Csv = 1,
+    Csv,
 
     [EnumValue("JSON")]
-    Json = 2,
+    Json,
 
     [EnumValue("PARQUET")]
-    Parquet = 3,
+    Parquet,
 
     [EnumValue("EXCEL")]
-    Excel = 4,
+    Excel,
 
     [EnumValue("ORC")]
-    Orc = 5
+    Orc
 }

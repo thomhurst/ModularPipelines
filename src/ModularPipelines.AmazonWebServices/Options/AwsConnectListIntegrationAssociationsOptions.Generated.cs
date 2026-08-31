@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -29,7 +30,7 @@ public record AwsConnectListIntegrationAssociationsOptions : AwsOptions
     /// The integration type. Possible values: o EVENT o VOICE_ID o PINPOINT_APP o WISDOM_ASSISTANT o WISDOM_KNOWLEDGE_BASE o WISDOM_QUICK_RESPONSES o Q_MESSAGE_TEMPLATES o CASES_DOMAIN o APPLICATION o FILE_SCANNER o SES_IDENTITY o ANALYTICS_CONNECTOR o CALL_TRANSFER_CONNECTOR o COGNITO_USER_POOL o MESSAGE_PROCESSOR
     /// </summary>
     [CliOption("--integration-type")]
-    public string? IntegrationType { get; set; }
+    public AwsConnectListIntegrationAssociationsIntegrationType? IntegrationType { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the integration.

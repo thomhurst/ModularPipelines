@@ -51,10 +51,16 @@ public record AwsElasticbeanstalkCreateApplicationVersionOptions : AwsOptions
     [CliOption("--build-configuration")]
     public string? BuildConfiguration { get; set; }
 
-    [CliFlag("--auto-create-application")]
+    /// <summary>
+    /// Set to true to create an application with the specified name if it doesn't already exist.
+    /// </summary>
+    [CliFlag("--auto-create-application", NegatedName = "--no-auto-create-application")]
     public bool? AutoCreateApplication { get; set; }
 
-    [CliFlag("--process")]
+    /// <summary>
+    /// Pre-processes and validates the environment manifest (env.yaml ) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify is- sues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. NOTE: The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+    /// </summary>
+    [CliFlag("--process", NegatedName = "--no-process")]
     public bool? Process { get; set; }
 
     /// <summary>

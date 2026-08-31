@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPartnercentralSellingListResourceSnapshotJobsStatus
 {
     [EnumValue("Running")]
-    Running = 1,
+    Running,
 
     [EnumValue("Stopped")]
-    Stopped = 2
+    Stopped
 }

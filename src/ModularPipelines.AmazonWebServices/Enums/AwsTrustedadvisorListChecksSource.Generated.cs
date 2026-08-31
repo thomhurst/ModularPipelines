@@ -17,44 +17,44 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListChecksSource
 {
     [EnumValue("aws_config")]
-    AwsConfig = 1,
+    AwsConfig,
 
     [EnumValue("compute_optimizer")]
-    ComputeOptimizer = 2,
+    ComputeOptimizer,
 
     [EnumValue("cost_explorer")]
-    CostExplorer = 3,
+    CostExplorer,
 
     [EnumValue("lse")]
-    Lse = 4,
+    Lse,
 
     [EnumValue("manual")]
-    Manual = 5,
+    Manual,
 
     [EnumValue("pse")]
-    Pse = 6,
+    Pse,
 
     [EnumValue("rds")]
-    Rds = 7,
+    Rds,
 
     [EnumValue("resilience")]
-    Resilience = 8,
+    Resilience,
 
     [EnumValue("resilience_hub")]
-    ResilienceHub = 9,
+    ResilienceHub,
 
     [EnumValue("security_hub")]
-    SecurityHub = 10,
+    SecurityHub,
 
     [EnumValue("stir")]
-    Stir = 11,
+    Stir,
 
     [EnumValue("ta_check")]
-    TaCheck = 12,
+    TaCheck,
 
     [EnumValue("well_architected")]
-    WellArchitected = 13,
+    WellArchitected,
 
     [EnumValue("cost_optimization_hub")]
-    CostOptimizationHub = 14
+    CostOptimizationHub
 }

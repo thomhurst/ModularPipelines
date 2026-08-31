@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerUpdateMlflowAppModelRegistrationMode
 {
     [EnumValue("AutoModelRegistrationEnabled")]
-    AutoModelRegistrationEnabled = 1,
+    AutoModelRegistrationEnabled,
 
     [EnumValue("AutoModelRegistrationDisabled")]
-    AutoModelRegistrationDisabled = 2
+    AutoModelRegistrationDisabled
 }

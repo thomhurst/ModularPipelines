@@ -38,7 +38,10 @@ public record AwsWorkdocsDeleteLabelsOptions : AwsOptions
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
-    [CliFlag("--delete-all")]
+    /// <summary>
+    /// Flag to request removal of all labels from the specified resource.
+    /// </summary>
+    [CliFlag("--delete-all", NegatedName = "--no-delete-all")]
     public bool? DeleteAll { get; set; }
 
     [CliOption("--cli-input-json")]

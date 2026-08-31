@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateGatewayInstanceBridgePlacement
 {
     [EnumValue("AVAILABLE")]
-    Available = 1,
+    Available,
 
     [EnumValue("LOCKED")]
-    Locked = 2
+    Locked
 }

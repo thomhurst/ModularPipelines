@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2UpdateCisScanConfigurationSecurityLevel
 {
     [EnumValue("LEVEL_1")]
-    Level_1 = 1,
+    Level_1,
 
     [EnumValue("LEVEL_2")]
-    Level_2 = 2
+    Level_2
 }

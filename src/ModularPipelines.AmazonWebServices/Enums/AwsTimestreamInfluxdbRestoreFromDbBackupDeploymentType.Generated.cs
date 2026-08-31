@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTimestreamInfluxdbRestoreFromDbBackupDeploymentType
 {
     [EnumValue("SINGLE_AZ")]
-    SingleAz = 1,
+    SingleAz,
 
     [EnumValue("WITH_MULTIAZ_STANDBY")]
-    WithMultiazStandby = 2,
+    WithMultiazStandby,
 
     [EnumValue("MULTI_NODE_READ_REPLICAS")]
-    MultiNodeReadReplicas = 3
+    MultiNodeReadReplicas
 }

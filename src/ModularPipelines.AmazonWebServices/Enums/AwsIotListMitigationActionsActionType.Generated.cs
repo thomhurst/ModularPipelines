@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListMitigationActionsActionType
 {
     [EnumValue("UPDATE_DEVICE_CERTIFICATE")]
-    UpdateDeviceCertificate = 1,
+    UpdateDeviceCertificate,
 
     [EnumValue("UPDATE_CA_CERTIFICATE")]
-    UpdateCaCertificate = 2,
+    UpdateCaCertificate,
 
     [EnumValue("ADD_THINGS_TO_THING_GROUP")]
-    AddThingsToThingGroup = 3,
+    AddThingsToThingGroup,
 
     [EnumValue("ENABLE_IOT_LOGGING")]
-    EnableIotLogging = 4,
+    EnableIotLogging,
 
     [EnumValue("PUBLISH_FINDING_TO_SNS")]
-    PublishFindingToSns = 5
+    PublishFindingToSns
 }

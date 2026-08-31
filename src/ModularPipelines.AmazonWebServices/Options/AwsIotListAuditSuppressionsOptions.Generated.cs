@@ -34,7 +34,10 @@ public record AwsIotListAuditSuppressionsOptions : AwsOptions
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Determines whether suppressions are listed in ascending order by ex- piration date or not. If parameter isn't provided, ascendin- gOrder=true .
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]

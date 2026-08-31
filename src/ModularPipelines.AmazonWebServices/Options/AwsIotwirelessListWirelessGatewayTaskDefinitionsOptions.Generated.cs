@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions : AwsOptio
     /// A filter to list only the wireless gateway task definitions that use this task definition type. Possible values: o UPDATE
     /// </summary>
     [CliOption("--task-definition-type")]
-    public AwsIotwirelessListWirelessGatewayTaskDefinitionsTaskDefinitionType? TaskDefinitionType { get; set; }
+    public string? TaskDefinitionType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

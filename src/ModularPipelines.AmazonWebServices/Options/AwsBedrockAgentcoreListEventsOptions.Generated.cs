@@ -31,7 +31,10 @@ public record AwsBedrockAgentcoreListEventsOptions : AwsOptions
     [CliOption("--actor-id")]
     public string? ActorId { get; set; }
 
-    [CliFlag("--include-payloads")]
+    /// <summary>
+    /// Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
+    /// </summary>
+    [CliFlag("--include-payloads", NegatedName = "--no-include-payloads")]
     public bool? IncludePayloads { get; set; }
 
     /// <summary>

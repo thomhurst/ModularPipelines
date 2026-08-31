@@ -37,7 +37,10 @@ public record AwsDynamodbRestoreTableToPointInTimeOptions : AwsOptions
     [CliOption("--target-table-name")]
     public string? TargetTableName { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Restore the table to the latest possible time. LatestRestorableDate- Time is typically 5 minutes before the current time.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>

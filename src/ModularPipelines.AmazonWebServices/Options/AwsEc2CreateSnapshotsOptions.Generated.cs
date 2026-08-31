@@ -43,14 +43,17 @@ public record AwsEc2CreateSnapshotsOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
     /// Copies the tags from the specified volume to corresponding snapshot. Possible values: o volume
     /// </summary>
     [CliOption("--copy-tags-from-source")]
-    public AwsEc2CreateSnapshotsCopyTagsFromSource? CopyTagsFromSource { get; set; }
+    public string? CopyTagsFromSource { get; set; }
 
     /// <summary>
     /// NOTE: Only supported for instances in Local Zones. If the source in- stance is not in a Local Zone, omit this parameter. o To create local snapshots in the same Local Zone as the source in- stance, specify local . o To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter. Default value: regional Possible values: o regional o local

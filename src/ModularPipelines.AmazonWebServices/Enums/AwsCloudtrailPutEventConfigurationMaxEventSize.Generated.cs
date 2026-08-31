@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudtrailPutEventConfigurationMaxEventSize
 {
     [EnumValue("Standard")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("Large")]
-    Large = 2
+    Large
 }

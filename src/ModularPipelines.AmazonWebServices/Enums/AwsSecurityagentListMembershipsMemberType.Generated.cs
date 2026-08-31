@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentListMembershipsMemberType
 {
     [EnumValue("USER")]
-    User = 1,
+    User,
 
     [EnumValue("ALL")]
-    All = 2
+    All
 }

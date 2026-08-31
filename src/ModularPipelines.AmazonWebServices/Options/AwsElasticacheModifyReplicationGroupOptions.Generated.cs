@@ -44,10 +44,16 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--snapshotting-cluster-id")]
     public string? SnapshottingClusterId { get; set; }
 
-    [CliFlag("--automatic-failover-enabled")]
+    /// <summary>
+    /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
+    /// </summary>
+    [CliFlag("--automatic-failover-enabled", NegatedName = "--no-automatic-failover-enabled")]
     public bool? AutomaticFailoverEnabled { get; set; }
 
-    [CliFlag("--multi-az-enabled")]
+    /// <summary>
+    /// A flag to indicate MultiAZ is enabled.
+    /// </summary>
+    [CliFlag("--multi-az-enabled", NegatedName = "--no-multi-az-enabled")]
     public bool? MultiAzEnabled { get; set; }
 
     /// <summary>
@@ -92,7 +98,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--notification-topic-status")]
     public string? NotificationTopicStatus { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow set- ting for the replication group. If false , changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -107,7 +116,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey or Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto mi- nor version upgrade campaign. This parameter is disabled for previ- ous versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -154,7 +166,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--user-group-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToRemove { get; set; }
 
-    [CliFlag("--remove-user-groups")]
+    /// <summary>
+    /// Removes the user group associated with this replication group.
+    /// </summary>
+    [CliFlag("--remove-user-groups", NegatedName = "--no-remove-user-groups")]
     public bool? RemoveUserGroups { get; set; }
 
     /// <summary>
@@ -169,7 +184,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--ip-discovery")]
     public AwsElasticacheModifyReplicationGroupIpDiscovery? IpDiscovery { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred .
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>

@@ -27,7 +27,10 @@ public record AwsGlueGetJobRunOptions : AwsOptions
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CliFlag("--predecessors-included")]
+    /// <summary>
+    /// True if a list of predecessor runs should be returned.
+    /// </summary>
+    [CliFlag("--predecessors-included", NegatedName = "--no-predecessors-included")]
     public bool? PredecessorsIncluded { get; set; }
 
     [CliOption("--cli-input-json")]

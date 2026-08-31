@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateApplicationStatusCheckIpVersion
 {
     [EnumValue("ipv4")]
-    Ipv4 = 0,
+    Ipv4,
 
     [EnumValue("and")]
-    And = 1,
+    And,
 
     [EnumValue("ipv6")]
-    Ipv6 = 2
+    Ipv6
 }

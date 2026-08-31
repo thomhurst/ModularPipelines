@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMqCreateBrokerDataReplicationMode
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("CRDR")]
-    Crdr = 2
+    Crdr
 }

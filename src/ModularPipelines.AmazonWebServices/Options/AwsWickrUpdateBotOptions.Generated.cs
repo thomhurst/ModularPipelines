@@ -45,7 +45,10 @@ public record AwsWickrUpdateBotOptions : AwsOptions
     [CliOption("--challenge")]
     public string? Challenge { get; set; }
 
-    [CliFlag("--suspend")]
+    /// <summary>
+    /// Set to true to suspend the bot or false to unsuspend it. Omit this field for standard updates that don't affect suspension status.
+    /// </summary>
+    [CliFlag("--suspend", NegatedName = "--no-suspend")]
     public bool? Suspend { get; set; }
 
     [CliOption("--cli-input-json")]

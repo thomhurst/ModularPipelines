@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2GetCisScanResultDetailsSortBy
 {
     [EnumValue("CHECK_ID")]
-    CheckId = 1,
+    CheckId,
 
     [EnumValue("STATUS")]
-    Status = 2
+    Status
 }

@@ -30,9 +30,15 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the data- base.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
+    /// <summary>
+    /// dit-fields-included (boolean) Specifies whether the database activity stream includes engine-na- tive audit fields. This option applies to an Oracle or Microsoft SQL Server DB instance. By default, no engine-native audit fields are included.
+    /// </summary>
     [CliFlag("--engine-native-audit-fields-included")]
     public bool? EngineNativeAuditFieldsIncluded { get; set; }
 

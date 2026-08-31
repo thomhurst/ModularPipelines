@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreUpdateAbTestExecutionStatus
 {
     [EnumValue("PAUSED")]
-    Paused = 1,
+    Paused,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("STOPPED")]
-    Stopped = 3,
+    Stopped,
 
     [EnumValue("NOT_STARTED")]
-    NotStarted = 4
+    NotStarted
 }

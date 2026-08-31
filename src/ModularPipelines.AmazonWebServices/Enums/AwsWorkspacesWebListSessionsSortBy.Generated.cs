@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkspacesWebListSessionsSortBy
 {
     [EnumValue("StartTimeAscending")]
-    StartTimeAscending = 1,
+    StartTimeAscending,
 
     [EnumValue("StartTimeDescending")]
-    StartTimeDescending = 2
+    StartTimeDescending
 }

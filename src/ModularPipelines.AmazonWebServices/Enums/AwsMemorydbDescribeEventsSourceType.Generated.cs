@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMemorydbDescribeEventsSourceType
 {
     [EnumValue("node")]
-    Node = 1,
+    Node,
 
     [EnumValue("parameter-group")]
-    ParameterGroup = 2,
+    ParameterGroup,
 
     [EnumValue("subnet-group")]
-    SubnetGroup = 3,
+    SubnetGroup,
 
     [EnumValue("cluster")]
-    Cluster = 4,
+    Cluster,
 
     [EnumValue("user")]
-    User = 5,
+    User,
 
     [EnumValue("acl")]
-    Acl = 6
+    Acl
 }

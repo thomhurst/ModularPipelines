@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRdsCreateDbProxyEndpointTargetRole
 {
     [EnumValue("READ_WRITE")]
-    ReadWrite = 1,
+    ReadWrite,
 
     [EnumValue("READ_ONLY")]
-    ReadOnly = 2
+    ReadOnly
 }

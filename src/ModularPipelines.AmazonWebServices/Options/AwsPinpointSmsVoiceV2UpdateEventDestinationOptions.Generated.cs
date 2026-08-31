@@ -27,7 +27,10 @@ public record AwsPinpointSmsVoiceV2UpdateEventDestinationOptions : AwsOptions
     [CliOption("--event-destination-name")]
     public string? EventDestinationName { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// When set to true logging is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

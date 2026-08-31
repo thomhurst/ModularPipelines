@@ -36,7 +36,10 @@ public record AwsCloudtrailUpdateDashboardOptions : AwsOptions
     [CliOption("--refresh-schedule")]
     public string? RefreshSchedule { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Specifies whether termination protection is enabled for the dash- board. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

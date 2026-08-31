@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudfrontGetFunctionStage
 {
     [EnumValue("DEVELOPMENT")]
-    Development = 1,
+    Development,
 
     [EnumValue("LIVE")]
-    Live = 2,
+    Live,
 
     [EnumValue("outfile")]
-    Outfile = 3
+    Outfile
 }

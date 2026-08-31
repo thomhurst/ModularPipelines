@@ -64,7 +64,7 @@ public record AwsServicecatalogSearchProductsAsAdminOptions : AwsOptions
     /// Access level of the source of the product. Possible values: o ACCOUNT
     /// </summary>
     [CliOption("--product-source")]
-    public AwsServicecatalogSearchProductsAsAdminProductSource? ProductSource { get; set; }
+    public string? ProductSource { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

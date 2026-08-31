@@ -42,7 +42,10 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions
     [CliOption("--storage-connectors", GroupValues = true)]
     public IEnumerable<string>? StorageConnectors { get; set; }
 
-    [CliFlag("--delete-storage-connectors")]
+    /// <summary>
+    /// Deletes the storage connectors currently enabled for the stack.
+    /// </summary>
+    [CliFlag("--delete-storage-connectors", NegatedName = "--no-delete-storage-connectors")]
     public bool? DeleteStorageConnectors { get; set; }
 
     /// <summary>

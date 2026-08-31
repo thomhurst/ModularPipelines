@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEmrCancelStepsStepCancellationOption
 {
     [EnumValue("SEND_INTERRUPT")]
-    SendInterrupt = 1,
+    SendInterrupt,
 
     [EnumValue("TERMINATE_PROCESS")]
-    TerminateProcess = 2
+    TerminateProcess
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsElbv2DescribeSslPoliciesLoadBalancerType
 {
     [EnumValue("application")]
-    Application = 1,
+    Application,
 
     [EnumValue("network")]
-    Network = 2,
+    Network,
 
     [EnumValue("gateway")]
-    Gateway = 3
+    Gateway
 }

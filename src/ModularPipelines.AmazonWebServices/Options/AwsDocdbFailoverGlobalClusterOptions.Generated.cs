@@ -27,10 +27,16 @@ public record AwsDocdbFailoverGlobalClusterOptions : AwsOptions
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; set; }
 
-    [CliFlag("--allow-data-loss")]
+    /// <summary>
+    /// Specifies whether to allow data loss for this global cluster opera- tion. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss , the global cluster operation defaults to a switchover. Constraints: o Can't be specified together with the Switchover parameter.
+    /// </summary>
+    [CliFlag("--allow-data-loss", NegatedName = "--no-allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
-    [CliFlag("--switchover")]
+    /// <summary>
+    /// Specifies whether to switch over this global database cluster. Constraints: o Can't be specified together with the AllowDataLoss parameter.
+    /// </summary>
+    [CliFlag("--switchover", NegatedName = "--no-switchover")]
     public bool? Switchover { get; set; }
 
     [CliOption("--cli-input-json")]

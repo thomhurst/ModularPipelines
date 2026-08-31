@@ -33,7 +33,7 @@ public record AwsDatazoneListProjectMembershipsOptions : AwsOptions
     /// The method by which you want to sort the project memberships. Possible values: o NAME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsDatazoneListProjectMembershipsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order of the project memberships. Possible values: o ASCENDING o DESCENDING

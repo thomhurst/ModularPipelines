@@ -43,7 +43,10 @@ public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions
     [CliOption("--vpc-endpoint-id-restriction-rule-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VpcEndpointIdRestrictionRuleMap { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// A value that specifies whether IP rules are turned on.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]

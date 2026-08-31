@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIvsUpdateChannelLatencyMode
 {
     [EnumValue("NORMAL")]
-    Normal = 1,
+    Normal,
 
     [EnumValue("LOW")]
-    Low = 2
+    Low
 }

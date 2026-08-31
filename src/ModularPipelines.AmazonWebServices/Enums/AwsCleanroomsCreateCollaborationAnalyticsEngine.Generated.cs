@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsCreateCollaborationAnalyticsEngine
 {
     [EnumValue("SPARK")]
-    Spark = 1,
+    Spark,
 
     [EnumValue("CLEAN_ROOMS_SQL")]
-    CleanRoomsSql = 2
+    CleanRoomsSql
 }

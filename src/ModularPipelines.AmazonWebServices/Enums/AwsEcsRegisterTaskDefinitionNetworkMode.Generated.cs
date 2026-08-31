@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsRegisterTaskDefinitionNetworkMode
 {
     [EnumValue("bridge")]
-    Bridge = 1,
+    Bridge,
 
     [EnumValue("host")]
-    Host = 2,
+    Host,
 
     [EnumValue("awsvpc")]
-    Awsvpc = 3,
+    Awsvpc,
 
     [EnumValue("none")]
-    None = 4
+    None
 }

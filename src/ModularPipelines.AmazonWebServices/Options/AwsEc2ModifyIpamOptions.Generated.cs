@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-ipam")]
 public record AwsEc2ModifyIpamOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--ipam-id")]
@@ -52,14 +55,17 @@ public record AwsEc2ModifyIpamOptions : AwsOptions
     [CliOption("--tier")]
     public AwsEc2ModifyIpamTier? Tier { get; set; }
 
-    [CliFlag("--enable-private-gua")]
+    /// <summary>
+    /// Enable this option to use your own GUA ranges as private IPv6 ad- dresses. This option is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-private-gua", NegatedName = "--no-enable-private-gua")]
     public bool? EnablePrivateGua { get; set; }
 
     /// <summary>
     /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide . Possible values: o ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM. o resource-owner : The Amazon Web Services account that owns the IP address is charged for the active IP address. Possible values: o ipam-owner o resource-owner
     /// </summary>
     [CliOption("--metered-account")]
-    public AwsEc2ModifyIpamMeteredAccount? MeteredAccount { get; set; }
+    public string? MeteredAccount { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

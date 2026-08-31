@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppsyncCreateGraphqlApiApiType
 {
     [EnumValue("GRAPHQL")]
-    Graphql = 1,
+    Graphql,
 
     [EnumValue("MERGED")]
-    Merged = 2
+    Merged
 }

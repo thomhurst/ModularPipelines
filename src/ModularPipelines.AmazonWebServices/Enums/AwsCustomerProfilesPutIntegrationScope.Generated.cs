@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCustomerProfilesPutIntegrationScope
 {
     [EnumValue("PROFILE")]
-    Profile = 1,
+    Profile,
 
     [EnumValue("DOMAIN")]
-    Domain = 2
+    Domain
 }

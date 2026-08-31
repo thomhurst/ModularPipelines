@@ -27,7 +27,10 @@ public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions
     [CliOption("--consumer-identifier")]
     public string? ConsumerIdentifier { get; set; }
 
-    [CliFlag("--allow-writes")]
+    /// <summary>
+    /// If set to true, allows write operations for a datashare.
+    /// </summary>
+    [CliFlag("--allow-writes", NegatedName = "--no-allow-writes")]
     public bool? AllowWrites { get; set; }
 
     [CliOption("--cli-input-json")]

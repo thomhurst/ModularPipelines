@@ -24,7 +24,10 @@ public record AwsMturkUpdateHitReviewStatusOptions : AwsOptions
     [CliOption("--hit-id")]
     public string? HitId { get; set; }
 
-    [CliFlag("--revert")]
+    /// <summary>
+    /// Specifies how to update the HIT status. Default is False . o Setting this to false will only transition a HIT from Reviewable to Reviewing o Setting this to true will only transition a HIT from Reviewing to Reviewable
+    /// </summary>
+    [CliFlag("--revert", NegatedName = "--no-revert")]
     public bool? Revert { get; set; }
 
     [CliOption("--cli-input-json")]

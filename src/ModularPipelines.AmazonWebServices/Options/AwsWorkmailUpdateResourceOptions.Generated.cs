@@ -52,6 +52,9 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions
     [CliOption("--type")]
     public AwsWorkmailUpdateResourceType? Type { get; set; }
 
+    /// <summary>
+    /// dress-list (boolean) If enabled, the resource is hidden from the global address list.
+    /// </summary>
     [CliFlag("--hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 

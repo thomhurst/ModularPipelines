@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDocdbDescribeEventsSourceType
 {
     [EnumValue("db-instance")]
-    DbInstance = 1,
+    DbInstance,
 
     [EnumValue("db-parameter-group")]
-    DbParameterGroup = 2,
+    DbParameterGroup,
 
     [EnumValue("db-security-group")]
-    DbSecurityGroup = 3,
+    DbSecurityGroup,
 
     [EnumValue("db-snapshot")]
-    DbSnapshot = 4,
+    DbSnapshot,
 
     [EnumValue("db-cluster")]
-    DbCluster = 5,
+    DbCluster,
 
     [EnumValue("db-cluster-snapshot")]
-    DbClusterSnapshot = 6
+    DbClusterSnapshot
 }

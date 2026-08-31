@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRoute53UpdateHealthCheckInsufficientDataHealthStatus
 {
     [EnumValue("Healthy")]
-    Healthy = 1,
+    Healthy,
 
     [EnumValue("Unhealthy")]
-    Unhealthy = 2,
+    Unhealthy,
 
     [EnumValue("LastKnownStatus")]
-    LastKnownStatus = 3
+    LastKnownStatus
 }

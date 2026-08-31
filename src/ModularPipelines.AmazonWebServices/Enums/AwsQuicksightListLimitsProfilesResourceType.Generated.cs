@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightListLimitsProfilesResourceType
 {
     [EnumValue("INDEX_STORAGE")]
-    IndexStorage = 1,
+    IndexStorage,
 
     [EnumValue("AGENT_HOURS")]
-    AgentHours = 2
+    AgentHours
 }

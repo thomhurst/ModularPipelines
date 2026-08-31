@@ -36,10 +36,16 @@ public record AwsLocationUpdateKeyOptions : AwsOptions
     [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CliFlag("--no-expiry")]
+    /// <summary>
+    /// Whether the API key should expire. Set to true to set the API key to have no expiration time.
+    /// </summary>
+    [CliFlag("--no-expiry", NegatedName = "--no-no-expiry")]
     public bool? NoExpiry { get; set; }
 
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// The boolean flag to be included for updating ExpireTime or Restric- tions details. Must be set to true to update an API key resource that has been used in the past 7 days. False if force update is not preferred Default value: False
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     /// <summary>

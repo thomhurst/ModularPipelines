@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSagemakerListModelPackageGroupsCrossAccountFilterOption
 {
     [EnumValue("SameAccount")]
-    SameAccount = 1,
+    SameAccount,
 
     [EnumValue("CrossAccount")]
-    CrossAccount = 2
+    CrossAccount
 }

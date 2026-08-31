@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlobalacceleratorUpdateListenerClientAffinity
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("SOURCE_IP")]
-    SourceIp = 2
+    SourceIp
 }

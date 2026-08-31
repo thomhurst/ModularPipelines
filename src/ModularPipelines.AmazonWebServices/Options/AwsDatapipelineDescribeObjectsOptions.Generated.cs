@@ -28,7 +28,10 @@ public record AwsDatapipelineDescribeObjectsOptions : AwsOptions
     [CliOption("--object-ids", GroupValues = true)]
     public IEnumerable<string>? ObjectIds { get; set; }
 
-    [CliFlag("--evaluate-expressions")]
+    /// <summary>
+    /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
+    /// </summary>
+    [CliFlag("--evaluate-expressions", NegatedName = "--no-evaluate-expressions")]
     public bool? EvaluateExpressions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentUpdateThreatStatus
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2,
+    Resolved,
 
     [EnumValue("DISMISSED")]
-    Dismissed = 3
+    Dismissed
 }

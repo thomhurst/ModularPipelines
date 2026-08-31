@@ -27,7 +27,10 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--enable-stack-creation")]
+    /// <summary>
+    /// Determines if a new stack is created with the refactor.
+    /// </summary>
+    [CliFlag("--enable-stack-creation", NegatedName = "--no-enable-stack-creation")]
     public bool? EnableStackCreation { get; set; }
 
     /// <summary>

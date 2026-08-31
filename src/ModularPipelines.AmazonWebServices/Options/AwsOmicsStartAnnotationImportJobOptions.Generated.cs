@@ -43,7 +43,10 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions
     [CliOption("--format-options")]
     public string? FormatOptions { get; set; }
 
-    [CliFlag("--run-left-normalization")]
+    /// <summary>
+    /// The job's left normalization setting.
+    /// </summary>
+    [CliFlag("--run-left-normalization", NegatedName = "--no-run-left-normalization")]
     public bool? RunLeftNormalization { get; set; }
 
     /// <summary>

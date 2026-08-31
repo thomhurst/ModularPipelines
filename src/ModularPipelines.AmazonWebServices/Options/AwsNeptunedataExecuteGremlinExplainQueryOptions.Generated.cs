@@ -19,7 +19,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "execute-gremlin-explain-query")]
-public record AwsNeptunedataExecuteGremlinExplainQueryOptions : AwsOptions
+public record AwsNeptunedataExecuteGremlinExplainQueryOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Outfile
+) : AwsOptions
 {
     [CliOption("--gremlin-query")]
     public string? GremlinQuery { get; set; }

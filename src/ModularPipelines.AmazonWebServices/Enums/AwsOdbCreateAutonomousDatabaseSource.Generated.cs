@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOdbCreateAutonomousDatabaseSource
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("DATABASE")]
-    Database = 2,
+    Database,
 
     [EnumValue("BACKUP_FROM_ID")]
-    BackupFromId = 3,
+    BackupFromId,
 
     [EnumValue("BACKUP_FROM_TIMESTAMP")]
-    BackupFromTimestamp = 4,
+    BackupFromTimestamp,
 
     [EnumValue("CROSS_REGION_DATAGUARD")]
-    CrossRegionDataguard = 5,
+    CrossRegionDataguard,
 
     [EnumValue("CLONE_TO_REFRESHABLE")]
-    CloneToRefreshable = 6
+    CloneToRefreshable
 }

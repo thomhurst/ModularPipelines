@@ -36,7 +36,10 @@ public record AwsServiceQuotasRequestServiceQuotaIncreaseOptions : AwsOptions
     [CliOption("--context-id")]
     public string? ContextId { get; set; }
 
-    [CliFlag("--support-case-allowed")]
+    /// <summary>
+    /// Specifies if an Amazon Web Services Support case can be opened for the quota increase request. This parameter is optional. By default, this flag is set to True and Amazon Web Services may create a support case for some quota increase requests. You can set this flag to False if you do not want a support case created when you request a quota increase. If you set the flag to False , Amazon Web Services does not open a support case and updates the request status to Not approved .
+    /// </summary>
+    [CliFlag("--support-case-allowed", NegatedName = "--no-support-case-allowed")]
     public bool? SupportCaseAllowed { get; set; }
 
     [CliOption("--cli-input-json")]

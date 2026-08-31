@@ -24,7 +24,10 @@ public record AwsElasticbeanstalkDeleteApplicationOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliFlag("--terminate-env-by-force")]
+    /// <summary>
+    /// When set to true, running environments will be terminated before deleting the application.
+    /// </summary>
+    [CliFlag("--terminate-env-by-force", NegatedName = "--no-terminate-env-by-force")]
     public bool? TerminateEnvByForce { get; set; }
 
     [CliOption("--cli-input-json")]

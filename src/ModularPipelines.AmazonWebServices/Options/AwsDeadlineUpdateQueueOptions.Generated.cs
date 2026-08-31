@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -52,7 +51,7 @@ public record AwsDeadlineUpdateQueueOptions : AwsOptions
     /// The default action to take for a queue update if a budget isn't con- figured. Possible values: o NONE o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS
     /// </summary>
     [CliOption("--default-budget-action")]
-    public AwsDeadlineUpdateQueueDefaultBudgetAction? DefaultBudgetAction { get; set; }
+    public string? DefaultBudgetAction { get; set; }
 
     /// <summary>
     /// The job attachment settings to update for the queue. s3BucketName -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 1 o max: 255 rootPrefix -&gt; (string) [required] The root prefix. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9-_/]+ Shorthand Syntax: s3BucketName=string,rootPrefix=string JSON Syntax: { "s3BucketName": "string", "rootPrefix": "string" }

@@ -27,10 +27,16 @@ public record AwsNeptuneFailoverGlobalClusterOptions : AwsOptions
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; set; }
 
-    [CliFlag("--allow-data-loss")]
+    /// <summary>
+    /// Specifies whether to allow data loss for this global database clus- ter operation. Allowing data loss triggers a global failover opera- tion. If you don't specify AllowDataLoss , the global database cluster op- eration defaults to a switchover. Constraints: Can't be specified together with the Switchover parame- ter.
+    /// </summary>
+    [CliFlag("--allow-data-loss", NegatedName = "--no-allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
-    [CliFlag("--switchover")]
+    /// <summary>
+    /// Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss pa- rameter.
+    /// </summary>
+    [CliFlag("--switchover", NegatedName = "--no-switchover")]
     public bool? Switchover { get; set; }
 
     [CliOption("--cli-input-json")]

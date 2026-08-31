@@ -31,7 +31,10 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
-    [CliFlag("--include-all-dependencies")]
+    /// <summary>
+    /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you pro- vided a Dashboard ARN to the ResourceArns parameter. If you set In- cludeAllDependencies to TRUE , any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
+    /// </summary>
+    [CliFlag("--include-all-dependencies", NegatedName = "--no-include-all-dependencies")]
     public bool? IncludeAllDependencies { get; set; }
 
     [CliOption("--export-format")]
@@ -43,10 +46,16 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--cloud-formation-override-property-configuration")]
     public string? CloudFormationOverridePropertyConfiguration { get; set; }
 
-    [CliFlag("--include-permissions")]
+    /// <summary>
+    /// A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE , any permissions associated with each resource are exported.
+    /// </summary>
+    [CliFlag("--include-permissions", NegatedName = "--no-include-permissions")]
     public bool? IncludePermissions { get; set; }
 
-    [CliFlag("--include-tags")]
+    /// <summary>
+    /// A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE , any tags as- sociated with each resource are exported.
+    /// </summary>
+    [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>
@@ -55,7 +64,10 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--validation-strategy")]
     public string? ValidationStrategy { get; set; }
 
-    [CliFlag("--include-folder-memberships")]
+    /// <summary>
+    /// A Boolean that determines if the exported asset carries over infor- mation about the folders that the asset is a member of.
+    /// </summary>
+    [CliFlag("--include-folder-memberships", NegatedName = "--no-include-folder-memberships")]
     public bool? IncludeFolderMemberships { get; set; }
 
     /// <summary>

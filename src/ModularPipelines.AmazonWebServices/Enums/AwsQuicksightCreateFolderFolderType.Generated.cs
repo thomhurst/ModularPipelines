@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQuicksightCreateFolderFolderType
 {
     [EnumValue("SHARED")]
-    Shared = 1,
+    Shared,
 
     [EnumValue("RESTRICTED")]
-    Restricted = 2
+    Restricted
 }

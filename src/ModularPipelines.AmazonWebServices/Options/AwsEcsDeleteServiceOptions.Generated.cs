@@ -30,7 +30,10 @@ public record AwsEcsDeleteServiceOptions : AwsOptions
     [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// If true , allows you to delete a service even if it wasn't scaled down to zero tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]

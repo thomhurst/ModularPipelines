@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSnowballCreateReturnShippingLabelShippingOption
 {
     [EnumValue("SECOND_DAY")]
-    SecondDay = 1,
+    SecondDay,
 
     [EnumValue("NEXT_DAY")]
-    NextDay = 2,
+    NextDay,
 
     [EnumValue("EXPRESS")]
-    Express = 3,
+    Express,
 
     [EnumValue("STANDARD")]
-    Standard = 4
+    Standard
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComprehendCreateFlywheelModelType
 {
     [EnumValue("DOCUMENT_CLASSIFIER")]
-    DocumentClassifier = 1,
+    DocumentClassifier,
 
     [EnumValue("ENTITY_RECOGNIZER")]
-    EntityRecognizer = 2
+    EntityRecognizer
 }

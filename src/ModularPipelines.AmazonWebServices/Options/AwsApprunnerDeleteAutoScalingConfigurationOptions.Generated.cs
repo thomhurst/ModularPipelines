@@ -24,7 +24,10 @@ public record AwsApprunnerDeleteAutoScalingConfigurationOptions : AwsOptions
     [CliOption("--auto-scaling-configuration-arn")]
     public string? AutoScalingConfigurationArn { get; set; }
 
-    [CliFlag("--delete-all-revisions")]
+    /// <summary>
+    /// Set to true to delete all of the revisions associated with the Au- toScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true , the only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name .
+    /// </summary>
+    [CliFlag("--delete-all-revisions", NegatedName = "--no-delete-all-revisions")]
     public bool? DeleteAllRevisions { get; set; }
 
     [CliOption("--cli-input-json")]

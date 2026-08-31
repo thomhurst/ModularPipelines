@@ -39,10 +39,16 @@ public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions
     [CliOption("--job-configuration")]
     public string? JobConfiguration { get; set; }
 
-    [CliFlag("--adaptive-ingestion")]
+    /// <summary>
+    /// If set to true, ingest new data into IoT SiteWise storage. Measure- ments with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
+    /// </summary>
+    [CliFlag("--adaptive-ingestion", NegatedName = "--no-adaptive-ingestion")]
     public bool? AdaptiveIngestion { get; set; }
 
-    [CliFlag("--delete-files-after-import")]
+    /// <summary>
+    /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
+    /// </summary>
+    [CliFlag("--delete-files-after-import", NegatedName = "--no-delete-files-after-import")]
     public bool? DeleteFilesAfterImport { get; set; }
 
     /// <summary>

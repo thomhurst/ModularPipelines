@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMediaconnectUpdateFlowOutputNdiOutputTimecodeSource
 {
     [EnumValue("EMBEDDED_TIMECODE")]
-    EmbeddedTimecode = 1,
+    EmbeddedTimecode,
 
     [EnumValue("UTC_SYSTEM_TIME")]
-    UtcSystemTime = 2
+    UtcSystemTime
 }

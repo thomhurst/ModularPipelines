@@ -27,7 +27,10 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions
     [CliOption("--pipeline-execution-id")]
     public string? PipelineExecutionId { get; set; }
 
-    [CliFlag("--abandon")]
+    /// <summary>
+    /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions. NOTE: This option can lead to failed or out-of-sequence tasks.
+    /// </summary>
+    [CliFlag("--abandon", NegatedName = "--no-abandon")]
     public bool? Abandon { get; set; }
 
     /// <summary>

@@ -41,7 +41,10 @@ public record AwsElasticacheCreateUserOptions : AwsOptions
     [CliOption("--access-string")]
     public string? AccessString { get; set; }
 
-    [CliFlag("--no-password-required")]
+    /// <summary>
+    /// Indicates a password is not required for this user.
+    /// </summary>
+    [CliFlag("--no-password-required", NegatedName = "--no-no-password-required")]
     public bool? NoPasswordRequired { get; set; }
 
     /// <summary>

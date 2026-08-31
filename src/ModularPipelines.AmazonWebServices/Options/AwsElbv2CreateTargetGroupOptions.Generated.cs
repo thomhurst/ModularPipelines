@@ -61,7 +61,10 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
     [CliOption("--health-check-port")]
     public string? HealthCheckPort { get; set; }
 
-    [CliFlag("--health-check-enabled")]
+    /// <summary>
+    /// Indicates whether health checks are enabled. If the target type is lambda , health checks are disabled by default but can be enabled. If the target type is instance , ip , or alb , health checks are al- ways enabled and can't be disabled.
+    /// </summary>
+    [CliFlag("--health-check-enabled", NegatedName = "--no-health-check-enabled")]
     public bool? HealthCheckEnabled { get; set; }
 
     /// <summary>

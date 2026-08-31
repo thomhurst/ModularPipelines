@@ -35,28 +35,40 @@ public record AwsSupportDescribeCasesOptions : AwsOptions
     public string? DisplayId { get; set; }
 
     /// <summary>
-    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--after-time")]
     public string? AfterTime { get; set; }
 
     /// <summary>
-    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--before-time")]
     public string? BeforeTime { get; set; }
 
-    [CliFlag("--include-resolved-cases")]
+    /// <summary>
+    /// Specifies whether to include resolved support cases in the De- scribeCases response. By default, resolved cases aren't included.
+    /// </summary>
+    [CliFlag("--include-resolved-cases", NegatedName = "--no-include-resolved-cases")]
     public bool? IncludeResolvedCases { get; set; }
 
     /// <summary>
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") and Korean (ko). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CliFlag("--include-communications")]
+    /// <summary>
+    /// Specifies whether to include communications in the DescribeCases re- sponse. By default, communications are included.
+    /// </summary>
+    [CliFlag("--include-communications", NegatedName = "--no-include-communications")]
     public bool? IncludeCommunications { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning case data. When set to true , the request is validated but no cases are returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
