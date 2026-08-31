@@ -409,6 +409,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsRequired = false,
                     AcceptsMultipleValues = isArray,
                     IsKeyValue = isKeyValue,
+                    CollectionSeparator = isKeyValue ? "," : null,
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
                     ValueArity = hasOptionalValue

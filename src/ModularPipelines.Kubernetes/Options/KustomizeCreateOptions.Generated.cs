@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Kubernetes.Options;
 
@@ -23,8 +24,8 @@ public record KustomizeCreateOptions : KustomizeOptions
     /// <summary>
     /// Add one or more common annotations.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public string? Annotations { get; set; }
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// Search for kubernetes resources in the current directory to be added to the kustomization file.
@@ -41,8 +42,8 @@ public record KustomizeCreateOptions : KustomizeOptions
     /// <summary>
     /// Add one or more common labels.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public string? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Sets the value of the namePrefix field in the kustomization file.

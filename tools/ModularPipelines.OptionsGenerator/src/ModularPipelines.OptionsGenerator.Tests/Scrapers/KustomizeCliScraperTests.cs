@@ -81,6 +81,38 @@ public class KustomizeCliScraperTests
         }
     }
 
+    [Test]
+    [Arguments("string", "")]
+    [Arguments("stringToString", " (default [])")]
+    public async Task Create_Map_Options_Preserve_Structured_Values(
+        string typeHint,
+        string defaultDescription)
+    {
+        var command = await new TestKustomizeCliScraper().Parse(
+            ["kustomize", "create"],
+            $$"""
+              Usage:
+                kustomize create [flags]
+
+              Flags:
+                    --annotations {{typeHint}}   Add one or more common annotations.{{defaultDescription}}
+                    --labels {{typeHint}}        Add one or more common labels.{{defaultDescription}}
+              """);
+
+        var options = command!.Options
+            .Where(option => option.SwitchName is "--annotations" or "--labels")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options).Count().IsEqualTo(2);
+            await Assert.That(options.Select(option => option.CSharpType))
+                .IsEquivalentTo(["IReadOnlyList<KeyValue>?", "IReadOnlyList<KeyValue>?"]);
+            await Assert.That(options.All(option => option.IsKeyValue)).IsTrue();
+            await Assert.That(options.All(option => option.CollectionSeparator == ",")).IsTrue();
+        }
+    }
+
     private sealed class TestKustomizeCliScraper(ICliCommandExecutor? executor = null)
         : KustomizeCliScraper(
             executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

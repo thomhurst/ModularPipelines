@@ -80,6 +80,20 @@ public partial class KustomizeCliScraper : CobraCliScraper
     }
 
     /// <summary>
+    /// Kustomize 5.8 exposes create annotations and labels as strings, but parses
+    /// their comma-separated key/value entries into maps.
+    /// </summary>
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description) =>
+        commandParts is ["create"]
+        && switchName is "--annotations" or "--labels"
+            ? "stringToString"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
+    /// <summary>
     /// Kustomize validates buildmetadata operands but omits them from Cobra's Use value.
     /// </summary>
     protected override IEnumerable<string> GetAdditionalUsageSynopses(

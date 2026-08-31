@@ -22,6 +22,27 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
+    public async Task Kustomize_Create_Joins_Map_Entries()
+    {
+        var result = await GetResult(new KustomizeCreateOptions
+        {
+            Annotations =
+            [
+                new KeyValue("owner", "platform"),
+                new KeyValue("tier", "backend"),
+            ],
+            Labels =
+            [
+                new KeyValue("app", "web"),
+                new KeyValue("environment", "test"),
+            ],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "kustomize create --annotations=owner=platform,tier=backend --labels=app=web,environment=test");
+    }
+
+    [Test]
     public async Task Auth_CanI_List_Does_Not_Require_A_Verb()
     {
         var result = await GetResult(new KubernetesAuthCanIOptions(null!) { List = true });
