@@ -29,23 +29,62 @@ public class DockerCliCompatibilityTests
     }
 
     [Test]
-    public async Task ComposeExec_Preserves_Canonical_NoTty_Switch_Casing()
+    [Arguments("exec")]
+    [Arguments("run")]
+    public async Task ComposeCommands_Preserve_Canonical_NoTty_Switch_Casing(string subcommand)
+    {
+        var helpText = $$"""
+            Execute a command in a running container
+
+            Usage: docker compose {{subcommand}} [OPTIONS] SERVICE COMMAND [ARGS...]
+
+            Options:
+              -T, --no-tty   Disable pseudo-TTY allocation
+            """;
+        var command = await new TestDockerCliScraper().Parse(
+            ["docker", "compose", subcommand],
+            helpText);
+
+        var option = command!.Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
+            await Assert.That(option.ShortForm).IsEqualTo("-T");
+            if (subcommand == "exec")
+            {
+                await Assert.That(option.IsFlag).IsFalse();
+                await Assert.That(option.CSharpType).IsEqualTo("bool?");
+                await Assert.That(option.ValueSeparator).IsEqualTo("=");
+                await Assert.That(option.Description)
+                    .IsEqualTo("Disable pseudo-TTY allocation (default: auto-detected)");
+            }
+        }
+    }
+
+    [Test]
+    public async Task ComposeExec_Preserves_NoTty_WhenInstalledHelpOmitsIt()
     {
         const string helpText = """
             Execute a command in a running container
 
             Usage: docker compose exec [OPTIONS] SERVICE COMMAND [ARGS...]
-
-            Options:
-              -T, --no-tty   Disable pseudo-TTY allocation
             """;
         var command = await new TestDockerCliScraper().Parse(
             ["docker", "compose", "exec"],
             helpText);
 
         var option = command!.Options.Single();
-        await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
-        await Assert.That(option.ShortForm).IsEqualTo("-T");
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--no-TTY");
+            await Assert.That(option.ShortForm).IsEqualTo("-T");
+            await Assert.That(option.PropertyName).IsEqualTo("NoTty");
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.Description)
+                .IsEqualTo("Disable pseudo-TTY allocation (default: auto-detected)");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        }
     }
 
     [Test]

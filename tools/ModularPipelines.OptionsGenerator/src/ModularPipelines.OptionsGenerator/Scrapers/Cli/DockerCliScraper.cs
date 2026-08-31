@@ -10,6 +10,17 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public class DockerCliScraper : CobraCliScraper
 {
+    private static readonly CliOptionDefinition ComposeExecNoTtyOption = new()
+    {
+        SwitchName = "--no-TTY",
+        ShortForm = "-T",
+        PropertyName = "NoTty",
+        CSharpType = "bool?",
+        Description = "Disable pseudo-TTY allocation (default: auto-detected)",
+        IsFlag = false,
+        ValueSeparator = "=",
+    };
+
     public override string ToolName => "docker";
     public override string NamespacePrefix => "Docker";
     public override string TargetNamespace => "ModularPipelines.Docker";
@@ -36,8 +47,30 @@ public class DockerCliScraper : CobraCliScraper
     protected override string NormalizeOptionSwitchName(
         string[] commandParts,
         string switchName) =>
-        commandParts is ["compose", "exec"]
+        commandParts is ["compose", ..]
         && switchName.Equals("--no-tty", StringComparison.OrdinalIgnoreCase)
             ? "--no-TTY"
             : switchName;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (commandParts is not ["compose", "exec"])
+        {
+            return options;
+        }
+
+        if (options.All(option => option.PropertyName != ComposeExecNoTtyOption.PropertyName))
+        {
+            return [.. options, ComposeExecNoTtyOption];
+        }
+
+        return options
+            .Select(option => option.PropertyName == ComposeExecNoTtyOption.PropertyName
+                ? ComposeExecNoTtyOption
+                : option)
+            .ToArray();
+    }
 }
