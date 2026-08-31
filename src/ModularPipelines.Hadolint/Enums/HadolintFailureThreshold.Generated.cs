@@ -17,20 +17,20 @@ namespace ModularPipelines.Hadolint.Enums;
 public enum HadolintFailureThreshold
 {
     [EnumValue("error")]
-    Error = 0,
+    Error,
 
     [EnumValue("warning")]
-    Warning = 1,
+    Warning,
 
     [EnumValue("info")]
-    Info = 2,
+    Info,
 
     [EnumValue("style")]
-    Style = 3,
+    Style,
 
     [EnumValue("ignore")]
-    Ignore = 4,
+    Ignore,
 
     [EnumValue("none")]
-    None = 5
+    None
 }
