@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Grype.Services;
 
 namespace ModularPipelines.Grype.Extensions;
@@ -32,4 +31,5 @@ public static class GrypeExtensions
         services.TryAddScoped<IGrypeDb, GrypeDb>();
         return services;
     }
+
 }
