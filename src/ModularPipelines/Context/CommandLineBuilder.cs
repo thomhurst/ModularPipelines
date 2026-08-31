@@ -548,6 +548,7 @@ internal sealed class CommandLineBuilder(
             {
                 (Name: part.Attribute.Name, Part: part),
                 (Name: part.Attribute.ShortForm, Part: part),
+                (Name: part.Attribute.NegatedName, Part: part),
             })
             .Where(static item => item.Name is not null)
             .GroupBy(static item => item.Name!, StringComparer.Ordinal)

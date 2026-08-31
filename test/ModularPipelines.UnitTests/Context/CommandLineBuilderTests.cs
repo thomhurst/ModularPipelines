@@ -460,6 +460,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Manual_Negated_Flag_Before_Option_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestNegatedManualFlagOptions
+        {
+            Arguments = ["--no-feature"],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool --no-feature -- -1");
+    }
+
+    [Test]
     public async Task Build_Preserves_Manual_Arguments_After_Ordinary_Passthrough_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1106,6 +1121,29 @@ public class CommandLineBuilderTests : TestBase
         var result = builder.Build(options);
 
         await Assert.That(result.ToString()).IsEqualTo("jq --arg name value -- tail");
+    }
+
+    [Test]
+    public async Task CommandModelProvider_Rebuilds_Stale_Negated_Flag_Metadata()
+    {
+        var optionsType = typeof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new FlagPart(
+                    nameof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>.Feature),
+                    static _ => null,
+                    new CliFlagAttribute("--feature"))
+                {
+                    IsSupportedPropertyType = true,
+                },
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion - 1);
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+
+        await Assert.That(model.OfType<FlagPart>().Single().Attribute.NegatedName)
+            .IsEqualTo("--no-feature");
     }
 
     [Test]
@@ -1987,6 +2025,16 @@ public class CommandLineBuilderTests : TestBase
         public string? ConfigPath { get; set; }
     }
 
+    [CliTool("tool")]
+    private sealed record TestNegatedManualFlagOptions : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; init; }
+
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public string? Filter { get; init; }
+    }
+
     [CliTool("jq")]
     internal record TestTerminalOptions : CommandLineToolOptions
     {
@@ -2127,6 +2175,15 @@ public class CommandLineBuilderTests : TestBase
     }
 
     private sealed class LegacyMetadataMarker;
+
+    private sealed class LegacyNegatedFlagMarker;
+
+    [CliTool("tool")]
+    private sealed record LegacyNegatedFlagOptions<T> : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool? Feature { get; init; }
+    }
 
     [CliTool("jq")]
     private sealed record LegacyGeneratedMetadataOptions<T> : CommandLineToolOptions

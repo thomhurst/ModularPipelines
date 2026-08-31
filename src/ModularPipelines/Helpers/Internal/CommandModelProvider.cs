@@ -36,10 +36,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 model = BuildModel(type);
                 schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
             }
-            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
-                     && !RuntimeFeature.IsDynamicCodeSupported)
+            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion)
             {
-                throw new MissingCommandMetadataException(type);
+                if (!RuntimeFeature.IsDynamicCodeSupported)
+                {
+                    throw new MissingCommandMetadataException(type);
+                }
+
+                model = BuildModel(type);
+                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
             }
 
             ValidateModel(type, model, schemaVersion);
