@@ -2174,24 +2174,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         if (baseline.IsCompatibility)
         {
-            var caseVariantTarget = FindCaseVariantForwardingTarget(baseline, currentProperties);
-            if (IsUnsafeBooleanStringChange(baseline, caseVariantTarget, options))
-            {
-                return;
-            }
-
-            PreserveCompatibilityProperty(
+            PreserveBaselineCompatibilityProperty(
                 command,
-                caseVariantTarget is null
-                    ? baseline
-                    : baseline with
-                    {
-                        ForwardToPropertyName = caseVariantTarget.PropertyName,
-                        ForwardingKind = GetRenamedPropertyForwardingKind(
-                            baseline,
-                            caseVariantTarget) ?? baseline.ForwardingKind,
-                        ObsoleteMessage = $"Use {caseVariantTarget.PropertyName} instead.",
-                    },
+                baseline,
+                currentProperties,
+                options,
                 compatibilityProperties,
                 violations);
             return;
@@ -2241,6 +2228,36 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             renamedProperties[baseline.PropertyName] = replacement.PropertyName;
         }
+    }
+
+    private static void PreserveBaselineCompatibilityProperty(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> currentProperties,
+        IReadOnlyList<CliOptionDefinition> options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        List<string> violations)
+    {
+        var caseVariantTarget = FindCaseVariantForwardingTarget(baseline, currentProperties);
+        if (IsUnsafeBooleanStringChange(baseline, caseVariantTarget, options))
+        {
+            return;
+        }
+
+        PreserveCompatibilityProperty(
+            command,
+            caseVariantTarget is null
+                ? baseline
+                : baseline with
+                {
+                    ForwardToPropertyName = caseVariantTarget.PropertyName,
+                    ForwardingKind = GetRenamedPropertyForwardingKind(
+                        baseline,
+                        caseVariantTarget) ?? baseline.ForwardingKind,
+                    ObsoleteMessage = $"Use {caseVariantTarget.PropertyName} instead.",
+                },
+            compatibilityProperties,
+            violations);
     }
 
     private static GeneratedApiProperty? FindCaseVariantForwardingTarget(
