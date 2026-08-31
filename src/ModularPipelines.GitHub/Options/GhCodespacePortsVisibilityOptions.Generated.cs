@@ -22,11 +22,6 @@ public record GhCodespacePortsVisibilityOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PortPublic
 ) : GhOptions
 {
-    public GhCodespacePortsVisibilityOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Name of the codespace
     /// </summary>

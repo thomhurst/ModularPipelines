@@ -22,11 +22,6 @@ public record GhExtensionInstallOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
 ) : GhOptions
 {
-    public GhExtensionInstallOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Force upgrade extension, or ignore if latest already installed
     /// </summary>

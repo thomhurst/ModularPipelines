@@ -22,11 +22,6 @@ public record GhGistDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl
 ) : GhOptions
 {
-    public GhGistDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Confirm deletion without prompting
     /// </summary>

@@ -22,11 +22,6 @@ public record GhSshKeyDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : GhOptions
 {
-    public GhSshKeyDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>

@@ -786,6 +786,45 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("SecretName")]
+    [Arguments("TokenName")]
+    [Arguments("KeyId")]
+    [Arguments("CredentialId")]
+    [Arguments("ApiKeyIdentifier")]
+    public async Task IsSecretOption_Returns_False_For_Secret_Identifiers(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Body", "The value for the secret")]
+    [Arguments("Value", "Password value to store")]
+    [Arguments("Payload", "Contains secret material")]
+    public async Task IsSecretOption_Uses_Description_For_Generic_Secret_Values(
+        string propertyName,
+        string description)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false, description);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Repos", "List repositories that can access an organization secret")]
+    [Arguments("App", "Set the application for a secret")]
+    [Arguments("CertOidcIssuer", "Enforce that the issuer of the OIDC token matches the provided value")]
+    public async Task IsSecretOption_Does_Not_Mask_Non_Value_Secret_Context(
+        string propertyName,
+        string description)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false, description);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
     public async Task IsSecretOption_Returns_False_When_Description_Identifies_A_Path()
     {
         var result = GeneratorUtils.IsSecretOption(

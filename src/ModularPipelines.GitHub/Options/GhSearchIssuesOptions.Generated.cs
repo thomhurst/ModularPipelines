@@ -192,7 +192,7 @@ public record GhSearchIssuesOptions : GhOptions
     /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Repo { get; set; }
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Type of issue search to perform: {lexical|semantic|hybrid} (default "lexical")

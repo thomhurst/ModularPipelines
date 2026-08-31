@@ -5,11 +5,11 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.GitHub.Options;
 
@@ -20,14 +20,9 @@ namespace ModularPipelines.GitHub.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "set")]
 public record GhSecretSetOptions(
-    [property: SecretValue, CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
 ) : GhOptions
 {
-    public GhSecretSetOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Set the application for a secret: {actions|agents|codespaces|dependabot}
     /// </summary>
@@ -37,6 +32,7 @@ public record GhSecretSetOptions(
     /// <summary>
     /// The value for the secret (reads from standard input if not specified)
     /// </summary>
+    [SecretValue]
     [CliOption("--body", ShortForm = "-b", Format = OptionFormat.EqualsSeparated)]
     public string? Body { get; set; }
 

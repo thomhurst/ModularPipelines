@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.GitHub.Services;
 
 namespace ModularPipelines.GitHub.Extensions;
@@ -29,7 +28,7 @@ public static class GhExtensions
     public static IServiceCollection RegisterGhContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGh, Services.Gh>();
-        services.TryAddScoped<IGhAgenttask, GhAgenttask>();
+        services.TryAddScoped<IGhAgentTask, GhAgentTask>();
         services.TryAddScoped<IGhAttestation, GhAttestation>();
         services.TryAddScoped<IGhAuth, GhAuth>();
         services.TryAddScoped<IGhCache, GhCache>();
@@ -38,7 +37,7 @@ public static class GhExtensions
         services.TryAddScoped<IGhDiscussion, GhDiscussion>();
         services.TryAddScoped<IGhExtension, GhExtension>();
         services.TryAddScoped<IGhGist, GhGist>();
-        services.TryAddScoped<IGhGpgkey, GhGpgkey>();
+        services.TryAddScoped<IGhGpgKey, GhGpgKey>();
         services.TryAddScoped<IGhIssue, GhIssue>();
         services.TryAddScoped<IGhLabel, GhLabel>();
         services.TryAddScoped<IGhOrg, GhOrg>();
@@ -52,9 +51,10 @@ public static class GhExtensions
         services.TryAddScoped<IGhSearch, GhSearch>();
         services.TryAddScoped<IGhSecret, GhSecret>();
         services.TryAddScoped<IGhSkill, GhSkill>();
-        services.TryAddScoped<IGhSshkey, GhSshkey>();
+        services.TryAddScoped<IGhSshKey, GhSshKey>();
         services.TryAddScoped<IGhVariable, GhVariable>();
         services.TryAddScoped<IGhWorkflow, GhWorkflow>();
         return services;
     }
+
 }

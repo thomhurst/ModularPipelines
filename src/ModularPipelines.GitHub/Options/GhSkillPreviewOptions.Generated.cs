@@ -22,11 +22,6 @@ public record GhSkillPreviewOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
 ) : GhOptions
 {
-    public GhSkillPreviewOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Include skills in hidden directories (e.g. .claude/skills/, .agents/skills/)
     /// </summary>

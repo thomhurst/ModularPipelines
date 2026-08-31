@@ -22,11 +22,6 @@ public record GhApiOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Endpoint
 ) : GhOptions
 {
-    public GhApiOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Allow printing terminal escape sequences
     /// </summary>
@@ -43,13 +38,13 @@ public record GhApiOptions(
     /// Add a typed parameter in key=value format (use "@&lt;path&gt;" or "@-" to read value from file or stdin)
     /// </summary>
     [CliOption("--field", ShortForm = "-F", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? FieldValues { get; set; }
+    public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
     /// Add a HTTP request header in key:value format
     /// </summary>
     [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HeaderValues { get; set; }
+    public IEnumerable<string>? Header { get; set; }
 
     /// <summary>
     /// The GitHub hostname for the request (default "github.com")
@@ -97,7 +92,7 @@ public record GhApiOptions(
     /// Add a string parameter in key=value format
     /// </summary>
     [CliOption("--raw-field", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RawFieldValues { get; set; }
+    public IEnumerable<string>? RawField { get; set; }
 
     /// <summary>
     /// Do not print the response body
@@ -128,26 +123,5 @@ public record GhApiOptions(
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use FieldValues instead.")]
-    public string? Field
-    {
-        get => FieldValues?.FirstOrDefault();
-        set => FieldValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use HeaderValues instead.")]
-    public string? Header
-    {
-        get => HeaderValues?.FirstOrDefault();
-        set => HeaderValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RawFieldValues instead.")]
-    public string? RawField
-    {
-        get => RawFieldValues?.FirstOrDefault();
-        set => RawFieldValues = value is null ? null : [value];
-    }
 
 }

@@ -13,25 +13,23 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Print the value of a given configuration key
+/// Stacked PRs let you break a large change into a chain of pull requests
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config", "get")]
-public record GhConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : GhOptions
+[CliSubCommand("stack")]
+public record GhStackOptions : GhOptions
 {
     /// <summary>
-    /// Get per-host setting
+    /// help for stack
     /// </summary>
-    [CliOption("--host", ShortForm = "-h", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// version for stack
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

@@ -23,11 +23,6 @@ public record GhConfigSetOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
 ) : GhOptions
 {
-    public GhConfigSetOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Set per-host setting
     /// </summary>

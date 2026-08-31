@@ -22,11 +22,6 @@ public record GhVariableSetOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
 ) : GhOptions
 {
-    public GhVariableSetOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// The value for the variable (reads from standard input if not specified)
     /// </summary>

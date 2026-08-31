@@ -22,11 +22,6 @@ public record GhExtensionRemoveOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GhOptions
 {
-    public GhExtensionRemoveOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Show help for command
     /// </summary>

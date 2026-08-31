@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.GitHub.Options;
 
@@ -20,14 +19,9 @@ namespace ModularPipelines.GitHub.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "delete")]
 public record GhSecretDeleteOptions(
-    [property: SecretValue, CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
 ) : GhOptions
 {
-    public GhSecretDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Delete a secret for a specific application: {actions|agents|codespaces|dependabot}
     /// </summary>

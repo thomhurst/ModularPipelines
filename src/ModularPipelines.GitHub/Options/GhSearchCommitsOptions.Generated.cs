@@ -120,7 +120,7 @@ public record GhSearchCommitsOptions : GhOptions
     /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Repo { get; set; }
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Sort fetched commits: {author-date|committer-date} (default "best-match")

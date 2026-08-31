@@ -22,11 +22,6 @@ public record GhLabelDeleteOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GhOptions
 {
-    public GhLabelDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Confirm deletion without prompting
     /// </summary>

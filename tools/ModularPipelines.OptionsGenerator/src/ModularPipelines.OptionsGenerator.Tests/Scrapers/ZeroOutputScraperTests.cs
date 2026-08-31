@@ -299,6 +299,43 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    public async Task Gh_Secret_Set_Masks_Body_But_Not_Name()
+    {
+        const string helpText = """
+            Set a secret value.
+
+            USAGE
+              gh secret set <secret-name> [flags]
+
+            FLAGS
+              -b, --body string   The value for the secret (reads from standard input if not specified)
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "secret", "set"], helpText);
+        var secretName = command!.PositionalArguments.Single();
+        var body = command.Options.Single(option => option.PropertyName == "Body");
+
+        await Assert.That(secretName.PropertyName).IsEqualTo("SecretName");
+        await Assert.That(secretName.IsSecret).IsFalse();
+        await Assert.That(body.IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Gh_Secret_Delete_Does_Not_Mask_Name()
+    {
+        const string helpText = """
+            Delete a secret.
+
+            USAGE
+              gh secret delete <secret-name> [flags]
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "secret", "delete"], helpText);
+
+        await Assert.That(command!.PositionalArguments.Single().IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task Yarn_Extracts_Classic_Bulleted_Command_List()
     {
         const string helpText = """

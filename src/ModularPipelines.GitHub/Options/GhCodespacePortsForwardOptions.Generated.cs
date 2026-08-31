@@ -22,11 +22,6 @@ public record GhCodespacePortsForwardOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> RemotePortLocalPort
 ) : GhOptions
 {
-    public GhCodespacePortsForwardOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Listen on all network interfaces
     /// </summary>

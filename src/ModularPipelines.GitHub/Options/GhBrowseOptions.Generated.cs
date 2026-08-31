@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.GitHub.Options;
 
@@ -41,8 +42,8 @@ public record GhBrowseOptions : GhOptions
     /// <summary>
     /// Select another commit by passing in the commit SHA, default is the last commit
     /// </summary>
-    [CliOption("--commit", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Commit { get; set; }
+    [CliOption("--commit", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Commit { get; set; }
 
     /// <summary>
     /// Print destination URL instead of opening the browser

@@ -22,11 +22,6 @@ public record GhLabelCloneOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceRepository
 ) : GhOptions
 {
-    public GhLabelCloneOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Overwrite labels in the destination repository
     /// </summary>

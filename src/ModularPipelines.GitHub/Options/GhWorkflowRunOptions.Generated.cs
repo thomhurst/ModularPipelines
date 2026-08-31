@@ -24,7 +24,7 @@ public record GhWorkflowRunOptions : GhOptions
     /// Add a string parameter in key=value format, respecting @ syntax (see "gh help api").
     /// </summary>
     [CliOption("--field", ShortForm = "-F", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? FieldValues { get; set; }
+    public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
     /// Read workflow inputs as JSON via STDIN
@@ -36,7 +36,7 @@ public record GhWorkflowRunOptions : GhOptions
     /// Add a string parameter in key=value format
     /// </summary>
     [CliOption("--raw-field", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RawFieldValues { get; set; }
+    public IEnumerable<string>? RawField { get; set; }
 
     /// <summary>
     /// Branch or tag name which contains the version of the workflow file you'd like to run
@@ -61,19 +61,5 @@ public record GhWorkflowRunOptions : GhOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? WorkflowIdOrWorkflowName { get; set; }
-
-    [Obsolete("Use FieldValues instead.")]
-    public string? Field
-    {
-        get => FieldValues?.FirstOrDefault();
-        set => FieldValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RawFieldValues instead.")]
-    public string? RawField
-    {
-        get => RawFieldValues?.FirstOrDefault();
-        set => RawFieldValues = value is null ? null : [value];
-    }
 
 }

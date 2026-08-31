@@ -22,11 +22,6 @@ public record GhSkillSearchOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
 ) : GhOptions
 {
-    public GhSkillSearchOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Filter JSON output using a jq expression
     /// </summary>
