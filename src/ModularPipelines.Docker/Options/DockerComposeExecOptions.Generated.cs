@@ -66,7 +66,7 @@ public record DockerComposeExecOptions(
     public string? Workdir { get; set; }
 
     /// <summary>
-    /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
+    /// Disable pseudo-TTY allocation (default: auto-detected)
     /// </summary>
     [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
     public bool? NoTty { get; set; }
