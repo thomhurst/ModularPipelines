@@ -53,6 +53,11 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class AzCliScraper : CliScraperBase
 {
+    private static readonly (string[] CommandParts, string SwitchName)[] ExplicitBooleanOptionOverrides =
+    [
+        (["appservice", "plan", "create"], "is-linux"),
+    ];
+
     public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -287,10 +292,11 @@ public partial class AzCliScraper : CliScraperBase
     private static bool IsKnownExplicitBooleanOption(
         IReadOnlyList<string> commandParts,
         string switchName) =>
-        switchName.Equals("is-linux", StringComparison.OrdinalIgnoreCase)
-        && commandParts.SequenceEqual(
-            ["appservice", "plan", "create"],
-            StringComparer.OrdinalIgnoreCase);
+        ExplicitBooleanOptionOverrides.Any(candidate =>
+            switchName.Equals(candidate.SwitchName, StringComparison.OrdinalIgnoreCase)
+            && commandParts.SequenceEqual(
+                candidate.CommandParts,
+                StringComparer.OrdinalIgnoreCase));
 
     private static string[] GetSectionLines(string helpText, Match sectionMatch)
     {

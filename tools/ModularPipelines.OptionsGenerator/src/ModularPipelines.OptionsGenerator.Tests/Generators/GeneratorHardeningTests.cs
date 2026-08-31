@@ -1683,8 +1683,13 @@ public partial class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
             .Single().Content;
-        await Assert.That(generated)
-            .Contains("set => JsonValue = value == true ? \"true\" : null;");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("get => bool.TryParse(JsonValue, out var value) ? value : null;");
+            await Assert.That(generated)
+                .Contains("set => JsonValue = value == true ? \"true\" : null;");
+        }
     }
 
     [Test]
@@ -1730,8 +1735,13 @@ public partial class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved)))
             .Single().Content;
-        await Assert.That(generated)
-            .Contains("set => DenySettingsExcludedActionsValues = value == true ? [\"true\"] : null;");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("get => bool.TryParse(DenySettingsExcludedActionsValues?.FirstOrDefault(), out var value) ? value : null;");
+            await Assert.That(generated)
+                .Contains("set => DenySettingsExcludedActionsValues = value == true ? [\"true\"] : null;");
+        }
     }
 
     [Test]

@@ -2519,6 +2519,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var option = options.FirstOrDefault(candidate =>
             candidate.PropertyName.Equals(replacement.PropertyName, StringComparison.Ordinal)
             && HasSameCliIdentity(ToGeneratedProperty(candidate), replacement));
+        // A former named flag cannot safely forward into a positional string replacement.
         return option is null || !ExplicitlyAcceptsBooleanText(option);
     }
 
