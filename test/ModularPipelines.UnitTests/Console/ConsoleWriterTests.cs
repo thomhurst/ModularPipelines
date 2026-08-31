@@ -613,6 +613,21 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_RemovesSecretSplitAcrossControlSegments()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlRenderable("to", "ken"),
+            CreateSecretObfuscator("token"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        await Assert.That(segments).IsEmpty();
+    }
+
+    [Test]
     public async Task Write_RemovesRelatedControlSequencesAcrossNestedChildren()
     {
         var renderable = new SecretObfuscatedRenderable(

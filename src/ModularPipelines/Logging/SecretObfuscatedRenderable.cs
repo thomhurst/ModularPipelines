@@ -799,15 +799,41 @@ internal sealed class SecretObfuscatedRenderable(
     }
 
     private Segment[] SanitizeControlCodes(Segment[] segments) =>
-        segments.Any(segment => segment.IsControlCode && !IsSafeControlCode(segment))
+        ContainsUnsafeControlCodeStream(segments)
             ? [.. segments.Where(static segment => !segment.IsControlCode)]
             : segments;
 
-    private bool IsSafeControlCode(Segment segment) =>
-        string.Equals(
-            ObfuscateMetadata(segment.Text, secretObfuscator),
-            segment.Text,
+    private bool ContainsUnsafeControlCodeStream(Segment[] segments)
+    {
+        var controlCodeStream = new StringBuilder();
+
+        foreach (var segment in segments)
+        {
+            if (segment.IsControlCode)
+            {
+                controlCodeStream.Append(segment.Text);
+                continue;
+            }
+
+            if (controlCodeStream.Length > 0 && !IsSafeControlCodeStream(controlCodeStream))
+            {
+                return true;
+            }
+
+            controlCodeStream.Clear();
+        }
+
+        return controlCodeStream.Length > 0 && !IsSafeControlCodeStream(controlCodeStream);
+    }
+
+    private bool IsSafeControlCodeStream(StringBuilder controlCodeStream)
+    {
+        var controlCodeText = controlCodeStream.ToString();
+        return string.Equals(
+            ObfuscateMetadata(controlCodeText, secretObfuscator),
+            controlCodeText,
             StringComparison.Ordinal);
+    }
 
     private static Link? ObfuscateLink(
         Link? link,
