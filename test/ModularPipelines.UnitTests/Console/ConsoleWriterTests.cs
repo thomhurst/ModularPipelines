@@ -70,6 +70,23 @@ public class ConsoleWriterTests
         }
     }
 
+    private sealed class ControlAndVisibleRenderable(
+        string controlText = "to",
+        string visibleText = "ken") : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth)
+        {
+            var width = Math.Min(visibleText.Length, maxWidth);
+            return new Measurement(width, width);
+        }
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            yield return Segment.Control(controlText);
+            yield return new Segment(visibleText);
+        }
+    }
+
     private sealed class WidthSensitiveRenderable : IRenderable
     {
         public List<int> RenderWidths { get; } = [];
@@ -628,6 +645,46 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_RemovesSecretSplitAcrossControlAndVisibleSegments()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlAndVisibleRenderable(),
+            CreateSecretObfuscator("token"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(segments.Any(static segment => segment.IsControlCode)).IsFalse();
+            await Assert.That(string.Concat(segments.Select(static segment => segment.Text)))
+                .DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task Write_PreservesUnrelatedControlBeforeVisibleSecret()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new ControlAndVisibleRenderable("\u001b[31m", "token"),
+            CreateSecretObfuscator("token"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(segments.Any(static segment => segment.IsControlCode)).IsTrue();
+            await Assert.That(string.Concat(segments.Select(static segment => segment.Text)))
+                .DoesNotContain("token");
+        }
+    }
+
+    [Test]
     public async Task Write_RemovesRelatedControlSequencesAcrossNestedChildren()
     {
         var renderable = new SecretObfuscatedRenderable(
@@ -817,7 +874,7 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task Write_SnapshotsUnhandledRenderablePerWidth()
+    public async Task Write_SnapshotsUnhandledRenderableBeforeUnseenWidths()
     {
         var source = new WidthSensitiveRenderable();
         var renderable = new SecretObfuscatedRenderable(
@@ -831,8 +888,8 @@ public class ConsoleWriterTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(output).IsEqualTo("5");
-            await Assert.That(source.RenderWidths).IsEquivalentTo([20, 5]);
+            await Assert.That(output).IsEqualTo("20");
+            await Assert.That(source.RenderWidths).IsEquivalentTo([20]);
         }
     }
 

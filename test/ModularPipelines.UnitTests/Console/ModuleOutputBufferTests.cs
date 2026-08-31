@@ -42,6 +42,34 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task DirectConsole_RefreshesConfiguredRenderableDimensions()
+    {
+        using var profileWriter = new StringWriter();
+        var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        configuredConsole.Profile.Width = 24;
+        configuredConsole.Profile.Height = 12;
+        using var outputWriter = new StringWriter();
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableConsole: configuredConsole);
+
+        var directConsole = buffer.GetDirectConsole(outputWriter);
+        configuredConsole.Profile.Width = 48;
+        configuredConsole.Profile.Height = 20;
+        var refreshedConsole = buffer.GetDirectConsole(outputWriter);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(refreshedConsole).IsSameReferenceAs(directConsole);
+            await Assert.That(refreshedConsole.Profile.Width).IsEqualTo(48);
+            await Assert.That(refreshedConsole.Profile.Height).IsEqualTo(20);
+        }
+    }
+
+    [Test]
     public async Task OutputExcerptSurvivesConsoleFlush()
     {
         var writer = new StringWriter();

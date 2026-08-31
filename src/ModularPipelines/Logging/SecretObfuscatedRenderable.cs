@@ -805,34 +805,50 @@ internal sealed class SecretObfuscatedRenderable(
 
     private bool ContainsUnsafeControlCodeStream(Segment[] segments)
     {
-        var controlCodeStream = new StringBuilder();
+        if (!segments.Any(static segment => segment.IsControlCode))
+        {
+            return false;
+        }
+
+        var emittedText = string.Concat(segments.Select(static segment => segment.Text));
+        if (secretObfuscator is not SecretObfuscator concreteObfuscator)
+        {
+            return !string.Equals(
+                secretObfuscator.Obfuscate(emittedText, null),
+                emittedText,
+                StringComparison.Ordinal);
+        }
+
+        var mappedOutput = concreteObfuscator.ObfuscateWithSourceMap(
+            emittedText,
+            concreteObfuscator.CanSafelyPreserveRegisteredMasks());
+        var outputBytes = Encoding.UTF8.GetBytes(mappedOutput.Value);
+        var sourceOffset = 0;
 
         foreach (var segment in segments)
         {
-            if (segment.IsControlCode)
+            var segmentEnd = sourceOffset + segment.Text.Length;
+            if (!segment.IsControlCode)
             {
-                controlCodeStream.Append(segment.Text);
+                sourceOffset = segmentEnd;
                 continue;
             }
 
-            if (controlCodeStream.Length > 0 && !IsSafeControlCodeStream(controlCodeStream))
+            var outputStart = mappedOutput.SourceToOutputByteOffsets[sourceOffset];
+            var outputEnd = mappedOutput.SourceToOutputByteOffsets[segmentEnd];
+            var mappedControlCode = Encoding.UTF8.GetString(
+                outputBytes,
+                outputStart,
+                outputEnd - outputStart);
+            if (!string.Equals(mappedControlCode, segment.Text, StringComparison.Ordinal))
             {
                 return true;
             }
 
-            controlCodeStream.Clear();
+            sourceOffset = segmentEnd;
         }
 
-        return controlCodeStream.Length > 0 && !IsSafeControlCodeStream(controlCodeStream);
-    }
-
-    private bool IsSafeControlCodeStream(StringBuilder controlCodeStream)
-    {
-        var controlCodeText = controlCodeStream.ToString();
-        return string.Equals(
-            ObfuscateMetadata(controlCodeText, secretObfuscator),
-            controlCodeText,
-            StringComparison.Ordinal);
+        return false;
     }
 
     private static Link? ObfuscateLink(
@@ -914,7 +930,7 @@ internal sealed class SecretObfuscatedRenderable(
     private sealed class DeferredSegmentSnapshotRenderable(IRenderable inner) : IRenderable
     {
         private readonly object _snapshotLock = new();
-        private readonly Dictionary<int, RawSnapshot> _snapshots = [];
+        private RawSnapshot? _snapshot;
 
         public Measurement Measure(RenderOptions options, int maxWidth)
         {
@@ -930,16 +946,15 @@ internal sealed class SecretObfuscatedRenderable(
         {
             lock (_snapshotLock)
             {
-                if (_snapshots.TryGetValue(maxWidth, out var snapshot))
+                if (_snapshot is not null)
                 {
-                    return snapshot;
+                    return _snapshot;
                 }
 
-                snapshot = new RawSnapshot(
+                _snapshot = new RawSnapshot(
                     inner.Measure(options, maxWidth),
                     inner.Render(options, maxWidth).ToArray());
-                _snapshots.Add(maxWidth, snapshot);
-                return snapshot;
+                return _snapshot;
             }
         }
 

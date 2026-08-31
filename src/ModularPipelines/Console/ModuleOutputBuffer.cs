@@ -439,7 +439,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
     {
-        return _directConsoles.GetValue(writer, CreateDirectConsole);
+        var directConsole = _directConsoles.GetValue(writer, CreateDirectConsole);
+        RefreshDirectConsoleProfile(directConsole);
+        return directConsole;
     }
 
     private void AddOutput(BufferedOutput output, bool allowAfterCompletion)
@@ -995,15 +997,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private IAnsiConsole CreateDirectConsole(TextWriter writer)
     {
-        var sourceProfile = _renderableConsole?.Profile ?? AnsiConsole.Profile;
-        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        return AnsiConsole.Create(new AnsiConsoleSettings
         {
             Out = new AnsiConsoleOutput(writer),
         });
-        console.Profile.Width = sourceProfile.Width;
-        console.Profile.Height = sourceProfile.Height;
-        console.Profile.Capabilities = sourceProfile.Capabilities;
-        return console;
+    }
+
+    private void RefreshDirectConsoleProfile(IAnsiConsole directConsole)
+    {
+        var sourceProfile = _renderableConsole?.Profile ?? AnsiConsole.Profile;
+        directConsole.Profile.Width = sourceProfile.Width;
+        directConsole.Profile.Height = sourceProfile.Height;
+        directConsole.Profile.Capabilities = sourceProfile.Capabilities;
     }
 
     private static void WriteDirect(
