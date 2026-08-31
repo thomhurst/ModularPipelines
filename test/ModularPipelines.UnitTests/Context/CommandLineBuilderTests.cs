@@ -859,6 +859,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Does_Not_Treat_Manual_Option_Operand_As_Declared_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arg", "name", "--"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("unconsumed '--'");
+    }
+
+    [Test]
     public async Task Build_Hoists_Manual_Option_Operands_Before_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

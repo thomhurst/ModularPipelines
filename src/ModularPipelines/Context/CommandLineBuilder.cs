@@ -540,7 +540,9 @@ internal sealed class CommandLineBuilder(
         var hasTerminalOptions = false;
         var optionParsingCount = GetOptionParsingCount(
             manualArgs,
-            options.ArgumentsContainOptionTerminator);
+            flagsByName,
+            optionsByName,
+            options);
         for (var index = 0; index < optionParsingCount;)
         {
             var match = TryMatchManualOption(
@@ -601,15 +603,32 @@ internal sealed class CommandLineBuilder(
 
     private static int GetOptionParsingCount(
         List<string> manualArgs,
-        bool argumentsContainOptionTerminator)
+        IReadOnlyDictionary<string, FlagPart> flagsByName,
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options)
     {
-        if (!argumentsContainOptionTerminator)
+        if (!options.ArgumentsContainOptionTerminator)
         {
             return manualArgs.Count;
         }
 
-        var optionTerminatorIndex = manualArgs.IndexOf("--");
-        return optionTerminatorIndex < 0 ? manualArgs.Count : optionTerminatorIndex;
+        for (var index = 0; index < manualArgs.Count;)
+        {
+            if (manualArgs[index] == "--")
+            {
+                return index;
+            }
+
+            var match = TryMatchManualOption(
+                manualArgs,
+                index,
+                flagsByName,
+                optionsByName,
+                options);
+            index += match?.ArgumentCount ?? 1;
+        }
+
+        return manualArgs.Count;
     }
 
     private static void AppendOptionTerminatedArguments(
