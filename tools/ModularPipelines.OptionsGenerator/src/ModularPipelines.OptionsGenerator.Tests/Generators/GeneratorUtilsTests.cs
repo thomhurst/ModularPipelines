@@ -874,6 +874,18 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("AccountKey")]
+    [Arguments("StorageAccountKey")]
+    [Arguments("ConnectionString")]
+    [Arguments("StorageConnectionString")]
+    public async Task IsSecretOption_Returns_True_For_Storage_Credential_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
     [Arguments("Output")]
     [Arguments("Verbose")]
     [Arguments("Format")]
