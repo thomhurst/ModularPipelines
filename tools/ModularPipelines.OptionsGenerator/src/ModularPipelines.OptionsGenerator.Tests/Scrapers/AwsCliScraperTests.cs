@@ -387,6 +387,67 @@ public class AwsCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Nested_Command_Groups_Do_Not_Expose_Command_Placeholders()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsNestedCommandGroupHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var group = commands.Single(command => command.FullCommand == "aws fixture group");
+
+        await Assert.That(group.PositionalArguments).IsEmpty();
+    }
+
+    private sealed class AwsNestedCommandGroupHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o fixture",
+                "fixture help" => "AVAILABLE COMMANDS\n       o group",
+                "fixture group help" => """
+                    SYNOPSIS
+                           group
+                           <command>
+                           [--configuration <value>]
+
+                    OPTIONS
+                           --configuration (string)
+                            Group configuration.
+
+                    AVAILABLE COMMANDS
+                           o child
+                    """,
+                "fixture group child help" => """
+                    OPTIONS
+                           --name (string)
+                            Child name.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
     private sealed class AwsCrossDomainPositionalHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -725,8 +786,11 @@ public class AwsCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<AwsCliScraper>.Instance)
     {
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
     }
 
     private static CliCommandResult Result(string output) => new()

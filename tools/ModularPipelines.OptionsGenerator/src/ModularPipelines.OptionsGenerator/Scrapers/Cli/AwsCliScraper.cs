@@ -188,6 +188,13 @@ public partial class AwsCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -228,7 +235,7 @@ public partial class AwsCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://awscli.amazonaws.com/v2/documentation/api/latest/reference/{string.Join("/", commandParts)}/index.html",
             Options = options,
-            PositionalArguments = GetAwsPositionalArguments(commandPath, commandParts, helpText, options),
+            PositionalArguments = GetAwsPositionalArguments(commandParts, usage, options),
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -518,10 +525,9 @@ public partial class AwsCliScraper : CliScraperBase
         return null;
     }
 
-    private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
-        string[] commandPath,
+    private static IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
         string[] commandParts,
-        string helpText,
+        UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
         commandParts switch
         {
@@ -545,15 +551,14 @@ public partial class AwsCliScraper : CliScraperBase
             [
                 RequiredPathArgument("S3Uri", 0, "S3 URI to operate on."),
             ],
-            _ => GetSynopsisPositionalArguments(commandPath, helpText, options),
+            _ => GetSynopsisPositionalArguments(usage, options),
         };
 
-    private IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
-        string[] commandPath,
-        string helpText,
+    private static IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
+        UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
         CliPositionalArgument.MergeDuplicates(
-            GetPositionalArguments(ParseUsageSynopsis(commandPath, helpText), options));
+            GetPositionalArguments(usage, options));
 
     private static IReadOnlyList<string> GetSynopsisLines(string helpText)
     {
