@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Newman.Services;
 
 namespace ModularPipelines.Newman.Extensions;
@@ -31,4 +30,5 @@ public static class NewmanExtensions
         services.TryAddScoped<INewman, Services.Newman>();
         return services;
     }
+
 }
