@@ -12,6 +12,10 @@ public record CliPositionalArgument
     {
         var merged = positionalArguments
             .GroupBy(argument => argument.PropertyName, StringComparer.OrdinalIgnoreCase)
+            .SelectMany(propertyGroup => propertyGroup
+                .GroupBy(
+                    argument => argument.AssociatedOptionSwitch,
+                    StringComparer.OrdinalIgnoreCase))
             .Select(group =>
             {
                 var first = group.OrderBy(argument => argument.PositionIndex).First();
@@ -19,10 +23,6 @@ public record CliPositionalArgument
                 var collection = group.FirstOrDefault(argument =>
                     argument.CSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal));
                 var type = (collection ?? first).CSharpType.TrimEnd('?');
-                var associatedOptionSwitches = group
-                    .Select(argument => argument.AssociatedOptionSwitch)
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
 
                 return first with
                 {
@@ -36,9 +36,6 @@ public record CliPositionalArgument
                         argument.RepeatOptionTerminator),
                     PrependOptionTerminatorIfValueStartsWithDash = group.Any(argument =>
                         argument.PrependOptionTerminatorIfValueStartsWithDash),
-                    AssociatedOptionSwitch = associatedOptionSwitches.Count == 1
-                        ? associatedOptionSwitches[0]
-                        : null,
                 };
             })
             .OrderBy(argument => argument.PositionIndex)

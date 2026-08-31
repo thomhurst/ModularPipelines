@@ -78,6 +78,17 @@ public partial class AwsCliScraper : CliScraperBase
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText)
+    {
+        var synopsisLines = GetSynopsisLines(helpText);
+        if (synopsisLines.Count > 0)
+        {
+            yield return string.Join(' ', synopsisLines);
+        }
+    }
+
     public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -177,6 +188,13 @@ public partial class AwsCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -217,7 +235,7 @@ public partial class AwsCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = $"https://awscli.amazonaws.com/v2/documentation/api/latest/reference/{string.Join("/", commandParts)}/index.html",
             Options = options,
-            PositionalArguments = GetS3PositionalArguments(commandPath, commandParts, helpText, options),
+            PositionalArguments = GetAwsPositionalArguments(commandParts, usage, options),
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -507,10 +525,9 @@ public partial class AwsCliScraper : CliScraperBase
         return null;
     }
 
-    private IReadOnlyList<CliPositionalArgument> GetS3PositionalArguments(
-        string[] commandPath,
+    private static IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
         string[] commandParts,
-        string helpText,
+        UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
         commandParts switch
         {
@@ -534,9 +551,38 @@ public partial class AwsCliScraper : CliScraperBase
             [
                 RequiredPathArgument("S3Uri", 0, "S3 URI to operate on."),
             ],
-            ["s3", ..] => GetPositionalArguments(ParseUsageSynopsis(commandPath, helpText), options),
-            _ => [],
+            _ => GetSynopsisPositionalArguments(usage, options),
         };
+
+    private static IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
+        UsageSynopsisParseResult usage,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        CliPositionalArgument.MergeDuplicates(
+            GetPositionalArguments(usage, options));
+
+    private static IReadOnlyList<string> GetSynopsisLines(string helpText)
+    {
+        var synopsisMatch = Regex.Match(
+            helpText,
+            @"^SYNOPSIS\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        if (!synopsisMatch.Success)
+        {
+            return [];
+        }
+
+        var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
+        var nextSectionMatch = Regex.Match(
+            helpText[sectionStart..],
+            @"^[A-Z][A-Z\s]+$",
+            RegexOptions.Multiline);
+        var sectionEnd = nextSectionMatch.Success
+            ? sectionStart + nextSectionMatch.Index
+            : helpText.Length;
+
+        return helpText[sectionStart..sectionEnd]
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
 
     private static CliPositionalArgument RequiredPathArgument(
         string propertyName,

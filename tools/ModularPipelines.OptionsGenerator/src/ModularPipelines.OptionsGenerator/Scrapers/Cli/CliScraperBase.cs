@@ -501,16 +501,6 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
-        usage = NormalizeUsageSynopsis(command, usage);
-        command = command with
-        {
-            HasOperandTakingUsage = usage.HasOperandTokens,
-            UsagePositionalArguments = usage.PositionalArguments,
-        };
-        command.ValidateOperandCoverage(
-            usage.HasOperandTokens,
-            usage.Synopsis,
-            usage.PositionalArguments);
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
     }
 
@@ -538,6 +528,16 @@ public abstract partial class CliScraperBase : ICliScraper
 
             ValidateOptionShapes(command, helpText);
             ValidateArgumentGroups(command);
+            usage = NormalizeUsageSynopsis(command, usage);
+            command = command with
+            {
+                HasOperandTakingUsage = usage.HasOperandTokens,
+                UsagePositionalArguments = usage.PositionalArguments,
+            };
+            command.ValidateOperandCoverage(
+                usage.HasOperandTokens,
+                usage.Synopsis,
+                usage.PositionalArguments);
             return command;
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
