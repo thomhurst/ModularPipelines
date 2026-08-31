@@ -17,8 +17,8 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykContainerTestFailOn
 {
     [EnumValue("all")]
-    All = 0,
+    All,
 
     [EnumValue("upgradable")]
-    Upgradable = 1
+    Upgradable
 }

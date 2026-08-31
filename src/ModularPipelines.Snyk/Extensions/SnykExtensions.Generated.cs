@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Snyk.Services;
 
 namespace ModularPipelines.Snyk.Extensions;
@@ -31,4 +30,5 @@ public static class SnykExtensions
         services.TryAddScoped<ISnyk, Services.Snyk>();
         return services;
     }
+
 }

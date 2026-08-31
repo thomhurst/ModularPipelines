@@ -17,11 +17,11 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykCodeTestSeverityThreshold
 {
     [EnumValue("low")]
-    Low = 0,
+    Low,
 
     [EnumValue("medium")]
-    Medium = 1,
+    Medium,
 
     [EnumValue("high")]
-    High = 2
+    High
 }
