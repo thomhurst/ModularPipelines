@@ -23,7 +23,7 @@ on:
         default: true
         type: boolean
       approve-command-coverage-shrinkage:
-        description: 'Explicitly approve removed commands for this run'
+        description: 'Explicitly approve command-set changes or shrinkage for this run'
         required: false
         default: false
         type: boolean
@@ -284,8 +284,12 @@ jobs:
       - name: Install Flyway
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flyway'
         run: |
-          wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.20.1/flyway-commandline-10.20.1-linux-x64.tar.gz |
-            tar xvz -C "$CLI_TOOLS_ROOT"
+          FLYWAY_ARCHIVE="$RUNNER_TEMP/flyway-commandline-10.20.1-linux-x64.tar.gz"
+          wget -q \
+            https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.20.1/flyway-commandline-10.20.1-linux-x64.tar.gz \
+            -O "$FLYWAY_ARCHIVE"
+          echo "5fe89b33fd3d91aabbaf3d9b6d35f9a1d5ee28c473148b2435a0cfbe8904245c  $FLYWAY_ARCHIVE" | sha256sum --check
+          tar xzf "$FLYWAY_ARCHIVE" -C "$CLI_TOOLS_ROOT"
           ln -s "$CLI_TOOLS_ROOT/flyway-10.20.1/flyway" "$CLI_TOOLS_ROOT/bin/flyway"
 
       - name: Install Go

@@ -67,7 +67,7 @@ internal static class OptionsGeneratorCommand
             },
             ApproveCommandCoverageShrinkage: new Option<bool>("--approve-command-coverage-shrinkage")
             {
-                Description = "Explicitly approve removed commands and command groups losing all children. Sentinel and minimum coverage checks still apply.",
+                Description = "Explicitly approve same-version command-set changes, removed commands, and command groups losing all children. Sentinel and minimum coverage checks still apply.",
                 DefaultValueFactory = _ => false,
             },
             ChangeManifest: new Option<string?>("--change-manifest")
@@ -311,7 +311,7 @@ internal static class OptionsGeneratorCommand
 
         logger.LogInformation("Output directory: {OutputDir}", Path.GetFullPath(settings.OutputDirectory));
         logger.LogInformation(
-            "Command coverage shrinkage approval: {Approval}",
+            "Command coverage change approval: {Approval}",
             settings.ApproveCommandCoverageShrinkage ? "Enabled" : "Disabled");
     }
 

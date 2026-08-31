@@ -87,6 +87,8 @@ public partial class FlywayCliScraper : CliScraperBase
                     "flyway auth",
                     "flyway diff",
                     "flyway diffText",
+                    "flyway init",
+                    "flyway list-engines",
                     "flyway migrate",
                     "flyway snapshot",
                 ],
@@ -96,8 +98,6 @@ public partial class FlywayCliScraper : CliScraperBase
                     ConditionalCommand("deploy"),
                     ConditionalCommand("diffApply"),
                     ConditionalCommand("generate"),
-                    ConditionalCommand("init"),
-                    ConditionalCommand("list-engines"),
                     ConditionalCommand("prepare"),
                     ConditionalCommand("undo"),
                 ],
@@ -108,7 +108,7 @@ public partial class FlywayCliScraper : CliScraperBase
     private static CliConditionallyAvailableCommand ConditionalCommand(string command) => new()
     {
         Command = $"flyway {command}",
-        Reason = "Availability depends on the installed Flyway distribution, edition, and license.",
+        Reason = "Visibility in flyway --help depends on the installed Redgate plugins, edition, and license.",
     };
 
     /// <summary>
@@ -130,6 +130,7 @@ public partial class FlywayCliScraper : CliScraperBase
         var section = helpText[sectionStart..];
         var lines = section.Split('\n');
         var foundCommand = false;
+        var commandIndentation = 0;
 
         foreach (var line in lines)
         {
@@ -141,7 +142,7 @@ public partial class FlywayCliScraper : CliScraperBase
             var match = FlywayCommandLinePattern().Match(line);
             if (!match.Success)
             {
-                if (foundCommand)
+                if (foundCommand && GetIndentation(line) <= commandIndentation)
                 {
                     break;
                 }
@@ -150,6 +151,7 @@ public partial class FlywayCliScraper : CliScraperBase
             }
 
             foundCommand = true;
+            commandIndentation = GetIndentation(line);
             var commandName = match.Groups["command"].Value.Trim();
             if (!string.IsNullOrEmpty(commandName) &&
                 !commandName.Contains(' ') &&
@@ -161,6 +163,9 @@ public partial class FlywayCliScraper : CliScraperBase
 
         return subcommands;
     }
+
+    private static int GetIndentation(string line) =>
+        line.TakeWhile(character => character is ' ' or '\t').Count();
 
     /// <summary>
     /// Parses a Flyway command from its help text.

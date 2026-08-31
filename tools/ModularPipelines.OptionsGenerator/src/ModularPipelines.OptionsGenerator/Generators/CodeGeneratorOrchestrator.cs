@@ -1448,8 +1448,8 @@ public class GenerationResult
                 lines.Add("  - Baseline: created");
             }
 
-            AppendDiff(lines, "Added", coverage.AddedCommands);
-            AppendDiff(lines, coverage.ShrinkageApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
+            AppendDiff(lines, coverage.ChangesApproved ? "Added (approved)" : "Added", coverage.AddedCommands);
+            AppendDiff(lines, coverage.ChangesApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
             AppendDiff(lines, "Groups without children", coverage.KnownGroupsWithoutChildren);
             AppendDiff(
                 lines,

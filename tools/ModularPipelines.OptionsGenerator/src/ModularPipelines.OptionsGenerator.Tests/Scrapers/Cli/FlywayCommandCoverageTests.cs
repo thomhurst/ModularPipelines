@@ -129,7 +129,8 @@ public class FlywayCommandCoverageTests
                 list-engines             Lists supported database engines
                 diff (preview)           Compares two comparison sources
                 diffText (preview)       Shows object differences
-                snapshot                 Produces a database snapshot
+                snapshot                 [enterprise] Produces a snapshot of the configured database
+                                         A snapshot can also be generated from a schema model or empty source
                 diffApply (preview)      Applies changes from flyway diff
                 generate (preview)       Generates a migration script
                 add (preview)            Creates an empty migration script
@@ -202,6 +203,7 @@ public class FlywayCommandCoverageTests
             "diffText",
             "info",
             "init",
+            "list-engines",
             "migrate",
             "repair",
             "snapshot",
@@ -221,8 +223,6 @@ public class FlywayCommandCoverageTests
             "flyway deploy",
             "flyway diffApply",
             "flyway generate",
-            "flyway init",
-            "flyway list-engines",
             "flyway prepare",
             "flyway undo",
         ]);
@@ -256,6 +256,43 @@ public class FlywayCommandCoverageTests
             violation => violation.Contains("configured minimum of 12", StringComparison.Ordinal));
         await Assert.That(evaluation.Violations).Contains(
             violation => violation.Contains("flyway diffText", StringComparison.Ordinal));
+    }
+
+    [Test]
+    [Arguments("init")]
+    [Arguments("list-engines")]
+    public async Task PinnedFlywayCoverage_RejectsEitherRequiredCommandMissing(string missingCommand)
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FlywayCliScraper(
+            new UnusedExecutor(),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+        var completeCommands = new[]
+        {
+            "auth",
+            "baseline",
+            "check",
+            "clean",
+            "diff",
+            "diffText",
+            "info",
+            "init",
+            "list-engines",
+            "migrate",
+            "repair",
+            "snapshot",
+            "validate",
+        };
+        var commands = completeCommands
+            .Where(command => !command.Equals(missingCommand, StringComparison.Ordinal))
+            .Select(Command)
+            .ToArray();
+
+        var evaluation = EvaluateCoverage(scraper, commands);
+
+        await Assert.That(evaluation.Violations).Contains(
+            violation => violation.Contains($"flyway {missingCommand}", StringComparison.Ordinal));
     }
 
     private static CommandCoverageEvaluation EvaluateCoverage(
