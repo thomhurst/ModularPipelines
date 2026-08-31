@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Podman.Services;
 
 namespace ModularPipelines.Podman.Extensions;
@@ -47,4 +46,5 @@ public static class PodmanExtensions
         services.TryAddScoped<IPodmanVolume, PodmanVolume>();
         return services;
     }
+
 }

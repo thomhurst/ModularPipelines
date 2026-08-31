@@ -630,11 +630,4 @@ public record PodmanFarmBuildOptions : PodmanOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Context { get; set; }
 
-    [Obsolete("Use TimestampValue instead.")]
-    public int? Timestamp
-    {
-        get => int.TryParse(TimestampValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => TimestampValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
 }

@@ -116,14 +116,4 @@ public record PodmanMachineInitOptions : PodmanOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
 
-    [Obsolete("Use Image instead.")]
-    public string? ImagePath
-    {
-        get => Image;
-        set => Image = value;
-    }
-
-    [Obsolete("Podman no longer supports --volume-driver and this property has no effect.")]
-    public string? VolumeDriver { get; set; }
-
 }

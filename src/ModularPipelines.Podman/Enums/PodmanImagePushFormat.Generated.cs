@@ -17,11 +17,11 @@ namespace ModularPipelines.Podman.Enums;
 public enum PodmanImagePushFormat
 {
     [EnumValue("oci")]
-    Oci = 0,
+    Oci,
 
     [EnumValue("v2s2")]
-    V2S2 = 1,
+    V2S2,
 
     [EnumValue("v2s1")]
-    V2S1 = 2
+    V2S1
 }
