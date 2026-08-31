@@ -248,8 +248,10 @@ contract. First-class liveness is tracked by
 Cancellation tokens stop work only in the process where cancellation is requested. The
 shipped coordinator contract does not broadcast cancellation between the master and workers.
 
-`SignalCompletionAsync` is different from cancellation. The master calls it in a `finally`
-block after distributed execution ends. Coordinators use that signal to wake workers blocked
-in `DequeueModuleAsync` and let their execution loops exit normally. First-class distributed
-cancellation is also tracked by
+`SignalCompletionAsync` is different from cancellation. When the master receives at least
+one runnable module, it calls this method in a `finally` block after distributed execution
+ends. Coordinators use that signal to wake workers blocked in `DequeueModuleAsync` and let
+their execution loops exit normally. If the runnable set is empty, the master currently
+returns before sending the signal, so external workers remain blocked until their local
+cancellation tokens are canceled. First-class distributed cancellation is also tracked by
 [#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
