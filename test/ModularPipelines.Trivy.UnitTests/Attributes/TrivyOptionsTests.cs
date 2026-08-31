@@ -22,12 +22,12 @@ public class TrivyOptionsTests
 
         await AssertArguments(arguments,
         [
-            "alpine:3.20",
+            "--password=registry-secret",
             "--format=json",
             "--severity=HIGH",
             "--severity=CRITICAL",
             "--timeout=2m",
-            "--password=registry-secret",
+            "alpine:3.20",
         ]);
     }
 
