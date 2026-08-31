@@ -52,10 +52,26 @@ public class OptionsClassGenerator : ICodeGenerator
         // primary-constructor parameters, so a name scraped as both required and
         // optional can't produce two members (CS0102).
         var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
-        var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
+        var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
+        var existingPropertyNames = GenerateClassDeclaration(
+            sb,
+            command,
+            positionalArguments,
+            usePrimaryConstructor: !supportsAlternateInputModes);
 
         sb.AppendLine("{");
-        GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
+        if (supportsAlternateInputModes)
+        {
+            GenerateRequiredConstructor(sb, command, positionalArguments);
+            GenerateAlternateInputFactories(sb, command);
+        }
+
+        GenerateProperties(
+            sb,
+            command,
+            positionalArguments,
+            existingPropertyNames,
+            supportsAlternateInputModes);
         GenerateRequiredAlternativeValidation(sb, command, positionalArguments);
         sb.AppendLine("}");
 
@@ -121,10 +137,11 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb,
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
-        HashSet<string> existingPropertyNames)
+        HashSet<string> existingPropertyNames,
+        bool includeRequiredProperties)
     {
-        // Properties for non-required options
-        foreach (var option in command.Options.Where(o => !o.IsRequired))
+        foreach (var option in command.Options.Where(option =>
+                     includeRequiredProperties || !option.IsRequired))
         {
             if (!existingPropertyNames.Add(option.PropertyName))
             {
@@ -135,7 +152,8 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Positional arguments - skip duplicates
-        foreach (var positional in positionalArguments.Where(p => !p.IsRequired))
+        foreach (var positional in positionalArguments.Where(positional =>
+                     includeRequiredProperties || !positional.IsRequired))
         {
             if (existingPropertyNames.Contains(positional.PropertyName))
             {
@@ -159,12 +177,13 @@ public class OptionsClassGenerator : ICodeGenerator
     private static HashSet<string> GenerateClassDeclaration(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<CliPositionalArgument> positionalArguments)
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        bool usePrimaryConstructor)
     {
         var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
         var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        if (constructorParameters.Count > 0)
+        if (constructorParameters.Count > 0 && usePrimaryConstructor)
         {
             // Use primary constructor for required parameters
             var parameters = new List<string>();
@@ -199,6 +218,65 @@ public class OptionsClassGenerator : ICodeGenerator
         command.RequiredAlternativeGroups.Count > 0
             ? $"{command.ParentClassName}, IValidatableObject"
             : command.ParentClassName;
+
+    private static bool SupportsAlternateInputModes(
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        command.RequiredOptions.Count > 0
+        && positionalArguments.All(static positional => !positional.IsRequired)
+        && (HasOption(command, "--cli-input-json")
+            || HasOption(command, "--generate-cli-skeleton"));
+
+    private static bool HasOption(CliCommandDefinition command, string switchName) =>
+        command.Options.Any(option =>
+            option.SwitchName.Equals(switchName, StringComparison.OrdinalIgnoreCase));
+
+    private static void GenerateRequiredConstructor(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(
+            command,
+            positionalArguments);
+        var parameterDeclarations = constructorParameters.Select(parameter =>
+            $"        {parameter.CSharpType.TrimEnd('?')} {parameter.PropertyName}");
+
+        sb.AppendLine($"    public {command.ClassName}(");
+        sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
+        sb.AppendLine("    )");
+        sb.AppendLine("    {");
+        foreach (var parameter in constructorParameters)
+        {
+            sb.AppendLine($"        this.{parameter.PropertyName} = {parameter.PropertyName};");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine($"    private {command.ClassName}()");
+        sb.AppendLine("    {");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static void GenerateAlternateInputFactories(
+        StringBuilder sb,
+        CliCommandDefinition command)
+    {
+        if (HasOption(command, "--cli-input-json"))
+        {
+            sb.AppendLine($"    public static {command.ClassName} FromCliInputJson(string cliInputJson) =>");
+            sb.AppendLine("        new() { CliInputJson = cliInputJson };");
+            sb.AppendLine();
+        }
+
+        if (HasOption(command, "--generate-cli-skeleton"))
+        {
+            sb.AppendLine($"    public static {command.ClassName} ForCliSkeleton(string generateCliSkeleton = \"input\") =>");
+            sb.AppendLine("        new() { GenerateCliSkeleton = generateCliSkeleton };");
+            sb.AppendLine();
+        }
+    }
 
     private static void GenerateRequiredAlternativeValidation(
         StringBuilder sb,
@@ -236,6 +314,7 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
             sb.AppendLine("        }");
         }
+
         sb.AppendLine("    }");
         sb.AppendLine();
     }
