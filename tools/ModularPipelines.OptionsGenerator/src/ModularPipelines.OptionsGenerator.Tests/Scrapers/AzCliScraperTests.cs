@@ -608,6 +608,52 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Appservice_Plan_IsLinux_Preserves_Explicit_False_Value()
+    {
+        const string helpText = """
+            Command
+                az appservice plan create : Create an app service plan.
+
+            Optional Arguments
+                --is-linux : Host web app on Linux worker.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "appservice", "plan", "create"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.Description).Contains("--is-linux false");
+            await Assert.That(option.Description).Contains("Allowed values: false, true");
+        }
+    }
+
+    [Test]
+    public async Task Unrelated_IsLinux_Remains_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Command
+                az example create : Create an example.
+
+            Optional Arguments
+                --is-linux : Host workload on Linux.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "example", "create"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
     public async Task Acr_Task_Value_Shapes_Preserve_Cardinality_And_Secrets()
     {
         const string helpText = """

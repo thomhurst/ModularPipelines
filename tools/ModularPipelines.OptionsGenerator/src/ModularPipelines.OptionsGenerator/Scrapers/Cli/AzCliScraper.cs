@@ -195,7 +195,7 @@ public partial class AzCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(commandParts, helpText);
 
         // If no options, skip generating this command
         if (options.Count == 0)
@@ -249,7 +249,9 @@ public partial class AzCliScraper : CliScraperBase
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(
+        IReadOnlyList<string> commandParts,
+        string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -267,7 +269,7 @@ public partial class AzCliScraper : CliScraperBase
             var lines = GetSectionLines(helpText, sectionMatch);
             for (var i = 0; i < lines.Length; i++)
             {
-                var option = ParseOption(lines, ref i, sectionName, seenOptions);
+                var option = ParseOption(commandParts, lines, ref i, sectionName, seenOptions);
                 if (option is not null)
                 {
                     options.Add(option);
@@ -282,6 +284,14 @@ public partial class AzCliScraper : CliScraperBase
         sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
         && !sectionName.StartsWith("Global ", StringComparison.OrdinalIgnoreCase);
 
+    private static bool IsKnownExplicitBooleanOption(
+        IReadOnlyList<string> commandParts,
+        string switchName) =>
+        switchName.Equals("is-linux", StringComparison.OrdinalIgnoreCase)
+        && commandParts.SequenceEqual(
+            ["appservice", "plan", "create"],
+            StringComparer.OrdinalIgnoreCase);
+
     private static string[] GetSectionLines(string helpText, Match sectionMatch)
     {
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
@@ -291,6 +301,7 @@ public partial class AzCliScraper : CliScraperBase
     }
 
     private static CliOptionDefinition? ParseOption(
+        IReadOnlyList<string> commandParts,
         string[] lines,
         ref int lineIndex,
         string sectionName,
@@ -314,6 +325,13 @@ public partial class AzCliScraper : CliScraperBase
         var valueHint = match.Groups["value"].Value.Trim();
         var description = match.Groups["desc"].Value.Trim();
         lineIndex = AccumulateMultiLineDescription(lines, lineIndex, ref description);
+
+        if (IsKnownExplicitBooleanOption(commandParts, longFlag)
+            && !HelpDeclaresExplicitBooleanValue(description))
+        {
+            description += " Defaults to true unless --hyper-v is specified. "
+                           + "Use \"--is-linux false\" to create a Windows plan. Allowed values: false, true.";
+        }
 
         var propertyName = NormalizePropertyName(longFlag);
         if (propertyName is null)

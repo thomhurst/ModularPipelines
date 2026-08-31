@@ -47,9 +47,9 @@ public record AzAppservicePlanCreateOptions(
     public bool? HyperV { get; set; }
 
     /// <summary>
-    /// Host web app on Linux worker.
+    /// Host web app on Linux worker. Defaults to true unless --hyper-v is specified. Use "--is-linux false" to create a Windows plan. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-linux")]
+    [CliOption("--is-linux")]
     public bool? IsLinux { get; set; }
 
     /// <summary>
