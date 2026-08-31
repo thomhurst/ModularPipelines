@@ -307,6 +307,9 @@ public class AwsCliScraperTests
                 StringComparison.Ordinal));
         var autoscalingInterface = services.Single(file =>
             file.RelativePath.EndsWith("IAwsAutoscaling.Generated.cs", StringComparison.Ordinal));
+        var terminateContent = terminateOptions.Content.ReplaceLineEndings("\n");
+        var createContent = createOptions.Content.ReplaceLineEndings("\n");
+        var autoscalingContent = autoscalingOptions.Content.ReplaceLineEndings("\n");
 
         using (Assert.Multiple())
         {
@@ -322,18 +325,30 @@ public class AwsCliScraperTests
                 option.SwitchName == "--key-type").IsRequired).IsFalse();
             await Assert.That(setInstanceProtection.Options.Single(option =>
                 option.SwitchName == "--protected-from-scale-in").IsRequired).IsTrue();
-            await Assert.That(terminateOptions.Content)
-                .Contains("[property: CliOption(\"--instance-ids\", GroupValues = true)] IEnumerable<string> InstanceIds");
-            await Assert.That(createOptions.Content)
-                .Contains("string KeyName");
+            await Assert.That(terminateContent)
+                .Contains("public AwsEc2TerminateInstancesOptions(\n        IEnumerable<string> InstanceIds\n    )");
+            await Assert.That(terminateContent)
+                .Contains("[CliOption(\"--instance-ids\", GroupValues = true)]\n    public IEnumerable<string>? InstanceIds");
+            await Assert.That(createContent)
+                .Contains("public AwsEc2CreateKeyPairOptions(\n        string KeyName\n    )");
+            await Assert.That(createContent)
+                .Contains("[CliOption(\"--key-name\")]\n    public string? KeyName");
+            await Assert.That(terminateContent)
+                .Contains("FromCliInputJson(string cliInputJson)");
+            await Assert.That(terminateContent)
+                .Contains("ForCliSkeleton(string generateCliSkeleton = \"input\")");
+            await Assert.That(terminateContent)
+                .Contains("private AwsEc2TerminateInstancesOptions()");
+            await Assert.That(terminateContent)
+                .DoesNotContain("public AwsEc2TerminateInstancesOptions()");
             await Assert.That(ec2Interface.Content)
                 .Contains("TerminateInstancesAsync(AwsEc2TerminateInstancesOptions options,");
             await Assert.That(ec2Interface.Content)
                 .Contains("CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options,");
-            await Assert.That(autoscalingOptions.Content)
-                .Contains("bool ProtectedFromScaleIn");
-            await Assert.That(autoscalingOptions.Content)
-                .Contains("[property: CliOption(\"--instance-ids\", GroupValues = true)] IEnumerable<string> InstanceIds");
+            await Assert.That(autoscalingContent)
+                .Contains("bool ProtectedFromScaleIn\n    )");
+            await Assert.That(autoscalingContent)
+                .Contains("[CliFlag(\"--protected-from-scale-in\")]\n    public bool? ProtectedFromScaleIn");
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
         }
@@ -920,6 +935,8 @@ public class AwsCliScraperTests
                            aws ec2 terminate-instances
                            --instance-ids <value>
                            [--dry-run | --no-dry-run]
+                           [--cli-input-json <value>]
+                           [--generate-cli-skeleton <value>]
 
                     OPTIONS
                            --instance-ids (list)
@@ -927,12 +944,20 @@ public class AwsCliScraperTests
 
                            --dry-run (boolean)
                             Checks whether you have the required permissions.
+
+                           --cli-input-json (string)
+                            JSON input.
+
+                           --generate-cli-skeleton (string)
+                            Prints a skeleton.
                     """,
                 "ec2 create-key-pair help" => """
                     SYNOPSIS
                            aws ec2 create-key-pair
                            [--key-name <value>]
                            [--key-type <value>]
+                           [--cli-input-json <value>]
+                           [--generate-cli-skeleton <value>]
 
                     OPTIONS
                            --key-name (string) [required]
@@ -940,6 +965,12 @@ public class AwsCliScraperTests
 
                            --key-type (string)
                             The type of key pair.
+
+                           --cli-input-json (string)
+                            JSON input.
+
+                           --generate-cli-skeleton (string)
+                            Prints a skeleton.
                     """,
                 _ => string.Empty,
             };
