@@ -142,6 +142,34 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
+    public async Task Kubectl_Apply_Validate_Override_Preserves_Value()
+    {
+        var detector = new ManualOverrideDetector(
+            NullLogger<ManualOverrideDetector>.Instance,
+            Path.Combine(AppContext.BaseDirectory, "TypeOverrides"));
+        var pipeline = new OptionTypeDetectorPipeline(
+            [detector],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--validate",
+            PropertyName = "Validate",
+            CSharpType = "bool?",
+            IsFlag = true,
+        }, toolName: "kubectl", commandName: "apply");
+
+        var enhanced = await enhancer.EnhanceManualOverridesAsync(tool);
+        var option = enhanced.Commands.Single().Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.IsFlag).IsFalse();
+        }
+    }
+
+    [Test]
     [Arguments("--identity-token", "IdentityToken", "Token or path to a file containing the token.")]
     [Arguments("--oidc-client-secret-file", "OidcClientSecretFile", "Path to the OIDC client secret file.")]
     public async Task Cosign_Override_Preserves_Path_Capable_Secrets(
@@ -246,7 +274,8 @@ public class OptionTypeEnhancerTests
 
     private static CliToolDefinition CreateTool(
         CliOptionDefinition option,
-        string toolName = "docker")
+        string toolName = "docker",
+        string commandName = "build")
     {
         return new CliToolDefinition
         {
@@ -258,8 +287,8 @@ public class OptionTypeEnhancerTests
             [
                 new CliCommandDefinition
                 {
-                    FullCommand = "docker build",
-                    CommandParts = ["build"],
+                    FullCommand = $"{toolName} {commandName}",
+                    CommandParts = [commandName],
                     ClassName = "DockerBuildOptions",
                     ParentClassName = "DockerOptions",
                     ToolNamespacePrefix = "Docker",

@@ -10,6 +10,18 @@ namespace ModularPipelines.Kubernetes.UnitTests;
 public class KubernetesCommandRenderingTests : TestBase
 {
     [Test]
+    public async Task Apply_Validate_Renders_Selected_Mode()
+    {
+        var result = await GetResult(new KubernetesApplyOptions
+        {
+            Validate = "warn",
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl apply --validate=warn");
+    }
+
+    [Test]
     public async Task Auth_CanI_List_Does_Not_Require_A_Verb()
     {
         var result = await GetResult(new KubernetesAuthCanIOptions(null!) { List = true });
