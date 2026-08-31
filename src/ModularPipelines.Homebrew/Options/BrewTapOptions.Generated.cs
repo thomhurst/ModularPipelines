@@ -74,7 +74,4 @@ public record BrewTapOptions : BrewOptions
     [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Url { get; set; }
 
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
-
 }

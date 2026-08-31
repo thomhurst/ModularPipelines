@@ -144,13 +144,13 @@ public record BrewDepsOptions : BrewOptions
     /// Show dependencies for the given operating system.
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
-    public string? OsValue { get; set; }
+    public string? Os { get; set; }
 
     /// <summary>
     /// Show dependencies for the given CPU architecture.
     /// </summary>
     [CliOption("--arch", Format = OptionFormat.EqualsSeparated)]
-    public string? ArchValue { get; set; }
+    public string? Arch { get; set; }
 
     /// <summary>
     /// Treat all named arguments as formulae.
@@ -193,22 +193,5 @@ public record BrewDepsOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? FormulaOperand { get; set; }
-
-    [Obsolete("Use OsValue instead.")]
-    public bool? Os
-    {
-        get => bool.TryParse(OsValue, out var value) ? value : null;
-        set => OsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ArchValue instead.")]
-    public bool? Arch
-    {
-        get => bool.TryParse(ArchValue, out var value) ? value : null;
-        set => ArchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
 
 }

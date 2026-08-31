@@ -278,7 +278,4 @@ public record BrewUpgradeOptions : BrewOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? InstalledFormula { get; set; }
 
-    [Obsolete("Ask is no longer supported by the installed CLI and has no effect.")]
-    public bool? Ask { get; set; }
-
 }

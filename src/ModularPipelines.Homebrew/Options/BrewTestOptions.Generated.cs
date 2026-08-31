@@ -22,11 +22,6 @@ public record BrewTestOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
 ) : BrewOptions
 {
-    public BrewTestOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Test formulae even if they are unlinked.
     /// </summary>

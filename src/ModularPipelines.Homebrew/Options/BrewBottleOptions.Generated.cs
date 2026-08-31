@@ -22,11 +22,6 @@ public record BrewBottleOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
 ) : BrewOptions
 {
-    public BrewBottleOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Do not check if the bottle can be marked as relocatable.
     /// </summary>
@@ -91,13 +86,13 @@ public record BrewBottleOptions(
     /// Use the specified URL as the root of the bottle's URL instead of Homebrew's default.
     /// </summary>
     [CliOption("--root-url", Format = OptionFormat.EqualsSeparated)]
-    public string? RootUrlValue { get; set; }
+    public string? RootUrl { get; set; }
 
     /// <summary>
     /// Use the specified download strategy class for downloading the bottle's URL instead of Homebrew's default.
     /// </summary>
     [CliOption("--root-url-using", Format = OptionFormat.EqualsSeparated)]
-    public string? RootUrlUsingValue { get; set; }
+    public string? RootUrlUsing { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -122,22 +117,5 @@ public record BrewBottleOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use RootUrlValue instead.")]
-    public bool? RootUrl
-    {
-        get => bool.TryParse(RootUrlValue, out var value) ? value : null;
-        set => RootUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RootUrlUsingValue instead.")]
-    public bool? RootUrlUsing
-    {
-        get => bool.TryParse(RootUrlUsingValue, out var value) ? value : null;
-        set => RootUrlUsingValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Committer is no longer supported by the installed CLI and has no effect.")]
-    public bool? Committer { get; set; }
 
 }

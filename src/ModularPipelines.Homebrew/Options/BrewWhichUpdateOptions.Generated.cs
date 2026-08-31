@@ -22,11 +22,6 @@ public record BrewWhichUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Database
 ) : BrewOptions
 {
-    public BrewWhichUpdateOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Use generated bottle JSON files in the given directory to update formula entries.
     /// </summary>
@@ -55,7 +50,7 @@ public record BrewWhichUpdateOptions(
     /// Output a summary of the changes to a file.
     /// </summary>
     [CliOption("--summary-file", Format = OptionFormat.EqualsSeparated)]
-    public string? SummaryFileValue { get; set; }
+    public string? SummaryFile { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -80,30 +75,5 @@ public record BrewWhichUpdateOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use SummaryFileValue instead.")]
-    public bool? SummaryFile
-    {
-        get => bool.TryParse(SummaryFileValue, out var value) ? value : null;
-        set => SummaryFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Stats is no longer supported by the installed CLI and has no effect.")]
-    public bool? Stats { get; set; }
-
-    [Obsolete("Commit is no longer supported by the installed CLI and has no effect.")]
-    public bool? Commit { get; set; }
-
-    [Obsolete("UpdateExisting is no longer supported by the installed CLI and has no effect.")]
-    public bool? UpdateExisting { get; set; }
-
-    [Obsolete("InstallMissing is no longer supported by the installed CLI and has no effect.")]
-    public bool? InstallMissing { get; set; }
-
-    [Obsolete("EvalAll is no longer supported by the installed CLI and has no effect.")]
-    public bool? EvalAll { get; set; }
-
-    [Obsolete("MaxDownloads is no longer supported by the installed CLI and has no effect.")]
-    public bool? MaxDownloads { get; set; }
 
 }

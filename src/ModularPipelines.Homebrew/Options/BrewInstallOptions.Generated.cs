@@ -22,11 +22,6 @@ public record BrewInstallOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
 ) : BrewOptions
 {
-    public BrewInstallOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// If brewing fails, open an interactive debugging session with access to IRB or a shell inside the temporary build directory.
     /// </summary>
@@ -85,7 +80,7 @@ public record BrewInstallOptions(
     /// Attempt to compile using the specified compiler, which should be the name of the compiler's executable, e.g. gcc-9 for GCC 9. In order to use LLVM's clang, specify llvm_clang. To use the Apple-provided clang, specify clang. This option will only accept compilers that are provided by Homebrew or bundled with macOS. Please do not file issues if you encounter errors while using this option.
     /// </summary>
     [CliOption("--cc", Format = OptionFormat.EqualsSeparated)]
-    public string? CcValue { get; set; }
+    public string? Cc { get; set; }
 
     /// <summary>
     /// Compile formula from source even if a bottle is provided. Dependencies will still be installed from bottles if they are available.
@@ -157,7 +152,7 @@ public record BrewInstallOptions(
     /// Optimise bottles for the specified architecture rather than the oldest architecture supported by the version of macOS the bottles are built on.
     /// </summary>
     [CliOption("--bottle-arch", Format = OptionFormat.EqualsSeparated)]
-    public string? BottleArchValue { get; set; }
+    public string? BottleArch { get; set; }
 
     /// <summary>
     /// Download and patch formula, then open a shell. This allows the user to run ./configure --help and otherwise determine how to turn the software package into a Homebrew package.
@@ -326,22 +321,5 @@ public record BrewInstallOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("Use CcValue instead.")]
-    public bool? Cc
-    {
-        get => bool.TryParse(CcValue, out var value) ? value : null;
-        set => CcValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BottleArchValue instead.")]
-    public bool? BottleArch
-    {
-        get => bool.TryParse(BottleArchValue, out var value) ? value : null;
-        set => BottleArchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Ask is no longer supported by the installed CLI and has no effect.")]
-    public bool? Ask { get; set; }
 
 }

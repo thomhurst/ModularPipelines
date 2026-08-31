@@ -50,7 +50,4 @@ public record BrewIrbOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [Obsolete("Pry is no longer supported by the installed CLI and has no effect.")]
-    public bool? Pry { get; set; }
-
 }

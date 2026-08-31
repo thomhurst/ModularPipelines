@@ -22,11 +22,6 @@ public record BrewGistLogsOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Formula
 ) : BrewOptions
 {
-    public BrewGistLogsOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Automatically create a new issue in the appropriate GitHub repository after creating the Gist.
     /// </summary>
@@ -62,8 +57,5 @@ public record BrewGistLogsOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("WithHostname is no longer supported by the installed CLI and has no effect.")]
-    public bool? WithHostname { get; set; }
 
 }

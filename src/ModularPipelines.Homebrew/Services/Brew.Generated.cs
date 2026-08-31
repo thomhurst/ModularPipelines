@@ -70,20 +70,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> BottleAsync(
-        BrewBottleOptions? options = null,
+        BrewBottleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBottleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> BumpCaskPrAsync(
-        BrewBumpCaskPrOptions? options = null,
+        BrewBumpCaskPrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpCaskPrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -115,20 +115,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> BumpRevisionAsync(
-        BrewBumpRevisionOptions? options = null,
+        BrewBumpRevisionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpRevisionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> BumpUnversionedCasksAsync(
-        BrewBumpUnversionedCasksOptions? options = null,
+        BrewBumpUnversionedCasksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpUnversionedCasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -240,22 +240,12 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> CasksAsync(
-        BrewCasksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCasksOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> CatAsync(
-        BrewCatOptions? options = null,
+        BrewCatOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -265,16 +255,6 @@ internal partial class Brew : IBrew
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCleanupOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> CommandCommandAsync(
-        BrewCommandCommandOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCommandCommandOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -351,20 +331,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CreateAsync(
-        BrewCreateOptions? options = null,
+        BrewCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DebuggerAsync(
-        BrewDebuggerOptions? options = null,
+        BrewDebuggerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDebuggerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -378,11 +358,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DescAsync(
-        BrewDescOptions? options = null,
+        BrewDescOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDescOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -419,16 +399,6 @@ internal partial class Brew : IBrew
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDeveloperStateOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> DispatchBuildBottleAsync(
-        BrewDispatchBuildBottleOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDispatchBuildBottleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -469,50 +439,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExtractAsync(
-        BrewExtractOptions? options = null,
+        BrewExtractOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewExtractOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> FetchAsync(
-        BrewFetchOptions? options = null,
+        BrewFetchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFetchOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> FormulaAnalyticsAsync(
-        BrewFormulaAnalyticsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaAnalyticsOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> FormulaeAsync(
-        BrewFormulaeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaeOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> FormulaFormulaAsync(
-        BrewFormulaFormulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -522,36 +462,6 @@ internal partial class Brew : IBrew
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> GenerateAnalyticsApiAsync(
-        BrewGenerateAnalyticsApiOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateAnalyticsApiOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> GenerateCaskApiAsync(
-        BrewGenerateCaskApiOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateCaskApiOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> GenerateFormulaApiAsync(
-        BrewGenerateFormulaApiOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateFormulaApiOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -574,11 +484,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> GistLogsAsync(
-        BrewGistLogsOptions? options = null,
+        BrewGistLogsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGistLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -609,22 +519,12 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> InstallFormulaAsync(
-        BrewInstallFormulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewInstallFormulaOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> InstallAsync(
-        BrewInstallOptions? options = null,
+        BrewInstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewInstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -700,22 +600,12 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> McpServerAsync(
-        BrewMcpServerOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewMcpServerOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> MigrateAsync(
-        BrewMigrateOptions? options = null,
+        BrewMigrateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewMigrateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -755,25 +645,6 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> PinInstalledFormulaAsync(
-        BrewPinInstalled_formulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPinInstalled_formulaOptions(), executionOptions, cancellationToken);
-    }
-
-    [Obsolete("Use PinAsync instead.")]
-    public virtual async Task<CommandResult> PinInstalled_formulaAsync(
-        BrewPinInstalled_formulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await PinInstalledFormulaAsync(options, executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> PinAsync(
         BrewPinOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -792,52 +663,12 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> PrAutomergeAsync(
-        BrewPrAutomergeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrAutomergeOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> ProfAsync(
-        BrewProfOptions? options = null,
+        BrewProfOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewProfOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> PrPublishAsync(
-        BrewPrPublishOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrPublishOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> PrPullAsync(
-        BrewPrPullOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrPullOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> PrUploadAsync(
-        BrewPrUploadOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -869,31 +700,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ReinstallAsync(
-        BrewReinstallOptions? options = null,
+        BrewReinstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewReinstallOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> ReleaseAsync(
-        BrewReleaseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewReleaseOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> RubocopAsync(
-        BrewRubocopOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewRubocopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -925,11 +736,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SearchAsync(
-        BrewSearchOptions? options = null,
+        BrewSearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -970,11 +781,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ServicesAsync(
-        BrewServicesOptions? options = null,
+        BrewServicesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1014,16 +825,6 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> SetupRubyAsync(
-        BrewSetupRubyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewSetupRubyOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> ShAsync(
         BrewShOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -1052,11 +853,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TabAsync(
-        BrewTabOptions? options = null,
+        BrewTabOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTabOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1070,11 +871,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TapNewAsync(
-        BrewTapNewOptions? options = null,
+        BrewTapNewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTapNewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1097,11 +898,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TestAsync(
-        BrewTestOptions? options = null,
+        BrewTestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1132,16 +933,6 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UnaliasAliasAsync(
-        BrewUnaliasAliasOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnaliasAliasOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> UnaliasAsync(
         BrewUnaliasOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -1160,16 +951,6 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UninstallFormulaAsync(
-        BrewUninstallFormulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUninstallFormulaOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> UninstallAsync(
         BrewUninstallOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -1180,39 +961,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UnlinkAsync(
-        BrewUnlinkOptions? options = null,
+        BrewUnlinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnlinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UnpackAsync(
-        BrewUnpackOptions? options = null,
+        BrewUnpackOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnpackOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UnpinInstalledFormulaAsync(
-        BrewUnpinInstalled_formulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnpinInstalled_formulaOptions(), executionOptions, cancellationToken);
-    }
-
-    [Obsolete("Use UnpinAsync instead.")]
-    public virtual async Task<CommandResult> UnpinInstalled_formulaAsync(
-        BrewUnpinInstalled_formulaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await UnpinInstalledFormulaAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1226,11 +988,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UntapAsync(
-        BrewUntapOptions? options = null,
+        BrewUntapOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUntapOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1240,36 +1002,6 @@ internal partial class Brew : IBrew
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUntrustOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UpdateIfNeededAsync(
-        BrewUpdateIfNeededOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateIfNeededOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UpdateLicenseDataAsync(
-        BrewUpdateLicenseDataOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateLicenseDataOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UpdateMaintainersAsync(
-        BrewUpdateMaintainersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateMaintainersOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1283,20 +1015,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdatePerlResourcesAsync(
-        BrewUpdatePerlResourcesOptions? options = null,
+        BrewUpdatePerlResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdatePerlResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UpdatePythonResourcesAsync(
-        BrewUpdatePythonResourcesOptions? options = null,
+        BrewUpdatePythonResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdatePythonResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1306,16 +1038,6 @@ internal partial class Brew : IBrew
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateResetOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> UpdateSponsorsAsync(
-        BrewUpdateSponsorsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateSponsorsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1338,11 +1060,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UsesAsync(
-        BrewUsesOptions? options = null,
+        BrewUsesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUsesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1356,11 +1078,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> VerifyAsync(
-        BrewVerifyOptions? options = null,
+        BrewVerifyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewVerifyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -1383,20 +1105,20 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> WhichFormulaAsync(
-        BrewWhichFormulaOptions? options = null,
+        BrewWhichFormulaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewWhichFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> WhichUpdateAsync(
-        BrewWhichUpdateOptions? options = null,
+        BrewWhichUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewWhichUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

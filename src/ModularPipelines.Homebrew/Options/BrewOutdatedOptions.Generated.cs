@@ -48,7 +48,7 @@ public record BrewOutdatedOptions : BrewOptions
     /// Print output in JSON format. There are two versions: v1 and v2. v1 is deprecated and is currently the default if no version is specified. v2 prints outdated formulae and casks.
     /// </summary>
     [CliOption("--json", Format = OptionFormat.EqualsSeparated)]
-    public string? JsonValue { get; set; }
+    public string? Json { get; set; }
 
     /// <summary>
     /// Only list a named formula or cask with an installed version below the given minimum version.
@@ -97,12 +97,5 @@ public record BrewOutdatedOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? FormulaOperand { get; set; }
-
-    [Obsolete("Use JsonValue instead.")]
-    public bool? Json
-    {
-        get => bool.TryParse(JsonValue, out var value) ? value : null;
-        set => JsonValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

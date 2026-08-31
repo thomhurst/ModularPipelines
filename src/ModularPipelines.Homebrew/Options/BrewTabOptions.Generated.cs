@@ -22,11 +22,6 @@ public record BrewTabOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
 ) : BrewOptions
 {
-    public BrewTabOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Mark installed_formula or installed_cask as installed on request.
     /// </summary>

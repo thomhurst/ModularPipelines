@@ -22,11 +22,6 @@ public record BrewWhichFormulaOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
 ) : BrewOptions
 {
-    public BrewWhichFormulaOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Output explanation of how to get command by installing one of the providing formulae.
     /// </summary>
@@ -56,8 +51,5 @@ public record BrewWhichFormulaOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    [Obsolete("SkipUpdate is no longer supported by the installed CLI and has no effect.")]
-    public bool? SkipUpdate { get; set; }
 
 }

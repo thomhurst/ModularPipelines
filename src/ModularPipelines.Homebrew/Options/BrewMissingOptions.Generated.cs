@@ -24,7 +24,7 @@ public record BrewMissingOptions : BrewOptions
     /// Act as if none of the specified hidden are installed. hidden should be a comma-separated list of formulae or casks.
     /// </summary>
     [CliOption("--hide", Format = OptionFormat.EqualsSeparated)]
-    public string? HideValue { get; set; }
+    public string? Hide { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -55,12 +55,5 @@ public record BrewMissingOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Formula { get; set; }
-
-    [Obsolete("Use HideValue instead.")]
-    public bool? Hide
-    {
-        get => bool.TryParse(HideValue, out var value) ? value : null;
-        set => HideValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

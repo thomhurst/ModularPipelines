@@ -72,49 +72,49 @@ public record BrewBumpFormulaPrOptions : BrewOptions
     /// Use the specified URL as a mirror URL. If URL is a comma-separated list of URLs, multiple mirrors will be added.
     /// </summary>
     [CliOption("--mirror", Format = OptionFormat.EqualsSeparated)]
-    public string? MirrorValue { get; set; }
+    public string? Mirror { get; set; }
 
     /// <summary>
     /// Use the specified GitHub organization for forking.
     /// </summary>
     [CliOption("--fork-org", Format = OptionFormat.EqualsSeparated)]
-    public string? ForkOrgValue { get; set; }
+    public string? ForkOrg { get; set; }
 
     /// <summary>
     /// Use the specified version to override the value parsed from the URL or tag. Note that --version=0 can be used to delete an existing version override from a formula if it has become redundant.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// Prepend message to the default pull request message.
     /// </summary>
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageValue { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Specify the URL for the new download. If a URL is specified, the SHA-256 checksum of the new download should also be specified.
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? UrlValue { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Specify the SHA-256 checksum of the new download.
     /// </summary>
     [CliOption("--sha256", Format = OptionFormat.EqualsSeparated)]
-    public string? Sha256Value { get; set; }
+    public string? Sha256 { get; set; }
 
     /// <summary>
     /// Specify the new git commit tag for the formula.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
-    public string? TagValue { get; set; }
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Specify the new commit revision corresponding to the specified git tag or specified version.
     /// </summary>
     [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
-    public string? RevisionValue { get; set; }
+    public string? Revision { get; set; }
 
     /// <summary>
     /// Remove all mirrors if --mirror was not specified.
@@ -132,19 +132,19 @@ public record BrewBumpFormulaPrOptions : BrewOptions
     /// Use the specified package-name when finding Python resources for formula. If no package name is specified, it will be inferred from the formula's stable URL.
     /// </summary>
     [CliOption("--python-package-name", Format = OptionFormat.EqualsSeparated)]
-    public string? PythonPackageNameValue { get; set; }
+    public string? PythonPackageName { get; set; }
 
     /// <summary>
     /// Include these additional Python packages when finding resources.
     /// </summary>
     [CliOption("--python-extra-packages", Format = OptionFormat.EqualsSeparated)]
-    public string? PythonExtraPackagesValue { get; set; }
+    public string? PythonExtraPackages { get; set; }
 
     /// <summary>
     /// Exclude these Python packages when finding resources.
     /// </summary>
     [CliOption("--python-exclude-packages", Format = OptionFormat.EqualsSeparated)]
-    public string? PythonExcludePackagesValue { get; set; }
+    public string? PythonExcludePackages { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -175,82 +175,5 @@ public record BrewBumpFormulaPrOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Formula { get; set; }
-
-    [Obsolete("Use MirrorValue instead.")]
-    public bool? Mirror
-    {
-        get => bool.TryParse(MirrorValue, out var value) ? value : null;
-        set => MirrorValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ForkOrgValue instead.")]
-    public bool? ForkOrg
-    {
-        get => bool.TryParse(ForkOrgValue, out var value) ? value : null;
-        set => ForkOrgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
-    {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use MessageValue instead.")]
-    public bool? Message
-    {
-        get => bool.TryParse(MessageValue, out var value) ? value : null;
-        set => MessageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use UrlValue instead.")]
-    public bool? Url
-    {
-        get => bool.TryParse(UrlValue, out var value) ? value : null;
-        set => UrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use Sha256Value instead.")]
-    public bool? Sha256
-    {
-        get => bool.TryParse(Sha256Value, out var value) ? value : null;
-        set => Sha256Value = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TagValue instead.")]
-    public bool? Tag
-    {
-        get => bool.TryParse(TagValue, out var value) ? value : null;
-        set => TagValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RevisionValue instead.")]
-    public bool? Revision
-    {
-        get => bool.TryParse(RevisionValue, out var value) ? value : null;
-        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PythonPackageNameValue instead.")]
-    public bool? PythonPackageName
-    {
-        get => bool.TryParse(PythonPackageNameValue, out var value) ? value : null;
-        set => PythonPackageNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PythonExtraPackagesValue instead.")]
-    public bool? PythonExtraPackages
-    {
-        get => bool.TryParse(PythonExtraPackagesValue, out var value) ? value : null;
-        set => PythonExtraPackagesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PythonExcludePackagesValue instead.")]
-    public bool? PythonExcludePackages
-    {
-        get => bool.TryParse(PythonExcludePackagesValue, out var value) ? value : null;
-        set => PythonExcludePackagesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

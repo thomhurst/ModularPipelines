@@ -84,7 +84,7 @@ public record BrewTestBotOptions : BrewOptions
     /// Use the Git repository of the given tap. Defaults to the core tap for syntax checking.
     /// </summary>
     [CliOption("--tap", Format = OptionFormat.EqualsSeparated)]
-    public string? TapValue { get; set; }
+    public string? Tap { get; set; }
 
     /// <summary>
     /// Immediately exit on a failing step.
@@ -108,19 +108,19 @@ public record BrewTestBotOptions : BrewOptions
     /// Use the specified URL as the root of the bottle's URL instead of Homebrew's default.
     /// </summary>
     [CliOption("--root-url", Format = OptionFormat.EqualsSeparated)]
-    public string? RootUrlValue { get; set; }
+    public string? RootUrl { get; set; }
 
     /// <summary>
     /// Set the Git author/committer names to the given name.
     /// </summary>
     [CliOption("--git-name", Format = OptionFormat.EqualsSeparated)]
-    public string? GitNameValue { get; set; }
+    public string? GitName { get; set; }
 
     /// <summary>
     /// Set the Git author/committer email to the given email.
     /// </summary>
     [CliOption("--git-email", Format = OptionFormat.EqualsSeparated)]
-    public string? GitEmailValue { get; set; }
+    public string? GitEmail { get; set; }
 
     /// <summary>
     /// Publish the uploaded bottles.
@@ -237,25 +237,25 @@ public record BrewTestBotOptions : BrewOptions
     /// Use these testing formulae rather than running the formulae detection steps.
     /// </summary>
     [CliOption("--testing-formulae", Format = OptionFormat.EqualsSeparated)]
-    public string? TestingFormulaeValue { get; set; }
+    public string? TestingFormulae { get; set; }
 
     /// <summary>
     /// Use these added formulae rather than running the formulae detection steps.
     /// </summary>
     [CliOption("--added-formulae", Format = OptionFormat.EqualsSeparated)]
-    public string? AddedFormulaeValue { get; set; }
+    public string? AddedFormulae { get; set; }
 
     /// <summary>
     /// Use these deleted formulae rather than running the formulae detection steps. --skipped-or-failed-formulae Use these skipped or failed formulae from formulae steps for a formulae dependents step.
     /// </summary>
     [CliOption("--deleted-formulae", Format = OptionFormat.EqualsSeparated)]
-    public string? DeletedFormulaeValue { get; set; }
+    public string? DeletedFormulae { get; set; }
 
     /// <summary>
     /// Use these tested formulae from formulae steps for a formulae dependents step.
     /// </summary>
     [CliOption("--tested-formulae", Format = OptionFormat.EqualsSeparated)]
-    public string? TestedFormulaeValue { get; set; }
+    public string? TestedFormulae { get; set; }
 
     /// <summary>
     /// Display any debugging information.
@@ -280,73 +280,5 @@ public record BrewTestBotOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Formula { get; set; }
-
-    [Obsolete("Use TapValue instead.")]
-    public bool? Tap
-    {
-        get => bool.TryParse(TapValue, out var value) ? value : null;
-        set => TapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RootUrlValue instead.")]
-    public bool? RootUrl
-    {
-        get => bool.TryParse(RootUrlValue, out var value) ? value : null;
-        set => RootUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use GitNameValue instead.")]
-    public bool? GitName
-    {
-        get => bool.TryParse(GitNameValue, out var value) ? value : null;
-        set => GitNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use GitEmailValue instead.")]
-    public bool? GitEmail
-    {
-        get => bool.TryParse(GitEmailValue, out var value) ? value : null;
-        set => GitEmailValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TestingFormulaeValue instead.")]
-    public bool? TestingFormulae
-    {
-        get => bool.TryParse(TestingFormulaeValue, out var value) ? value : null;
-        set => TestingFormulaeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AddedFormulaeValue instead.")]
-    public bool? AddedFormulae
-    {
-        get => bool.TryParse(AddedFormulaeValue, out var value) ? value : null;
-        set => AddedFormulaeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DeletedFormulaeValue instead.")]
-    public bool? DeletedFormulae
-    {
-        get => bool.TryParse(DeletedFormulaeValue, out var value) ? value : null;
-        set => DeletedFormulaeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TestedFormulaeValue instead.")]
-    public bool? TestedFormulae
-    {
-        get => bool.TryParse(TestedFormulaeValue, out var value) ? value : null;
-        set => TestedFormulaeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Online is no longer supported by the installed CLI and has no effect.")]
-    public bool? Online { get; set; }
-
-    [Obsolete("New is no longer supported by the installed CLI and has no effect.")]
-    public bool? New { get; set; }
-
-    [Obsolete("Strict is no longer supported by the installed CLI and has no effect.")]
-    public bool? Strict { get; set; }
-
-    [Obsolete("SkippedOrFailedFormulae is no longer supported by the installed CLI and has no effect.")]
-    public bool? SkippedOrFailedFormulae { get; set; }
 
 }

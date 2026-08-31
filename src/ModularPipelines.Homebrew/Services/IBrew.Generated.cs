@@ -67,7 +67,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BottleAsync(BrewBottleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BottleAsync(BrewBottleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -77,7 +77,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BumpCaskPrAsync(BrewBumpCaskPrOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BumpCaskPrAsync(BrewBumpCaskPrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -117,7 +117,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BumpRevisionAsync(BrewBumpRevisionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BumpRevisionAsync(BrewBumpRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -127,7 +127,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BumpUnversionedCasksAsync(BrewBumpUnversionedCasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BumpUnversionedCasksAsync(BrewBumpUnversionedCasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -250,10 +250,6 @@ public partial interface IBrew
     public Task<CommandResult> BundleShAsync(BrewBundleShOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> CasksAsync(BrewCasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Display the source of a formula or cask.
     /// </summary>
@@ -261,7 +257,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CatAsync(BrewCatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CatAsync(BrewCatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -272,10 +268,6 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> CleanupAsync(BrewCleanupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> CommandCommandAsync(BrewCommandCommandOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -358,7 +350,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(BrewCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAsync(BrewCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -368,7 +360,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DebuggerAsync(BrewDebuggerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DebuggerAsync(BrewDebuggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -388,7 +380,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescAsync(BrewDescOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DescAsync(BrewDescOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -429,10 +421,6 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> DeveloperStateAsync(BrewDeveloperStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> DispatchBuildBottleAsync(BrewDispatchBuildBottleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -482,7 +470,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExtractAsync(BrewExtractOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ExtractAsync(BrewExtractOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -492,19 +480,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FetchAsync(BrewFetchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> FormulaAnalyticsAsync(BrewFormulaAnalyticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> FormulaeAsync(BrewFormulaeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> FormulaFormulaAsync(BrewFormulaFormulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> FetchAsync(BrewFetchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -515,18 +491,6 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> FormulaAsync(BrewFormulaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> GenerateAnalyticsApiAsync(BrewGenerateAnalyticsApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> GenerateCaskApiAsync(BrewGenerateCaskApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> GenerateFormulaApiAsync(BrewGenerateFormulaApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -556,7 +520,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GistLogsAsync(BrewGistLogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GistLogsAsync(BrewGistLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -589,10 +553,6 @@ public partial interface IBrew
     public Task<CommandResult> InstallBundlerGemsAsync(BrewInstallBundlerGemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> InstallFormulaAsync(BrewInstallFormulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Install a formula or cask. Additional options specific to a formula may be appended to the command.
     /// </summary>
@@ -600,7 +560,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallAsync(BrewInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> InstallAsync(BrewInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -683,10 +643,6 @@ public partial interface IBrew
     public Task<CommandResult> LogAsync(BrewLogOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> McpServerAsync(BrewMcpServerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Migrate renamed packages to new names, where formula are old names of packages.
     /// </summary>
@@ -694,7 +650,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MigrateAsync(BrewMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> MigrateAsync(BrewMigrateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -730,16 +686,6 @@ public partial interface IBrew
     public Task<CommandResult> OutdatedAsync(BrewOutdatedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    #pragma warning disable CS0618
-    public Task<CommandResult> PinInstalledFormulaAsync(BrewPinInstalled_formulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => PinInstalled_formulaAsync(options, executionOptions, cancellationToken);
-    #pragma warning restore CS0618
-
-    [Obsolete("Use PinAsync instead.")]
-    public Task<CommandResult> PinInstalled_formulaAsync(BrewPinInstalled_formulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Pin the specified package, preventing it from being upgraded when issuing the brew upgrade formula or cask command. See also unpin.
     /// </summary>
@@ -760,10 +706,6 @@ public partial interface IBrew
     public Task<CommandResult> PostinstallAsync(BrewPostinstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> PrAutomergeAsync(BrewPrAutomergeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Run Homebrew with a Ruby profiler. For example, brew prof readall.
     /// </summary>
@@ -771,19 +713,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProfAsync(BrewProfOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> PrPublishAsync(BrewPrPublishOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> PrPullAsync(BrewPrPullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> PrUploadAsync(BrewPrUploadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ProfAsync(BrewProfOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -823,15 +753,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReinstallAsync(BrewReinstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> ReleaseAsync(BrewReleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> RubocopAsync(BrewRubocopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ReinstallAsync(BrewReinstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -871,7 +793,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAsync(BrewSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SearchAsync(BrewSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -914,7 +836,7 @@ public partial interface IBrew
     public Task<CommandResult> ServicesListAsync(BrewServicesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    public Task<CommandResult> ServicesAsync(BrewServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ServicesAsync(BrewServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -957,10 +879,6 @@ public partial interface IBrew
     public Task<CommandResult> ServicesStopAsync(BrewServicesStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> SetupRubyAsync(BrewSetupRubyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Enter an interactive shell for Homebrew's build environment. Use years-battle-hardened build logic to help your ./configure &amp;&amp; make &amp;&amp; make install and even your gem install succeed. Especially handy if you run Homebrew in an Xcode-only configuration since it adds tools like make to your $PATH which build systems would not find otherwise.
     /// </summary>
@@ -998,7 +916,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TabAsync(BrewTabOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TabAsync(BrewTabOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1018,7 +936,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TapNewAsync(BrewTapNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TapNewAsync(BrewTapNewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1048,7 +966,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestAsync(BrewTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TestAsync(BrewTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1081,10 +999,6 @@ public partial interface IBrew
     public Task<CommandResult> TypecheckAsync(BrewTypecheckOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UnaliasAliasAsync(BrewUnaliasAliasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Remove aliases.
     /// </summary>
@@ -1105,10 +1019,6 @@ public partial interface IBrew
     public Task<CommandResult> UnbottledAsync(BrewUnbottledOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UninstallFormulaAsync(BrewUninstallFormulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Uninstall a formula or cask.
     /// </summary>
@@ -1126,7 +1036,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnlinkAsync(BrewUnlinkOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UnlinkAsync(BrewUnlinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1136,17 +1046,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnpackAsync(BrewUnpackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    #pragma warning disable CS0618
-    public Task<CommandResult> UnpinInstalledFormulaAsync(BrewUnpinInstalled_formulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => UnpinInstalled_formulaAsync(options, executionOptions, cancellationToken);
-    #pragma warning restore CS0618
-
-    [Obsolete("Use UnpinAsync instead.")]
-    public Task<CommandResult> UnpinInstalled_formulaAsync(BrewUnpinInstalled_formulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UnpackAsync(BrewUnpackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1166,7 +1066,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntapAsync(BrewUntapOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntapAsync(BrewUntapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1177,18 +1077,6 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UntrustAsync(BrewUntrustOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UpdateIfNeededAsync(BrewUpdateIfNeededOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UpdateLicenseDataAsync(BrewUpdateLicenseDataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UpdateMaintainersAsync(BrewUpdateMaintainersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1208,7 +1096,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePerlResourcesAsync(BrewUpdatePerlResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePerlResourcesAsync(BrewUpdatePerlResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1218,7 +1106,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePythonResourcesAsync(BrewUpdatePythonResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePythonResourcesAsync(BrewUpdatePythonResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1229,10 +1117,6 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateResetAsync(BrewUpdateResetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> UpdateSponsorsAsync(BrewUpdateSponsorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1262,7 +1146,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UsesAsync(BrewUsesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UsesAsync(BrewUsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1282,7 +1166,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyAsync(BrewVerifyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> VerifyAsync(BrewVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1312,7 +1196,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WhichFormulaAsync(BrewWhichFormulaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> WhichFormulaAsync(BrewWhichFormulaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1322,7 +1206,7 @@ public partial interface IBrew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WhichUpdateAsync(BrewWhichUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> WhichUpdateAsync(BrewWhichUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     #endregion

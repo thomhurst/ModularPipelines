@@ -36,7 +36,7 @@ public record BrewLogOptions : BrewOptions
     /// Print only a specified number of commits.
     /// </summary>
     [CliOption("--max-count", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxCountValue { get; set; }
+    public string? MaxCount { get; set; }
 
     /// <summary>
     /// Treat all named arguments as formulae.
@@ -79,15 +79,5 @@ public record BrewLogOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? FormulaOperand { get; set; }
-
-    [Obsolete("Use MaxCountValue instead.")]
-    public bool? MaxCount
-    {
-        get => bool.TryParse(MaxCountValue, out var value) ? value : null;
-        set => MaxCountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Patch is no longer supported by the installed CLI and has no effect.")]
-    public bool? Patch { get; set; }
 
 }

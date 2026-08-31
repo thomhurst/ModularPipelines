@@ -22,11 +22,6 @@ public record BrewUnlinkOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
 ) : BrewOptions
 {
-    public BrewUnlinkOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// List files which would be unlinked without actually unlinking or deleting any files.
     /// </summary>

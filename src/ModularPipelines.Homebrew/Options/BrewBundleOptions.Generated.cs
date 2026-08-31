@@ -48,97 +48,12 @@ public record BrewBundleOptions : BrewOptions
     /// Read from or write to the Brewfile from this location. Use --file=- to pipe to stdin/stdout.
     /// </summary>
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? FileValue { get; set; }
+    public string? File { get; set; }
 
     /// <summary>
     /// Read from or write to the Brewfile from $HOMEBREW_BUNDLE_FILE_GLOBAL (if set), ${XDG_CONFIG_HOME}/homebrew/Brewfile (if $XDG_CONFIG_HOME is set), ~/.homebrew/Brewfile or ~/.Brewfile otherwise.
     /// </summary>
     [CliFlag("--global", ShortForm = "-g")]
     public bool? Global { get; set; }
-
-    [Obsolete("Use FileValue instead.")]
-    public bool? File
-    {
-        get => bool.TryParse(FileValue, out var value) ? value : null;
-        set => FileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Cask is no longer supported by the installed CLI and has no effect.")]
-    public bool? Cask { get; set; }
-
-    [Obsolete("Tap is no longer supported by the installed CLI and has no effect.")]
-    public bool? Tap { get; set; }
-
-    [Obsolete("Vscode is no longer supported by the installed CLI and has no effect.")]
-    public bool? Vscode { get; set; }
-
-    [Obsolete("Formula is no longer supported by the installed CLI and has no effect.")]
-    public bool? Formula { get; set; }
-
-    [Obsolete("Mas is no longer supported by the installed CLI and has no effect.")]
-    public bool? Mas { get; set; }
-
-    [Obsolete("Check is no longer supported by the installed CLI and has no effect.")]
-    public bool? Check { get; set; }
-
-    [Obsolete("NoSecrets is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoSecrets { get; set; }
-
-    [Obsolete("NoUpgrade is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoUpgrade { get; set; }
-
-    [Obsolete("Upgrade is no longer supported by the installed CLI and has no effect.")]
-    public bool? Upgrade { get; set; }
-
-    [Obsolete("UpgradeFormulae is no longer supported by the installed CLI and has no effect.")]
-    public bool? UpgradeFormulae { get; set; }
-
-    [Obsolete("Install is no longer supported by the installed CLI and has no effect.")]
-    public bool? Install { get; set; }
-
-    [Obsolete("Services is no longer supported by the installed CLI and has no effect.")]
-    public bool? Services { get; set; }
-
-    [Obsolete("Force is no longer supported by the installed CLI and has no effect.")]
-    public bool? Force { get; set; }
-
-    [Obsolete("Overwrite is no longer supported by the installed CLI and has no effect.")]
-    public bool? Overwrite { get; set; }
-
-    [Obsolete("Cleanup is no longer supported by the installed CLI and has no effect.")]
-    public bool? Cleanup { get; set; }
-
-    [Obsolete("All is no longer supported by the installed CLI and has no effect.")]
-    public bool? All { get; set; }
-
-    [Obsolete("Go is no longer supported by the installed CLI and has no effect.")]
-    public bool? Go { get; set; }
-
-    [Obsolete("Cargo is no longer supported by the installed CLI and has no effect.")]
-    public bool? Cargo { get; set; }
-
-    [Obsolete("Flatpak is no longer supported by the installed CLI and has no effect.")]
-    public bool? Flatpak { get; set; }
-
-    [Obsolete("NoVscode is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoVscode { get; set; }
-
-    [Obsolete("NoGo is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoGo { get; set; }
-
-    [Obsolete("NoCargo is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoCargo { get; set; }
-
-    [Obsolete("NoFlatpak is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoFlatpak { get; set; }
-
-    [Obsolete("Describe is no longer supported by the installed CLI and has no effect.")]
-    public bool? Describe { get; set; }
-
-    [Obsolete("NoRestart is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoRestart { get; set; }
-
-    [Obsolete("Zap is no longer supported by the installed CLI and has no effect.")]
-    public bool? Zap { get; set; }
 
 }
