@@ -17,8 +17,8 @@ namespace ModularPipelines.Minikube.Enums;
 public enum MinikubeConfigDefaultsOutput
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("yaml")]
-    Yaml = 1
+    Yaml
 }
