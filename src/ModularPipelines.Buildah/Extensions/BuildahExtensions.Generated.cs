@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Buildah.Services;
 
 namespace ModularPipelines.Buildah.Extensions;
@@ -33,4 +32,5 @@ public static class BuildahExtensions
         services.TryAddScoped<IBuildahSource, BuildahSource>();
         return services;
     }
+
 }
