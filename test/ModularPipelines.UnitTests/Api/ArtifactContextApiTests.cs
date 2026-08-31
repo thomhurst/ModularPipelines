@@ -247,6 +247,7 @@ public class ArtifactContextApiTests
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-").FullName;
         var archivePath = Path.Combine(sourceDirectory, "artifact.zip");
         await File.WriteAllTextAsync(Path.Combine(sourceDirectory, "payload.txt"), "payload");
+        await File.WriteAllTextAsync(archivePath, "stale archive");
 
         try
         {

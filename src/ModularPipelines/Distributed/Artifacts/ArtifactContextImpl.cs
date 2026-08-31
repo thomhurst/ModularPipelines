@@ -80,14 +80,30 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         cancellationToken.ThrowIfCancellationRequested();
         var sourceDirectory = Path.GetFullPath(directoryPath);
         var fullArchivePath = Path.GetFullPath(archivePath);
-        var pathComparison = GetArchivePathComparison();
+        File.Delete(fullArchivePath);
 
-        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
-        var resolvedArchivePath = ResolveSymbolicLinks(fullArchivePath);
+        var directories = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(
                      sourceDirectory,
                      "*",
                      SearchOption.AllDirectories))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            directories.Add(directory);
+        }
+
+        var files = new List<string>();
+        foreach (var file in Directory.EnumerateFiles(
+                     sourceDirectory,
+                     "*",
+                     SearchOption.AllDirectories))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            files.Add(file);
+        }
+
+        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
+        foreach (var directory in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var entryName = Path.GetRelativePath(sourceDirectory, directory)
@@ -96,18 +112,9 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             archive.CreateEntry(entryName, compressionLevel);
         }
 
-        foreach (var file in Directory.EnumerateFiles(
-                     sourceDirectory,
-                     "*",
-                     SearchOption.AllDirectories))
+        foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (string.Equals(Path.GetFullPath(file), fullArchivePath, pathComparison)
-                || string.Equals(ResolveSymbolicLinks(file), resolvedArchivePath, pathComparison))
-            {
-                continue;
-            }
-
             var entryName = Path.GetRelativePath(sourceDirectory, file)
                 .Replace(Path.DirectorySeparatorChar, '/');
             var entry = archive.CreateEntry(entryName, compressionLevel);
@@ -123,28 +130,6 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             await using var entryStream = entry.Open();
             await sourceStream.CopyToAsync(entryStream, cancellationToken);
         }
-    }
-
-    private static string ResolveSymbolicLinks(string path)
-    {
-        var fullPath = Path.GetFullPath(path);
-        var root = Path.GetPathRoot(fullPath)
-                   ?? throw new ArgumentException("Path must have a root.", nameof(path));
-        var resolvedPath = root;
-
-        foreach (var segment in fullPath[root.Length..].Split(
-                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
-                     StringSplitOptions.RemoveEmptyEntries))
-        {
-            resolvedPath = Path.Combine(resolvedPath, segment);
-            FileSystemInfo entry = Directory.Exists(resolvedPath)
-                ? new DirectoryInfo(resolvedPath)
-                : new FileInfo(resolvedPath);
-            resolvedPath = entry.ResolveLinkTarget(returnFinalTarget: true)?.FullName
-                           ?? resolvedPath;
-        }
-
-        return Path.GetFullPath(resolvedPath);
     }
 
     internal static StringComparison GetArchivePathComparison() =>
