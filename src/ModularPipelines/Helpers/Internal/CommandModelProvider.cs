@@ -67,7 +67,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new FlagPart(property.Name, property.GetValue, flag)
                 {
                     IsGlobalOption = IsGlobalOption(property),
-                    IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType),
+                    IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType)
+                                              && (flag.NegatedName is null
+                                                  || IsNullableBooleanType(property.PropertyType)),
                 });
             }
             else if (commandAttribute is CliOptionAttribute option)
@@ -223,6 +225,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         return propertyType == typeof(bool) || propertyType == typeof(int);
     }
 
+    private static bool IsNullableBooleanType(Type propertyType) =>
+        Nullable.GetUnderlyingType(propertyType) == typeof(bool);
+
     private static bool IsSupportedOptionalValueType(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
@@ -276,6 +281,11 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
+            case FlagPart flag
+                when flag.Attribute.NegatedName is not null
+                     && flag.IsSupportedPropertyType is false:
+                throw new InvalidOperationException(
+                    $"CLI flag property '{propertyName}' must use bool? when NegatedName is set.");
             case FlagPart flag
                 when flag.IsSupportedPropertyType is false
                      || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion

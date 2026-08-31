@@ -2990,6 +2990,8 @@ public class GeneratorHardeningTests
                 + "[RegularExpression(\"^[0-6]$\")] "
                 + "[CliFlag(\"--force\", ShortForm = \"-f\", PreferShortForm = true, Phase = CommandLinePhase.Terminal)] "
                 + "public int? Force { get; set; } "
+                + "[CliFlag(\"--feature\", NegatedName = \"--no-feature\")] "
+                + "public bool? Feature { get; set; } "
                 + "[CliOptionValueRange(1, 3)] "
                 + "[CliOptionValueRegularExpression(\"^[1-3]$\")] "
                 + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
@@ -3013,6 +3015,7 @@ public class GeneratorHardeningTests
             var restored = preserved.Commands.Single(command =>
                 command.ClassName.Equals("ToolRemovedOptions", StringComparison.Ordinal));
             var force = restored.Options.Single(option => option.PropertyName == "Force");
+            var feature = restored.Options.Single(option => option.PropertyName == "Feature");
             var pull = restored.Options.Single(option => option.PropertyName == "Pull");
             var arguments = restored.Options.Single(option => option.PropertyName == "Arguments");
             var operand = restored.PositionalArguments.Single();
@@ -3034,6 +3037,7 @@ public class GeneratorHardeningTests
                 await Assert.That(force.ValidationConstraints!.MinValue).IsEqualTo(0);
                 await Assert.That(force.ValidationConstraints.MaxValue).IsEqualTo(6);
                 await Assert.That(force.ValidationConstraints.Pattern).IsEqualTo("^[0-6]$");
+                await Assert.That(feature.NegatedSwitchName).IsEqualTo("--no-feature");
                 await Assert.That(pull.IsFlag).IsFalse();
                 await Assert.That(pull.ShortForm).IsEqualTo("-p");
                 await Assert.That(pull.PreferShortForm).IsTrue();
@@ -3051,6 +3055,8 @@ public class GeneratorHardeningTests
                 await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
                 await Assert.That(generatedOptions)
                     .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliFlag(\"--feature\", NegatedName = \"--no-feature\")]");
                 await Assert.That(generatedOptions).Contains("[Range(0, 6)]");
                 await Assert.That(generatedOptions).Contains("[RegularExpression(\"^[0-6]$\")]");
                 await Assert.That(generatedOptions).Contains("[CliOptionValueRange(1, 3)]");

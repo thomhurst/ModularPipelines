@@ -926,6 +926,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         if (attributeName == CliFlagAttributeFullName)
         {
+            var negatedName = GetNamedString(attribute, "NegatedName");
             return new PropertyMetadata(
                 property.Name,
                 PropertyKind.Flag,
@@ -942,9 +943,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 isGlobalOption,
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                IsSupportedFlagType(property.Type),
+                IsSupportedFlagType(property.Type)
+                && (negatedName is null || IsNullableBooleanType(property.Type)),
                 false,
-                NegatedName: GetNamedString(attribute, "NegatedName"));
+                NegatedName: negatedName);
         }
 
         return new PropertyMetadata(
@@ -973,6 +975,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         propertyType = UnwrapNullable(propertyType);
         return propertyType.SpecialType is SpecialType.System_Boolean or SpecialType.System_Int32;
     }
+
+    private static bool IsNullableBooleanType(ITypeSymbol propertyType) =>
+        propertyType is INamedTypeSymbol namedType
+        && namedType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+        && namedType.TypeArguments.Length == 1
+        && namedType.TypeArguments[0].SpecialType == SpecialType.System_Boolean;
 
     private static bool IsSupportedOptionalValueType(ITypeSymbol propertyType)
     {

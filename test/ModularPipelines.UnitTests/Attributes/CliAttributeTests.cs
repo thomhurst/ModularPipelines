@@ -900,6 +900,17 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Rejects_Negated_Switch_On_NonNullable_Or_Counted_Flag()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithNonNullableNegatedFlag()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("bool?");
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithCountedNegatedFlag()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("bool?");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Unsupported_Flag_Type_When_Unset()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithInvalidFlagType()))
@@ -1333,6 +1344,18 @@ public class CliAttributeTests
     {
         [CliFlag("--feature", ShortForm = "-f", NegatedName = "-f")]
         public bool? Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithNonNullableNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public bool Feature { get; set; }
+    }
+
+    internal record TestCliOptionsWithCountedNegatedFlag : CommandLineToolOptions
+    {
+        [CliFlag("--feature", NegatedName = "--no-feature")]
+        public int? Feature { get; set; }
     }
 
     internal record TestCliOptionsWithInvalidFlagType : CommandLineToolOptions
