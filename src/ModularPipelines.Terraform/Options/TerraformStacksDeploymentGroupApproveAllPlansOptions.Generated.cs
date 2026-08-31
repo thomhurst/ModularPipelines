@@ -24,65 +24,30 @@ public record TerraformStacksDeploymentGroupApproveAllPlansOptions : TerraformOp
     /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided.
     /// </summary>
     [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
-    public string? OrganizationNameValue { get; set; }
+    public string? OrganizationName { get; set; }
 
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided.
     /// </summary>
     [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ProjectNameValue { get; set; }
+    public string? ProjectName { get; set; }
 
     /// <summary>
     /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided.
     /// </summary>
     [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
-    public string? StackNameValue { get; set; }
+    public string? StackName { get; set; }
 
     /// <summary>
     /// The name of the deployment group to approve plans for within the latest configuration of the stack specified in -stack-name. Requires the args -organization-name, -project-name, and -stack-name to be provided.
     /// </summary>
     [CliOption("-deployment-group-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentGroupNameValue { get; set; }
+    public string? DeploymentGroupName { get; set; }
 
     /// <summary>
     /// The ID of the deployment group to approve plans for. Has precedence over -deployment-group-name.
     /// </summary>
     [CliOption("-deployment-group-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentGroupIdValue { get; set; }
-
-    [Obsolete("Use OrganizationNameValue instead.")]
-    public bool? OrganizationName
-    {
-        get => bool.TryParse(OrganizationNameValue, out var value) ? value : null;
-        set => OrganizationNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ProjectNameValue instead.")]
-    public bool? ProjectName
-    {
-        get => bool.TryParse(ProjectNameValue, out var value) ? value : null;
-        set => ProjectNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use StackNameValue instead.")]
-    public bool? StackName
-    {
-        get => bool.TryParse(StackNameValue, out var value) ? value : null;
-        set => StackNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DeploymentGroupNameValue instead.")]
-    public bool? DeploymentGroupName
-    {
-        get => bool.TryParse(DeploymentGroupNameValue, out var value) ? value : null;
-        set => DeploymentGroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DeploymentGroupIdValue instead.")]
-    public bool? DeploymentGroupId
-    {
-        get => bool.TryParse(DeploymentGroupIdValue, out var value) ? value : null;
-        set => DeploymentGroupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? DeploymentGroupId { get; set; }
 
 }

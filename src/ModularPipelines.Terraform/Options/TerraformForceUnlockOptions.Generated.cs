@@ -22,11 +22,6 @@ public record TerraformForceUnlockOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LockId
 ) : TerraformOptions
 {
-    public TerraformForceUnlockOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Don't ask for input for unlock confirmation.
     /// </summary>

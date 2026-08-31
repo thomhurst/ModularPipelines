@@ -18,14 +18,12 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metadata")]
-public record TerraformMetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Subcommand
-) : TerraformOptions
+public record TerraformMetadataOptions : TerraformOptions
 {
     /// <summary>
     /// The args operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
 
 }

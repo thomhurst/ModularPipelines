@@ -24,19 +24,12 @@ public record TerraformStacksDeploymentStepShowOptions : TerraformOptions
     /// The ID of the deployment step to show. (required)
     /// </summary>
     [CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentStepIdValue { get; set; }
+    public string? DeploymentStepId { get; set; }
 
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
-
-    [Obsolete("Use DeploymentStepIdValue instead.")]
-    public bool? DeploymentStepId
-    {
-        get => bool.TryParse(DeploymentStepIdValue, out var value) ? value : null;
-        set => DeploymentStepIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

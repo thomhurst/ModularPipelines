@@ -23,11 +23,6 @@ public record TerraformStateMvOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
 ) : TerraformOptions
 {
-    public TerraformStateMvOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// If set, prints out what would've been moved but doesn't actually move anything.
     /// </summary>

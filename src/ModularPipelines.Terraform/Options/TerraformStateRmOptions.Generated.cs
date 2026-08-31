@@ -22,11 +22,6 @@ public record TerraformStateRmOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Address
 ) : TerraformOptions
 {
-    public TerraformStateRmOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// If set, prints out what would've been removed but doesn't actually remove anything.
     /// </summary>

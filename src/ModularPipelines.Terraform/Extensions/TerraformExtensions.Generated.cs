@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Terraform.Services;
 
 namespace ModularPipelines.Terraform.Extensions;
@@ -35,4 +34,5 @@ public static class TerraformExtensions
         services.TryAddScoped<ITerraformWorkspace, TerraformWorkspace>();
         return services;
     }
+
 }
