@@ -108,11 +108,6 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
 
-    public override CliToolDefinition CreateToolDefinition() => base.CreateToolDefinition() with
-    {
-        DiscardedGeneratedEnumValues = new HashSet<string>(StringComparer.Ordinal) { "o" },
-    };
-
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>

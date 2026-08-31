@@ -149,8 +149,6 @@ public class CodeGeneratorOrchestrator
             .ToArray();
         var replaceableExistingPaths = previouslyOwnedFullPaths
             .ToHashSet(fileSystemPathComparer);
-        var enumBaselinePaths = GetOwnedEnumPaths(previouslyOwnedFullPaths);
-
         var result = new GenerationResult
         {
             ToolsProcessed = { tool.ToolName },
@@ -170,7 +168,6 @@ public class CodeGeneratorOrchestrator
             commandCoveragePathComparer: fileSystemPathComparer,
             allowMissingCommandCoverageManifest: true,
             replaceableExistingPaths: replaceableExistingPaths,
-            enumBaselinePaths: enumBaselinePaths,
             beforeWrite: async (candidateOwnedPaths, token) =>
             {
                 var journalOwnedPaths = previousOwnership.OwnedPaths
@@ -399,27 +396,6 @@ public class CodeGeneratorOrchestrator
         }
 
         return retainedPaths;
-    }
-
-    private static IReadOnlyDictionary<string, string> GetOwnedEnumPaths(
-        IEnumerable<string> ownedFullPaths)
-    {
-        const string generatedSuffix = ".Generated.cs";
-        return ownedFullPaths
-            .Where(path => string.Equals(
-                Path.GetFileName(Path.GetDirectoryName(path)),
-                "Enums",
-                StringComparison.Ordinal))
-            .Where(path => Path.GetFileName(path).EndsWith(
-                generatedSuffix,
-                StringComparison.Ordinal))
-            .GroupBy(
-                path => Path.GetFileName(path)[..^generatedSuffix.Length],
-                StringComparer.Ordinal)
-            .ToDictionary(
-                group => group.Key,
-                group => group.FirstOrDefault(File.Exists) ?? group.First(),
-                StringComparer.Ordinal);
     }
 
     private static StringComparer GetFileSystemPathComparer(string outputDirectory)
@@ -781,7 +757,7 @@ public class CodeGeneratorOrchestrator
         await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
         {
             // Fail the tool before any generators run. Skipping an invalid command here
-            // could silently delete an existing generated API during stale-file cleanup.
+            // could silently delete a generated command during stale-file cleanup.
             command.ValidateOperandCoverage();
             allCommands.Add(command);
         }
@@ -849,7 +825,6 @@ public class CodeGeneratorOrchestrator
         StringComparer? commandCoveragePathComparer = null,
         bool allowMissingCommandCoverageManifest = false,
         IReadOnlySet<string>? replaceableExistingPaths = null,
-        IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
         Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
     {
         var globalOptions = tool.GetGlobalOptions();
@@ -860,32 +835,14 @@ public class CodeGeneratorOrchestrator
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = [],
         };
-        var globallyCompatibleTool = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
-            normalizedTool,
-            outputDirectory);
-        var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(globallyCompatibleTool);
-        var compatibleTool = GeneratedApiCompatibilityPreserver.Preserve(
-            collisionResolvedTool,
-            outputDirectory);
-        var reachableTool = EnumReachabilityPruner.PruneDiscardedEnumReferences(
-            collisionResolvedTool,
-            compatibleTool);
-        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(reachableTool);
-        var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
-        foreach (var command in toolDefinition.Commands)
-        {
-            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(command, resolvedGlobalOptions);
-        }
+        var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(normalizedTool);
+        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(collisionResolvedTool);
 
         if (enforceOutputContainment)
         {
             ValidateToolOutputContainment(toolDefinition, outputDirectory);
         }
 
-        toolDefinition = EnumDefinitionStabilizer.Stabilize(
-            toolDefinition,
-            outputDirectory,
-            enumBaselinePaths);
         IReadOnlyList<GeneratedFile> generatedFiles = toolDefinition.GenerateCode
             ? await GenerateFilesAsync(toolDefinition, cancellationToken).ConfigureAwait(false)
             : [];
@@ -902,7 +859,6 @@ public class CodeGeneratorOrchestrator
                 replaceableExistingPaths);
         }
 
-        // Compatibility-only commands must not hide losses from the fresh scrape.
         var coverage = CommandCoverageGuard.Evaluate(
             normalizedTool,
             outputDirectory,

@@ -67,7 +67,6 @@ public class SubDomainClassGenerator : ICodeGenerator
                 tree,
                 tool,
                 files,
-                GeneratorUtils.GetCommandGroupAliases(tool, subDomainIdentifier),
                 parentCommand);
         }
 
@@ -78,19 +77,12 @@ public class SubDomainClassGenerator : ICodeGenerator
         CommandTreeNode node,
         CliToolDefinition tool,
         List<GeneratedFile> files,
-        IReadOnlyList<CliCommandGroupAlias> commandGroupAliases,
         CliCommandDefinition? parentCommand = null)
     {
-        parentCommand ??= tool.Commands.FirstOrDefault(command =>
-            command.PreserveExecuteFacade
-            && command.ClassName.Equals($"{node.ClassName}Options", StringComparison.Ordinal));
-
         // Build map of commands that collide with child property names
         // These will become ExecuteAsync() methods on the child classes instead
         var collidingCommands = node.GetChildParentCommands();
-        var excludedCommands = collidingCommands.Values
-            .Where(command => !command.PreserveNamedFacade)
-            .ToHashSet();
+        var excludedCommands = collidingCommands.Values.ToHashSet();
 
         // Generate the command represented by this node as ExecuteAsync(). Root nodes receive
         // their top-level command; nested nodes receive a command that collided with the
@@ -129,26 +121,6 @@ public class SubDomainClassGenerator : ICodeGenerator
             Content = content
         });
 
-        foreach (var alias in commandGroupAliases)
-        {
-            if (node.Depth == 0)
-            {
-                files.Add(GenerateCompatibilityInterface(
-                    node,
-                    tool,
-                    alias,
-                    parentCommand,
-                    excludedCommands));
-            }
-
-            files.Add(GenerateCompatibilityClass(
-                node,
-                tool,
-                alias,
-                parentCommand,
-                excludedCommands));
-        }
-
         // Recursively generate files for children
         // Pass colliding command as parentCommand so it becomes ExecuteAsync() on the child
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
@@ -158,273 +130,8 @@ public class SubDomainClassGenerator : ICodeGenerator
                 child,
                 tool,
                 files,
-                commandGroupAliases,
                 childParentCommand);
         }
-    }
-
-    private static GeneratedFile GenerateCompatibilityInterface(
-        CommandTreeNode node,
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias,
-        CliCommandDefinition? parentCommand,
-        HashSet<CliCommandDefinition> excludedCommands)
-    {
-        var aliasClassName = GeneratorUtils.GetAliasedClassName(
-            tool,
-            alias,
-            node.ClassName);
-        var sb = new StringBuilder();
-        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
-        sb.AppendLine("#pragma warning disable CS0618 // Compatibility facade references obsolete alias wrappers.");
-        sb.AppendLine();
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine("using ModularPipelines.Options;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
-        sb.AppendLine();
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
-        sb.AppendLine();
-        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
-        sb.AppendLine($"public interface I{aliasClassName}");
-        sb.AppendLine("{");
-
-        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
-        {
-            var aliasChildClassName = GeneratorUtils.GetAliasedClassName(
-                tool,
-                alias,
-                child.ClassName);
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
-            sb.AppendLine("    /// </summary>");
-            sb.AppendLine($"    {aliasChildClassName} {child.PascalSegment} {{ get; }}");
-            sb.AppendLine();
-        }
-
-        if (parentCommand is not null)
-        {
-            GenerateCompatibilityMethodSignature(sb, tool, alias, "Execute", parentCommand);
-            sb.AppendLine();
-        }
-
-        foreach (var (command, methodName) in GetCompatibilityCommands(
-                     node,
-                     parentCommand,
-                     excludedCommands))
-        {
-            GenerateCompatibilityMethodSignature(sb, tool, alias, methodName, command);
-            sb.AppendLine();
-        }
-
-        sb.AppendLine("}");
-
-        return new GeneratedFile
-        {
-            RelativePath = Path.Combine(
-                tool.OutputDirectory,
-                "Services",
-                $"I{aliasClassName}.Generated.cs"),
-            Content = sb.ToString(),
-        };
-    }
-
-    private static GeneratedFile GenerateCompatibilityClass(
-        CommandTreeNode node,
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias,
-        CliCommandDefinition? parentCommand,
-        HashSet<CliCommandDefinition> excludedCommands)
-    {
-        var aliasClassName = GeneratorUtils.GetAliasedClassName(
-            tool,
-            alias,
-            node.ClassName);
-        var sb = new StringBuilder();
-        GeneratorUtils.GenerateFileHeaderWithNullable(sb);
-        sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
-        sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine("using ModularPipelines.Options;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
-        sb.AppendLine();
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
-        sb.AppendLine();
-        sb.AppendLine($"[Obsolete({GeneratorUtils.FormatStringLiteral(alias.ObsoleteMessage)})]");
-        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
-        var interfaceClause = node.Depth == 0 ? $", I{aliasClassName}" : string.Empty;
-        sb.AppendLine($"public class {aliasClassName} : {node.ClassName}{interfaceClause}");
-        sb.AppendLine("{");
-        sb.AppendLine("    private readonly ICommandContext _command;");
-
-        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
-        {
-            var aliasChildClassName = GeneratorUtils.GetAliasedClassName(
-                tool,
-                alias,
-                child.ClassName);
-            var fieldName = GetSafeFieldName(child.PascalSegment);
-            sb.AppendLine($"    private {aliasChildClassName}? {fieldName};");
-        }
-
-        sb.AppendLine();
-        sb.AppendLine($"    public {aliasClassName}(ICommandContext command)");
-        sb.AppendLine("        : base(command)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        _command = command;");
-        sb.AppendLine("    }");
-
-        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
-        {
-            var aliasChildClassName = GeneratorUtils.GetAliasedClassName(
-                tool,
-                alias,
-                child.ClassName);
-            var fieldName = GetSafeFieldName(child.PascalSegment);
-            sb.AppendLine();
-            sb.AppendLine($"    public new {aliasChildClassName} {child.PascalSegment} =>");
-            sb.AppendLine($"        {fieldName} ??= new {aliasChildClassName}(_command);");
-        }
-
-        if (parentCommand is not null)
-        {
-            sb.AppendLine();
-            GenerateCompatibilityForwardingMethod(
-                sb,
-                tool,
-                alias,
-                "Execute",
-                parentCommand);
-        }
-
-        foreach (var (command, methodName) in GetCompatibilityCommands(
-                     node,
-                     parentCommand,
-                     excludedCommands))
-        {
-            sb.AppendLine();
-            GenerateCompatibilityForwardingMethod(
-                sb,
-                tool,
-                alias,
-                methodName,
-                command);
-        }
-
-        sb.AppendLine("}");
-
-        return new GeneratedFile
-        {
-            RelativePath = Path.Combine(
-                tool.OutputDirectory,
-                "Services",
-                $"{aliasClassName}.Generated.cs"),
-            Content = sb.ToString(),
-        };
-    }
-
-    private static IEnumerable<(CliCommandDefinition Command, string MethodName)> GetCompatibilityCommands(
-        CommandTreeNode node,
-        CliCommandDefinition? parentCommand,
-        HashSet<CliCommandDefinition> excludedCommands)
-    {
-        var commands = node.Commands
-            .Where(command => !excludedCommands.Contains(command))
-            .ToList();
-        return commands
-            .OrderBy(command => command.ClassName)
-            .Select(command => (
-                command,
-                GeneratorUtils.GenerateSubDomainMethodName(
-                    command,
-                    parentCommand is not null,
-                    commands)));
-    }
-
-    private static void GenerateCompatibilityMethodSignature(
-        StringBuilder sb,
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias,
-        string methodName,
-        CliCommandDefinition command)
-    {
-        methodName = GeneratorUtils.EnsureAsyncSuffix(methodName);
-
-        if (!string.IsNullOrEmpty(command.Description))
-        {
-            GeneratorUtils.GenerateXmlDocumentation(sb, command.Description);
-            sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
-            sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
-            sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
-            sb.AppendLine("    /// <returns>The command result.</returns>");
-        }
-
-        sb.AppendLine(
-            $"    Task<CommandResult> {methodName}("
-            + $"{BuildCompatibilityOptionsParameter(tool, alias, command)}, "
-            + $"{GeneratorUtils.ExecutionOptionsParameter}, "
-            + "CancellationToken cancellationToken = default);");
-
-        foreach (var compatibilityMethod in GeneratorUtils.GetCompatibilityMethods(command, methodName))
-        {
-            sb.AppendLine();
-            sb.AppendLine(
-                $"    [Obsolete({GeneratorUtils.FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-            sb.AppendLine(
-                $"    Task<CommandResult> {compatibilityMethod.MethodName}("
-                + $"{BuildCompatibilityOptionsParameter(tool, alias, command)}, "
-                + $"{GeneratorUtils.ExecutionOptionsParameter}, "
-                + "CancellationToken cancellationToken = default);");
-        }
-    }
-
-    private static void GenerateCompatibilityForwardingMethod(
-        StringBuilder sb,
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias,
-        string methodName,
-        CliCommandDefinition command)
-    {
-        methodName = GeneratorUtils.EnsureAsyncSuffix(methodName);
-
-        sb.AppendLine($"    public virtual Task<CommandResult> {methodName}(");
-        sb.AppendLine($"        {BuildCompatibilityOptionsParameter(tool, alias, command)},");
-        sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
-        sb.AppendLine("        CancellationToken cancellationToken = default)");
-        sb.AppendLine("    {");
-        sb.AppendLine(
-            $"        return base.{methodName}(options, executionOptions, cancellationToken);");
-        sb.AppendLine("    }");
-
-        foreach (var compatibilityMethod in GeneratorUtils.GetCompatibilityMethods(command, methodName))
-        {
-            sb.AppendLine();
-            sb.AppendLine(
-                $"    [Obsolete({GeneratorUtils.FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-            sb.AppendLine($"    public virtual Task<CommandResult> {compatibilityMethod.MethodName}(");
-            sb.AppendLine($"        {BuildCompatibilityOptionsParameter(tool, alias, command)},");
-            sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
-            sb.AppendLine("        CancellationToken cancellationToken = default)");
-            sb.AppendLine("    {");
-            sb.AppendLine(
-                $"        return base.{compatibilityMethod.MethodName}(options, executionOptions, cancellationToken);");
-            sb.AppendLine("    }");
-        }
-    }
-
-    private static string BuildCompatibilityOptionsParameter(
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias,
-        CliCommandDefinition command)
-    {
-        var aliasOptionsClassName = GeneratorUtils.GetAliasedClassName(
-            tool,
-            alias,
-            command.ClassName);
-        return GeneratorUtils.RequiresOptionsParameter(command)
-            ? $"{aliasOptionsClassName} options"
-            : $"{aliasOptionsClassName}? options = null";
     }
 
     private static string GenerateNodeInterface(

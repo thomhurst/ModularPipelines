@@ -31,13 +31,4 @@ public static class YqExtensions
         services.TryAddScoped<IYq, Services.Yq>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the yq service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IYq"/> service for executing yq commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Yq.Services.IYq>().")]
-    public static IYq Yq(this IPipelineContext context) => context.Services.GetRequiredService<IYq>();
 }

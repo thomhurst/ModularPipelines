@@ -31,13 +31,4 @@ public static class PipExtensions
         services.TryAddScoped<IPip, Services.Pip>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the pip service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IPip"/> service for executing pip commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Python.Services.IPip>().")]
-    public static IPip Pip(this IPipelineContext context) => context.Services.GetRequiredService<IPip>();
 }

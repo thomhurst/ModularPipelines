@@ -18,30 +18,6 @@ public class EnumGenerator : ICodeGenerator
             AddEnumFile(files, generatedEnumNames, enumDef, tool);
         }
 
-        foreach (var alias in tool.CommandGroupAliases)
-        {
-            foreach (var command in tool.Commands.Where(command =>
-                         command.CommandParts.Length > 0
-                         && command.CommandParts[0].Equals(
-                             alias.CanonicalCommand,
-                             StringComparison.OrdinalIgnoreCase)))
-            {
-                foreach (var enumDef in command.Options
-                             .Where(option => option.EnumDefinition is not null)
-                             .Select(option => option.EnumDefinition!))
-                {
-                    var aliasEnum = enumDef with
-                    {
-                        EnumName = GeneratorUtils.GetAliasedClassName(
-                            tool,
-                            alias,
-                            enumDef.EnumName),
-                    };
-                    AddEnumFile(files, generatedEnumNames, aliasEnum, tool);
-                }
-            }
-        }
-
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
     }
 
@@ -108,8 +84,7 @@ public class EnumGenerator : ICodeGenerator
 
             // Add the attribute consumed by CommandArgumentBuilder at runtime.
             sb.AppendLine($"    [EnumValue({GeneratorUtils.FormatStringLiteral(value.CliValue)})]");
-            var numericValue = value.NumericValue is { } number ? $" = {number}" : string.Empty;
-            sb.AppendLine($"    {value.MemberName}{numericValue}{(isLast ? "" : ",")}");
+            sb.AppendLine($"    {value.MemberName}{(isLast ? "" : ",")}");
 
             if (!isLast)
             {

@@ -35,25 +35,25 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
-    public async Task DotNet_NuGet_Add_Source_Preserves_Public_Operand_Name()
+    public async Task DotNet_NuGet_Add_Source_Uses_Current_Operand_Name()
     {
         const string helpText = "Usage: NuGet.CommandLine.XPlat add source <PackageSourcePath> [options]";
         var command = await new TestDotNetCliScraper().Parse(
             ["dotnet", "nuget", "add", "source"],
             helpText);
 
-        await AssertArgument(command, "Packagesourcepath", isRequired: true, isVariadic: false);
+        await AssertArgument(command, "PackageSourcePath", isRequired: true, isVariadic: false);
     }
 
     [Test]
-    public async Task DotNet_NuGet_Push_Preserves_Public_Scalar_Operand()
+    public async Task DotNet_NuGet_Push_Uses_Current_Variadic_Operand()
     {
         const string helpText = "Usage: NuGet.CommandLine.XPlat push <package-paths>... [options]";
         var command = await new TestDotNetCliScraper().Parse(
             ["dotnet", "nuget", "push"],
             helpText);
 
-        await AssertArgument(command, "Path", isRequired: true, isVariadic: false);
+        await AssertArgument(command, "PackagePaths", isRequired: true, isVariadic: true);
     }
 
     [Test]

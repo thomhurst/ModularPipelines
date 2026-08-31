@@ -31,13 +31,4 @@ public static class FlywayExtensions
         services.TryAddScoped<IFlyway, Services.Flyway>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the flyway service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IFlyway"/> service for executing flyway commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Flyway.Services.IFlyway>().")]
-    public static IFlyway Flyway(this IPipelineContext context) => context.Services.GetRequiredService<IFlyway>();
 }

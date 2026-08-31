@@ -31,13 +31,4 @@ public static class ChocoExtensions
         services.TryAddScoped<IChoco, Services.Choco>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the choco service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IChoco"/> service for executing choco commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Chocolatey.Services.IChoco>().")]
-    public static IChoco Choco(this IPipelineContext context) => context.Services.GetRequiredService<IChoco>();
 }

@@ -161,46 +161,4 @@ public class GlobalOptionsBaseGeneratorTests
         await Assert.That(generated).Contains("[SecretValue(\"token\", \"password\")]");
     }
 
-    [Test]
-    public async Task Generate_Preserves_Virtual_Dispatch_For_Renamed_Global_Options()
-    {
-        var tool = new CliToolDefinition
-        {
-            ToolName = "liquibase",
-            NamespacePrefix = "Liquibase",
-            TargetNamespace = "ModularPipelines.Liquibase",
-            OutputDirectory = "src/ModularPipelines.Liquibase",
-            Commands = [],
-            GlobalOptions =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--allow-duplicated-changeset-identifiers",
-                    PropertyName = "AllowDuplicatedChangeSetIdentifiers",
-                    CSharpType = "bool?",
-                },
-            ],
-            GlobalCompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "AllowDuplicatedChangesetIdentifiers",
-                    CSharpType = "bool?",
-                    ForwardToPropertyName = "AllowDuplicatedChangeSetIdentifiers",
-                    ObsoleteMessage = "Use AllowDuplicatedChangeSetIdentifiers instead.",
-                },
-            ],
-        };
-
-        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
-
-        await Assert.That(generated).Contains(
-            "get => AllowDuplicatedChangesetIdentifiers;");
-        await Assert.That(generated).Contains(
-            "set => AllowDuplicatedChangesetIdentifiers = value;");
-        await Assert.That(generated).Contains(
-            "public virtual bool? AllowDuplicatedChangesetIdentifiers { get; set; }");
-        await Assert.That(generated).DoesNotContain(
-            "get => AllowDuplicatedChangeSetIdentifiers;");
-    }
 }

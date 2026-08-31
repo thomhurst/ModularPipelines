@@ -31,13 +31,4 @@ public static class GradleExtensions
         services.TryAddScoped<IGradle, Services.Gradle>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the gradle service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IGradle"/> service for executing gradle commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Java.Services.IGradle>().")]
-    public static IGradle Gradle(this IPipelineContext context) => context.Services.GetRequiredService<IGradle>();
 }

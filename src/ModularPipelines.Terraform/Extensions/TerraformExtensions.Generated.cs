@@ -35,13 +35,4 @@ public static class TerraformExtensions
         services.TryAddScoped<ITerraformWorkspace, TerraformWorkspace>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the terraform service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="ITerraform"/> service for executing terraform commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Terraform.Services.ITerraform>().")]
-    public static ITerraform Terraform(this IPipelineContext context) => context.Services.GetRequiredService<ITerraform>();
 }

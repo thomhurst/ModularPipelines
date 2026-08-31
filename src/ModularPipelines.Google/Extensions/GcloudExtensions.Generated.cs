@@ -161,13 +161,4 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudWorkstations, GcloudWorkstations>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the gcloud service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IGcloud"/> service for executing gcloud commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Google.Services.IGcloud>().")]
-    public static IGcloud Gcloud(this IPipelineContext context) => context.Services.GetRequiredService<IGcloud>();
 }

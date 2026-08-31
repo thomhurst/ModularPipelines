@@ -31,13 +31,4 @@ public static class CargoExtensions
         services.TryAddScoped<ICargo, Services.Cargo>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the cargo service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="ICargo"/> service for executing cargo commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Rust.Services.ICargo>().")]
-    public static ICargo Cargo(this IPipelineContext context) => context.Services.GetRequiredService<ICargo>();
 }

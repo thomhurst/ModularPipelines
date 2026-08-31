@@ -241,7 +241,7 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                 if (propertyName is null)
                     continue;
 
-                var isFlag = DetectBooleanFlag(description, valueType);
+                var isFlag = DetectBooleanFlag(description, valueType, null, null);
                 var isNumeric = DetectNumericType(valueType);
                 var acceptsMultiple = DetectMultipleValues(description, valueType);
 
@@ -290,7 +290,7 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
             return null;
 
         // Detect types from default value (kubectl shows "true"/"false" for boolean flags)
-        var isFlag = DetectBooleanFlag(usage, defaultValue);
+        var isFlag = DetectBooleanFlag(usage, defaultValue, null, null);
         var isNumeric = !isFlag && int.TryParse(defaultValue, out _);
         var acceptsMultiple = usage.Contains("[]") || usage.Contains("can be specified multiple", StringComparison.OrdinalIgnoreCase);
 

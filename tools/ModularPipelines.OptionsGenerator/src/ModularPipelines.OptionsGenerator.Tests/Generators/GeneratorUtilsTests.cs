@@ -17,7 +17,6 @@ public class GeneratorUtilsTests
         await Assert.That(result).DoesNotContain("ModularPipelines.OptionsGenerator.Tool");
     }
 
-    #region ToPascalCase Tests
 
     [Test]
     public async Task ToPascalCase_Converts_Kebab_Case_Correctly()
@@ -108,9 +107,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo(string.Empty);
     }
 
-    #endregion
 
-    #region EscapeXmlComment Tests
 
     [Test]
     public async Task EscapeXmlComment_Escapes_Ampersand()
@@ -181,9 +178,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo("test");
     }
 
-    #endregion
 
-    #region EscapeIdentifier Tests
 
     [Test]
     public async Task EscapeIdentifier_Escapes_Reserved_Keyword()
@@ -231,9 +226,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo(string.Empty);
     }
 
-    #endregion
 
-    #region ToEnumMemberName Tests
 
     [Test]
     public async Task ToEnumMemberName_Converts_Kebab_Case()
@@ -275,9 +268,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo("Unknown");
     }
 
-    #endregion
 
-    #region ToEnumName Tests
 
     [Test]
     public async Task ToEnumName_Combines_Prefix_And_PascalCase_Name()
@@ -295,9 +286,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo("DockerTestOption");
     }
 
-    #endregion
 
-    #region GenerateCliAttributeString Tests
 
     [Test]
     public async Task GenerateCliAttributeString_Returns_CliFlag_For_Boolean_Flag()
@@ -520,9 +509,7 @@ public class GeneratorUtilsTests
             .And.HasMessageContaining("Unsupported value separator");
     }
 
-    #endregion
 
-    #region GenerateMethodNameFromCommandParts Tests
 
     [Test]
     public async Task GenerateMethodNameFromCommandParts_Converts_To_PascalCase()
@@ -549,9 +536,7 @@ public class GeneratorUtilsTests
         await Assert.That(result).IsEqualTo("Execute");
     }
 
-    #endregion
 
-    #region GenerateFileHeader Tests
 
     [Test]
     public async Task GenerateFileHeader_Includes_Auto_Generated_Comment()
@@ -584,9 +569,7 @@ public class GeneratorUtilsTests
         await Assert.That(sb.ToString()).Contains("#nullable enable");
     }
 
-    #endregion
 
-    #region GenerateXmlDocumentation Tests
 
     [Test]
     public async Task GenerateXmlDocumentation_Generates_Summary_Block()
@@ -631,9 +614,7 @@ public class GeneratorUtilsTests
         await Assert.That(sb.ToString()).Contains("        /// <summary>");
     }
 
-    #endregion
 
-    #region GenerateValidationAttributes Tests
 
     [Test]
     public async Task GenerateValidationAttributes_Generates_Range_Attribute()
@@ -693,80 +674,9 @@ public class GeneratorUtilsTests
         await Assert.That(sb.ToString()).StartsWith("        [Range");
     }
 
-    #endregion
 
-    #region Command Signature Tests
 
-    [Test]
-    public async Task Aliased_Constructor_Parameter_Types_Preserve_Nullability()
-    {
-        var enumDefinition = new CliEnumDefinition
-        {
-            EnumName = "ToolBuildxBakeMode",
-            Values = [],
-        };
-        var enumOption = new CliOptionDefinition
-        {
-            SwitchName = "--mode",
-            PropertyName = "Mode",
-            CSharpType = "ToolBuildxBakeMode?",
-            EnumDefinition = enumDefinition,
-        };
-        var command = new CliCommandDefinition
-        {
-            FullCommand = "tool buildx bake",
-            CommandParts = ["buildx", "bake"],
-            ClassName = "ToolBuildxBakeOptions",
-            ParentClassName = "ToolOptions",
-            ToolNamespacePrefix = "Tool",
-            Options = [],
-            SubDomainGroup = "Buildx",
-        };
-        var tool = new CliToolDefinition
-        {
-            ToolName = "tool",
-            NamespacePrefix = "Tool",
-            TargetNamespace = "ModularPipelines.Tool",
-            OutputDirectory = "src/ModularPipelines.Tool",
-            Commands = [command],
-        };
-        var alias = new CliCommandGroupAlias
-        {
-            Alias = "builder",
-            CanonicalCommand = "buildx",
-            ObsoleteMessage = "Use Buildx.",
-        };
-        var nonEnumParameter = new GeneratorUtils.RequiredConstructorParameter(
-            "Input",
-            "string?",
-            IsSecret: false,
-            Option: null,
-            PositionalArgument: null);
-        var enumParameter = new GeneratorUtils.RequiredConstructorParameter(
-            "Mode",
-            "ToolBuildxBakeMode?",
-            IsSecret: false,
-            Option: enumOption,
-            PositionalArgument: null);
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(GeneratorUtils.GetAliasedRequiredConstructorParameterType(
-                    nonEnumParameter,
-                    tool,
-                    alias))
-                .IsEqualTo("string?");
-            await Assert.That(GeneratorUtils.GetAliasedRequiredConstructorParameterType(
-                    enumParameter,
-                    tool,
-                    alias))
-                .IsEqualTo("ToolBuilderBakeMode?");
-        }
-    }
-
-    #endregion
-
-    #region IsSecretOption Tests
 
     [Test]
     [Arguments("Password")]
@@ -945,5 +855,4 @@ public class GeneratorUtilsTests
         await Assert.That(mixedResult).IsTrue();
     }
 
-    #endregion
 }

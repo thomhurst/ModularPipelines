@@ -69,27 +69,9 @@ public class ServiceInterfaceGenerator : ICodeGenerator
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
                 sb.AppendLine($"    /// </summary>");
-                if (GeneratorUtils.IsCompatibilityOnlySubDomain(tool, subDomain))
-                {
-                    sb.AppendLine(
-                        $"    [Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
-                }
-
                 sb.AppendLine(
                     $"    I{subDomainClassName} {subDomainIdentifier} => throw new System.NotSupportedException();");
                 sb.AppendLine();
-
-                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(
-                             tool,
-                             subDomainIdentifier))
-                {
-                    var aliasIdentifier =
-                        GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
-                    sb.AppendLine(
-                        $"    [Obsolete({GeneratorUtils.FormatStringLiteral(alias.ObsoleteMessage)})]");
-                    sb.AppendLine($"    I{tool.NamespacePrefix}{aliasIdentifier} {aliasIdentifier} {{ get; }}");
-                    sb.AppendLine();
-                }
             }
 
             sb.AppendLine("    #endregion");

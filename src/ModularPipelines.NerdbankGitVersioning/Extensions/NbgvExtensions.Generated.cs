@@ -31,13 +31,4 @@ public static class NbgvExtensions
         services.TryAddScoped<INbgv, Services.Nbgv>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the nbgv service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="INbgv"/> service for executing nbgv commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.NerdbankGitVersioning.Services.INbgv>().")]
-    public static INbgv Nbgv(this IPipelineContext context) => context.Services.GetRequiredService<INbgv>();
 }

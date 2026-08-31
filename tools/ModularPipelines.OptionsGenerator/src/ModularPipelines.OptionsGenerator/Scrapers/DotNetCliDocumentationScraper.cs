@@ -147,7 +147,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
 
         // Parse options
         var options = ExtractOptions(doc, commandParts);
-        DotNetCliCompatibility.NormalizeOptions(commandParts, options);
+        DotNetCliNormalizer.NormalizeOptions(commandParts, options);
 
         // Parse positional arguments (like project path)
         var positionalArgs = ExtractPositionalArguments(doc);
@@ -173,7 +173,6 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
             Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList(),
-            CompatibilityProperties = DotNetCliCompatibility.GetProperties(commandParts),
         };
     }
 

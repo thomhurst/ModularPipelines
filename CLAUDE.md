@@ -165,7 +165,9 @@ pwsh scripts/Invoke-AgentDotNet.ps1 `
    - Tool options classes (e.g., `GitAddOptions`, `DotNetBuildOptions`, `DockerRunOptions`) are **auto-generated**
    - Generator located at: `tools/ModularPipelines.OptionsGenerator/`
    - **Do not modify generated options classes directly** - changes will be overwritten
-   - To modify options behavior, update the generator or add manual extension files
+   - Current tool output is the sole source of truth for generated options, even when regeneration causes breaking API changes
+   - Do not preserve earlier generated APIs with handwritten shims, aliases, obsolete forwarding members, or manual extension files
+   - To modify generated options behavior, update the scraper or generator so the result represents the current tool
    - Generated files have `[ExcludeFromCodeCoverage]` attribute
 
 ### Project Structure

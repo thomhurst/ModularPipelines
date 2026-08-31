@@ -31,13 +31,4 @@ public static class ShellcheckExtensions
         services.TryAddScoped<IShellcheck, Services.Shellcheck>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the shellcheck service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IShellcheck"/> service for executing shellcheck commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Shellcheck.Services.IShellcheck>().")]
-    public static IShellcheck Shellcheck(this IPipelineContext context) => context.Services.GetRequiredService<IShellcheck>();
 }

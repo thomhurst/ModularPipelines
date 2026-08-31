@@ -38,13 +38,4 @@ public static class MinikubeExtensions
         services.TryAddScoped<IMinikubeService, MinikubeService>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the minikube service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IMinikube"/> service for executing minikube commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Minikube.Services.IMinikube>().")]
-    public static IMinikube Minikube(this IPipelineContext context) => context.Services.GetRequiredService<IMinikube>();
 }

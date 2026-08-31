@@ -462,13 +462,4 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsXray, AwsXray>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the aws service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IAws"/> service for executing aws commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.AmazonWebServices.Services.IAws>().")]
-    public static IAws Aws(this IPipelineContext context) => context.Services.GetRequiredService<IAws>();
 }

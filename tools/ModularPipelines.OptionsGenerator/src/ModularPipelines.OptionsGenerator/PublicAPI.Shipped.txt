@@ -1,6 +1,4 @@
 #nullable enable
-~override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.Equals(object obj) -> bool
-~override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.ToString() -> string
 virtual ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
 abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.NamespacePrefix.get -> string!
 abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.OutputDirectory.get -> string!
@@ -131,19 +129,6 @@ ModularPipelines.OptionsGenerator.Generators.ServiceInterfaceGenerator.ServiceIn
 ModularPipelines.OptionsGenerator.Generators.SubDomainClassGenerator
 ModularPipelines.OptionsGenerator.Generators.SubDomainClassGenerator.GenerateAsync(ModularPipelines.OptionsGenerator.Models.CliToolDefinition! tool, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Generators.GeneratedFile!>!>!
 ModularPipelines.OptionsGenerator.Generators.SubDomainClassGenerator.SubDomainClassGenerator() -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.AliasCSharpType.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.AliasCSharpType.init -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.CanonicalCSharpType.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.CanonicalCSharpType.init -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.CliAliasCompatibilityProperty() -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.CliAliasCompatibilityProperty(ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty! original) -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.ObsoleteMessage.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.ObsoleteMessage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.PropertyName.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.PropertyName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.UseInitAccessor.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.UseInitAccessor.init -> void
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.CliArgumentDefinition() -> void
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.CliArgumentDefinition(ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition! original) -> void
@@ -197,10 +182,6 @@ ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.MinimumCommand
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.SentinelCommands.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.SentinelCommands.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.AliasCompatibilityConstructors.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor!>!>!
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.AliasCompatibilityConstructors.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.AliasCompatibilityProperties.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty!>!>!
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.AliasCompatibilityProperties.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ArgumentGroups.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliArgumentGroup!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ArgumentGroups.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ClassName.get -> string!
@@ -213,12 +194,6 @@ ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CommandPartIdentif
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CommandPartIdentifierOverrides.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CommandParts.get -> string![]!
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CommandParts.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityConstructors.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor!>!
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityConstructors.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityMethods.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod!>!
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityMethods.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityProperties.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty!>!
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.CompatibilityProperties.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.Description.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.Description.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.DocumentationExampleValues.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
@@ -231,8 +206,6 @@ ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.FullCommand.get ->
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.FullCommand.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.HasOperandTakingUsage.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.HasOperandTakingUsage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.IsCompatibilityOnly.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.IsCompatibilityOnly.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.IsDestructive.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.IsDestructive.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.IsInteractive.get -> bool
@@ -245,14 +218,6 @@ ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ParentClassName.ge
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ParentClassName.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PositionalArguments.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PositionalArguments.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveExecuteFacade.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveExecuteFacade.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveNamedFacade.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveNamedFacade.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveOptionalOptionsParameter.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveOptionalOptionsParameter.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveRootNamedFacade.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PreserveRootNamedFacade.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.RequiredOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SubDomainGroup.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SubDomainGroup.init -> void
@@ -264,65 +229,6 @@ ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.UsageSynopsis.get 
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.UsageSynopsis.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ValidateOperandCoverage() -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ValidateOperandCoverage(bool hasOperandTakingUsage, string? usageSynopsis, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>? usagePositionalArguments = null) -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.Alias.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.Alias.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.CanonicalCommand.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.CanonicalCommand.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.CliCommandGroupAlias() -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.CliCommandGroupAlias(ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias! original) -> void
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.ObsoleteMessage.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.ObsoleteMessage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.CliCompatibilityConstructor() -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.CliCompatibilityConstructor(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor! original) -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.Parameters.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter>!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.Parameters.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.PreserveDeconstruct.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.PreserveDeconstruct.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.PrimaryConstructorArguments.get -> System.Collections.Generic.IReadOnlyList<string!>!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.PrimaryConstructorArguments.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.CliCompatibilityConstructorParameter() -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.CliCompatibilityConstructorParameter(string! PropertyName, string! CSharpType) -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.CSharpType.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.CSharpType.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.Deconstruct(out string! PropertyName, out string! CSharpType) -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.Equals(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter other) -> bool
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.PropertyName.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.PropertyName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.Direct = 0 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableBooleanToString = 3 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue = 8 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableInt32ToRequiredString = 5 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableInt32ToString = 2 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableInt32ToStringCollection = 6 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableStringToCliOptionValue = 7 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableStringToRequiredString = 4 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.ScalarToCollection = 1 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.CliCompatibilityMethod() -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.CliCompatibilityMethod(ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod! original) -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.MethodName.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.MethodName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.ObsoleteMessage.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.ObsoleteMessage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.CliCompatibilityProperty() -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.CliCompatibilityProperty(ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty! original) -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.CSharpType.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.CSharpType.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ForwardingKind.get -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ForwardingKind.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ForwardToPropertyName.get -> string?
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ForwardToPropertyName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ObsoleteMessage.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ObsoleteMessage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.PropertyName.get -> string!
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.PropertyName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.UseInitAccessor.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.UseInitAccessor.init -> void
 ModularPipelines.OptionsGenerator.Models.CliEnumDefinition
 ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.CliEnumDefinition() -> void
 ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.CliEnumDefinition(ModularPipelines.OptionsGenerator.Models.CliEnumDefinition! original) -> void
@@ -341,8 +247,6 @@ ModularPipelines.OptionsGenerator.Models.CliEnumValue.Description.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliEnumValue.Description.init -> void
 ModularPipelines.OptionsGenerator.Models.CliEnumValue.MemberName.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliEnumValue.MemberName.init -> void
-ModularPipelines.OptionsGenerator.Models.CliEnumValue.NumericValue.get -> int?
-ModularPipelines.OptionsGenerator.Models.CliEnumValue.NumericValue.init -> void
 ModularPipelines.OptionsGenerator.Models.CliExecutablePrerequisite
 ModularPipelines.OptionsGenerator.Models.CliExecutablePrerequisite.CliExecutablePrerequisite() -> void
 ModularPipelines.OptionsGenerator.Models.CliExecutablePrerequisite.CliExecutablePrerequisite(ModularPipelines.OptionsGenerator.Models.CliExecutablePrerequisite! original) -> void
@@ -405,8 +309,6 @@ ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.ValueArity.init -> 
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.ValueSeparator.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.ValueSeparator.init -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument
-ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AllowRenderingPhaseMigrationFromBaseline.get -> bool
-ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AllowRenderingPhaseMigrationFromBaseline.init -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AssociatedOptionSwitch.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AssociatedOptionSwitch.init -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CliPositionalArgument() -> void
@@ -439,12 +341,8 @@ ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CliToolDefinition() -
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CliToolDefinition(ModularPipelines.OptionsGenerator.Models.CliToolDefinition! original) -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CommandCoverage.get -> ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy!
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CommandCoverage.init -> void
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CommandGroupAliases.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias!>!
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CommandGroupAliases.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.Commands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.Commands.init -> void
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CompatibilityEnums.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliEnumDefinition!>!
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CompatibilityEnums.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.DocumentationOutputDirectory.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.DocumentationOutputDirectory.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.Errors.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.ScrapingError!>!
@@ -458,8 +356,6 @@ ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GenerateCode.init -> 
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GenerateCommandFacade.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GenerateCommandFacade.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GetGlobalOptions() -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalCompatibilityProperties.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty!>!
-ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalCompatibilityProperties.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptions.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.NamespacePrefix.get -> string!
@@ -866,9 +762,6 @@ override ModularPipelines.OptionsGenerator.Generators.GeneratedFile.ToString() -
 override ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.ToString() -> string!
-override ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.Equals(object? obj) -> bool
-override ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.ToString() -> string!
 override ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.ToString() -> string!
@@ -884,19 +777,6 @@ override ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ToStr
 override ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.ToString() -> string!
-override ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.Equals(object? obj) -> bool
-override ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.ToString() -> string!
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.Equals(object? obj) -> bool
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.ToString() -> string!
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.Equals(object? obj) -> bool
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.ToString() -> string!
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.Equals(object? obj) -> bool
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.GetHashCode() -> int
-override ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.ToString() -> string!
 override ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.ToString() -> string!
@@ -1028,7 +908,6 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.CosignCliScraper.ShouldG
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.CosignCliScraper.TargetNamespace.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.CosignCliScraper.ToolName.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.CosignCliScraper.VersionArguments.get -> string!
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.DetectCommandGroupAlias(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.MaxParallelism.get -> int
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.NamespacePrefix.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.NormalizeOptionSwitchName(string![]! commandParts, string! switchName) -> string!
@@ -1046,7 +925,6 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.TargetN
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ToolName.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.AdditionalSkipSubcommands.get -> System.Collections.Generic.IReadOnlySet<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.ExtractSubcommands(string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.GetCompatibilityMethods(string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.NamespacePrefix.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.NormalizeCommandIdentifier(string! commandPart) -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.EksctlCliScraper.NormalizeOptionDescription(string! description) -> string!
@@ -1262,7 +1140,6 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.ToolName.
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.AdditionalSkipSubcommands.get -> System.Collections.Generic.IReadOnlySet<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.ApplyPositionalArgumentFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>! positionalArguments) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.GetCompatibilityProperties(string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.GetHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.NamespacePrefix.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.OutputDirectory.get -> string!
@@ -1463,8 +1340,6 @@ static ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.RequiresOptio
 static ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ToEnumMemberName(string! cliValue) -> string!
 static ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ToEnumName(string! optionName, string! commandPrefix) -> string!
 static ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ToPascalCase(string! input) -> string!
-static ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.operator !=(ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty? left, ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.operator ==(ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty? left, ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.operator !=(ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition? left, ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.operator ==(ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition? left, ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliArgumentGroup.operator !=(ModularPipelines.OptionsGenerator.Models.CliArgumentGroup? left, ModularPipelines.OptionsGenerator.Models.CliArgumentGroup? right) -> bool
@@ -1475,16 +1350,6 @@ static ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.operato
 static ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.operator ==(ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy? left, ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.operator !=(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition? left, ModularPipelines.OptionsGenerator.Models.CliCommandDefinition? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.operator ==(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition? left, ModularPipelines.OptionsGenerator.Models.CliCommandDefinition? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.operator !=(ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias? left, ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.operator ==(ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias? left, ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.operator !=(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.operator ==(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.operator !=(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.operator ==(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.operator !=(ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.operator ==(ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.operator !=(ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty? right) -> bool
-static ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.operator ==(ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty? left, ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.operator !=(ModularPipelines.OptionsGenerator.Models.CliEnumDefinition? left, ModularPipelines.OptionsGenerator.Models.CliEnumDefinition? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.operator ==(ModularPipelines.OptionsGenerator.Models.CliEnumDefinition? left, ModularPipelines.OptionsGenerator.Models.CliEnumDefinition? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliEnumValue.operator !=(ModularPipelines.OptionsGenerator.Models.CliEnumValue? left, ModularPipelines.OptionsGenerator.Models.CliEnumValue? right) -> bool
@@ -1562,10 +1427,6 @@ virtual ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.<C
 virtual ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.EqualityContract.get -> System.Type!
 virtual ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.Equals(ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule? other) -> bool
 virtual ModularPipelines.OptionsGenerator.Generators.GeneratedFileCleanupRule.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty!
-virtual ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.EqualityContract.get -> System.Type!
-virtual ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.Equals(ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty? other) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliAliasCompatibilityProperty.PrintMembers(System.Text.StringBuilder! builder) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition!
 virtual ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.EqualityContract.get -> System.Type!
 virtual ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.Equals(ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition? other) -> bool
@@ -1586,22 +1447,6 @@ virtual ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.<Clone>$()
 virtual ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.EqualityContract.get -> System.Type!
 virtual ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.Equals(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition? other) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias!
-virtual ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.EqualityContract.get -> System.Type!
-virtual ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.Equals(ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias? other) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.EqualityContract.get -> System.Type!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.Equals(ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor? other) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructor.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.EqualityContract.get -> System.Type!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.Equals(ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod? other) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.EqualityContract.get -> System.Type!
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.Equals(ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty? other) -> bool
-virtual ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty.PrintMembers(System.Text.StringBuilder! builder) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliEnumDefinition!
 virtual ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.EqualityContract.get -> System.Type!
 virtual ModularPipelines.OptionsGenerator.Models.CliEnumDefinition.Equals(ModularPipelines.OptionsGenerator.Models.CliEnumDefinition? other) -> bool
@@ -1641,7 +1486,6 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics.PrintMemb
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.AdditionalSkipSubcommands.get -> System.Collections.Generic.IReadOnlySet<string!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.BaseOptionsClassName.get -> string!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
-virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.DetectCommandGroupAlias(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Models.CliCommandGroupAlias?
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExecutablePath.get -> string!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExtractSubcommands(string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
@@ -1676,8 +1520,6 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ValidateCh
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.VersionArguments.get -> string!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ApplyPositionalArgumentFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>! positionalArguments) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
-virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.GetCompatibilityMethods(string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityMethod!>!
-virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.GetCompatibilityProperties(string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCompatibilityProperty!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.IsBooleanValueOption(string![]! commandParts, string! switchName, string! description) -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.IsRepeatableOption(string![]! commandParts, string! switchName, string! typeHint, string! description, string! helpText) -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.IsSecretOption(string! propertyName, bool isFlag, string! description) -> bool

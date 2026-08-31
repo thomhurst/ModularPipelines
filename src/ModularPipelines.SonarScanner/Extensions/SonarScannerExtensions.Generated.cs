@@ -31,13 +31,4 @@ public static class SonarScannerExtensions
         services.TryAddScoped<ISonarScanner, Services.SonarScanner>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the sonar-scanner service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="ISonarScanner"/> service for executing sonar-scanner commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.SonarScanner.Services.ISonarScanner>().")]
-    public static ISonarScanner SonarScanner(this IPipelineContext context) => context.Services.GetRequiredService<ISonarScanner>();
 }

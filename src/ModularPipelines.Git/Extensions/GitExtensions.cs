@@ -34,14 +34,4 @@ public static class GitExtensions
             ServiceDescriptor.Singleton<IRunReportEnricher, GitRunReportEnricher>());
         return services;
     }
-
-    /// <summary>
-    /// Gets the Git service from the pipeline context.
-    /// This provides access to Git commands and repository information.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IGit"/> service for executing Git commands and accessing repository information.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Git.IGit>().")]
-    public static IGit Git(this IPipelineContext context) => context.Services.GetRequiredService<IGit>();
 }

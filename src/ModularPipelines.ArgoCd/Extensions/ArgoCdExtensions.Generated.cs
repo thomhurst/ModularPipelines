@@ -41,13 +41,4 @@ public static class ArgoCdExtensions
         services.TryAddScoped<IArgoCdRepocreds, ArgoCdRepocreds>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the argocd service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IArgoCd"/> service for executing argocd commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.ArgoCd.Services.IArgoCd>().")]
-    public static IArgoCd ArgoCd(this IPipelineContext context) => context.Services.GetRequiredService<IArgoCd>();
 }

@@ -40,21 +40,10 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         // Usings
-        if (tool.CommandGroupAliases.Count > 0)
-        {
-            sb.AppendLine("#pragma warning disable CS0618 // Compatibility aliases are intentionally registered.");
-            sb.AppendLine();
-        }
-
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
         sb.AppendLine("using ModularPipelines.Attributes;");
-        if (tool.GenerateCommandFacade)
-        {
-            sb.AppendLine("using ModularPipelines.Context;");
-        }
-
         sb.AppendLine($"using {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
@@ -98,34 +87,11 @@ public class DependencyRegistrationGenerator : ICodeGenerator
             var subDomainClassName = $"{tool.NamespacePrefix}{subDomainIdentifier}";
             sb.AppendLine($"        services.TryAddScoped<I{subDomainClassName}, {subDomainClassName}>();");
 
-            foreach (var alias in GeneratorUtils.GetCommandGroupAliases(
-                         tool,
-                         subDomainIdentifier))
-            {
-                var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
-                sb.AppendLine(
-                    $"        services.TryAddScoped<I{tool.NamespacePrefix}{aliasIdentifier}, "
-                    + $"{tool.NamespacePrefix}{aliasIdentifier}>();");
-            }
         }
 
         sb.AppendLine("        return services;");
         sb.AppendLine("    }");
         sb.AppendLine();
-
-        if (tool.GenerateCommandFacade)
-        {
-            // Traditional extension method retained as a pre-C# 14 compatibility accessor.
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context for compatibility.");
-            sb.AppendLine("    /// </summary>");
-            sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
-            sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
-            sb.AppendLine("    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
-            sb.AppendLine(
-                $"    [global::System.Obsolete(\"Use context.Tools.Get<global::{tool.TargetNamespace}.Services.I{serviceName}>().\")]");
-            sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.GetRequiredService<{interfaceName}>();");
-        }
 
         sb.AppendLine("}");
 

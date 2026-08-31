@@ -33,13 +33,4 @@ public static class BuildahExtensions
         services.TryAddScoped<IBuildahSource, BuildahSource>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the buildah service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IBuildah"/> service for executing buildah commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Buildah.Services.IBuildah>().")]
-    public static IBuildah Buildah(this IPipelineContext context) => context.Services.GetRequiredService<IBuildah>();
 }

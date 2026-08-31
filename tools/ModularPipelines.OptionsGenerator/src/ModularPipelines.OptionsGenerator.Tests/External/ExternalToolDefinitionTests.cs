@@ -1471,7 +1471,7 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Preserves_Enum_Ordinals_When_Output_Moves()
+    public async Task External_Metadata_Uses_Current_Enum_Order_When_Output_Moves()
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -1547,9 +1547,14 @@ public class ExternalToolDefinitionTests
                 "generated-b",
                 "Enums",
                 "PrivateWidgetEnvironment.Generated.cs"));
-            await Assert.That(generatedEnum).Contains("Production = 0");
-            await Assert.That(generatedEnum).Contains("Staging = 1");
-            await Assert.That(generatedEnum).Contains("Development = 2");
+            await Assert.That(generatedEnum).Contains("Staging,");
+            await Assert.That(generatedEnum).Contains("Development,");
+            await Assert.That(generatedEnum).Contains("    Production");
+            await Assert.That(generatedEnum.IndexOf("Staging,", StringComparison.Ordinal))
+                .IsLessThan(generatedEnum.IndexOf("Development,", StringComparison.Ordinal));
+            await Assert.That(generatedEnum.IndexOf("Development,", StringComparison.Ordinal))
+                .IsLessThan(generatedEnum.IndexOf("    Production", StringComparison.Ordinal));
+            await Assert.That(generatedEnum).DoesNotContain(" = ");
         }
         finally
         {
@@ -1596,133 +1601,6 @@ public class ExternalToolDefinitionTests
 
             await Assert.That(File.Exists(oldOptionsPath)).IsFalse();
             await Assert.That(File.Exists(newOptionsPath)).IsTrue();
-        }
-        finally
-        {
-            Directory.Delete(workspace, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task External_Metadata_Rejects_Missing_Compatibility_Forwarding_Target()
-    {
-        var workspace = CreateTemporaryDirectory();
-        var metadataPath = Path.Combine(workspace, "private-widget.json");
-        var outputDirectory = Path.Combine(workspace, "integration");
-
-        try
-        {
-            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
-            var tool = await ExternalToolDefinitionLoader.LoadAsync(
-                metadataPath,
-                outputDirectory);
-            var deploy = tool.Commands.Single();
-            tool = tool with
-            {
-                Commands =
-                [
-                    deploy with
-                    {
-                        CompatibilityProperties =
-                        [
-                            new CliCompatibilityProperty
-                            {
-                                PropertyName = "OldEnvironment",
-                                CSharpType = "string?",
-                                ForwardToPropertyName = "Environmnt",
-                                ObsoleteMessage = "Use Environment.",
-                            },
-                        ],
-                    },
-                ],
-            };
-
-            await Assert.That(async () =>
-                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
-                .Throws<InvalidDataException>();
-        }
-        finally
-        {
-            Directory.Delete(workspace, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task Compatibility_Validation_Allows_Duplicate_Writable_Targets_With_The_Same_Type()
-    {
-        var workspace = CreateTemporaryDirectory();
-        var outputDirectory = Path.Combine(workspace, "integration");
-
-        try
-        {
-            var tool = await LoadValidToolAsync(workspace, outputDirectory);
-            var command = tool.Commands.Single();
-            var option = command.Options.Single();
-            tool = tool with
-            {
-                Commands =
-                [
-                    command with
-                    {
-                        PositionalArguments =
-                        [
-                            new CliPositionalArgument
-                            {
-                                PropertyName = option.PropertyName,
-                                CSharpType = option.PropertyType,
-                            },
-                        ],
-                        CompatibilityProperties =
-                        [
-                            new CliCompatibilityProperty
-                            {
-                                PropertyName = $"Legacy{option.PropertyName}",
-                                CSharpType = option.PropertyType,
-                                ForwardToPropertyName = option.PropertyName,
-                                ObsoleteMessage = $"Use {option.PropertyName}.",
-                            },
-                        ],
-                    },
-                ],
-            };
-
-            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(
-                tool.Commands.Single(),
-                tool.GlobalOptions);
-        }
-        finally
-        {
-            Directory.Delete(workspace, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task Compatibility_Validation_Rejects_Duplicate_Writable_Targets_With_Conflicting_Types()
-    {
-        var workspace = CreateTemporaryDirectory();
-        var outputDirectory = Path.Combine(workspace, "integration");
-
-        try
-        {
-            var tool = await LoadValidToolAsync(workspace, outputDirectory);
-            var command = tool.Commands.Single();
-            var option = command.Options.Single();
-            command = command with
-            {
-                PositionalArguments =
-                [
-                    new CliPositionalArgument
-                    {
-                        PropertyName = option.PropertyName,
-                        CSharpType = "int?",
-                    },
-                ],
-            };
-
-            await Assert.That(() => ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(
-                    command,
-                    tool.GlobalOptions))
-                .Throws<InvalidDataException>();
         }
         finally
         {
@@ -1972,86 +1850,6 @@ public class ExternalToolDefinitionTests
                         SwitchName = "--global-environment",
                         PropertyName = "Environment",
                         CSharpType = "string?",
-                    },
-                ],
-            };
-
-            await Assert.That(async () =>
-                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
-                .Throws<InvalidDataException>();
-        }
-        finally
-        {
-            Directory.Delete(workspace, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task External_Metadata_Rejects_Compatibility_Forwarding_To_Init_Only_Property()
-    {
-        var workspace = CreateTemporaryDirectory();
-        var outputDirectory = Path.Combine(workspace, "integration");
-
-        try
-        {
-            var tool = await LoadValidToolAsync(workspace, outputDirectory);
-            var command = tool.Commands.Single();
-            tool = tool with
-            {
-                Commands =
-                [
-                    command with
-                    {
-                        CompatibilityProperties =
-                        [
-                            new CliCompatibilityProperty
-                            {
-                                PropertyName = "LegacyTool",
-                                CSharpType = "string?",
-                                ForwardToPropertyName = "Tool",
-                                ObsoleteMessage = "Use Tool.",
-                            },
-                        ],
-                    },
-                ],
-            };
-
-            await Assert.That(async () =>
-                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
-                .Throws<InvalidDataException>();
-        }
-        finally
-        {
-            Directory.Delete(workspace, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task External_Metadata_Rejects_Incompatible_Compatibility_Forwarding_Type()
-    {
-        var workspace = CreateTemporaryDirectory();
-        var outputDirectory = Path.Combine(workspace, "integration");
-
-        try
-        {
-            var tool = await LoadValidToolAsync(workspace, outputDirectory);
-            var command = tool.Commands.Single();
-            tool = tool with
-            {
-                Commands =
-                [
-                    command with
-                    {
-                        CompatibilityProperties =
-                        [
-                            new CliCompatibilityProperty
-                            {
-                                PropertyName = "LegacyEnvironment",
-                                CSharpType = "int?",
-                                ForwardToPropertyName = "Environment",
-                                ObsoleteMessage = "Use Environment.",
-                            },
-                        ],
                     },
                 ],
             };

@@ -376,22 +376,7 @@ internal static class CommandCoverageGuard
             .ToArray();
 
     private static IReadOnlyList<string> GetCoverageCommands(CliToolDefinition tool)
-    {
-        var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
-        var aliasCommands = tool.CommandGroupAliases.SelectMany(alias =>
-        {
-            var canonicalPrefix = NormalizeCommand($"{tool.ToolName} {alias.CanonicalCommand}");
-            var aliasPrefix = NormalizeCommand($"{tool.ToolName} {alias.Alias}");
-
-            return commands
-                .Where(command =>
-                    command.Equals(canonicalPrefix, StringComparison.OrdinalIgnoreCase)
-                    || IsChildOf(canonicalPrefix, command))
-                .Select(command => aliasPrefix + command[canonicalPrefix.Length..]);
-        });
-
-        return NormalizeCommands(commands.Concat(aliasCommands));
-    }
+        => NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
 
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));

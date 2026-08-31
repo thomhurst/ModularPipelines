@@ -31,13 +31,4 @@ public static class GoExtensions
         services.TryAddScoped<IGo, Services.Go>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the go service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IGo"/> service for executing go commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Go.Services.IGo>().")]
-    public static IGo Go(this IPipelineContext context) => context.Services.GetRequiredService<IGo>();
 }

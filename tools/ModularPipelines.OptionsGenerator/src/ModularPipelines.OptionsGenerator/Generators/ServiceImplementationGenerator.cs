@@ -57,11 +57,6 @@ public class ServiceImplementationGenerator : ICodeGenerator
         var subDomains = tool.SubDomainGroups
             .Select(group => GeneratorUtils.GetSubDomainIdentifier(tool, group))
             .ToList();
-        var compatibilityOnlySubDomains = tool.SubDomainGroups
-            .Where(group => GeneratorUtils.IsCompatibilityOnlySubDomain(tool, group))
-            .Select(group => GeneratorUtils.GetSubDomainIdentifier(tool, group))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
         // Class documentation
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// Generated implementation for {tool.ToolName} CLI commands.");
@@ -91,14 +86,6 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        I{subDomainClassName} {paramName}");
 
-                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
-                {
-                    var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
-                    var aliasParamName = GeneratorUtils.EscapeIdentifier(
-                        char.ToLowerInvariant(aliasIdentifier[0]) + aliasIdentifier[1..]);
-                    constructorParams.Add(
-                        $"        I{tool.NamespacePrefix}{aliasIdentifier} {aliasParamName}");
-                }
             }
             constructorParams.Add("        ICommandContext command");
 
@@ -111,25 +98,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
-                var isCompatibilityOnly = compatibilityOnlySubDomains.Contains(subDomain);
-                if (isCompatibilityOnly)
-                {
-                    sb.AppendLine("        #pragma warning disable CS0618");
-                }
-
                 sb.AppendLine($"        {subDomain} = {paramName};");
-                if (isCompatibilityOnly)
-                {
-                    sb.AppendLine("        #pragma warning restore CS0618");
-                }
-
-                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
-                {
-                    var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
-                    var aliasParamName = GeneratorUtils.EscapeIdentifier(
-                        char.ToLowerInvariant(aliasIdentifier[0]) + aliasIdentifier[1..]);
-                    sb.AppendLine($"        {aliasIdentifier} = {aliasParamName};");
-                }
             }
 
             sb.AppendLine("        _command = command;");
@@ -159,25 +128,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 sb.AppendLine($"    /// <inheritdoc />");
-                if (compatibilityOnlySubDomains.Contains(subDomain))
-                {
-                    sb.AppendLine(
-                        $"    [Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
-                }
-
                 sb.AppendLine($"    public I{subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
-
-                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
-                {
-                    var aliasIdentifier =
-                        GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
-                    sb.AppendLine("    /// <inheritdoc />");
-                    sb.AppendLine(
-                        $"    public I{tool.NamespacePrefix}{aliasIdentifier} "
-                        + $"{aliasIdentifier} {{ get; }}");
-                    sb.AppendLine();
-                }
             }
 
             sb.AppendLine("    #endregion");

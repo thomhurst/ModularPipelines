@@ -252,58 +252,6 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
-    public async Task CommandGroupAliases_PreserveCanonicalTreeInCoverageBaseline()
-    {
-        var outputDirectory = CreateOutputDirectory();
-
-        try
-        {
-            var baseline = CommandCoverageGuard.Evaluate(
-                Tool(
-                    Command("fake builder"),
-                    Command("fake builder build"),
-                    Command("fake buildx"),
-                    Command("fake buildx build")),
-                outputDirectory,
-                approveShrinkage: false);
-            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
-
-            var currentTool = Tool(
-                Command("fake buildx"),
-                Command("fake buildx build")) with
-            {
-                CommandGroupAliases =
-                [
-                    new CliCommandGroupAlias
-                    {
-                        Alias = "builder",
-                        CanonicalCommand = "buildx",
-                        ObsoleteMessage = "Use Buildx instead.",
-                    },
-                ],
-            };
-            var current = CommandCoverageGuard.Evaluate(
-                currentTool,
-                outputDirectory,
-                approveShrinkage: false);
-
-            await Assert.That(current.Violations).IsEmpty();
-            await Assert.That(current.RemovedCommands).IsEmpty();
-            await Assert.That(current.Manifest.Commands).IsEquivalentTo(
-            [
-                "fake builder",
-                "fake builder build",
-                "fake buildx",
-                "fake buildx build",
-            ]);
-        }
-        finally
-        {
-            Directory.Delete(outputDirectory, recursive: true);
-        }
-    }
-
-    [Test]
     public async Task MissingManifest_FailsWhenGeneratedApiExists()
     {
         var outputDirectory = CreateOutputDirectory();

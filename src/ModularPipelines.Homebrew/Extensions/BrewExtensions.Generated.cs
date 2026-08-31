@@ -31,13 +31,4 @@ public static class BrewExtensions
         services.TryAddScoped<IBrew, Services.Brew>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the brew service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IBrew"/> service for executing brew commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Homebrew.Services.IBrew>().")]
-    public static IBrew Brew(this IPipelineContext context) => context.Services.GetRequiredService<IBrew>();
 }

@@ -49,13 +49,4 @@ public static class FluxExtensions
         services.TryAddScoped<IFluxTrigger, FluxTrigger>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the flux service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IFlux"/> service for executing flux commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Flux.Services.IFlux>().")]
-    public static IFlux Flux(this IPipelineContext context) => context.Services.GetRequiredService<IFlux>();
 }

@@ -31,13 +31,4 @@ public static class VaultExtensions
         services.TryAddScoped<IVault, Services.Vault>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the vault service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IVault"/> service for executing vault commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Vault.Services.IVault>().")]
-    public static IVault Vault(this IPipelineContext context) => context.Services.GetRequiredService<IVault>();
 }
