@@ -523,6 +523,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
+                RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
             };
             command.ValidateOperandCoverage(
                 usage.HasOperandTokens,
@@ -785,6 +786,57 @@ public abstract partial class CliScraperBase : ICliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage) =>
         usage;
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage)
+    {
+        if (usage.RequiredAlternativeGroups.Count == 0)
+        {
+            return command.RequiredAlternativeGroups;
+        }
+
+        return
+        [
+            .. command.RequiredAlternativeGroups,
+            .. usage.RequiredAlternativeGroups.Select(group => new CliRequiredAlternativeGroup
+            {
+                PropertyNames = group.Members
+                    .Select(member => ResolveRequiredAlternativeProperty(command, member))
+                    .Distinct(StringComparer.Ordinal)
+                    .ToArray(),
+            }),
+        ];
+    }
+
+    private static string ResolveRequiredAlternativeProperty(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeMember member)
+    {
+        if (member.OptionSwitch is { } optionSwitch)
+        {
+            return command.Options.FirstOrDefault(option =>
+                       option.SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
+                       || option.ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true)
+                   ?.PropertyName
+                   ?? throw new InvalidOperationException(
+                       $"{command.FullCommand} declares required alternative {optionSwitch}, " +
+                       "but no matching CliOptionDefinition was generated.");
+        }
+
+        if (member.PositionalPropertyName is { } positionalPropertyName)
+        {
+            return command.PositionalArguments.FirstOrDefault(argument =>
+                       argument.PropertyName.Equals(positionalPropertyName, StringComparison.OrdinalIgnoreCase))
+                   ?.PropertyName
+                   ?? throw new InvalidOperationException(
+                       $"{command.FullCommand} declares required alternative {positionalPropertyName}, " +
+                       "but no matching CliPositionalArgument was generated.");
+        }
+
+        throw new InvalidOperationException(
+            $"{command.FullCommand} contains an unnamed required alternative member.");
+    }
 
     /// <summary>
     /// Returns true positional operands, excluding values syntactically owned by an option switch.

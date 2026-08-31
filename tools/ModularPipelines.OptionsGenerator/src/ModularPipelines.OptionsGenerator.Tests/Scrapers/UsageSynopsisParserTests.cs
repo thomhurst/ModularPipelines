@@ -773,10 +773,45 @@ public class UsageSynopsisParserTests
 
         var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
         var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
 
-        await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
-        await Assert.That(dependency.IsRequired).IsFalse();
-        await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+            await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Models_Required_Inline_Option_Operand_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: cargo add [OPTIONS] <DEP_ID|--path <PATH>|--git <URI>>...",
+            ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(dependency.PropertyName).IsEqualTo("DepId");
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(requiredSources).IsEquivalentTo(["DepId", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Does_Not_Model_Operand_Aliases_As_Separate_Required_Properties()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run <FILE|DIRECTORY>",
+            ["tool", "run"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(result.PositionalArguments.Single().PropertyName).IsEqualTo("File");
     }
 
     [Test]

@@ -56,6 +56,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         sb.AppendLine("{");
         GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
+        GenerateRequiredAlternativeValidation(sb, command, positionalArguments);
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -83,7 +84,8 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
-        if (command.Options.Any(o => o.ValidationConstraints is not null))
+        if (command.Options.Any(o => o.ValidationConstraints is not null)
+            || command.RequiredAlternativeGroups.Count > 0)
         {
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
@@ -183,15 +185,96 @@ public class OptionsClassGenerator : ICodeGenerator
 
             sb.AppendLine($"public record {command.ClassName}(");
             sb.AppendLine(string.Join($",{Environment.NewLine}", parameters));
-            sb.AppendLine($") : {command.ParentClassName}");
+            sb.AppendLine($") : {GetBaseTypes(command)}");
         }
         else
         {
-            sb.AppendLine($"public record {command.ClassName} : {command.ParentClassName}");
+            sb.AppendLine($"public record {command.ClassName} : {GetBaseTypes(command)}");
         }
 
         return existingNames;
     }
+
+    private static string GetBaseTypes(CliCommandDefinition command) =>
+        command.RequiredAlternativeGroups.Count > 0
+            ? $"{command.ParentClassName}, IValidatableObject"
+            : command.ParentClassName;
+
+    private static void GenerateRequiredAlternativeValidation(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (command.RequiredAlternativeGroups.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine("    /// <inheritdoc />");
+        sb.AppendLine("    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)");
+        sb.AppendLine("    {");
+        foreach (var group in command.RequiredAlternativeGroups)
+        {
+            var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
+            if (propertyNames.Length == 0)
+            {
+                throw new InvalidOperationException(
+                    $"Required alternative group for {command.FullCommand} has no properties.");
+            }
+
+            var presenceExpression = string.Join(
+                " || ",
+                propertyNames.Select(propertyName => GetPresenceExpression(
+                    command,
+                    positionalArguments,
+                    propertyName)));
+            var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
+            var message = $"At least one of {FormatChoice(propertyNames)} must be specified.";
+
+            sb.AppendLine($"        if (!({presenceExpression}))");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
+            sb.AppendLine("        }");
+        }
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static string GetPresenceExpression(
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        string propertyName)
+    {
+        var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
+        var csharpType = option?.PropertyType
+                         ?? positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName)
+                             ?.CSharpType
+                         ?? throw new InvalidOperationException(
+                             $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
+
+        if (option?.IsFlag == true)
+        {
+            return $"{propertyName} == true";
+        }
+
+        if (csharpType.TrimEnd('?').Equals("string", StringComparison.Ordinal))
+        {
+            return $"!string.IsNullOrWhiteSpace({propertyName})";
+        }
+
+        return csharpType.Contains("IEnumerable<", StringComparison.Ordinal)
+            ? $"{propertyName}?.Any() == true"
+            : $"{propertyName} is not null";
+    }
+
+    private static string FormatChoice(IReadOnlyList<string> propertyNames) =>
+        propertyNames.Count switch
+        {
+            0 => "a required value",
+            1 => propertyNames[0],
+            2 => $"{propertyNames[0]} or {propertyNames[1]}",
+            _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Count - 1))}, or {propertyNames[^1]}",
+        };
 
     private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
     {

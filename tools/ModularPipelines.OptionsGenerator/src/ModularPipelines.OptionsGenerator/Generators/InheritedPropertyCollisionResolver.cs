@@ -94,11 +94,28 @@ internal static class InheritedPropertyCollisionResolver
                         usedLocalNames),
                 })
             .ToArray();
+        var resolvedPropertyNames = command.Options
+            .Select((option, index) => (Original: option.PropertyName, Resolved: options[index].PropertyName))
+            .Concat(command.PositionalArguments.Select((argument, index) =>
+                (Original: argument.PropertyName, Resolved: positionalArguments[index].PropertyName)))
+            .GroupBy(static pair => pair.Original, StringComparer.Ordinal)
+            .ToDictionary(
+                static group => group.Key,
+                static group => group.First().Resolved,
+                StringComparer.Ordinal);
 
         return command with
         {
             Options = options,
             PositionalArguments = positionalArguments,
+            RequiredAlternativeGroups = command.RequiredAlternativeGroups
+                .Select(group => group with
+                {
+                    PropertyNames = group.PropertyNames
+                        .Select(propertyName => resolvedPropertyNames.GetValueOrDefault(propertyName, propertyName))
+                        .ToArray(),
+                })
+                .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
                     pair => TryGetRename(

@@ -894,6 +894,53 @@ public class CliScraperTraversalTests
         await Assert.That(scraper.Skips("SSH")).IsFalse();
     }
 
+    [Test]
+    public async Task Cargo_Add_Models_Required_Dependency_Source_Alternatives()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Rust's package manager
+
+                Usage: cargo [OPTIONS] <COMMAND>
+
+                Commands:
+                  add  Add dependencies to a Cargo.toml manifest file
+
+                Options:
+                  -h, --help  Print help
+                """,
+            ["add --help"] = """
+                Add dependencies to a Cargo.toml manifest file
+
+                Usage: cargo add [OPTIONS] <DEP_ID|--path <PATH>|--git <URI>>...
+
+                Arguments:
+                  <DEP_ID|--path <PATH>|--git <URI>>...  Reference to a package to add
+
+                Options:
+                  -F, --features <FEATURES>  Features to activate
+
+                Source options:
+                      --path <PATH>  Filesystem path to local crate to add
+                      --git <URI>    Git repository location
+                """,
+        });
+
+        var command = (await ScrapeAsync(new TestCargoCliScraper(executor))).Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("DepId");
+            await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(command.Options.Select(option => option.PropertyName))
+                .Contains("Path")
+                .And.Contains("Git");
+            await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+                .IsEquivalentTo(["DepId", "Path", "Git"]);
+        }
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
@@ -984,6 +1031,12 @@ public class CliScraperTraversalTests
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<PnpmCliScraper>.Instance);
+
+    private sealed class TestCargoCliScraper(ICliCommandExecutor executor)
+        : CargoCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<CargoCliScraper>.Instance);
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor
     {

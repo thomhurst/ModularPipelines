@@ -444,6 +444,61 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Required_Alternative_Group_Validates_Options_And_Requires_Service_Parameter()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--path",
+                    PropertyName = "Path",
+                    CSharpType = "string?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--git",
+                    PropertyName = "Git",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "DepId",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    PropertyNames = ["DepId", "Path", "Git"],
+                },
+            ],
+        };
+        var tool = Tool(command);
+
+        var options = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        var service = (await new ServiceImplementationGenerator().GenerateAsync(tool)).Single().Content;
+        var serviceInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options).Contains("public record ToolAddOptions : ToolOptions, IValidatableObject");
+            await Assert.That(options).Contains("DepId?.Any() == true");
+            await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Path)");
+            await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Git)");
+            await Assert.That(options).Contains("At least one of DepId, Path, or Git must be specified.");
+            await Assert.That(service).Contains("ToolAddOptions options,");
+            await Assert.That(service).DoesNotContain("new ToolAddOptions()");
+            await Assert.That(serviceInterface).Contains("AddAsync(ToolAddOptions options,");
+        }
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Expose_Kubectl_ClusterInfo_Parent()
     {
         var tool = Tool(

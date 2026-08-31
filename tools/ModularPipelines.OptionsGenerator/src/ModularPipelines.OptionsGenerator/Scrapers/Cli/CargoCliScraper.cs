@@ -130,6 +130,7 @@ public partial class CargoCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        AddRequiredAlternativeOptions(options, helpText, usage);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -280,6 +281,97 @@ public partial class CargoCliScraper : CliScraperBase
         return options;
     }
 
+    private void AddRequiredAlternativeOptions(
+        ICollection<CliOptionDefinition> options,
+        string helpText,
+        UsageSynopsisParseResult usage)
+    {
+        var requiredSwitches = usage.RequiredAlternativeGroups
+            .SelectMany(static group => group.Members)
+            .Select(static member => member.OptionSwitch)
+            .Where(static optionSwitch => optionSwitch is not null)
+            .Select(static optionSwitch => optionSwitch!)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (requiredSwitches.Length == 0)
+        {
+            return;
+        }
+
+        var lines = helpText.Split('\n');
+        foreach (var optionSwitch in requiredSwitches)
+        {
+            if (options.Any(option =>
+                    option.SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
+                    || option.ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true))
+            {
+                continue;
+            }
+
+            for (var index = 0; index < lines.Length; index++)
+            {
+                var match = CargoOptionDeclarationPattern().Match(lines[index]);
+                if (!match.Success)
+                {
+                    continue;
+                }
+
+                var shortForm = match.Groups["short"].Value.Trim();
+                var longForm = match.Groups["long"].Value.Trim();
+                if (!longForm.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
+                    && !shortForm.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                var switchName = string.IsNullOrEmpty(longForm) ? shortForm : longForm;
+                var propertyName = NormalizePropertyName(switchName)
+                                   ?? throw new InvalidOperationException(
+                                       $"Unable to normalize required Cargo alternative {switchName}.");
+                var valueHint = match.Groups["value"].Value.Trim();
+                var isFlag = string.IsNullOrEmpty(valueHint);
+                options.Add(new CliOptionDefinition
+                {
+                    SwitchName = switchName,
+                    ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+                    PropertyName = propertyName,
+                    CSharpType = isFlag ? "bool?" : "string?",
+                    Description = ExtractFollowingOptionDescription(lines, index),
+                    IsFlag = isFlag,
+                    ValueSeparator = " ",
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                });
+                break;
+            }
+        }
+    }
+
+    private static string ExtractFollowingOptionDescription(
+        IReadOnlyList<string> lines,
+        int declarationIndex)
+    {
+        var declarationIndentation = lines[declarationIndex].TakeWhile(char.IsWhiteSpace).Count();
+        var description = new List<string>();
+        for (var index = declarationIndex + 1; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            var trimmed = line.Trim();
+            if (CargoOptionDeclarationPattern().IsMatch(line)
+                || (!string.IsNullOrEmpty(trimmed)
+                    && line.TakeWhile(char.IsWhiteSpace).Count() <= declarationIndentation))
+            {
+                break;
+            }
+
+            if (!string.IsNullOrEmpty(trimmed))
+            {
+                description.Add(trimmed);
+            }
+        }
+
+        return string.Join(' ', description);
+    }
+
     /// <summary>
     /// Checks if help text indicates the command has options.
     /// </summary>
@@ -322,6 +414,9 @@ public partial class CargoCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex CargoOptionPattern();
+
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?(?:\s{2,}(?<desc>.*))?\s*$")]
+    private static partial Regex CargoOptionDeclarationPattern();
 
     #endregion
 }

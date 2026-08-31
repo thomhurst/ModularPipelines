@@ -110,6 +110,13 @@ public static class UsageSynopsisParser
             PositionalArguments = RelaxArgumentsMissingFromAlternatives(
                 selected.PositionalArguments,
                 requirednessCandidates),
+            RequiredAlternativeGroups =
+            [
+                .. selected.RequiredAlternativeGroups,
+                .. GetCrossSynopsisRequiredAlternativeGroups(
+                    requirednessCandidates,
+                    selected.PositionalArguments),
+            ],
         };
     }
 
@@ -170,7 +177,8 @@ public static class UsageSynopsisParser
             operandTokens = SkipCommandAliases(operandTokens);
         }
 
-        var parsedOperands = ParseOperandTokens(operandTokens, phase);
+        var materializedOperandTokens = operandTokens.ToArray();
+        var parsedOperands = ParseOperandTokens(materializedOperandTokens, phase);
         return new UsageSynopsisParseResult
         {
             Synopsis = synopsis,
@@ -180,7 +188,168 @@ public static class UsageSynopsisParser
                                || parsedOperands.UnparsedTokens.Count > 0,
             PositionalArguments = CliPositionalArgument.MergeDuplicates(parsedOperands.Arguments),
             UnparsedOperandTokens = parsedOperands.UnparsedTokens,
+            SupportsRequiredAlternativeInference = SupportsRequiredAlternativeInference(
+                materializedOperandTokens),
+            RequiredAlternativeGroups = ParseInlineRequiredAlternativeGroups(
+                materializedOperandTokens,
+                phase),
         };
+    }
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> ParseInlineRequiredAlternativeGroups(
+        IEnumerable<string> operandTokens,
+        CommandLinePhase phase)
+    {
+        var groups = new List<UsageRequiredAlternativeGroup>();
+        foreach (var token in operandTokens)
+        {
+            var normalizedToken = TrimTrailingOperandPunctuation(token)
+                .TrimEnd('.', '…')
+                .Trim();
+            if (normalizedToken.StartsWith('[') || !IsWrapped(normalizedToken))
+            {
+                continue;
+            }
+
+            var alternatives = SplitTopLevelAlternatives(TrimWrapper(normalizedToken));
+            if (alternatives.Count <= 1)
+            {
+                continue;
+            }
+
+            var alternativeMembers = alternatives
+                .Select(alternative => GetRequiredAlternativeMembers(
+                    ParseOperandTokens(Tokenize(alternative), phase)))
+                .ToArray();
+            if (alternativeMembers.Any(static members => members.Count == 0))
+            {
+                continue;
+            }
+
+            var members = DistinctAlternativeMembers(alternativeMembers.SelectMany(static members => members));
+            if (members.Count > 1
+                && members.Any(static member => member.OptionSwitch is not null))
+            {
+                groups.Add(new UsageRequiredAlternativeGroup { Members = members });
+            }
+        }
+
+        return groups;
+    }
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
+        IReadOnlyList<UsageSynopsisParseResult> candidates,
+        IReadOnlyList<CliPositionalArgument> selectedArguments)
+    {
+        if (candidates.Count <= 1
+            || candidates.Any(static candidate => !candidate.SupportsRequiredAlternativeInference))
+        {
+            return [];
+        }
+
+        var candidateMembers = candidates
+            .Select(candidate => GetRequiredAlternativeMembers(new ParsedOperands(
+                candidate.PositionalArguments,
+                candidate.UnparsedOperandTokens)))
+            .ToArray();
+        if (candidateMembers.Any(static members => members.Count == 0))
+        {
+            return [];
+        }
+
+        var commonKeys = candidateMembers[0]
+            .Select(GetAlternativeMemberKey)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var members in candidateMembers.Skip(1))
+        {
+            commonKeys.IntersectWith(members.Select(GetAlternativeMemberKey));
+        }
+
+        var branchMembers = candidateMembers
+            .Select(members => members
+                .Where(member => !commonKeys.Contains(GetAlternativeMemberKey(member)))
+                .ToArray())
+            .ToArray();
+        if (branchMembers.Any(static members => members.Length == 0))
+        {
+            return [];
+        }
+
+        var alternatives = DistinctAlternativeMembers(branchMembers.SelectMany(static members => members));
+        var selectedPropertyNames = selectedArguments
+            .Select(static argument => argument.PropertyName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        if (alternatives.Any(member => member.PositionalPropertyName is { } propertyName
+                                       && !selectedPropertyNames.Contains(propertyName)))
+        {
+            return [];
+        }
+
+        return alternatives.Count > 1
+            ? [new UsageRequiredAlternativeGroup { Members = alternatives }]
+            : [];
+    }
+
+    private static bool SupportsRequiredAlternativeInference(IEnumerable<string> operandTokens)
+    {
+        foreach (var token in CollapseAlternatives(operandTokens))
+        {
+            if (IsNonOperandSyntax(token))
+            {
+                continue;
+            }
+
+            return token.StartsWith('-') || IsPlaceholderToken(token);
+        }
+
+        return false;
+    }
+
+    private static IReadOnlyList<UsageRequiredAlternativeMember> GetRequiredAlternativeMembers(
+        ParsedOperands operands) =>
+        DistinctAlternativeMembers(operands.Arguments
+            .Where(static argument => argument.IsRequired)
+            .Select(static argument => argument.AssociatedOptionSwitch is { } optionSwitch
+                ? new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch }
+                : new UsageRequiredAlternativeMember { PositionalPropertyName = argument.PropertyName }));
+
+    private static IReadOnlyList<UsageRequiredAlternativeMember> DistinctAlternativeMembers(
+        IEnumerable<UsageRequiredAlternativeMember> members) =>
+        members
+            .DistinctBy(GetAlternativeMemberKey, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+    private static string GetAlternativeMemberKey(UsageRequiredAlternativeMember member) =>
+        member.OptionSwitch is { } optionSwitch
+            ? $"option:{optionSwitch}"
+            : $"operand:{member.PositionalPropertyName}";
+
+    private static IReadOnlyList<string> SplitTopLevelAlternatives(string content)
+    {
+        var alternatives = new List<string>();
+        var closingDelimiters = new Stack<char>();
+        var start = 0;
+        for (var index = 0; index < content.Length; index++)
+        {
+            var character = content[index];
+            if (TryGetClosingDelimiter(character, out var closingDelimiter))
+            {
+                closingDelimiters.Push(closingDelimiter);
+            }
+            else if (closingDelimiters.TryPeek(out var expectedDelimiter)
+                     && character == expectedDelimiter)
+            {
+                closingDelimiters.Pop();
+            }
+            else if (character == '|' && closingDelimiters.Count == 0)
+            {
+                alternatives.Add(content[start..index].Trim());
+                start = index + 1;
+            }
+        }
+
+        alternatives.Add(content[start..].Trim());
+        return alternatives.Where(static alternative => alternative.Length > 0).ToArray();
     }
 
     private static ParsedOperands ParseOperandTokens(
@@ -1239,7 +1408,38 @@ public sealed record UsageSynopsisParseResult
 
     public bool HasOperandTokens { get; init; }
 
+    internal bool SupportsRequiredAlternativeInference { get; init; }
+
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
 
     public IReadOnlyList<string> UnparsedOperandTokens { get; init; } = [];
+
+    public IReadOnlyList<UsageRequiredAlternativeGroup> RequiredAlternativeGroups { get; init; } = [];
+}
+
+/// <summary>
+/// A required choice recovered from one or more usage synopses.
+/// </summary>
+public sealed record UsageRequiredAlternativeGroup
+{
+    /// <summary>
+    /// Option switches and positional properties participating in the choice.
+    /// </summary>
+    public required IReadOnlyList<UsageRequiredAlternativeMember> Members { get; init; }
+}
+
+/// <summary>
+/// An option or positional operand participating in a required usage choice.
+/// </summary>
+public sealed record UsageRequiredAlternativeMember
+{
+    /// <summary>
+    /// Option spelling when this member is supplied through a named option.
+    /// </summary>
+    public string? OptionSwitch { get; init; }
+
+    /// <summary>
+    /// Generated positional property name when this member is a true operand.
+    /// </summary>
+    public string? PositionalPropertyName { get; init; }
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -19,12 +20,33 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record CargoAddOptions : CargoOptions
+public record CargoAddOptions : CargoOptions, IValidatableObject
 {
+    /// <summary>
+    /// Filesystem path to local crate to add
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Git repository location Without any other information, cargo will use latest commit on the main branch.
+    /// </summary>
+    [CliOption("--git")]
+    public string? Git { get; set; }
+
     /// <summary>
     /// The DEP operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Dep { get; set; }
+
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!(Dep?.Any() == true || !string.IsNullOrWhiteSpace(Path) || !string.IsNullOrWhiteSpace(Git)))
+        {
+            yield return new ValidationResult("At least one of Dep, Path, or Git must be specified.", [nameof(Dep), nameof(Path), nameof(Git)]);
+        }
+    }
 
 }
