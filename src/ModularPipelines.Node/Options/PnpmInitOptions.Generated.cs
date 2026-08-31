@@ -29,8 +29,8 @@ public record PnpmInitOptions : PnpmOptions
     /// <summary>
     /// Pin the pnpm version in package.json, through "devEngines.packageManager" and "packageManager", and auto-download pnpm when it is missing
     /// </summary>
-    [CliOption("--init-package-manager")]
-    public string? InitPackageManager { get; set; }
+    [CliFlag("--init-package-manager")]
+    public bool? InitPackageManager { get; set; }
 
     /// <summary>
     /// Set the module system for the package. Defaults to "module".

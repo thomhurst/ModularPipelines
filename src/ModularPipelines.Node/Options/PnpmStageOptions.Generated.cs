@@ -30,14 +30,14 @@ public record PnpmStageOptions : PnpmOptions
     /// <summary>
     /// Does everything stage publish would do except uploading to the registry.
     /// </summary>
-    [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Show information in JSON format for list, view, publish, and download.
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// One-time password for approve and reject.
@@ -73,8 +73,8 @@ public record PnpmStageOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

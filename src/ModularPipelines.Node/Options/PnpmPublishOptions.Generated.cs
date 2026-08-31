@@ -30,20 +30,20 @@ public record PnpmPublishOptions : PnpmOptions
     /// <summary>
     /// Send all packages to the registry in a single request instead of one request per package. Requires --recursive and a registry that implements the "/-/pnpm/v1/publish" endpoint (for example, pnpr)
     /// </summary>
-    [CliOption("--batch")]
-    public string? Batch { get; set; }
+    [CliFlag("--batch")]
+    public bool? Batch { get; set; }
 
     /// <summary>
     /// Does everything a publish would do except actually publishing to the registry
     /// </summary>
-    [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Packages are proceeded to be published even if their current version is already in the registry. This is useful when a "prepublishOnly" script bumps the version of the package before it is published
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
@@ -54,8 +54,8 @@ public record PnpmPublishOptions : PnpmOptions
     /// <summary>
     /// Show information in JSON format
     /// </summary>
-    [CliOption("--json")]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Don't check if current branch is your publish branch, clean, and up to date
@@ -85,14 +85,14 @@ public record PnpmPublishOptions : PnpmOptions
     /// <summary>
     /// Save the list of the newly published packages to "pnpm-publish-summary.json". Useful when some other tooling is used to report the list of published packages.
     /// </summary>
-    [CliOption("--report-summary")]
-    public string? ReportSummary { get; set; }
+    [CliFlag("--report-summary")]
+    public bool? ReportSummary { get; set; }
 
     /// <summary>
     /// Skip pnpm's manifest obfuscation: keep the original `packageManager` field and publish lifecycle scripts in the published manifest instead of stripping them. The pnpm-specific `pnpm` field is still omitted.
     /// </summary>
-    [CliOption("--skip-manifest-obfuscation")]
-    public string? SkipManifestObfuscation { get; set; }
+    [CliFlag("--skip-manifest-obfuscation")]
+    public bool? SkipManifestObfuscation { get; set; }
 
     /// <summary>
     /// Registers the published package with the given tag. By default, the "latest" tag is used.
@@ -109,8 +109,8 @@ public record PnpmPublishOptions : PnpmOptions
     /// <summary>
     /// If no projects are matched by the command, exit with exit code 1 (fail)
     /// </summary>
-    [CliOption("--fail-if-no-match")]
-    public string? FailIfNoMatch { get; set; }
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"

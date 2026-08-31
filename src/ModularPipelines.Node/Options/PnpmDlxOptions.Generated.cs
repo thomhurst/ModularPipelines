@@ -22,11 +22,6 @@ public record PnpmDlxOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
 ) : PnpmOptions
 {
-    public PnpmDlxOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// A list of package names that are allowed to run postinstall scripts during installation
     /// </summary>
@@ -42,8 +37,8 @@ public record PnpmDlxOptions(
     /// <summary>
     /// Runs the script inside of a shell. Uses /bin/sh on UNIX and \cmd.exe on Windows.
     /// </summary>
-    [CliOption("--shell-mode", ShortForm = "-c")]
-    public string? ShellMode { get; set; }
+    [CliFlag("--shell-mode", ShortForm = "-c")]
+    public bool? ShellMode { get; set; }
 
     /// <summary>
     /// The args operand.
