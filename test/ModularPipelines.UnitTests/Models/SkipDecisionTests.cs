@@ -78,20 +78,4 @@ public class SkipDecisionTests
             await Assert.That(skipDecision.Reason).IsEqualTo(shouldSkip ? "Blah!" : null);
         }
     }
-
-    [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task Of_ForwardsToWhen(bool shouldSkip)
-    {
-#pragma warning disable CS0618 // Verifies the compatibility alias.
-        var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
-#pragma warning restore CS0618
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(skipDecision.ShouldSkip).IsEqualTo(shouldSkip);
-            await Assert.That(skipDecision.Reason).IsEqualTo(shouldSkip ? "Blah!" : null);
-        }
-    }
 }

@@ -267,19 +267,6 @@ internal sealed class CommandLineBuilder(
                     phase,
                     isGlobalOption)
                 .ToList();
-            if (phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
-                && phaseAdditionalArguments.Count > 0)
-            {
-                if (emittedOptionTerminator)
-                {
-                    throw new InvalidOperationException(
-                        "An additional end-of-options marker cannot follow one that was already emitted.");
-                }
-
-                emittedOptionTerminatorIndex = result.Count;
-                emittedOptionTerminator = true;
-            }
-
             result.AddRange(phaseAdditionalArguments);
 
             var phaseModel = commandModel.Where(part => part.Phase == phase).ToList();
@@ -335,29 +322,13 @@ internal sealed class CommandLineBuilder(
                     nameof(CommandLineToolOptions.AdditionalArguments));
             }
 
-            if (argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
-                && argument.Value != "--")
+            if (argument.Value == "--")
             {
                 throw new ArgumentException(
-                    "The legacy end-of-options phase only accepts the '--' marker.",
+                    "The '--' marker must be emitted by CliArgumentAttribute option-terminator settings "
+                    + "or declared manual arguments.",
                     nameof(CommandLineToolOptions.AdditionalArguments));
             }
-
-            if (argument.Value == "--"
-                && argument.Phase != CommandLinePhaseCompatibility.LegacyEndOfOptions)
-            {
-                throw new ArgumentException(
-                    "The '--' marker must use the legacy end-of-options phase.",
-                    nameof(CommandLineToolOptions.AdditionalArguments));
-            }
-        }
-
-        if (additionalArguments.Count(argument =>
-                argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions) > 1)
-        {
-            throw new ArgumentException(
-                "Additional arguments can contain at most one end-of-options marker.",
-                nameof(CommandLineToolOptions.AdditionalArguments));
         }
     }
 

@@ -98,7 +98,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         CommandLinePhase.EarlyOperand => 0,
         CommandLinePhase.Normal => 1,
-        CommandLinePhaseCompatibility.LegacyEndOfOptions => 2,
         CommandLinePhase.Passthrough => 3,
         CommandLinePhase.Terminal => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
@@ -134,14 +133,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         else
         {
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
-            if (phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
-                && rendered.IndexOf("--") is var terminatorIndex
-                && terminatorIndex >= 0)
-            {
-                optionTerminatorIndex = terminatorIndex;
-                emittedOptionTerminator = true;
-            }
-
             AddArguments(
                 rendered,
                 phaseArguments,
@@ -225,17 +216,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             throw new InvalidOperationException(
                 "CLI flags or options cannot be rendered after an end-of-options marker "
                 + "emitted by an earlier property group.");
-        }
-
-        var legacyOptionTerminatorRendered = renderedOptionValues.Any(static pair =>
-            pair.Key.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
-            && pair.Value.Contains("--", StringComparer.Ordinal));
-        if (legacyOptionTerminatorRendered
-            && renderedOptions.Any(static option =>
-                GetRenderOrder(option.Phase) > GetRenderOrder(CommandLinePhaseCompatibility.LegacyEndOfOptions)))
-        {
-            throw new InvalidOperationException(
-                "CLI flags or options cannot be rendered after a legacy end-of-options marker.");
         }
 
         foreach (var argument in arguments)

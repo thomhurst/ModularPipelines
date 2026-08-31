@@ -18,12 +18,6 @@ public enum CommandLinePhase
     Normal = 1,
 
     /// <summary>
-    /// Compatibility phase for end-of-options flags emitted by older generated packages.
-    /// </summary>
-    [Obsolete("Use CliArgumentAttribute.PrependOptionTerminator instead.")]
-    EndOfOptions = 2,
-
-    /// <summary>
     /// A final option that must follow regular options and positional operands.
     /// </summary>
     Terminal = 4,
@@ -32,9 +26,4 @@ public enum CommandLinePhase
     /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
     Passthrough = 3,
-}
-
-internal static class CommandLinePhaseCompatibility
-{
-    internal const CommandLinePhase LegacyEndOfOptions = (CommandLinePhase) 2;
 }

@@ -601,35 +601,6 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Renders_Legacy_EndOfOptions_Phase()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestLegacyEndOfOptionsOptions
-        {
-            EndOfOptions = true,
-            Filter = "-1",
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("jq -- -1");
-    }
-
-    [Test]
-    public async Task Build_Preserves_Declared_Manual_Marker_With_Legacy_Flag()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestLegacyEndOfOptionsOptions
-        {
-            Arguments = ["--", "tail"],
-            ArgumentsContainOptionTerminator = true,
-            ArgumentsContainToolOptions = true,
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("jq -- tail");
-    }
-
-    [Test]
     public async Task Build_Rejects_Manual_Terminal_Options_With_Manual_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1535,7 +1506,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Rejects_Additional_Terminator_Outside_Legacy_Phase()
+    public async Task Build_Rejects_Additional_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
         CommandLinePhase[] phases =
@@ -1556,7 +1527,7 @@ public class CommandLineBuilderTests : TestBase
 
             await Assert.That(Build)
                 .Throws<ArgumentException>()
-                .And.HasMessageContaining("legacy end-of-options phase");
+                .And.HasMessageContaining("CliArgumentAttribute");
         }
     }
 
@@ -2208,16 +2179,6 @@ public class CommandLineBuilderTests : TestBase
         public bool? CompactOutput { get; set; }
 
         [CliArgument(0)]
-        public string? Filter { get; set; }
-    }
-
-    [CliTool("jq")]
-    private record TestLegacyEndOfOptionsOptions : CommandLineToolOptions
-    {
-        [CliFlag("--", Phase = (CommandLinePhase) 2)]
-        public bool? EndOfOptions { get; set; }
-
-        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
         public string? Filter { get; set; }
     }
 

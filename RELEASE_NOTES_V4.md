@@ -186,7 +186,8 @@ have also been deleted.
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use
 `SkipDecision.When(bool, string?)` when constructing a decision directly.
-`SkipDecision.Of(bool, string?)` remains as an obsolete compatibility alias.
+`SkipDecision.Of(bool, string?)` has been removed; use `When` or a `WithSkipWhen`
+predicate overload.
 
 Asynchronous module predicates now consistently use `ValueTask`. The
 `ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous
