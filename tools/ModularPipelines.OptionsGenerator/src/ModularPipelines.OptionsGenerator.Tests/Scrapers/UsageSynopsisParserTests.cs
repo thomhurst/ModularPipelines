@@ -32,7 +32,7 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Parses_Indented_Synopsis_Sections()
+    public async Task Parses_Indented_Opted_In_Synopsis_Sections()
     {
         const string helpText = """
             SYNOPSIS
@@ -41,7 +41,8 @@ public class UsageSynopsisParserTests
 
         var result = UsageSynopsisParser.Parse(
             helpText,
-            ["aws", "s3", "future-command"]);
+            ["aws", "s3", "future-command"],
+            acceptedHeadings: ["usage", "synopsis"]);
 
         using (Assert.Multiple())
         {
@@ -49,6 +50,23 @@ public class UsageSynopsisParserTests
                 .IsEquivalentTo(["Source", "Destination"]);
             await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
             await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Default_Scraper_Ignores_Synopsis_Sections()
+    {
+        const string helpText = """
+            SYNOPSIS
+                tool <TARGET>
+            """;
+
+        var result = new CountingUsageScraper().ParseUsage(["tool"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.HasExtractedSynopses).IsFalse();
+            await Assert.That(result.PositionalArguments).IsEmpty();
         }
     }
 
@@ -1094,6 +1112,9 @@ public class UsageSynopsisParserTests
         }
 
         public int UsageParseCount { get; private set; }
+
+        public UsageSynopsisParseResult ParseUsage(string[] commandPath, string helpText) =>
+            ParseUsageSynopsis(commandPath, helpText);
 
         public override string ToolName => "tool";
 
