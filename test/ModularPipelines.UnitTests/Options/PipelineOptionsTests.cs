@@ -399,6 +399,31 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task LoggingServiceViewReplaceUsesSharedRegistrationOrder()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("application-first"));
+        builder.Logging.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("logging-second"));
+        builder.Logging.Services.Replace(
+            ServiceDescriptor.Singleton<IConfigureOptions<RegistrationOrderOptions>>(
+                new ConfigureNamedOptions<RegistrationOrderOptions>(
+                    Microsoft.Extensions.Options.Options.DefaultName,
+                    options => options.Calls.Add("replacement"))));
+
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services
+            .GetRequiredService<IOptions<RegistrationOrderOptions>>()
+            .Value;
+
+        await Assert.That(options.Calls)
+            .IsEquivalentTo(["logging-second", "replacement"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task LoggingInsertAtBoundaryPrecedesApplicationRegistration()
     {
         var builder = TestPipelineBuilder.Create()

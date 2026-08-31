@@ -78,6 +78,7 @@ public sealed class PipelineBuilder
             .OfType<Type>()
             .ToHashSet();
         Logging = new PipelineLoggingBuilder(new PipelineLoggingServiceCollection(
+            _serviceRegistrationOrder,
             _loggingServices,
             _services));
         _configuration = new ConfigurationManager();
@@ -705,6 +706,8 @@ public sealed class PipelineBuilder
         }
 
         public void Remove(OrderedServiceDescriptor entry) => _entries.Remove(entry);
+
+        public int IndexOf(OrderedServiceDescriptor entry) => _entries.IndexOf(entry);
     }
 
     private sealed class OrderedServiceDescriptor(ServiceDescriptor descriptor)
@@ -763,14 +766,33 @@ public sealed class PipelineBuilder
             _entries.Insert(index, entry);
         }
 
-        public void AppendBefore(
-            OrderedServiceCollection followingCollection,
+        public void InsertBefore(
+            OrderedServiceDescriptor? followingEntry,
             ServiceDescriptor item)
         {
-            var entry = followingCollection._entries.Count > 0
-                ? registrationOrder.InsertBefore(followingCollection._entries[0], item)
+            var entry = followingEntry is not null
+                ? registrationOrder.InsertBefore(followingEntry, item)
                 : registrationOrder.Add(item);
-            _entries.Add(entry);
+            var followingIndex = followingEntry is null
+                ? -1
+                : registrationOrder.IndexOf(followingEntry);
+            var localIndex = followingIndex < 0
+                ? -1
+                : _entries.FindIndex(candidate =>
+                    registrationOrder.IndexOf(candidate) >= followingIndex);
+            _entries.Insert(localIndex < 0 ? _entries.Count : localIndex, entry);
+        }
+
+        public bool Remove(OrderedServiceDescriptor entry)
+        {
+            var index = _entries.IndexOf(entry);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
         }
 
         public bool Remove(ServiceDescriptor item)
@@ -801,25 +823,14 @@ public sealed class PipelineBuilder
     }
 
     private sealed class PipelineLoggingServiceCollection(
+        ServiceRegistrationOrder registrationOrder,
         OrderedServiceCollection loggingServices,
         OrderedServiceCollection applicationServices) : IServiceCollection
     {
         public ServiceDescriptor this[int index]
         {
-            get => index < loggingServices.Count
-                ? loggingServices[index]
-                : applicationServices[index - loggingServices.Count];
-            set
-            {
-                if (index < loggingServices.Count)
-                {
-                    loggingServices[index] = value;
-                }
-                else
-                {
-                    applicationServices[index - loggingServices.Count] = value;
-                }
-            }
+            get => registrationOrder.Entries[index].Descriptor;
+            set => registrationOrder.Entries[index].Descriptor = value;
         }
 
         public int Count => loggingServices.Count + applicationServices.Count;
@@ -842,34 +853,30 @@ public sealed class PipelineBuilder
         }
 
         public IEnumerator<ServiceDescriptor> GetEnumerator() =>
-            loggingServices.Concat(applicationServices).GetEnumerator();
+            registrationOrder.Entries
+                .Select(static entry => entry.Descriptor)
+                .GetEnumerator();
 
         public int IndexOf(ServiceDescriptor item)
         {
-            var loggingIndex = loggingServices.IndexOf(item);
-            if (loggingIndex >= 0)
+            for (var index = 0; index < registrationOrder.Entries.Count; index++)
             {
-                return loggingIndex;
+                if (Equals(registrationOrder.Entries[index].Descriptor, item))
+                {
+                    return index;
+                }
             }
 
-            var applicationIndex = applicationServices.IndexOf(item);
-            return applicationIndex < 0 ? -1 : loggingServices.Count + applicationIndex;
+            return -1;
         }
 
         public void Insert(int index, ServiceDescriptor item)
         {
-            if (index < loggingServices.Count)
-            {
-                loggingServices.Insert(index, item);
-            }
-            else if (index == loggingServices.Count)
-            {
-                loggingServices.AppendBefore(applicationServices, item);
-            }
-            else
-            {
-                applicationServices.Insert(index - loggingServices.Count, item);
-            }
+            ArgumentOutOfRangeException.ThrowIfGreaterThan((uint) index, (uint) Count);
+            var followingEntry = index < Count
+                ? registrationOrder.Entries[index]
+                : null;
+            loggingServices.InsertBefore(followingEntry, item);
         }
 
         public bool Remove(ServiceDescriptor item) =>
@@ -877,14 +884,8 @@ public sealed class PipelineBuilder
 
         public void RemoveAt(int index)
         {
-            if (index < loggingServices.Count)
-            {
-                loggingServices.RemoveAt(index);
-            }
-            else
-            {
-                applicationServices.RemoveAt(index - loggingServices.Count);
-            }
+            var entry = registrationOrder.Entries[index];
+            _ = loggingServices.Remove(entry) || applicationServices.Remove(entry);
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
