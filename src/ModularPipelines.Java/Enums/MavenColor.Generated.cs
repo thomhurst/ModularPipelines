@@ -17,11 +17,11 @@ namespace ModularPipelines.Java.Enums;
 public enum MavenColor
 {
     [EnumValue("auto")]
-    Auto = 0,
+    Auto,
 
     [EnumValue("always")]
-    Always = 1,
+    Always,
 
     [EnumValue("never")]
-    Never = 2
+    Never
 }
