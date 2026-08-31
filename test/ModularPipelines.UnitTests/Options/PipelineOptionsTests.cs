@@ -35,6 +35,11 @@ public class PipelineOptionsTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    private sealed class RegistrationOrderOptions
+    {
+        public List<string> Calls { get; } = [];
+    }
+
     [Test]
     [Arguments(typeof(PipelineBuilderSettings))]
     [Arguments(typeof(PipelineOptions))]
@@ -372,6 +377,28 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task PipelineBuilderPreservesRegistrationOrderAcrossServiceViews()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Logging.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("logging-first"));
+        builder.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("application-second"));
+        builder.Logging.Services.Configure<RegistrationOrderOptions>(options =>
+            options.Calls.Add("logging-third"));
+
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services
+            .GetRequiredService<IOptions<RegistrationOrderOptions>>()
+            .Value;
+
+        await Assert.That(options.Calls)
+            .IsEquivalentTo(["logging-first", "application-second", "logging-third"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task PipelineBuilderLoggingCanClearFrameworkProviders()
     {
         var loggerProvider = new TestLoggerProvider();
@@ -487,11 +514,23 @@ public class PipelineOptionsTests
         var secretOptions = pipeline.Services
             .GetRequiredService<IOptions<SecretMaskingOptions>>()
             .Value;
+        var secretSnapshot = pipeline.Services
+            .GetRequiredService<IOptionsSnapshot<SecretMaskingOptions>>()
+            .Value;
+        var secretMonitor = pipeline.Services
+            .GetRequiredService<IOptionsMonitor<SecretMaskingOptions>>()
+            .CurrentValue;
+        var secretFactory = pipeline.Services
+            .GetRequiredService<IOptionsFactory<SecretMaskingOptions>>()
+            .Create(Microsoft.Extensions.Options.Options.DefaultName);
 
         using (Assert.Multiple())
         {
             await Assert.That(pipelineOptions.Secrets).IsSameReferenceAs(expected);
             await Assert.That(secretOptions).IsSameReferenceAs(expected);
+            await Assert.That(secretSnapshot).IsSameReferenceAs(expected);
+            await Assert.That(secretMonitor).IsSameReferenceAs(expected);
+            await Assert.That(secretFactory).IsSameReferenceAs(expected);
         }
     }
 

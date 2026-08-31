@@ -39,8 +39,9 @@ namespace ModularPipelines;
 public sealed class PipelineBuilder
 {
     private readonly IHostBuilder _hostBuilder;
-    private readonly ServiceCollection _services;
-    private readonly ServiceCollection _loggingServices;
+    private readonly ServiceRegistrationOrder _serviceRegistrationOrder;
+    private readonly OrderedServiceCollection _services;
+    private readonly OrderedServiceCollection _loggingServices;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
     private readonly PipelineBuilderResources _resources;
@@ -64,8 +65,9 @@ public sealed class PipelineBuilder
                 HostArguments = settings.Args?.ToArray() ?? [],
             };
         var args = _commandLineOptions.HostArguments.ToArray();
-        _services = new ServiceCollection();
-        _loggingServices = new ServiceCollection();
+        _serviceRegistrationOrder = new ServiceRegistrationOrder();
+        _services = new OrderedServiceCollection(_serviceRegistrationOrder);
+        _loggingServices = new OrderedServiceCollection(_serviceRegistrationOrder);
         DependencyInjectionSetup.RegisterDefaultLogging(_loggingServices);
         _defaultLoggingServiceDescriptors = _loggingServices.ToArray();
         _defaultLoggingProviderDescriptors = _defaultLoggingServiceDescriptors
@@ -356,14 +358,10 @@ public sealed class PipelineBuilder
                 }
             }
 
-            // Add user-registered services before plugins so plugins can inspect user configuration
-            foreach (var descriptor in _services)
-            {
-                services.Add(descriptor);
-            }
-
-            foreach (var descriptor in _loggingServices
-                         .Where(descriptor => !_defaultLoggingServiceDescriptors.Contains(descriptor)))
+            // Add user registrations in their original cross-view order before plugins.
+            foreach (var descriptor in _serviceRegistrationOrder.Entries
+                         .Where(entry => !_defaultLoggingServiceDescriptors.Contains(entry.Descriptor))
+                         .Select(static entry => entry.Descriptor))
             {
                 services.Add(descriptor);
             }
@@ -398,9 +396,16 @@ public sealed class PipelineBuilder
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
                 .AddSingleton<IOptionsFactory<PipelineOptions>>(provider =>
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton(provider => new FixedNestedOptions<SecretMaskingOptions>(
+                    provider.GetRequiredService<IOptions<PipelineOptions>>().Value.Secrets))
                 .AddSingleton<IOptions<SecretMaskingOptions>>(provider =>
-                    Microsoft.Extensions.Options.Options.Create(
-                        provider.GetRequiredService<IOptions<PipelineOptions>>().Value.Secrets));
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsSnapshot<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsMonitor<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>())
+                .AddSingleton<IOptionsFactory<SecretMaskingOptions>>(provider =>
+                    provider.GetRequiredService<FixedNestedOptions<SecretMaskingOptions>>());
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
@@ -677,14 +682,117 @@ public sealed class PipelineBuilder
         }
     }
 
+    private sealed class ServiceRegistrationOrder
+    {
+        private readonly List<OrderedServiceDescriptor> _entries = [];
+
+        public IReadOnlyList<OrderedServiceDescriptor> Entries => _entries;
+
+        public OrderedServiceDescriptor Add(ServiceDescriptor descriptor)
+        {
+            var entry = new OrderedServiceDescriptor(descriptor);
+            _entries.Add(entry);
+            return entry;
+        }
+
+        public OrderedServiceDescriptor InsertBefore(
+            OrderedServiceDescriptor target,
+            ServiceDescriptor descriptor)
+        {
+            var entry = new OrderedServiceDescriptor(descriptor);
+            _entries.Insert(_entries.IndexOf(target), entry);
+            return entry;
+        }
+
+        public void Remove(OrderedServiceDescriptor entry) => _entries.Remove(entry);
+    }
+
+    private sealed class OrderedServiceDescriptor(ServiceDescriptor descriptor)
+    {
+        public ServiceDescriptor Descriptor { get; set; } = descriptor;
+    }
+
+    private sealed class OrderedServiceCollection(ServiceRegistrationOrder registrationOrder)
+        : IServiceCollection
+    {
+        private readonly List<OrderedServiceDescriptor> _entries = [];
+
+        public ServiceDescriptor this[int index]
+        {
+            get => _entries[index].Descriptor;
+            set => _entries[index].Descriptor = value;
+        }
+
+        public int Count => _entries.Count;
+
+        public bool IsReadOnly => false;
+
+        public void Add(ServiceDescriptor item) => _entries.Add(registrationOrder.Add(item));
+
+        public void Clear()
+        {
+            foreach (var entry in _entries)
+            {
+                registrationOrder.Remove(entry);
+            }
+
+            _entries.Clear();
+        }
+
+        public bool Contains(ServiceDescriptor item) => IndexOf(item) >= 0;
+
+        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        {
+            foreach (var entry in _entries)
+            {
+                array[arrayIndex++] = entry.Descriptor;
+            }
+        }
+
+        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
+            _entries.Select(static entry => entry.Descriptor).GetEnumerator();
+
+        public int IndexOf(ServiceDescriptor item) =>
+            _entries.FindIndex(entry => Equals(entry.Descriptor, item));
+
+        public void Insert(int index, ServiceDescriptor item)
+        {
+            var entry = index < _entries.Count
+                ? registrationOrder.InsertBefore(_entries[index], item)
+                : registrationOrder.Add(item);
+            _entries.Insert(index, entry);
+        }
+
+        public bool Remove(ServiceDescriptor item)
+        {
+            var index = IndexOf(item);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            RemoveAt(index);
+            return true;
+        }
+
+        public void RemoveAt(int index)
+        {
+            registrationOrder.Remove(_entries[index]);
+            _entries.RemoveAt(index);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
+    }
+
     private sealed class PipelineLoggingBuilder(IServiceCollection services) : ILoggingBuilder
     {
         public IServiceCollection Services { get; } = services;
     }
 
     private sealed class PipelineLoggingServiceCollection(
-        ServiceCollection loggingServices,
-        ServiceCollection applicationServices) : IServiceCollection
+        IServiceCollection loggingServices,
+        IServiceCollection applicationServices) : IServiceCollection
     {
         public ServiceDescriptor this[int index]
         {
@@ -924,6 +1032,21 @@ public sealed class PipelineBuilder
                     typeof(T),
                     failures);
         }
+    }
+
+    private sealed class FixedNestedOptions<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(T value)
+        : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>, IOptionsFactory<T>
+        where T : class
+    {
+        public T Value { get; } = value;
+
+        public T CurrentValue => Value;
+
+        public T Get(string? name) => Value;
+
+        public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+
+        public T Create(string name) => Value;
     }
 
     private sealed class NoopDisposable : IDisposable
