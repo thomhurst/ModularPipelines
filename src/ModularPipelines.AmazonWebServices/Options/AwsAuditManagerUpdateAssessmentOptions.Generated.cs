@@ -48,7 +48,7 @@ public record AwsAuditManagerUpdateAssessmentOptions : AwsOptions
     /// <summary>
     /// The list of roles for the assessment. (structure) The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Re- source Name (ARN). roleType -&gt; (string) [required] The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* Shorthand Syntax: roleType=string,roleArn=string ... JSON Syntax: [ { "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER", "roleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--roles")]
+    [CliOption("--roles", GroupValues = true)]
     public IEnumerable<string>? Roles { get; set; }
 
     [CliOption("--cli-input-json")]

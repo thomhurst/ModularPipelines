@@ -31,7 +31,7 @@ public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions
     /// <summary>
     /// The runtime parameter values that override the defaults in the stored query. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

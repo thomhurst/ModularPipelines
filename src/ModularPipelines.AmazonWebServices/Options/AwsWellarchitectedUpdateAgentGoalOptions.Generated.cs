@@ -38,7 +38,7 @@ public record AwsWellarchitectedUpdateAgentGoalOptions : AwsOptions
     /// <summary>
     /// The updated pillars for the goal. Pillars define the optimization focus areas such as cost, performance, resilience, and operational excellence. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pillars")]
+    [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
 
     /// <summary>

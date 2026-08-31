@@ -28,7 +28,7 @@ public record AwsVpcLatticeListTargetsOptions : AwsOptions
     /// <summary>
     /// The targets. Constraints: o min: 0 o max: 20 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
     /// </summary>
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]

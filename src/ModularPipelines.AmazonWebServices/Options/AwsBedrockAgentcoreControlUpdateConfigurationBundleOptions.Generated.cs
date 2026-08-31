@@ -48,13 +48,13 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     /// <summary>
     /// The updated component configurations. Creates a new version of the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
     /// </summary>
-    [CliOption("--components")]
+    [CliOption("--components", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Components { get; set; }
 
     /// <summary>
     /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--parent-version-ids")]
+    [CliOption("--parent-version-ids", GroupValues = true)]
     public IEnumerable<string>? ParentVersionIds { get; set; }
 
     /// <summary>

@@ -32,7 +32,7 @@ public record AwsQconnectSearchQuickResponsesOptions : AwsOptions
     /// <summary>
     /// The user-defined Amazon Connect contact attributes to be resolved when search results are returned. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -45,7 +45,7 @@ public record AwsRoute53RecoveryControlConfigCreateSafetyRuleOptions : AwsOption
     /// <summary>
     /// The tags associated with the safety rule. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

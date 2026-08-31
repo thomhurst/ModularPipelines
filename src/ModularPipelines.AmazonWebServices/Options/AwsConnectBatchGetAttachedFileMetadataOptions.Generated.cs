@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("connect", "batch-get-attached-file-metadata")]
 public record AwsConnectBatchGetAttachedFileMetadataOptions : AwsOptions
 {
-    [CliOption("--file-ids")]
+    [CliOption("--file-ids", GroupValues = true)]
     public IEnumerable<string>? FileIds { get; set; }
 
     [CliOption("--instance-id")]

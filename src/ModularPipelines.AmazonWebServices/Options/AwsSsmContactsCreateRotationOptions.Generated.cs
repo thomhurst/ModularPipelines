@@ -25,7 +25,7 @@ public record AwsSsmContactsCreateRotationOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--contact-ids")]
+    [CliOption("--contact-ids", GroupValues = true)]
     public IEnumerable<string>? ContactIds { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record AwsSsmContactsCreateRotationOptions : AwsOptions
     /// <summary>
     /// Optional metadata to assign to the rotation. Tags enable you to cat- egorize a resource in different ways, such as by purpose, owner, or environment. For more information, see Tagging Incident Manager re- sources in the Incident Manager User Guide . Constraints: o min: 0 o max: 50 (structure) A container of a key-value name pair. Key -&gt; (string) Name of the object key. Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Value -&gt; (string) Value of the tag. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

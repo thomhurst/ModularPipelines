@@ -74,7 +74,7 @@ public record AwsDatasyncUpdateLocationSmbOptions : AwsOptions
     /// <summary>
     /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--agent-arns")]
+    [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
@@ -92,7 +92,7 @@ public record AwsDatasyncUpdateLocationSmbOptions : AwsOptions
     /// <summary>
     /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if Au- thenticationType is set to KERBEROS . If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server. Constraints: o max: 2 (string) Constraints: o min: 7 o max: 39 o pattern: \A((25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))\z Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dns-ip-addresses")]
+    [CliOption("--dns-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? DnsIpAddresses { get; set; }
 
     /// <summary>

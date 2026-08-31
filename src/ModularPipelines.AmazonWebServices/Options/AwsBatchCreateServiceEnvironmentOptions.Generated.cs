@@ -35,13 +35,13 @@ public record AwsBatchCreateServiceEnvironmentOptions : AwsOptions
     [CliOption("--state")]
     public AwsBatchCreateServiceEnvironmentState? State { get; set; }
 
-    [CliOption("--capacity-limits")]
+    [CliOption("--capacity-limits", GroupValues = true)]
     public IEnumerable<string>? CapacityLimits { get; set; }
 
     /// <summary>
     /// The tags that you apply to the service environment to help you cate- gorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch re- sources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

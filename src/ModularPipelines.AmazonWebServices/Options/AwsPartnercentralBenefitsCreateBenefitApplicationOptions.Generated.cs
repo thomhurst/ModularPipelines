@@ -47,7 +47,7 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
     /// <summary>
     /// The types of fulfillment requested for this benefit application (e.g., credits, access, disbursement). (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fulfillment-types")]
+    [CliOption("--fulfillment-types", GroupValues = true)]
     public IEnumerable<string>? FulfillmentTypes { get; set; }
 
     /// <summary>
@@ -59,25 +59,25 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
     /// <summary>
     /// Key-value pairs to categorize and organize the benefit application. Constraints: o min: 0 o max: 200 (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or con- text for the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// AWS resources that are associated with this benefit application. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--associated-resources")]
+    [CliOption("--associated-resources", GroupValues = true)]
     public IEnumerable<string>? AssociatedResources { get; set; }
 
     /// <summary>
     /// Contact information for partner representatives responsible for this benefit application. Constraints: o min: 0 o max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: o min: 0 o max: 80 o pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: o min: 0 o max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: o min: 0 o max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: o min: 0 o max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
     /// </summary>
-    [CliOption("--partner-contacts")]
+    [CliOption("--partner-contacts", GroupValues = true)]
     public IEnumerable<string>? PartnerContacts { get; set; }
 
     /// <summary>
     /// Supporting documents and files attached to the benefit application. Constraints: o min: 0 o max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: o min: 1 o max: 2000 o pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
     /// </summary>
-    [CliOption("--file-details")]
+    [CliOption("--file-details", GroupValues = true)]
     public IEnumerable<string>? FileDetails { get; set; }
 
     [CliOption("--cli-input-json")]

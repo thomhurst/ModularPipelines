@@ -25,7 +25,7 @@ public record AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions
     /// <summary>
     /// A list of filters to apply when retrieving recommended action sum- maries. Filters can be based on resource type, action type, account ID, and other criteria. (structure) A filter used to narrow down recommended action results based on specific criteria. name -&gt; (string) [required] The name of the filter field to apply. Possible values: o ResourceType o RecommendedActionType o ResourceId o LookBackPeriodInDays o CurrentResourceDetailsEbsVolumeType o ResourceTagsKey o ResourceTagsValue o AccountId o RestartNeeded values -&gt; (list) [required] List of filter values to match against the specified filter name. Used to narrow down recommended actions based on spe- cific criteria. (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\-_\.\*\?\s]+ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"RecommendedActionType"|"ResourceId"|"LookBackPeriodInDays"|"CurrentResourceDetailsEbsVolumeType"|"ResourceTagsKey"|"ResourceTagsValue"|"AccountId"|"RestartNeeded", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

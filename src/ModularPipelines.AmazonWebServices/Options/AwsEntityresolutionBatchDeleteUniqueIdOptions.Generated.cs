@@ -30,7 +30,7 @@ public record AwsEntityresolutionBatchDeleteUniqueIdOptions : AwsOptions
     [CliOption("--input-source")]
     public string? InputSource { get; set; }
 
-    [CliOption("--unique-ids")]
+    [CliOption("--unique-ids", GroupValues = true)]
     public IEnumerable<string>? UniqueIds { get; set; }
 
     [CliOption("--cli-input-json")]

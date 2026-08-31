@@ -73,7 +73,7 @@ public record AwsQbusinessUpdateWebExperienceOptions : AwsOptions
     /// <summary>
     /// Updates the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https ), the domain name, and the port number (if specified). NOTE: o Any values except null submitted as part of this update will replace all previous values. o You must only submit a base URL and not a full path. For exam- ple, https://docs.aws.amazon.com . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: (http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})? Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--origins")]
+    [CliOption("--origins", GroupValues = true)]
     public IEnumerable<string>? Origins { get; set; }
 
     /// <summary>

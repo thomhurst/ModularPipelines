@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "get-finding-statistics-v2")]
 public record AwsSecurityhubGetFindingStatisticsV2Options : AwsOptions
 {
-    [CliOption("--group-by-rules")]
+    [CliOption("--group-by-rules", GroupValues = true)]
     public IEnumerable<string>? GroupByRules { get; set; }
 
     /// <summary>

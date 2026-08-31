@@ -33,7 +33,7 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationOptions : AwsOp
     /// <summary>
     /// Blueprint list. Constraints: o min: 1 o max: 40 (structure) Blueprint. blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-insights-pub- lic-[a-zA-Z0-9-_]{1,30}|bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) version -&gt; (string) Version of blueprint. Constraints: o min: 1 o max: 128 o pattern: [0-9]* stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,version=string,stage=string ... JSON Syntax: [ { "blueprintArn": "string", "version": "string", "stage": "DEVELOPMENT"|"LIVE" } ... ]
     /// </summary>
-    [CliOption("--blueprints")]
+    [CliOption("--blueprints", GroupValues = true)]
     public IEnumerable<string>? Blueprints { get; set; }
 
     [CliOption("--data-automation-profile-arn")]

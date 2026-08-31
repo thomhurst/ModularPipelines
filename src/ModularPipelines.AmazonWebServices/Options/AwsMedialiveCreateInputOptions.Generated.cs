@@ -22,16 +22,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "create-input")]
 public record AwsMedialiveCreateInputOptions : AwsOptions
 {
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
-    [CliOption("--input-devices")]
+    [CliOption("--input-devices", GroupValues = true)]
     public IEnumerable<string>? InputDevices { get; set; }
 
-    [CliOption("--input-security-groups")]
+    [CliOption("--input-security-groups", GroupValues = true)]
     public IEnumerable<string>? InputSecurityGroups { get; set; }
 
-    [CliOption("--media-connect-flows")]
+    [CliOption("--media-connect-flows", GroupValues = true)]
     public IEnumerable<string>? MediaConnectFlows { get; set; }
 
     [CliOption("--name")]
@@ -43,10 +43,10 @@ public record AwsMedialiveCreateInputOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--type")]
@@ -67,7 +67,7 @@ public record AwsMedialiveCreateInputOptions : AwsOptions
     [CliOption("--smpte2110-receiver-group-settings")]
     public string? Smpte2110ReceiverGroupSettings { get; set; }
 
-    [CliOption("--sdi-sources")]
+    [CliOption("--sdi-sources", GroupValues = true)]
     public IEnumerable<string>? SdiSources { get; set; }
 
     [CliOption("--router-settings")]

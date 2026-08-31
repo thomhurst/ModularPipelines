@@ -37,7 +37,7 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CliOption("--instance-pools")]
+    [CliOption("--instance-pools", GroupValues = true)]
     public IEnumerable<string>? InstancePools { get; set; }
 
     /// <summary>

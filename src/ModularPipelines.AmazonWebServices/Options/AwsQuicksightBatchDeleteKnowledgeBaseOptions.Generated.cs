@@ -24,7 +24,7 @@ public record AwsQuicksightBatchDeleteKnowledgeBaseOptions : AwsOptions
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CliOption("--knowledge-base-ids")]
+    [CliOption("--knowledge-base-ids", GroupValues = true)]
     public IEnumerable<string>? KnowledgeBaseIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsLicenseManagerUserSubscriptionsListProductSubscriptionsOptions 
     /// <summary>
     /// You can use the following filters to streamline results: o Status o Username o Domain (structure) A filter name and value pair that is used to return more spe- cific results from a describe or list operation. You can use filters can be used to match a set of resources by specific cri- teria, such as tags, attributes, or IDs. Attribute -&gt; (string) The name of an attribute to use as a filter. Operation -&gt; (string) The type of search (For example, eq, geq, leq) Value -&gt; (string) Value of the filter. Shorthand Syntax: Attribute=string,Operation=string,Value=string ... JSON Syntax: [ { "Attribute": "string", "Operation": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

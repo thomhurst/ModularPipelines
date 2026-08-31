@@ -31,19 +31,19 @@ public record AwsSsmUpdateOpsItemOptions : AwsOptions
     /// <summary>
     /// Add new keys or edit existing key-value pairs of the OperationalData map in the OpsItem object. Operational data is custom data that provides useful reference de- tails about the OpsItem. For example, you can specify log files, er- ror strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. WARNING: Operational data keys can't begin with the following: amazon , aws , amzn , ssm , /amazon , /aws , /amzn , /ssm . You can choose to make the data searchable by other users in the ac- count or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only view- able by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in Opera- tionalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating OpsItems manually in the Amazon Web Services Systems Manager User Guide . key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+ value -&gt; (structure) An object that defines the value of the key and its type in the OperationalData map. Value -&gt; (string) The value of the OperationalData key. Constraints: o pattern: [\s\S]*\S[\s\S]* Type -&gt; (string) The type of key-value pair. Valid types include Search- ableString and String . Possible values: o SearchableString o String Shorthand Syntax: KeyName1={Value=string,Type=string},KeyName2={Value=string,Type=string} JSON Syntax: {"string": { "Value": "string", "Type": "SearchableString"|"String" } ...}
     /// </summary>
-    [CliOption("--operational-data")]
+    [CliOption("--operational-data", GroupValues = true)]
     public IReadOnlyList<KeyValue>? OperationalData { get; set; }
 
     /// <summary>
     /// Keys that you want to remove from the OperationalData map. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operational-data-to-delete")]
+    [CliOption("--operational-data-to-delete", GroupValues = true)]
     public IEnumerable<string>? OperationalDataToDelete { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed. (structure) A notification about the OpsItem. Arn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notifica- tion Service (Amazon SNS) topic where notifications are sent when this OpsItem is edited or changed. Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
     /// </summary>
-    [CliOption("--notifications")]
+    [CliOption("--notifications", GroupValues = true)]
     public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record AwsSsmUpdateOpsItemOptions : AwsOptions
     /// <summary>
     /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the im- pacted resource. (structure) An OpsItems that shares something in common with the current Op- sItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource. OpsItemId -&gt; (string) [required] The ID of an OpsItem related to the current OpsItem. Shorthand Syntax: OpsItemId=string ... JSON Syntax: [ { "OpsItemId": "string" } ... ]
     /// </summary>
-    [CliOption("--related-ops-items")]
+    [CliOption("--related-ops-items", GroupValues = true)]
     public IEnumerable<string>? RelatedOpsItems { get; set; }
 
     /// <summary>

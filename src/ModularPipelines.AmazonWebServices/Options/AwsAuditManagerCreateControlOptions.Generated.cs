@@ -49,13 +49,13 @@ public record AwsAuditManagerCreateControlOptions : AwsOptions
     [CliOption("--action-plan-instructions")]
     public string? ActionPlanInstructions { get; set; }
 
-    [CliOption("--control-mapping-sources")]
+    [CliOption("--control-mapping-sources", GroupValues = true)]
     public IEnumerable<string>? ControlMappingSources { get; set; }
 
     /// <summary>
     /// The tags that are associated with the control. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

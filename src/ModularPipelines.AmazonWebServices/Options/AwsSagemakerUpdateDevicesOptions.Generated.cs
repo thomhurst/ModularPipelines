@@ -24,7 +24,7 @@ public record AwsSagemakerUpdateDevicesOptions : AwsOptions
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; set; }
 
-    [CliOption("--devices")]
+    [CliOption("--devices", GroupValues = true)]
     public IEnumerable<string>? Devices { get; set; }
 
     [CliOption("--cli-input-json")]

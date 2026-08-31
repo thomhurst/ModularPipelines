@@ -58,19 +58,19 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions
     /// <summary>
     /// A list of Email objects containing email addresses associated with the user. Constraints: o min: 1 o max: 1 (structure) The email address associated with the user. Value -&gt; (string) A string containing an email address. For example, "- johndoe@amazon.com." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Work." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary email address for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
-    [CliOption("--emails")]
+    [CliOption("--emails", GroupValues = true)]
     public IEnumerable<string>? Emails { get; set; }
 
     /// <summary>
     /// A list of Address objects containing addresses associated with the user. Constraints: o min: 1 o max: 1 (structure) The address associated with the specified user. StreetAddress -&gt; (string) The street of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Locality -&gt; (string) A string of the address locality. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Region -&gt; (string) The region of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ PostalCode -&gt; (string) The postal code of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Country -&gt; (string) The country of the address. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Formatted -&gt; (string) A string containing a formatted version of the address for display. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of address. For example, "Home." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary ad- dress for the associated resource. Shorthand Syntax: StreetAddress=string,Locality=string,Region=string,PostalCode=string,Country=string,Formatted=string,Type=string,Primary=boolean ... JSON Syntax: [ { "StreetAddress": "string", "Locality": "string", "Region": "string", "PostalCode": "string", "Country": "string", "Formatted": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
-    [CliOption("--addresses")]
+    [CliOption("--addresses", GroupValues = true)]
     public IEnumerable<string>? Addresses { get; set; }
 
     /// <summary>
     /// A list of PhoneNumber objects containing phone numbers associated with the user. Constraints: o min: 1 o max: 1 (structure) The phone number associated with the user. Value -&gt; (string) A string containing a phone number. For example, "8675309" or "+1 (800) 123-4567". Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of a phone number. For exam- ple, "Mobile." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary phone number for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
-    [CliOption("--phone-numbers")]
+    [CliOption("--phone-numbers", GroupValues = true)]
     public IEnumerable<string>? PhoneNumbers { get; set; }
 
     /// <summary>
@@ -106,7 +106,7 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions
     /// <summary>
     /// A list of photos associated with the user. You can add up to 3 pho- tos per user. Each photo can include a value, type, display name, and primary designation. Constraints: o min: 1 o max: 3 (structure) Contains information about a user's photo. Users can have up to 3 photos, with one designated as primary. Supports common image formats, including jpg, jpeg, png, and gif. Value -&gt; (string) [required] The photo data or URL. Supported formats include jpg, jpeg, png, and gif. This field is required for all photo entries. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) The type of photo. This field is optional and can be used to categorize different types of photos. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Display -&gt; (string) A human-readable description of the photo for display pur- poses. This optional field provides context about the photo. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) Specifies whether this is the user's primary photo. Default value is false . Only one photo can be designated as primary per user. Shorthand Syntax: Value=string,Type=string,Display=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Display": "string", "Primary": true|false } ... ]
     /// </summary>
-    [CliOption("--photos")]
+    [CliOption("--photos", GroupValues = true)]
     public IEnumerable<string>? Photos { get; set; }
 
     /// <summary>
@@ -124,13 +124,13 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions
     /// <summary>
     /// A list of Role objects containing roles associated with the user. Constraints: o min: 1 o max: 1 (structure) The role associated with the user. Value -&gt; (string) A string containing a role name. For example, "Researcher." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Type -&gt; (string) A string representing the type of role. For example, "Work." Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Primary -&gt; (boolean) A Boolean value representing whether this is the primary role for the associated resource. Shorthand Syntax: Value=string,Type=string,Primary=boolean ... JSON Syntax: [ { "Value": "string", "Type": "string", "Primary": true|false } ... ]
     /// </summary>
-    [CliOption("--roles")]
+    [CliOption("--roles", GroupValues = true)]
     public IEnumerable<string>? Roles { get; set; }
 
     /// <summary>
     /// A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent ex- tension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} value -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. JSON Syntax: {"string": {...} ...}
     /// </summary>
-    [CliOption("--extensions")]
+    [CliOption("--extensions", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Extensions { get; set; }
 
     [CliOption("--cli-input-json")]

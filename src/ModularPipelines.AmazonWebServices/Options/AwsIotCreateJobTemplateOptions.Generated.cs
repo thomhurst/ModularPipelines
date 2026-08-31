@@ -72,7 +72,7 @@ public record AwsIotCreateJobTemplateOptions : AwsOptions
     /// <summary>
     /// Metadata that can be used to manage the job template. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -84,13 +84,13 @@ public record AwsIotCreateJobTemplateOptions : AwsOptions
     /// <summary>
     /// Allows you to configure an optional maintenance window for the roll- out of a job document to all devices in the target group for a job. (structure) An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job. startTime -&gt; (string) [required] Displays the start time of the next maintenance window. Constraints: o min: 1 o max: 256 durationInMinutes -&gt; (integer) [required] Displays the duration of the next maintenance window. Constraints: o min: 1 o max: 1430 Shorthand Syntax: startTime=string,durationInMinutes=integer ... JSON Syntax: [ { "startTime": "string", "durationInMinutes": integer } ... ]
     /// </summary>
-    [CliOption("--maintenance-windows")]
+    [CliOption("--maintenance-windows", GroupValues = true)]
     public IEnumerable<string>? MaintenanceWindows { get; set; }
 
     /// <summary>
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package ver- sion must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle . Note: The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed. (string) Constraints: o min: 1 o max: 1600 o pattern: ^arn:[!-~]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destination-package-versions")]
+    [CliOption("--destination-package-versions", GroupValues = true)]
     public IEnumerable<string>? DestinationPackageVersions { get; set; }
 
     [CliOption("--cli-input-json")]

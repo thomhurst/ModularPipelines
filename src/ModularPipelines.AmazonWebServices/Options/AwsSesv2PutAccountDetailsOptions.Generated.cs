@@ -43,7 +43,7 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions
     /// <summary>
     /// Additional email addresses that you would like to be notified re- garding Amazon SES matters. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 6 o max: 254 o pattern: ^(.+)@(.+)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-contact-email-addresses")]
+    [CliOption("--additional-contact-email-addresses", GroupValues = true)]
     public IEnumerable<string>? AdditionalContactEmailAddresses { get; set; }
 
     [CliFlag("--production-access-enabled")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("xray", "start-trace-retrieval")]
 public record AwsXrayStartTraceRetrievalOptions : AwsOptions
 {
-    [CliOption("--trace-ids")]
+    [CliOption("--trace-ids", GroupValues = true)]
     public IEnumerable<string>? TraceIds { get; set; }
 
     [CliOption("--start-time")]

@@ -28,7 +28,7 @@ public record AwsRekognitionWaitProjectVersionRunningOptions : AwsOptions
     /// <summary>
     /// A list of model or project version names that you want to describe. You can add up to 10 model or project version names to the list. If you don't specify a value, all project version descriptions are re- turned. A version name is part of a project version ARN. For exam- ple, my-model.2020-01-21T09.10.15 is the version name in the follow- ing ARN. arn:aws:rekognition:us-east-1:123456789012:project/get- ting-started/version/*my-model.2020-01-21T09.10.15* /1234567890123 . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--version-names")]
+    [CliOption("--version-names", GroupValues = true)]
     public IEnumerable<string>? VersionNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -98,7 +98,7 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     /// <summary>
     /// A map of metadata to store with the object in S3. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata")]
+    [CliOption("--metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>

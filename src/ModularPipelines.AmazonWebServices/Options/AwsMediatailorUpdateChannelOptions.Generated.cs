@@ -30,7 +30,7 @@ public record AwsMediatailorUpdateChannelOptions : AwsOptions
     [CliOption("--filler-slate")]
     public string? FillerSlate { get; set; }
 
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record AwsMediatailorUpdateChannelOptions : AwsOptions
     /// <summary>
     /// The list of audiences defined in channel. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--audiences")]
+    [CliOption("--audiences", GroupValues = true)]
     public IEnumerable<string>? Audiences { get; set; }
 
     [CliOption("--cli-input-json")]

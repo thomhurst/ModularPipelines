@@ -30,7 +30,7 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions
     /// <summary>
     /// An array of ApprovalTeamRequestApprover objects. Contains details for the approvers in the team. Constraints: o min: 1 o max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: o min: 1 o max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The iden- tity source manages the user authentication for approvers. Constraints: o min: 0 o max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--approvers")]
+    [CliOption("--approvers", GroupValues = true)]
     public IEnumerable<string>? Approvers { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions
     /// <summary>
     /// A list of UpdateAction to perform when updating the team. Constraints: o min: 0 o max: 100 (string) Actions that can be taken when updating an approval team o SYNCHRONIZE_MFA_DEVICES : Synchronize MFA devices for all ap- provers on the team Possible values: o SYNCHRONIZE_MFA_DEVICES Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--update-actions")]
+    [CliOption("--update-actions", GroupValues = true)]
     public IEnumerable<string>? UpdateActions { get; set; }
 
     [CliOption("--cli-input-json")]

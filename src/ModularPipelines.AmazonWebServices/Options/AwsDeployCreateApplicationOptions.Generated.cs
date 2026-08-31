@@ -34,7 +34,7 @@ public record AwsDeployCreateApplicationOptions : AwsOptions
     /// <summary>
     /// The metadata that you apply to CodeDeploy applications to help you organize and categorize them. Each tag consists of a key and an op- tional value, both of which you define. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

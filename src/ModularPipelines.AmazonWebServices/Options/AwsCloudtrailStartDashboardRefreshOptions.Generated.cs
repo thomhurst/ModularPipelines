@@ -28,7 +28,7 @@ public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions
     /// <summary>
     /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . For managed dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , $Period$ , and $EventDataStoreId$ . The $EventDataStoreId$ query parameter is required. key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:$]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--query-parameter-values")]
+    [CliOption("--query-parameter-values", GroupValues = true)]
     public IReadOnlyList<KeyValue>? QueryParameterValues { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,13 +33,13 @@ public record AwsOdbUpdateOdbPeeringConnectionOptions : AwsOptions
     /// <summary>
     /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peer-network-cidrs-to-be-added")]
+    [CliOption("--peer-network-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeAdded { get; set; }
 
     /// <summary>
     /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peer-network-cidrs-to-be-removed")]
+    [CliOption("--peer-network-cidrs-to-be-removed", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeRemoved { get; set; }
 
     [CliOption("--cli-input-json")]

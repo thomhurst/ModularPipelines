@@ -47,7 +47,7 @@ public record AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions
     /// <summary>
     /// The output of the provisioning engine execution. (structure) The output for the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL. OutputKey -&gt; (string) The output key. OutputValue -&gt; (string) The output value. Description -&gt; (string) The description of the output. Shorthand Syntax: OutputKey=string,OutputValue=string,Description=string ... JSON Syntax: [ { "OutputKey": "string", "OutputValue": "string", "Description": "string" } ... ]
     /// </summary>
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>

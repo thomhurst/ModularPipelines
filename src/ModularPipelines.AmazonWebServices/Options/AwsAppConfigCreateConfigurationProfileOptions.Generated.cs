@@ -46,13 +46,13 @@ public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions
     /// <summary>
     /// A list of methods for validating the configuration. Constraints: o min: 0 o max: 2 (structure) A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or up- date can only proceed when the configuration data is valid. For more information, see About validators in the AppConfig User Guide . Type -&gt; (string) [required] AppConfig supports validators of type JSON_SCHEMA and LAMBDA Possible values: o JSON_SCHEMA o LAMBDA Content -&gt; (string) [required] Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function. Constraints: o min: 0 o max: 32768 Shorthand Syntax: Type=string,Content=string ... JSON Syntax: [ { "Type": "JSON_SCHEMA"|"LAMBDA", "Content": "string" } ... ]
     /// </summary>
-    [CliOption("--validators")]
+    [CliOption("--validators", GroupValues = true)]
     public IEnumerable<string>? Validators { get; set; }
 
     /// <summary>
     /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

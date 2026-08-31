@@ -27,7 +27,7 @@ public record AwsCloudformationDetectStackDriftOptions : AwsOptions
     /// <summary>
     /// The logical names of any resources you want to use as filters. Constraints: o min: 1 o max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--logical-resource-ids")]
+    [CliOption("--logical-resource-ids", GroupValues = true)]
     public IEnumerable<string>? LogicalResourceIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -45,13 +45,13 @@ public record AwsBedrockAgentCreateAgentAliasOptions : AwsOptions
     /// <summary>
     /// Contains details about the routing configuration of the alias. Constraints: o min: 0 o max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: o min: 1 o max: 2048 o pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
     /// </summary>
-    [CliOption("--routing-configuration")]
+    [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     /// <summary>
     /// Any tags that you want to attach to the alias of the agent. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

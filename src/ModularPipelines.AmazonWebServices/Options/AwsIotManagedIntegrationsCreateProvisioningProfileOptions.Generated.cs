@@ -54,7 +54,7 @@ public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOpt
     /// <summary>
     /// A set of key/value pairs that are used to manage the provisioning profile. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

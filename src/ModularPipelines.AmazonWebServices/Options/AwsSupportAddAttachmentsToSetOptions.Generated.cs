@@ -27,7 +27,7 @@ public record AwsSupportAddAttachmentsToSetOptions : AwsOptions
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
 
-    [CliOption("--attachments")]
+    [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     [CliOption("--cli-input-json")]

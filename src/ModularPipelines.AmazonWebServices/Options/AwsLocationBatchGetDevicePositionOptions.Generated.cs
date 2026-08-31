@@ -24,7 +24,7 @@ public record AwsLocationBatchGetDevicePositionOptions : AwsOptions
     [CliOption("--tracker-name")]
     public string? TrackerName { get; set; }
 
-    [CliOption("--device-ids")]
+    [CliOption("--device-ids", GroupValues = true)]
     public IEnumerable<string>? DeviceIds { get; set; }
 
     [CliOption("--cli-input-json")]

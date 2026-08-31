@@ -390,6 +390,7 @@ public partial class AwsCliScraper : CliScraperBase
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = isArray,
+                GroupValues = isArray,
                 IsKeyValue = isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",

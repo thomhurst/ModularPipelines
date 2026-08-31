@@ -48,7 +48,7 @@ public record AwsQbusinessUpdateIndexOptions : AwsOptions
     /// <summary>
     /// Configuration information for document metadata or fields. Document metadata are fields or attributes associated with your documents. For example, the company department name associated with each docu- ment. For more information, see Understanding document attributes . Constraints: o min: 1 o max: 500 (structure) Configuration information for document attributes. Document at- tributes are metadata or fields associated with your documents. For example, the company department name associated with each document. For more information, see Understanding document attributes . name -&gt; (string) The name of the document attribute. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* type -&gt; (string) The type of document attribute. Possible values: o STRING o STRING_LIST o NUMBER o DATE search -&gt; (string) Information about whether the document attribute can be used by an end user to search for information on their web experi- ence. Possible values: o ENABLED o DISABLED Shorthand Syntax: name=string,type=string,search=string ... JSON Syntax: [ { "name": "string", "type": "STRING"|"STRING_LIST"|"NUMBER"|"DATE", "search": "ENABLED"|"DISABLED" } ... ]
     /// </summary>
-    [CliOption("--document-attribute-configurations")]
+    [CliOption("--document-attribute-configurations", GroupValues = true)]
     public IEnumerable<string>? DocumentAttributeConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsDetectiveGetMembersOptions : AwsOptions
     [CliOption("--graph-arn")]
     public string? GraphArn { get; set; }
 
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

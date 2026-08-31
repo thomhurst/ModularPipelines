@@ -27,7 +27,7 @@ public record AwsConnectDisassociateWorkspaceOptions : AwsOptions
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliOption("--cli-input-json")]

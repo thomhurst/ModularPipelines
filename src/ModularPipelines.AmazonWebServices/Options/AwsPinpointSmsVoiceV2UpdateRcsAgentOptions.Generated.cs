@@ -72,7 +72,7 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions
     /// <summary>
     /// The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used. Constraints: o min: 0 o max: 100 (string) RCS event type identifier. Validated at the service layer. Constraints: o min: 1 o max: 50 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--two-way-rcs-events-enabled")]
+    [CliOption("--two-way-rcs-events-enabled", GroupValues = true)]
     public IEnumerable<string>? TwoWayRcsEventsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]

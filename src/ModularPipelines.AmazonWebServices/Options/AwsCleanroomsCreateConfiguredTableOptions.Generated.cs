@@ -34,7 +34,7 @@ public record AwsCleanroomsCreateConfiguredTableOptions : AwsOptions
     [CliOption("--table-reference")]
     public string? TableReference { get; set; }
 
-    [CliOption("--allowed-columns")]
+    [CliOption("--allowed-columns", GroupValues = true)]
     public IEnumerable<string>? AllowedColumns { get; set; }
 
     [CliOption("--analysis-method")]
@@ -43,13 +43,13 @@ public record AwsCleanroomsCreateConfiguredTableOptions : AwsOptions
     /// <summary>
     /// The analysis methods to enable for the configured table. When con- figured, you must specify at least two analysis methods. (string) Possible values: o DIRECT_QUERY o DIRECT_JOB Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--selected-analysis-methods")]
+    [CliOption("--selected-analysis-methods", GroupValues = true)]
     public IEnumerable<string>? SelectedAnalysisMethods { get; set; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

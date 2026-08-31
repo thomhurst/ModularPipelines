@@ -32,7 +32,7 @@ public record AwsDeployListOnPremisesInstancesOptions : AwsOptions
     /// <summary>
     /// The on-premises instance tags that are used to restrict the on-premises instance names returned. (structure) Information about an on-premises instance tag filter. Key -&gt; (string) The on-premises instance tag filter key. Value -&gt; (string) The on-premises instance tag filter value. Type -&gt; (string) The on-premises instance tag filter type: o KEY_ONLY: Key only. o VALUE_ONLY: Value only. o KEY_AND_VALUE: Key and value. Possible values: o KEY_ONLY o VALUE_ONLY o KEY_AND_VALUE Shorthand Syntax: Key=string,Value=string,Type=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Type": "KEY_ONLY"|"VALUE_ONLY"|"KEY_AND_VALUE" } ... ]
     /// </summary>
-    [CliOption("--tag-filters")]
+    [CliOption("--tag-filters", GroupValues = true)]
     public IEnumerable<string>? TagFilters { get; set; }
 
     [CliOption("--cli-input-json")]

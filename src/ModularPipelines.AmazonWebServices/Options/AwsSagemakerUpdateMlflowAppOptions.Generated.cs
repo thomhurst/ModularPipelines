@@ -52,7 +52,7 @@ public record AwsSagemakerUpdateMlflowAppOptions : AwsOptions
     /// <summary>
     /// List of SageMaker Domain IDs for which this MLflow App is the de- fault. (string) Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--default-domain-id-list")]
+    [CliOption("--default-domain-id-list", GroupValues = true)]
     public IEnumerable<string>? DefaultDomainIdList { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsWickrBatchReinviteUserOptions : AwsOptions
     [CliOption("--network-id")]
     public string? NetworkId { get; set; }
 
-    [CliOption("--user-ids")]
+    [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>

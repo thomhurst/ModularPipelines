@@ -33,7 +33,7 @@ public record AwsWorkspacesWebCreatePortalOptions : AwsOptions
     /// <summary>
     /// The tags to add to the web portal. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsWorkspacesWebCreatePortalOptions : AwsOptions
     /// <summary>
     /// The additional encryption context of the portal. key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>

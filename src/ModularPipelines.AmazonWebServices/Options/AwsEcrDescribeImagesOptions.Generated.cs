@@ -34,7 +34,7 @@ public record AwsEcrDescribeImagesOptions : AwsOptions
     /// <summary>
     /// The list of image IDs for the requested repository. Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
     /// </summary>
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     /// <summary>

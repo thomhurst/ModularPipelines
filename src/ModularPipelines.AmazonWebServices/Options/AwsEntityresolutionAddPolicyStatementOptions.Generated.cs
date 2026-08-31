@@ -30,10 +30,10 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions
     [CliOption("--effect")]
     public string? Effect { get; set; }
 
-    [CliOption("--action")]
+    [CliOption("--action", GroupValues = true)]
     public IEnumerable<string>? Action { get; set; }
 
-    [CliOption("--principal")]
+    [CliOption("--principal", GroupValues = true)]
     public IEnumerable<string>? Principal { get; set; }
 
     /// <summary>

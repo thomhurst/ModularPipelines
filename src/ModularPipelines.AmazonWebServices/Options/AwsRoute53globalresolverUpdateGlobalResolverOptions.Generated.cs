@@ -52,7 +52,7 @@ public record AwsRoute53globalresolverUpdateGlobalResolverOptions : AwsOptions
     /// <summary>
     /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

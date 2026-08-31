@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm", "get-calendar-state")]
 public record AwsSsmGetCalendarStateOptions : AwsOptions
 {
-    [CliOption("--calendar-names")]
+    [CliOption("--calendar-names", GroupValues = true)]
     public IEnumerable<string>? CalendarNames { get; set; }
 
     /// <summary>

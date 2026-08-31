@@ -25,13 +25,13 @@ public record AwsFsxDescribeStorageVirtualMachinesOptions : AwsOptions
     /// <summary>
     /// Enter the ID of one or more SVMs that you want to view. Constraints: o max: 50 (string) Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--storage-virtual-machine-ids")]
+    [CliOption("--storage-virtual-machine-ids", GroupValues = true)]
     public IEnumerable<string>? StorageVirtualMachineIds { get; set; }
 
     /// <summary>
     /// Enter a filter name:value pair to view a select set of SVMs. Constraints: o max: 1 (structure) A filter used to restrict the results of describe calls for Ama- zon FSx for NetApp ONTAP storage virtual machines (SVMs). You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name for this filter. Possible values: o file-system-id Values -&gt; (list) The values of the filter. These are all the values for any of the applied filters. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

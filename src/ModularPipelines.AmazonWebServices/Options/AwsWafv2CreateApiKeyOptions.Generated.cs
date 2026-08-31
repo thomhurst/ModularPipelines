@@ -26,7 +26,7 @@ public record AwsWafv2CreateApiKeyOptions : AwsOptions
     public string? Scope { get; set; }
 
     [SecretValue]
-    [CliOption("--token-domains")]
+    [CliOption("--token-domains", GroupValues = true)]
     public IEnumerable<string>? TokenDomains { get; set; }
 
     [CliOption("--cli-input-json")]

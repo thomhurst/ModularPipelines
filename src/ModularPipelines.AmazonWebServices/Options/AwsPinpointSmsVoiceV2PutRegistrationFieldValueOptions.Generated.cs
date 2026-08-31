@@ -30,7 +30,7 @@ public record AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions : AwsOptions
     /// <summary>
     /// An array of values for the form field. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--select-choices")]
+    [CliOption("--select-choices", GroupValues = true)]
     public IEnumerable<string>? SelectChoices { get; set; }
 
     /// <summary>

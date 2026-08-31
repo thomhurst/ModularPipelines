@@ -24,7 +24,7 @@ public record AwsGlueBatchStopJobRunOptions : AwsOptions
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CliOption("--job-run-ids")]
+    [CliOption("--job-run-ids", GroupValues = true)]
     public IEnumerable<string>? JobRunIds { get; set; }
 
     [CliOption("--cli-input-json")]

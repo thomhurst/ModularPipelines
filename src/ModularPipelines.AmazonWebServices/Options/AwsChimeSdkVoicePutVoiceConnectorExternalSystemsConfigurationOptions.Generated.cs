@@ -27,13 +27,13 @@ public record AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptio
     /// <summary>
     /// The session border controllers to use. (string) Possible values: o RIBBON_SBC o ORACLE_ACME_PACKET_SBC o AVAYA_SBCE o CISCO_UNIFIED_BORDER_ELEMENT o AUDIOCODES_MEDIANT_SBC Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--session-border-controller-types")]
+    [CliOption("--session-border-controller-types", GroupValues = true)]
     public IEnumerable<string>? SessionBorderControllerTypes { get; set; }
 
     /// <summary>
     /// The contact center system to use. (string) Possible values: o GENESYS_ENGAGE_ON_PREMISES o AVAYA_AURA_CALL_CENTER_ELITE o AVAYA_AURA_CONTACT_CENTER o CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--contact-center-system-types")]
+    [CliOption("--contact-center-system-types", GroupValues = true)]
     public IEnumerable<string>? ContactCenterSystemTypes { get; set; }
 
     [CliOption("--cli-input-json")]

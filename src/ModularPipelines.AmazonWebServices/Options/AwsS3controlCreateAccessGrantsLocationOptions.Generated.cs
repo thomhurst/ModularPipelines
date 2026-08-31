@@ -33,7 +33,7 @@ public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants location. Each tag is a label consisting of a user-de- fined key and value. Tags can help you manage, identify, organize, search for, and filter resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources. Key -&gt; (string) [required] The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: arent supported. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

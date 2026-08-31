@@ -25,7 +25,7 @@ public record AwsEmrCancelStepsOptions : AwsOptions
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
 
-    [CliOption("--step-ids")]
+    [CliOption("--step-ids", GroupValues = true)]
     public IEnumerable<string>? StepIds { get; set; }
 
     /// <summary>

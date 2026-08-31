@@ -24,7 +24,7 @@ public record AwsElasticacheRebootCacheClusterOptions : AwsOptions
     [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; set; }
 
-    [CliOption("--cache-node-ids-to-reboot")]
+    [CliOption("--cache-node-ids-to-reboot", GroupValues = true)]
     public IEnumerable<string>? CacheNodeIdsToReboot { get; set; }
 
     [CliOption("--cli-input-json")]

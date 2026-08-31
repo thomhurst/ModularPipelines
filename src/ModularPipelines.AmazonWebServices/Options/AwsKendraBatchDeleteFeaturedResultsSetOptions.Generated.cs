@@ -24,7 +24,7 @@ public record AwsKendraBatchDeleteFeaturedResultsSetOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--featured-results-set-ids")]
+    [CliOption("--featured-results-set-ids", GroupValues = true)]
     public IEnumerable<string>? FeaturedResultsSetIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsMghListApplicationStatesOptions : AwsOptions
     /// <summary>
     /// The configurationIds from the Application Discovery Service that uniquely identifies your applications. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--application-ids")]
+    [CliOption("--application-ids", GroupValues = true)]
     public IEnumerable<string>? ApplicationIds { get; set; }
 
     [CliOption("--cli-input-json")]

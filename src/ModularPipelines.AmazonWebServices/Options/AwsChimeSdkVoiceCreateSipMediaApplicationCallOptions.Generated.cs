@@ -34,13 +34,13 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions
     /// <summary>
     /// The SIP headers added to an outbound call leg. Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--sip-headers")]
+    [CliOption("--sip-headers", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SipHeaders { get; set; }
 
     /// <summary>
     /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "Last- Name": "Doe" Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--arguments-map")]
+    [CliOption("--arguments-map", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ArgumentsMap { get; set; }
 
     [CliOption("--cli-input-json")]

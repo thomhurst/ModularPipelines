@@ -27,7 +27,7 @@ public record AwsGlueGetMappingOptions : AwsOptions
     /// <summary>
     /// A list of target tables. (structure) Specifies a table definition in the Glue Data Catalog. DatabaseName -&gt; (string) [required] The database in which the table metadata resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] The name of the table in question. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: DatabaseName=string,TableName=string ... JSON Syntax: [ { "DatabaseName": "string", "TableName": "string" } ... ]
     /// </summary>
-    [CliOption("--sinks")]
+    [CliOption("--sinks", GroupValues = true)]
     public IEnumerable<string>? Sinks { get; set; }
 
     /// <summary>

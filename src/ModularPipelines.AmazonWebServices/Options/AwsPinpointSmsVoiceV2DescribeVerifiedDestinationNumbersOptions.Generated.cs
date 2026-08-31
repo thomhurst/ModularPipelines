@@ -25,19 +25,19 @@ public record AwsPinpointSmsVoiceV2DescribeVerifiedDestinationNumbersOptions : A
     /// <summary>
     /// An array of VerifiedDestinationNumberid to retrieve. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--verified-destination-number-ids")]
+    [CliOption("--verified-destination-number-ids", GroupValues = true)]
     public IEnumerable<string>? VerifiedDestinationNumberIds { get; set; }
 
     /// <summary>
     /// An array of verified destination phone number, in E.164 format. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destination-phone-numbers")]
+    [CliOption("--destination-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? DestinationPhoneNumbers { get; set; }
 
     /// <summary>
     /// An array of VerifiedDestinationNumberFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering verified destination phone numbers that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o status o rcs-agent-id Values -&gt; (list) [required] An array of values to filter on. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"rcs-agent-id", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

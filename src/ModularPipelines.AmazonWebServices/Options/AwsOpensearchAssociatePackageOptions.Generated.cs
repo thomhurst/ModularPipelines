@@ -30,7 +30,7 @@ public record AwsOpensearchAssociatePackageOptions : AwsOptions
     /// <summary>
     /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--prerequisite-package-id-list")]
+    [CliOption("--prerequisite-package-id-list", GroupValues = true)]
     public IEnumerable<string>? PrerequisitePackageIdList { get; set; }
 
     /// <summary>

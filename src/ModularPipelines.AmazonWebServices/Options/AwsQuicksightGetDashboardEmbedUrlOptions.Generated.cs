@@ -60,7 +60,7 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions
     /// <summary>
     /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS ", the session can access all three dashboards. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-dashboard-ids")]
+    [CliOption("--additional-dashboard-ids", GroupValues = true)]
     public IEnumerable<string>? AdditionalDashboardIds { get; set; }
 
     [CliOption("--cli-input-json")]

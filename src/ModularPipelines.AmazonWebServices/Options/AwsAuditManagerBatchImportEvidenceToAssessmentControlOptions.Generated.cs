@@ -30,7 +30,7 @@ public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : Aws
     [CliOption("--control-id")]
     public string? ControlId { get; set; }
 
-    [CliOption("--manual-evidence")]
+    [CliOption("--manual-evidence", GroupValues = true)]
     public IEnumerable<string>? ManualEvidence { get; set; }
 
     [CliOption("--cli-input-json")]

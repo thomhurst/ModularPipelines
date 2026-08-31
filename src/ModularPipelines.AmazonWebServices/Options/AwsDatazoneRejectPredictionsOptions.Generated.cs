@@ -43,7 +43,7 @@ public record AwsDatazoneRejectPredictionsOptions : AwsOptions
     /// <summary>
     /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be rejected. (structure) The details of the automatically generated business metadata that is rejected. predictionTarget -&gt; (string) [required] Specifies the target (for example, a column name) where a prediction can be rejected. predictionChoices -&gt; (list) Specifies the the automatically generated business metadata that can be rejected. (integer) Shorthand Syntax: predictionTarget=string,predictionChoices=integer,integer ... JSON Syntax: [ { "predictionTarget": "string", "predictionChoices": [integer, ...] } ... ]
     /// </summary>
-    [CliOption("--reject-choices")]
+    [CliOption("--reject-choices", GroupValues = true)]
     public IEnumerable<string>? RejectChoices { get; set; }
 
     /// <summary>

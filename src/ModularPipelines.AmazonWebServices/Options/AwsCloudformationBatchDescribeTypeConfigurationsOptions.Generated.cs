@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudformation", "batch-describe-type-configurations")]
 public record AwsCloudformationBatchDescribeTypeConfigurationsOptions : AwsOptions
 {
-    [CliOption("--type-configuration-identifiers")]
+    [CliOption("--type-configuration-identifiers", GroupValues = true)]
     public IEnumerable<string>? TypeConfigurationIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

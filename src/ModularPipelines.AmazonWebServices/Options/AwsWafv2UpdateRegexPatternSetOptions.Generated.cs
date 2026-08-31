@@ -37,7 +37,7 @@ public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--regular-expression-list")]
+    [CliOption("--regular-expression-list", GroupValues = true)]
     public IEnumerable<string>? RegularExpressionList { get; set; }
 
     [SecretValue]

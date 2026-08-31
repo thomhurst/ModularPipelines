@@ -40,7 +40,7 @@ public record AwsTextractCreateAdapterOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--feature-types")]
+    [CliOption("--feature-types", GroupValues = true)]
     public IEnumerable<string>? FeatureTypes { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsTextractCreateAdapterOptions : AwsOptions
     /// <summary>
     /// A list of tags to be added to the adapter. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

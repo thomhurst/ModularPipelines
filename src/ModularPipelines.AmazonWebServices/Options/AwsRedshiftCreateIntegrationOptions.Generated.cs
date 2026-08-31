@@ -40,13 +40,13 @@ public record AwsRedshiftCreateIntegrationOptions : AwsOptions
     /// <summary>
     /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>
     /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId pa- rameter. key -&gt; (string) Constraints: o max: 2147483647 value -&gt; (string) Constraints: o max: 2147483647 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>

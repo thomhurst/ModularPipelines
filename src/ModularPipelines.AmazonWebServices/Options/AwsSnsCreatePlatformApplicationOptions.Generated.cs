@@ -28,7 +28,7 @@ public record AwsSnsCreatePlatformApplicationOptions : AwsOptions
     [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

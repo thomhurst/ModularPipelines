@@ -37,7 +37,7 @@ public record AwsNeptuneDescribeDbClusterEndpointsOptions : AwsOptions
     /// <summary>
     /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=*endpoint_type* ,Values=*endpoint_type1* ,*end- point_type2* ,... . Name can be one of: db-cluster-endpoint-type , db-cluster-endpoint-custom-type , db-cluster-endpoint-id , db-clus- ter-endpoint-status . Values for the db-cluster-endpoint-type filter can be one or more of: reader , writer , custom . Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader , any . Values for the db-cluster-endpoint-status filter can be one or more of: available , creating , deleting , inactive , modifying . (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -27,7 +27,7 @@ public record AwsAppflowCancelFlowExecutionsOptions : AwsOptions
     /// <summary>
     /// The ID of each active run to cancel. These runs must belong to the flow you specify in your request. If you omit this parameter, your request ends all active runs that belong to the flow. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 256 o pattern: \S+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--execution-ids")]
+    [CliOption("--execution-ids", GroupValues = true)]
     public IEnumerable<string>? ExecutionIds { get; set; }
 
     [CliOption("--cli-input-json")]

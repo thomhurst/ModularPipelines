@@ -24,7 +24,7 @@ public record AwsLocationBatchEvaluateGeofencesOptions : AwsOptions
     [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
-    [CliOption("--device-position-updates")]
+    [CliOption("--device-position-updates", GroupValues = true)]
     public IEnumerable<string>? DevicePositionUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions
     /// <summary>
     /// Metadata assigned to a connector consisting of a key-value pair. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--vpc-information")]

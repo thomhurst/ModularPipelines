@@ -29,7 +29,7 @@ public record AwsCloudformationListStackInstancesOptions : AwsOptions
     /// <summary>
     /// The filter to apply to stack instances Constraints: o max: 3 (structure) The filter to apply to stack instances Name -&gt; (string) The type of filter to apply. Possible values: o DETAILED_STATUS o LAST_OPERATION_ID o DRIFT_STATUS Values -&gt; (string) The status to filter by. Constraints: o min: 1 o max: 128 o pattern: ^\S{1,128}$ Shorthand Syntax: Name=string,Values=string ... JSON Syntax: [ { "Name": "DETAILED_STATUS"|"LAST_OPERATION_ID"|"DRIFT_STATUS", "Values": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -42,13 +42,13 @@ public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions
     /// <summary>
     /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, see`Configure session timeouts &lt;- https://docs.aws.amazon.com/connect/latest/adminguide/authentica- tion-profiles.html#configure-session-timeouts&gt;`__ in the Connect Customer Administrator Guide . (string) Constraints: o min: 2 o max: 50 o pattern: ^[A-Za-z0-9:/]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-ips")]
+    [CliOption("--allowed-ips", GroupValues = true)]
     public IEnumerable<string>? AllowedIps { get; set; }
 
     /// <summary>
     /// A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see Configure IP-based access control in the Connect Customer Administrator Guide . (string) Constraints: o min: 2 o max: 50 o pattern: ^[A-Za-z0-9:/]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--blocked-ips")]
+    [CliOption("--blocked-ips", GroupValues = true)]
     public IEnumerable<string>? BlockedIps { get; set; }
 
     /// <summary>

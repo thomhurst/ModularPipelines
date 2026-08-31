@@ -25,7 +25,7 @@ public record AwsElbDescribeLoadBalancersOptions : AwsOptions
     /// <summary>
     /// The names of the load balancers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--load-balancer-names")]
+    [CliOption("--load-balancer-names", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerNames { get; set; }
 
     /// <summary>

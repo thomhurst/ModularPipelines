@@ -24,7 +24,7 @@ public record AwsKendraBatchDeleteDocumentOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--document-id-list")]
+    [CliOption("--document-id-list", GroupValues = true)]
     public IEnumerable<string>? DocumentIdList { get; set; }
 
     /// <summary>

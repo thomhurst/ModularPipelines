@@ -31,7 +31,7 @@ public record AwsAccountListRegionsOptions : AwsOptions
     /// <summary>
     /// A list of Region statuses (Enabling, Enabled, Disabling, Disabled, Enabled_by_default) to use to filter the list of Regions for a given account. For example, passing in a value of ENABLING will only re- turn a list of Regions with a Region status of ENABLING. (string) Possible values: o ENABLED o ENABLING o DISABLING o DISABLED o ENABLED_BY_DEFAULT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--region-opt-status-contains")]
+    [CliOption("--region-opt-status-contains", GroupValues = true)]
     public IEnumerable<string>? RegionOptStatusContains { get; set; }
 
     [CliOption("--cli-input-json")]

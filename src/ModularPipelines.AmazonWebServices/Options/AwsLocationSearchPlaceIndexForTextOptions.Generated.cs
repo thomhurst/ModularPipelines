@@ -30,19 +30,19 @@ public record AwsLocationSearchPlaceIndexForTextOptions : AwsOptions
     /// <summary>
     /// An optional parameter that indicates a preference for places that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with lon- gitude -123.1174 and latitude 49.2847 . NOTE: BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--bias-position")]
+    [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
     /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the south- west corner of the bounding box; the second pair of numbers repre- sents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835 , and the northeast corner has longitude -12.0684 and latitude -36.9542 . NOTE: FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error. Constraints: o min: 4 o max: 4 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--filter-b-box")]
+    [CliOption("--filter-b-box", GroupValues = true)]
     public IEnumerable<string>? FilterBBox { get; set; }
 
     /// <summary>
     /// An optional parameter that limits the search results by returning only places that are in a specified list of countries. o Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 3 o pattern: [A-Z]{3} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--filter-countries")]
+    [CliOption("--filter-countries", GroupValues = true)]
     public IEnumerable<string>? FilterCountries { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public record AwsLocationSearchPlaceIndexForTextOptions : AwsOptions
     /// <summary>
     /// A list of one or more Amazon Location categories to filter the re- turned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering , in the Amazon Location Service developer guide . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 35 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--filter-categories")]
+    [CliOption("--filter-categories", GroupValues = true)]
     public IEnumerable<string>? FilterCategories { get; set; }
 
     /// <summary>

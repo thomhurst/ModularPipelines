@@ -34,7 +34,7 @@ public record AwsCodepipelineListDeployActionExecutionTargetsOptions : AwsOption
     /// <summary>
     /// Filters the targets for a specified deploy action. (structure) Filters the list of targets. name -&gt; (string) The name on which to filter. Possible values: o TARGET_STATUS values -&gt; (list) The values on which to filter. (string) Constraints: o min: 1 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "TARGET_STATUS", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

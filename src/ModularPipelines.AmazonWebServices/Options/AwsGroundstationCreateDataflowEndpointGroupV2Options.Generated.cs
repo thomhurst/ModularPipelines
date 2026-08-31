@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("groundstation", "create-dataflow-endpoint-group-v2")]
 public record AwsGroundstationCreateDataflowEndpointGroupV2Options : AwsOptions
 {
-    [CliOption("--endpoints")]
+    [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public record AwsGroundstationCreateDataflowEndpointGroupV2Options : AwsOptions
     /// <summary>
     /// Tags of a V2 dataflow endpoint group. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

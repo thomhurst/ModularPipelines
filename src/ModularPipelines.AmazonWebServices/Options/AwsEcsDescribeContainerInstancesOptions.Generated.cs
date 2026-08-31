@@ -27,13 +27,13 @@ public record AwsEcsDescribeContainerInstancesOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instances")]
+    [CliOption("--container-instances", GroupValues = true)]
     public IEnumerable<string>? ContainerInstances { get; set; }
 
     /// <summary>
     /// Specifies whether you want to see the resource tags for the con- tainer instance. If TAGS is specified, the tags are included in the response. If CONTAINER_INSTANCE_HEALTH is specified, the container instance health is included in the response. If this field is omit- ted, tags and container instance health status aren't included in the response. (string) Possible values: o TAGS o CONTAINER_INSTANCE_HEALTH Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -26,7 +26,7 @@ public record AwsSagemakerQueryLineageOptions : AwsOptions
     /// <summary>
     /// A list of resource Amazon Resource Name (ARN) that represent the starting point for your lineage query. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(ex- periment|experiment-trial-component|artifact|action|con- text)/.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--start-arns")]
+    [CliOption("--start-arns", GroupValues = true)]
     public IEnumerable<string>? StartArns { get; set; }
 
     /// <summary>

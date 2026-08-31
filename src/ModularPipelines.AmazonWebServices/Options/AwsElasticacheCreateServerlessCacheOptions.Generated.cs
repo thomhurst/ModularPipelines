@@ -55,19 +55,19 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions
     /// <summary>
     /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic ac- cess for the VPC end-point (private-link). If no other information is given this will be the VPCs Default Security Group that is asso- ciated with the cluster VPC end-point. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Mem- cached only. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-arns-to-restore")]
+    [CliOption("--snapshot-arns-to-restore", GroupValues = true)]
     public IEnumerable<string>? SnapshotArnsToRestore { get; set; }
 
     /// <summary>
     /// The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions
     /// <summary>
     /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed. All the subnetIds must belong to the same VPC. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>

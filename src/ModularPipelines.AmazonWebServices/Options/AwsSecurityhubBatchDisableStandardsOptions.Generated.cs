@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-disable-standards")]
 public record AwsSecurityhubBatchDisableStandardsOptions : AwsOptions
 {
-    [CliOption("--standards-subscription-arns")]
+    [CliOption("--standards-subscription-arns", GroupValues = true)]
     public IEnumerable<string>? StandardsSubscriptionArns { get; set; }
 
     [CliOption("--cli-input-json")]

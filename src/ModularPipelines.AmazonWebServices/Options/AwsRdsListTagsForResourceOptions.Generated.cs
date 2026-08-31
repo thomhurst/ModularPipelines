@@ -27,7 +27,7 @@ public record AwsRdsListTagsForResourceOptions : AwsOptions
     /// <summary>
     /// This parameter isn't currently supported. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

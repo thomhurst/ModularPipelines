@@ -38,7 +38,7 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     /// <summary>
     /// The components included in the image recipe. Constraints: o min: 1 (structure) Configuration details of the component. componentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the component. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) A group of parameter settings that Image Builder uses to con- figure the component for a specific recipe. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named component parameter. name -&gt; (string) [required] The name of the component parameter to set. Constraints: o min: 1 o max: 256 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named component parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* JSON Syntax: [ { "componentArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--components")]
+    [CliOption("--components", GroupValues = true)]
     public IEnumerable<string>? Components { get; set; }
 
     [CliOption("--parent-image")]
@@ -47,13 +47,13 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     /// <summary>
     /// The block device mappings of the image recipe. (structure) Defines block device mappings for the instance used to configure your image. deviceName -&gt; (string) The device to which these mappings apply. Constraints: o min: 1 o max: 1024 ebs -&gt; (structure) Use to manage Amazon EBS-specific configuration for this map- ping. encrypted -&gt; (boolean) Use to configure device encryption. deleteOnTermination -&gt; (boolean) Use to configure delete on termination of the associated device. iops -&gt; (integer) Use to configure device IOPS. Constraints: o min: 100 o max: 64000 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more informa- tion, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024 snapshotId -&gt; (string) The snapshot that defines the device contents. Constraints: o min: 1 o max: 1024 volumeSize -&gt; (integer) Use to override the device's volume size. Constraints: o min: 1 o max: 16000 volumeType -&gt; (string) Use to override the device's volume type. Possible values: o standard o io1 o io2 o gp2 o gp3 o sc1 o st1 throughput -&gt; (integer) For GP3 volumes only The throughput in MiB/s that the volume supports. Constraints: o min: 125 o max: 1000 virtualName -&gt; (string) Use to manage instance ephemeral devices. Constraints: o min: 1 o max: 1024 noDevice -&gt; (string) Use to remove a mapping from the base image. Constraints: o min: 0 o max: 0 Shorthand Syntax: deviceName=string,ebs={encrypted=boolean,deleteOnTermination=boolean,iops=integer,kmsKeyId=string,snapshotId=string,volumeSize=integer,volumeType=string,throughput=integer},virtualName=string,noDevice=string ... JSON Syntax: [ { "deviceName": "string", "ebs": { "encrypted": true|false, "deleteOnTermination": true|false, "iops": integer, "kmsKeyId": "string", "snapshotId": "string", "volumeSize": integer, "volumeType": "standard"|"io1"|"io2"|"gp2"|"gp3"|"sc1"|"st1", "throughput": integer }, "virtualName": "string", "noDevice": "string" } ... ]
     /// </summary>
-    [CliOption("--block-device-mappings")]
+    [CliOption("--block-device-mappings", GroupValues = true)]
     public IEnumerable<string>? BlockDeviceMappings { get; set; }
 
     /// <summary>
     /// The tags of the image recipe. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     /// <summary>
     /// Tags that are applied to the AMI that Image Builder creates during the Build phase prior to image distribution. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--ami-tags")]
+    [CliOption("--ami-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AmiTags { get; set; }
 
     /// <summary>
     /// The AMI watermark names to attach to the output AMI from this recipe. AMI watermarks are lineage markers. They automatically prop- agate to derivative AMIs when the source AMI is copied or distrib- uted across Regions or accounts. NOTE: AMI watermarks are supported only for image recipes. AMIs with watermarks cannot be made public. Constraints: o min: 1 o max: 5 (string) The name of an AMI watermark. AMI watermarks are lineage markers that Image Builder attaches to output AMIs during the build process. AMI watermarks automatically propagate to derivative AMIs when the source AMI is copied or distributed. Constraints: o min: 3 o max: 128 o pattern: ^[A-Za-z0-9()\[\]./'@_\-][A-Za-z0-9 ()\[\]./'@_\-]{1,126}[A-Za-z0-9()\[\]./'@_\-]$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ami-watermarks")]
+    [CliOption("--ami-watermarks", GroupValues = true)]
     public IEnumerable<string>? AmiWatermarks { get; set; }
 
     /// <summary>

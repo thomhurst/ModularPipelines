@@ -36,7 +36,7 @@ public record AwsElasticbeanstalkDescribeEnvironmentHealthOptions : AwsOptions
     /// <summary>
     /// Specify the response elements to return. To retrieve all attributes, set to All . If no attribute names are specified, returns the name of the environment. (string) Possible values: o Status o Color o Causes o ApplicationMetrics o InstancesHealth o All o HealthStatus o RefreshedAt Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

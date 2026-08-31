@@ -24,7 +24,7 @@ public record AwsMedialiveUpdateEventBridgeRuleTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--event-targets")]
+    [CliOption("--event-targets", GroupValues = true)]
     public IEnumerable<string>? EventTargets { get; set; }
 
     [CliOption("--event-type")]

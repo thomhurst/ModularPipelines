@@ -41,7 +41,7 @@ public record AwsIotfleetwiseUpdateVehicleOptions : AwsOptions
     /// <summary>
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" key -&gt; (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
@@ -53,19 +53,19 @@ public record AwsIotfleetwiseUpdateVehicleOptions : AwsOptions
     /// <summary>
     /// Associate state templates with the vehicle. Constraints: o min: 1 o max: 20 (structure) The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Ser- vices IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Ser- vices Region and feature availability in the Amazon Web Ser- vices IoT FleetWise Developer Guide . identifier -&gt; (string) [required] The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+ stateTemplateUpdateStrategy -&gt; (tagged union structure) [re- quired] The update strategy for the state template. Vehicles associ- ated with the state template can stream telemetry data with either an onChange or periodic update strategy. WARNING: Access to certain Amazon Web Services IoT FleetWise fea- tures is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: periodic, onChange. periodic -&gt; (structure) Vehicles associated with the state template will stream telemetry data during a specified time period. stateTemplateUpdateRate -&gt; (structure) [required] The length of time between state template updates. unit -&gt; (string) [required] A unit of time. Possible values: o MILLISECOND o SECOND o MINUTE o HOUR value -&gt; (integer) [required] A number of time units. Constraints: o min: 1 o max: 2147483647 onChange -&gt; (structure) Vehicles associated with the state template will stream telemetry data when there is a change. JSON Syntax: [ { "identifier": "string", "stateTemplateUpdateStrategy": { "periodic": { "stateTemplateUpdateRate": { "unit": "MILLISECOND"|"SECOND"|"MINUTE"|"HOUR", "value": integer } }, "onChange": { } } } ... ]
     /// </summary>
-    [CliOption("--state-templates-to-add")]
+    [CliOption("--state-templates-to-add", GroupValues = true)]
     public IEnumerable<string>? StateTemplatesToAdd { get; set; }
 
     /// <summary>
     /// Remove state templates from the vehicle. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--state-templates-to-remove")]
+    [CliOption("--state-templates-to-remove", GroupValues = true)]
     public IEnumerable<string>? StateTemplatesToRemove { get; set; }
 
     /// <summary>
     /// Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle. Constraints: o min: 1 o max: 20 (structure) The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Ser- vices IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Ser- vices Region and feature availability in the Amazon Web Ser- vices IoT FleetWise Developer Guide . identifier -&gt; (string) [required] The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+ stateTemplateUpdateStrategy -&gt; (tagged union structure) [re- quired] The update strategy for the state template. Vehicles associ- ated with the state template can stream telemetry data with either an onChange or periodic update strategy. WARNING: Access to certain Amazon Web Services IoT FleetWise fea- tures is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: periodic, onChange. periodic -&gt; (structure) Vehicles associated with the state template will stream telemetry data during a specified time period. stateTemplateUpdateRate -&gt; (structure) [required] The length of time between state template updates. unit -&gt; (string) [required] A unit of time. Possible values: o MILLISECOND o SECOND o MINUTE o HOUR value -&gt; (integer) [required] A number of time units. Constraints: o min: 1 o max: 2147483647 onChange -&gt; (structure) Vehicles associated with the state template will stream telemetry data when there is a change. JSON Syntax: [ { "identifier": "string", "stateTemplateUpdateStrategy": { "periodic": { "stateTemplateUpdateRate": { "unit": "MILLISECOND"|"SECOND"|"MINUTE"|"HOUR", "value": integer } }, "onChange": { } } } ... ]
     /// </summary>
-    [CliOption("--state-templates-to-update")]
+    [CliOption("--state-templates-to-update", GroupValues = true)]
     public IEnumerable<string>? StateTemplatesToUpdate { get; set; }
 
     [CliOption("--cli-input-json")]

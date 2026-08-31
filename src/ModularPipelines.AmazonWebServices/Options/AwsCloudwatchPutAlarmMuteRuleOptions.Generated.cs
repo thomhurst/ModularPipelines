@@ -42,7 +42,7 @@ public record AwsCloudwatchPutAlarmMuteRuleOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the alarm mute rule. You can use tags to categorize and manage your mute rules. (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsCodeguruReviewerPutRecommendationFeedbackOptions : AwsOptions
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; set; }
 
-    [CliOption("--reactions")]
+    [CliOption("--reactions", GroupValues = true)]
     public IEnumerable<string>? Reactions { get; set; }
 
     [CliOption("--cli-input-json")]

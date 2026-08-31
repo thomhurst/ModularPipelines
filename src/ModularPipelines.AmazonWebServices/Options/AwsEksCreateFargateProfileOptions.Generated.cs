@@ -35,13 +35,13 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions
     /// <summary>
     /// The IDs of subnets to launch a Pod into. A Pod running on Fargate isn't assigned a public IP address, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parame- ter. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// The selectors to match for a Pod to use this Fargate profile. Each selector must have an associated Kubernetes namespace . Optionally, you can also specify labels for a namespace . You may specify up to five selectors in a Fargate profile. (structure) An object representing an Fargate profile selector. namespace -&gt; (string) The Kubernetes namespace that the selector should match. labels -&gt; (map) The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the se- lector for it to be considered a match. key -&gt; (string) value -&gt; (string) Shorthand Syntax: namespace=string,labels={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "namespace": "string", "labels": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--selectors")]
+    [CliOption("--selectors", GroupValues = true)]
     public IEnumerable<string>? Selectors { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsBackupUpdateGlobalSettingsOptions : AwsOptions
     /// <summary>
     /// Inputs can include: A value for isCrossAccountBackupEnabled . Values can be true or false. Example: update-global-settings --global-settings isCrossAc- countBackupEnabled=false . A value for Multi-party approval, styled as isMpaEnabled . Values can be true or false. Example: update-global-settings --global-set- tings isMpaEnabled=false . A value for Backup Service-Linked Role creation, styled as isDele- gatedAdministratorEnabled . Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEn- abled=false . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--global-settings")]
+    [CliOption("--global-settings", GroupValues = true)]
     public IReadOnlyList<KeyValue>? GlobalSettings { get; set; }
 
     [CliOption("--cli-input-json")]

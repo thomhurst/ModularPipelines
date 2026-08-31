@@ -34,13 +34,13 @@ public record AwsWorkspacesWebUpdateNetworkSettingsOptions : AwsOptions
     /// <summary>
     /// The subnets in which network interfaces are created to connect streaming instances to your VPC. At least two of these subnets must be in different availability zones. Constraints: o min: 2 o max: 5 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// One or more security groups used to control access from streaming instances to your VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

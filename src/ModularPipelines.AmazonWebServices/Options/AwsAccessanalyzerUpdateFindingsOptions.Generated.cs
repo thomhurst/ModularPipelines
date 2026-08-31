@@ -31,7 +31,7 @@ public record AwsAccessanalyzerUpdateFindingsOptions : AwsOptions
     /// <summary>
     /// The IDs of the findings to update. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

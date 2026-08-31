@@ -35,7 +35,7 @@ public record AwsDatazoneStartMetadataGenerationRunOptions : AwsOptions
     /// <summary>
     /// The types of the metadata generation run. Constraints: o min: 1 o max: 2 (string) Possible values: o BUSINESS_DESCRIPTIONS o BUSINESS_NAMES o BUSINESS_GLOSSARY_ASSOCIATIONS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     [CliOption("--target")]

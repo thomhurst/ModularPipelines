@@ -24,7 +24,7 @@ public record AwsWellarchitectedAssociateProfilesOptions : AwsOptions
     [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
-    [CliOption("--profile-arns")]
+    [CliOption("--profile-arns", GroupValues = true)]
     public IEnumerable<string>? ProfileArns { get; set; }
 
     [CliOption("--cli-input-json")]

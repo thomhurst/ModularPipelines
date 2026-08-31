@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("rekognition", "distribute-dataset-entries")]
 public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions
 {
-    [CliOption("--datasets")]
+    [CliOption("--datasets", GroupValues = true)]
     public IEnumerable<string>? Datasets { get; set; }
 
     [CliOption("--cli-input-json")]

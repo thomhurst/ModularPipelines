@@ -24,7 +24,7 @@ public record AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptio
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--event-destinations")]
+    [CliOption("--event-destinations", GroupValues = true)]
     public IEnumerable<string>? EventDestinations { get; set; }
 
     [CliOption("--cli-input-json")]

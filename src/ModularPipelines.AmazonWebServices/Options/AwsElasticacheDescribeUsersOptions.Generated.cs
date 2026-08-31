@@ -37,7 +37,7 @@ public record AwsElasticacheDescribeUsersOptions : AwsOptions
     /// <summary>
     /// Filter to determine the list of User IDs to return. (structure) Used to streamline results of a search based on the property be- ing filtered. Name -&gt; (string) [required] The property being filtered. For example, UserId. Constraints: o pattern: .*\S.* Values -&gt; (list) [required] The property values to filter on. For example, "user-123". Constraints: o min: 1 (string) Constraints: o pattern: .*\S.* Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

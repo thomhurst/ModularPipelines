@@ -24,7 +24,7 @@ public record AwsGeoMapsGetTileOptions : AwsOptions
     /// <summary>
     /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: o min: 0 o max: 4 (string) Possible values: o ContourLines o Hillshade o Logistics o Transit Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-features")]
+    [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     [CliOption("--tileset")]

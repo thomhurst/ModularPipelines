@@ -51,7 +51,7 @@ public record AwsAuditManagerUpdateControlOptions : AwsOptions
     [CliOption("--action-plan-instructions")]
     public string? ActionPlanInstructions { get; set; }
 
-    [CliOption("--control-mapping-sources")]
+    [CliOption("--control-mapping-sources", GroupValues = true)]
     public IEnumerable<string>? ControlMappingSources { get; set; }
 
     [CliOption("--cli-input-json")]

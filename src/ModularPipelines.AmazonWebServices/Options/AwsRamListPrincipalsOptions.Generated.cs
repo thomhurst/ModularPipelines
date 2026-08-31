@@ -34,7 +34,7 @@ public record AwsRamListPrincipalsOptions : AwsOptions
     /// <summary>
     /// Specifies that you want to list information for only the listed principals. You can include the following values: o An Amazon Web Services account ID, for example: 123456789012 o An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-example- orgid o An ARN of an organizational unit (OU) in Organizations, for exam- ple: organizations::123456789012:ou/o-exampleorgid/ou-example- rootid-exampleouid123 o An ARN of an IAM role, for example: iam::123456789012:role/role- name o An ARN of an IAM user, for example: iam::123456789012user/username o A service principal name, for example: service-id.amazonaws.com NOTE: Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsRamListPrincipalsOptions : AwsOptions
     /// <summary>
     /// Specifies that you want to list information for only principals as- sociated with the resource shares specified by a list the Amazon Re- source Names (ARNs) . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     [CliOption("--cli-input-json")]

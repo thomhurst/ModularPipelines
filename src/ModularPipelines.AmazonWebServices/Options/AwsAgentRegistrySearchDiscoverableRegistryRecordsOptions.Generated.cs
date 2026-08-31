@@ -24,7 +24,7 @@ public record AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions : AwsOpti
     [CliOption("--search-query")]
     public string? SearchQuery { get; set; }
 
-    [CliOption("--registry-ids")]
+    [CliOption("--registry-ids", GroupValues = true)]
     public IEnumerable<string>? RegistryIds { get; set; }
 
     /// <summary>

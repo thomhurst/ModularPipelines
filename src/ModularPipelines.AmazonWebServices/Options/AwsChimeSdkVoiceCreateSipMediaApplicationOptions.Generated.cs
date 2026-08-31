@@ -27,13 +27,13 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--endpoints")]
+    [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
     /// The tags assigned to the SIP media application. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

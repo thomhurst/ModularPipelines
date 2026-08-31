@@ -45,7 +45,7 @@ public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions
     /// <summary>
     /// Confirms that you want to delete data on the destination volume that wasnt there during the previous snapshot replication. Your replication will fail if you dont include an option for a spe- cific type of data and that data is on your destination. For exam- ple, if you dont include DELETE_INTERMEDIATE_SNAPSHOTS and there are intermediate snapshots on the destination, you cant copy the snap- shot. o DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots on the destina- tion volume that arent on the source volume. o DELETE_CLONED_VOLUMES - Deletes snapshot clones on the destination volume that aren't on the source volume. o DELETE_INTERMEDIATE_DATA - Overwrites snapshots on the destination volume that dont match the source snapshot that youre copying. (string) Possible values: o DELETE_INTERMEDIATE_SNAPSHOTS o DELETE_CLONED_VOLUMES o DELETE_INTERMEDIATE_DATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

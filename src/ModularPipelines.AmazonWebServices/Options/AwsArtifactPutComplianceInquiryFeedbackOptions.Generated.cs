@@ -43,7 +43,7 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions
     /// <summary>
     /// The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE. (string) Possible values: o OTHER o PARTIAL_RESPONSE o IRRELEVANT_RESPONSE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reason-codes")]
+    [CliOption("--reason-codes", GroupValues = true)]
     public IEnumerable<string>? ReasonCodes { get; set; }
 
     /// <summary>

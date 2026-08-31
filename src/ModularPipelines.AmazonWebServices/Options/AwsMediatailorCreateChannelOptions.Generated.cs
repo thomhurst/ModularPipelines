@@ -32,7 +32,7 @@ public record AwsMediatailorCreateChannelOptions : AwsOptions
     [CliOption("--filler-slate")]
     public string? FillerSlate { get; set; }
 
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     [CliOption("--playback-mode")]
@@ -41,7 +41,7 @@ public record AwsMediatailorCreateChannelOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, ac- cess control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AwsMediatailorCreateChannelOptions : AwsOptions
     /// <summary>
     /// The list of audiences defined in channel. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--audiences")]
+    [CliOption("--audiences", GroupValues = true)]
     public IEnumerable<string>? Audiences { get; set; }
 
     [CliOption("--cli-input-json")]

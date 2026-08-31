@@ -48,7 +48,7 @@ public record AwsSecurityagentUpdateThreatModelOptions : AwsOptions
     /// <summary>
     /// The updated scoped documents for the agent to focus on during threat modeling. (structure) Represents a document that provides context for security test- ing. s3Location -&gt; (string) The Amazon S3 location of the document. artifactId -&gt; (string) The unique identifier of the artifact associated with the document. integratedDocument -&gt; (structure) A reference to a document in an integrated third-party provider. integrationId -&gt; (string) [required] The identifier of the integration that provides access to the document. resourceId -&gt; (string) [required] The provider-specific resource identifier for the docu- ment. Shorthand Syntax: s3Location=string,artifactId=string,integratedDocument={integrationId=string,resourceId=string} ... JSON Syntax: [ { "s3Location": "string", "artifactId": "string", "integratedDocument": { "integrationId": "string", "resourceId": "string" } } ... ]
     /// </summary>
-    [CliOption("--scope-docs")]
+    [CliOption("--scope-docs", GroupValues = true)]
     public IEnumerable<string>? ScopeDocs { get; set; }
 
     /// <summary>

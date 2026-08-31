@@ -24,7 +24,7 @@ public record AwsDetectiveUpdateDatasourcePackagesOptions : AwsOptions
     [CliOption("--graph-arn")]
     public string? GraphArn { get; set; }
 
-    [CliOption("--datasource-packages")]
+    [CliOption("--datasource-packages", GroupValues = true)]
     public IEnumerable<string>? DatasourcePackages { get; set; }
 
     [CliOption("--cli-input-json")]

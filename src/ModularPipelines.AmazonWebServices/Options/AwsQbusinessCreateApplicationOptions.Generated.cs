@@ -53,7 +53,7 @@ public record AwsQbusinessCreateApplicationOptions : AwsOptions
     /// <summary>
     /// The OIDC client ID for a Amazon Q Business application. (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.:/()*?=-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--client-ids-for-oidc")]
+    [CliOption("--client-ids-for-oidc", GroupValues = true)]
     public IEnumerable<string>? ClientIdsForOidc { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AwsQbusinessCreateApplicationOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode let- ters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

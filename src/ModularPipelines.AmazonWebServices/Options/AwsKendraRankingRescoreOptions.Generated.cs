@@ -27,7 +27,7 @@ public record AwsKendraRankingRescoreOptions : AwsOptions
     [CliOption("--search-query")]
     public string? SearchQuery { get; set; }
 
-    [CliOption("--documents")]
+    [CliOption("--documents", GroupValues = true)]
     public IEnumerable<string>? Documents { get; set; }
 
     [CliOption("--cli-input-json")]

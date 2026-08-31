@@ -27,7 +27,7 @@ public record AwsConnectDisassociateUserProficienciesOptions : AwsOptions
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliOption("--user-proficiencies")]
+    [CliOption("--user-proficiencies", GroupValues = true)]
     public IEnumerable<string>? UserProficiencies { get; set; }
 
     [CliOption("--cli-input-json")]

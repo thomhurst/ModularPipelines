@@ -28,7 +28,7 @@ public record AwsConnectUpdateContactAttributesOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

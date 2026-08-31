@@ -33,13 +33,13 @@ public record AwsNeptuneGraphCreatePrivateGraphEndpointOptions : AwsOptions
     /// <summary>
     /// Subnets in which private graph endpoint ENIs are created. Constraints: o min: 1 o max: 6 (string) Constraints: o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// Security groups to be attached to the private graph endpoint. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

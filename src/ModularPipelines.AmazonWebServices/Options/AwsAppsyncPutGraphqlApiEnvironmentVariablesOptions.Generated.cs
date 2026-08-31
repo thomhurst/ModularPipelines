@@ -25,7 +25,7 @@ public record AwsAppsyncPutGraphqlApiEnvironmentVariablesOptions : AwsOptions
     [CliOption("--api-id")]
     public string? ApiId { get; set; }
 
-    [CliOption("--environment-variables")]
+    [CliOption("--environment-variables", GroupValues = true)]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliOption("--cli-input-json")]

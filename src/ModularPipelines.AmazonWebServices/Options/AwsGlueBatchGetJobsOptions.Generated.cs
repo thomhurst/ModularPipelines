@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-jobs")]
 public record AwsGlueBatchGetJobsOptions : AwsOptions
 {
-    [CliOption("--job-names")]
+    [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
 
     [CliOption("--cli-input-json")]

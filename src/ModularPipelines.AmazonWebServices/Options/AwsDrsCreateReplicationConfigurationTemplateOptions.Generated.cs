@@ -29,7 +29,7 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliFlag("--associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
-    [CliOption("--replication-servers-security-groups-ids")]
+    [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
@@ -68,16 +68,16 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliFlag("--create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
-    [CliOption("--staging-area-tags")]
+    [CliOption("--staging-area-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliOption("--pit-policy")]
+    [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
     /// <summary>
     /// A set of tags to be associated with the Replication Configuration Template resource. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliFlag("--auto-replicate-new-disks")]

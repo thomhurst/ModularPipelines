@@ -26,7 +26,7 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; set; }
 
-    [CliOption("--metadata")]
+    [CliOption("--metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>

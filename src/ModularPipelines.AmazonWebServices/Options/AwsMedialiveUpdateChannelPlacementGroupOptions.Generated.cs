@@ -30,7 +30,7 @@ public record AwsMedialiveUpdateChannelPlacementGroupOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--nodes")]
+    [CliOption("--nodes", GroupValues = true)]
     public IEnumerable<string>? Nodes { get; set; }
 
     [CliOption("--cli-input-json")]

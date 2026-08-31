@@ -28,7 +28,7 @@ public record AwsIotRegisterThingOptions : AwsOptions
     /// <summary>
     /// The parameters for provisioning a thing. See Provisioning Templates for more information. key -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

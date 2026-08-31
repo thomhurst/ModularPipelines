@@ -25,13 +25,13 @@ public record AwsInspectorListAssessmentTemplatesOptions : AwsOptions
     /// <summary>
     /// A list of ARNs that specifies the assessment targets whose assess- ment templates you want to list. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--assessment-target-arns")]
+    [CliOption("--assessment-target-arns", GroupValues = true)]
     public IEnumerable<string>? AssessmentTargetArns { get; set; }
 
     /// <summary>
     /// You can use this parameter to specify a subset of data to be in- cluded in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match. namePattern -&gt; (string) For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type. Constraints: o min: 1 o max: 140 durationRange -&gt; (structure) For a record to match a filter, the value specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentTemplate data type. minSeconds -&gt; (integer) The minimum value of the duration range. Must be greater than zero. Constraints: o min: 180 o max: 86400 maxSeconds -&gt; (integer) The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week). Constraints: o min: 180 o max: 86400 rulesPackageArns -&gt; (list) For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTem- plate data type. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Shorthand Syntax: namePattern=string,durationRange={minSeconds=integer,maxSeconds=integer},rulesPackageArns=string,string JSON Syntax: { "namePattern": "string", "durationRange": { "minSeconds": integer, "maxSeconds": integer }, "rulesPackageArns": ["string", ...] }
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IEnumerable<string>? Filter { get; set; }
 
     [CliOption("--cli-input-json")]

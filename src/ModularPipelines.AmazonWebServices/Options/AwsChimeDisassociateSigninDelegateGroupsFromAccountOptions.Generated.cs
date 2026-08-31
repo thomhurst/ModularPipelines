@@ -24,7 +24,7 @@ public record AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions : AwsOp
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--group-names")]
+    [CliOption("--group-names", GroupValues = true)]
     public IEnumerable<string>? GroupNames { get; set; }
 
     [CliOption("--cli-input-json")]

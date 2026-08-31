@@ -24,7 +24,7 @@ public record AwsRoute53RecoveryReadinessUpdateCellOptions : AwsOptions
     [CliOption("--cell-name")]
     public string? CellName { get; set; }
 
-    [CliOption("--cells")]
+    [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; set; }
 
     [CliOption("--cli-input-json")]

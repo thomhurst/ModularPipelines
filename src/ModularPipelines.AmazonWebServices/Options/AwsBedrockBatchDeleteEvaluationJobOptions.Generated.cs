@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("bedrock", "batch-delete-evaluation-job")]
 public record AwsBedrockBatchDeleteEvaluationJobOptions : AwsOptions
 {
-    [CliOption("--job-identifiers")]
+    [CliOption("--job-identifiers", GroupValues = true)]
     public IEnumerable<string>? JobIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

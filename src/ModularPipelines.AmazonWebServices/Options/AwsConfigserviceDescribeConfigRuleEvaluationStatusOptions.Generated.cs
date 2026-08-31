@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeConfigRuleEvaluationStatusOptions : AwsOpt
     /// <summary>
     /// The name of the Config managed rules for which you want status in- formation. If you do not specify any names, Config returns status information for all Config managed rules that you use. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--config-rule-names")]
+    [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

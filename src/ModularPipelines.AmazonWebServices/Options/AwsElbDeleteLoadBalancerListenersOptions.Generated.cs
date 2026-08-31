@@ -24,7 +24,7 @@ public record AwsElbDeleteLoadBalancerListenersOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--load-balancer-ports")]
+    [CliOption("--load-balancer-ports", GroupValues = true)]
     public IEnumerable<string>? LoadBalancerPorts { get; set; }
 
     [CliOption("--cli-input-json")]

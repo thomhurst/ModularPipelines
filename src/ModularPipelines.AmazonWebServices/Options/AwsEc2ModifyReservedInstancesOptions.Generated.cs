@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "modify-reserved-instances")]
 public record AwsEc2ModifyReservedInstancesOptions : AwsOptions
 {
-    [CliOption("--reserved-instances-ids")]
+    [CliOption("--reserved-instances-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstancesIds { get; set; }
 
     /// <summary>
@@ -32,7 +32,7 @@ public record AwsEc2ModifyReservedInstancesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--target-configurations")]
+    [CliOption("--target-configurations", GroupValues = true)]
     public IEnumerable<string>? TargetConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

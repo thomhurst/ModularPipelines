@@ -41,7 +41,7 @@ public record AwsConnectcasesListTemplatesOptions : AwsOptions
     /// <summary>
     /// A list of status values to filter on. Constraints: o min: 1 o max: 2 (string) Possible values: o Active o Inactive Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "terminate-workspaces")]
 public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions
 {
-    [CliOption("--terminate-workspace-requests")]
+    [CliOption("--terminate-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? TerminateWorkspaceRequests { get; set; }
 
     [CliOption("--cli-input-json")]

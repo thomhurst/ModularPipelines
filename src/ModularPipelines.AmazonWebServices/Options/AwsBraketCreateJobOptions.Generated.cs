@@ -36,7 +36,7 @@ public record AwsBraketCreateJobOptions : AwsOptions
     /// <summary>
     /// A list of parameters that specify the name and type of input data and where it is located. Constraints: o min: 0 o max: 20 (structure) A list of parameters that specify the input channels, type of input data, and where it is located. channelName -&gt; (string) [required] A named input source that an Amazon Braket hybrid job can consume. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ contentType -&gt; (string) The MIME type of the data. Constraints: o min: 1 o max: 256 dataSource -&gt; (structure) [required] The location of the input data. s3DataSource -&gt; (structure) [required] Amazon S3 path of the input data used by the hybrid job. s3Uri -&gt; (string) [required] Depending on the value specified for the S3DataType , identifies either a key name prefix or a manifest that locates the S3 data source. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: channelName=string,contentType=string,dataSource={s3DataSource={s3Uri=string}} ... JSON Syntax: [ { "channelName": "string", "contentType": "string", "dataSource": { "s3DataSource": { "s3Uri": "string" } } } ... ]
     /// </summary>
-    [CliOption("--input-data-config")]
+    [CliOption("--input-data-config", GroupValues = true)]
     public IEnumerable<string>? InputDataConfig { get; set; }
 
     [CliOption("--output-data-config")]
@@ -66,7 +66,7 @@ public record AwsBraketCreateJobOptions : AwsOptions
     /// <summary>
     /// Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the training job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of the hyperparameter. WARNING: Do not include any security-sensitive information including ac- count access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are re- sponsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensi- tive information included in the request hyperparameter variable or plain text fields. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (string) Constraints: o min: 1 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--hyper-parameters")]
+    [CliOption("--hyper-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? HyperParameters { get; set; }
 
     [CliOption("--device-config")]
@@ -75,13 +75,13 @@ public record AwsBraketCreateJobOptions : AwsOptions
     /// <summary>
     /// Tags to be added to the hybrid job you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The list of Amazon Braket resources associated with the hybrid job. Constraints: o min: 0 o max: 1 (structure) The Amazon Braket resource and the association type. arn -&gt; (string) [required] The Amazon Braket resource arn. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]*:[0-9]{12}:.* type -&gt; (string) [required] The association type for the specified Amazon Braket resource arn. Possible values: o RESERVATION_TIME_WINDOW_ARN Shorthand Syntax: arn=string,type=string ... JSON Syntax: [ { "arn": "string", "type": "RESERVATION_TIME_WINDOW_ARN" } ... ]
     /// </summary>
-    [CliOption("--associations")]
+    [CliOption("--associations", GroupValues = true)]
     public IEnumerable<string>? Associations { get; set; }
 
     [CliOption("--cli-input-json")]

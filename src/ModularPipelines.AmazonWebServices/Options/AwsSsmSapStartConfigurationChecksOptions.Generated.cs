@@ -27,7 +27,7 @@ public record AwsSsmSapStartConfigurationChecksOptions : AwsOptions
     /// <summary>
     /// The list of configuration checks to perform. (string) Possible values: o SAP_CHECK_01 o SAP_CHECK_02 o SAP_CHECK_03 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-check-ids")]
+    [CliOption("--configuration-check-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationCheckIds { get; set; }
 
     [CliOption("--cli-input-json")]

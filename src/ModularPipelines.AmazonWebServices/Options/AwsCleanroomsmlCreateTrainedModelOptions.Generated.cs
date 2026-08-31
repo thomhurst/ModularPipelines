@@ -35,13 +35,13 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
     /// <summary>
     /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 1 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--hyperparameters")]
+    [CliOption("--hyperparameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Hyperparameters { get; set; }
 
     /// <summary>
     /// The environment variables to set in the Docker container. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment")]
+    [CliOption("--environment", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Environment { get; set; }
 
     [CliOption("--resource-config")]
@@ -56,10 +56,10 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
     /// <summary>
     /// Specifies the incremental training data channels for the trained model. Incremental training allows you to create a new trained model with updates without retraining from scratch. You can specify up to one incremental training data channel that references a previously trained model and its version. Limit: Maximum of 20 channels total (including both incremental- TrainingDataChannels and dataChannels ). Constraints: o min: 1 o max: 1 (structure) Defines an incremental training data channel that references a previously trained model. Incremental training allows you to up- date an existing trained model with new data, building upon the knowledge from a base model rather than training from scratch. This can significantly reduce training time and computational costs while improving model performance with additional data. trainedModelArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the base trained model to use for incremental training. This model serves as the start- ing point for the incremental training process. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+ versionIdentifier -&gt; (string) The version identifier of the base trained model to use for incremental training. If not specified, the latest version of the trained model is used. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} channelName -&gt; (string) [required] The name of the incremental training data channel. This name is used to identify the channel during the training process and must be unique within the training job. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ Shorthand Syntax: trainedModelArn=string,versionIdentifier=string,channelName=string ... JSON Syntax: [ { "trainedModelArn": "string", "versionIdentifier": "string", "channelName": "string" } ... ]
     /// </summary>
-    [CliOption("--incremental-training-data-channels")]
+    [CliOption("--incremental-training-data-channels", GroupValues = true)]
     public IEnumerable<string>? IncrementalTrainingDataChannels { get; set; }
 
-    [CliOption("--data-channels")]
+    [CliOption("--data-channels", GroupValues = true)]
     public IEnumerable<string>? DataChannels { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
     /// <summary>
     /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an op- tional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You can- not edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

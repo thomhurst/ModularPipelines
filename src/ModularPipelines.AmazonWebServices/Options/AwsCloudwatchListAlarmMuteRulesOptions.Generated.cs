@@ -31,7 +31,7 @@ public record AwsCloudwatchListAlarmMuteRulesOptions : AwsOptions
     /// <summary>
     /// Filter results to show only mute rules with the specified statuses. Valid values are SCHEDULED , ACTIVE , or EXPIRED . (string) Possible values: o SCHEDULED o ACTIVE o EXPIRED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     [CliOption("--cli-input-json")]

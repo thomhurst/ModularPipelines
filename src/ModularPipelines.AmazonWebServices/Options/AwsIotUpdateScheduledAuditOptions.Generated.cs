@@ -43,7 +43,7 @@ public record AwsIotUpdateScheduledAuditOptions : AwsOptions
     /// <summary>
     /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are en- abled.) (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-check-names")]
+    [CliOption("--target-check-names", GroupValues = true)]
     public IEnumerable<string>? TargetCheckNames { get; set; }
 
     [CliOption("--scheduled-audit-name")]

@@ -26,7 +26,7 @@ public record AwsSecurityhubCreateAutomationRuleOptions : AwsOptions
     /// <summary>
     /// User-defined tags associated with an automation rule. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsSecurityhubCreateAutomationRuleOptions : AwsOptions
     [CliOption("--criteria")]
     public string? Criteria { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -32,7 +32,7 @@ public record AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions : AwsOption
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--example-ids")]
+    [CliOption("--example-ids", GroupValues = true)]
     public IEnumerable<string>? ExampleIds { get; set; }
 
     [CliOption("--cli-input-json")]

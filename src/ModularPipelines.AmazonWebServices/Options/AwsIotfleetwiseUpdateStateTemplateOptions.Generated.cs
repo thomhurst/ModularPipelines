@@ -33,25 +33,25 @@ public record AwsIotfleetwiseUpdateStateTemplateOptions : AwsOptions
     /// <summary>
     /// Add signals from which data is collected as part of the state tem- plate. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--state-template-properties-to-add")]
+    [CliOption("--state-template-properties-to-add", GroupValues = true)]
     public IEnumerable<string>? StateTemplatePropertiesToAdd { get; set; }
 
     /// <summary>
     /// Remove signals from which data is collected as part of the state template. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--state-template-properties-to-remove")]
+    [CliOption("--state-template-properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? StateTemplatePropertiesToRemove { get; set; }
 
     /// <summary>
     /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehi- cle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--data-extra-dimensions")]
+    [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
 
     /// <summary>
     /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attrib- utes.Model attributes, Amazon Web Services IoT FleetWise will in- clude these attributes as User Properties with the MQTT message. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metadata-extra-dimensions")]
+    [CliOption("--metadata-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? MetadataExtraDimensions { get; set; }
 
     [CliOption("--cli-input-json")]

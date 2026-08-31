@@ -24,7 +24,7 @@ public record AwsS3tablesCreateNamespaceOptions : AwsOptions
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; set; }
 
-    [CliOption("--namespace")]
+    [CliOption("--namespace", GroupValues = true)]
     public IEnumerable<string>? Namespace { get; set; }
 
     [CliOption("--cli-input-json")]

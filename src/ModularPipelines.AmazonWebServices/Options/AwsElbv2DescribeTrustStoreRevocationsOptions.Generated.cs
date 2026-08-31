@@ -28,7 +28,7 @@ public record AwsElbv2DescribeTrustStoreRevocationsOptions : AwsOptions
     /// <summary>
     /// The revocation IDs of the revocation files you want to describe. (long) Syntax: long long ...
     /// </summary>
-    [CliOption("--revocation-ids")]
+    [CliOption("--revocation-ids", GroupValues = true)]
     public IEnumerable<string>? RevocationIds { get; set; }
 
     /// <summary>

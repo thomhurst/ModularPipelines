@@ -25,7 +25,7 @@ public record AwsSsmQuicksetupListConfigurationManagersOptions : AwsOptions
     /// <summary>
     /// Filters the results returned by the request. (structure) A key-value pair to filter results. Key -&gt; (string) [required] The key for the filter. Constraints: o min: 0 o max: 128 o pattern: ^[A-Za-z0-9+=@_\/\s-]*$ Values -&gt; (list) [required] The values for the filter keys. (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9+=@_\/\s-]*$ Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

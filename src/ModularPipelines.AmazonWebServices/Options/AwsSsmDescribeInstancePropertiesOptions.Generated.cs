@@ -25,13 +25,13 @@ public record AwsSsmDescribeInstancePropertiesOptions : AwsOptions
     /// <summary>
     /// An array of instance property filters. Constraints: o min: 1 o max: 40 (structure) Describes a filter for a specific list of managed nodes. You can filter node information by using tags. You specify tags by using a key-value mapping. key -&gt; (string) [required] The name of the filter. Possible values: o InstanceIds o AgentVersion o PingStatus o PlatformTypes o DocumentName o ActivationIds o IamRole o ResourceType o AssociationStatus valueSet -&gt; (list) [required] The filter values. Constraints: o min: 1 o max: 40 (string) Constraints: o min: 1 o max: 100000 o pattern: ^.{1,100000}$ Shorthand Syntax: key=string,valueSet=string,string ... JSON Syntax: [ { "key": "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"DocumentName"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus", "valueSet": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--instance-property-filter-list")]
+    [CliOption("--instance-property-filter-list", GroupValues = true)]
     public IEnumerable<string>? InstancePropertyFilterList { get; set; }
 
     /// <summary>
     /// The request filters to use with the operator. Constraints: o min: 1 o max: 40 (structure) The filters to describe or get information about your managed nodes. Key -&gt; (string) [required] The filter key name to describe your managed nodes. Constraints: o min: 1 o max: 100000 o pattern: ^.{1,100000}$ Values -&gt; (list) [required] The filter key name to describe your managed nodes. Constraints: o min: 1 o max: 40 (string) Constraints: o min: 1 o max: 100000 o pattern: ^.{1,100000}$ Operator -&gt; (string) The operator used by the filter call. Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Operator": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan" } ... ]
     /// </summary>
-    [CliOption("--filters-with-operator")]
+    [CliOption("--filters-with-operator", GroupValues = true)]
     public IEnumerable<string>? FiltersWithOperator { get; set; }
 
     [CliOption("--cli-input-json")]

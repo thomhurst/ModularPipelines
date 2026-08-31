@@ -31,13 +31,13 @@ public record AwsAutoscalingDescribePoliciesOptions : AwsOptions
     /// <summary>
     /// The names of one or more policies. If you omit this property, all policies are described. If a group name is provided, the results are limited to that group. If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum number of 50 items. (string) Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     /// <summary>
     /// One or more policy types. The valid values are SimpleScaling , Step- Scaling , TargetTrackingScaling , and PredictiveScaling . (string) Constraints: o min: 1 o max: 64 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-types")]
+    [CliOption("--policy-types", GroupValues = true)]
     public IEnumerable<string>? PolicyTypes { get; set; }
 
     [CliOption("--cli-input-json")]

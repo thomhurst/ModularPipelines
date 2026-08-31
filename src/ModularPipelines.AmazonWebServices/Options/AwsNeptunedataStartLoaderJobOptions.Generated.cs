@@ -53,7 +53,7 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     /// <summary>
     /// ** parserConfiguration ** An optional object with additional parser configuration values. Each of the child parameters is also optional: o ** namedGraphUri ** - The default graph for all RDF formats when no graph is specified (for non-quads formats and NQUAD entries with no graph). The default is https://aws.amazon.com/neptune/vo- cab/v01/DefaultNamedGraph . System Message: WARNING/2 (&lt;string&gt;:, line 417) Inline strong start-string without end-string. o ** baseUri ** - The base URI for RDF/XML and Turtle formats. The de- fault is https://aws.amazon.com/neptune/default . System Message: WARNING/2 (&lt;string&gt;:, line 419) Inline strong start-string without end-string. o ** allowEmptyStrings ** - Gremlin users need to be able to pass empty string values("") as node and edge properties when loading CSV data. If allowEmptyStrings is set to false (the default), such empty strings are treated as nulls and are not loaded. If al- lowEmptyStrings is set to true , the loader treats empty strings as valid property values and loads them accordingly. System Message: WARNING/2 (&lt;string&gt;:, line 421) Inline strong start-string without end-string. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parser-configuration")]
+    [CliOption("--parser-configuration", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ParserConfiguration { get; set; }
 
     [CliFlag("--update-single-cardinality-properties")]
@@ -65,7 +65,7 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     /// <summary>
     /// This is an optional parameter that can make a queued load request contingent on the successful completion of one or more previous jobs in the queue. Neptune can queue up as many as 64 load requests at a time, if their queueRequest parameters are set to "TRUE" . The dependencies parame- ter lets you make execution of such a queued request dependent on the successful completion of one or more specified previous requests in the queue. For example, if load Job-A and Job-B are independent of each other, but load Job-C needs Job-A and Job-B to be finished before it be- gins, proceed as follows: o Submit load-job-A and load-job-B one after another in any order, and save their load-ids. o Submit load-job-C with the load-ids of the two jobs in its depen- dencies field: Because of the dependencies parameter, the bulk loader will not start Job-C until Job-A and Job-B have completed successfully. If either one of them fails, Job-C will not be executed, and its status will be set to LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED . You can set up multiple levels of dependency in this way, so that the failure of one job will cause all requests that are directly or indirectly dependent on it to be cancelled. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dependencies")]
+    [CliOption("--dependencies", GroupValues = true)]
     public IEnumerable<string>? Dependencies { get; set; }
 
     [CliFlag("--user-provided-edge-ids")]

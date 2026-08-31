@@ -46,7 +46,7 @@ public record AwsEmrContainersListJobRunsOptions : AwsOptions
     /// <summary>
     /// The states of the job run. Constraints: o max: 10 (string) Possible values: o PENDING o SUBMITTED o RUNNING o FAILED o CANCELLED o CANCEL_PENDING o COMPLETED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     [CliOption("--cli-input-json")]

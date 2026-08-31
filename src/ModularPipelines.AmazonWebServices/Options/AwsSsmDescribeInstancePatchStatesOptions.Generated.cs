@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm", "describe-instance-patch-states")]
 public record AwsSsmDescribeInstancePatchStatesOptions : AwsOptions
 {
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--cli-input-json")]

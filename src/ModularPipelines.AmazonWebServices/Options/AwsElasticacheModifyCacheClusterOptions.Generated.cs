@@ -35,7 +35,7 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     /// <summary>
     /// A list of cache node IDs to be removed. A node ID is a numeric iden- tifier (0001, 0002, etc.). This parameter is only valid when Num- CacheNodes is less than the existing number of cache nodes. The num- ber of cache node IDs supplied in this parameter must match the dif- ference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of Num- CacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-node-ids-to-remove")]
+    [CliOption("--cache-node-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? CacheNodeIdsToRemove { get; set; }
 
     /// <summary>
@@ -47,19 +47,19 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     /// <summary>
     /// NOTE: This option is only supported on Memcached clusters. The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The num- ber of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios: o Scenario 1: You have 3 active nodes and wish to add 2 nodes. Spec- ify NumCacheNodes=5 (3 + 2) and optionally specify two Availabil- ity Zones for the two new nodes. o Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availabil- ity Zone for the new node. o Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations. The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move exist- ing Memcached nodes to different Availability Zones, see the Avail- ability Zone Considerations section of Cache Node Considerations for Memcached . Impact of new add/remove requests upon pending requests o Scenario-1 o Pending Action: Delete o New Request: Delete o Result: The new delete, pending or immediate, replaces the pend- ing delete. o Scenario-2 o Pending Action: Delete o New Request: Create o Result: The new create, pending or immediate, replaces the pend- ing delete. o Scenario-3 o Pending Action: Create o New Request: Delete o Result: The new delete, pending or immediate, replaces the pend- ing create. o Scenario-4 o Pending Action: Create o New Request: Create o Result: The new create is added to the pending create. WARNING: Important: If the new create request is Apply Immediately - Yes , all creates are performed immediately. If the new create request is Apply Immediately - No , all creates are pending. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--new-availability-zones")]
+    [CliOption("--new-availability-zones", GroupValues = true)]
     public IEnumerable<string>? NewAvailabilityZones { get; set; }
 
     /// <summary>
     /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created out- side of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default". (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-security-group-names")]
+    [CliOption("--cache-security-group-names", GroupValues = true)]
     public IEnumerable<string>? CacheSecurityGroupNames { get; set; }
 
     /// <summary>
     /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -139,7 +139,7 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     /// <summary>
     /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
-    [CliOption("--log-delivery-configurations")]
+    [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
     /// <summary>

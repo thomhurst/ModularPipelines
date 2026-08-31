@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("drs", "start-failback-launch")]
 public record AwsDrsStartFailbackLaunchOptions : AwsOptions
 {
-    [CliOption("--recovery-instance-ids")]
+    [CliOption("--recovery-instance-ids", GroupValues = true)]
     public IEnumerable<string>? RecoveryInstanceIds { get; set; }
 
     /// <summary>
     /// The tags to be associated with the failback launch Job. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

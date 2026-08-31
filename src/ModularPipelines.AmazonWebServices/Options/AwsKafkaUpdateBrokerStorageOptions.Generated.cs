@@ -27,7 +27,7 @@ public record AwsKafkaUpdateBrokerStorageOptions : AwsOptions
     [CliOption("--current-version")]
     public string? CurrentVersion { get; set; }
 
-    [CliOption("--target-broker-ebs-volume-info")]
+    [CliOption("--target-broker-ebs-volume-info", GroupValues = true)]
     public IEnumerable<string>? TargetBrokerEbsVolumeInfo { get; set; }
 
     [CliOption("--cli-input-json")]

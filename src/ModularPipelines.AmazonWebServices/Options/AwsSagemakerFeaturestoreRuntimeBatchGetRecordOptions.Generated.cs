@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker-featurestore-runtime", "batch-get-record")]
 public record AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions : AwsOptions
 {
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     /// <summary>

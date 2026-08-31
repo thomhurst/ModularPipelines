@@ -24,19 +24,19 @@ public record AwsApprunnerCreateVpcConnectorOptions : AwsOptions
     [CliOption("--vpc-connector-name")]
     public string? VpcConnectorName { get; set; }
 
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// A list of IDs of security groups that App Runner should use for ac- cess to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic. (string) Constraints: o min: 0 o max: 51200 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>
     /// A list of metadata items that you can associate with your VPC con- nector resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

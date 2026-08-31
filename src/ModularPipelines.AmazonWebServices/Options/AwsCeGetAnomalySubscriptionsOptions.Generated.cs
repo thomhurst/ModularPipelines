@@ -25,7 +25,7 @@ public record AwsCeGetAnomalySubscriptionsOptions : AwsOptions
     /// <summary>
     /// A list of cost anomaly subscription ARNs. (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subscription-arn-list")]
+    [CliOption("--subscription-arn-list", GroupValues = true)]
     public IEnumerable<string>? SubscriptionArnList { get; set; }
 
     /// <summary>

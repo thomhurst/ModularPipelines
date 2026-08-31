@@ -28,13 +28,13 @@ public record AwsRoute53RecoveryReadinessCreateCellOptions : AwsOptions
     /// <summary>
     /// A list of cell Amazon Resource Names (ARNs) contained within this cell, for use in nested cells. For example, Availability Zones within specific Amazon Web Services Regions. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cells")]
+    [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; set; }
 
     /// <summary>
     /// A collection of tags associated with a resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

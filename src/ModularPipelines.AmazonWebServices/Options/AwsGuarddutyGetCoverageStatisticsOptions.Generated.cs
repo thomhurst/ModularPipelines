@@ -30,7 +30,7 @@ public record AwsGuarddutyGetCoverageStatisticsOptions : AwsOptions
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
-    [CliOption("--statistics-type")]
+    [CliOption("--statistics-type", GroupValues = true)]
     public IEnumerable<string>? StatisticsType { get; set; }
 
     [CliOption("--cli-input-json")]

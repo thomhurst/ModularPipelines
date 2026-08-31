@@ -25,7 +25,7 @@ public record AwsClouddirectoryBatchReadOptions : AwsOptions
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; set; }
 
-    [CliOption("--operations")]
+    [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     /// <summary>

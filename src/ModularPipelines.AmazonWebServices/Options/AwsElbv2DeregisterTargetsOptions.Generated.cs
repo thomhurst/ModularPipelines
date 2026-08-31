@@ -24,7 +24,7 @@ public record AwsElbv2DeregisterTargetsOptions : AwsOptions
     [CliOption("--target-group-arn")]
     public string? TargetGroupArn { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]

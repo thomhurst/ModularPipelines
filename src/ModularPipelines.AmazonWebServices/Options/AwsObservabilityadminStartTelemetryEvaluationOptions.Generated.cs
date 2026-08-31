@@ -24,7 +24,7 @@ public record AwsObservabilityadminStartTelemetryEvaluationOptions : AwsOptions
     /// <summary>
     /// An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation. The current region is always im- plicitly included and must not be specified in this list. When pro- vided, telemetry evaluation starts in the current region and propa- gates to all specified regions. Mutually exclusive with AllRegions . If neither Regions nor AllRegions is provided, the operation applies only to the current region. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliFlag("--all-regions")]

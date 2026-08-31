@@ -25,7 +25,7 @@ public record AwsSupportDescribeCasesOptions : AwsOptions
     /// <summary>
     /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100. Constraints: o min: 0 o max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--case-id-list")]
+    [CliOption("--case-id-list", GroupValues = true)]
     public IEnumerable<string>? CaseIdList { get; set; }
 
     /// <summary>

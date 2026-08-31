@@ -26,7 +26,7 @@ public record AwsSecretsmanagerRemoveRegionsFromReplicationOptions : AwsOptions
     [CliOption("--secret-id")]
     public string? SecretId { get; set; }
 
-    [CliOption("--remove-replica-regions")]
+    [CliOption("--remove-replica-regions", GroupValues = true)]
     public IEnumerable<string>? RemoveReplicaRegions { get; set; }
 
     [CliOption("--cli-input-json")]

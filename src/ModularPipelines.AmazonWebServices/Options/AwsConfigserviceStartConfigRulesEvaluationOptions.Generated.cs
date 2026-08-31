@@ -24,7 +24,7 @@ public record AwsConfigserviceStartConfigRulesEvaluationOptions : AwsOptions
     /// <summary>
     /// The list of names of Config rules that you want to run evaluations for. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--config-rule-names")]
+    [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -42,7 +42,7 @@ public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions
     /// <summary>
     /// The details of the identity provider. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--identity-provider-details")]
+    [CliOption("--identity-provider-details", GroupValues = true)]
     public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("opensearch", "dissociate-packages")]
 public record AwsOpensearchDissociatePackagesOptions : AwsOptions
 {
-    [CliOption("--package-list")]
+    [CliOption("--package-list", GroupValues = true)]
     public IEnumerable<string>? PackageList { get; set; }
 
     [CliOption("--domain-name")]

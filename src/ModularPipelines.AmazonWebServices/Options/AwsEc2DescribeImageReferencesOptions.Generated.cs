@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "describe-image-references")]
 public record AwsEc2DescribeImageReferencesOptions : AwsOptions
 {
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     [CliFlag("--include-all-resource-types")]
@@ -31,7 +31,7 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services resource types to check for image refer- ences. Either IncludeAllResourceTypes or ResourceTypes must be specified. (structure) A resource type to check for image references. Associated op- tions can also be specified if the resource type is an EC2 in- stance or launch template. ResourceType -&gt; (string) The resource type. Possible values: o ec2:Instance o ec2:LaunchTemplate o ssm:Parameter o imagebuilder:ImageRecipe o imagebuilder:ContainerRecipe ResourceTypeOptions -&gt; (list) The options that affect the scope of the response. Valid only when ResourceType is ec2:Instance or ec2:LaunchTemplate . (structure) The options that affect the scope of the response. OptionName -&gt; (string) The name of the option. o For ec2:Instance : Specify state-name - The current state of the EC2 instance. o For ec2:LaunchTemplate : Specify version-depth - The number of launch template versions to check, start- ing from the most recent version. Possible values: o state-name o version-depth OptionValues -&gt; (list) A value for the specified option. o For state-name : o Valid values: pending | running | shutting-down | terminated | stopping | stopped o Default: All states o For version-depth : o Valid values: Integers between 1 and 10000 o Default: 10 (string) JSON Syntax: [ { "ResourceType": "ec2:Instance"|"ec2:LaunchTemplate"|"ssm:Parameter"|"imagebuilder:ImageRecipe"|"imagebuilder:ContainerRecipe", "ResourceTypeOptions": [ { "OptionName": "state-name"|"version-depth", "OptionValues": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliFlag("--dry-run")]

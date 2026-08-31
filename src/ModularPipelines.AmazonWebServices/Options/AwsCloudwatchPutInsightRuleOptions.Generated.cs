@@ -36,7 +36,7 @@ public record AwsCloudwatchPutInsightRuleOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the Contributor Insights rule. You can associate as many as 50 tags with a rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permis- sion to access or change only the resources that have certain tag values. To be able to associate tags with a rule, you must have the cloud- watch:TagResource permission in addition to the cloudwatch:PutIn- sightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags you specify in this parameter are ignored. To change the tags of an existing rule, use TagResource . (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--apply-on-transformed-logs")]

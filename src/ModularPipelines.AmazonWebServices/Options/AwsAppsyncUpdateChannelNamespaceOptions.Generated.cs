@@ -30,13 +30,13 @@ public record AwsAppsyncUpdateChannelNamespaceOptions : AwsOptions
     /// <summary>
     /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api au- thorization configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
-    [CliOption("--subscribe-auth-modes")]
+    [CliOption("--subscribe-auth-modes", GroupValues = true)]
     public IEnumerable<string>? SubscribeAuthModes { get; set; }
 
     /// <summary>
     /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authoriza- tion configuration. (structure) Describes an authorization configuration. Use AuthMode to spec- ify the publishing and subscription authorization configuration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA Shorthand Syntax: authType=string ... JSON Syntax: [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ]
     /// </summary>
-    [CliOption("--publish-auth-modes")]
+    [CliOption("--publish-auth-modes", GroupValues = true)]
     public IEnumerable<string>? PublishAuthModes { get; set; }
 
     /// <summary>

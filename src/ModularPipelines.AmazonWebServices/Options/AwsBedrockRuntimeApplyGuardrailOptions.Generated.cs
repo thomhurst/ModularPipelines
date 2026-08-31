@@ -31,7 +31,7 @@ public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliOption("--content")]
+    [CliOption("--content", GroupValues = true)]
     public IEnumerable<string>? Content { get; set; }
 
     /// <summary>

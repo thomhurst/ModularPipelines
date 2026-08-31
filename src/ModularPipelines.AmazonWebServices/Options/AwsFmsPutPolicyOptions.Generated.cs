@@ -27,7 +27,7 @@ public record AwsFmsPutPolicyOptions : AwsOptions
     /// <summary>
     /// The tags to add to the Amazon Web Services resource. Constraints: o min: 0 o max: 200 (structure) A collection of key:value pairs associated with an Amazon Web Services resource. The key:value pair can be anything you de- fine. Typically, the tag key represents a category (such as "en- vironment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     [CliOption("--cli-input-json")]

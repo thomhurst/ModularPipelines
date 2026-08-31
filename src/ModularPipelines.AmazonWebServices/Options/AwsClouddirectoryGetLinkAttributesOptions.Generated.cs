@@ -28,7 +28,7 @@ public record AwsClouddirectoryGetLinkAttributesOptions : AwsOptions
     [CliOption("--typed-link-specifier")]
     public string? TypedLinkSpecifier { get; set; }
 
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     /// <summary>

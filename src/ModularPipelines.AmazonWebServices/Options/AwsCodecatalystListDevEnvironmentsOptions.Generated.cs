@@ -34,7 +34,7 @@ public record AwsCodecatalystListDevEnvironmentsOptions : AwsOptions
     /// <summary>
     /// Information about filters to apply to narrow the results returned in the list. (structure) Information about a filter used to limit results of a query. key -&gt; (string) [required] A key that can be used to sort results. values -&gt; (list) [required] The values of the key. (string) comparisonOperator -&gt; (string) The operator used to compare the fields. Shorthand Syntax: key=string,values=string,string,comparisonOperator=string ... JSON Syntax: [ { "key": "string", "values": ["string", ...], "comparisonOperator": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

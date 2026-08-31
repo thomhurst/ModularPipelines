@@ -28,7 +28,7 @@ public record AwsBackupCreateBackupVaultOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the backup vault. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--backup-vault-tags")]
+    [CliOption("--backup-vault-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? BackupVaultTags { get; set; }
 
     /// <summary>

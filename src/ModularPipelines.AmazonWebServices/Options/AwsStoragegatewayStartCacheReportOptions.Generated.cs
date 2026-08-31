@@ -43,13 +43,13 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions
     /// <summary>
     /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for In- clusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while dif- ferent parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: o UploadState o UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | Object- Missing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: o min: 1 o max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--inclusion-filters")]
+    [CliOption("--inclusion-filters", GroupValues = true)]
     public IEnumerable<string>? InclusionFilters { get; set; }
 
     /// <summary>
     /// The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while dif- ferent parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: o UploadState o UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | Object- Missing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: o min: 1 o max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--exclusion-filters")]
+    [CliOption("--exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ExclusionFilters { get; set; }
 
     [SecretValue]
@@ -59,7 +59,7 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions
     /// <summary>
     /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsConfigserviceGetComplianceSummaryByResourceTypeOptions : AwsOpt
     /// <summary>
     /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each re- source type. For this request, you can specify an Amazon Web Services resource type such as AWS::EC2::Instance . You can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account . Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

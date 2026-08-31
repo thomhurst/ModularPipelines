@@ -25,13 +25,13 @@ public record AwsSecurityhubGetEnabledStandardsOptions : AwsOptions
     /// <summary>
     /// The list of the standards subscription ARNs for the standards to re- trieve. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--standards-subscription-arns")]
+    [CliOption("--standards-subscription-arns", GroupValues = true)]
     public IEnumerable<string>? StandardsSubscriptionArns { get; set; }
 
     /// <summary>
     /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evalu- ate Azure resources. (string) Possible values: o AWS o Azure Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--providers")]
+    [CliOption("--providers", GroupValues = true)]
     public IEnumerable<string>? Providers { get; set; }
 
     [CliOption("--cli-input-json")]

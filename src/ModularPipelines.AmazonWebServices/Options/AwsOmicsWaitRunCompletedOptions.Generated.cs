@@ -27,7 +27,7 @@ public record AwsOmicsWaitRunCompletedOptions : AwsOptions
     /// <summary>
     /// The run's export format. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--export")]
+    [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
 
     [CliOption("--cli-input-json")]

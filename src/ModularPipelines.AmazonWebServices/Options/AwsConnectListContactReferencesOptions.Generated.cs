@@ -28,7 +28,7 @@ public record AwsConnectListContactReferencesOptions : AwsOptions
     [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
-    [CliOption("--reference-types")]
+    [CliOption("--reference-types", GroupValues = true)]
     public IEnumerable<string>? ReferenceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

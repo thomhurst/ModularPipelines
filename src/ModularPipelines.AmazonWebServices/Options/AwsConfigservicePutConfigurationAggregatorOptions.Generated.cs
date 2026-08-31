@@ -27,7 +27,7 @@ public record AwsConfigservicePutConfigurationAggregatorOptions : AwsOptions
     /// <summary>
     /// A list of AccountAggregationSource object. Constraints: o min: 0 o max: 1 (structure) A collection of accounts and regions. AccountIds -&gt; (list) [required] The 12-digit account ID of the account being aggregated. Constraints: o min: 1 (string) Constraints: o pattern: \d{12} AllAwsRegions -&gt; (boolean) If true, aggregate existing Config regions and future re- gions. AwsRegions -&gt; (list) The source regions being aggregated. Constraints: o min: 1 (string) Shorthand Syntax: AccountIds=string,string,AllAwsRegions=boolean,AwsRegions=string,string ... JSON Syntax: [ { "AccountIds": ["string", ...], "AllAwsRegions": true|false, "AwsRegions": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--account-aggregation-sources")]
+    [CliOption("--account-aggregation-sources", GroupValues = true)]
     public IEnumerable<string>? AccountAggregationSources { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public record AwsConfigservicePutConfigurationAggregatorOptions : AwsOptions
     /// <summary>
     /// An array of tag object. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

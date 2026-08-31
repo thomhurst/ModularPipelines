@@ -24,7 +24,7 @@ public record AwsIottwinmakerBatchPutPropertyValuesOptions : AwsOptions
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

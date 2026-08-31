@@ -27,7 +27,7 @@ public record AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions : AwsOptions
     [CliOption("--expiration-in-minutes")]
     public int? ExpirationInMinutes { get; set; }
 
-    [CliOption("--allowed-ports")]
+    [CliOption("--allowed-ports", GroupValues = true)]
     public IEnumerable<string>? AllowedPorts { get; set; }
 
     [CliOption("--cli-input-json")]

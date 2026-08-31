@@ -38,22 +38,22 @@ public record AwsConnectCreateRoutingProfileOptions : AwsOptions
     /// <summary>
     /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of Rout- ingProfileQueueConfig objects that can be passed during a CreateR- outingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas . Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for which pri- ority and delay can be set. QueueReference -&gt; (structure) [required] Contains information about a queue resource. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Priority -&gt; (integer) [required] The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay . Constraints: o min: 1 o max: 99 Delay -&gt; (integer) [required] The delay, in seconds, a contact should be in the queue be- fore they are routed to an available agent. For more informa- tion, see Queues: priority and delay in the Connect Customer Administrator Guide . Constraints: o min: 0 o max: 9999 Shorthand Syntax: QueueReference={QueueId=string,Channel=string},Priority=integer,Delay=integer ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" }, "Priority": integer, "Delay": integer } ... ]
     /// </summary>
-    [CliOption("--queue-configs")]
+    [CliOption("--queue-configs", GroupValues = true)]
     public IEnumerable<string>? QueueConfigs { get; set; }
 
     /// <summary>
     /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmen- tQueueConfig objects that can be passed during a CreateRoutingPro- file API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer ser- vice quotas. NOTE: For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully sup- ported. Constraints: o min: 1 o max: 10 (structure) Contains information about the queue and channel for manual as- signment behaviour can be enabled. QueueReference -&gt; (structure) [required] Contains the channel and queue identifier for a routing pro- file. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueReference={QueueId=string,Channel=string} ... JSON Syntax: [ { "QueueReference": { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } } ... ]
     /// </summary>
-    [CliOption("--manual-assignment-queue-configs")]
+    [CliOption("--manual-assignment-queue-configs", GroupValues = true)]
     public IEnumerable<string>? ManualAssignmentQueueConfigs { get; set; }
 
-    [CliOption("--media-concurrencies")]
+    [CliOption("--media-concurrencies", GroupValues = true)]
     public IEnumerable<string>? MediaConcurrencies { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

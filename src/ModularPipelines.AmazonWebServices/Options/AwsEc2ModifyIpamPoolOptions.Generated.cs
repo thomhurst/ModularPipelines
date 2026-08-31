@@ -60,13 +60,13 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
     /// <summary>
     /// Add tag allocation rules to a pool. For more information about allo- cation rules, see Create a top-level pool in the Amazon VPC IPAM User Guide . (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, re- gardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--add-allocation-resource-tags")]
+    [CliOption("--add-allocation-resource-tags", GroupValues = true)]
     public IEnumerable<string>? AddAllocationResourceTags { get; set; }
 
     /// <summary>
     /// Remove tag allocation rules from a pool. (structure) A tag on an IPAM resource. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, re- gardless of the tag value. Value -&gt; (string) The value for the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-allocation-resource-tags")]
+    [CliOption("--remove-allocation-resource-tags", GroupValues = true)]
     public IEnumerable<string>? RemoveAllocationResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

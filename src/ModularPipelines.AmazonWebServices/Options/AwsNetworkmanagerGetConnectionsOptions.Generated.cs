@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetConnectionsOptions : AwsOptions
     /// <summary>
     /// One or more connection IDs. (string) Constraints: o min: 0 o max: 50 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connection-ids")]
+    [CliOption("--connection-ids", GroupValues = true)]
     public IEnumerable<string>? ConnectionIds { get; set; }
 
     /// <summary>

@@ -39,7 +39,7 @@ public record AwsS3vectorsGetVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--keys")]
+    [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     [CliFlag("--return-data")]

@@ -25,13 +25,13 @@ public record AwsTranscribeCreateCallAnalyticsCategoryOptions : AwsOptions
     [CliOption("--category-name")]
     public string? CategoryName { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics category at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

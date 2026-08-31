@@ -30,13 +30,13 @@ public record AwsKendraSubmitFeedbackOptions : AwsOptions
     /// <summary>
     /// Tells Amazon Kendra that a particular search result link was chosen by the user. (structure) Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to pro- vide click information. ResultId -&gt; (string) [required] The identifier of the search result that was clicked. Constraints: o min: 1 o max: 73 ClickTime -&gt; (timestamp) [required] The Unix timestamp when the result was clicked. Shorthand Syntax: ResultId=string,ClickTime=timestamp ... JSON Syntax: [ { "ResultId": "string", "ClickTime": timestamp } ... ]
     /// </summary>
-    [CliOption("--click-feedback-items")]
+    [CliOption("--click-feedback-items", GroupValues = true)]
     public IEnumerable<string>? ClickFeedbackItems { get; set; }
 
     /// <summary>
     /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search. (structure) Provides feedback on how relevant a document is to a search. Your application uses the SubmitFeedback API to provide rele- vance information. ResultId -&gt; (string) [required] The identifier of the search result that the user provided relevance feedback for. Constraints: o min: 1 o max: 73 RelevanceValue -&gt; (string) [required] Whether the document was relevant or not relevant to the search. Possible values: o RELEVANT o NOT_RELEVANT Shorthand Syntax: ResultId=string,RelevanceValue=string ... JSON Syntax: [ { "ResultId": "string", "RelevanceValue": "RELEVANT"|"NOT_RELEVANT" } ... ]
     /// </summary>
-    [CliOption("--relevance-feedback-items")]
+    [CliOption("--relevance-feedback-items", GroupValues = true)]
     public IEnumerable<string>? RelevanceFeedbackItems { get; set; }
 
     [CliOption("--cli-input-json")]

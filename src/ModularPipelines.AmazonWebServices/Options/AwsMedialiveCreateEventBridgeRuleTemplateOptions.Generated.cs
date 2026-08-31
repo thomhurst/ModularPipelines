@@ -25,7 +25,7 @@ public record AwsMedialiveCreateEventBridgeRuleTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--event-targets")]
+    [CliOption("--event-targets", GroupValues = true)]
     public IEnumerable<string>? EventTargets { get; set; }
 
     [CliOption("--event-type")]
@@ -37,7 +37,7 @@ public record AwsMedialiveCreateEventBridgeRuleTemplateOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--request-id")]

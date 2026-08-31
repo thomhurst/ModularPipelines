@@ -27,10 +27,10 @@ public record AwsRtbfabricCreateResponderGatewayOptions : AwsOptions
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsRtbfabricCreateResponderGatewayOptions : AwsOptions
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

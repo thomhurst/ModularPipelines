@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudtrail-data", "put-audit-events")]
 public record AwsCloudtrailDataPutAuditEventsOptions : AwsOptions
 {
-    [CliOption("--audit-events")]
+    [CliOption("--audit-events", GroupValues = true)]
     public IEnumerable<string>? AuditEvents { get; set; }
 
     [CliOption("--channel-arn")]

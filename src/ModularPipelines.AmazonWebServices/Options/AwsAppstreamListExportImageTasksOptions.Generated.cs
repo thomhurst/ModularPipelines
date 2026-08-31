@@ -25,7 +25,7 @@ public record AwsAppstreamListExportImageTasksOptions : AwsOptions
     /// <summary>
     /// Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria. (structure) A filter for narrowing down the results when listing export im- age tasks. Filters allow you to specify criteria such as task state or creation date. Name -&gt; (string) [required] The name of the filter. Valid filter names depend on the op- eration being performed. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$ Values -&gt; (list) [required] The values for the filter. Multiple values can be specified for a single filter name. (string) Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:/.-]{0,200}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

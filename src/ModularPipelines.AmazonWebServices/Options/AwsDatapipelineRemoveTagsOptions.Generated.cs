@@ -24,7 +24,7 @@ public record AwsDatapipelineRemoveTagsOptions : AwsOptions
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

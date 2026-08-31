@@ -24,7 +24,7 @@ public record AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions : A
     [CliOption("--workload-estimate-id")]
     public string? WorkloadEstimateId { get; set; }
 
-    [CliOption("--usage")]
+    [CliOption("--usage", GroupValues = true)]
     public IEnumerable<string>? Usage { get; set; }
 
     [CliOption("--cli-input-json")]

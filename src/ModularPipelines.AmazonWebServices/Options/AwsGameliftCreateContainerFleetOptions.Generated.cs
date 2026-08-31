@@ -52,7 +52,7 @@ public record AwsGameliftCreateContainerFleetOptions : AwsOptions
     /// <summary>
     /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. As a best practice, when remotely accessing a fleet instance, we recommend opening ports only when you need them and closing them when you're finished. By default, Amazon GameLift Servers calculates an optimal port range based on your fleet configuration. To use the calculated range, don't set this parameter. The values are: o Protocol: UDP o Port range: 4192 to a number calculated based on your fleet con- figuration. Amazon GameLift Servers uses the following formula: 4192 + [# of game server container groups per fleet instance] * [# of container ports in the game server container group definition] + [# of container ports in the per instance container group defin- ition] You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's connection port range. NOTE: If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings. The port range must not overlap with the Amazon GameLift Servers re- served port range 4092-4191 . This range is reserved for internal Amazon GameLift Servers services. Constraints: o max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messag- ing and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: o pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
     /// </summary>
-    [CliOption("--instance-inbound-permissions")]
+    [CliOption("--instance-inbound-permissions", GroupValues = true)]
     public IEnumerable<string>? InstanceInboundPermissions { get; set; }
 
     /// <summary>
@@ -76,13 +76,13 @@ public record AwsGameliftCreateContainerFleetOptions : AwsOptions
     /// <summary>
     /// A set of locations to deploy container fleet instances to. You can add any Amazon Web Services Region or Local Zone that's supported by Amazon GameLift Servers. Provide a list of one or more Amazon Web Services Region codes, such as us-west-2 , or Local Zone names. Also include the fleet's home Region, which is the Amazon Web Services Region where the fleet is created. For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]
     /// </summary>
-    [CliOption("--locations")]
+    [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>
     /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. You can use a metric group to aggregate metrics for multiple fleets. You can specify an existing metric group name or use a new name to create a new metric group. Each fleet can have only one metric group, but you can change this value at any time. Constraints: o max: 1 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metric-groups")]
+    [CliOption("--metric-groups", GroupValues = true)]
     public IEnumerable<string>? MetricGroups { get; set; }
 
     /// <summary>
@@ -106,7 +106,7 @@ public record AwsGameliftCreateContainerFleetOptions : AwsOptions
     /// <summary>
     /// A list of labels to assign to the new fleet resource. Tags are de- veloper-defined key-value pairs. Tagging Amazon Web Services re- sources are useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Ser- vices Resources in the Amazon Web Services General Reference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

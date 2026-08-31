@@ -27,7 +27,7 @@ public record AwsDatapipelineReportTaskProgressOptions : AwsOptions
     /// <summary>
     /// Key-value pairs that define the properties of the ReportTaskPro- gressInput object. (structure) A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue ) or a reference to another object (RefValue ) but not as both. key -&gt; (string) [required] The field identifier. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* stringValue -&gt; (string) The field value, expressed as a String. Constraints: o min: 0 o max: 10240 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* refValue -&gt; (string) The field value, expressed as the identifier of another ob- ject. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: key=string,stringValue=string,refValue=string ... JSON Syntax: [ { "key": "string", "stringValue": "string", "refValue": "string" } ... ]
     /// </summary>
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     [CliOption("--cli-input-json")]

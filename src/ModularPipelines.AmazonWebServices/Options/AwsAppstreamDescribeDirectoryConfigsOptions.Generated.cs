@@ -25,7 +25,7 @@ public record AwsAppstreamDescribeDirectoryConfigsOptions : AwsOptions
     /// <summary>
     /// The directory names. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--directory-names")]
+    [CliOption("--directory-names", GroupValues = true)]
     public IEnumerable<string>? DirectoryNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "stop-data-collection-by-agent-ids")]
 public record AwsDiscoveryStopDataCollectionByAgentIdsOptions : AwsOptions
 {
-    [CliOption("--agent-ids")]
+    [CliOption("--agent-ids", GroupValues = true)]
     public IEnumerable<string>? AgentIds { get; set; }
 
     [CliOption("--cli-input-json")]

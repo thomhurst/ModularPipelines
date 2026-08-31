@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2ListPoolOriginationIdentitiesOptions : AwsOpt
     /// <summary>
     /// An array of PoolOriginationIdentitiesFilter objects to filter the results.. Constraints: o min: 0 o max: 20 (structure) Information about origination identities associated with a pool that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o iso-country-code o number-capability Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "iso-country-code"|"number-capability", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

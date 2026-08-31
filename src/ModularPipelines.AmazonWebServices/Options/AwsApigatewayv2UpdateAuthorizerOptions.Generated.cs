@@ -66,7 +66,7 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions
     /// <summary>
     /// The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querys- tring.Name for WebSocket APIs. For HTTP APIs, use selection expres- sions prefixed with $, for example, $request.header.Auth, $re- quest.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer in- voke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs . For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $re- quest.header.Authorization. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--identity-source")]
+    [CliOption("--identity-source", GroupValues = true)]
     public IEnumerable<string>? IdentitySource { get; set; }
 
     /// <summary>

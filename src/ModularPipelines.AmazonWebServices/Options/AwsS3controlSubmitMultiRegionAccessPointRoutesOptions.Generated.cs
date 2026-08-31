@@ -27,7 +27,7 @@ public record AwsS3controlSubmitMultiRegionAccessPointRoutesOptions : AwsOptions
     [CliOption("--mrap")]
     public string? Mrap { get; set; }
 
-    [CliOption("--route-updates")]
+    [CliOption("--route-updates", GroupValues = true)]
     public IEnumerable<string>? RouteUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

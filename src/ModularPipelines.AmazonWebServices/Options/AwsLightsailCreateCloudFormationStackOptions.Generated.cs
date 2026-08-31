@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "create-cloud-formation-stack")]
 public record AwsLightsailCreateCloudFormationStackOptions : AwsOptions
 {
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     [CliOption("--cli-input-json")]

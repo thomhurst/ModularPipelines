@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("fms", "list-discovered-resources")]
 public record AwsFmsListDiscoveredResourcesOptions : AwsOptions
 {
-    [CliOption("--member-account-ids")]
+    [CliOption("--member-account-ids", GroupValues = true)]
     public IEnumerable<string>? MemberAccountIds { get; set; }
 
     [CliOption("--resource-type")]

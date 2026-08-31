@@ -25,13 +25,13 @@ public record AwsSupplychainListInstancesOptions : AwsOptions
     /// <summary>
     /// The filter to ListInstances based on their names. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 63 o pattern: (?![ _'%-])[a-zA-Z0-9 _'%-]{0,62}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-name-filter")]
+    [CliOption("--instance-name-filter", GroupValues = true)]
     public IEnumerable<string>? InstanceNameFilter { get; set; }
 
     /// <summary>
     /// The filter to ListInstances based on their state. Constraints: o min: 0 o max: 6 (string) Possible values: o Initializing o Active o CreateFailed o DeleteFailed o Deleting o Deleted Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-state-filter")]
+    [CliOption("--instance-state-filter", GroupValues = true)]
     public IEnumerable<string>? InstanceStateFilter { get; set; }
 
     [CliOption("--cli-input-json")]

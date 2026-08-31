@@ -24,7 +24,7 @@ public record AwsEcrGetAuthorizationTokenOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--registry-ids")]
+    [CliOption("--registry-ids", GroupValues = true)]
     public IEnumerable<string>? RegistryIds { get; set; }
 
     [CliOption("--cli-input-json")]

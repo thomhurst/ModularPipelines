@@ -25,7 +25,7 @@ public record AwsSsmDescribeActivationsOptions : AwsOptions
     /// <summary>
     /// A filter to view information about your activations. (structure) Filter for the DescribeActivation API. FilterKey -&gt; (string) The name of the filter. Possible values: o ActivationIds o DefaultInstanceName o IamRole FilterValues -&gt; (list) The filter values. (string) Shorthand Syntax: FilterKey=string,FilterValues=string,string ... JSON Syntax: [ { "FilterKey": "ActivationIds"|"DefaultInstanceName"|"IamRole", "FilterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

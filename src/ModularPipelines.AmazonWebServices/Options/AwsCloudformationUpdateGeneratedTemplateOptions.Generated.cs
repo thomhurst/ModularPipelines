@@ -33,13 +33,13 @@ public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions
     /// <summary>
     /// An optional list of resources to be added to the generated template. Constraints: o min: 1 o max: 500 (structure) A resource included in a generated template. This data type is used with the CreateGeneratedTemplate and UpdateGeneratedTem- plate API actions. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection in the CloudFormation User Guide Constraints: o min: 1 o max: 256 LogicalResourceId -&gt; (string) The logical resource id for this resource in the generated template. ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . Constraints: o min: 1 o max: 256 key -&gt; (string) Constraints: o min: 1 o max: 2048 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: ResourceType=string,LogicalResourceId=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "LogicalResourceId": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--add-resources")]
+    [CliOption("--add-resources", GroupValues = true)]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
     /// A list of logical ids for resources to remove from the generated template. Constraints: o min: 1 o max: 500 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-resources")]
+    [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
 
     [CliFlag("--refresh-all-resources")]

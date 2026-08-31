@@ -24,7 +24,7 @@ public record AwsElbEnableAvailabilityZonesForLoadBalancerOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     [CliOption("--cli-input-json")]

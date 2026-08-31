@@ -25,7 +25,7 @@ public record AwsConnectBatchGetFlowAssociationOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--resource-ids")]
+    [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; set; }
 
     /// <summary>

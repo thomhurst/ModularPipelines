@@ -24,7 +24,7 @@ public record AwsDsUpdateSettingsOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CliOption("--settings")]
+    [CliOption("--settings", GroupValues = true)]
     public IEnumerable<string>? Settings { get; set; }
 
     [CliOption("--cli-input-json")]

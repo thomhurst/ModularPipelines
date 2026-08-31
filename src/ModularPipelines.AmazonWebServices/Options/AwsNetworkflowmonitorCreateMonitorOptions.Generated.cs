@@ -26,13 +26,13 @@ public record AwsNetworkflowmonitorCreateMonitorOptions : AwsOptions
     [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CliOption("--local-resources")]
+    [CliOption("--local-resources", GroupValues = true)]
     public IEnumerable<string>? LocalResources { get; set; }
 
     /// <summary>
     /// The remote resources to monitor. A remote resource is the other end- point in the bi-directional flow of a workload, with a local re- source. For example, Amazon Dynamo DB can be a remote resource. When you specify remote resources, be aware that specific combina- tions of resources are allowed and others are not, including the following constraints: o All remote resources that you specify must all belong to a single Region. o If you specify Amazon Web Services services as remote resources, any other remote resources that you specify must be in the current Region. o When you specify a remote resource for another Region, you can only specify the Region resource type. You cannot specify a sub- net, VPC, or Availability Zone in another Region. o If you leave the RemoteResources parameter empty, the monitor will include all network flows that terminate in the current Region. (structure) A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the re- mote resource. The values you can specify are the following: o For a VPC or subnet, this identifier is the VPC Amazon Re- source Name (ARN) or subnet ARN. o For a service, this identifier is one of the following strings: S3 or DynamoDB . o For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. o For a Region, this identifier is the Region name, for example, us-west-2. When a remote resource is an Amazon Web Services Region, Network Flow Monitor provides network performance measurements up to the edge of the Region that you specify. type -&gt; (string) [required] The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone , AWS::EC2::Subnet , AWS::AWSService , or AWS::Region . Possible values: o AWS::EC2::VPC o AWS::AvailabilityZone o AWS::EC2::Subnet o AWS::AWSService o AWS::Region identifier -&gt; (string) [required] The identifier of the remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or sub- net ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Re- gion , this identifier is the Region name, for example, us-west-2. Shorthand Syntax: type=string,identifier=string ... JSON Syntax: [ { "type": "AWS::EC2::VPC"|"AWS::AvailabilityZone"|"AWS::EC2::Subnet"|"AWS::AWSService"|"AWS::Region", "identifier": "string" } ... ]
     /// </summary>
-    [CliOption("--remote-resources")]
+    [CliOption("--remote-resources", GroupValues = true)]
     public IEnumerable<string>? RemoteResources { get; set; }
 
     [CliOption("--scope-arn")]
@@ -48,7 +48,7 @@ public record AwsNetworkflowmonitorCreateMonitorOptions : AwsOptions
     /// <summary>
     /// The tags for a monitor. You can add a maximum of 200 tags. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

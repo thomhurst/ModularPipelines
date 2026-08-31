@@ -30,7 +30,7 @@ public record AwsQappsUpdateQAppSessionOptions : AwsOptions
     /// <summary>
     /// The input values to provide for the current state of the Q App ses- sion. Constraints: o min: 0 o max: 20 (structure) The value or result associated with a card in a Amazon Q App session. cardId -&gt; (string) [required] The unique identifier of the card. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} value -&gt; (string) [required] The value or result associated with the card. Constraints: o min: 0 o max: 40000 submissionMutation -&gt; (structure) The structure that describes how the current form card value is mutated. Only applies for form cards when multiple re- sponses are allowed. submissionId -&gt; (string) [required] The unique identifier of the submission. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} mutationType -&gt; (string) [required] The operation that is performed on a submission. Possible values: o edit o delete o add Shorthand Syntax: cardId=string,value=string,submissionMutation={submissionId=string,mutationType=string} ... JSON Syntax: [ { "cardId": "string", "value": "string", "submissionMutation": { "submissionId": "string", "mutationType": "edit"|"delete"|"add" } } ... ]
     /// </summary>
-    [CliOption("--values")]
+    [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
 
     [CliOption("--cli-input-json")]

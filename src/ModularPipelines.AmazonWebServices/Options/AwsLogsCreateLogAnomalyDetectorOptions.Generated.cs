@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "create-log-anomaly-detector")]
 public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions
 {
-    [CliOption("--log-group-arn-list")]
+    [CliOption("--log-group-arn-list", GroupValues = true)]
     public IEnumerable<string>? LogGroupArnList { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions
     /// <summary>
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

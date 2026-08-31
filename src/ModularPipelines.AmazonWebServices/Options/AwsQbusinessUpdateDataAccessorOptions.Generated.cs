@@ -27,7 +27,7 @@ public record AwsQbusinessUpdateDataAccessorOptions : AwsOptions
     [CliOption("--data-accessor-id")]
     public string? DataAccessorId { get; set; }
 
-    [CliOption("--action-configurations")]
+    [CliOption("--action-configurations", GroupValues = true)]
     public IEnumerable<string>? ActionConfigurations { get; set; }
 
     /// <summary>

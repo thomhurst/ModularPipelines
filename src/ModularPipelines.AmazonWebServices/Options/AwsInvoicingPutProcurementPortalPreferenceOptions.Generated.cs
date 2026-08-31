@@ -62,7 +62,7 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions
     [CliFlag("--purchase-order-retrieval-enabled")]
     public bool? PurchaseOrderRetrievalEnabled { get; set; }
 
-    [CliOption("--contacts")]
+    [CliOption("--contacts", GroupValues = true)]
     public IEnumerable<string>? Contacts { get; set; }
 
     /// <summary>

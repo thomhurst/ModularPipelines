@@ -26,7 +26,7 @@ public record AwsMarketplaceCatalogStartChangeSetOptions : AwsOptions
     [CliOption("--catalog")]
     public string? Catalog { get; set; }
 
-    [CliOption("--change-set")]
+    [CliOption("--change-set", GroupValues = true)]
     public IEnumerable<string>? ChangeSet { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsMarketplaceCatalogStartChangeSetOptions : AwsOptions
     /// <summary>
     /// A list of objects specifying each key name and value for the Change- SetTags property. Constraints: o min: 1 o max: 200 (structure) A list of objects specifying each key name and value. Key -&gt; (string) [required] The key associated with the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value associated with the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--change-set-tags")]
+    [CliOption("--change-set-tags", GroupValues = true)]
     public IEnumerable<string>? ChangeSetTags { get; set; }
 
     /// <summary>

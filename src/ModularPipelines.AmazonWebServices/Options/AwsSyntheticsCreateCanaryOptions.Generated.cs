@@ -68,7 +68,7 @@ public record AwsSyntheticsCreateCanaryOptions : AwsOptions
     /// <summary>
     /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function . If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails. Constraints: o min: 1 o max: 1 (string) Possible values: o lambda-function Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources-to-replicate-tags")]
+    [CliOption("--resources-to-replicate-tags", GroupValues = true)]
     public IEnumerable<string>? ResourcesToReplicateTags { get; set; }
 
     /// <summary>
@@ -80,19 +80,19 @@ public record AwsSyntheticsCreateCanaryOptions : AwsOptions
     /// <summary>
     /// CloudWatch Synthetics now supports multibrowser canaries for syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 runtimes. This feature allows you to run your canaries on both Firefox and Chrome browsers. To create a multibrowser canary, you need to spec- ify the BrowserConfigs with a list of browsers you want to use. NOTE: If not specified, browserConfigs defaults to Chrome. Constraints: o min: 1 o max: 2 (structure) A structure that specifies the browser type to use for a canary run. BrowserType -&gt; (string) The browser type associated with this browser configuration. Possible values: o CHROME o FIREFOX Shorthand Syntax: BrowserType=string ... JSON Syntax: [ { "BrowserType": "CHROME"|"FIREFOX" } ... ]
     /// </summary>
-    [CliOption("--browser-configs")]
+    [CliOption("--browser-configs", GroupValues = true)]
     public IEnumerable<string>? BrowserConfigs { get; set; }
 
     /// <summary>
     /// A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica. You can add up to 50 replica loca- tions. Constraints: o min: 1 o max: 50 (structure) A structure that specifies a replica location for a canary, in- cluding the Region and optional VPC configuration. Location -&gt; (string) [required] The Amazon Web Services Region where the canary replica should be created, for example us-east-1 . Constraints: o min: 1 o max: 20 o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$ VpcConfig -&gt; (structure) The VPC configuration to use for the canary replica in this location. If not specified, the replica runs without VPC con- nectivity. SubnetIds -&gt; (list) The IDs of the subnets where this canary is to run. Constraints: o min: 0 o max: 16 (string) SecurityGroupIds -&gt; (list) The IDs of the security groups for this canary. Constraints: o min: 0 o max: 5 (string) Ipv6AllowedForDualStack -&gt; (boolean) Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the ca- nary replica's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:key/[\w\-\/]+ Shorthand Syntax: Location=string,VpcConfig={SubnetIds=[string,string],SecurityGroupIds=[string,string],Ipv6AllowedForDualStack=boolean},KmsKeyArn=string ... JSON Syntax: [ { "Location": "string", "VpcConfig": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }, "KmsKeyArn": "string" } ... ]
     /// </summary>
-    [CliOption("--add-replica-locations")]
+    [CliOption("--add-replica-locations", GroupValues = true)]
     public IEnumerable<string>? AddReplicaLocations { get; set; }
 
     /// <summary>
     /// A list of key-value pairs to associate with the canary. You can as- sociate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permis- sion to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

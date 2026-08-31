@@ -24,7 +24,7 @@ public record AwsElasticacheModifyCacheParameterGroupOptions : AwsOptions
     [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
 
-    [CliOption("--parameter-name-values")]
+    [CliOption("--parameter-name-values", GroupValues = true)]
     public IEnumerable<string>? ParameterNameValues { get; set; }
 
     [CliOption("--cli-input-json")]

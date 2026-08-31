@@ -33,7 +33,7 @@ public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOpt
     /// <summary>
     /// The metadata tags to assign to your registered Linux subscription provider resource. Constraints: o min: 0 o max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

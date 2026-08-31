@@ -40,7 +40,7 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     /// <summary>
     /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environ- ment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ For more information, see Tagging Your Resources in the Amazon Work- Spaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--platform")]
@@ -64,7 +64,7 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     /// <summary>
     /// The list of interface VPC endpoint (interface endpoint) objects. Ad- ministrators can connect to the app block builder only through the specified endpoints. Constraints: o min: 1 o max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: o STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface end- point is used. Constraints: o min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
     /// </summary>
-    [CliOption("--access-endpoints")]
+    [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
 
     [CliFlag("--disable-imdsv1")]

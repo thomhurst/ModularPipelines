@@ -32,7 +32,7 @@ public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>

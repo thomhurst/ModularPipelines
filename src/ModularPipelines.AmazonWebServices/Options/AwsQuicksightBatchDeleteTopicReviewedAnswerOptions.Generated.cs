@@ -30,7 +30,7 @@ public record AwsQuicksightBatchDeleteTopicReviewedAnswerOptions : AwsOptions
     /// <summary>
     /// The Answer IDs of the Answers to be deleted. (string) Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--answer-ids")]
+    [CliOption("--answer-ids", GroupValues = true)]
     public IEnumerable<string>? AnswerIds { get; set; }
 
     [CliOption("--cli-input-json")]

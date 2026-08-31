@@ -33,7 +33,7 @@ public record AwsMemorydbUpdateSubnetGroupOptions : AwsOptions
     /// <summary>
     /// The EC2 subnet IDs for the subnet group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliOption("--cli-input-json")]

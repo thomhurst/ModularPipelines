@@ -35,7 +35,7 @@ public record AwsQuicksightCreateLimitsProfileOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--resource-limits")]
+    [CliOption("--resource-limits", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ResourceLimits { get; set; }
 
     [SecretValue]

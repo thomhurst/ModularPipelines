@@ -29,7 +29,7 @@ public record AwsRbinListRulesOptions : AwsOptions
     /// <summary>
     /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule. Constraints: o min: 0 o max: 50 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsRbinListRulesOptions : AwsOptions
     /// <summary>
     /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule. Constraints: o min: 0 o max: 5 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
     /// </summary>
-    [CliOption("--exclude-resource-tags")]
+    [CliOption("--exclude-resource-tags", GroupValues = true)]
     public IEnumerable<string>? ExcludeResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -51,7 +51,7 @@ public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : A
     /// <summary>
     /// The list of source code configurations to update for the application component. (structure) Object containing source code information that is linked to an application component. location -&gt; (string) The repository name for the source code. Constraints: o min: 1 o max: 128 o pattern: .*\S.* projectName -&gt; (string) The name of the project. Constraints: o min: 1 o max: 128 o pattern: .*\S.* sourceVersion -&gt; (string) The branch of the source code. Constraints: o min: 1 o max: 40 o pattern: .*\S.* versionControl -&gt; (string) The type of repository to use for the source code. Possible values: o GITHUB o GITHUB_ENTERPRISE o AZURE_DEVOPS_GIT Shorthand Syntax: location=string,projectName=string,sourceVersion=string,versionControl=string ... JSON Syntax: [ { "location": "string", "projectName": "string", "sourceVersion": "string", "versionControl": "GITHUB"|"GITHUB_ENTERPRISE"|"AZURE_DEVOPS_GIT" } ... ]
     /// </summary>
-    [CliOption("--source-code-list")]
+    [CliOption("--source-code-list", GroupValues = true)]
     public IEnumerable<string>? SourceCodeList { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions
     /// <summary>
     /// The IDs of the security groups associated with the resource gateway. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

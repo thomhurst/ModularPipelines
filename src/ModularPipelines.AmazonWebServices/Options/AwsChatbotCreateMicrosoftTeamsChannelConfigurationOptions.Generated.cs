@@ -45,7 +45,7 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sns-topic-arns")]
+    [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     [CliOption("--iam-role-arn")]
@@ -63,7 +63,7 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     /// <summary>
     /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set. (string) Constraints: o min: 11 o max: 1163 o pattern: (^$|(?!.*\/aws-ser- vice-role\/.*)arn:aws:iam:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9_\/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_\/+=,@.-]{0,1023}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--guardrail-policy-arns")]
+    [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
     [CliFlag("--user-authorization-required")]
@@ -72,7 +72,7 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     /// <summary>
     /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

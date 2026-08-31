@@ -37,7 +37,7 @@ public record AwsDirectconnectListVirtualInterfaceTestHistoryOptions : AwsOption
     /// <summary>
     /// The BGP peers that were placed in the DOWN state during the virtual interface failover test. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--bgp-peers")]
+    [CliOption("--bgp-peers", GroupValues = true)]
     public IEnumerable<string>? BgpPeers { get; set; }
 
     /// <summary>

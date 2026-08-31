@@ -25,13 +25,13 @@ public record AwsFsxDescribeDataRepositoryAssociationsOptions : AwsOptions
     /// <summary>
     /// IDs of the data repository associations whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--association-ids")]
+    [CliOption("--association-ids", GroupValues = true)]
     public IEnumerable<string>? AssociationIds { get; set; }
 
     /// <summary>
     /// A list of Filter elements. Constraints: o max: 10 (structure) A filter used to restrict the results of describe calls. You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name for this filter. Possible values: o file-system-id o backup-type o file-system-type o volume-id o data-repository-type o file-cache-id o file-cache-type Values -&gt; (list) The values of the filter. These are all the values for any of the applied filters. Constraints: o max: 20 (string) The value for a filter. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"backup-type"|"file-system-type"|"volume-id"|"data-repository-type"|"file-cache-id"|"file-cache-type", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

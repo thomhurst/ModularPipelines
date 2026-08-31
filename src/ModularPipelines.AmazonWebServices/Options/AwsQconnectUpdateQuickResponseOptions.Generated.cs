@@ -78,7 +78,7 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
     /// <summary>
     /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat . (string) Constraints: o min: 1 o max: 10 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--channels")]
+    [CliOption("--channels", GroupValues = true)]
     public IEnumerable<string>? Channels { get; set; }
 
     /// <summary>

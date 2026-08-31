@@ -24,13 +24,13 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions
     /// <summary>
     /// For internal use. Returns a list of SageMaker Edge Manager agent op- erating metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: o min: 4 o max: 100 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: Dimension=string,MetricName=string,Value=double,Timestamp=timestamp ... JSON Syntax: [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ]
     /// </summary>
-    [CliOption("--agent-metrics")]
+    [CliOption("--agent-metrics", GroupValues = true)]
     public IEnumerable<string>? AgentMetrics { get; set; }
 
     /// <summary>
     /// Returns a list of models deployed on the the device. (structure) Information about a model deployed on an edge device that is registered with SageMaker Edge Manager. ModelName -&gt; (string) The name of the model. Constraints: o min: 4 o max: 255 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+ LatestSampleTime -&gt; (timestamp) The timestamp of the last data sample taken. LatestInference -&gt; (timestamp) The timestamp of the last inference that was made. ModelMetrics -&gt; (list) Information required for model metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: o min: 4 o max: 100 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: ModelName=string,ModelVersion=string,LatestSampleTime=timestamp,LatestInference=timestamp,ModelMetrics=[{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp},{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp}] ... JSON Syntax: [ { "ModelName": "string", "ModelVersion": "string", "LatestSampleTime": timestamp, "LatestInference": timestamp, "ModelMetrics": [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ] } ... ]
     /// </summary>
-    [CliOption("--models")]
+    [CliOption("--models", GroupValues = true)]
     public IEnumerable<string>? Models { get; set; }
 
     [CliOption("--agent-version")]

@@ -52,7 +52,7 @@ public record AwsGlueCreateCrawlerOptions : AwsOptions
     /// <summary>
     /// A list of custom classifiers that the user has registered. By de- fault, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--classifiers")]
+    [CliOption("--classifiers", GroupValues = true)]
     public IEnumerable<string>? Classifiers { get; set; }
 
     /// <summary>
@@ -100,7 +100,7 @@ public record AwsGlueCreateCrawlerOptions : AwsOptions
     /// <summary>
     /// The tags to use with this crawler request. You may use tags to limit access to the crawler. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

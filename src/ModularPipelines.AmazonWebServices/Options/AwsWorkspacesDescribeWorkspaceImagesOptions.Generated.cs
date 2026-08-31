@@ -26,7 +26,7 @@ public record AwsWorkspacesDescribeWorkspaceImagesOptions : AwsOptions
     /// <summary>
     /// The identifier of the image. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: wsi-[0-9a-z]{9,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     /// <summary>

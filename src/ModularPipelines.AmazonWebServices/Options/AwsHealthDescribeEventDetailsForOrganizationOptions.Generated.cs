@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("health", "describe-event-details-for-organization")]
 public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions
 {
-    [CliOption("--organization-event-detail-filters")]
+    [CliOption("--organization-event-detail-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEventDetailFilters { get; set; }
 
     /// <summary>

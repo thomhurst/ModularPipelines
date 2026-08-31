@@ -25,7 +25,7 @@ public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CliOption("--specifications")]
+    [CliOption("--specifications", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Specifications { get; set; }
 
     /// <summary>

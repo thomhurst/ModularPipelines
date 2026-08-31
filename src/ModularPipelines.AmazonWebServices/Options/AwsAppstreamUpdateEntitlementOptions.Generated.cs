@@ -43,7 +43,7 @@ public record AwsAppstreamUpdateEntitlementOptions : AwsOptions
     /// <summary>
     /// The attributes of the entitlement. Constraints: o min: 1 (structure) An attribute associated with an entitlement. Application enti- tlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applica- tions SAML application. Name -&gt; (string) [required] A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity feder- ates into a WorkSpaces Applications SAML application. The following are valid values: o roles o department o organization o groups o title o costCenter o userType Constraints: o min: 1 Value -&gt; (string) [required] A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application. Constraints: o min: 1 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

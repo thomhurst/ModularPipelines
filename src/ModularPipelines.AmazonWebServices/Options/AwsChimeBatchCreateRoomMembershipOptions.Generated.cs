@@ -27,7 +27,7 @@ public record AwsChimeBatchCreateRoomMembershipOptions : AwsOptions
     [CliOption("--room-id")]
     public string? RoomId { get; set; }
 
-    [CliOption("--membership-item-list")]
+    [CliOption("--membership-item-list", GroupValues = true)]
     public IEnumerable<string>? MembershipItemList { get; set; }
 
     [CliOption("--cli-input-json")]

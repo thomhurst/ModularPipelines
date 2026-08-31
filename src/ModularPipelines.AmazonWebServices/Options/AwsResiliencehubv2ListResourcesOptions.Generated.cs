@@ -40,7 +40,7 @@ public record AwsResiliencehubv2ListResourcesOptions : AwsOptions
     /// <summary>
     /// The CloudFormation resource types to include in the response. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliFlag("--billable")]

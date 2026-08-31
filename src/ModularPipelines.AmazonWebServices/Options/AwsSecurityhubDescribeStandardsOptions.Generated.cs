@@ -25,7 +25,7 @@ public record AwsSecurityhubDescribeStandardsOptions : AwsOptions
     /// <summary>
     /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure re- sources. (string) Possible values: o AWS o Azure Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--providers")]
+    [CliOption("--providers", GroupValues = true)]
     public IEnumerable<string>? Providers { get; set; }
 
     [CliOption("--cli-input-json")]

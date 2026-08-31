@@ -28,7 +28,7 @@ public record AwsTnbTerminateSolNetworkInstanceOptions : AwsOptions
     /// <summary>
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is cre- ated. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -42,10 +42,10 @@ public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions
     /// <summary>
     /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]

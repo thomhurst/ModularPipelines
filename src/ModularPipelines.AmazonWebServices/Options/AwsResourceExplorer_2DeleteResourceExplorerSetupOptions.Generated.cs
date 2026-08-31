@@ -24,7 +24,7 @@ public record AwsResourceExplorer_2DeleteResourceExplorerSetupOptions : AwsOptio
     /// <summary>
     /// A list of Amazon Web Services Regions from which to delete the Re- source Explorer configuration. If not specified, the operation uses the DeleteInAllRegions parameter to determine scope. (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--region-list")]
+    [CliOption("--region-list", GroupValues = true)]
     public IEnumerable<string>? RegionList { get; set; }
 
     [CliFlag("--delete-in-all-regions")]

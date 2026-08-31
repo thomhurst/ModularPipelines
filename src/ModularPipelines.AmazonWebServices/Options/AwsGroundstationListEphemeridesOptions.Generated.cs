@@ -44,7 +44,7 @@ public record AwsGroundstationListEphemeridesOptions : AwsOptions
     /// <summary>
     /// The list of ephemeris status to return. Constraints: o min: 0 o max: 500 (string) Possible values: o VALIDATING o INVALID o ERROR o ENABLED o DISABLED o EXPIRED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status-list")]
+    [CliOption("--status-list", GroupValues = true)]
     public IEnumerable<string>? StatusList { get; set; }
 
     [CliOption("--cli-input-json")]

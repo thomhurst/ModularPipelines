@@ -44,7 +44,7 @@ public record AwsConnectcasesListFieldOptionsOptions : AwsOptions
     /// <summary>
     /// A list of FieldOption values to filter on for ListFieldOptions . Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--values")]
+    [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
 
     [CliOption("--cli-input-json")]

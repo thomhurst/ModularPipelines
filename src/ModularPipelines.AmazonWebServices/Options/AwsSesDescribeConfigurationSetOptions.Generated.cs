@@ -27,7 +27,7 @@ public record AwsSesDescribeConfigurationSetOptions : AwsOptions
     /// <summary>
     /// A list of configuration set attributes to return. (string) Possible values: o eventDestinations o trackingOptions o deliveryOptions o reputationOptions Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-set-attribute-names")]
+    [CliOption("--configuration-set-attribute-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationSetAttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

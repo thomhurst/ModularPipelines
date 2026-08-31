@@ -30,16 +30,16 @@ public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// A list of IP addresses of DNS resolver endpoints for the VPC connec- tion. Constraints: o max: 15 (string) Constraints: o min: 7 o max: 15 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--dns-resolvers")]
+    [CliOption("--dns-resolvers", GroupValues = true)]
     public IEnumerable<string>? DnsResolvers { get; set; }
 
     [CliOption("--role-arn")]
@@ -48,7 +48,7 @@ public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions
     /// <summary>
     /// A map of the key-value pairs for the resource tag or tags assigned to the VPC connection. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

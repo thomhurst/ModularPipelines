@@ -30,13 +30,13 @@ public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions
     /// <summary>
     /// A list of resources to add to the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: o TOPIC o DASHBOARD o KNOWLEDGE_BASE o ACTION_CONNECTOR o DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--add-resources")]
+    [CliOption("--add-resources", GroupValues = true)]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
     /// A list of resources to remove from the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: o TOPIC o DASHBOARD o KNOWLEDGE_BASE o ACTION_CONNECTOR o DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--remove-resources")]
+    [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
 
     [CliOption("--cli-input-json")]

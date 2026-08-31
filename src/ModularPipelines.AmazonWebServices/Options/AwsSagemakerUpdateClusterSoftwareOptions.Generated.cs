@@ -27,7 +27,7 @@ public record AwsSagemakerUpdateClusterSoftwareOptions : AwsOptions
     /// <summary>
     /// The array of instance groups for which to update AMI versions. Constraints: o min: 1 o max: 100 (structure) The configuration that describes specifications of the instance groups to update. InstanceGroupName -&gt; (string) [required] The name of the instance group to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* ImageReleaseVersion -&gt; (string) The version of the HyperPod-managed AMI to update to for the instance group. Uses semantic versioning in the format MA- JOR.MINOR.PATCH . Constraints: o min: 0 o max: 64 o pattern: [0-9]+\.[0-9]+\.[0-9]+ Shorthand Syntax: InstanceGroupName=string,ImageReleaseVersion=string ... JSON Syntax: [ { "InstanceGroupName": "string", "ImageReleaseVersion": "string" } ... ]
     /// </summary>
-    [CliOption("--instance-groups")]
+    [CliOption("--instance-groups", GroupValues = true)]
     public IEnumerable<string>? InstanceGroups { get; set; }
 
     /// <summary>

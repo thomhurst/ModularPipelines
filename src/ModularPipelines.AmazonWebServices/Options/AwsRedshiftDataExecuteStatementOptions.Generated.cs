@@ -63,7 +63,7 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions
     /// <summary>
     /// The parameters for the SQL statement. Constraints: o min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: o pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly con- verts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: o min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>

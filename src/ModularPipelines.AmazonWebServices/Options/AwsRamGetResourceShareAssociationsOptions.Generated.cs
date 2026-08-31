@@ -29,7 +29,7 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions
     /// <summary>
     /// Specifies a list of Amazon Resource Names (ARNs) of the resource share whose associations you want to retrieve. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>

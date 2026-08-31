@@ -69,7 +69,7 @@ public record AwsAppstreamUpdateApplicationOptions : AwsOptions
     /// <summary>
     /// The attributes to delete for an application. Constraints: o max: 2 (string) Possible values: o LAUNCH_PARAMETERS o WORKING_DIRECTORY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-delete")]
+    [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

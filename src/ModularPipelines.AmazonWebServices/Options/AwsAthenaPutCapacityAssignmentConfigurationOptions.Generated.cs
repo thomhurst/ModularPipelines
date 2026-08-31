@@ -24,7 +24,7 @@ public record AwsAthenaPutCapacityAssignmentConfigurationOptions : AwsOptions
     [CliOption("--capacity-reservation-name")]
     public string? CapacityReservationName { get; set; }
 
-    [CliOption("--capacity-assignments")]
+    [CliOption("--capacity-assignments", GroupValues = true)]
     public IEnumerable<string>? CapacityAssignments { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -29,7 +29,7 @@ public record AwsAccessanalyzerUpdateArchiveRuleOptions : AwsOptions
     [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>

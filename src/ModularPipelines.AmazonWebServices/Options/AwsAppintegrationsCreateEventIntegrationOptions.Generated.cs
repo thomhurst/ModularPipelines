@@ -48,7 +48,7 @@ public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

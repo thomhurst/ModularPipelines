@@ -27,7 +27,7 @@ public record AwsMedialiveUpdateChannelClassOptions : AwsOptions
     [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--cli-input-json")]

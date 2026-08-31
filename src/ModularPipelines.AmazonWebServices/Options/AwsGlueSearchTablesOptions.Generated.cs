@@ -39,7 +39,7 @@ public record AwsGlueSearchTablesOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name , a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate . For example, if Key=Name and Value=link , tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned. (structure) Defines a property predicate. Key -&gt; (string) The key of the property. Constraints: o min: 1 o max: 1024 Value -&gt; (string) The value of the property. Constraints: o min: 1 o max: 1024 Comparator -&gt; (string) The comparator used to compare this property to others. Possible values: o EQUALS o GREATER_THAN o LESS_THAN o GREATER_THAN_EQUALS o LESS_THAN_EQUALS Shorthand Syntax: Key=string,Value=string,Comparator=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Comparator": "EQUALS"|"GREATER_THAN"|"LESS_THAN"|"GREATER_THAN_EQUALS"|"LESS_THAN_EQUALS" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record AwsGlueSearchTablesOptions : AwsOptions
     /// <summary>
     /// A list of criteria for sorting the results by a field name, in an ascending or descending order. Constraints: o min: 0 o max: 1 (structure) Specifies a field to sort by and a sort order. FieldName -&gt; (string) The name of the field on which to sort. Constraints: o min: 1 o max: 1024 Sort -&gt; (string) An ascending or descending sort. Possible values: o ASC o DESC Shorthand Syntax: FieldName=string,Sort=string ... JSON Syntax: [ { "FieldName": "string", "Sort": "ASC"|"DESC" } ... ]
     /// </summary>
-    [CliOption("--sort-criteria")]
+    [CliOption("--sort-criteria", GroupValues = true)]
     public IEnumerable<string>? SortCriteria { get; set; }
 
     /// <summary>

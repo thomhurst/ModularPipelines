@@ -25,13 +25,13 @@ public record AwsWorkspacesDescribeWorkspacesPoolsOptions : AwsOptions
     /// <summary>
     /// The identifier of the WorkSpaces Pools. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^wspool-[0-9a-z]{9}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pool-ids")]
+    [CliOption("--pool-ids", GroupValues = true)]
     public IEnumerable<string>? PoolIds { get; set; }
 
     /// <summary>
     /// The filter conditions for the WorkSpaces Pool to return. Constraints: o min: 1 o max: 25 (structure) Describes the filter conditions for WorkSpaces Pools to return. Name -&gt; (string) [required] The name of the pool to filter. Possible values: o PoolName Values -&gt; (list) [required] The values for filtering WorkSpaces Pools. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]+$ Operator -&gt; (string) [required] The operator values for filtering WorkSpaces Pools. Possible values: o EQUALS o NOTEQUALS o CONTAINS o NOTCONTAINS Shorthand Syntax: Name=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Name": "PoolName", "Values": ["string", ...], "Operator": "EQUALS"|"NOTEQUALS"|"CONTAINS"|"NOTCONTAINS" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

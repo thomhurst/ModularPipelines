@@ -25,7 +25,7 @@ public record AwsDiscoveryDescribeTagsOptions : AwsOptions
     /// <summary>
     /// You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId . (structure) The tag filter. Valid names are: tagKey , tagValue , configura- tionId . name -&gt; (string) [required] A name of the tag filter. Constraints: o max: 1000 o pattern: [\s\S]*\S[\s\S]* values -&gt; (list) [required] Values for the tag filter. (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

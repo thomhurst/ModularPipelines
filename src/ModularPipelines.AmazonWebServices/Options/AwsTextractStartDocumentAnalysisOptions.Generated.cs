@@ -25,7 +25,7 @@ public record AwsTextractStartDocumentAnalysisOptions : AwsOptions
     [CliOption("--document-location")]
     public string? DocumentLocation { get; set; }
 
-    [CliOption("--feature-types")]
+    [CliOption("--feature-types", GroupValues = true)]
     public IEnumerable<string>? FeatureTypes { get; set; }
 
     /// <summary>

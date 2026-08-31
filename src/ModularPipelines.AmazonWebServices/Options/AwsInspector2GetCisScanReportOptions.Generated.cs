@@ -28,7 +28,7 @@ public record AwsInspector2GetCisScanReportOptions : AwsOptions
     /// <summary>
     /// The target accounts. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-accounts")]
+    [CliOption("--target-accounts", GroupValues = true)]
     public IEnumerable<string>? TargetAccounts { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("drs", "terminate-recovery-instances")]
 public record AwsDrsTerminateRecoveryInstancesOptions : AwsOptions
 {
-    [CliOption("--recovery-instance-ids")]
+    [CliOption("--recovery-instance-ids", GroupValues = true)]
     public IEnumerable<string>? RecoveryInstanceIds { get; set; }
 
     [CliOption("--cli-input-json")]

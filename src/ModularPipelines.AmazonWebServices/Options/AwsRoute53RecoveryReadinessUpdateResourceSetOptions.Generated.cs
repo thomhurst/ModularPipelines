@@ -27,7 +27,7 @@ public record AwsRoute53RecoveryReadinessUpdateResourceSetOptions : AwsOptions
     [CliOption("--resource-set-type")]
     public string? ResourceSetType { get; set; }
 
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     [CliOption("--cli-input-json")]

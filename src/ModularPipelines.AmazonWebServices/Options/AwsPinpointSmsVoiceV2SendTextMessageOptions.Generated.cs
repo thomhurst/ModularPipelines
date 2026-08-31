@@ -71,13 +71,13 @@ public record AwsPinpointSmsVoiceV2SendTextMessageOptions : AwsOptions
     /// <summary>
     /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context")]
+    [CliOption("--context", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
     /// This field is used for any country-specific registration require- ments. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . o IN_ENTITY_ID The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process. o IN_TEMPLATE_ID The template ID that you received after completing the sender ID registration process. WARNING: Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the tem- plate that you provided during the registration process, the mo- bile carriers might reject your message. Constraints: o min: 0 o max: 10 key -&gt; (string) Possible values: o IN_TEMPLATE_ID o IN_ENTITY_ID value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
     /// </summary>
-    [CliOption("--destination-country-parameters")]
+    [CliOption("--destination-country-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? DestinationCountryParameters { get; set; }
 
     [CliFlag("--dry-run")]

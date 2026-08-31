@@ -25,7 +25,7 @@ public record AwsSsmListCloudConnectorsOptions : AwsOptions
     /// <summary>
     /// One or more filters to limit the cloud connectors returned in the response. Constraints: o min: 1 o max: 2 (structure) A filter for listing cloud connectors. FilterKey -&gt; (string) The name of the filter key. Possible values: o SubscriptionId o TenantId FilterValues -&gt; (list) The filter values. Valid values for each filter key are as follows: SubscriptionId The Azure subscription ID to filter by. To return only ten- ant-level connectors, specify NONE . TenantId The Azure tenant ID to filter by. Filters the results to con- nectors that target the specified tenant. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: FilterKey=string,FilterValues=string,string ... JSON Syntax: [ { "FilterKey": "SubscriptionId"|"TenantId", "FilterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

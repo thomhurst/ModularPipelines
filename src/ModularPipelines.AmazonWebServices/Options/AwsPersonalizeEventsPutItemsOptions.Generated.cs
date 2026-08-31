@@ -24,7 +24,7 @@ public record AwsPersonalizeEventsPutItemsOptions : AwsOptions
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     [CliOption("--cli-input-json")]

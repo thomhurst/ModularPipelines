@@ -27,7 +27,7 @@ public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--documents")]
+    [CliOption("--documents", GroupValues = true)]
     public IEnumerable<string>? Documents { get; set; }
 
     /// <summary>

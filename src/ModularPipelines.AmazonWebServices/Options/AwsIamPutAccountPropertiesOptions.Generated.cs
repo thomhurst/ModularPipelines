@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iam", "put-account-properties")]
 public record AwsIamPutAccountPropertiesOptions : AwsOptions
 {
-    [CliOption("--properties")]
+    [CliOption("--properties", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     [CliOption("--cli-input-json")]

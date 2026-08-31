@@ -24,7 +24,7 @@ public record AwsWorkspacesDeleteClientBrandingOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--platforms")]
+    [CliOption("--platforms", GroupValues = true)]
     public IEnumerable<string>? Platforms { get; set; }
 
     [CliOption("--cli-input-json")]

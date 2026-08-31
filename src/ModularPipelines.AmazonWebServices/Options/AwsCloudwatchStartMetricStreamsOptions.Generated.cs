@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "start-metric-streams")]
 public record AwsCloudwatchStartMetricStreamsOptions : AwsOptions
 {
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -32,7 +32,7 @@ public record AwsWorkspacesInstancesCreateWorkspaceInstanceOptions : AwsOptions
     /// <summary>
     /// Optional metadata tags for categorizing and managing WorkSpaces In- stances. Constraints: o min: 0 o max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--managed-instance")]

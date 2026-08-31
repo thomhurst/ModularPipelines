@@ -25,19 +25,19 @@ public record AwsEc2DescribeImageUsageReportsOptions : AwsOptions
     /// <summary>
     /// The IDs of the images for filtering the reports. If specified, only reports containing these images are returned. Constraints: o min: 0 o max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     /// <summary>
     /// The IDs of the image usage reports. Constraints: o min: 0 o max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--report-ids")]
+    [CliOption("--report-ids", GroupValues = true)]
     public IEnumerable<string>? ReportIds { get; set; }
 
     /// <summary>
     /// The filters. o creation-time - The time when the report was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2025-11-29T11:04:43.305Z . You can use a wildcard (* ), for example, 2025-11-29T* , which matches an entire day. o state - The state of the report (available | pending | error ). o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

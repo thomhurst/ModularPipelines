@@ -29,7 +29,7 @@ public record AwsGreengrassCreateCoreDefinitionVersionOptions : AwsOptions
     [CliOption("--core-definition-id")]
     public string? CoreDefinitionId { get; set; }
 
-    [CliOption("--cores")]
+    [CliOption("--cores", GroupValues = true)]
     public IEnumerable<string>? Cores { get; set; }
 
     [CliOption("--cli-input-json")]

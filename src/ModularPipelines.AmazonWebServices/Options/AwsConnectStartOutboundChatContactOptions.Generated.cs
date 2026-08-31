@@ -32,13 +32,13 @@ public record AwsConnectStartOutboundChatContactOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--segment-attributes")]
+    [CliOption("--segment-attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--contact-flow-id")]
@@ -77,7 +77,7 @@ public record AwsConnectStartOutboundChatContactOptions : AwsOptions
     /// <summary>
     /// The supported chat message content types. Supported types are: o text/plain o text/markdown o application/json, application/vnd.amazonaws.connect.message.inter- active o application/vnd.amazonaws.connect.message.interactive.response Content types must always contain text/plain . You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain : o [text/plain, text/markdown, application/json] o [text/markdown, text/plain] o [text/plain, application/json, application/vnd.amazonaws.con- nect.message.interactive.response] (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-messaging-content-types")]
+    [CliOption("--supported-messaging-content-types", GroupValues = true)]
     public IEnumerable<string>? SupportedMessagingContentTypes { get; set; }
 
     /// <summary>

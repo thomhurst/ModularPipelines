@@ -26,7 +26,7 @@ public record AwsInspector2ListFiltersOptions : AwsOptions
     /// <summary>
     /// The Amazon resource number (ARN) of the filter. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>

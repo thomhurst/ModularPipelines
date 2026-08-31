@@ -52,19 +52,19 @@ public record AwsResiliencehubCreateRecommendationTemplateOptions : AwsOptions
     /// <summary>
     /// Identifiers for the recommendations used to create a recommendation template. Constraints: o min: 1 o max: 200 (string) Constraints: o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     /// <summary>
     /// An array of strings that specify the recommendation template type or types. Alarm The template is an AlarmRecommendation template. Sop The template is a SopRecommendation template. Test The template is a TestRecommendation template. Constraints: o min: 1 o max: 4 (string) Possible values: o Alarm o Sop o Test Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommendation-types")]
+    [CliOption("--recommendation-types", GroupValues = true)]
     public IEnumerable<string>? RecommendationTypes { get; set; }
 
     /// <summary>
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

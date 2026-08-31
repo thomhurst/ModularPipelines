@@ -31,7 +31,7 @@ public record AwsEcsListDaemonsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the capacity providers to filter daemons by. Only daemons associated with the specified capacity providers are returned. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capacity-provider-arns")]
+    [CliOption("--capacity-provider-arns", GroupValues = true)]
     public IEnumerable<string>? CapacityProviderArns { get; set; }
 
     /// <summary>

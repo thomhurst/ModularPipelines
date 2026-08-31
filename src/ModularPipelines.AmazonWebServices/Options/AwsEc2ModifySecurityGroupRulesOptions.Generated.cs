@@ -24,7 +24,7 @@ public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CliOption("--security-group-rules")]
+    [CliOption("--security-group-rules", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupRules { get; set; }
 
     [CliFlag("--dry-run")]

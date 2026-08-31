@@ -24,7 +24,7 @@ public record AwsCodebuildBatchGetCommandExecutionsOptions : AwsOptions
     [CliOption("--sandbox-id")]
     public string? SandboxId { get; set; }
 
-    [CliOption("--command-execution-ids")]
+    [CliOption("--command-execution-ids", GroupValues = true)]
     public IEnumerable<string>? CommandExecutionIds { get; set; }
 
     [CliOption("--cli-input-json")]

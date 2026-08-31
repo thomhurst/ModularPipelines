@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeOrganizationConformancePackStatusesOptions
     /// <summary>
     /// The names of organization conformance packs for which you want sta- tus details. If you do not specify any names, Config returns details for all your organization conformance packs. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organization-conformance-pack-names")]
+    [CliOption("--organization-conformance-pack-names", GroupValues = true)]
     public IEnumerable<string>? OrganizationConformancePackNames { get; set; }
 
     [CliOption("--cli-input-json")]

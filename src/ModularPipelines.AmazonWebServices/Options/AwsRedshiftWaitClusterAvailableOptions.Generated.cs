@@ -31,13 +31,13 @@ public record AwsRedshiftWaitClusterAvailableOptions : AwsOptions
     /// <summary>
     /// A tag key or keys for which you want to return all matching clusters that are associated with the specified key or keys. For example, suppose that you have clusters that are tagged with keys called owner and environment . If you specify both of these tag keys in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag keys associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>
     /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test . If you specify both of these tag val- ues in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values")]
+    [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     [CliOption("--cli-input-json")]

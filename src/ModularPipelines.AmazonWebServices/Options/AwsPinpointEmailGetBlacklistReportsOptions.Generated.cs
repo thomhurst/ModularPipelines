@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("pinpoint-email", "get-blacklist-reports")]
 public record AwsPinpointEmailGetBlacklistReportsOptions : AwsOptions
 {
-    [CliOption("--blacklist-item-names")]
+    [CliOption("--blacklist-item-names", GroupValues = true)]
     public IEnumerable<string>? BlacklistItemNames { get; set; }
 
     [CliOption("--cli-input-json")]

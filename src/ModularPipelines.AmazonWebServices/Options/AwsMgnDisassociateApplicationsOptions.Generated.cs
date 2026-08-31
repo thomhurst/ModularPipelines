@@ -24,7 +24,7 @@ public record AwsMgnDisassociateApplicationsOptions : AwsOptions
     [CliOption("--wave-id")]
     public string? WaveId { get; set; }
 
-    [CliOption("--application-ids")]
+    [CliOption("--application-ids", GroupValues = true)]
     public IEnumerable<string>? ApplicationIds { get; set; }
 
     /// <summary>

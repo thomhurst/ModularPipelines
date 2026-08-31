@@ -28,7 +28,7 @@ public record AwsFinspaceCreateKxChangeSetOptions : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliOption("--change-requests")]
+    [CliOption("--change-requests", GroupValues = true)]
     public IEnumerable<string>? ChangeRequests { get; set; }
 
     /// <summary>

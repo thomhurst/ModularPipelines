@@ -31,16 +31,16 @@ public record AwsLexv2ModelsCreateResourcePolicyStatementOptions : AwsOptions
     [CliOption("--effect")]
     public string? Effect { get; set; }
 
-    [CliOption("--principal")]
+    [CliOption("--principal", GroupValues = true)]
     public IEnumerable<string>? Principal { get; set; }
 
-    [CliOption("--action")]
+    [CliOption("--action", GroupValues = true)]
     public IEnumerable<string>? Action { get; set; }
 
     /// <summary>
     /// Specifies a condition when the policy is in effect. If the principal of the policy is a service principal, you must provide two condition blocks, one with a SourceAccount global condition key and one with a SourceArn global condition key. For more information, see IAM JSON policy elements: Condition . Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 value -&gt; (map) Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
-    [CliOption("--condition")]
+    [CliOption("--condition", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Condition { get; set; }
 
     /// <summary>

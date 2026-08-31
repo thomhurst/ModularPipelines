@@ -24,7 +24,7 @@ public record AwsGlobalacceleratorUpdateCustomRoutingListenerOptions : AwsOption
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; set; }
 
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions : AwsOptions
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
-    [CliOption("--template-variables")]
+    [CliOption("--template-variables", GroupValues = true)]
     public IReadOnlyList<KeyValue>? TemplateVariables { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions : AwsOptions
     /// <summary>
     /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context")]
+    [CliOption("--context", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>

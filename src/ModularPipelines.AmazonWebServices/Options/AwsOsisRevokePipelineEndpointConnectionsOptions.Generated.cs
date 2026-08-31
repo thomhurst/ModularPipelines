@@ -24,7 +24,7 @@ public record AwsOsisRevokePipelineEndpointConnectionsOptions : AwsOptions
     [CliOption("--pipeline-arn")]
     public string? PipelineArn { get; set; }
 
-    [CliOption("--endpoint-ids")]
+    [CliOption("--endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? EndpointIds { get; set; }
 
     [CliOption("--cli-input-json")]

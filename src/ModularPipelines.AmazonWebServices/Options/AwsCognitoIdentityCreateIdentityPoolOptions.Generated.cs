@@ -34,7 +34,7 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
     /// <summary>
     /// Optional key:value pairs mapping provider names to provider app IDs. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w.;_/-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--supported-login-providers")]
+    [CliOption("--supported-login-providers", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SupportedLoginProviders { get; set; }
 
     /// <summary>
@@ -46,25 +46,25 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the OpenID Connect providers. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--open-id-connect-provider-arns")]
+    [CliOption("--open-id-connect-provider-arns", GroupValues = true)]
     public IEnumerable<string>? OpenIdConnectProviderArns { get; set; }
 
     /// <summary>
     /// An array of Amazon Cognito user pools and their client IDs. (structure) A provider representing an Amazon Cognito user pool and its client ID. ProviderName -&gt; (string) The provider name for an Amazon Cognito user pool. For exam- ple, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . Constraints: o min: 1 o max: 128 o pattern: [\w._:/-]+ ClientId -&gt; (string) The client ID for the Amazon Cognito user pool. Constraints: o min: 1 o max: 128 o pattern: [\w_]+ ServerSideTokenCheck -&gt; (boolean) TRUE if server-side token validation is enabled for the iden- tity providers token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC to- ken or Amazon Web Services credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error. Shorthand Syntax: ProviderName=string,ClientId=string,ServerSideTokenCheck=boolean ... JSON Syntax: [ { "ProviderName": "string", "ClientId": "string", "ServerSideTokenCheck": true|false } ... ]
     /// </summary>
-    [CliOption("--cognito-identity-providers")]
+    [CliOption("--cognito-identity-providers", GroupValues = true)]
     public IEnumerable<string>? CognitoIdentityProviders { get; set; }
 
     /// <summary>
     /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--saml-provider-arns")]
+    [CliOption("--saml-provider-arns", GroupValues = true)]
     public IEnumerable<string>? SamlProviderArns { get; set; }
 
     /// <summary>
     /// Tags to assign to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--identity-pool-tags")]
+    [CliOption("--identity-pool-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? IdentityPoolTags { get; set; }
 
     [CliOption("--cli-input-json")]

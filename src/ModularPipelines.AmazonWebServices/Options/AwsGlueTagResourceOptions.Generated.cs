@@ -25,7 +25,7 @@ public record AwsGlueTagResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--tags-to-add")]
+    [CliOption("--tags-to-add", GroupValues = true)]
     public IReadOnlyList<KeyValue>? TagsToAdd { get; set; }
 
     [CliOption("--cli-input-json")]

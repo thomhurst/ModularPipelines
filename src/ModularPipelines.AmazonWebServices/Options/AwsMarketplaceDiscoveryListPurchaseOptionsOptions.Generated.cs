@@ -25,7 +25,7 @@ public record AwsMarketplaceDiscoveryListPurchaseOptionsOptions : AwsOptions
     /// <summary>
     /// Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic. Constraints: o min: 1 o max: 10 (structure) A filter used to narrow purchase option results by product, seller, type, visibility, or availability. filterType -&gt; (string) [required] The type of filter to apply, such as PRODUCT_ID , VISIBIL- ITY_SCOPE , or PURCHASE_OPTION_TYPE . Possible values: o PRODUCT_ID o SELLER_OF_RECORD_PROFILE_ID o PURCHASE_OPTION_TYPE o VISIBILITY_SCOPE o AVAILABILITY_STATUS filterValues -&gt; (list) [required] The values to filter by. Multiple values within the same fil- ter are combined with OR logic. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w\-]+ Shorthand Syntax: filterType=string,filterValues=string,string ... JSON Syntax: [ { "filterType": "PRODUCT_ID"|"SELLER_OF_RECORD_PROFILE_ID"|"PURCHASE_OPTION_TYPE"|"VISIBILITY_SCOPE"|"AVAILABILITY_STATUS", "filterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

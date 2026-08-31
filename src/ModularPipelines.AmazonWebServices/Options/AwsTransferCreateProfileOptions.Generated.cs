@@ -30,13 +30,13 @@ public record AwsTransferCreateProfileOptions : AwsOptions
     /// <summary>
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. (string) Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--certificate-ids")]
+    [CliOption("--certificate-ids", GroupValues = true)]
     public IEnumerable<string>? CertificateIds { get; set; }
 
     /// <summary>
     /// Key-value pairs that can be used to group and search for AS2 pro- files. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

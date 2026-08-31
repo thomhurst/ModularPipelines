@@ -38,7 +38,7 @@ public record AwsDsqlCreateStreamOptions : AwsOptions
     /// <summary>
     /// A map of key and value pairs to use to tag your stream. Constraints: o min: 0 o max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

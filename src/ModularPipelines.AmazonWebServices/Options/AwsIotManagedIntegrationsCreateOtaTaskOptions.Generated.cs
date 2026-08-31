@@ -42,7 +42,7 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
     /// <summary>
     /// The device targeted for the over-the-air (OTA) task. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target")]
+    [CliOption("--target", GroupValues = true)]
     public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
@@ -88,7 +88,7 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
     /// <summary>
     /// A set of key/value pairs that are used to manage the over-the-air (OTA) task. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

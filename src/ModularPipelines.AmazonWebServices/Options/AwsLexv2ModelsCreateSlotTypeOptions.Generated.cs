@@ -33,7 +33,7 @@ public record AwsLexv2ModelsCreateSlotTypeOptions : AwsOptions
     /// <summary>
     /// A list of SlotTypeValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, addi- tional values that help train the machine learning model about the values that it resolves for a slot. Constraints: o min: 1 o max: 10000 (structure) Each slot type can have a set of values. Each SlotTypeValue rep- resents a value that the slot type can take. sampleValue -&gt; (structure) The value of the slot type entry. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: o min: 1 o max: 140 synonyms -&gt; (list) Additional values related to the slot type entry. Constraints: o min: 1 o max: 10000 (structure) Defines one of the values for a slot type. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: o min: 1 o max: 140 Shorthand Syntax: sampleValue={value=string},synonyms=[{value=string},{value=string}] ... JSON Syntax: [ { "sampleValue": { "value": "string" }, "synonyms": [ { "value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--slot-type-values")]
+    [CliOption("--slot-type-values", GroupValues = true)]
     public IEnumerable<string>? SlotTypeValues { get; set; }
 
     /// <summary>

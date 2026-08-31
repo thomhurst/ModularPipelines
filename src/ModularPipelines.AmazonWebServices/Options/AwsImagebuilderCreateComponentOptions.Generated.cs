@@ -47,7 +47,7 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
     /// <summary>
     /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-os-versions")]
+    [CliOption("--supported-os-versions", GroupValues = true)]
     public IEnumerable<string>? SupportedOsVersions { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions
     /// <summary>
     /// The tags that apply to the component. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsEcsGetTaskProtectionOptions : AwsOptions
     /// <summary>
     /// A list of up to 100 task IDs or full ARN entries. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tasks")]
+    [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; set; }
 
     [CliOption("--cli-input-json")]

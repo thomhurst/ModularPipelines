@@ -33,7 +33,7 @@ public record AwsSesSendBulkTemplatedEmailOptions : AwsOptions
     /// <summary>
     /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses", GroupValues = true)]
     public IEnumerable<string>? ReplyToAddresses { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record AwsSesSendBulkTemplatedEmailOptions : AwsOptions
     /// <summary>
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail . (structure) Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the tag. The name must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Value -&gt; (string) [required] The value of the tag. The value must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--default-tags")]
+    [CliOption("--default-tags", GroupValues = true)]
     public IEnumerable<string>? DefaultTags { get; set; }
 
     [CliOption("--template")]
@@ -72,7 +72,7 @@ public record AwsSesSendBulkTemplatedEmailOptions : AwsOptions
     [CliOption("--default-template-data")]
     public string? DefaultTemplateData { get; set; }
 
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,10 +33,10 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions
     /// <summary>
     /// The mappings for the stack resource Source and stack resource Desti- nation . (structure) Specifies the current source of the resource and the destination of where it will be moved to. Source -&gt; (structure) [required] The source stack StackName and LogicalResourceId for the re- source being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the tem- plate. Destination -&gt; (structure) [required] The destination stack StackName and LogicalResourceId for the resource being refactored. StackName -&gt; (string) [required] The name associated with the stack. LogicalResourceId -&gt; (string) [required] The logical name of the resource specified in the tem- plate. Shorthand Syntax: Source={StackName=string,LogicalResourceId=string},Destination={StackName=string,LogicalResourceId=string} ... JSON Syntax: [ { "Source": { "StackName": "string", "LogicalResourceId": "string" }, "Destination": { "StackName": "string", "LogicalResourceId": "string" } } ... ]
     /// </summary>
-    [CliOption("--resource-mappings")]
+    [CliOption("--resource-mappings", GroupValues = true)]
     public IEnumerable<string>? ResourceMappings { get; set; }
 
-    [CliOption("--stack-definitions")]
+    [CliOption("--stack-definitions", GroupValues = true)]
     public IEnumerable<string>? StackDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

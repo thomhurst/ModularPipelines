@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-data-quality-result")]
 public record AwsGlueBatchGetDataQualityResultOptions : AwsOptions
 {
-    [CliOption("--result-ids")]
+    [CliOption("--result-ids", GroupValues = true)]
     public IEnumerable<string>? ResultIds { get; set; }
 
     [CliOption("--cli-input-json")]

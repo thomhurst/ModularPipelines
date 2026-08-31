@@ -33,7 +33,7 @@ public record AwsRumPutRumEventsOptions : AwsOptions
     [CliOption("--user-details")]
     public string? UserDetails { get; set; }
 
-    [CliOption("--rum-events")]
+    [CliOption("--rum-events", GroupValues = true)]
     public IEnumerable<string>? RumEvents { get; set; }
 
     /// <summary>

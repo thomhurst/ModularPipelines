@@ -24,7 +24,7 @@ public record AwsArcRegionSwitchUntagResourceOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--resource-tag-keys")]
+    [CliOption("--resource-tag-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceTagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

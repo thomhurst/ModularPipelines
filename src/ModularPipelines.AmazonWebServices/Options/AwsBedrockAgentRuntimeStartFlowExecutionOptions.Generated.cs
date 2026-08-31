@@ -33,7 +33,7 @@ public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; set; }
 
-    [CliOption("--inputs")]
+    [CliOption("--inputs", GroupValues = true)]
     public IEnumerable<string>? Inputs { get; set; }
 
     /// <summary>

@@ -39,7 +39,7 @@ public record AwsSnsCreatePlatformEndpointOptions : AwsOptions
     /// <summary>
     /// For a list of attributes, see ` SetEndpointAttributes https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html`__ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

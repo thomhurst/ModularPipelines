@@ -30,7 +30,7 @@ public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : 
     /// <summary>
     /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore (structure) A list of the replication groups ReplicationGroupId -&gt; (string) [required] The name of the secondary cluster ReplicationGroupRegion -&gt; (string) [required] The Amazon region where the cluster is stored ReshardingConfiguration -&gt; (list) [required] A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. (structure) A list of PreferredAvailabilityZones objects that speci- fies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) JSON Syntax: [ { "ReplicationGroupId": "string", "ReplicationGroupRegion": "string", "ReshardingConfiguration": [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--regional-configurations")]
+    [CliOption("--regional-configurations", GroupValues = true)]
     public IEnumerable<string>? RegionalConfigurations { get; set; }
 
     [CliFlag("--apply-immediately")]

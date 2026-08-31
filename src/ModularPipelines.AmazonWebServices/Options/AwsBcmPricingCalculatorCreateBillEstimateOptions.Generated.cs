@@ -39,7 +39,7 @@ public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions
     /// <summary>
     /// An optional list of tags to associate with the specified BillEsti- mate. You can use resource tags to control access to your BillEsti- mate using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags: o Although the maximum number of array members is 200, you can as- sign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services. o The maximum length of a key is 128 characters. o The maximum length of a value is 256 characters. o Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@- . o Keys and values are case sensitive. o Keys and values are trimmed for any leading or trailing white- spaces. o Don't use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

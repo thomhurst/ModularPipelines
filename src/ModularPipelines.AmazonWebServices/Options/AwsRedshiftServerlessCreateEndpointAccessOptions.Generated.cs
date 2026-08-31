@@ -30,13 +30,13 @@ public record AwsRedshiftServerlessCreateEndpointAccessOptions : AwsOptions
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// The unique identifiers of the security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--workgroup-name")]

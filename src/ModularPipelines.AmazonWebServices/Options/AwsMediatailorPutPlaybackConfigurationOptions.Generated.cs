@@ -50,7 +50,7 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
     /// <summary>
     /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables . key -&gt; (string) The dynamic variable that has aliases. value -&gt; (map) Map of aliases to the value to be used at request time. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
-    [CliOption("--configuration-aliases")]
+    [CliOption("--configuration-aliases", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ConfigurationAliases { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with or- ganization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -125,7 +125,7 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
     /// <summary>
     /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SES- SION_INITIALIZATION and PRE_ADS_REQUEST . For more information, see Functions lifecycle hooks in the MediaTailor User Guide . key -&gt; (string) Possible values: o PRE_SESSION_INITIALIZATION o PRE_ADS_REQUEST value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: PRE_SESSION_INITIALIZATION PRE_ADS_REQUEST JSON Syntax: {"PRE_SESSION_INITIALIZATION"|"PRE_ADS_REQUEST": "string" ...}
     /// </summary>
-    [CliOption("--function-mapping")]
+    [CliOption("--function-mapping", GroupValues = true)]
     public IReadOnlyList<KeyValue>? FunctionMapping { get; set; }
 
     /// <summary>

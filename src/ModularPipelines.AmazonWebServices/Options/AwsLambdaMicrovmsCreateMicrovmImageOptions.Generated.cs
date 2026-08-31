@@ -53,25 +53,25 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
     /// <summary>
     /// The list of egress network connectors available to the MicroVM at runtime. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--egress-network-connectors")]
+    [CliOption("--egress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? EgressNetworkConnectors { get; set; }
 
     /// <summary>
     /// The list of supported CPU configurations for the MicroVM. (structure) Configuration for the CPU architecture of a MicroVM. architecture -&gt; (string) [required] The CPU architecture. Possible values: o ARM_64 Shorthand Syntax: architecture=string ... JSON Syntax: [ { "architecture": "ARM_64" } ... ]
     /// </summary>
-    [CliOption("--cpu-configurations")]
+    [CliOption("--cpu-configurations", GroupValues = true)]
     public IEnumerable<string>? CpuConfigurations { get; set; }
 
     /// <summary>
     /// The resource requirements for the MicroVM. Constraints: o min: 0 o max: 1 (structure) Resource requirements for a MicroVM. minimumMemoryInMiB -&gt; (integer) [required] The minimum amount of memory in MiB to allocate to the Mi- croVM. Shorthand Syntax: minimumMemoryInMiB=integer ... JSON Syntax: [ { "minimumMemoryInMiB": integer } ... ]
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
     /// Additional OS capabilities granted to the MicroVM runtime environ- ment. (string) Capability granted to the application when booted Possible values: o ALL Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-os-capabilities")]
+    [CliOption("--additional-os-capabilities", GroupValues = true)]
     public IEnumerable<string>? AdditionalOsCapabilities { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
     /// <summary>
     /// Environment variables set in the MicroVM runtime environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [^\s]+ value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables")]
+    [CliOption("--environment-variables", GroupValues = true)]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliOption("--name")]
@@ -92,7 +92,7 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
     /// <summary>
     /// A set of key-value pairs that you can attach to the resource. Use tags to categorize resources for cost allocation, access control (ABAC), and organization. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

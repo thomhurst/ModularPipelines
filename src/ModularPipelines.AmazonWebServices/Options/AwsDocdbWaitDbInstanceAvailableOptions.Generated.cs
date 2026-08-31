@@ -31,7 +31,7 @@ public record AwsDocdbWaitDbInstanceAvailableOptions : AwsOptions
     /// <summary>
     /// A filter that specifies one or more instances to describe. Supported filters: o db-cluster-id - Accepts cluster identifiers and cluster Amazon Re- source Names (ARNs). The results list includes only the informa- tion about the instances that are associated with the clusters that are identified by these ARNs. o db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only the information about the instances that are identified by these ARNs. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

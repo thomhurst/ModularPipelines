@@ -28,7 +28,7 @@ public record AwsSyntheticsCreateGroupOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the group. You can asso- ciate as many as 50 tags with a group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permis- sion to access or change only the resources that have certain tag values. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,7 +31,7 @@ public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--bot-version-locale-specification")]
+    [CliOption("--bot-version-locale-specification", GroupValues = true)]
     public IReadOnlyList<KeyValue>? BotVersionLocaleSpecification { get; set; }
 
     [CliOption("--cli-input-json")]

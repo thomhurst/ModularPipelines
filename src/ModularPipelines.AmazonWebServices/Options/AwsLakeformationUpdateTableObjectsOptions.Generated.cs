@@ -39,7 +39,7 @@ public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliOption("--write-operations")]
+    [CliOption("--write-operations", GroupValues = true)]
     public IEnumerable<string>? WriteOperations { get; set; }
 
     [CliOption("--cli-input-json")]

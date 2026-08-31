@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("geo-places", "search-nearby")]
 public record AwsGeoPlacesSearchNearbyOptions : AwsOptions
 {
-    [CliOption("--query-position")]
+    [CliOption("--query-position", GroupValues = true)]
     public IEnumerable<string>? QueryPosition { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsGeoPlacesSearchNearbyOptions : AwsOptions
     /// <summary>
     /// A list of optional additional parameters, such as time zone, that can be requested for each result. Constraints: o min: 1 o max: 5 (string) Possible values: o TimeZone o Phonemes o Access o Contact o CrossReferences Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-features")]
+    [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>

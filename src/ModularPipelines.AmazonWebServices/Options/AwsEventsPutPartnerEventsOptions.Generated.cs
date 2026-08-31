@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("events", "put-partner-events")]
 public record AwsEventsPutPartnerEventsOptions : AwsOptions
 {
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

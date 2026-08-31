@@ -25,7 +25,7 @@ public record AwsHealthDescribeAffectedEntitiesForOrganizationOptions : AwsOptio
     /// <summary>
     /// A JSON set of elements including the awsAccountId and the eventArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
     /// </summary>
-    [CliOption("--organization-entity-filters")]
+    [CliOption("--organization-entity-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEntityFilters { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record AwsHealthDescribeAffectedEntitiesForOrganizationOptions : AwsOptio
     /// <summary>
     /// A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . Constraints: o min: 1 o max: 10 (structure) A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 249) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ statusCodes -&gt; (list) A list of entity status codes. Constraints: o min: 1 o max: 5 (string) Possible values: o IMPAIRED o UNIMPAIRED o UNKNOWN o PENDING o RESOLVED Shorthand Syntax: eventArn=string,awsAccountId=string,statusCodes=string,string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string", "statusCodes": ["IMPAIRED"|"UNIMPAIRED"|"UNKNOWN"|"PENDING"|"RESOLVED", ...] } ... ]
     /// </summary>
-    [CliOption("--organization-entity-account-filters")]
+    [CliOption("--organization-entity-account-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEntityAccountFilters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsLocationBatchDeleteGeofenceOptions : AwsOptions
     [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
-    [CliOption("--geofence-ids")]
+    [CliOption("--geofence-ids", GroupValues = true)]
     public IEnumerable<string>? GeofenceIds { get; set; }
 
     [CliOption("--cli-input-json")]

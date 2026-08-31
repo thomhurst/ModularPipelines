@@ -42,13 +42,13 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
     /// <summary>
     /// One or more entries to add to the prefix list. Constraints: o min: 0 o max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Description -&gt; (string) A description for the entry. Constraints: Up to 255 characters in length. Shorthand Syntax: Cidr=string,Description=string ... JSON Syntax: [ { "Cidr": "string", "Description": "string" } ... ]
     /// </summary>
-    [CliOption("--add-entries")]
+    [CliOption("--add-entries", GroupValues = true)]
     public IEnumerable<string>? AddEntries { get; set; }
 
     /// <summary>
     /// One or more entries to remove from the prefix list. Constraints: o min: 0 o max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Shorthand Syntax: Cidr=string ... JSON Syntax: [ { "Cidr": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-entries")]
+    [CliOption("--remove-entries", GroupValues = true)]
     public IEnumerable<string>? RemoveEntries { get; set; }
 
     /// <summary>

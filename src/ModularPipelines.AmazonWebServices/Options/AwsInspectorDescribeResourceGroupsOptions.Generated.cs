@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "describe-resource-groups")]
 public record AwsInspectorDescribeResourceGroupsOptions : AwsOptions
 {
-    [CliOption("--resource-group-arns")]
+    [CliOption("--resource-group-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupArns { get; set; }
 
     [CliOption("--cli-input-json")]

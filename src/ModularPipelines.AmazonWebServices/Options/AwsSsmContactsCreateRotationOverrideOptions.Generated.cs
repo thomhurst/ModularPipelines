@@ -25,7 +25,7 @@ public record AwsSsmContactsCreateRotationOverrideOptions : AwsOptions
     [CliOption("--rotation-id")]
     public string? RotationId { get; set; }
 
-    [CliOption("--new-contact-ids")]
+    [CliOption("--new-contact-ids", GroupValues = true)]
     public IEnumerable<string>? NewContactIds { get; set; }
 
     [CliOption("--start-time")]

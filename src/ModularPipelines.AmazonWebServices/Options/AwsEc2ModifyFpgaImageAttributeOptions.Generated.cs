@@ -43,19 +43,19 @@ public record AwsEc2ModifyFpgaImageAttributeOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account IDs. This parameter is valid only when modifying the loadPermission attribute. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids")]
+    [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
     /// The user groups. This parameter is valid only when modifying the loadPermission attribute. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-groups")]
+    [CliOption("--user-groups", GroupValues = true)]
     public IEnumerable<string>? UserGroups { get; set; }
 
     /// <summary>
     /// The product codes. After you add a product code to an AFI, it can't be removed. This parameter is valid only when modifying the product- Codes attribute. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--product-codes")]
+    [CliOption("--product-codes", GroupValues = true)]
     public IEnumerable<string>? ProductCodes { get; set; }
 
     /// <summary>

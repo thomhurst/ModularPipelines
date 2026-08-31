@@ -28,7 +28,7 @@ public record AwsCodepipelineStartPipelineExecutionOptions : AwsOptions
     /// <summary>
     /// A list that overrides pipeline variables for a pipeline execution that's being started. Variable names must match [A-Za-z0-9@\-_]+ , and the values can be anything except an empty string. Constraints: o min: 1 o max: 50 (structure) A pipeline-level variable used for a pipeline execution. name -&gt; (string) [required] The name of a pipeline-level variable. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9@\-_]+ value -&gt; (string) [required] The value of a pipeline-level variable. Constraints: o min: 1 o max: 1000 o pattern: .* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--variables")]
+    [CliOption("--variables", GroupValues = true)]
     public IEnumerable<string>? Variables { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsCodepipelineStartPipelineExecutionOptions : AwsOptions
     /// <summary>
     /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution. Constraints: o min: 0 o max: 50 (structure) A list that allows you to specify, or override, the source revi- sion for a pipeline execution that's being started. A source re- vision is the version with all the changes to your application code, or source artifact, for the pipeline execution. NOTE: For the S3_OBJECT_VERSION_ID and S3_OBJECT_KEY types of source revisions, either of the types can be used indepen- dently, or they can be used together to override the source with a specific ObjectKey and VersionID. actionName -&gt; (string) [required] The name of the action where the override will be applied. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+ revisionType -&gt; (string) [required] The type of source revision, based on the source provider. For example, the revision type for the CodeCommit action provider is the commit ID. Possible values: o COMMIT_ID o IMAGE_DIGEST o S3_OBJECT_VERSION_ID o S3_OBJECT_KEY revisionValue -&gt; (string) [required] The source revision, or version of your source artifact, with the changes that you want to run in the pipeline execution. Constraints: o min: 1 o max: 1500 Shorthand Syntax: actionName=string,revisionType=string,revisionValue=string ... JSON Syntax: [ { "actionName": "string", "revisionType": "COMMIT_ID"|"IMAGE_DIGEST"|"S3_OBJECT_VERSION_ID"|"S3_OBJECT_KEY", "revisionValue": "string" } ... ]
     /// </summary>
-    [CliOption("--source-revisions")]
+    [CliOption("--source-revisions", GroupValues = true)]
     public IEnumerable<string>? SourceRevisions { get; set; }
 
     [CliOption("--cli-input-json")]

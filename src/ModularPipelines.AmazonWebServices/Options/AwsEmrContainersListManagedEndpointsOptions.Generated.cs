@@ -40,13 +40,13 @@ public record AwsEmrContainersListManagedEndpointsOptions : AwsOptions
     /// <summary>
     /// The types of the managed endpoints. Constraints: o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
     /// The states of the managed endpoints. Constraints: o max: 10 (string) Possible values: o CREATING o ACTIVE o TERMINATING o TERMINATED o TERMINATED_WITH_ERRORS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     [CliOption("--cli-input-json")]

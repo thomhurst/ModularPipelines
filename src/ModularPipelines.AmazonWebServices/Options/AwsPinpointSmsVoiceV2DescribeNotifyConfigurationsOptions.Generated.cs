@@ -25,13 +25,13 @@ public record AwsPinpointSmsVoiceV2DescribeNotifyConfigurationsOptions : AwsOpti
     /// <summary>
     /// An array of notify configuration IDs to describe. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--notify-configuration-ids")]
+    [CliOption("--notify-configuration-ids", GroupValues = true)]
     public IEnumerable<string>? NotifyConfigurationIds { get; set; }
 
     /// <summary>
     /// An array of NotifyConfigurationFilter objects to filter the results on. Constraints: o min: 0 o max: 20 (structure) The information for notify configurations that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o display-name o enabled-countries o enabled-channels o default-template o default-pool o use-case o status o deletion-protection-enabled o tier-upgrade-status Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "display-name"|"enabled-countries"|"enabled-channels"|"default-template"|"default-pool"|"use-case"|"status"|"deletion-protection-enabled"|"tier-upgrade-status", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

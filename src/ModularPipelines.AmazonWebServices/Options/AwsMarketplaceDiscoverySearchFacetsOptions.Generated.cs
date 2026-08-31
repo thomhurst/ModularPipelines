@@ -31,13 +31,13 @@ public record AwsMarketplaceDiscoverySearchFacetsOptions : AwsOptions
     /// <summary>
     /// Filters to apply before retrieving facets. Multiple filters are com- bined with AND logic. Multiple values within the same filter are combined with OR logic. Constraints: o min: 1 o max: 30 (structure) A filter used to narrow search results by attribute, such as category, pricing model, or fulfillment type. filterType -&gt; (string) [required] The type of filter to apply. Possible values: o MIN_AVERAGE_CUSTOMER_RATING o MAX_AVERAGE_CUSTOMER_RATING o CATEGORY o PUBLISHER o FULFILLMENT_OPTION_TYPE o PRICING_MODEL o PRICING_UNIT o DEPLOYED_ON_AWS o NUMBER_OF_PRODUCTS filterValues -&gt; (list) [required] The values to filter by. Term filters accept multiple values (OR logic). Range filters (MIN/MAX_AVERAGE_CUSTOMER_RATING) accept a single value between 0.0 and 5.0. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 128 o pattern: [\w\-\.]+ Shorthand Syntax: filterType=string,filterValues=string,string ... JSON Syntax: [ { "filterType": "MIN_AVERAGE_CUSTOMER_RATING"|"MAX_AVERAGE_CUSTOMER_RATING"|"CATEGORY"|"PUBLISHER"|"FULFILLMENT_OPTION_TYPE"|"PRICING_MODEL"|"PRICING_UNIT"|"DEPLOYED_ON_AWS"|"NUMBER_OF_PRODUCTS", "filterValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// A list of specific facet types to retrieve. If empty or null, all available facets are returned. Constraints: o min: 0 o max: 30 (string) Possible values: o AVERAGE_CUSTOMER_RATING o CATEGORY o PUBLISHER o FULFILLMENT_OPTION_TYPE o PRICING_MODEL o PRICING_UNIT o DEPLOYED_ON_AWS o NUMBER_OF_PRODUCTS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--facet-types")]
+    [CliOption("--facet-types", GroupValues = true)]
     public IEnumerable<string>? FacetTypes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,13 +31,13 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
     /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol. Constraints: o min: 1 o max: 2 (string) Possible values: o MQTT o HTTP Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protocols")]
+    [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
     [CliOption("--aws-job-timeout-config")]
     public string? AwsJobTimeoutConfig { get; set; }
 
-    [CliOption("--files")]
+    [CliOption("--files", GroupValues = true)]
     public IEnumerable<string>? Files { get; set; }
 
     [CliOption("--role-arn")]
@@ -79,13 +79,13 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
     /// <summary>
     /// A list of additional OTA update parameters, which are name-value pairs. They won't be sent to devices as a part of the Job document. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-parameters")]
+    [CliOption("--additional-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AdditionalParameters { get; set; }
 
     /// <summary>
     /// Metadata which can be used to manage updates. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

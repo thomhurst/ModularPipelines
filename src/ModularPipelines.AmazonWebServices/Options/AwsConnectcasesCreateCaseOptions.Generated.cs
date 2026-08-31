@@ -29,7 +29,7 @@ public record AwsConnectcasesCreateCaseOptions : AwsOptions
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsConnectcasesCreateCaseOptions : AwsOptions
     /// <summary>
     /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?![aA][wW][sS]:)[a-zA-Z0-9 _.:/=+\-@]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([a-zA-Z0-9 _.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsNotificationsTagResourceOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

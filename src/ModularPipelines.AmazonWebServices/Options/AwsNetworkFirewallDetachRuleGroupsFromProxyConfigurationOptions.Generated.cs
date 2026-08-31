@@ -37,13 +37,13 @@ public record AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions : 
     /// <summary>
     /// The proxy rule group names to detach from the proxy configuration (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--rule-group-names")]
+    [CliOption("--rule-group-names", GroupValues = true)]
     public IEnumerable<string>? RuleGroupNames { get; set; }
 
     /// <summary>
     /// The proxy rule group arns to detach from the proxy configuration (string) Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--rule-group-arns")]
+    [CliOption("--rule-group-arns", GroupValues = true)]
     public IEnumerable<string>? RuleGroupArns { get; set; }
 
     [SecretValue]

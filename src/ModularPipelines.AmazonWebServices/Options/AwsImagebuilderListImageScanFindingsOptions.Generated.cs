@@ -25,7 +25,7 @@ public record AwsImagebuilderListImageScanFindingsOptions : AwsOptions
     /// <summary>
     /// An array of name value pairs that you can use to filter your re- sults. You can use the following filters to streamline results: o imageBuildVersionArn o imagePipelineArn o vulnerabilityId o severity If you don't request a filter, then all findings in your account are listed. Constraints: o min: 1 o max: 1 (structure) A name value pair that Image Builder applies to streamline re- sults from the vulnerability scan findings list action. name -&gt; (string) The name of the image scan finding filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

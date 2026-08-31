@@ -25,7 +25,7 @@ public record AwsInspector2ListUsageTotalsOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account IDs to retrieve usage totals for. Constraints: o min: 1 o max: 7000 (string) Constraints: o pattern: .*[0-9]{12}.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

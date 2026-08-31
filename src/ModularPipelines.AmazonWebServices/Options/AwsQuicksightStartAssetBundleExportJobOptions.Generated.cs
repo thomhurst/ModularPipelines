@@ -28,7 +28,7 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--asset-bundle-export-job-id")]
     public string? AssetBundleExportJobId { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliFlag("--include-all-dependencies")]

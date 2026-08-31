@@ -30,7 +30,7 @@ public record AwsQappsCreateLibraryItemOptions : AwsOptions
     [CliOption("--app-version")]
     public int? AppVersion { get; set; }
 
-    [CliOption("--categories")]
+    [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     [CliOption("--cli-input-json")]

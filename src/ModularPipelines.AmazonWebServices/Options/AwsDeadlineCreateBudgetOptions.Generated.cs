@@ -48,7 +48,7 @@ public record AwsDeadlineCreateBudgetOptions : AwsOptions
     [CliOption("--approximate-dollar-limit")]
     public int? ApproximateDollarLimit { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--schedule")]
@@ -57,7 +57,7 @@ public record AwsDeadlineCreateBudgetOptions : AwsOptions
     /// <summary>
     /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

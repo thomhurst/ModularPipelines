@@ -31,7 +31,7 @@ public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions
     /// <summary>
     /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--feature-names")]
+    [CliOption("--feature-names", GroupValues = true)]
     public IEnumerable<string>? FeatureNames { get; set; }
 
     /// <summary>

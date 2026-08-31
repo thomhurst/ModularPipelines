@@ -24,7 +24,7 @@ public record AwsSesGetIdentityPoliciesOptions : AwsOptions
     [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
     [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CliOption("--ssh-public-keys")]
+    [CliOption("--ssh-public-keys", GroupValues = true)]
     public IEnumerable<string>? SshPublicKeys { get; set; }
 
     [CliOption("--odb-network-id")]
@@ -72,13 +72,13 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
     /// <summary>
     /// The list of database servers for the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-servers")]
+    [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }
 
     /// <summary>
     /// The list of resource tags to apply to the VM cluster. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliFlag("--is-local-backup-enabled")]

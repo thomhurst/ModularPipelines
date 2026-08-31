@@ -26,7 +26,7 @@ public record AwsElbv2DescribeSslPoliciesOptions : AwsOptions
     /// <summary>
     /// The names of the policies. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

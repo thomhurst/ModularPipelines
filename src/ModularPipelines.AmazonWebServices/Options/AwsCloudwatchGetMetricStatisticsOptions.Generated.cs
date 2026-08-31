@@ -30,7 +30,7 @@ public record AwsCloudwatchGetMetricStatisticsOptions : AwsOptions
     /// <summary>
     /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combi- nation of dimensions was not published, you can't retrieve statis- tics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combi- nations in the Amazon CloudWatch User Guide . For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide . Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that met- ric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--dimensions")]
+    [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     [CliOption("--start-time")]
@@ -45,13 +45,13 @@ public record AwsCloudwatchGetMetricStatisticsOptions : AwsOptions
     /// <summary>
     /// The metric statistics, other than percentile. For percentile statis- tics, use ExtendedStatistics . When calling GetMetricStatistics , you must specify either Statistics or ExtendedStatistics , but not both. Constraints: o min: 1 o max: 5 (string) Possible values: o SampleCount o Average o Sum o Minimum o Maximum Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statistics")]
+    [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; set; }
 
     /// <summary>
     /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics , you must specify either Statis- tics or ExtendedStatistics , but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--extended-statistics")]
+    [CliOption("--extended-statistics", GroupValues = true)]
     public IEnumerable<string>? ExtendedStatistics { get; set; }
 
     /// <summary>

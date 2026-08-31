@@ -24,7 +24,7 @@ public record AwsMarketplaceReportingGetBuyerDashboardOptions : AwsOptions
     [CliOption("--dashboard-identifier")]
     public string? DashboardIdentifier { get; set; }
 
-    [CliOption("--embedding-domains")]
+    [CliOption("--embedding-domains", GroupValues = true)]
     public IEnumerable<string>? EmbeddingDomains { get; set; }
 
     [CliOption("--cli-input-json")]

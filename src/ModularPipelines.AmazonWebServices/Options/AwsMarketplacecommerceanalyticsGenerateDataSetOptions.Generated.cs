@@ -40,7 +40,7 @@ public record AwsMarketplacecommerceanalyticsGenerateDataSetOptions : AwsOptions
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CliOption("--customer-defined-values")]
+    [CliOption("--customer-defined-values", GroupValues = true)]
     public IReadOnlyList<KeyValue>? CustomerDefinedValues { get; set; }
 
     [CliOption("--cli-input-json")]

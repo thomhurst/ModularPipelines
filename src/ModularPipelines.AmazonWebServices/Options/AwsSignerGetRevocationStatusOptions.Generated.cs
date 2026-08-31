@@ -33,7 +33,7 @@ public record AwsSignerGetRevocationStatusOptions : AwsOptions
     [CliOption("--job-arn")]
     public string? JobArn { get; set; }
 
-    [CliOption("--certificate-hashes")]
+    [CliOption("--certificate-hashes", GroupValues = true)]
     public IEnumerable<string>? CertificateHashes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -43,7 +43,7 @@ public record AwsDatazoneAcceptPredictionsOptions : AwsOptions
     /// <summary>
     /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. (structure) Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. predictionTarget -&gt; (string) [required] Specifies the target (for example, a column name) where a prediction can be accepted. predictionChoice -&gt; (integer) Specifies the prediction (aka, the automatically generated piece of metadata) that can be accepted. editedValue -&gt; (string) The edit of the prediction. Constraints: o min: 1 o max: 5000 Shorthand Syntax: predictionTarget=string,predictionChoice=integer,editedValue=string ... JSON Syntax: [ { "predictionTarget": "string", "predictionChoice": integer, "editedValue": "string" } ... ]
     /// </summary>
-    [CliOption("--accept-choices")]
+    [CliOption("--accept-choices", GroupValues = true)]
     public IEnumerable<string>? AcceptChoices { get; set; }
 
     /// <summary>

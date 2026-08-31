@@ -112,13 +112,13 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions
     /// <summary>
     /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cross-region-s3-restore-sources-to-enable")]
+    [CliOption("--cross-region-s3-restore-sources-to-enable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToEnable { get; set; }
 
     /// <summary>
     /// The list of resource tags to apply to the ODB network. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

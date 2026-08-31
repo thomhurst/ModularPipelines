@@ -24,7 +24,7 @@ public record AwsAutoscalingAttachLoadBalancerTargetGroupsOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--target-group-arns")]
+    [CliOption("--target-group-arns", GroupValues = true)]
     public IEnumerable<string>? TargetGroupArns { get; set; }
 
     [CliOption("--cli-input-json")]

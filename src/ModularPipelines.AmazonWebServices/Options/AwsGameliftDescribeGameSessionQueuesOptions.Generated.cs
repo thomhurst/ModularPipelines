@@ -25,7 +25,7 @@ public record AwsGameliftDescribeGameSessionQueuesOptions : AwsOptions
     /// <summary>
     /// A list of queue names to retrieve information for. You can use ei- ther the queue ID or ARN value. To request settings for all queues, leave this parameter empty. (string) Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesession- queue\/[a-zA-Z0-9-]+)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

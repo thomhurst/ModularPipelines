@@ -28,7 +28,7 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions
     /// <summary>
     /// A list of key-value objects that specify enablement parameters, where key is a string and value is a document of any type. (structure) A key-value parameter to an EnabledBaseline resource. key -&gt; (string) [required] A string denoting the parameter key. value -&gt; (document) [required] A low-level Document object of any type (for example, a Java Object). Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--baseline-identifier")]
@@ -40,7 +40,7 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions
     /// <summary>
     /// Tags associated with input to EnableBaseline . Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

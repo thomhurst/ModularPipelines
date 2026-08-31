@@ -24,7 +24,7 @@ public record AwsControltowerUpdateLandingZoneOptions : AwsOptions
     /// <summary>
     /// Specifies the types of remediation actions to apply when updating the landing zone configuration. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remediation-types")]
+    [CliOption("--remediation-types", GroupValues = true)]
     public IEnumerable<string>? RemediationTypes { get; set; }
 
     [CliOption("--landing-zone-identifier")]

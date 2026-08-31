@@ -28,7 +28,7 @@ public record AwsQuicksightSearchGroupsOptions : AwsOptions
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

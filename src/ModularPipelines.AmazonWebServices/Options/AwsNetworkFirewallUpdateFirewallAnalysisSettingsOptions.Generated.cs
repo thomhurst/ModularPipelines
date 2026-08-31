@@ -25,7 +25,7 @@ public record AwsNetworkFirewallUpdateFirewallAnalysisSettingsOptions : AwsOptio
     /// <summary>
     /// An optional setting indicating the specific traffic analysis types to enable on the firewall. (string) Possible values: o TLS_SNI o HTTP_HOST Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-analysis-types")]
+    [CliOption("--enabled-analysis-types", GroupValues = true)]
     public IEnumerable<string>? EnabledAnalysisTypes { get; set; }
 
     /// <summary>

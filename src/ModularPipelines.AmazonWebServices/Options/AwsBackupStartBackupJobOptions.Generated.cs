@@ -67,13 +67,13 @@ public record AwsBackupStartBackupJobOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the resources. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--recovery-point-tags")]
+    [CliOption("--recovery-point-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RecoveryPointTags { get; set; }
 
     /// <summary>
     /// The backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "Win- dowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default. key -&gt; (string) Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ value -&gt; (string) Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--backup-options")]
+    [CliOption("--backup-options", GroupValues = true)]
     public IReadOnlyList<KeyValue>? BackupOptions { get; set; }
 
     /// <summary>

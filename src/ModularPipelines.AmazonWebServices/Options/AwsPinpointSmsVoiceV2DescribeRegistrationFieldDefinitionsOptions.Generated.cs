@@ -34,7 +34,7 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions :
     /// <summary>
     /// An array of paths to the registration form field. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--field-paths")]
+    [CliOption("--field-paths", GroupValues = true)]
     public IEnumerable<string>? FieldPaths { get; set; }
 
     [CliOption("--cli-input-json")]

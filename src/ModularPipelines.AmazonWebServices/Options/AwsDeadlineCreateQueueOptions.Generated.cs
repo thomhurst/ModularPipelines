@@ -70,19 +70,19 @@ public record AwsDeadlineCreateQueueOptions : AwsOptions
     /// <summary>
     /// The file system location name to include in the queue. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--required-file-system-location-names")]
+    [CliOption("--required-file-system-location-names", GroupValues = true)]
     public IEnumerable<string>? RequiredFileSystemLocationNames { get; set; }
 
     /// <summary>
     /// The storage profile IDs to include in the queue. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: sp-[0-9a-f]{32} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-storage-profile-ids")]
+    [CliOption("--allowed-storage-profile-ids", GroupValues = true)]
     public IEnumerable<string>? AllowedStorageProfileIds { get; set; }
 
     /// <summary>
     /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

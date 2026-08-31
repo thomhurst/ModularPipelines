@@ -25,7 +25,7 @@ public record AwsAppflowDescribeConnectorProfilesOptions : AwsOptions
     /// <summary>
     /// The name of the connector profile. The name is unique for each Con- nectorProfile in the Amazon Web Services account. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 256 o pattern: [\w/!@#+=.-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connector-profile-names")]
+    [CliOption("--connector-profile-names", GroupValues = true)]
     public IEnumerable<string>? ConnectorProfileNames { get; set; }
 
     /// <summary>

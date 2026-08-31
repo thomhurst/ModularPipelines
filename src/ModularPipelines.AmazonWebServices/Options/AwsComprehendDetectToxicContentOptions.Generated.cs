@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("comprehend", "detect-toxic-content")]
 public record AwsComprehendDetectToxicContentOptions : AwsOptions
 {
-    [CliOption("--text-segments")]
+    [CliOption("--text-segments", GroupValues = true)]
     public IEnumerable<string>? TextSegments { get; set; }
 
     [CliOption("--language-code")]

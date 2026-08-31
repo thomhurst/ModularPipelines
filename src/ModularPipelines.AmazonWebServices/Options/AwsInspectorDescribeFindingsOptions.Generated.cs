@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "describe-findings")]
 public record AwsInspectorDescribeFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-arns")]
+    [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationsOptions : AwsOptio
     /// <summary>
     /// The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName} The following is the format of a DB Cluster ARN: arn:aws:rds:{region}:{accountId}:cluster:{resourceName} (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
@@ -44,13 +44,13 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationsOptions : AwsOptio
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of Amazon Aurora and RDS database recommendations. (structure) Describes a filter that returns a more specific list of DB in- stance recommendations. Use this filter with the GetECSSer- viceRecommendations action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your DB instance recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your DB instance recommendations. Use the tag key in the fil- ter name and the tag value as the filter value. For example, to find all DB instance recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your DB instance recommendations. Use this filter to find all of your DB in- stance recommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your DB instance recommendations with a tag key value of Owner or without any tag keys assigned. Possible values: o InstanceFinding o InstanceFindingReasonCode o StorageFinding o StorageFindingReasonCode o Idle values -&gt; (list) The value of the filter. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "InstanceFinding"|"InstanceFindingReasonCode"|"StorageFinding"|"StorageFindingReasonCode"|"Idle", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Return the Amazon Aurora and RDS database recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated adminis- trator of an organization, use this parameter to return the Amazon Aurora and RDS database recommendations to specific member accounts. You can only specify one account ID per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>

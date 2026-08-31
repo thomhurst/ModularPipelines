@@ -44,7 +44,7 @@ public record AwsImagebuilderUpdateLifecyclePolicyOptions : AwsOptions
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CliOption("--policy-details")]
+    [CliOption("--policy-details", GroupValues = true)]
     public IEnumerable<string>? PolicyDetails { get; set; }
 
     [CliOption("--resource-selection")]

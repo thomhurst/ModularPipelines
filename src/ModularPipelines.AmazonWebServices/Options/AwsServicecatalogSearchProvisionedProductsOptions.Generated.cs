@@ -39,7 +39,7 @@ public record AwsServicecatalogSearchProvisionedProductsOptions : AwsOptions
     /// <summary>
     /// The search filters. When the key is SearchQuery , the searchable fields are arn , creat- edTime , id , lastRecordId , idempotencyToken , name , physicalId , productId , provisioningArtifactId , type , status , tags , userArn , userArnSession , lastProvisioningRecordId , lastSuccessfulProvi- sioningRecordId , productName , and provisioningArtifactName . Example: "SearchQuery":["status:AVAILABLE"] key -&gt; (string) Possible values: o SearchQuery value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: SearchQuery JSON Syntax: {"SearchQuery": ["string", ...] ...}
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     /// <summary>

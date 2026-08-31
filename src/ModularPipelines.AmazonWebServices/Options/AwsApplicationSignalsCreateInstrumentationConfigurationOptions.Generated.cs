@@ -51,7 +51,7 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
     /// <summary>
     /// Client-side filters that target specific instances. Each object in the array is AND-matched on its keys, and multiple objects are OR-matched to decide where to apply the instrumentation. Constraints: o min: 1 o max: 10 (map) A string-to-string map of OpenTelemetry resource attributes and values that must all match for the instrumentation to run on an instance. key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string ... JSON Syntax: [ {"string": "string" ...} ... ]
     /// </summary>
-    [CliOption("--attribute-filters")]
+    [CliOption("--attribute-filters", GroupValues = true)]
     public IEnumerable<string>? AttributeFilters { get; set; }
 
     [CliOption("--capture-configuration")]
@@ -60,7 +60,7 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
     /// <summary>
     /// An optional list of key-value pairs to associate with the instrumen- tation configuration. Tags can help you organize and categorize your resources. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

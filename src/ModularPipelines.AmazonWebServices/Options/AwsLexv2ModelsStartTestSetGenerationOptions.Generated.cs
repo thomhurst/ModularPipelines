@@ -43,7 +43,7 @@ public record AwsLexv2ModelsStartTestSetGenerationOptions : AwsOptions
     /// <summary>
     /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource opera- tion. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--test-set-tags")]
+    [CliOption("--test-set-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? TestSetTags { get; set; }
 
     [CliOption("--cli-input-json")]

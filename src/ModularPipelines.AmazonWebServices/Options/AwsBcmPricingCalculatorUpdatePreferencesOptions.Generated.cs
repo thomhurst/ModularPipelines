@@ -24,19 +24,19 @@ public record AwsBcmPricingCalculatorUpdatePreferencesOptions : AwsOptions
     /// <summary>
     /// The updated preferred rate types for the management account. Constraints: o min: 1 o max: 3 (string) Possible values: o BEFORE_DISCOUNTS o AFTER_DISCOUNTS o AFTER_DISCOUNTS_AND_COMMITMENTS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--management-account-rate-type-selections")]
+    [CliOption("--management-account-rate-type-selections", GroupValues = true)]
     public IEnumerable<string>? ManagementAccountRateTypeSelections { get; set; }
 
     /// <summary>
     /// The updated preferred rate types for member accounts. Constraints: o min: 1 o max: 3 (string) Possible values: o BEFORE_DISCOUNTS o AFTER_DISCOUNTS o AFTER_DISCOUNTS_AND_COMMITMENTS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--member-account-rate-type-selections")]
+    [CliOption("--member-account-rate-type-selections", GroupValues = true)]
     public IEnumerable<string>? MemberAccountRateTypeSelections { get; set; }
 
     /// <summary>
     /// The updated preferred rate types for a standalone account. Constraints: o min: 1 o max: 3 (string) Possible values: o BEFORE_DISCOUNTS o AFTER_DISCOUNTS o AFTER_DISCOUNTS_AND_COMMITMENTS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--standalone-account-rate-type-selections")]
+    [CliOption("--standalone-account-rate-type-selections", GroupValues = true)]
     public IEnumerable<string>? StandaloneAccountRateTypeSelections { get; set; }
 
     [CliOption("--cli-input-json")]

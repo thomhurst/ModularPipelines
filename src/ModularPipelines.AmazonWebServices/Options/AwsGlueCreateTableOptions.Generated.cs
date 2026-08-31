@@ -45,7 +45,7 @@ public record AwsGlueCreateTableOptions : AwsOptions
     /// <summary>
     /// A list of partition indexes, PartitionIndex structures, to create in the table. (structure) A structure for a partition index. Keys -&gt; (list) [required] The keys for the partition index. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* IndexName -&gt; (string) [required] The name of the partition index. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: Keys=string,string,IndexName=string ... JSON Syntax: [ { "Keys": ["string", ...], "IndexName": "string" } ... ]
     /// </summary>
-    [CliOption("--partition-indexes")]
+    [CliOption("--partition-indexes", GroupValues = true)]
     public IEnumerable<string>? PartitionIndexes { get; set; }
 
     /// <summary>

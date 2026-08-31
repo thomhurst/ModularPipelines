@@ -25,13 +25,13 @@ public record AwsSsmDescribeParametersOptions : AwsOptions
     /// <summary>
     /// This data type is deprecated. Instead, use ParameterFilters . (structure) This data type is deprecated. Instead, use ParameterStringFil- ter . Key -&gt; (string) [required] The name of the filter. Possible values: o Name o Type o KeyId Values -&gt; (list) [required] The filter values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "Name"|"Type"|"KeyId", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Filters to limit the request results. (structure) One or more filters. Use a filter to return a more specific list of results. Key -&gt; (string) [required] The name of the filter. The ParameterStringFilter object is used by the DescribePa- rameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters , all of the listed patterns are valid except Label . For GetParametersByPath , the following patterns listed for Key aren't valid: tag , DataType , Name , Path , and Tier . For examples of Amazon Web Services CLI commands demonstrat- ing valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 132 o pattern: tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType Option -&gt; (string) For all filters used with DescribeParameters , valid options include Equals and BeginsWith . The Name filter additionally supports the Contains option. (Exception: For filters using the key Path , valid options include Recursive and OneLevel .) For filters used with GetParametersByPath , valid options include Equals and BeginsWith . (Exception: For filters using Label as the Key name, the only valid option is Equals .) Constraints: o min: 1 o max: 10 Values -&gt; (list) The value you want to search for. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Key=string,Option=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Option": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--parameter-filters")]
+    [CliOption("--parameter-filters", GroupValues = true)]
     public IEnumerable<string>? ParameterFilters { get; set; }
 
     [CliFlag("--shared")]

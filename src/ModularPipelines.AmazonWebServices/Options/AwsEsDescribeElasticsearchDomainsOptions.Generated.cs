@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("es", "describe-elasticsearch-domains")]
 public record AwsEsDescribeElasticsearchDomainsOptions : AwsOptions
 {
-    [CliOption("--domain-names")]
+    [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; set; }
 
     [CliOption("--cli-input-json")]

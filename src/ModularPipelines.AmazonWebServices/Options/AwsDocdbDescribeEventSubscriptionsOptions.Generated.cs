@@ -31,7 +31,7 @@ public record AwsDocdbDescribeEventSubscriptionsOptions : AwsOptions
     /// <summary>
     /// This parameter is not currently supported. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsAppConfigCreateApplicationOptions : AwsOptions
     /// <summary>
     /// Metadata to assign to the application. Tags help organize and cate- gorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

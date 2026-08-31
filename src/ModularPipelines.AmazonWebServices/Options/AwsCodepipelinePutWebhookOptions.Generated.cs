@@ -27,7 +27,7 @@ public record AwsCodepipelinePutWebhookOptions : AwsOptions
     /// <summary>
     /// The tags for the webhook. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

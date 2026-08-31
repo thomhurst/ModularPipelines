@@ -27,7 +27,7 @@ public record AwsDsDescribeConditionalForwardersOptions : AwsOptions
     /// <summary>
     /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned. (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remote-domain-names")]
+    [CliOption("--remote-domain-names", GroupValues = true)]
     public IEnumerable<string>? RemoteDomainNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -49,13 +49,13 @@ public record AwsGuarddutyCreateDetectorOptions : AwsOptions
     /// <summary>
     /// The tags to be added to a new detector resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A list of features that will be configured for the detector. (structure) Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an er- ror. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring . Name -&gt; (string) The name of the feature. Possible values: o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o RUNTIME_MONITORING o AI_PROTECTION o AI_ANALYST Status -&gt; (string) The status of the feature. Possible values: o ENABLED o DISABLED AdditionalConfiguration -&gt; (list) Additional configuration for a resource. (structure) Information about the additional configuration for a fea- ture in your GuardDuty account. Name -&gt; (string) Name of the additional configuration. Possible values: o EKS_ADDON_MANAGEMENT o ECS_FARGATE_AGENT_MANAGEMENT o EC2_AGENT_MANAGEMENT Status -&gt; (string) Status of the additional configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: Name=string,Status=string,AdditionalConfiguration=[{Name=string,Status=string},{Name=string,Status=string}] ... JSON Syntax: [ { "Name": "S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"RUNTIME_MONITORING"|"AI_PROTECTION"|"AI_ANALYST", "Status": "ENABLED"|"DISABLED", "AdditionalConfiguration": [ { "Name": "EKS_ADDON_MANAGEMENT"|"ECS_FARGATE_AGENT_MANAGEMENT"|"EC2_AGENT_MANAGEMENT", "Status": "ENABLED"|"DISABLED" } ... ] } ... ]
     /// </summary>
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     [CliOption("--cli-input-json")]

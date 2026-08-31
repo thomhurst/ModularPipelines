@@ -28,7 +28,7 @@ public record AwsConnectListContactFlowsOptions : AwsOptions
     /// <summary>
     /// The type of flow. Constraints: o max: 10 (string) Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--contact-flow-types")]
+    [CliOption("--contact-flow-types", GroupValues = true)]
     public IEnumerable<string>? ContactFlowTypes { get; set; }
 
     [CliOption("--cli-input-json")]

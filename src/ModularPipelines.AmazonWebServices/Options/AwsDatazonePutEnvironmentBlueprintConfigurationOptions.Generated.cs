@@ -46,19 +46,19 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     [CliOption("--environment-role-permission-boundary")]
     public string? EnvironmentRolePermissionBoundary { get; set; }
 
-    [CliOption("--enabled-regions")]
+    [CliOption("--enabled-regions", GroupValues = true)]
     public IEnumerable<string>? EnabledRegions { get; set; }
 
     /// <summary>
     /// The regional parameters in the environment blueprint. key -&gt; (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
-    [CliOption("--regional-parameters")]
+    [CliOption("--regional-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RegionalParameters { get; set; }
 
     /// <summary>
     /// The resource configurations of the environment blueprint. Constraints: o min: 0 o max: 10 (structure) The resource configuration that is used to configure the envi- ronment blueprint. name -&gt; (string) [required] The name of the resource configuration. Constraints: o min: 1 o max: 64 description -&gt; (string) The description of the resource configuration. region -&gt; (string) [required] The Amazon Web Services Region of the resource configuration. Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] parameters -&gt; (map) [required] The parameters of the resource configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: name=string,description=string,region=string,parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "description": "string", "region": "string", "parameters": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--resource-configurations")]
+    [CliOption("--resource-configurations", GroupValues = true)]
     public IEnumerable<string>? ResourceConfigurations { get; set; }
 
     [CliFlag("--allow-user-provided-configurations")]
@@ -67,13 +67,13 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     /// <summary>
     /// Region-agnostic environment blueprint parameters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--global-parameters")]
+    [CliOption("--global-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? GlobalParameters { get; set; }
 
     /// <summary>
     /// The provisioning configuration of a blueprint. (tagged union structure) The provisioning configuration of the blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: lakeFormationConfiguration. lakeFormationConfiguration -&gt; (structure) The Lake Formation configuration of the Data Lake blueprint. locationRegistrationRole -&gt; (string) The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using Amazon Web Services Lake Formation hybrid access mode. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+ locationRegistrationExcludeS3Locations -&gt; (list) Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: lakeFormationConfiguration={locationRegistrationRole=string,locationRegistrationExcludeS3Locations=[string,string]} ... JSON Syntax: [ { "lakeFormationConfiguration": { "locationRegistrationRole": "string", "locationRegistrationExcludeS3Locations": ["string", ...] } } ... ]
     /// </summary>
-    [CliOption("--provisioning-configurations")]
+    [CliOption("--provisioning-configurations", GroupValues = true)]
     public IEnumerable<string>? ProvisioningConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

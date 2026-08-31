@@ -28,7 +28,7 @@ public record AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions : AwsOptions
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CliOption("--delete-data-segment-entries")]
+    [CliOption("--delete-data-segment-entries", GroupValues = true)]
     public IEnumerable<string>? DeleteDataSegmentEntries { get; set; }
 
     /// <summary>

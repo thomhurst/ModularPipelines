@@ -40,7 +40,7 @@ public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
     /// <summary>
     /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--kms-encryption-context")]
+    [CliOption("--kms-encryption-context", GroupValues = true)]
     public IReadOnlyList<KeyValue>? KmsEncryptionContext { get; set; }
 
     [CliOption("--data-access-role-arn")]
@@ -52,13 +52,13 @@ public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
     /// <summary>
     /// Makes it possible to specify which speaker is on which channel. For example, if the clinician is the first participant to speak, you would set ChannelId of the first ChannelDefinition in the list to 0 (to indicate the first channel) and ParticipantRole to CLINICIAN (to indicate that it's the clinician speaking). Then you would set the ChannelId of the second ChannelDefinition in the list to 1 (to indi- cate the second channel) and ParticipantRole to PATIENT (to indicate that it's the patient speaking). Constraints: o min: 2 o max: 2 (structure) Indicates which speaker is on which channel. The options are CLINICIAN and PATIENT ChannelId -&gt; (integer) [required] Specify the audio channel you want to define. Constraints: o min: 0 o max: 1 ParticipantRole -&gt; (string) [required] Specify the participant that you want to flag. The options are CLINICIAN and PATIENT Possible values: o PATIENT o CLINICIAN Shorthand Syntax: ChannelId=integer,ParticipantRole=string ... JSON Syntax: [ { "ChannelId": integer, "ParticipantRole": "PATIENT"|"CLINICIAN" } ... ]
     /// </summary>
-    [CliOption("--channel-definitions")]
+    [CliOption("--channel-definitions", GroupValues = true)]
     public IEnumerable<string>? ChannelDefinitions { get; set; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to the Medical Scribe job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -39,7 +39,7 @@ public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--folder-configurations")]
+    [CliOption("--folder-configurations", GroupValues = true)]
     public IEnumerable<string>? FolderConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

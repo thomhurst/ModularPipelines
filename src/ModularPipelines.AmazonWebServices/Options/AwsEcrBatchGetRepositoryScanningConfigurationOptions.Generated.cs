@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecr", "batch-get-repository-scanning-configuration")]
 public record AwsEcrBatchGetRepositoryScanningConfigurationOptions : AwsOptions
 {
-    [CliOption("--repository-names")]
+    [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
 
     [CliOption("--cli-input-json")]

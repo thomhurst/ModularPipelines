@@ -25,7 +25,7 @@ public record AwsEc2ListImagesInRecycleBinOptions : AwsOptions
     /// <summary>
     /// The IDs of the AMIs to list. Omit this parameter to list all of the AMIs that are in the Recycle Bin. You can specify up to 20 IDs in a single request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     [CliFlag("--dry-run")]

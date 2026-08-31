@@ -30,10 +30,10 @@ public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions
     [CliOption("--latest-version-number")]
     public int? LatestVersionNumber { get; set; }
 
-    [CliOption("--import-data-rules")]
+    [CliOption("--import-data-rules", GroupValues = true)]
     public IEnumerable<string>? ImportDataRules { get; set; }
 
-    [CliOption("--expiration-data-rules")]
+    [CliOption("--expiration-data-rules", GroupValues = true)]
     public IEnumerable<string>? ExpirationDataRules { get; set; }
 
     [CliOption("--cli-input-json")]

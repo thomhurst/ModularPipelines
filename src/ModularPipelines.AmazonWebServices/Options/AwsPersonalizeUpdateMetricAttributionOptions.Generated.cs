@@ -24,13 +24,13 @@ public record AwsPersonalizeUpdateMetricAttributionOptions : AwsOptions
     /// <summary>
     /// Add new metric attributes to the metric attribution. Constraints: o max: 10 (structure) Contains information on a metric that a metric attribution re- ports on. For more information, see Measuring impact of recom- mendations . eventType -&gt; (string) [required] The metric's event type. Constraints: o max: 256 metricName -&gt; (string) [required] The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3. Constraints: o max: 256 expression -&gt; (string) [required] The attribute's expression. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parame- ter. For example SUM(Items.PRICE). Constraints: o max: 256 Shorthand Syntax: eventType=string,metricName=string,expression=string ... JSON Syntax: [ { "eventType": "string", "metricName": "string", "expression": "string" } ... ]
     /// </summary>
-    [CliOption("--add-metrics")]
+    [CliOption("--add-metrics", GroupValues = true)]
     public IEnumerable<string>? AddMetrics { get; set; }
 
     /// <summary>
     /// Remove metric attributes from the metric attribution. Constraints: o max: 10 (string) Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-metrics")]
+    [CliOption("--remove-metrics", GroupValues = true)]
     public IEnumerable<string>? RemoveMetrics { get; set; }
 
     /// <summary>

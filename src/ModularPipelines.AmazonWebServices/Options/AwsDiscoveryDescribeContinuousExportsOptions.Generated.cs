@@ -25,7 +25,7 @@ public record AwsDiscoveryDescribeContinuousExportsOptions : AwsOptions
     /// <summary>
     /// The unique IDs assigned to the exports. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--export-ids")]
+    [CliOption("--export-ids", GroupValues = true)]
     public IEnumerable<string>? ExportIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,13 +25,13 @@ public record AwsEc2DescribeCapacityBlocksOptions : AwsOptions
     /// <summary>
     /// The IDs of the Capacity Blocks. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capacity-block-ids")]
+    [CliOption("--capacity-block-ids", GroupValues = true)]
     public IEnumerable<string>? CapacityBlockIds { get; set; }
 
     /// <summary>
     /// One or more filters. o capacity-block-id - The ID of the Capacity Block. o ultraserver-type - The Capacity Block type. The type can be in- stances or ultraservers . o availability-zone - The Availability Zone of the Capacity Block. o start-date - The date and time at which the Capacity Block was started. o end-date - The date and time at which the Capacity Block expires. When a Capacity Block expires, all instances in the Capacity Block are terminated. o create-date - The date and time at which the Capacity Block was created. o state - The state of the Capacity Block (active | expired | un- available | cancelled | failed | scheduled | payment-pending | payment-failed ). o tags - The tags assigned to the Capacity Block. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

@@ -25,19 +25,19 @@ public record AwsOutpostsListSitesOptions : AwsOptions
     /// <summary>
     /// Filters the results by country code. (string) Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operating-address-country-code-filter")]
+    [CliOption("--operating-address-country-code-filter", GroupValues = true)]
     public IEnumerable<string>? OperatingAddressCountryCodeFilter { get; set; }
 
     /// <summary>
     /// Filters the results by state or region. (string) Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operating-address-state-or-region-filter")]
+    [CliOption("--operating-address-state-or-region-filter", GroupValues = true)]
     public IEnumerable<string>? OperatingAddressStateOrRegionFilter { get; set; }
 
     /// <summary>
     /// Filters the results by city. (string) Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--operating-address-city-filter")]
+    [CliOption("--operating-address-city-filter", GroupValues = true)]
     public IEnumerable<string>? OperatingAddressCityFilter { get; set; }
 
     [CliOption("--cli-input-json")]

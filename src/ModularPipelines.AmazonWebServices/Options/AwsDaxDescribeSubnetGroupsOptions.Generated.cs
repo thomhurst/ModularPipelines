@@ -25,7 +25,7 @@ public record AwsDaxDescribeSubnetGroupsOptions : AwsOptions
     /// <summary>
     /// The name of the subnet group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-group-names")]
+    [CliOption("--subnet-group-names", GroupValues = true)]
     public IEnumerable<string>? SubnetGroupNames { get; set; }
 
     [CliOption("--cli-input-json")]

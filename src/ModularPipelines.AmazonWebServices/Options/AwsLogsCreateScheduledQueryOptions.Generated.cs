@@ -41,7 +41,7 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions
     /// <summary>
     /// An array of log group names or ARNs to query. You can specify be- tween 1 and 50 log groups. Log groups can be identified by name or full ARN. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     [CliOption("--schedule-expression")]
@@ -95,7 +95,7 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions
     /// <summary>
     /// Key-value pairs to associate with the scheduled query for resource management and cost allocation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

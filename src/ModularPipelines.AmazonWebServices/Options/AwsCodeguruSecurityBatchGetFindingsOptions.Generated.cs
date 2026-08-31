@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codeguru-security", "batch-get-findings")]
 public record AwsCodeguruSecurityBatchGetFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-identifiers")]
+    [CliOption("--finding-identifiers", GroupValues = true)]
     public IEnumerable<string>? FindingIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

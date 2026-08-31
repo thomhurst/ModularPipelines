@@ -44,7 +44,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     /// <summary>
     /// Update replication configuration Replication Server Security Groups IDs request. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-servers-security-groups-ids")]
+    [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     /// <summary>
     /// Update replication configuration replicated disks request. Constraints: o min: 0 o max: 60 (structure) Replication Configuration replicated disk. deviceName -&gt; (string) Replication Configuration replicated disk device name. Constraints: o min: 0 o max: 256 isBootDisk -&gt; (boolean) Replication Configuration replicated disk boot disk. stagingDiskType -&gt; (string) Replication Configuration replicated disk staging disk type. Possible values: o AUTO o GP2 o IO1 o SC1 o ST1 o STANDARD o GP3 o IO2 o FSX_ONTAP iops -&gt; (long) Replication Configuration replicated disk IOPs. Constraints: o min: 0 throughput -&gt; (long) Replication Configuration replicated disk throughput. Constraints: o min: 0 Shorthand Syntax: deviceName=string,isBootDisk=boolean,stagingDiskType=string,iops=long,throughput=long ... JSON Syntax: [ { "deviceName": "string", "isBootDisk": true|false, "stagingDiskType": "AUTO"|"GP2"|"IO1"|"SC1"|"ST1"|"STANDARD"|"GP3"|"IO2"|"FSX_ONTAP", "iops": long, "throughput": long } ... ]
     /// </summary>
-    [CliOption("--replicated-disks")]
+    [CliOption("--replicated-disks", GroupValues = true)]
     public IEnumerable<string>? ReplicatedDisks { get; set; }
 
     /// <summary>
@@ -98,7 +98,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     /// <summary>
     /// Update replication configuration Staging Area Tags request. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--staging-area-tags")]
+    [CliOption("--staging-area-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     [CliFlag("--use-fips-endpoint")]

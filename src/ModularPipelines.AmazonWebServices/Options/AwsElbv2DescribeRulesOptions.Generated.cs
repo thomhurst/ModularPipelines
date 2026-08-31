@@ -31,7 +31,7 @@ public record AwsElbv2DescribeRulesOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARN) of the rules. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--rule-arns")]
+    [CliOption("--rule-arns", GroupValues = true)]
     public IEnumerable<string>? RuleArns { get; set; }
 
     /// <summary>

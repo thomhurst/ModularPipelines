@@ -79,7 +79,7 @@ public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
     /// <summary>
     /// The updated capability schemas that define the functionality and features supported by the managed thing. Constraints: o min: 0 o max: 40 (structure) Structure representing a capability schema item that defines the functionality and features supported by a managed thing. Format -&gt; (string) [required] The format of the capability schema, which defines how the schema is structured and interpreted. Possible values: o AWS o ZCL o CONNECTOR CapabilityId -&gt; (string) [required] The unique identifier of the capability defined in the schema. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) ExtrinsicId -&gt; (string) [required] The external identifier for the capability, used when refer- encing the capability outside of the AWS ecosystem. Constraints: o min: 1 o max: 10 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ ExtrinsicVersion -&gt; (integer) [required] The version of the external capability definition, used to track compatibility with external systems. Constraints: o min: 1 o max: 10 Schema -&gt; (document) [required] The actual schema definition that describes the capability's properties, actions, and events. Shorthand Syntax: Format=string,CapabilityId=string,ExtrinsicId=string,ExtrinsicVersion=integer ... JSON Syntax: [ { "Format": "AWS"|"ZCL"|"CONNECTOR", "CapabilityId": "string", "ExtrinsicId": "string", "ExtrinsicVersion": integer, "Schema": {...} } ... ]
     /// </summary>
-    [CliOption("--capability-schemas")]
+    [CliOption("--capability-schemas", GroupValues = true)]
     public IEnumerable<string>? CapabilitySchemas { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
     /// <summary>
     /// The metadata for the managed thing. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .*[a-zA-Z0-9_.,@/:#-]+.* value -&gt; (string) Constraints: o min: 0 o max: 800 o pattern: .*[a-zA-Z0-9_.,@/:#-]*.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--meta-data")]
+    [CliOption("--meta-data", GroupValues = true)]
     public IReadOnlyList<KeyValue>? MetaData { get; set; }
 
     [CliOption("--cli-input-json")]

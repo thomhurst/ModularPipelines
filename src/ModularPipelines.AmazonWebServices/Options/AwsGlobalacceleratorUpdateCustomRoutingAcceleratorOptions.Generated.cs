@@ -40,7 +40,7 @@ public record AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions : AwsOpt
     /// <summary>
     /// The IP addresses for an accelerator. Constraints: o min: 0 o max: 2 (string) Constraints: o max: 45 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ip-addresses")]
+    [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
 
     [CliFlag("--enabled")]

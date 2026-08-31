@@ -27,7 +27,7 @@ public record AwsEcsDescribeExpressGatewayServiceOptions : AwsOptions
     /// <summary>
     /// Specifies additional information to include in the response. Valid values are TAGS to include resource tags associated with the Express service. (string) Possible values: o TAGS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -46,7 +46,7 @@ public record AwsGlueCreateTriggerOptions : AwsOptions
     [CliOption("--predicate")]
     public string? Predicate { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsGlueCreateTriggerOptions : AwsOptions
     /// <summary>
     /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

@@ -39,7 +39,7 @@ public record AwsMediaconnectCreateBridgeOptions : AwsOptions
     /// <summary>
     /// The outputs that you want to add to this bridge. (structure) Add outputs to the specified bridge. NetworkOutput -&gt; (structure) The network output of the bridge. A network output is deliv- ered to your premises. IpAddress -&gt; (string) [required] The network output IP Address. Name -&gt; (string) [required] The network output name. This name is used to reference the output and must be unique among outputs in this bridge. NetworkName -&gt; (string) [required] The network output's gateway network name. Port -&gt; (integer) [required] The network output port. Protocol -&gt; (string) [required] The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Ttl -&gt; (integer) [required] The network output TTL. Shorthand Syntax: NetworkOutput={IpAddress=string,Name=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer} ... JSON Syntax: [ { "NetworkOutput": { "IpAddress": "string", "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer } } ... ]
     /// </summary>
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     [CliOption("--placement-arn")]
@@ -51,7 +51,7 @@ public record AwsMediaconnectCreateBridgeOptions : AwsOptions
     [CliOption("--source-failover-config")]
     public string? SourceFailoverConfig { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -35,7 +35,7 @@ public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions
     [CliOption("--usage-level")]
     public string? UsageLevel { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>

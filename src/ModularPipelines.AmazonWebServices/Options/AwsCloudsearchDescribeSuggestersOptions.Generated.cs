@@ -27,7 +27,7 @@ public record AwsCloudsearchDescribeSuggestersOptions : AwsOptions
     /// <summary>
     /// The suggesters you want to describe. (string) Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--suggester-names")]
+    [CliOption("--suggester-names", GroupValues = true)]
     public IEnumerable<string>? SuggesterNames { get; set; }
 
     [CliFlag("--deployed")]

@@ -25,7 +25,7 @@ public record AwsIamGetAccountAuthorizationDetailsOptions : AwsOptions
     /// <summary>
     /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below. (string) Possible values: o User o Role o Group o LocalManagedPolicy o AWSManagedPolicy Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

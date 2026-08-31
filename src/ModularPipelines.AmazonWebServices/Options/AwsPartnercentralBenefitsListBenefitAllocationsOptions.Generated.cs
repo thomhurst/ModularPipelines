@@ -28,25 +28,25 @@ public record AwsPartnercentralBenefitsListBenefitAllocationsOptions : AwsOption
     /// <summary>
     /// Filter benefit allocations by specific fulfillment types. Constraints: o min: 0 o max: 2 (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fulfillment-types")]
+    [CliOption("--fulfillment-types", GroupValues = true)]
     public IEnumerable<string>? FulfillmentTypes { get; set; }
 
     /// <summary>
     /// Filter benefit allocations by specific benefit identifiers. Constraints: o min: 0 o max: 1 (string) Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--benefit-identifiers")]
+    [CliOption("--benefit-identifiers", GroupValues = true)]
     public IEnumerable<string>? BenefitIdentifiers { get; set; }
 
     /// <summary>
     /// Filter benefit allocations by specific benefit application identi- fiers. Constraints: o min: 0 o max: 1 (string) Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--benefit-application-identifiers")]
+    [CliOption("--benefit-application-identifiers", GroupValues = true)]
     public IEnumerable<string>? BenefitApplicationIdentifiers { get; set; }
 
     /// <summary>
     /// Filter benefit allocations by their current status. Constraints: o min: 0 o max: 1 (string) Possible values: o ACTIVE o INACTIVE o FULFILLED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliOption("--cli-input-json")]

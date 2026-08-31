@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "test-transformer")]
 public record AwsLogsTestTransformerOptions : AwsOptions
 {
-    [CliOption("--transformer-config")]
+    [CliOption("--transformer-config", GroupValues = true)]
     public IEnumerable<string>? TransformerConfig { get; set; }
 
-    [CliOption("--log-event-messages")]
+    [CliOption("--log-event-messages", GroupValues = true)]
     public IEnumerable<string>? LogEventMessages { get; set; }
 
     [CliOption("--cli-input-json")]

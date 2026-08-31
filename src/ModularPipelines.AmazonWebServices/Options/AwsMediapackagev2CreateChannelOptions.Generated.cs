@@ -70,7 +70,7 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions
     /// <summary>
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1", "Key2": "Value2" key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

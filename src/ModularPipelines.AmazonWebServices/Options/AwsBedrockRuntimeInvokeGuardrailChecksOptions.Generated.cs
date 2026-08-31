@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("bedrock-runtime", "invoke-guardrail-checks")]
 public record AwsBedrockRuntimeInvokeGuardrailChecksOptions : AwsOptions
 {
-    [CliOption("--messages")]
+    [CliOption("--messages", GroupValues = true)]
     public IEnumerable<string>? Messages { get; set; }
 
     [CliOption("--checks")]

@@ -49,7 +49,7 @@ public record AwsApigatewayCreateApiKeyOptions : AwsOptions
     /// <summary>
     /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key. (structure) A reference to a unique stage identified in the format {restApiId}/{stage} . restApiId -&gt; (string) The string identifier of the associated RestApi. stageName -&gt; (string) The stage name associated with the stage key. Shorthand Syntax: restApiId=string,stageName=string ... JSON Syntax: [ { "restApiId": "string", "stageName": "string" } ... ]
     /// </summary>
-    [CliOption("--stage-keys")]
+    [CliOption("--stage-keys", GroupValues = true)]
     public IEnumerable<string>? StageKeys { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsApigatewayCreateApiKeyOptions : AwsOptions
     /// <summary>
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

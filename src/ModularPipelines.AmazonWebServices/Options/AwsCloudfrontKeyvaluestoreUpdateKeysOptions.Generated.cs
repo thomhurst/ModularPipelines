@@ -30,13 +30,13 @@ public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions
     /// <summary>
     /// List of key value pairs to put. (structure) List item for key value pair to put. Key -&gt; (string) [required] The key of the key value pair list item to put. Constraints: o min: 1 o max: 1024 Value -&gt; (string) [required] The value for the key value pair to put. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--puts")]
+    [CliOption("--puts", GroupValues = true)]
     public IEnumerable<string>? Puts { get; set; }
 
     /// <summary>
     /// List of keys to delete. (structure) List item for keys to delete. Key -&gt; (string) [required] The key of the key value pair to be deleted. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Key=string ... JSON Syntax: [ { "Key": "string" } ... ]
     /// </summary>
-    [CliOption("--deletes")]
+    [CliOption("--deletes", GroupValues = true)]
     public IEnumerable<string>? Deletes { get; set; }
 
     [CliOption("--cli-input-json")]

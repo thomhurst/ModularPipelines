@@ -31,7 +31,7 @@ public record AwsDsDescribeTrustsOptions : AwsOptions
     /// <summary>
     /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown. (string) Constraints: o pattern: ^t-[0-9a-f]{10}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--trust-ids")]
+    [CliOption("--trust-ids", GroupValues = true)]
     public IEnumerable<string>? TrustIds { get; set; }
 
     [CliOption("--cli-input-json")]

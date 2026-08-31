@@ -45,7 +45,7 @@ public record AwsSecurityagentUpdateAgentSpaceOptions : AwsOptions
     /// <summary>
     /// The updated list of target domain identifiers to associate with the agent space. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-domain-ids")]
+    [CliOption("--target-domain-ids", GroupValues = true)]
     public IEnumerable<string>? TargetDomainIds { get; set; }
 
     /// <summary>

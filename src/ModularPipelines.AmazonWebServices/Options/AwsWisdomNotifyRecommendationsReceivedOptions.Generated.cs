@@ -24,7 +24,7 @@ public record AwsWisdomNotifyRecommendationsReceivedOptions : AwsOptions
     [CliOption("--assistant-id")]
     public string? AssistantId { get; set; }
 
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     [CliOption("--session-id")]

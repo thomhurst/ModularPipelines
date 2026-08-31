@@ -27,7 +27,7 @@ public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions
     [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
-    [CliOption("--group-ids")]
+    [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -142,7 +142,7 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     /// <summary>
     /// The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: o min: 1 o max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
     /// </summary>
-    [CliOption("--customer-contacts-to-send-to-oci")]
+    [CliOption("--customer-contacts-to-send-to-oci", GroupValues = true)]
     public IEnumerable<string>? CustomerContactsToSendToOci { get; set; }
 
     /// <summary>
@@ -172,19 +172,19 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     /// <summary>
     /// The list of scheduled start and stop times for the Autonomous Data- base. (structure) The scheduled start and stop times for an Autonomous Database on a specific day of the week. dayOfWeek -&gt; (structure) [required] The day of the week on which the scheduled operation occurs. name -&gt; (string) The name of the day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY scheduledStartTime -&gt; (string) The scheduled start time for the Autonomous Database, in UTC. scheduledStopTime -&gt; (string) The scheduled stop time for the Autonomous Database, in UTC. Shorthand Syntax: dayOfWeek={name=string},scheduledStartTime=string,scheduledStopTime=string ... JSON Syntax: [ { "dayOfWeek": { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "scheduledStartTime": "string", "scheduledStopTime": "string" } ... ]
     /// </summary>
-    [CliOption("--scheduled-operations")]
+    [CliOption("--scheduled-operations", GroupValues = true)]
     public IEnumerable<string>? ScheduledOperations { get; set; }
 
     /// <summary>
     /// The list of IP addresses that are allowed to access the standby Au- tonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--standby-allowlisted-ips")]
+    [CliOption("--standby-allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? StandbyAllowlistedIps { get; set; }
 
     /// <summary>
     /// The list of IP addresses that are allowed to access the Autonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowlisted-ips")]
+    [CliOption("--allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? AllowlistedIps { get; set; }
 
     /// <summary>
@@ -205,7 +205,7 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     /// <summary>
     /// The list of database management tools to enable for the Autonomous Database. (structure) Information about a database management tool for an Autonomous Database. isEnabled -&gt; (boolean) Indicates whether the database management tool is enabled. name -&gt; (string) The name of the database management tool. computeCount -&gt; (double) The compute capacity allocated to the database management tool. maxIdleTimeInMinutes -&gt; (integer) The maximum amount of time, in minutes, that the database management tool can be idle before it is shut down. Shorthand Syntax: isEnabled=boolean,name=string,computeCount=double,maxIdleTimeInMinutes=integer ... JSON Syntax: [ { "isEnabled": true|false, "name": "string", "computeCount": double, "maxIdleTimeInMinutes": integer } ... ]
     /// </summary>
-    [CliOption("--db-tools-details")]
+    [CliOption("--db-tools-details", GroupValues = true)]
     public IEnumerable<string>? DbToolsDetails { get; set; }
 
     /// <summary>
@@ -256,7 +256,7 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     /// <summary>
     /// The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securitylake", "update-data-lake")]
 public record AwsSecuritylakeUpdateDataLakeOptions : AwsOptions
 {
-    [CliOption("--configurations")]
+    [CliOption("--configurations", GroupValues = true)]
     public IEnumerable<string>? Configurations { get; set; }
 
     /// <summary>

@@ -60,7 +60,7 @@ public record AwsOsisCreatePipelineOptions : AwsOptions
     /// <summary>
     /// List of tags to add to the pipeline upon creation. (structure) A tag (key-value pair) for an OpenSearch Ingestion pipeline. Key -&gt; (string) [required] The tag key. Tag keys must be unique for the pipeline to which they are attached. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For ex- ample, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

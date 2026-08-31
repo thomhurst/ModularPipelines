@@ -45,7 +45,7 @@ public record AwsIotGetPercentilesOptions : AwsOptions
     /// <summary>
     /// The percentile groups returned. (double) Constraints: o min: 0 o max: 100 Syntax: double double ...
     /// </summary>
-    [CliOption("--percents")]
+    [CliOption("--percents", GroupValues = true)]
     public IEnumerable<string>? Percents { get; set; }
 
     [CliOption("--cli-input-json")]

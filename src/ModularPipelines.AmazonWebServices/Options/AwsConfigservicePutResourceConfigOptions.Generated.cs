@@ -43,7 +43,7 @@ public record AwsConfigservicePutResourceConfigOptions : AwsOptions
     /// <summary>
     /// Tags associated with the resource. NOTE: This field is not to be confused with the Amazon Web Ser- vices-wide tag feature for Amazon Web Services resources. Tags for PutResourceConfig are tags that you supply for the configu- ration items of your custom resources. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

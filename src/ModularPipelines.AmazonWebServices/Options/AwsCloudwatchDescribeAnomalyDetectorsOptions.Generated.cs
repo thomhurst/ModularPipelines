@@ -25,7 +25,7 @@ public record AwsCloudwatchDescribeAnomalyDetectorsOptions : AwsOptions
     /// <summary>
     /// Specifies the unique identifiers of the anomaly detectors to de- scribe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace , MetricName , Di- mensions , or AnomalyDetectorTypes metric filters. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9_./:%()+-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--anomaly-detector-ids")]
+    [CliOption("--anomaly-detector-ids", GroupValues = true)]
     public IEnumerable<string>? AnomalyDetectorIds { get; set; }
 
     /// <summary>
@@ -43,13 +43,13 @@ public record AwsCloudwatchDescribeAnomalyDetectorsOptions : AwsOptions
     /// <summary>
     /// Limits the results to only the anomaly detection models that are as- sociated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned. Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that met- ric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--dimensions")]
+    [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     /// <summary>
     /// The anomaly detector types to request when using DescribeAnomalyDe- tectorsInput . If empty, defaults to SINGLE_METRIC . Constraints: o max: 2 (string) Possible values: o SINGLE_METRIC o METRIC_MATH Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--anomaly-detector-types")]
+    [CliOption("--anomaly-detector-types", GroupValues = true)]
     public IEnumerable<string>? AnomalyDetectorTypes { get; set; }
 
     [CliOption("--cli-input-json")]

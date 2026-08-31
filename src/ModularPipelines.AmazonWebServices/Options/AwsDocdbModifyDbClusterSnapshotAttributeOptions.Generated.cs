@@ -30,13 +30,13 @@ public record AwsDocdbModifyDbClusterSnapshotAttributeOptions : AwsOptions
     /// <summary>
     /// A list of cluster snapshot attributes to add to the attribute speci- fied by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account IDs. To make the manual cluster snapshot re- storable by any Amazon Web Services account, set it to all . Do not add the all value for any manual cluster snapshots that contain pri- vate information that you don't want to be available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--values-to-add")]
+    [CliOption("--values-to-add", GroupValues = true)]
     public IEnumerable<string>? ValuesToAdd { get; set; }
 
     /// <summary>
     /// A list of cluster snapshot attributes to remove from the attribute specified by AttributeName . To remove authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account identifiers. To remove au- thorization for any Amazon Web Services account to copy or restore the cluster snapshot, set it to all . If you specify all , an Amazon Web Services account whose account ID is explicitly added to the re- store attribute can still copy or restore a manual cluster snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--values-to-remove")]
+    [CliOption("--values-to-remove", GroupValues = true)]
     public IEnumerable<string>? ValuesToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

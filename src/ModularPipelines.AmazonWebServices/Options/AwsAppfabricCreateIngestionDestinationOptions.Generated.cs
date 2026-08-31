@@ -44,7 +44,7 @@ public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign to the re- source. Constraints: o min: 0 o max: 50 (structure) The key or keys of the key-value pairs for the tag or tags as- signed to a resource. key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

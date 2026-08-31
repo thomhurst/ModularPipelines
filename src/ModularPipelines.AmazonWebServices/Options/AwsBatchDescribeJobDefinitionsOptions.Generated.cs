@@ -25,7 +25,7 @@ public record AwsBatchDescribeJobDefinitionsOptions : AwsOptions
     /// <summary>
     /// A list of up to 100 job definitions. Each entry in the list can ei- ther be an ARN in the format arn:aws:batch:${Region}:${Ac- count}:job-definition/${JobDefinitionName}:${Revision} or a short version using the form ${JobDefinitionName}:${Revision} . This para- meter can't be used with other parameters. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-definitions")]
+    [CliOption("--job-definitions", GroupValues = true)]
     public IEnumerable<string>? JobDefinitions { get; set; }
 
     /// <summary>

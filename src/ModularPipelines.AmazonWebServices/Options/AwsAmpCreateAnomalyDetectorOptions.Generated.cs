@@ -47,7 +47,7 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions
     /// <summary>
     /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector. Constraints: o min: 0 o max: 140 key -&gt; (string) Constraints: o min: 1 o max: 7168 o pattern: (?!__)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 1 o max: 7168 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions
     /// <summary>
     /// The metadata to apply to the anomaly detector to assist with catego- rization and organization. Constraints: o min: 0 o max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

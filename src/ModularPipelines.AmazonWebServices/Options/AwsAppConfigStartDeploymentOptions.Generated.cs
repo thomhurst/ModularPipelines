@@ -46,7 +46,7 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions
     /// <summary>
     /// Metadata to assign to the deployment. Tags help organize and catego- rize your AppConfig resources. Each tag consists of a key and an op- tional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions
     /// <summary>
     /// A map of dynamic extension parameter names to values to pass to as- sociated extensions with PRE_START_DEPLOYMENT actions. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--dynamic-extension-parameters")]
+    [CliOption("--dynamic-extension-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? DynamicExtensionParameters { get; set; }
 
     /// <summary>

@@ -45,7 +45,7 @@ public record AwsEmrContainersCreateSecurityConfigurationOptions : AwsOptions
     /// <summary>
     /// The tags to add to the security configuration. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsTransferTagResourceOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

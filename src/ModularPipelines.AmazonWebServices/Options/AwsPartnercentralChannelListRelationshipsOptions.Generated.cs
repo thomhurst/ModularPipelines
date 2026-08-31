@@ -28,25 +28,25 @@ public record AwsPartnercentralChannelListRelationshipsOptions : AwsOptions
     /// <summary>
     /// Filter by associated AWS account IDs. (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--associated-account-ids")]
+    [CliOption("--associated-account-ids", GroupValues = true)]
     public IEnumerable<string>? AssociatedAccountIds { get; set; }
 
     /// <summary>
     /// Filter by association types. (string) Possible values: o DOWNSTREAM_SELLER o END_CUSTOMER o INTERNAL Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--association-types")]
+    [CliOption("--association-types", GroupValues = true)]
     public IEnumerable<string>? AssociationTypes { get; set; }
 
     /// <summary>
     /// Filter by display names. (string) Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--display-names")]
+    [CliOption("--display-names", GroupValues = true)]
     public IEnumerable<string>? DisplayNames { get; set; }
 
     /// <summary>
     /// Filter by program management account identifiers. (string) Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cat- alog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--program-management-account-identifiers")]
+    [CliOption("--program-management-account-identifiers", GroupValues = true)]
     public IEnumerable<string>? ProgramManagementAccountIdentifiers { get; set; }
 
     /// <summary>

@@ -26,7 +26,7 @@ public record AwsSesv2ListReputationEntitiesOptions : AwsOptions
     /// <summary>
     /// An object that contains filters to apply when listing reputation en- tities. You can filter by entity type, reputation impact, sending status, or entity reference prefix. key -&gt; (string) The filter key to use when listing reputation entities. This can be one of the following: o ENTITY_TYPE Filter by entity type. o REPUTATION_IMPACT Filter by reputation impact level. o SENDING_STATUS Filter by aggregate sending status. o ENTITY_REFERENCE_PREFIX Filter by entity reference prefix. Possible values: o ENTITY_TYPE o REPUTATION_IMPACT o SENDING_STATUS o ENTITY_REFERENCE_PREFIX value -&gt; (string) The filter value to match against the specified filter key. Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: ENTITY_TYPE REPUTATION_IMPACT SENDING_STATUS ENTITY_REFERENCE_PREFIX JSON Syntax: {"ENTITY_TYPE"|"REPUTATION_IMPACT"|"SENDING_STATUS"|"ENTITY_REFERENCE_PREFIX": "string" ...}
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>

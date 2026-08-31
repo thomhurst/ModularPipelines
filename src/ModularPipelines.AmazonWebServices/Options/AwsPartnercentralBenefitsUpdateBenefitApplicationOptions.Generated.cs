@@ -56,13 +56,13 @@ public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOpti
     /// <summary>
     /// Updated contact information for partner representatives responsible for this benefit application. Constraints: o min: 0 o max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: o min: 0 o max: 80 o pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: o min: 0 o max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: o min: 0 o max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: o min: 0 o max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
     /// </summary>
-    [CliOption("--partner-contacts")]
+    [CliOption("--partner-contacts", GroupValues = true)]
     public IEnumerable<string>? PartnerContacts { get; set; }
 
     /// <summary>
     /// Updated supporting documents and files attached to the benefit ap- plication. Constraints: o min: 0 o max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: o min: 1 o max: 2000 o pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
     /// </summary>
-    [CliOption("--file-details")]
+    [CliOption("--file-details", GroupValues = true)]
     public IEnumerable<string>? FileDetails { get; set; }
 
     [CliOption("--cli-input-json")]

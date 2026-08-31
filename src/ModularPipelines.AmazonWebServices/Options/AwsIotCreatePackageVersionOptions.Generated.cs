@@ -38,7 +38,7 @@ public record AwsIotCreatePackageVersionOptions : AwsOptions
     /// <summary>
     /// Metadata that can be used to define a package versions configura- tion. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is lim- ited to 3KB. key -&gt; (string) Constraints: o min: 1 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public record AwsIotCreatePackageVersionOptions : AwsOptions
     /// <summary>
     /// Metadata that can be used to manage the package version. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

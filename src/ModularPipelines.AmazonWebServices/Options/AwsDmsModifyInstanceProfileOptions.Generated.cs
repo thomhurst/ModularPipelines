@@ -66,7 +66,7 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions
     /// <summary>
     /// Specifies the VPC security groups to be used with the instance pro- file. The VPC security group must work with the VPC containing the instance profile. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-groups")]
+    [CliOption("--vpc-security-groups", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

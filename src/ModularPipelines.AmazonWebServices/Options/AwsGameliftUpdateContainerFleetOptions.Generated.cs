@@ -52,13 +52,13 @@ public record AwsGameliftUpdateContainerFleetOptions : AwsOptions
     /// <summary>
     /// A set of ports to add to the container fleet's inbound permissions. The port range must not overlap with the Amazon GameLift Servers re- served port range 4092-4191 . This range is reserved for internal Amazon GameLift Servers services. Constraints: o max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messag- ing and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: o pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
     /// </summary>
-    [CliOption("--instance-inbound-permission-authorizations")]
+    [CliOption("--instance-inbound-permission-authorizations", GroupValues = true)]
     public IEnumerable<string>? InstanceInboundPermissionAuthorizations { get; set; }
 
     /// <summary>
     /// A set of ports to remove from the container fleet's inbound permis- sions. Constraints: o max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messag- ing and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: o pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
     /// </summary>
-    [CliOption("--instance-inbound-permission-revocations")]
+    [CliOption("--instance-inbound-permission-revocations", GroupValues = true)]
     public IEnumerable<string>? InstanceInboundPermissionRevocations { get; set; }
 
     /// <summary>
@@ -76,7 +76,7 @@ public record AwsGameliftUpdateContainerFleetOptions : AwsOptions
     /// <summary>
     /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. Constraints: o max: 1 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metric-groups")]
+    [CliOption("--metric-groups", GroupValues = true)]
     public IEnumerable<string>? MetricGroups { get; set; }
 
     /// <summary>
@@ -100,7 +100,7 @@ public record AwsGameliftUpdateContainerFleetOptions : AwsOptions
     /// <summary>
     /// If set, this update removes a fleet's per-instance container group definition. You can't remove a fleet's game server container group definition. Constraints: o min: 1 o max: 1 (string) Possible values: o PER_INSTANCE_CONTAINER_GROUP_DEFINITION Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-attributes")]
+    [CliOption("--remove-attributes", GroupValues = true)]
     public IEnumerable<string>? RemoveAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("connectparticipant", "complete-attachment-upload")]
 public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions
 {
-    [CliOption("--attachment-ids")]
+    [CliOption("--attachment-ids", GroupValues = true)]
     public IEnumerable<string>? AttachmentIds { get; set; }
 
     /// <summary>

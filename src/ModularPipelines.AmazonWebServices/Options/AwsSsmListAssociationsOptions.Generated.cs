@@ -25,7 +25,7 @@ public record AwsSsmListAssociationsOptions : AwsOptions
     /// <summary>
     /// One or more filters. Use a filter to return a more specific list of results. NOTE: Filtering associations using the InstanceID attribute only re- turns legacy associations created using the InstanceID at- tribute. Associations targeting the managed node that are part of the Target Attributes ResourceGroup or Tags aren't returned. Constraints: o min: 1 (structure) Describes a filter. key -&gt; (string) [required] The name of the filter. NOTE: InstanceId has been deprecated. Possible values: o InstanceId o Name o AssociationId o AssociationStatusName o LastExecutedBefore o LastExecutedAfter o AssociationName o ResourceGroupName o CloudConnectorId value -&gt; (string) [required] The filter value. Constraints: o min: 1 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "InstanceId"|"Name"|"AssociationId"|"AssociationStatusName"|"LastExecutedBefore"|"LastExecutedAfter"|"AssociationName"|"ResourceGroupName"|"CloudConnectorId", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--association-filter-list")]
+    [CliOption("--association-filter-list", GroupValues = true)]
     public IEnumerable<string>? AssociationFilterList { get; set; }
 
     [CliOption("--cli-input-json")]

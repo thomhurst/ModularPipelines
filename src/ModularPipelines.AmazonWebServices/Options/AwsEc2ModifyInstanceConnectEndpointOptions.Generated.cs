@@ -37,7 +37,7 @@ public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions
     /// <summary>
     /// Changes the security groups for the EC2 Instance Connect Endpoint. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name. Constraints: o min: 0 o max: 16 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliFlag("--preserve-client-ip")]

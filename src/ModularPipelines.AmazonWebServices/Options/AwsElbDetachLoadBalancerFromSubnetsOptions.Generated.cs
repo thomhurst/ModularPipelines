@@ -24,7 +24,7 @@ public record AwsElbDetachLoadBalancerFromSubnetsOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     [CliOption("--cli-input-json")]

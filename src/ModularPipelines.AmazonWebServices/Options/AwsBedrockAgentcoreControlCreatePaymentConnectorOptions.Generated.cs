@@ -39,7 +39,7 @@ public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptio
     public string? Type { get; set; }
 
     [SecretValue]
-    [CliOption("--credential-provider-configurations")]
+    [CliOption("--credential-provider-configurations", GroupValues = true)]
     public IEnumerable<string>? CredentialProviderConfigurations { get; set; }
 
     /// <summary>

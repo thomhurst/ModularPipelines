@@ -42,7 +42,7 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
     /// <summary>
     /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), provide the SQL Server RTM ISO file once per major version and edition combination. Minor versions reuse the same file. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--database-installation-files")]
+    [CliOption("--database-installation-files", GroupValues = true)]
     public IEnumerable<string>? DatabaseInstallationFiles { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
     /// <summary>
     /// A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

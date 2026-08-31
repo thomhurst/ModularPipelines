@@ -47,7 +47,7 @@ public record AwsDatazoneCreateGlossaryOptions : AwsOptions
     /// <summary>
     /// The usage restriction of the restricted glossary. Constraints: o min: 1 o max: 1 (string) Possible values: o ASSET_GOVERNED_TERMS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--usage-restrictions")]
+    [CliOption("--usage-restrictions", GroupValues = true)]
     public IEnumerable<string>? UsageRestrictions { get; set; }
 
     /// <summary>

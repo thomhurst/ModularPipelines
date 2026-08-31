@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-workflows")]
 public record AwsGlueBatchGetWorkflowsOptions : AwsOptions
 {
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliFlag("--include-graph")]

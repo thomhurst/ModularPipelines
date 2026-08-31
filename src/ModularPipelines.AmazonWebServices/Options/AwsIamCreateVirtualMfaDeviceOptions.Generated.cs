@@ -33,7 +33,7 @@ public record AwsIamCreateVirtualMfaDeviceOptions : AwsOptions
     /// <summary>
     /// A list of tags that you want to attach to the new IAM virtual MFA device. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--outfile")]

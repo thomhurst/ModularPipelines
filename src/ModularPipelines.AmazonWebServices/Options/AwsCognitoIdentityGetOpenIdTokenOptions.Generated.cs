@@ -28,7 +28,7 @@ public record AwsCognitoIdentityGetOpenIdTokenOptions : AwsOptions
     /// <summary>
     /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token . Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--logins")]
+    [CliOption("--logins", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
     [CliOption("--cli-input-json")]

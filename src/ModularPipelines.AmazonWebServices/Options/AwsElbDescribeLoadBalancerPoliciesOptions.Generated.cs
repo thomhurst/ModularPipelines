@@ -30,7 +30,7 @@ public record AwsElbDescribeLoadBalancerPoliciesOptions : AwsOptions
     /// <summary>
     /// The names of the policies. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     [CliOption("--cli-input-json")]

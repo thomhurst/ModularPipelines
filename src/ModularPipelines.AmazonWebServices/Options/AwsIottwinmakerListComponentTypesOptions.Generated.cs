@@ -28,7 +28,7 @@ public record AwsIottwinmakerListComponentTypesOptions : AwsOptions
     /// <summary>
     /// A list of objects that filter the request. (tagged union structure) An object that filters items in a list of component types. NOTE: Only one object is accepted as a valid input. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: extendsFrom, namespace, isAb- stract. extendsFrom -&gt; (string) The component type that the component types in the list ex- tend. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ namespace -&gt; (string) The namespace to which the component types in the list be- long. Constraints: o min: 1 o max: 256 o pattern: .* isAbstract -&gt; (boolean) A Boolean value that specifies whether the component types in the list are abstract. Shorthand Syntax: extendsFrom=string,namespace=string,isAbstract=boolean ... JSON Syntax: [ { "extendsFrom": "string", "namespace": "string", "isAbstract": true|false } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -39,7 +39,7 @@ public record AwsDatazoneCreateConnectionOptions : AwsOptions
     /// <summary>
     /// The configurations of the connection. (structure) The configuration of a connection. classification -&gt; (string) The classification of the connection configuration. Constraints: o min: 0 o max: 64 o pattern: [\w][\w\.\-\_]* properties -&gt; (map) The properties of the connection configuration. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: classification=string,properties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "classification": "string", "properties": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--configurations")]
+    [CliOption("--configurations", GroupValues = true)]
     public IEnumerable<string>? Configurations { get; set; }
 
     /// <summary>

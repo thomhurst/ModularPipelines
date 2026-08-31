@@ -54,19 +54,19 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions
     /// <summary>
     /// Space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that DMS supports for the associated migra- tion task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for IncludeOnly if you also set a value for Exclude in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the De- scribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include-only")]
+    [CliOption("--include-only", GroupValues = true)]
     public IEnumerable<string>? IncludeOnly { get; set; }
 
     /// <summary>
     /// Space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that DMS supports for the associated migra- tion task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for Exclude if you also set a value for IncludeOnly in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the De- scribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exclude")]
+    [CliOption("--exclude", GroupValues = true)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
     /// One or more tags to be assigned to the premigration assessment run that you want to start. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,13 +33,13 @@ public record AwsGameliftCreateGameSessionQueueOptions : AwsOptions
     /// <summary>
     /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value. (structure) Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with place- ment request that provide player latency information. Player la- tency policies can be stacked to gradually relax latency re- quirements over time. MaximumIndividualPlayerLatencyMilliseconds -&gt; (integer) The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property. Constraints: o min: 0 PolicyDurationSeconds -&gt; (integer) The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this prop- erty means that the policy is enforced until the queue times out. Constraints: o min: 0 Shorthand Syntax: MaximumIndividualPlayerLatencyMilliseconds=integer,PolicyDurationSeconds=integer ... JSON Syntax: [ { "MaximumIndividualPlayerLatencyMilliseconds": integer, "PolicyDurationSeconds": integer } ... ]
     /// </summary>
-    [CliOption("--player-latency-policies")]
+    [CliOption("--player-latency-policies", GroupValues = true)]
     public IEnumerable<string>? PlayerLatencyPolicies { get; set; }
 
     /// <summary>
     /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are iden- tified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference. (structure) A fleet or alias designated in a game session queue. Queues ful- fill requests for new game sessions by placing a new game ses- sion on any of the queue's destinations. DestinationArn -&gt; (string) The Amazon Resource Name (ARN) that is assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a Region name, provide a unique identifier across all Regions. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Shorthand Syntax: DestinationArn=string ... JSON Syntax: [ { "DestinationArn": "string" } ... ]
     /// </summary>
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record AwsGameliftCreateGameSessionQueueOptions : AwsOptions
     /// <summary>
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Ser- vices resources are useful for resource management, access manage- ment and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

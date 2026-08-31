@@ -24,7 +24,7 @@ public record AwsEc2DeleteFlowLogsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--flow-log-ids")]
+    [CliOption("--flow-log-ids", GroupValues = true)]
     public IEnumerable<string>? FlowLogIds { get; set; }
 
     [CliOption("--cli-input-json")]

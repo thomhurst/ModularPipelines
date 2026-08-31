@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("grafana", "update-permissions")]
 public record AwsGrafanaUpdatePermissionsOptions : AwsOptions
 {
-    [CliOption("--update-instruction-batch")]
+    [CliOption("--update-instruction-batch", GroupValues = true)]
     public IEnumerable<string>? UpdateInstructionBatch { get; set; }
 
     [CliOption("--workspace-id")]

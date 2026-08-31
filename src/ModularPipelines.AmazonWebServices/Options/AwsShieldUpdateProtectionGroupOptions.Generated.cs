@@ -40,7 +40,7 @@ public record AwsShieldUpdateProtectionGroupOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBI- TRARY and you must not set it for any other Pattern setting. Constraints: o min: 0 o max: 10000 (string) Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--members")]
+    [CliOption("--members", GroupValues = true)]
     public IEnumerable<string>? Members { get; set; }
 
     [CliOption("--cli-input-json")]

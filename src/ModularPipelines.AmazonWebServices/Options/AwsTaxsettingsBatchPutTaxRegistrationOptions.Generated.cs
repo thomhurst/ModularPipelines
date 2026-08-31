@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("taxsettings", "batch-put-tax-registration")]
 public record AwsTaxsettingsBatchPutTaxRegistrationOptions : AwsOptions
 {
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--tax-registration-entry")]

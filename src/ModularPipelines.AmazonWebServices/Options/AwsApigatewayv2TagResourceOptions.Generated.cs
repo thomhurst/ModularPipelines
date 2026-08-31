@@ -28,7 +28,7 @@ public record AwsApigatewayv2TagResourceOptions : AwsOptions
     /// <summary>
     /// The collection of tags. Each tag element is associated with a given resource. key -&gt; (string) value -&gt; (string) A string with a length between [0-1600]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

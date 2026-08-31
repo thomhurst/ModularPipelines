@@ -30,7 +30,7 @@ public record AwsEcrBatchDeleteImageOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     [CliOption("--cli-input-json")]

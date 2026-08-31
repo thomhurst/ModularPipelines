@@ -34,13 +34,13 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions
     /// <summary>
     /// Operational data is custom data that provides useful reference de- tails about the OpsItem. For example, you can specify log files, er- ror strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. WARNING: Operational data keys can't begin with the following: amazon , aws , amzn , ssm , /amazon , /aws , /amzn , /ssm . You can choose to make the data searchable by other users in the ac- count or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only view- able by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in Opera- tionalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Man- ager User Guide . key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+ value -&gt; (structure) An object that defines the value of the key and its type in the OperationalData map. Value -&gt; (string) The value of the OperationalData key. Constraints: o pattern: [\s\S]*\S[\s\S]* Type -&gt; (string) The type of key-value pair. Valid types include Search- ableString and String . Possible values: o SearchableString o String Shorthand Syntax: KeyName1={Value=string,Type=string},KeyName2={Value=string,Type=string} JSON Syntax: {"string": { "Value": "string", "Type": "SearchableString"|"String" } ...}
     /// </summary>
-    [CliOption("--operational-data")]
+    [CliOption("--operational-data", GroupValues = true)]
     public IReadOnlyList<KeyValue>? OperationalData { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed. (structure) A notification about the OpsItem. Arn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notifica- tion Service (Amazon SNS) topic where notifications are sent when this OpsItem is edited or changed. Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
     /// </summary>
-    [CliOption("--notifications")]
+    [CliOption("--notifications", GroupValues = true)]
     public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions
     /// <summary>
     /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the im- pacted resource. (structure) An OpsItems that shares something in common with the current Op- sItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource. OpsItemId -&gt; (string) [required] The ID of an OpsItem related to the current OpsItem. Shorthand Syntax: OpsItemId=string ... JSON Syntax: [ { "OpsItemId": "string" } ... ]
     /// </summary>
-    [CliOption("--related-ops-items")]
+    [CliOption("--related-ops-items", GroupValues = true)]
     public IEnumerable<string>? RelatedOpsItems { get; set; }
 
     [CliOption("--source")]
@@ -64,7 +64,7 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions
     /// <summary>
     /// Optional metadata that you assign to a resource. Tags use a key-value pair. For example: Key=Department,Value=Finance WARNING: To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTag- sToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

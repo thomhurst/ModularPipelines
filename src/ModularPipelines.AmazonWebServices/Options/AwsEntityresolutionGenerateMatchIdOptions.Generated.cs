@@ -25,7 +25,7 @@ public record AwsEntityresolutionGenerateMatchIdOptions : AwsOptions
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; set; }
 
-    [CliOption("--records")]
+    [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; set; }
 
     /// <summary>

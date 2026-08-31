@@ -30,7 +30,7 @@ public record AwsKafkaCreateConfigurationOptions : AwsOptions
     /// <summary>
     /// The versions of Apache Kafka with which you can use this MSK config- uration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--kafka-versions")]
+    [CliOption("--kafka-versions", GroupValues = true)]
     public IEnumerable<string>? KafkaVersions { get; set; }
 
     [CliOption("--name")]

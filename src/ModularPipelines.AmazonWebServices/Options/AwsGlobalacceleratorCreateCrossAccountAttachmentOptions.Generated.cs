@@ -28,13 +28,13 @@ public record AwsGlobalacceleratorCreateCrossAccountAttachmentOptions : AwsOptio
     /// <summary>
     /// The principals to include in the cross-account attachment. A princi- pal can be an Amazon Web Services account number or the Amazon Re- source Name (ARN) for an accelerator. (string) Constraints: o max: 256 o pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) for the resources to include in the cross-account attachment. A resource can be any supported Amazon Web Services resource type for Global Accelerator or a CIDR range for a bring your own IP address (BYOIP) address pool. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Ama- zon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Bal- ancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: o max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as re- source. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint re- source is located. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsGlobalacceleratorCreateCrossAccountAttachmentOptions : AwsOptio
     /// <summary>
     /// Add tags for a cross-account attachment. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . (structure) A complex type that contains a Tag key and Tag value. Key -&gt; (string) [required] A string that contains a Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] A string that contains a Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

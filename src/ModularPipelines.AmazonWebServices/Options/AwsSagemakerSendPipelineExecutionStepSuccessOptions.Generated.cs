@@ -29,7 +29,7 @@ public record AwsSagemakerSendPipelineExecutionStepSuccessOptions : AwsOptions
     /// <summary>
     /// A list of the output parameters of the callback step. Constraints: o min: 0 o max: 50 (structure) An output parameter of a pipeline step. Name -&gt; (string) [required] The name of the output parameter. Constraints: o min: 0 o max: 256 Value -&gt; (string) [required] The value of the output parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--output-parameters")]
+    [CliOption("--output-parameters", GroupValues = true)]
     public IEnumerable<string>? OutputParameters { get; set; }
 
     /// <summary>

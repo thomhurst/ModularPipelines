@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("elbv2", "add-tags")]
 public record AwsElbv2AddTagsOptions : AwsOptions
 {
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

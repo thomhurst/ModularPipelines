@@ -40,7 +40,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions
     /// <summary>
     /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availabil- ity Zones for the highest availability. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions
     /// <summary>
     /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC se- curity group to each node. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions
     /// <summary>
     /// A set of tags to associate with the DAX cluster. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -52,13 +52,13 @@ public record AwsApigatewayPutMethodOptions : AwsOptions
     /// <summary>
     /// A key-value map defining required or optional method request parame- ters that can be accepted by API Gateway. A key defines a method re- quest parameter name matching the pattern of method.request.{loca- tion}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is re- quired (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to in- tegration request parameters or body-mapping templates. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
     /// </summary>
-    [CliOption("--request-parameters")]
+    [CliOption("--request-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
 
     /// <summary>
     /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-models")]
+    [CliOption("--request-models", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RequestModels { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AwsApigatewayPutMethodOptions : AwsOptions
     /// <summary>
     /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incom- ing request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorization-scopes")]
+    [CliOption("--authorization-scopes", GroupValues = true)]
     public IEnumerable<string>? AuthorizationScopes { get; set; }
 
     [CliOption("--cli-input-json")]

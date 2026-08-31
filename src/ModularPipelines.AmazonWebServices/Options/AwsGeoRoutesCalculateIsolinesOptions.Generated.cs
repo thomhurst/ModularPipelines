@@ -52,7 +52,7 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
     /// <summary>
     /// An optional destination point, specified as [longitude, latitude] coordinates. When provided, the service calculates areas from which this destination can be reached within the specified thresholds. This reverses the usual isoline calculation to show areas that could reach your location, rather than areas you could reach from your lo- cation. Either Origin or Destination must be provided. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--destination")]
+    [CliOption("--destination", GroupValues = true)]
     public IEnumerable<string>? Destination { get; set; }
 
     /// <summary>
@@ -94,7 +94,7 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
     /// <summary>
     /// The starting point for isoline calculations, specified as [longi- tude, latitude] coordinates. For example, this could be a store lo- cation, service center, or any point from which you want to calcu- late reachable areas. Either Origin or Destination must be provided. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--origin")]
+    [CliOption("--origin", GroupValues = true)]
     public IEnumerable<string>? Origin { get; set; }
 
     /// <summary>

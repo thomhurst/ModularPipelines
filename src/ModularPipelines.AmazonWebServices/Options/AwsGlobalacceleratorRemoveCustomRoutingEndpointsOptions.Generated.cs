@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("globalaccelerator", "remove-custom-routing-endpoints")]
 public record AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions : AwsOptions
 {
-    [CliOption("--endpoint-ids")]
+    [CliOption("--endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? EndpointIds { get; set; }
 
     [CliOption("--endpoint-group-arn")]

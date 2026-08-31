@@ -40,7 +40,7 @@ public record AwsEc2CreateVpcEndpointConnectionNotificationOptions : AwsOptions
     [CliOption("--connection-notification-arn")]
     public string? ConnectionNotificationArn { get; set; }
 
-    [CliOption("--connection-events")]
+    [CliOption("--connection-events", GroupValues = true)]
     public IEnumerable<string>? ConnectionEvents { get; set; }
 
     /// <summary>

@@ -24,13 +24,13 @@ public record AwsEc2DescribeVpnGatewaysOptions : AwsOptions
     /// <summary>
     /// One or more filters. o amazon-side-asn - The Autonomous System Number (ASN) for the Ama- zon side of the gateway. o attachment.state - The current state of the attachment between the gateway and the VPC (attaching | attached | detaching | detached ). o attachment.vpc-id - The ID of an attached VPC. o availability-zone - The Availability Zone for the virtual private gateway (if applicable). o state - The state of the virtual private gateway (pending | avail- able | deleting | deleted ). o tag :&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. o type - The type of virtual private gateway. Currently the only supported type is ipsec.1 . o vpn-gateway-id - The ID of the virtual private gateway. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// One or more virtual private gateway IDs. Default: Describes all your virtual private gateways. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpn-gateway-ids")]
+    [CliOption("--vpn-gateway-ids", GroupValues = true)]
     public IEnumerable<string>? VpnGatewayIds { get; set; }
 
     [CliFlag("--dry-run")]

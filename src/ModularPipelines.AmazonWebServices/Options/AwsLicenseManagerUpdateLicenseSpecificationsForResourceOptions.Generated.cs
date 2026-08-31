@@ -27,13 +27,13 @@ public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : A
     /// <summary>
     /// ARNs of the license configurations to add. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-ac- count . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
     /// </summary>
-    [CliOption("--add-license-specifications")]
+    [CliOption("--add-license-specifications", GroupValues = true)]
     public IEnumerable<string>? AddLicenseSpecifications { get; set; }
 
     /// <summary>
     /// ARNs of the license configurations to remove. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-ac- count . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-license-specifications")]
+    [CliOption("--remove-license-specifications", GroupValues = true)]
     public IEnumerable<string>? RemoveLicenseSpecifications { get; set; }
 
     [CliOption("--cli-input-json")]

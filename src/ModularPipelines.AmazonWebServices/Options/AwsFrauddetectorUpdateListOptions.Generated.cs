@@ -28,7 +28,7 @@ public record AwsFrauddetectorUpdateListOptions : AwsOptions
     /// <summary>
     /// One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use. If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements). Constraints: o min: 0 o max: 100000 (string) Constraints: o min: 1 o max: 320 o pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--elements")]
+    [CliOption("--elements", GroupValues = true)]
     public IEnumerable<string>? Elements { get; set; }
 
     /// <summary>

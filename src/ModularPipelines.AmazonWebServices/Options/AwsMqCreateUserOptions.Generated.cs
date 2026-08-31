@@ -31,7 +31,7 @@ public record AwsMqCreateUserOptions : AwsOptions
     /// <summary>
     /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, peri- ods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--groups")]
+    [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     [SecretValue]

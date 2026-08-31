@@ -33,7 +33,7 @@ public record AwsGlueBatchDeletePartitionOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--partitions-to-delete")]
+    [CliOption("--partitions-to-delete", GroupValues = true)]
     public IEnumerable<string>? PartitionsToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

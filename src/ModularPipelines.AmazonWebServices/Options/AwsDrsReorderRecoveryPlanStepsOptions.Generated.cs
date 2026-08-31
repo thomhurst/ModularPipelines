@@ -24,7 +24,7 @@ public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions
     [CliOption("--recovery-plan-arn")]
     public string? RecoveryPlanArn { get; set; }
 
-    [CliOption("--ordered-step-arns")]
+    [CliOption("--ordered-step-arns", GroupValues = true)]
     public IEnumerable<string>? OrderedStepArns { get; set; }
 
     [CliOption("--cli-input-json")]

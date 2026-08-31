@@ -38,7 +38,7 @@ public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions
     /// <summary>
     /// An arbitrary set of tags (keyvalue pairs) to associate with the OpenSearch Serverless collection group. Constraints: o min: 0 o max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

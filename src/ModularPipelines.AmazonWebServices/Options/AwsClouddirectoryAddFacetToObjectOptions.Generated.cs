@@ -30,7 +30,7 @@ public record AwsClouddirectoryAddFacetToObjectOptions : AwsOptions
     /// <summary>
     /// Attributes on the facet that you are adding to the object. (structure) The combination of an attribute key and an attribute value. Key -&gt; (structure) [required] The key of the attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: Key={SchemaArn=string,FacetName=string,Name=string},Value={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp} ... JSON Syntax: [ { "Key": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ]
     /// </summary>
-    [CliOption("--object-attribute-list")]
+    [CliOption("--object-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ObjectAttributeList { get; set; }
 
     [CliOption("--object-reference")]

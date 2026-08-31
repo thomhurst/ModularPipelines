@@ -27,7 +27,7 @@ public record AwsKendraDisassociatePersonasFromEntitiesOptions : AwsOptions
     [CliOption("--index-id")]
     public string? IndexId { get; set; }
 
-    [CliOption("--entity-ids")]
+    [CliOption("--entity-ids", GroupValues = true)]
     public IEnumerable<string>? EntityIds { get; set; }
 
     [CliOption("--cli-input-json")]

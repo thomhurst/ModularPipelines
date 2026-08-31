@@ -33,13 +33,13 @@ public record AwsNeptuneModifyDbClusterEndpointOptions : AwsOptions
     /// <summary>
     /// List of DB instance identifiers that are part of the custom endpoint group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--static-members")]
+    [CliOption("--static-members", GroupValues = true)]
     public IEnumerable<string>? StaticMembers { get; set; }
 
     /// <summary>
     /// List of DB instance identifiers that aren't part of the custom end- point group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--excluded-members")]
+    [CliOption("--excluded-members", GroupValues = true)]
     public IEnumerable<string>? ExcludedMembers { get; set; }
 
     [CliOption("--cli-input-json")]

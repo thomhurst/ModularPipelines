@@ -25,13 +25,13 @@ public record AwsEc2UpdateCapacityManagerMonitoredTagKeysOptions : AwsOptions
     /// <summary>
     /// The tag keys to activate for monitoring. Once activated, these tag keys will be included as dimensions in capacity metric data. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--activate-tag-keys")]
+    [CliOption("--activate-tag-keys", GroupValues = true)]
     public IEnumerable<string>? ActivateTagKeys { get; set; }
 
     /// <summary>
     /// The tag keys to deactivate. Deactivated tag keys will no longer be included as dimensions in capacity metric data. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--deactivate-tag-keys")]
+    [CliOption("--deactivate-tag-keys", GroupValues = true)]
     public IEnumerable<string>? DeactivateTagKeys { get; set; }
 
     [CliFlag("--dry-run")]

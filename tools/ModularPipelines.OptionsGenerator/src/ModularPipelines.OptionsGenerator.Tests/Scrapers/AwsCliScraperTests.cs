@@ -50,6 +50,13 @@ public class AwsCliScraperTests
 
         await Assert.That(commands.Select(command => command.FullCommand))
             .IsEquivalentTo(["aws ec2 describe-instances"]);
+
+        var instanceIds = commands.Single().Options.Single(option => option.SwitchName == "--instance-ids");
+        using (Assert.Multiple())
+        {
+            await Assert.That(instanceIds.AcceptsMultipleValues).IsTrue();
+            await Assert.That(instanceIds.GroupValues).IsTrue();
+        }
     }
 
     [Test]
@@ -112,6 +119,7 @@ public class AwsCliScraperTests
         {
             await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.GroupValues).IsTrue();
             await Assert.That(option.EnumDefinition).IsNull();
         }
     }
@@ -131,16 +139,16 @@ public class AwsCliScraperTests
         }
 
         var options = commands.Single().Options;
+        var cliInputJson = options.Single(option => option.SwitchName == "--cli-input-json");
+        var generateCliSkeleton = options.Single(option => option.SwitchName == "--generate-cli-skeleton");
         using (Assert.Multiple())
         {
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").IsFlag)
-                .IsFalse();
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").IsFlag)
-                .IsFalse();
+            await Assert.That(cliInputJson.CSharpType).IsEqualTo("string?");
+            await Assert.That(cliInputJson.IsFlag).IsFalse();
+            await Assert.That(cliInputJson.GroupValues).IsFalse();
+            await Assert.That(generateCliSkeleton.CSharpType).IsEqualTo("string?");
+            await Assert.That(generateCliSkeleton.IsFlag).IsFalse();
+            await Assert.That(generateCliSkeleton.GroupValues).IsFalse();
         }
     }
 

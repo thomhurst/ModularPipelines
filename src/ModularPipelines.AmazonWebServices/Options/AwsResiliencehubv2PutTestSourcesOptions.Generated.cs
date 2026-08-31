@@ -27,7 +27,7 @@ public record AwsResiliencehubv2PutTestSourcesOptions : AwsOptions
     [CliOption("--service-arn")]
     public string? ServiceArn { get; set; }
 
-    [CliOption("--test-sources")]
+    [CliOption("--test-sources", GroupValues = true)]
     public IEnumerable<string>? TestSources { get; set; }
 
     [CliOption("--cli-input-json")]

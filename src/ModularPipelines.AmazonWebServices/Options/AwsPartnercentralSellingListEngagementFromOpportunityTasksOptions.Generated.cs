@@ -34,25 +34,25 @@ public record AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions 
     /// <summary>
     /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Constraints: o min: 1 o max: 3 (string) Possible values: o IN_PROGRESS o COMPLETE o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-status")]
+    [CliOption("--task-status", GroupValues = true)]
     public IEnumerable<string>? TaskStatus { get; set; }
 
     /// <summary>
     /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|task-[0-9a-z]{13}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-identifier")]
+    [CliOption("--task-identifier", GroupValues = true)]
     public IEnumerable<string>? TaskIdentifier { get; set; }
 
     /// <summary>
     /// The identifier of the original opportunity associated with this task. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: O[0-9]{1,19} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--opportunity-identifier")]
+    [CliOption("--opportunity-identifier", GroupValues = true)]
     public IEnumerable<string>? OpportunityIdentifier { get; set; }
 
     /// <summary>
     /// Filters tasks by the identifiers of the engagements they created or are associated with. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--engagement-identifier")]
+    [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]

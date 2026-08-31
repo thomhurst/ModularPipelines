@@ -31,7 +31,7 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CliOption("--image-assets")]
+    [CliOption("--image-assets", GroupValues = true)]
     public IEnumerable<string>? ImageAssets { get; set; }
 
     [CliFlag("--image-mask")]

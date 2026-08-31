@@ -34,7 +34,7 @@ public record AwsIotCreateDomainConfigurationOptions : AwsOptions
     /// <summary>
     /// The ARNs of the certificates that IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for Amazon Web Services-managed do- mains. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\d{1}:\d{12}:cer- tificate/[a-zA-Z0-9/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--server-certificate-arns")]
+    [CliOption("--server-certificate-arns", GroupValues = true)]
     public IEnumerable<string>? ServerCertificateArns { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsIotCreateDomainConfigurationOptions : AwsOptions
     /// <summary>
     /// Metadata which can be used to manage the domain configuration. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

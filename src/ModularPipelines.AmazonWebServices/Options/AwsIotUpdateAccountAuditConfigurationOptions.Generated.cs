@@ -31,13 +31,13 @@ public record AwsIotUpdateAccountAuditConfigurationOptions : AwsOptions
     /// <summary>
     /// Information about the targets to which audit notifications are sent. key -&gt; (string) Possible values: o SNS value -&gt; (structure) Information about the targets to which audit notifications are sent. targetArn -&gt; (string) The ARN of the target (SNS topic) to which audit notifica- tions are sent. Constraints: o max: 2048 roleArn -&gt; (string) The ARN of the role that grants permission to send notifica- tions to the target. Constraints: o min: 20 o max: 2048 enabled -&gt; (boolean) True if notifications to the target are enabled. Shorthand Syntax: KeyName1={targetArn=string,roleArn=string,enabled=boolean},KeyName2={targetArn=string,roleArn=string,enabled=boolean} Where valid key names are: SNS JSON Syntax: {"SNS": { "targetArn": "string", "roleArn": "string", "enabled": true|false } ...}
     /// </summary>
-    [CliOption("--audit-notification-target-configurations")]
+    [CliOption("--audit-notification-target-configurations", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AuditNotificationTargetConfigurations { get; set; }
 
     /// <summary>
     /// Specifies which audit checks are enabled and disabled for this ac- count. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in re- lation to the check is deleted. You cannot disable a check if it's used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration , this parame- ter is required and must specify at least one enabled check. key -&gt; (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) value -&gt; (structure) Which audit checks are enabled and disabled for this account. enabled -&gt; (boolean) True if this audit check is enabled for this account. configuration -&gt; (map) A structure containing the configName and corresponding con- figValue for configuring audit checks. key -&gt; (string) Possible values: o CERT_AGE_THRESHOLD_IN_DAYS o CERT_EXPIRATION_THRESHOLD_IN_DAYS value -&gt; (string) Constraints: o min: 1 o max: 64 Shorthand Syntax: KeyName1={enabled=boolean,configuration={KeyName1=string,KeyName2=string}},KeyName2={enabled=boolean,configuration={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "enabled": true|false, "configuration": {"CERT_AGE_THRESHOLD_IN_DAYS"|"CERT_EXPIRATION_THRESHOLD_IN_DAYS": "string" ...} } ...}
     /// </summary>
-    [CliOption("--audit-check-configurations")]
+    [CliOption("--audit-check-configurations", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AuditCheckConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

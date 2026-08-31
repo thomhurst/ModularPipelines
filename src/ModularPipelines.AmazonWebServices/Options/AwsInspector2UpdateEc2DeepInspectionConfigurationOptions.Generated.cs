@@ -27,7 +27,7 @@ public record AwsInspector2UpdateEc2DeepInspectionConfigurationOptions : AwsOpti
     /// <summary>
     /// The Amazon Inspector deep inspection custom paths you are adding for your account. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--package-paths")]
+    [CliOption("--package-paths", GroupValues = true)]
     public IEnumerable<string>? PackagePaths { get; set; }
 
     [CliOption("--cli-input-json")]

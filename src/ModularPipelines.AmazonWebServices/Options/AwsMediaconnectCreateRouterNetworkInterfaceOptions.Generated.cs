@@ -38,7 +38,7 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions
     /// <summary>
     /// Key-value pairs that can be used to tag and organize this router network interface. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

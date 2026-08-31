@@ -36,7 +36,7 @@ public record AwsRedshiftRevokeEndpointAccessOptions : AwsOptions
     /// <summary>
     /// The virtual private cloud (VPC) identifiers for which access is to be revoked. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-ids")]
+    [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
 
     [CliFlag("--force")]

@@ -31,7 +31,7 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions
     [CliOption("--key-fingerprint")]
     public string? KeyFingerprint { get; set; }
 
-    [CliOption("--entitlements")]
+    [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; set; }
 
     [SecretValue]

@@ -43,13 +43,13 @@ public record AwsCleanroomsCreateAnalysisTemplateOptions : AwsOptions
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The parameters of the analysis template. Constraints: o min: 0 o max: 50 (structure) Optional. The member who can query can provide this placeholder for a literal data value in an analysis template. name -&gt; (string) [required] The name of the parameter. The name must use only alphanu- meric or underscore (_) characters. Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ type -&gt; (string) [required] The type of parameter. Possible values: o SMALLINT o INTEGER o BIGINT o DECIMAL o REAL o DOUBLE_PRECISION o BOOLEAN o CHAR o VARCHAR o DATE o TIMESTAMP o TIMESTAMPTZ o TIME o TIMETZ o VARBYTE o BINARY o BYTE o CHARACTER o DOUBLE o FLOAT o INT o LONG o NUMERIC o SHORT o STRING o TIMESTAMP_LTZ o TIMESTAMP_NTZ o TINYINT defaultValue -&gt; (string) Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor. Constraints: o min: 0 o max: 1000 Shorthand Syntax: name=string,type=string,defaultValue=string ... JSON Syntax: [ { "name": "string", "type": "SMALLINT"|"INTEGER"|"BIGINT"|"DECIMAL"|"REAL"|"DOUBLE_PRECISION"|"BOOLEAN"|"CHAR"|"VARCHAR"|"DATE"|"TIMESTAMP"|"TIMESTAMPTZ"|"TIME"|"TIMETZ"|"VARBYTE"|"BINARY"|"BYTE"|"CHARACTER"|"DOUBLE"|"FLOAT"|"INT"|"LONG"|"NUMERIC"|"SHORT"|"STRING"|"TIMESTAMP_LTZ"|"TIMESTAMP_NTZ"|"TINYINT", "defaultValue": "string" } ... ]
     /// </summary>
-    [CliOption("--analysis-parameters")]
+    [CliOption("--analysis-parameters", GroupValues = true)]
     public IEnumerable<string>? AnalysisParameters { get; set; }
 
     /// <summary>

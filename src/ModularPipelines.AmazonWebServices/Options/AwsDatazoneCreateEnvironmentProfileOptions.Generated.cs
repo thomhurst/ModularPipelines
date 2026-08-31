@@ -42,7 +42,7 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions
     /// <summary>
     /// The user parameters of this Amazon DataZone environment profile. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--user-parameters")]
+    [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>

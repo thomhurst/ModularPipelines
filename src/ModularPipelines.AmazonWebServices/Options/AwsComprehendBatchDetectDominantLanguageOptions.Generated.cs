@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("comprehend", "batch-detect-dominant-language")]
 public record AwsComprehendBatchDetectDominantLanguageOptions : AwsOptions
 {
-    [CliOption("--text-list")]
+    [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; set; }
 
     [CliOption("--cli-input-json")]

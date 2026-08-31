@@ -58,67 +58,67 @@ public record AwsSecurityIrUpdateCaseOptions : AwsOptions
     /// <summary>
     /// Optional element for UpdateCase to provide content to add additional watchers to a case. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]
     /// </summary>
-    [CliOption("--watchers-to-add")]
+    [CliOption("--watchers-to-add", GroupValues = true)]
     public IEnumerable<string>? WatchersToAdd { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to remove exist- ing watchers from a case. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]
     /// </summary>
-    [CliOption("--watchers-to-delete")]
+    [CliOption("--watchers-to-delete", GroupValues = true)]
     public IEnumerable<string>? WatchersToDelete { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add additional suspicious IP addresses related to a case. Constraints: o min: 0 o max: 200 (structure) ipAddress -&gt; (string) [required] Constraints: o pattern: (?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)) userAgent -&gt; (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: ipAddress=string,userAgent=string ... JSON Syntax: [ { "ipAddress": "string", "userAgent": "string" } ... ]
     /// </summary>
-    [CliOption("--threat-actor-ip-addresses-to-add")]
+    [CliOption("--threat-actor-ip-addresses-to-add", GroupValues = true)]
     public IEnumerable<string>? ThreatActorIpAddressesToAdd { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to remove suspi- cious IP addresses from a case. Constraints: o min: 0 o max: 200 (structure) ipAddress -&gt; (string) [required] Constraints: o pattern: (?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)) userAgent -&gt; (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: ipAddress=string,userAgent=string ... JSON Syntax: [ { "ipAddress": "string", "userAgent": "string" } ... ]
     /// </summary>
-    [CliOption("--threat-actor-ip-addresses-to-delete")]
+    [CliOption("--threat-actor-ip-addresses-to-delete", GroupValues = true)]
     public IEnumerable<string>? ThreatActorIpAddressesToDelete { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add services impacted. Constraints: o min: 0 o max: 600 (string) Constraints: o min: 2 o max: 50 o pattern: [a-zA-Z0-9 -.():]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-services-to-add")]
+    [CliOption("--impacted-services-to-add", GroupValues = true)]
     public IEnumerable<string>? ImpactedServicesToAdd { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to remove ser- vices impacted. Constraints: o min: 0 o max: 600 (string) Constraints: o min: 2 o max: 50 o pattern: [a-zA-Z0-9 -.():]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-services-to-delete")]
+    [CliOption("--impacted-services-to-delete", GroupValues = true)]
     public IEnumerable<string>? ImpactedServicesToDelete { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add regions impacted. Constraints: o min: 0 o max: 50 (structure) region -&gt; (string) [required] Possible values: o af-south-1 o ap-east-1 o ap-east-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o ap-south-1 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-southeast-4 o ap-southeast-5 o ap-southeast-6 o ap-southeast-7 o ca-central-1 o ca-west-1 o cn-north-1 o cn-northwest-1 o eu-central-1 o eu-central-2 o eu-north-1 o eu-south-1 o eu-south-2 o eu-west-1 o eu-west-2 o eu-west-3 o il-central-1 o me-central-1 o me-south-1 o mx-central-1 o sa-east-1 o us-east-1 o us-east-2 o us-west-1 o us-west-2 Shorthand Syntax: region=string ... JSON Syntax: [ { "region": "af-south-1"|"ap-east-1"|"ap-east-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-southeast-4"|"ap-southeast-5"|"ap-southeast-6"|"ap-southeast-7"|"ca-central-1"|"ca-west-1"|"cn-north-1"|"cn-northwest-1"|"eu-central-1"|"eu-central-2"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"il-central-1"|"me-central-1"|"me-south-1"|"mx-central-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2" } ... ]
     /// </summary>
-    [CliOption("--impacted-aws-regions-to-add")]
+    [CliOption("--impacted-aws-regions-to-add", GroupValues = true)]
     public IEnumerable<string>? ImpactedAwsRegionsToAdd { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to remove regions impacted. Constraints: o min: 0 o max: 50 (structure) region -&gt; (string) [required] Possible values: o af-south-1 o ap-east-1 o ap-east-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o ap-south-1 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-southeast-4 o ap-southeast-5 o ap-southeast-6 o ap-southeast-7 o ca-central-1 o ca-west-1 o cn-north-1 o cn-northwest-1 o eu-central-1 o eu-central-2 o eu-north-1 o eu-south-1 o eu-south-2 o eu-west-1 o eu-west-2 o eu-west-3 o il-central-1 o me-central-1 o me-south-1 o mx-central-1 o sa-east-1 o us-east-1 o us-east-2 o us-west-1 o us-west-2 Shorthand Syntax: region=string ... JSON Syntax: [ { "region": "af-south-1"|"ap-east-1"|"ap-east-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-southeast-4"|"ap-southeast-5"|"ap-southeast-6"|"ap-southeast-7"|"ca-central-1"|"ca-west-1"|"cn-north-1"|"cn-northwest-1"|"eu-central-1"|"eu-central-2"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"il-central-1"|"me-central-1"|"me-south-1"|"mx-central-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2" } ... ]
     /// </summary>
-    [CliOption("--impacted-aws-regions-to-delete")]
+    [CliOption("--impacted-aws-regions-to-delete", GroupValues = true)]
     public IEnumerable<string>? ImpactedAwsRegionsToDelete { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add accounts impacted. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-accounts-to-add")]
+    [CliOption("--impacted-accounts-to-add", GroupValues = true)]
     public IEnumerable<string>? ImpactedAccountsToAdd { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add accounts impacted. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-accounts-to-delete")]
+    [CliOption("--impacted-accounts-to-delete", GroupValues = true)]
     public IEnumerable<string>? ImpactedAccountsToDelete { get; set; }
 
     /// <summary>
     /// Update the case request with case metadata Constraints: o min: 1 o max: 30 (structure) Represents a single metadata entry associated with a case. Each entry consists of a key-value pair that provides additional con- textual information about the case, such as classification tags, custom attributes, or system-generated properties. key -&gt; (string) [required] The identifier for the metadata field. This key uniquely identifies the type of metadata being stored, such as "sever- ity", "category", or "assignee". Constraints: o min: 1 o max: 500 value -&gt; (string) [required] The value associated with the metadata key. This contains the actual data for the metadata field identified by the key. Constraints: o min: 1 o max: 2000 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--case-metadata")]
+    [CliOption("--case-metadata", GroupValues = true)]
     public IEnumerable<string>? CaseMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

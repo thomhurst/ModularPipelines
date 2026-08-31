@@ -46,7 +46,7 @@ public record AwsComputeOptimizerAutomationCreateAutomationRuleOptions : AwsOpti
     [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CliOption("--recommended-action-types")]
+    [CliOption("--recommended-action-types", GroupValues = true)]
     public IEnumerable<string>? RecommendedActionTypes { get; set; }
 
     /// <summary>
@@ -64,7 +64,7 @@ public record AwsComputeOptimizerAutomationCreateAutomationRuleOptions : AwsOpti
     /// <summary>
     /// The tags to associate with the rule. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Ser- vices resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: o min: 1 o max: 128 o pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: o min: 0 o max: 256 o pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

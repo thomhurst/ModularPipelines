@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
     [CliOption("--message-type")]
     public string? MessageType { get; set; }
 
-    [CliOption("--number-capabilities")]
+    [CliOption("--number-capabilities", GroupValues = true)]
     public IEnumerable<string>? NumberCapabilities { get; set; }
 
     [CliOption("--number-type")]
@@ -61,7 +61,7 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
     /// <summary>
     /// An array of tags (key and value pairs) to associate with the re- quested phone number. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -35,7 +35,7 @@ public record AwsDatasyncUpdateLocationHdfsOptions : AwsOptions
     /// <summary>
     /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directo- ries. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode: o Enhanced mode You can specify multiple NameNodes for HDFS High Availability (HA) configurations. o Basic mode You can specify only one NameNode. Constraints: o min: 1 (structure) The NameNode of the Hadoop Distributed File System (HDFS). The NameNode manages the file system's namespace. The NameNode per- forms operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. Hostname -&gt; (string) [required] The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$ Port -&gt; (integer) [required] The port that the NameNode uses to listen to client requests. Constraints: o min: 1 o max: 65536 Shorthand Syntax: Hostname=string,Port=integer ... JSON Syntax: [ { "Hostname": "string", "Port": integer } ... ]
     /// </summary>
-    [CliOption("--name-nodes")]
+    [CliOption("--name-nodes", GroupValues = true)]
     public IEnumerable<string>? NameNodes { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record AwsDatasyncUpdateLocationHdfsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--agent-arns")]
+    [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>

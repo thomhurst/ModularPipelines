@@ -25,7 +25,7 @@ public record AwsIotsitewiseListAssetModelsOptions : AwsOptions
     /// <summary>
     /// The type of asset model. If you don't provide an assetModelTypes , all types of asset models are returned. o ASSET_MODEL An asset model that you can use to create assets. Can't be included as a component in another asset model. o COMPONENT_MODEL A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model. o INTERFACE An interface is a type of model that defines a standard structure that can be applied to different asset models. (string) Possible values: o ASSET_MODEL o COMPONENT_MODEL o INTERFACE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--asset-model-types")]
+    [CliOption("--asset-model-types", GroupValues = true)]
     public IEnumerable<string>? AssetModelTypes { get; set; }
 
     /// <summary>

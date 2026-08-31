@@ -24,7 +24,7 @@ public record AwsElbDescribeLoadBalancerPolicyTypesOptions : AwsOptions
     /// <summary>
     /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-type-names")]
+    [CliOption("--policy-type-names", GroupValues = true)]
     public IEnumerable<string>? PolicyTypeNames { get; set; }
 
     [CliOption("--cli-input-json")]

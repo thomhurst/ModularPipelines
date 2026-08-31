@@ -24,7 +24,7 @@ public record AwsGlueUntagResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--tags-to-remove")]
+    [CliOption("--tags-to-remove", GroupValues = true)]
     public IEnumerable<string>? TagsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

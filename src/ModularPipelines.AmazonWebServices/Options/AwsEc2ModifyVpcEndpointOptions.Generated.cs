@@ -40,37 +40,37 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
     /// <summary>
     /// (Gateway endpoint) The IDs of the route tables to associate with the endpoint. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-route-table-ids")]
+    [CliOption("--add-route-table-ids", GroupValues = true)]
     public IEnumerable<string>? AddRouteTableIds { get; set; }
 
     /// <summary>
     /// (Gateway endpoint) The IDs of the route tables to disassociate from the endpoint. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-route-table-ids")]
+    [CliOption("--remove-route-table-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveRouteTableIds { get; set; }
 
     /// <summary>
     /// (Interface and Gateway Load Balancer endpoints) The IDs of the sub- nets in which to serve the endpoint. For a Gateway Load Balancer endpoint, you can specify only one subnet. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-subnet-ids")]
+    [CliOption("--add-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AddSubnetIds { get; set; }
 
     /// <summary>
     /// (Interface endpoint) The IDs of the subnets from which to remove the endpoint. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-subnet-ids")]
+    [CliOption("--remove-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetIds { get; set; }
 
     /// <summary>
     /// (Interface endpoint) The IDs of the security groups to associate with the endpoint network interfaces. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-security-group-ids")]
+    [CliOption("--add-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? AddSecurityGroupIds { get; set; }
 
     /// <summary>
     /// (Interface endpoint) The IDs of the security groups to disassociate from the endpoint network interfaces. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-security-group-ids")]
+    [CliOption("--remove-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveSecurityGroupIds { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions
     /// <summary>
     /// The subnet configurations for the endpoint. (structure) Describes the configuration of a subnet for a VPC endpoint. SubnetId -&gt; (string) The ID of the subnet. Ipv4 -&gt; (string) The IPv4 address to assign to the endpoint network interface in the subnet. You must provide an IPv4 address if the VPC endpoint supports IPv4. If you specify an IPv4 address when modifying a VPC endpoint, we replace the existing endpoint network interface with a new endpoint network interface with this IP address. This process temporarily disconnects the subnet and the VPC endpoint. Ipv6 -&gt; (string) The IPv6 address to assign to the endpoint network interface in the subnet. You must provide an IPv6 address if the VPC endpoint supports IPv6. If you specify an IPv6 address when modifying a VPC endpoint, we replace the existing endpoint network interface with a new endpoint network interface with this IP address. This process temporarily disconnects the subnet and the VPC endpoint. Shorthand Syntax: SubnetId=string,Ipv4=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ipv4": "string", "Ipv6": "string" } ... ]
     /// </summary>
-    [CliOption("--subnet-configurations")]
+    [CliOption("--subnet-configurations", GroupValues = true)]
     public IEnumerable<string>? SubnetConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

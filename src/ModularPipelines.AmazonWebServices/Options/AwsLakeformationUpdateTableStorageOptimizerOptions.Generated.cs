@@ -34,7 +34,7 @@ public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--storage-optimizer-config")]
+    [CliOption("--storage-optimizer-config", GroupValues = true)]
     public IReadOnlyList<KeyValue>? StorageOptimizerConfig { get; set; }
 
     [CliOption("--cli-input-json")]

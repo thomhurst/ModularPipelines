@@ -44,7 +44,7 @@ public record AwsQconnectCreateContentOptions : AwsOptions
     /// <summary>
     /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an ex- ternal system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata")]
+    [CliOption("--metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--upload-id")]
@@ -60,7 +60,7 @@ public record AwsQconnectCreateContentOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

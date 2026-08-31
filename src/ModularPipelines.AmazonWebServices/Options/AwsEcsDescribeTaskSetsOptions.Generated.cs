@@ -30,13 +30,13 @@ public record AwsEcsDescribeTaskSetsOptions : AwsOptions
     /// <summary>
     /// The ID or full Amazon Resource Name (ARN) of task sets to describe. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-sets")]
+    [CliOption("--task-sets", GroupValues = true)]
     public IEnumerable<string>? TaskSets { get; set; }
 
     /// <summary>
     /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

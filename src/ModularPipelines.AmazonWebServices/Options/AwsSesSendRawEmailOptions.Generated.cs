@@ -30,7 +30,7 @@ public record AwsSesSendRawEmailOptions : AwsOptions
     /// <summary>
     /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--raw-message")]
@@ -57,7 +57,7 @@ public record AwsSesSendRawEmailOptions : AwsOptions
     /// <summary>
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendRawEmail . Tags correspond to charac- teristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the tag. The name must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Value -&gt; (string) [required] The value of the tag. The value must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

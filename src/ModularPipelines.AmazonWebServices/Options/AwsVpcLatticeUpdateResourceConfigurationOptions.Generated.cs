@@ -36,7 +36,7 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions
     /// <summary>
     /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30 (string) Constraints: o min: 1 o max: 11 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     [CliOption("--cli-input-json")]

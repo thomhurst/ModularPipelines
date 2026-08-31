@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "describe-assessment-runs")]
 public record AwsInspectorDescribeAssessmentRunsOptions : AwsOptions
 {
-    [CliOption("--assessment-run-arns")]
+    [CliOption("--assessment-run-arns", GroupValues = true)]
     public IEnumerable<string>? AssessmentRunArns { get; set; }
 
     [CliOption("--cli-input-json")]

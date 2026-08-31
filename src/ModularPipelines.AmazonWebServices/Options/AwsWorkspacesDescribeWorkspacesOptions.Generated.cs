@@ -25,7 +25,7 @@ public record AwsWorkspacesDescribeWorkspacesOptions : AwsOptions
     /// <summary>
     /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identi- fier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is re- turned. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--workspace-ids")]
+    [CliOption("--workspace-ids", GroupValues = true)]
     public IEnumerable<string>? WorkspaceIds { get; set; }
 
     /// <summary>

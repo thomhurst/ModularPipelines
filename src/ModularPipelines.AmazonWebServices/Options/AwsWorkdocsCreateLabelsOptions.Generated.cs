@@ -25,7 +25,7 @@ public record AwsWorkdocsCreateLabelsOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>

@@ -37,7 +37,7 @@ public record AwsCognitoSyncUpdateRecordsOptions : AwsOptions
     [CliOption("--device-id")]
     public string? DeviceId { get; set; }
 
-    [CliOption("--record-patches")]
+    [CliOption("--record-patches", GroupValues = true)]
     public IEnumerable<string>? RecordPatches { get; set; }
 
     [SecretValue]

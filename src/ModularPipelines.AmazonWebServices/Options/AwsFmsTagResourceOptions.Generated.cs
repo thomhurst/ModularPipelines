@@ -24,7 +24,7 @@ public record AwsFmsTagResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     [CliOption("--cli-input-json")]

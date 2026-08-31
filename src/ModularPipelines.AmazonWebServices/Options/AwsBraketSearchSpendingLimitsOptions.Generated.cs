@@ -25,7 +25,7 @@ public record AwsBraketSearchSpendingLimitsOptions : AwsOptions
     /// <summary>
     /// The filters to apply when searching for spending limits. Use filters to narrow down the results based on specific criteria. Constraints: o min: 0 o max: 10 (structure) Specifies filter criteria for searching spending limits. Use filters to narrow down results based on specific attributes. name -&gt; (string) [required] The name of the field to filter on. Currently only supports deviceArn . Constraints: o min: 1 o max: 64 values -&gt; (list) [required] An array of values to match against the specified field. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 operator -&gt; (string) [required] The comparison operator to use when filtering. Possible values: o EQUAL Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "operator": "EQUAL" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

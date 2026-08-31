@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("memorydb", "batch-update-cluster")]
 public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions
 {
-    [CliOption("--cluster-names")]
+    [CliOption("--cluster-names", GroupValues = true)]
     public IEnumerable<string>? ClusterNames { get; set; }
 
     /// <summary>

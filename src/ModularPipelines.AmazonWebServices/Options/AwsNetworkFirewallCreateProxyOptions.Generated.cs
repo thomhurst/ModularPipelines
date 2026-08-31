@@ -42,7 +42,7 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions
     /// <summary>
     /// Listener properties for HTTP and HTTPS traffic. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
-    [CliOption("--listener-properties")]
+    [CliOption("--listener-properties", GroupValues = true)]
     public IEnumerable<string>? ListenerProperties { get; set; }
 
     [CliOption("--tls-intercept-properties")]
@@ -51,7 +51,7 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions
     /// <summary>
     /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

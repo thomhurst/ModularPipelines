@@ -24,7 +24,7 @@ public record AwsGuarddutyArchiveFindingsOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliOption("--finding-ids")]
+    [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; set; }
 
     [CliOption("--cli-input-json")]

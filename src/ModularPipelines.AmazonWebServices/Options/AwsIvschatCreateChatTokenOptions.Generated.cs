@@ -31,7 +31,7 @@ public record AwsIvschatCreateChatTokenOptions : AwsOptions
     /// <summary>
     /// Set of capabilities that the user is allowed to perform in the room. Default: None (the capability to view messages is implicitly in- cluded in all requests). (string) Possible values: o SEND_MESSAGE o DISCONNECT_USER o DELETE_MESSAGE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record AwsIvschatCreateChatTokenOptions : AwsOptions
     /// <summary>
     /// Application-provided attributes to encode into the token and attach to a chat session. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

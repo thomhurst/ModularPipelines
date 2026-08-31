@@ -24,7 +24,7 @@ public record AwsEmrAddStepsOptions : AwsOptions
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
 
-    [CliOption("--steps")]
+    [CliOption("--steps", GroupValues = true)]
     public IEnumerable<string>? Steps { get; set; }
 
     /// <summary>

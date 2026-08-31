@@ -24,7 +24,7 @@ public record AwsFmsBatchAssociateResourceOptions : AwsOptions
     [CliOption("--resource-set-identifier")]
     public string? ResourceSetIdentifier { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     [CliOption("--cli-input-json")]

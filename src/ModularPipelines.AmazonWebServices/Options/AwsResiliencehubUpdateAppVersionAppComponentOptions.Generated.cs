@@ -25,7 +25,7 @@ public record AwsResiliencehubUpdateAppVersionAppComponentOptions : AwsOptions
     /// <summary>
     /// Currently, there is no supported additional information for Applica- tion Components. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--additional-info")]
+    [CliOption("--additional-info", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
 
     [CliOption("--app-arn")]

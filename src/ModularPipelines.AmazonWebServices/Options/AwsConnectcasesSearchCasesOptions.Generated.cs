@@ -40,13 +40,13 @@ public record AwsConnectcasesSearchCasesOptions : AwsOptions
     /// <summary>
     /// A list of sorts where each sort specifies a field and their sort or- der to be applied to the results. Constraints: o min: 0 o max: 2 (structure) A structured set of sort terms. fieldId -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 sortOrder -&gt; (string) [required] A structured set of sort terms Possible values: o Asc o Desc Shorthand Syntax: fieldId=string,sortOrder=string ... JSON Syntax: [ { "fieldId": "string", "sortOrder": "Asc"|"Desc" } ... ]
     /// </summary>
-    [CliOption("--sorts")]
+    [CliOption("--sorts", GroupValues = true)]
     public IEnumerable<string>? Sorts { get; set; }
 
     /// <summary>
     /// The list of field identifiers to be returned as part of the re- sponse. Constraints: o min: 0 o max: 25 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
     /// </summary>
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     [CliOption("--cli-input-json")]

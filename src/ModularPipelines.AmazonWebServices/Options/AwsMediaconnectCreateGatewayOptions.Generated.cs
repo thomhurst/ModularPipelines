@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconnect", "create-gateway")]
 public record AwsMediaconnectCreateGatewayOptions : AwsOptions
 {
-    [CliOption("--egress-cidr-blocks")]
+    [CliOption("--egress-cidr-blocks", GroupValues = true)]
     public IEnumerable<string>? EgressCidrBlocks { get; set; }
 
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--networks")]
+    [CliOption("--networks", GroupValues = true)]
     public IEnumerable<string>? Networks { get; set; }
 
     [CliOption("--cli-input-json")]

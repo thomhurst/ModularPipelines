@@ -29,7 +29,7 @@ public record AwsDeployListDeploymentTargetsOptions : AwsOptions
     /// <summary>
     /// A key used to filter the returned targets. The two valid values are: o TargetStatus - A TargetStatus filter string can be Failed , In- Progress , Pending , Ready , Skipped , Succeeded , or Unknown . o ServerInstanceLabel - A ServerInstanceLabel filter string can be Blue or Green . key -&gt; (string) Possible values: o TargetStatus o ServerInstanceLabel value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: TargetStatus ServerInstanceLabel JSON Syntax: {"TargetStatus"|"ServerInstanceLabel": ["string", ...] ...}
     /// </summary>
-    [CliOption("--target-filters")]
+    [CliOption("--target-filters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? TargetFilters { get; set; }
 
     [CliOption("--cli-input-json")]

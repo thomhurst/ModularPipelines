@@ -24,7 +24,7 @@ public record AwsConfigserviceDescribeConfigurationRecordersOptions : AwsOptions
     /// <summary>
     /// A list of names of the configuration recorders that you want to specify. NOTE: When making a request to this operation, you can only specify one configuration recorder. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-recorder-names")]
+    [CliOption("--configuration-recorder-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationRecorderNames { get; set; }
 
     /// <summary>

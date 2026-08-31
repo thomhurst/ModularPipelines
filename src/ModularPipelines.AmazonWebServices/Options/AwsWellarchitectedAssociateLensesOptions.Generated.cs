@@ -24,7 +24,7 @@ public record AwsWellarchitectedAssociateLensesOptions : AwsOptions
     [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
-    [CliOption("--lens-aliases")]
+    [CliOption("--lens-aliases", GroupValues = true)]
     public IEnumerable<string>? LensAliases { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsResourceExplorer_2BatchGetViewOptions : AwsOptions
     /// <summary>
     /// A list of Amazon resource names (ARNs) that identify the views you want details for. Constraints: o min: 1 o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--view-arns")]
+    [CliOption("--view-arns", GroupValues = true)]
     public IEnumerable<string>? ViewArns { get; set; }
 
     [CliOption("--cli-input-json")]

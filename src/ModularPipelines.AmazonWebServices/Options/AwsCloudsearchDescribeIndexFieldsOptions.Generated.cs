@@ -27,7 +27,7 @@ public record AwsCloudsearchDescribeIndexFieldsOptions : AwsOptions
     /// <summary>
     /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields. (string) Constraints: o min: 1 o max: 64 o pattern: ([a-z][a-z0-9_]*\*?|\*[a-z0-9_]*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--field-names")]
+    [CliOption("--field-names", GroupValues = true)]
     public IEnumerable<string>? FieldNames { get; set; }
 
     [CliFlag("--deployed")]

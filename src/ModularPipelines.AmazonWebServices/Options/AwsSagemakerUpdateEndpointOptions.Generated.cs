@@ -33,7 +33,7 @@ public record AwsSagemakerUpdateEndpointOptions : AwsOptions
     /// <summary>
     /// When you are updating endpoint resources with RetainAllVariantProp- erties , whose value is set to true , ExcludeRetainedVariantProper- ties specifies the list of type VariantProperty to override with the values provided by EndpointConfig . If you don't specify a value for ExcludeRetainedVariantProperties , no variant properties are over- ridden. Constraints: o min: 0 o max: 3 (structure) Specifies a production variant property type for an Endpoint. If you are updating an endpoint with the RetainAllVariantProper- ties option of UpdateEndpointInput set to true , the Variant- Property objects listed in the ExcludeRetainedVariantProperties parameter of UpdateEndpointInput override the existing variant properties of the endpoint. VariantPropertyType -&gt; (string) [required] The type of variant property. The supported values are: o DesiredInstanceCount : Overrides the existing variant in- stance counts using the InitialInstanceCount values in the ProductionVariants of CreateEndpointConfig . o DesiredWeight : Overrides the existing variant weights us- ing the InitialVariantWeight values in the ProductionVari- ants of CreateEndpointConfig . o DataCaptureConfig : (Not currently supported.) Possible values: o DesiredInstanceCount o DesiredWeight o DataCaptureConfig Shorthand Syntax: VariantPropertyType=string ... JSON Syntax: [ { "VariantPropertyType": "DesiredInstanceCount"|"DesiredWeight"|"DataCaptureConfig" } ... ]
     /// </summary>
-    [CliOption("--exclude-retained-variant-properties")]
+    [CliOption("--exclude-retained-variant-properties", GroupValues = true)]
     public IEnumerable<string>? ExcludeRetainedVariantProperties { get; set; }
 
     /// <summary>

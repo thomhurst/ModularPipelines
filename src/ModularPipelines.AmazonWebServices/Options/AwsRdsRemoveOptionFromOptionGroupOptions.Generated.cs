@@ -30,7 +30,7 @@ public record AwsRdsRemoveOptionFromOptionGroupOptions : AwsOptions
     /// <summary>
     /// Options in this list are removed from the option group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

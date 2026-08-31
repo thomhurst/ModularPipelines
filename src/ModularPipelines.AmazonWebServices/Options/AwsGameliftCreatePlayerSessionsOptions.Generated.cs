@@ -25,13 +25,13 @@ public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; set; }
 
-    [CliOption("--player-ids")]
+    [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; set; }
 
     /// <summary>
     /// Map of string pairs, each specifying a player ID and a set of devel- oper-defined information related to the player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored. key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--player-data-map")]
+    [CliOption("--player-data-map", GroupValues = true)]
     public IReadOnlyList<KeyValue>? PlayerDataMap { get; set; }
 
     [CliOption("--cli-input-json")]

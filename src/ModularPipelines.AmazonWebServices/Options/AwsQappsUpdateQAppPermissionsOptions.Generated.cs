@@ -30,13 +30,13 @@ public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions
     /// <summary>
     /// The list of permissions to grant for the Amazon Q App. Constraints: o min: 0 o max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: o read o write Constraints: o min: 1 o max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: o min: 1 o max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
     /// </summary>
-    [CliOption("--grant-permissions")]
+    [CliOption("--grant-permissions", GroupValues = true)]
     public IEnumerable<string>? GrantPermissions { get; set; }
 
     /// <summary>
     /// The list of permissions to revoke for the Amazon Q App. Constraints: o min: 0 o max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: o read o write Constraints: o min: 1 o max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: o min: 1 o max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
     /// </summary>
-    [CliOption("--revoke-permissions")]
+    [CliOption("--revoke-permissions", GroupValues = true)]
     public IEnumerable<string>? RevokePermissions { get; set; }
 
     [CliOption("--cli-input-json")]

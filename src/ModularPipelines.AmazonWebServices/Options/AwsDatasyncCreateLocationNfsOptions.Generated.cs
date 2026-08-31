@@ -39,7 +39,7 @@ public record AwsDatasyncCreateLocationNfsOptions : AwsOptions
     /// <summary>
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

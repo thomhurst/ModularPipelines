@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deadline", "batch-get-step")]
 public record AwsDeadlineBatchGetStepOptions : AwsOptions
 {
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     [CliOption("--cli-input-json")]

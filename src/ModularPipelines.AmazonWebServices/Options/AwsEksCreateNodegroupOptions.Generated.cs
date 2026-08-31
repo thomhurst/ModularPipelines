@@ -42,13 +42,13 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     [CliOption("--disk-size")]
     public int? DiskSize { get; set; }
 
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate , then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes . If however, you specify an instance type in your launch template and specify any in- stanceTypes , the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes , then t3.medium is used, by default. If you specify Spot for capaci- tyType , then we recommend specifying multiple values for instance- Types . For more information, see Managed node group capacity types and Customizing managed nodes with launch templates in the Amazon EKS User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-types")]
+    [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
 
     /// <summary>
@@ -69,19 +69,19 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     /// <summary>
     /// The Kubernetes labels to apply to the nodes in the node group when they are created. key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 63 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// The Kubernetes taints to be applied to the nodes in the node group. For more information, see Node taints on managed node groups . (structure) A property that allows a node to repel a Pod . For more informa- tion, see Node taints on managed node groups in the Amazon EKS User Guide . key -&gt; (string) The key of the taint. Constraints: o min: 1 o max: 63 value -&gt; (string) The value of the taint. Constraints: o min: 0 o max: 63 effect -&gt; (string) The effect of the taint. Possible values: o NO_SCHEDULE o NO_EXECUTE o PREFER_NO_SCHEDULE Shorthand Syntax: key=string,value=string,effect=string ... JSON Syntax: [ { "key": "string", "value": "string", "effect": "NO_SCHEDULE"|"NO_EXECUTE"|"PREFER_NO_SCHEDULE" } ... ]
     /// </summary>
-    [CliOption("--taints")]
+    [CliOption("--taints", GroupValues = true)]
     public IEnumerable<string>? Taints { get; set; }
 
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

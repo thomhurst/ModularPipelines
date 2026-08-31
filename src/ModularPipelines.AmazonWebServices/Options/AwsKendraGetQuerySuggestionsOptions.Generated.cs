@@ -36,7 +36,7 @@ public record AwsKendraGetQuerySuggestionsOptions : AwsOptions
     /// <summary>
     /// The suggestions type to base query suggestions on. The suggestion types are query history or document fields/attributes. You can set one type or the other. If you set query history as your suggestions type, Amazon Kendra suggests queries relevant to your users based on popular queries in the query history. If you set document fields/attributes as your suggestions type, Ama- zon Kendra suggests queries relevant to your users based on the con- tents of document fields. (string) Possible values: o QUERY o DOCUMENT_ATTRIBUTES Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--suggestion-types")]
+    [CliOption("--suggestion-types", GroupValues = true)]
     public IEnumerable<string>? SuggestionTypes { get; set; }
 
     /// <summary>

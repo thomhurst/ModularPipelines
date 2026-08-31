@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("customer-profiles", "detect-profile-object-type")]
 public record AwsCustomerProfilesDetectProfileObjectTypeOptions : AwsOptions
 {
-    [CliOption("--objects")]
+    [CliOption("--objects", GroupValues = true)]
     public IEnumerable<string>? Objects { get; set; }
 
     [CliOption("--domain-name")]

@@ -27,7 +27,7 @@ public record AwsIamGetContextKeysForPrincipalPolicyOptions : AwsOptions
     /// <summary>
     /// An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-input-list")]
+    [CliOption("--policy-input-list", GroupValues = true)]
     public IEnumerable<string>? PolicyInputList { get; set; }
 
     [CliOption("--cli-input-json")]

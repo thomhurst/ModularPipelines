@@ -30,7 +30,7 @@ public record AwsGlueStartColumnStatisticsTaskRunOptions : AwsOptions
     /// <summary>
     /// A list of the column names to generate statistics. If none is sup- plied, all column names for the table will be used by default. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--column-name-list")]
+    [CliOption("--column-name-list", GroupValues = true)]
     public IEnumerable<string>? ColumnNameList { get; set; }
 
     [CliOption("--role")]

@@ -27,7 +27,7 @@ public record AwsMghPutResourceAttributesOptions : AwsOptions
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; set; }
 
-    [CliOption("--resource-attribute-list")]
+    [CliOption("--resource-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ResourceAttributeList { get; set; }
 
     [CliFlag("--dry-run")]

@@ -31,7 +31,7 @@ public record AwsQbusinessListDocumentsOptions : AwsOptions
     /// <summary>
     /// The identifier of the data sources the documents are attached to. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--data-source-ids")]
+    [CliOption("--data-source-ids", GroupValues = true)]
     public IEnumerable<string>? DataSourceIds { get; set; }
 
     [CliOption("--cli-input-json")]

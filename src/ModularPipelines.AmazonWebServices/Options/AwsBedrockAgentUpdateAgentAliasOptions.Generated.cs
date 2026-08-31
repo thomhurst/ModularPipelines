@@ -40,7 +40,7 @@ public record AwsBedrockAgentUpdateAgentAliasOptions : AwsOptions
     /// <summary>
     /// Contains details about the routing configuration of the alias. Constraints: o min: 0 o max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: o min: 1 o max: 2048 o pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
     /// </summary>
-    [CliOption("--routing-configuration")]
+    [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     /// <summary>

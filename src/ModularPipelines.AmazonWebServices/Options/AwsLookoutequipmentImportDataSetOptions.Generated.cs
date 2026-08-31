@@ -47,7 +47,7 @@ public record AwsLookoutequipmentImportDataSetOptions : AwsOptions
     /// <summary>
     /// Any tags associated with the dataset to be created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

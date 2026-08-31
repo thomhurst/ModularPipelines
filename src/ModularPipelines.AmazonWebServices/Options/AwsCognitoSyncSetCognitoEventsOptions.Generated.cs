@@ -25,7 +25,7 @@ public record AwsCognitoSyncSetCognitoEventsOptions : AwsOptions
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; set; }
 
-    [CliOption("--events")]
+    [CliOption("--events", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Events { get; set; }
 
     [CliOption("--cli-input-json")]

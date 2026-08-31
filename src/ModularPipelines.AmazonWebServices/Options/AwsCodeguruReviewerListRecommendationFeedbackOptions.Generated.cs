@@ -41,13 +41,13 @@ public record AwsCodeguruReviewerListRecommendationFeedbackOptions : AwsOptions
     /// <summary>
     /// An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids")]
+    [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
     /// Used to query the recommendation feedback for a given recommenda- tion. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     [CliOption("--cli-input-json")]

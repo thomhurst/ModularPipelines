@@ -31,19 +31,19 @@ public record AwsCognitoIdpCreateIdentityProviderOptions : AwsOptions
     [CliOption("--provider-type")]
     public string? ProviderType { get; set; }
 
-    [CliOption("--provider-details")]
+    [CliOption("--provider-details", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ProviderDetails { get; set; }
 
     /// <summary>
     /// A mapping of IdP attributes to standard and custom user pool attrib- utes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value. key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attribute-mapping")]
+    [CliOption("--attribute-mapping", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AttributeMapping { get; set; }
 
     /// <summary>
     /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ] . Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associ- ated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers . Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 40 o pattern: [\w\s+=.@-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--idp-identifiers")]
+    [CliOption("--idp-identifiers", GroupValues = true)]
     public IEnumerable<string>? IdpIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

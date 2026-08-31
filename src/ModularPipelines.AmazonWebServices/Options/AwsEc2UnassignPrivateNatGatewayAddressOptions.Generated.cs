@@ -24,7 +24,7 @@ public record AwsEc2UnassignPrivateNatGatewayAddressOptions : AwsOptions
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; set; }
 
-    [CliOption("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>

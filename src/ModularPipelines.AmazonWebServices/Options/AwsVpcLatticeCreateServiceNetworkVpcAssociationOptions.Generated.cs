@@ -42,13 +42,13 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
     /// <summary>
     /// The IDs of the security groups. Security groups aren't added by de- fault. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the ser- vice network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// The tags for the association. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

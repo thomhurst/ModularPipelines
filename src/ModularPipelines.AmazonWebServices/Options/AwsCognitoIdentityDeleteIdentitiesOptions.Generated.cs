@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cognito-identity", "delete-identities")]
 public record AwsCognitoIdentityDeleteIdentitiesOptions : AwsOptions
 {
-    [CliOption("--identity-ids-to-delete")]
+    [CliOption("--identity-ids-to-delete", GroupValues = true)]
     public IEnumerable<string>? IdentityIdsToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

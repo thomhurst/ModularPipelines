@@ -38,7 +38,7 @@ public record AwsCloudwatchDescribeAlarmHistoryOptions : AwsOptions
     /// <summary>
     /// Use this parameter to specify whether you want the operation to re- turn metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned. (string) Possible values: o CompositeAlarm o MetricAlarm o LogAlarm Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alarm-types")]
+    [CliOption("--alarm-types", GroupValues = true)]
     public IEnumerable<string>? AlarmTypes { get; set; }
 
     /// <summary>

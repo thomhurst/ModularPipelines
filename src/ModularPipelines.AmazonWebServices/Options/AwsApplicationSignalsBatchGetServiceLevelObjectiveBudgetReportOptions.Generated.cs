@@ -24,7 +24,7 @@ public record AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOpti
     [CliOption("--timestamp")]
     public string? Timestamp { get; set; }
 
-    [CliOption("--slo-ids")]
+    [CliOption("--slo-ids", GroupValues = true)]
     public IEnumerable<string>? SloIds { get; set; }
 
     [CliOption("--cli-input-json")]

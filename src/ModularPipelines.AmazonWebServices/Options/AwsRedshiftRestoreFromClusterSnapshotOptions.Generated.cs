@@ -101,13 +101,13 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     /// <summary>
     /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cluster-security-groups")]
+    [CliOption("--cluster-security-groups", GroupValues = true)]
     public IEnumerable<string>? ClusterSecurityGroups { get; set; }
 
     /// <summary>
     /// A list of Virtual Private Cloud (VPC) security groups to be associ- ated with the cluster. Default: The default VPC security group is associated with the clus- ter. VPC security groups only apply to clusters in VPCs. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
@@ -152,7 +152,7 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     /// <summary>
     /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--iam-roles")]
+    [CliOption("--iam-roles", GroupValues = true)]
     public IEnumerable<string>? IamRoles { get; set; }
 
     /// <summary>

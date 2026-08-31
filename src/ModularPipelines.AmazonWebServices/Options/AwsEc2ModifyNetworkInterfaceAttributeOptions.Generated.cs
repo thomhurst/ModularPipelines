@@ -42,7 +42,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions
     /// <summary>
     /// A list of subnet IDs to associate with the network interface. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--associated-subnet-ids")]
+    [CliOption("--associated-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AssociatedSubnetIds { get; set; }
 
     [CliFlag("--dry-run")]
@@ -63,7 +63,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions
     /// <summary>
     /// Changes the security groups for the network interface. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--groups")]
+    [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     /// <summary>

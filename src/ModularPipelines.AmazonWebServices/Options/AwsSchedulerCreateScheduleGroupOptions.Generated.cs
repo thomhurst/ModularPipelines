@@ -35,7 +35,7 @@ public record AwsSchedulerCreateScheduleGroupOptions : AwsOptions
     /// <summary>
     /// The list of tags to associate with the schedule group. Constraints: o min: 0 o max: 200 (structure) Tag to associate with a schedule group. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

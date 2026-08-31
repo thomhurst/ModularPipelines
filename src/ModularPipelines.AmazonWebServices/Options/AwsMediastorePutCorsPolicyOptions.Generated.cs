@@ -24,7 +24,7 @@ public record AwsMediastorePutCorsPolicyOptions : AwsOptions
     [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CliOption("--cors-policy")]
+    [CliOption("--cors-policy", GroupValues = true)]
     public IEnumerable<string>? CorsPolicy { get; set; }
 
     [CliOption("--cli-input-json")]

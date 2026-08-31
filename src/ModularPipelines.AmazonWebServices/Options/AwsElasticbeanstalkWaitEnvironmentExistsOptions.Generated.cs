@@ -37,13 +37,13 @@ public record AwsElasticbeanstalkWaitEnvironmentExistsOptions : AwsOptions
     /// <summary>
     /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--environment-ids")]
+    [CliOption("--environment-ids", GroupValues = true)]
     public IEnumerable<string>? EnvironmentIds { get; set; }
 
     /// <summary>
     /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--environment-names")]
+    [CliOption("--environment-names", GroupValues = true)]
     public IEnumerable<string>? EnvironmentNames { get; set; }
 
     [CliFlag("--include-deleted")]

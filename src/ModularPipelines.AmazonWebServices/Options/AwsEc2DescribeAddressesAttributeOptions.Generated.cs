@@ -26,7 +26,7 @@ public record AwsEc2DescribeAddressesAttributeOptions : AwsOptions
     /// <summary>
     /// [EC2-VPC] The allocation IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allocation-ids")]
+    [CliOption("--allocation-ids", GroupValues = true)]
     public IEnumerable<string>? AllocationIds { get; set; }
 
     /// <summary>

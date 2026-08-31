@@ -50,7 +50,7 @@ public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions
     /// <summary>
     /// The updated metadata for the dataset. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata")]
+    [CliOption("--metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--dataset-source")]

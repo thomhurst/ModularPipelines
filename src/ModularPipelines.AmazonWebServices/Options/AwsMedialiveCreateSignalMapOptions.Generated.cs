@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "create-signal-map")]
 public record AwsMedialiveCreateSignalMapOptions : AwsOptions
 {
-    [CliOption("--cloud-watch-alarm-template-group-identifiers")]
+    [CliOption("--cloud-watch-alarm-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? CloudWatchAlarmTemplateGroupIdentifiers { get; set; }
 
     [CliOption("--description")]
@@ -31,13 +31,13 @@ public record AwsMedialiveCreateSignalMapOptions : AwsOptions
     [CliOption("--discovery-entry-point-arn")]
     public string? DiscoveryEntryPointArn { get; set; }
 
-    [CliOption("--event-bridge-rule-template-group-identifiers")]
+    [CliOption("--event-bridge-rule-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? EventBridgeRuleTemplateGroupIdentifiers { get; set; }
 
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--request-id")]

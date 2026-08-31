@@ -25,7 +25,7 @@ public record AwsEc2GetAwsNetworkPerformanceDataOptions : AwsOptions
     /// <summary>
     /// A list of network performance data queries. (structure) A query used for retrieving network health data. Id -&gt; (string) A user-defined ID associated with a data query that's re- turned in the dataResponse identifying the query. For exam- ple, if you set the Id to MyQuery01 in the query, the dataRe- sponse identifies the query as MyQuery01 . Source -&gt; (string) The Region or Availability Zone that's the source for the data query. For example, us-east-1 . Destination -&gt; (string) The Region or Availability Zone that's the target for the data query. For example, eu-north-1 . Metric -&gt; (string) The metric used for the network performance request. Possible values: o aggregate-latency Statistic -&gt; (string) The metric data aggregation period, p50 , between the speci- fied startDate and endDate . For example, a metric of five_minutes is the median of all the data points gathered within those five minutes. p50 is the only supported metric. Possible values: o p50 Period -&gt; (string) The aggregation period used for the data query. Possible values: o five-minutes o fifteen-minutes o one-hour o three-hours o one-day o one-week Shorthand Syntax: Id=string,Source=string,Destination=string,Metric=string,Statistic=string,Period=string ... JSON Syntax: [ { "Id": "string", "Source": "string", "Destination": "string", "Metric": "aggregate-latency", "Statistic": "p50", "Period": "five-minutes"|"fifteen-minutes"|"one-hour"|"three-hours"|"one-day"|"one-week" } ... ]
     /// </summary>
-    [CliOption("--data-queries")]
+    [CliOption("--data-queries", GroupValues = true)]
     public IEnumerable<string>? DataQueries { get; set; }
 
     /// <summary>

@@ -30,7 +30,7 @@ public record AwsElementalinferenceAssociateFeedOptions : AwsOptions
     [CliOption("--associated-resource-name")]
     public string? AssociatedResourceName { get; set; }
 
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     [CliFlag("--dry-run")]

@@ -33,13 +33,13 @@ public record AwsRolesanywhereCreateProfileOptions : AwsOptions
     [CliOption("--session-policy")]
     public string? SessionPolicy { get; set; }
 
-    [CliOption("--role-arns")]
+    [CliOption("--role-arns", GroupValues = true)]
     public IEnumerable<string>? RoleArns { get; set; }
 
     /// <summary>
     /// A list of managed policy ARNs that apply to the vended session cre- dentials. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--managed-policy-arns")]
+    [CliOption("--managed-policy-arns", GroupValues = true)]
     public IEnumerable<string>? ManagedPolicyArns { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsRolesanywhereCreateProfileOptions : AwsOptions
     /// <summary>
     /// The tags to attach to the profile. Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--accept-role-session-name")]

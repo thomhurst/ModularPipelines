@@ -64,7 +64,7 @@ public record AwsBudgetsUpdateBudgetActionOptions : AwsOptions
     /// <summary>
     /// A list of subscribers. Constraints: o min: 1 o max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: o A subscriptionType of EMAIL o An address of example@example.com SubscriptionType -&gt; (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: o SNS o EMAIL Address -&gt; (string) [required] The address that Amazon Web Services sends budget notifica- tions to, either an SNS topic or an email. When you create a subscriber, the value of Address can't con- tain line breaks. Constraints: o min: 1 o max: 2147483647 o pattern: (.*[\n\r\t\f\ ]?)* Shorthand Syntax: SubscriptionType=string,Address=string ... JSON Syntax: [ { "SubscriptionType": "SNS"|"EMAIL", "Address": "string" } ... ]
     /// </summary>
-    [CliOption("--subscribers")]
+    [CliOption("--subscribers", GroupValues = true)]
     public IEnumerable<string>? Subscribers { get; set; }
 
     [CliOption("--cli-input-json")]

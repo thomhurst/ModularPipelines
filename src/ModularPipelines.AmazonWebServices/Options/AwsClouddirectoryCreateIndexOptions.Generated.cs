@@ -24,7 +24,7 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; set; }
 
-    [CliOption("--ordered-indexed-attribute-list")]
+    [CliOption("--ordered-indexed-attribute-list", GroupValues = true)]
     public IEnumerable<string>? OrderedIndexedAttributeList { get; set; }
 
     [CliFlag("--is-unique")]

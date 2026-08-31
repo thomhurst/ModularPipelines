@@ -24,7 +24,7 @@ public record AwsLightsailGetContactMethodsOptions : AwsOptions
     /// <summary>
     /// The protocols used to send notifications, such as Email , or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol. (string) Possible values: o Email o SMS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protocols")]
+    [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     [CliOption("--cli-input-json")]

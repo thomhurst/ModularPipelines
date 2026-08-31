@@ -37,19 +37,19 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     /// <summary>
     /// The authorization mechanism that the proxy uses. Constraints: o min: 0 o max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: o min: 1 o max: 1000 o pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: o min: 1 o max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connec- tions from the proxy to the underlying database. Possible values: o SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Au- rora DB cluster. These secrets are stored within Amazon Se- crets Manager. Constraints: o min: 20 o max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentica- tion for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: o DISABLED o REQUIRED o ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the cor- responding engines: o RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD o RDS for SQL Server: SQL_SERVER_AUTHENTICATION o RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: o MYSQL_NATIVE_PASSWORD o MYSQL_CACHING_SHA2_PASSWORD o POSTGRES_SCRAM_SHA_256 o POSTGRES_MD5 o SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
     /// </summary>
-    [CliOption("--auth")]
+    [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--vpc-subnet-ids")]
+    [CliOption("--vpc-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSubnetIds { get; set; }
 
     /// <summary>
     /// One or more VPC security group IDs to associate with the new proxy. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliFlag("--require-tls")]
@@ -67,7 +67,7 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     /// <summary>
     /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

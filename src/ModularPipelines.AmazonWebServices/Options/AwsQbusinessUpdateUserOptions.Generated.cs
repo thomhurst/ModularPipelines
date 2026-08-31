@@ -30,13 +30,13 @@ public record AwsQbusinessUpdateUserOptions : AwsOptions
     /// <summary>
     /// The user aliases attached to the user id that are to be updated. (structure) Aliases attached to a user id within an Amazon Q Business appli- cation. indexId -&gt; (string) The identifier of the index that the user aliases are associ- ated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} dataSourceId -&gt; (string) The identifier of the data source that the user aliases are associated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} userId -&gt; (string) [required] The identifier of the user id associated with the user aliases. Constraints: o min: 1 o max: 2048 Shorthand Syntax: indexId=string,dataSourceId=string,userId=string ... JSON Syntax: [ { "indexId": "string", "dataSourceId": "string", "userId": "string" } ... ]
     /// </summary>
-    [CliOption("--user-aliases-to-update")]
+    [CliOption("--user-aliases-to-update", GroupValues = true)]
     public IEnumerable<string>? UserAliasesToUpdate { get; set; }
 
     /// <summary>
     /// The user aliases attached to the user id that are to be deleted. (structure) Aliases attached to a user id within an Amazon Q Business appli- cation. indexId -&gt; (string) The identifier of the index that the user aliases are associ- ated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} dataSourceId -&gt; (string) The identifier of the data source that the user aliases are associated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} userId -&gt; (string) [required] The identifier of the user id associated with the user aliases. Constraints: o min: 1 o max: 2048 Shorthand Syntax: indexId=string,dataSourceId=string,userId=string ... JSON Syntax: [ { "indexId": "string", "dataSourceId": "string", "userId": "string" } ... ]
     /// </summary>
-    [CliOption("--user-aliases-to-delete")]
+    [CliOption("--user-aliases-to-delete", GroupValues = true)]
     public IEnumerable<string>? UserAliasesToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

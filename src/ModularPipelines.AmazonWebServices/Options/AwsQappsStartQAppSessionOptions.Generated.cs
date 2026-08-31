@@ -34,7 +34,7 @@ public record AwsQappsStartQAppSessionOptions : AwsOptions
     /// <summary>
     /// Optional initial input values to provide for the Q App session. Constraints: o min: 0 o max: 20 (structure) The value or result associated with a card in a Amazon Q App session. cardId -&gt; (string) [required] The unique identifier of the card. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} value -&gt; (string) [required] The value or result associated with the card. Constraints: o min: 0 o max: 40000 submissionMutation -&gt; (structure) The structure that describes how the current form card value is mutated. Only applies for form cards when multiple re- sponses are allowed. submissionId -&gt; (string) [required] The unique identifier of the submission. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} mutationType -&gt; (string) [required] The operation that is performed on a submission. Possible values: o edit o delete o add Shorthand Syntax: cardId=string,value=string,submissionMutation={submissionId=string,mutationType=string} ... JSON Syntax: [ { "cardId": "string", "value": "string", "submissionMutation": { "submissionId": "string", "mutationType": "edit"|"delete"|"add" } } ... ]
     /// </summary>
-    [CliOption("--initial-values")]
+    [CliOption("--initial-values", GroupValues = true)]
     public IEnumerable<string>? InitialValues { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsQappsStartQAppSessionOptions : AwsOptions
     /// <summary>
     /// Optional tags to associate with the new Q App session. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

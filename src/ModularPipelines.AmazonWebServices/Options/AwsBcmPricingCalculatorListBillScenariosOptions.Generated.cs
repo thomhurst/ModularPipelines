@@ -25,7 +25,7 @@ public record AwsBcmPricingCalculatorListBillScenariosOptions : AwsOptions
     /// <summary>
     /// Filters to apply to the list of bill scenarios. (structure) Represents a filter for listing bill scenarios. name -&gt; (string) [required] The name of the filter attribute. Possible values: o STATUS o NAME o GROUP_SHARING_PREFERENCE o COST_CATEGORY_ARN values -&gt; (list) [required] The values to filter by. (string) matchOption -&gt; (string) The match option for the filter (e.g., equals, contains). Possible values: o EQUALS o STARTS_WITH o CONTAINS Shorthand Syntax: name=string,values=string,string,matchOption=string ... JSON Syntax: [ { "name": "STATUS"|"NAME"|"GROUP_SHARING_PREFERENCE"|"COST_CATEGORY_ARN", "values": ["string", ...], "matchOption": "EQUALS"|"STARTS_WITH"|"CONTAINS" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

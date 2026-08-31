@@ -73,7 +73,7 @@ public record AwsConnectUpdateTaskTemplateOptions : AwsOptions
     /// <summary>
     /// Fields that are part of the template. The request must contain exactly one field of type NAME . This field must also be listed in the RequiredFields array within the Con- straints parameter. (structure) Describes a single task template field. Id -&gt; (structure) [required] The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 Description -&gt; (string) The description of the field. Constraints: o min: 1 o max: 255 Type -&gt; (string) Indicates the type of field. Possible values: o NAME o DESCRIPTION o SCHEDULED_TIME o QUICK_CONNECT o URL o NUMBER o TEXT o TEXT_AREA o DATE_TIME o BOOLEAN o SINGLE_SELECT o EMAIL o SELF_ASSIGN o EXPIRY_DURATION SingleSelectOptions -&gt; (list) A list of options for a single select field. (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Id={Name=string},Description=string,Type=string,SingleSelectOptions=string,string ... JSON Syntax: [ { "Id": { "Name": "string" }, "Description": "string", "Type": "NAME"|"DESCRIPTION"|"SCHEDULED_TIME"|"QUICK_CONNECT"|"URL"|"NUMBER"|"TEXT"|"TEXT_AREA"|"DATE_TIME"|"BOOLEAN"|"SINGLE_SELECT"|"EMAIL"|"SELF_ASSIGN"|"EXPIRY_DURATION", "SingleSelectOptions": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     [CliOption("--cli-input-json")]

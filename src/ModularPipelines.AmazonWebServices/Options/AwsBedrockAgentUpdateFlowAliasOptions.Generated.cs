@@ -30,7 +30,7 @@ public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--routing-configuration")]
+    [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     /// <summary>

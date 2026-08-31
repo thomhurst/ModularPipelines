@@ -37,19 +37,19 @@ public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsO
     /// <summary>
     /// The origin configuration settings that determine how package ver- sions can enter repositories. key -&gt; (string) Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH value -&gt; (string) Possible values: o ALLOW o ALLOW_SPECIFIC_REPOSITORIES o BLOCK o INHERIT Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EXTERNAL_UPSTREAM INTERNAL_UPSTREAM PUBLISH JSON Syntax: {"EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH": "ALLOW"|"ALLOW_SPECIFIC_REPOSITORIES"|"BLOCK"|"INHERIT" ...}
     /// </summary>
-    [CliOption("--restrictions")]
+    [CliOption("--restrictions", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Restrictions { get; set; }
 
     /// <summary>
     /// The repository name and restrictions to add to the allowed reposi- tory list of the specified package group. (structure) Details about an allowed repository for a package group, includ- ing its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
     /// </summary>
-    [CliOption("--add-allowed-repositories")]
+    [CliOption("--add-allowed-repositories", GroupValues = true)]
     public IEnumerable<string>? AddAllowedRepositories { get; set; }
 
     /// <summary>
     /// The repository name and restrictions to remove from the allowed repository list of the specified package group. (structure) Details about an allowed repository for a package group, includ- ing its name and origin configuration. repositoryName -&gt; (string) The name of the allowed repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} originRestrictionType -&gt; (string) The origin configuration restriction type of the allowed repository. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH Shorthand Syntax: repositoryName=string,originRestrictionType=string ... JSON Syntax: [ { "repositoryName": "string", "originRestrictionType": "EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH" } ... ]
     /// </summary>
-    [CliOption("--remove-allowed-repositories")]
+    [CliOption("--remove-allowed-repositories", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedRepositories { get; set; }
 
     [CliOption("--cli-input-json")]

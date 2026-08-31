@@ -27,7 +27,7 @@ public record AwsIdentitystoreUpdateUserOptions : AwsOptions
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliOption("--operations")]
+    [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     [CliOption("--cli-input-json")]

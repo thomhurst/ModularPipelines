@@ -33,7 +33,7 @@ public record AwsWellarchitectedUpdateProfileOptions : AwsOptions
     /// <summary>
     /// Profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--profile-questions")]
+    [CliOption("--profile-questions", GroupValues = true)]
     public IEnumerable<string>? ProfileQuestions { get; set; }
 
     [CliOption("--cli-input-json")]

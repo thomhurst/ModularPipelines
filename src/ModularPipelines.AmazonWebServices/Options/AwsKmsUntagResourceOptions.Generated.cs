@@ -24,7 +24,7 @@ public record AwsKmsUntagResourceOptions : AwsOptions
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

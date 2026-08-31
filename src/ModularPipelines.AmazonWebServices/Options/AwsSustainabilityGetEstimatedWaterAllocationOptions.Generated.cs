@@ -29,7 +29,7 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions
     /// <summary>
     /// The dimensions available for grouping estimated water allocation. (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: o USAGE_ACCOUNT_ID o REGION o SERVICE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions
     /// <summary>
     /// The allocation types to include in the results. If absent, returns TOTAL_WATER_WITHDRAWALS allocation types. (string) Specifies the types of water allocation calculations available. Possible values: o TOTAL_WATER_WITHDRAWALS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allocation-types")]
+    [CliOption("--allocation-types", GroupValues = true)]
     public IEnumerable<string>? AllocationTypes { get; set; }
 
     /// <summary>

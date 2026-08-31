@@ -52,7 +52,7 @@ public record AwsDrsPutLaunchActionOptions : AwsOptions
     /// <summary>
     /// Launch action parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (structure) Launch action parameter. value -&gt; (string) Value. Constraints: o min: 1 o max: 1011 o pattern: [A-Za-z0-9.-]+ type -&gt; (string) Type. Possible values: o SSM_STORE o DYNAMIC Shorthand Syntax: KeyName1={value=string,type=string},KeyName2={value=string,type=string} JSON Syntax: {"string": { "value": "string", "type": "SSM_STORE"|"DYNAMIC" } ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--description")]

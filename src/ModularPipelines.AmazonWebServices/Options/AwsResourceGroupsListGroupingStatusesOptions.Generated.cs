@@ -28,7 +28,7 @@ public record AwsResourceGroupsListGroupingStatusesOptions : AwsOptions
     /// <summary>
     /// The filter name and value pair that is used to return more specific results from a list of resources. (structure) A filter name and value pair that is used to obtain more spe- cific results from the list of grouping statuses. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Possible values: o status o resource-arn Values -&gt; (list) [required] One or more filter values. Allowed filter values vary by re- source filter name, and are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: SUC- CESS|FAILED|IN_PROGRESS|SKIPPED|arn:aws(-[a-z]+)*:[a-z0-9\-]*:([a-z]{2}(-[a-z]+)+-\d{1})?:([0-9]{12})?:.+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"resource-arn", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

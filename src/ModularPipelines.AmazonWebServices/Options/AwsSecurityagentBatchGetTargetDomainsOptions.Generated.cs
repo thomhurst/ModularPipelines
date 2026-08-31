@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-get-target-domains")]
 public record AwsSecurityagentBatchGetTargetDomainsOptions : AwsOptions
 {
-    [CliOption("--target-domain-ids")]
+    [CliOption("--target-domain-ids", GroupValues = true)]
     public IEnumerable<string>? TargetDomainIds { get; set; }
 
     [CliOption("--cli-input-json")]

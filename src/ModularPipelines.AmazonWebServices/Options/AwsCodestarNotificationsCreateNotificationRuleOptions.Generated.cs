@@ -27,13 +27,13 @@ public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--event-type-ids")]
+    [CliOption("--event-type-ids", GroupValues = true)]
     public IEnumerable<string>? EventTypeIds { get; set; }
 
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--detail-type")]
@@ -49,7 +49,7 @@ public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions
     /// <summary>
     /// A list of tags to apply to this notification rule. Key names cannot start with "aws ". key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

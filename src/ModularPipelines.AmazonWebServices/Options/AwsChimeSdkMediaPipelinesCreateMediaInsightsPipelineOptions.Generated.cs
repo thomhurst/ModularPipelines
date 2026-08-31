@@ -36,7 +36,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
     /// <summary>
     /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings. key -&gt; (string) Constraints: o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o max: 4096 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--media-insights-runtime-metadata")]
+    [CliOption("--media-insights-runtime-metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? MediaInsightsRuntimeMetadata { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
     /// <summary>
     /// The tags assigned to the media insights pipeline. Constraints: o min: 1 o max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

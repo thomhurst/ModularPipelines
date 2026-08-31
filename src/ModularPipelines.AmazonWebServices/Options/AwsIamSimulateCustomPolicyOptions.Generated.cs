@@ -22,28 +22,28 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iam", "simulate-custom-policy")]
 public record AwsIamSimulateCustomPolicyOptions : AwsOptions
 {
-    [CliOption("--policy-input-list")]
+    [CliOption("--policy-input-list", GroupValues = true)]
     public IEnumerable<string>? PolicyInputList { get; set; }
 
     /// <summary>
     /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions bound- aries, see Permissions boundaries for IAM entities in the IAM User Guide . The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions-boundary-policy-input-list")]
+    [CliOption("--permissions-boundary-policy-input-list", GroupValues = true)]
     public IEnumerable<string>? PermissionsBoundaryPolicyInputList { get; set; }
 
     /// <summary>
     /// An ordered list of service control policies (SCPs) to include in the simulation. Each element represents one level of an Organizations hierarchy, from the organization root to the account. The simulator evaluates SCPs in the order that you provide, consis- tent with how Organizations enforces SCPs. The first element must represent the organization root, and the last element must represent the account. Any elements between them represent organizational units (OUs) in descending order. Use this parameter to simulate the effect of an SCP hierarchy with- out calling SimulatePrincipalPolicy . Constraints: o max: 7 (structure) Represents one level of an Organizations hierarchythe organiza- tion root, an organizational unit (OU), or an accounttogether with the service control policies (SCPs) that apply at that level. Each element in the list represents one level of the hi- erarchy, ordered from the organization root down to the account. For more information about SCPs, see Service control policies (SCPs) in the Organizations User Guide . ServiceControlPolicyInputList -&gt; (list) A list of SCP documents that apply at this level of the Orga- nizations hierarchy. Each document is specified as a string containing the complete, valid JSON text of an SCP. (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Shorthand Syntax: ServiceControlPolicyInputList=string,string ... JSON Syntax: [ { "ServiceControlPolicyInputList": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--ordered-organization-policy-input-list")]
+    [CliOption("--ordered-organization-policy-input-list", GroupValues = true)]
     public IEnumerable<string>? OrderedOrganizationPolicyInputList { get; set; }
 
-    [CliOption("--action-names")]
+    [CliOption("--action-names", GroupValues = true)]
     public IEnumerable<string>? ActionNames { get; set; }
 
     /// <summary>
     /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value de- faults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation deter- mines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the Re- sourcePolicy parameter. If you include a ResourcePolicy , then it must be applicable to all of the resources included in the simulation or you receive an in- valid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . NOTE: Simulation of resource-based policies isn't supported for IAM roles. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsIamSimulateCustomPolicyOptions : AwsOptions
     /// <summary>
     /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied. (structure) Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies. This data type is used as an input parameter to SimulateCustomPolicy and SimulatePrincipalPolicy . ContextKeyName -&gt; (string) The full name of a condition context key, including the ser- vice prefix. For example, aws:SourceIp or s3:VersionId . Constraints: o min: 5 o max: 256 ContextKeyValues -&gt; (list) The value (or values, if the condition context key supports multiple values) to provide to the simulation when the key is referenced by a Condition element in an input policy. (string) ContextKeyType -&gt; (string) The data type of the value (or values) specified in the Con- textKeyValues parameter. Possible values: o string o stringList o numeric o numericList o boolean o booleanList o ip o ipList o binary o binaryList o date o dateList Shorthand Syntax: ContextKeyName=string,ContextKeyValues=string,string,ContextKeyType=string ... JSON Syntax: [ { "ContextKeyName": "string", "ContextKeyValues": ["string", ...], "ContextKeyType": "string"|"stringList"|"numeric"|"numericList"|"boolean"|"booleanList"|"ip"|"ipList"|"binary"|"binaryList"|"date"|"dateList" } ... ]
     /// </summary>
-    [CliOption("--context-entries")]
+    [CliOption("--context-entries", GroupValues = true)]
     public IEnumerable<string>? ContextEntries { get; set; }
 
     /// <summary>

@@ -32,19 +32,19 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
     /// <summary>
     /// Filter by deal entity types. Constraints: o min: 1 o max: 2 (string) Possible values: o OFFER o OPPORTUNITY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--entity-type-filters")]
+    [CliOption("--entity-type-filters", GroupValues = true)]
     public IEnumerable<string>? EntityTypeFilters { get; set; }
 
     /// <summary>
     /// Filter by deal entity identifiers. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--entity-identifier-filters")]
+    [CliOption("--entity-identifier-filters", GroupValues = true)]
     public IEnumerable<string>? EntityIdentifierFilters { get; set; }
 
     /// <summary>
     /// Filter by customer AWS account IDs for associated deal entities. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--customer-aws-account-id-filters")]
+    [CliOption("--customer-aws-account-id-filters", GroupValues = true)]
     public IEnumerable<string>? CustomerAwsAccountIdFilters { get; set; }
 
     /// <summary>

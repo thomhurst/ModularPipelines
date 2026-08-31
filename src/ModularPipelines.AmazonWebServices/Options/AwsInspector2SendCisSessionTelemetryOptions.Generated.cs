@@ -29,7 +29,7 @@ public record AwsInspector2SendCisSessionTelemetryOptions : AwsOptions
     [CliOption("--session-token")]
     public string? SessionToken { get; set; }
 
-    [CliOption("--messages")]
+    [CliOption("--messages", GroupValues = true)]
     public IEnumerable<string>? Messages { get; set; }
 
     [CliOption("--cli-input-json")]

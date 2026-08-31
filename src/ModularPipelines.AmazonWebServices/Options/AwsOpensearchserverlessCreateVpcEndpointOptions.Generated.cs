@@ -28,13 +28,13 @@ public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// The unique identifiers of the security groups that define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

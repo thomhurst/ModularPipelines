@@ -48,7 +48,7 @@ public record AwsConnectUpdateHoursOfOperationOptions : AwsOptions
     /// <summary>
     /// Configuration information of the hours of operation. Constraints: o min: 0 o max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
     /// </summary>
-    [CliOption("--config")]
+    [CliOption("--config", GroupValues = true)]
     public IEnumerable<string>? Config { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,22 +31,22 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--license-asset-group-configurations")]
+    [CliOption("--license-asset-group-configurations", GroupValues = true)]
     public IEnumerable<string>? LicenseAssetGroupConfigurations { get; set; }
 
-    [CliOption("--associated-license-asset-ruleset-arns")]
+    [CliOption("--associated-license-asset-ruleset-arns", GroupValues = true)]
     public IEnumerable<string>? AssociatedLicenseAssetRulesetArns { get; set; }
 
     /// <summary>
     /// License asset group properties. (structure) License asset group property. Key -&gt; (string) [required] Property key. Value -&gt; (string) [required] Property value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--properties")]
+    [CliOption("--properties", GroupValues = true)]
     public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
     /// Tags to add to the license asset group. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [SecretValue]

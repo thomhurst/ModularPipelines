@@ -24,13 +24,13 @@ public record AwsSagemakerFeaturestoreRuntimePutRecordOptions : AwsOptions
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; set; }
 
-    [CliOption("--record")]
+    [CliOption("--record", GroupValues = true)]
     public IEnumerable<string>? Record { get; set; }
 
     /// <summary>
     /// A list of stores to which you're adding the record. By default, Fea- ture Store adds the record to all of the stores that you're using for the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-stores")]
+    [CliOption("--target-stores", GroupValues = true)]
     public IEnumerable<string>? TargetStores { get; set; }
 
     /// <summary>

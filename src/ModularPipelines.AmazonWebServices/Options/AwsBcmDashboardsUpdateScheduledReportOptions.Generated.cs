@@ -57,7 +57,7 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions
     /// <summary>
     /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included. Constraints: o min: 0 o max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--widget-ids")]
+    [CliOption("--widget-ids", GroupValues = true)]
     public IEnumerable<string>? WidgetIds { get; set; }
 
     /// <summary>

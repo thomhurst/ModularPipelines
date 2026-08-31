@@ -25,7 +25,7 @@ public record AwsWellarchitectedTagResourceOptions : AwsOptions
     [CliOption("--workload-arn")]
     public string? WorkloadArn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

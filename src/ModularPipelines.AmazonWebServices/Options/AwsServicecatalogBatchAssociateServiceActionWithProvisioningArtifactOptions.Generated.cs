@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("servicecatalog", "batch-associate-service-action-with-provisioning-artifact")]
 public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions : AwsOptions
 {
-    [CliOption("--service-action-associations")]
+    [CliOption("--service-action-associations", GroupValues = true)]
     public IEnumerable<string>? ServiceActionAssociations { get; set; }
 
     /// <summary>

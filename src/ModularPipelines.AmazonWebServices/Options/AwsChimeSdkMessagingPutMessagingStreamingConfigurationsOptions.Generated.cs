@@ -24,7 +24,7 @@ public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : A
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; set; }
 
-    [CliOption("--streaming-configurations")]
+    [CliOption("--streaming-configurations", GroupValues = true)]
     public IEnumerable<string>? StreamingConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

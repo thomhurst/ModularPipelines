@@ -27,7 +27,7 @@ public record AwsSecurityagentUpdateIntegratedResourcesOptions : AwsOptions
     [CliOption("--integration-id")]
     public string? IntegrationId { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsDrsDescribeReplicationConfigurationTemplatesOptions : AwsOption
     /// <summary>
     /// The IDs of the Replication Configuration Templates to retrieve. An empty list means all Replication Configuration Templates. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-configuration-template-ids")]
+    [CliOption("--replication-configuration-template-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationConfigurationTemplateIds { get; set; }
 
     [CliOption("--cli-input-json")]

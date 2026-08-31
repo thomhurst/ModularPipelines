@@ -37,7 +37,7 @@ public record AwsSecurityhubGetFindingsV2Options : AwsOptions
     /// <summary>
     /// The finding attributes used to sort the list of returned findings. (structure) A collection of finding attributes used to sort findings. Field -&gt; (string) The finding attribute used to sort findings. Constraints: o pattern: .*\S.* SortOrder -&gt; (string) The order used to sort findings. Possible values: o asc o desc Shorthand Syntax: Field=string,SortOrder=string ... JSON Syntax: [ { "Field": "string", "SortOrder": "asc"|"desc" } ... ]
     /// </summary>
-    [CliOption("--sort-criteria")]
+    [CliOption("--sort-criteria", GroupValues = true)]
     public IEnumerable<string>? SortCriteria { get; set; }
 
     [CliOption("--cli-input-json")]

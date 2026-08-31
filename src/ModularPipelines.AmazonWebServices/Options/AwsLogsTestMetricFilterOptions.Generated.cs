@@ -24,7 +24,7 @@ public record AwsLogsTestMetricFilterOptions : AwsOptions
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CliOption("--log-event-messages")]
+    [CliOption("--log-event-messages", GroupValues = true)]
     public IEnumerable<string>? LogEventMessages { get; set; }
 
     [CliOption("--cli-input-json")]

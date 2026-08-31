@@ -35,7 +35,7 @@ public record AwsIotsitewiseCreateComputationModelOptions : AwsOptions
     [CliOption("--computation-model-configuration")]
     public string? ComputationModelConfiguration { get; set; }
 
-    [CliOption("--computation-model-data-binding")]
+    [CliOption("--computation-model-data-binding", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ComputationModelDataBinding { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsIotsitewiseCreateComputationModelOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

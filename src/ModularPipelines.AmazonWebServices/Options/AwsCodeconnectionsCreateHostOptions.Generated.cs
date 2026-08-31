@@ -39,7 +39,7 @@ public record AwsCodeconnectionsCreateHostOptions : AwsOptions
     /// <summary>
     /// Tags for the host to be created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

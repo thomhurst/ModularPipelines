@@ -29,7 +29,7 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     /// <summary>
     /// Filter results to only include revenue attributions with the speci- fied identifiers. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cat- alog/[a-zA-Z]+/revenue-attribu- tion/ra-[a-z0-9]{13}|ra-[a-z0-9]{13}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     /// <summary>

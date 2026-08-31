@@ -27,7 +27,7 @@ public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
-    [CliOption("--domain-names")]
+    [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; set; }
 
     [CliOption("--certificate-provider")]

@@ -30,10 +30,10 @@ public record AwsEntityresolutionUpdateMatchingWorkflowOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--input-source-config")]
+    [CliOption("--input-source-config", GroupValues = true)]
     public IEnumerable<string>? InputSourceConfig { get; set; }
 
-    [CliOption("--output-source-config")]
+    [CliOption("--output-source-config", GroupValues = true)]
     public IEnumerable<string>? OutputSourceConfig { get; set; }
 
     [CliOption("--resolution-techniques")]

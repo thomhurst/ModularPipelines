@@ -28,7 +28,7 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions
     [CliOption("--rule-revision")]
     public int? RuleRevision { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

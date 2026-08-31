@@ -37,7 +37,7 @@ public record AwsClouddirectoryGetObjectAttributesOptions : AwsOptions
     [CliOption("--schema-facet")]
     public string? SchemaFacet { get; set; }
 
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

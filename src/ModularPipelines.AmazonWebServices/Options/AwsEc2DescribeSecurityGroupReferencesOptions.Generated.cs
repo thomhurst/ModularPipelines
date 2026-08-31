@@ -24,7 +24,7 @@ public record AwsEc2DescribeSecurityGroupReferencesOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--group-id")]
+    [CliOption("--group-id", GroupValues = true)]
     public IEnumerable<string>? GroupId { get; set; }
 
     [CliOption("--cli-input-json")]

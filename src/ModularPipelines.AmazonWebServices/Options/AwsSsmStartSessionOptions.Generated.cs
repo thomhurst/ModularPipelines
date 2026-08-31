@@ -40,7 +40,7 @@ public record AwsSsmStartSessionOptions : AwsOptions
     /// <summary>
     /// The values you want to specify for the parameters defined in the Session document. For more information about these parameters, see Create a Session Manager preferences document in the Amazon Web Ser- vices Systems Manager User Guide . key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (list) (string) Constraints: o min: 1 o max: 65535 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

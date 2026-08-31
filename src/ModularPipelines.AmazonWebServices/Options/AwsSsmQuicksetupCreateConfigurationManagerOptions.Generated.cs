@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm-quicksetup", "create-configuration-manager")]
 public record AwsSsmQuicksetupCreateConfigurationManagerOptions : AwsOptions
 {
-    [CliOption("--configuration-definitions")]
+    [CliOption("--configuration-definitions", GroupValues = true)]
     public IEnumerable<string>? ConfigurationDefinitions { get; set; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public record AwsSsmQuicksetupCreateConfigurationManagerOptions : AwsOptions
     /// <summary>
     /// Key-value pairs of metadata to assign to the configuration manager. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

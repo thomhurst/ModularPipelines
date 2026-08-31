@@ -30,7 +30,7 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions
     /// <summary>
     /// One or more IPv6 prefixes assigned to the network interface. You can't use this option if you use the Ipv6PrefixCount option. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv6-prefixes")]
+    [CliOption("--ipv6-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv6Prefixes { get; set; }
 
     [CliOption("--network-interface-id")]
@@ -39,7 +39,7 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions
     /// <summary>
     /// The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 ad- dresses. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv6-addresses")]
+    [CliOption("--ipv6-addresses", GroupValues = true)]
     public IEnumerable<string>? Ipv6Addresses { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record AwsPersonalizeEventsPutActionsOptions : AwsOptions
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--cli-input-json")]

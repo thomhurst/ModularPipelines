@@ -28,7 +28,7 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
     /// <summary>
     /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can af- fect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applica- tions, you must explicitly acknowledge their capabilities by speci- fying this parameter. The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CA- PABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND. The following resources require you to specify CAPABILITY_IAM or CA- PABILITY_NAMED_IAM: AWS::IAM::Group , AWS::IAM::InstanceProfile , AWS::IAM::Policy , and AWS::IAM::Role . If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABIL- ITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. The following resources require you to specify CAPABILITY_RE- SOURCE_POLICY: AWS::Lambda::Permission , AWS::IAM:Policy , AWS::ApplicationAutoScaling::ScalingPolicy , AWS::S3::BucketPolicy , AWS::SQS::QueuePolicy , and AWS::SNS:TopicPolicy . Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND. If your application template contains any of the above resources, we recommend that you review all permissions associated with the appli- cation before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
@@ -53,19 +53,19 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
     /// <summary>
     /// This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 149) Inline emphasis start-string without end-string. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--notification-arns")]
+    [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
     /// <summary>
     /// A list of parameter values for the parameters of the application. (structure) Parameter value of the application. Name -&gt; (string) [required] The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template. Value -&gt; (string) [required] The input value associated with the parameter. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--parameter-overrides")]
+    [CliOption("--parameter-overrides", GroupValues = true)]
     public IEnumerable<string>? ParameterOverrides { get; set; }
 
     /// <summary>
     /// This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 228) Inline emphasis start-string without end-string. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
     /// <summary>
     /// This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 348) Inline emphasis start-string without end-string. (structure) This property corresponds to the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 354) Inline emphasis start-string without end-string. Key -&gt; (string) [required] This property corresponds to the content of the same name for the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 362) Inline emphasis start-string without end-string. Value -&gt; (string) [required] This property corresponds to the content of the same name for the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 372) Inline emphasis start-string without end-string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

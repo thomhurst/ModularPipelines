@@ -39,7 +39,7 @@ public record AwsSagemakerUpdateHubOptions : AwsOptions
     /// <summary>
     /// The searchable keywords for the hub. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 255 o pattern: [^A-Z]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--hub-search-keywords")]
+    [CliOption("--hub-search-keywords", GroupValues = true)]
     public IEnumerable<string>? HubSearchKeywords { get; set; }
 
     [CliOption("--cli-input-json")]

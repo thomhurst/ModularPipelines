@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "get-metric-data")]
 public record AwsCloudwatchGetMetricDataOptions : AwsOptions
 {
-    [CliOption("--metric-data-queries")]
+    [CliOption("--metric-data-queries", GroupValues = true)]
     public IEnumerable<string>? MetricDataQueries { get; set; }
 
     [CliOption("--start-time")]

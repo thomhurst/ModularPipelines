@@ -33,7 +33,7 @@ public record AwsIotUpdateCertificateProviderOptions : AwsOptions
     /// <summary>
     /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: o min: 1 o max: 1 (string) Possible values: o CreateCertificateFromCsr Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-default-for-operations")]
+    [CliOption("--account-default-for-operations", GroupValues = true)]
     public IEnumerable<string>? AccountDefaultForOperations { get; set; }
 
     [CliOption("--cli-input-json")]

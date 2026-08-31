@@ -38,7 +38,7 @@ public record AwsCloudwatchListMetricsOptions : AwsOptions
     /// <summary>
     /// The dimensions to filter against. Only the dimension with names that match exactly will be returned. If you specify one dimension name and a metric has that dimension and also other dimensions, it will be returned. Constraints: o max: 10 (structure) Represents filters for a dimension. Name -&gt; (string) [required] The dimension name to be matched. Constraints: o min: 1 o max: 255 Value -&gt; (string) The value of the dimension to be matched. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--dimensions")]
+    [CliOption("--dimensions", GroupValues = true)]
     public IEnumerable<string>? Dimensions { get; set; }
 
     /// <summary>

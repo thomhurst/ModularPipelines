@@ -28,7 +28,7 @@ public record AwsQuicksightSearchKnowledgeBasesOptions : AwsOptions
     /// <summary>
     /// The filters to apply when searching knowledge bases. Constraints: o min: 1 o max: 6 (structure) A filter to apply when searching knowledge bases. name -&gt; (string) [required] The name of the field to filter on. Possible values: o KNOWLEDGE_BASE_ID o KNOWLEDGE_BASE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o KNOWLEDGE_BASE_SIZE_BYTES o PRIMARY_OWNER o DATASOURCE_ARN operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o GREATER_THAN_OR_EQUALS o LESS_THAN_OR_EQUALS value -&gt; (string) [required] The value to filter on. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "KNOWLEDGE_BASE_ID"|"KNOWLEDGE_BASE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"KNOWLEDGE_BASE_SIZE_BYTES"|"PRIMARY_OWNER"|"DATASOURCE_ARN", "operator": "STRING_EQUALS"|"STRING_LIKE"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN_OR_EQUALS", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -47,7 +47,7 @@ public record AwsQuicksightUpdateIamPolicyAssignmentOptions : AwsOptions
     /// <summary>
     /// The Amazon Quick Sight users, groups, or both that you want to as- sign the policy to. key -&gt; (string) value -&gt; (list) (string) Constraints: o min: 1 o pattern: [\u0020-\u00FF]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--identities")]
+    [CliOption("--identities", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Identities { get; set; }
 
     [CliOption("--cli-input-json")]

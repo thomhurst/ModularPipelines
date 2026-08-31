@@ -28,7 +28,7 @@ public record AwsGlueStartWorkflowRunOptions : AwsOptions
     /// <summary>
     /// The workflow run properties for the new workflow run. Run properties may be logged. Do not pass plaintext secrets as prop- erties. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to use them within the workflow run. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--run-properties")]
+    [CliOption("--run-properties", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RunProperties { get; set; }
 
     [CliOption("--cli-input-json")]

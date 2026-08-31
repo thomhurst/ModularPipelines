@@ -27,7 +27,7 @@ public record AwsSdbPutAttributesOptions : AwsOptions
     [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--expected")]

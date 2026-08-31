@@ -24,7 +24,7 @@ public record AwsSecurityagentBatchDeleteSecurityRequirementsOptions : AwsOption
     [CliOption("--pack-id")]
     public string? PackId { get; set; }
 
-    [CliOption("--security-requirement-names")]
+    [CliOption("--security-requirement-names", GroupValues = true)]
     public IEnumerable<string>? SecurityRequirementNames { get; set; }
 
     [CliOption("--cli-input-json")]

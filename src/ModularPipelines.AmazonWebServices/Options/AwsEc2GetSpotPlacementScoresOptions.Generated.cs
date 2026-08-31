@@ -26,7 +26,7 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     /// <summary>
     /// The instance types. We recommend that you specify at least three in- stance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will al- ways be low. If you specify InstanceTypes , you can't specify InstanceRequire- mentsWithMetadata . Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-types")]
+    [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
 
     [CliOption("--target-capacity")]
@@ -44,7 +44,7 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     /// <summary>
     /// The Regions used to narrow down the list of Regions to be scored. Enter the Region code, for example, us-east-1 . Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--region-names")]
+    [CliOption("--region-names", GroupValues = true)]
     public IEnumerable<string>? RegionNames { get; set; }
 
     /// <summary>

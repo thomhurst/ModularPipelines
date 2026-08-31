@@ -63,7 +63,7 @@ public record AwsWorkspacesInstancesCreateVolumeOptions : AwsOptions
     /// <summary>
     /// Metadata tags for the volume. Constraints: o min: 0 o max: 30 (structure) Defines tagging configuration for a resource. ResourceType -&gt; (string) Type of resource being tagged. Possible values: o instance o volume o spot-instances-request o network-interface Tags -&gt; (list) Collection of tags for the specified resource. Constraints: o min: 0 o max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "instance"|"volume"|"spot-instances-request"|"network-interface", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--tag-specifications")]
+    [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>

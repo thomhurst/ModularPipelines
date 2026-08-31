@@ -35,7 +35,7 @@ public record AwsEmrListInstancesOptions : AwsOptions
     /// <summary>
     /// The type of instance group for which to list the instances. (string) Possible values: o MASTER o CORE o TASK Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-group-types")]
+    [CliOption("--instance-group-types", GroupValues = true)]
     public IEnumerable<string>? InstanceGroupTypes { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AwsEmrListInstancesOptions : AwsOptions
     /// <summary>
     /// A list of instance states that will filter the instances returned with this request. (string) Possible values: o AWAITING_FULFILLMENT o PROVISIONING o BOOTSTRAPPING o RUNNING o TERMINATED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-states")]
+    [CliOption("--instance-states", GroupValues = true)]
     public IEnumerable<string>? InstanceStates { get; set; }
 
     [CliOption("--cli-input-json")]

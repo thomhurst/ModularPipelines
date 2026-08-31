@@ -32,7 +32,7 @@ public record AwsResourceExplorer_2ListIndexesOptions : AwsOptions
     /// <summary>
     /// If specified, limits the response to only information about the in- dex in the specified list of Amazon Web Services Regions. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     [CliOption("--cli-input-json")]

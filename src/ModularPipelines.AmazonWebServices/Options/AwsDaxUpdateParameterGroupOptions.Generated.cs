@@ -24,7 +24,7 @@ public record AwsDaxUpdateParameterGroupOptions : AwsOptions
     [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; set; }
 
-    [CliOption("--parameter-name-values")]
+    [CliOption("--parameter-name-values", GroupValues = true)]
     public IEnumerable<string>? ParameterNameValues { get; set; }
 
     [CliOption("--cli-input-json")]

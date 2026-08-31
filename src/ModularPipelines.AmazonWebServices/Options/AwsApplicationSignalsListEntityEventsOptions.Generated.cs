@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("application-signals", "list-entity-events")]
 public record AwsApplicationSignalsListEntityEventsOptions : AwsOptions
 {
-    [CliOption("--entity")]
+    [CliOption("--entity", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Entity { get; set; }
 
     [CliOption("--start-time")]

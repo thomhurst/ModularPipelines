@@ -34,7 +34,7 @@ public record AwsDatazoneCreateAssetTypeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--forms-input")]
+    [CliOption("--forms-input", GroupValues = true)]
     public IReadOnlyList<KeyValue>? FormsInput { get; set; }
 
     [CliOption("--owning-project-identifier")]

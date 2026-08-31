@@ -28,7 +28,7 @@ public record AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOption
     /// <summary>
     /// Filters the status type. o Valid value FAILED indicates errors while moving data. o Valid value SUCCEEDED indicates the data was successfully moved. o Valid value OUTDATED indicates the data is not the most recent. Constraints: o min: 1 (string) Possible values: o FAILED o SUCCEEDED o OUTDATED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--update-status")]
+    [CliOption("--update-status", GroupValues = true)]
     public IEnumerable<string>? UpdateStatus { get; set; }
 
     [CliOption("--cli-input-json")]

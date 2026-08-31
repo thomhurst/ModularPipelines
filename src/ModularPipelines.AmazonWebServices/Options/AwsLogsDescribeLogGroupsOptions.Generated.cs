@@ -26,7 +26,7 @@ public record AwsLogsDescribeLogGroupsOptions : AwsOptions
     /// <summary>
     /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-identifiers")]
+    [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AwsLogsDescribeLogGroupsOptions : AwsOptions
     /// <summary>
     /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts . If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the moni- toring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -29,7 +29,7 @@ public record AwsNetworkmonitorCreateMonitorOptions : AwsOptions
     /// <summary>
     /// Displays a list of all of the probes created for a monitor. (structure) Creates a monitor probe. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: o min: 20 o max: 2048 o pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: o min: 1 o max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: o min: 0 o max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: o TCP o ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destina- tion. This must be a number between 56 and 8500 . Constraints: o min: 56 o max: 8500 probeTags -&gt; (map) The list of key-value pairs created and assigned to the moni- tor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,probeTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "probeTags": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--probes")]
+    [CliOption("--probes", GroupValues = true)]
     public IEnumerable<string>? Probes { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsNetworkmonitorCreateMonitorOptions : AwsOptions
     /// <summary>
     /// The list of key-value pairs created and assigned to the monitor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

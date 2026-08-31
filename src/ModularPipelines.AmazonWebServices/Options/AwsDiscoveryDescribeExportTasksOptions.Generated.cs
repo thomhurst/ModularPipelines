@@ -25,13 +25,13 @@ public record AwsDiscoveryDescribeExportTasksOptions : AwsOptions
     /// <summary>
     /// One or more unique identifiers used to query the status of an export request. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--export-ids")]
+    [CliOption("--export-ids", GroupValues = true)]
     public IEnumerable<string>? ExportIds { get; set; }
 
     /// <summary>
     /// One or more filters. o AgentId - ID of the agent whose collected data will be exported (structure) Used to select which agent's data is to be exported. A single agent ID may be selected for export using the StartExportTask action. name -&gt; (string) [required] A single ExportFilter name. Supported filters: agentIds . Constraints: o max: 1000 o pattern: [\s\S]*\S[\s\S]* values -&gt; (list) [required] A single agent ID for a Discovery Agent. An agent ID can be found using the DescribeAgents action. Typically an ADS agent ID is in the form o-0123456789abcdef0 . (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) condition -&gt; (string) [required] Supported condition: EQUALS Constraints: o max: 200 o pattern: \S+ Shorthand Syntax: name=string,values=string,string,condition=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "condition": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

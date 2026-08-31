@@ -29,7 +29,7 @@ public record AwsM2ListBatchJobExecutionsOptions : AwsOptions
     /// <summary>
     /// The unique identifier of each batch job execution. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^\S{1,80}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--execution-ids")]
+    [CliOption("--execution-ids", GroupValues = true)]
     public IEnumerable<string>? ExecutionIds { get; set; }
 
     /// <summary>

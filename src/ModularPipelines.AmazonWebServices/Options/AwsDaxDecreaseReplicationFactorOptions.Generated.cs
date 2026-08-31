@@ -30,13 +30,13 @@ public record AwsDaxDecreaseReplicationFactorOptions : AwsOptions
     /// <summary>
     /// The Availability Zone(s) from which to remove nodes. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
     /// The unique identifiers of the nodes to be removed from the cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--node-ids-to-remove")]
+    [CliOption("--node-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? NodeIdsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

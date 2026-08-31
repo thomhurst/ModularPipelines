@@ -82,7 +82,7 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     /// <summary>
     /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check. Constraints: o max: 256 (string) Constraints: o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--child-health-checks")]
+    [CliOption("--child-health-checks", GroupValues = true)]
     public IEnumerable<string>? ChildHealthChecks { get; set; }
 
     [CliFlag("--enable-sni")]
@@ -91,7 +91,7 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     /// <summary>
     /// A complex type that contains one Region element for each region that you want Amazon Route 53 health checkers to check the specified end- point from. Constraints: o min: 3 o max: 64 (string) Possible values: o us-east-1 o us-west-1 o us-west-2 o eu-west-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o sa-east-1 Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
@@ -109,7 +109,7 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     /// <summary>
     /// A complex type that contains one ResettableElementName element for each element that you want to reset to the default value. Valid val- ues for ResettableElementName include the following: o ChildHealthChecks : Amazon Route 53 resets ChildHealthChecks to null. o FullyQualifiedDomainName : Route 53 resets FullyQualifiedDomainName . to null. o Regions : Route 53 resets the Regions list to the default set of regions. o ResourcePath : Route 53 resets ResourcePath to null. Constraints: o max: 64 (string) Possible values: o FullyQualifiedDomainName o Regions o ResourcePath o ChildHealthChecks Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reset-elements")]
+    [CliOption("--reset-elements", GroupValues = true)]
     public IEnumerable<string>? ResetElements { get; set; }
 
     [CliOption("--cli-input-json")]

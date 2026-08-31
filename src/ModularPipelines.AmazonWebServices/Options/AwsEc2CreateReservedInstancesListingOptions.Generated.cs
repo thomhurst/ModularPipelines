@@ -28,7 +28,7 @@ public record AwsEc2CreateReservedInstancesListingOptions : AwsOptions
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CliOption("--price-schedules")]
+    [CliOption("--price-schedules", GroupValues = true)]
     public IEnumerable<string>? PriceSchedules { get; set; }
 
     [SecretValue]

@@ -24,7 +24,7 @@ public record AwsBcmDashboardsTagResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsWorkspacesDescribeWorkspaceBundlesOptions : AwsOptions
     /// <summary>
     /// The identifiers of the bundles. You cannot combine this parameter with any other filter. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--bundle-ids")]
+    [CliOption("--bundle-ids", GroupValues = true)]
     public IEnumerable<string>? BundleIds { get; set; }
 
     /// <summary>

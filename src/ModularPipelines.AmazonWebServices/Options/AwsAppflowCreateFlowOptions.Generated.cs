@@ -44,16 +44,16 @@ public record AwsAppflowCreateFlowOptions : AwsOptions
     [CliOption("--source-flow-config")]
     public string? SourceFlowConfig { get; set; }
 
-    [CliOption("--destination-flow-config-list")]
+    [CliOption("--destination-flow-config-list", GroupValues = true)]
     public IEnumerable<string>? DestinationFlowConfigList { get; set; }
 
-    [CliOption("--tasks")]
+    [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for your flow. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

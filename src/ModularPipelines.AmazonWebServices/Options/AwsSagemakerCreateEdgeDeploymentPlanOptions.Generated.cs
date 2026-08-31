@@ -24,7 +24,7 @@ public record AwsSagemakerCreateEdgeDeploymentPlanOptions : AwsOptions
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; set; }
 
-    [CliOption("--model-configs")]
+    [CliOption("--model-configs", GroupValues = true)]
     public IEnumerable<string>? ModelConfigs { get; set; }
 
     [CliOption("--device-fleet-name")]
@@ -33,13 +33,13 @@ public record AwsSagemakerCreateEdgeDeploymentPlanOptions : AwsOptions
     /// <summary>
     /// List of stages of the edge deployment plan. The number of stages is limited to 10 per deployment. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: o PERCENTAGE o SELECTION o NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the cur- rent stage. Constraints: o max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: o ROLLBACK_ON_FAILURE o DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]
     /// </summary>
-    [CliOption("--stages")]
+    [CliOption("--stages", GroupValues = true)]
     public IEnumerable<string>? Stages { get; set; }
 
     /// <summary>
     /// List of tags with which to tag the edge deployment plan. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

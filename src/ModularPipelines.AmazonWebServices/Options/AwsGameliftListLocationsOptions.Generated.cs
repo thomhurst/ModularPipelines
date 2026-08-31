@@ -25,7 +25,7 @@ public record AwsGameliftListLocationsOptions : AwsOptions
     /// <summary>
     /// Filters the list for AWS or CUSTOM locations. Use this parameter to narrow down results to only Amazon Web Services-managed locations (Amazon EC2 or container) or only your custom locations (such as an Amazon GameLift Servers Anywhere fleet). Constraints: o min: 1 o max: 2 (string) Possible values: o AWS o CUSTOM Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsDatabrewUpdateScheduleOptions : AwsOptions
     /// <summary>
     /// The name or names of one or more jobs to be run for this schedule. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 240 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-names")]
+    [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
 
     [CliOption("--cron-expression")]

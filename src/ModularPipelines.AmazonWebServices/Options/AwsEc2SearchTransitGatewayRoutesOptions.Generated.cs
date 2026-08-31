@@ -25,7 +25,7 @@ public record AwsEc2SearchTransitGatewayRoutesOptions : AwsOptions
     [CliOption("--transit-gateway-route-table-id")]
     public string? TransitGatewayRouteTableId { get; set; }
 
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

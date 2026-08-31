@@ -24,7 +24,7 @@ public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CliOption("--connectivity-info")]
+    [CliOption("--connectivity-info", GroupValues = true)]
     public IEnumerable<string>? ConnectivityInfo { get; set; }
 
     [CliOption("--cli-input-json")]

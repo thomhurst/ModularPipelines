@@ -27,7 +27,7 @@ public record AwsEcsDeleteAttributesOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

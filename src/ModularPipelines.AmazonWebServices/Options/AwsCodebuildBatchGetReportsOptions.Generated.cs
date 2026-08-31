@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codebuild", "batch-get-reports")]
 public record AwsCodebuildBatchGetReportsOptions : AwsOptions
 {
-    [CliOption("--report-arns")]
+    [CliOption("--report-arns", GroupValues = true)]
     public IEnumerable<string>? ReportArns { get; set; }
 
     [CliOption("--cli-input-json")]

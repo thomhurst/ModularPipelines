@@ -43,13 +43,13 @@ public record AwsIottwinmakerUpdateSceneOptions : AwsOptions
     /// <summary>
     /// A list of capabilities that the scene uses to render. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
     /// The scene metadata. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--scene-metadata")]
+    [CliOption("--scene-metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SceneMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

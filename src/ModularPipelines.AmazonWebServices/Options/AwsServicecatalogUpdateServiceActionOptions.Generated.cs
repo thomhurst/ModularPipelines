@@ -34,7 +34,7 @@ public record AwsServicecatalogUpdateServiceActionOptions : AwsOptions
     /// <summary>
     /// A map that defines the self-service action. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
     /// </summary>
-    [CliOption("--definition")]
+    [CliOption("--definition", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Definition { get; set; }
 
     /// <summary>

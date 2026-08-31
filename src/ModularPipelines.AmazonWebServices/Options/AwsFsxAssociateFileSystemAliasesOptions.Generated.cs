@@ -32,7 +32,7 @@ public record AwsFsxAssociateFileSystemAliasesOptions : AwsOptions
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; set; }
 
-    [CliOption("--aliases")]
+    [CliOption("--aliases", GroupValues = true)]
     public IEnumerable<string>? Aliases { get; set; }
 
     [CliOption("--cli-input-json")]

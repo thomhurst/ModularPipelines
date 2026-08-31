@@ -24,7 +24,7 @@ public record AwsConnectcampaignsUntagResourceOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -54,13 +54,13 @@ public record AwsAmpCreateScraperOptions : AwsOptions
     /// <summary>
     /// (Optional) The list of tag keys and values to associate with the scraper. Constraints: o min: 0 o max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration. Constraints: o min: 0 o max: 1 (tagged union structure) Contains the configuration for an exporter managed by the scraper. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchConfiguration. openSearchConfiguration -&gt; (structure) The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain. Constraints: o pattern: arn:aws[-a-z]*:es:[-a-z0-9]+:[0-9]{12}:do- main\/.+ Shorthand Syntax: openSearchConfiguration={domainArn=string} ... JSON Syntax: [ { "openSearchConfiguration": { "domainArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--exporters")]
+    [CliOption("--exporters", GroupValues = true)]
     public IEnumerable<string>? Exporters { get; set; }
 
     [CliOption("--cli-input-json")]

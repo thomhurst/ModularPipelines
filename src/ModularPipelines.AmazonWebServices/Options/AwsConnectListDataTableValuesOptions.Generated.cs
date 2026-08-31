@@ -31,13 +31,13 @@ public record AwsConnectListDataTableValuesOptions : AwsOptions
     /// <summary>
     /// Optional list of specific record IDs to retrieve values for. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--record-ids")]
+    [CliOption("--record-ids", GroupValues = true)]
     public IEnumerable<string>? RecordIds { get; set; }
 
     /// <summary>
     /// Optional filter to retrieve values for records matching specific primary attribute criteria. (structure) A primary attribute value filter. AttributeName -&gt; (string) [required] The filter's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Values -&gt; (list) [required] The filter's values. (string) Shorthand Syntax: AttributeName=string,Values=string,string ... JSON Syntax: [ { "AttributeName": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--primary-attribute-values")]
+    [CliOption("--primary-attribute-values", GroupValues = true)]
     public IEnumerable<string>? PrimaryAttributeValues { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsEmrInstallApplicationsOptions : AwsOptions
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
 
-    [CliOption("--applications")]
+    [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
 }

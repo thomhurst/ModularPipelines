@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("elbv2", "describe-tags")]
 public record AwsElbv2DescribeTagsOptions : AwsOptions
 {
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliOption("--cli-input-json")]

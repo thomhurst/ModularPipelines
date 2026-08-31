@@ -24,7 +24,7 @@ public record AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificati
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; set; }
 
-    [CliOption("--commitment-modifications")]
+    [CliOption("--commitment-modifications", GroupValues = true)]
     public IEnumerable<string>? CommitmentModifications { get; set; }
 
     [CliOption("--cli-input-json")]

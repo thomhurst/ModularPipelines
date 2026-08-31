@@ -25,19 +25,19 @@ public record AwsComputeOptimizerExportIdleRecommendationsOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account IDs for the export idle resource recommendations. If your account is the management account or the delegated adminis- trator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omit- ted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// An array of objects to specify a filter that exports a more specific set of idle resource recommendations. (structure) Describes a filter that returns a more specific list of idle re- source recommendations. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your idle resource recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your idle resource recommendations. Use the tag key in the filter name and the tag value as the filter value. For exam- ple, to find all idle resource service recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the fil- ter value. A tag-key is the key of a tag assigned to your idle resource recommendations. Use this filter to find all of your idle re- source recommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your idle resource service recommendations with a tag key value of Owner or without any tag keys assigned. Possible values: o Finding o ResourceType values -&gt; (list) The value of the filter. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"ResourceType", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The recommendations data to include in the export file. For more in- formation about the fields that can be exported, see Exported files in the Compute Optimizer User Guide . (string) Possible values: o AccountId o ResourceArn o ResourceId o ResourceType o LastRefreshTimestamp o LookbackPeriodInDays o SavingsOpportunity o SavingsOpportunityAfterDiscount o UtilizationMetricsCpuMaximum o UtilizationMetricsMemoryMaximum o UtilizationMetricsNetworkOutBytesPerSecondMaximum o UtilizationMetricsNetworkInBytesPerSecondMaximum o UtilizationMetricsDatabaseConnectionsMaximum o UtilizationMetricsEBSVolumeReadIOPSMaximum o UtilizationMetricsEBSVolumeWriteIOPSMaximum o UtilizationMetricsVolumeReadOpsPerSecondMaximum o UtilizationMetricsVolumeWriteOpsPerSecondMaximum o UtilizationMetricsActiveConnectionCountMaximum o UtilizationMetricsPacketsInFromSourceMaximum o UtilizationMetricsPacketsInFromDestinationMaximum o UtilizationMetricsConsumedReadCapacityUnitsSum o UtilizationMetricsConsumedWriteCapacityUnitsSum o UtilizationMetricsNewConnectionsSum o UtilizationMetricsEngineCPUUtilizationMaximum o UtilizationMetricsCacheHitsSum o UtilizationMetricsCacheMissesSum o UtilizationMetricsKeyspaceHitsSum o UtilizationMetricsKeyspaceMissesSum o UtilizationMetricsIsIdleMinimum o UtilizationMetricsUserConnectedSum o UtilizationMetricsInvocationsSum o UtilizationMetricsGetTypeCmdsSum o UtilizationMetricsSetTypeCmdsSum o UtilizationMetricsElastiCacheProcessingUnitsSum o UtilizationMetricsCurrConnectionsSum o UtilizationMetricsDatabaseConnectionsSum o Finding o FindingDescription o Tags Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fields-to-export")]
+    [CliOption("--fields-to-export", GroupValues = true)]
     public IEnumerable<string>? FieldsToExport { get; set; }
 
     [CliOption("--s3-destination-config")]

@@ -41,7 +41,7 @@ public record AwsBackupCreateReportPlanOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the report plan. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--report-plan-tags")]
+    [CliOption("--report-plan-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ReportPlanTags { get; set; }
 
     /// <summary>

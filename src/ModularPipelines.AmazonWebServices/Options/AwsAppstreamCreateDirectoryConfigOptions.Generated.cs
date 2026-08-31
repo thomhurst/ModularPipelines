@@ -25,7 +25,7 @@ public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions
     [CliOption("--directory-name")]
     public string? DirectoryName { get; set; }
 
-    [CliOption("--organizational-unit-distinguished-names")]
+    [CliOption("--organizational-unit-distinguished-names", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitDistinguishedNames { get; set; }
 
     /// <summary>

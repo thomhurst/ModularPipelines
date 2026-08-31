@@ -47,13 +47,13 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions
     /// <summary>
     /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. This setting doesn't apply to RDS Custom DB instances. Constraints: o If supplied, must match existing DB security groups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-security-groups")]
+    [CliOption("--db-security-groups", GroupValues = true)]
     public IEnumerable<string>? DbSecurityGroups { get; set; }
 
     /// <summary>
     /// A list of Amazon EC2 VPC security groups to associate with this DB instance. This change is asynchronously applied as soon as possible. This setting doesn't apply to the following DB instances: o Amazon Aurora (The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBClus- ter .) o RDS Custom Constraints: o If supplied, must match existing VPC security group IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliFlag("--apply-immediately")]
@@ -189,7 +189,7 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions
     /// <summary>
     /// The IPv4 DNS IP addresses of your primary and secondary Active Di- rectory domain controllers. Constraints: o Two IP addresses must be provided. If there isn't a secondary do- main controller, use the IP address of the primary domain con- troller for both entries in the list. Example: 123.124.125.126,234.235.236.237 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--domain-dns-ips")]
+    [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
     [CliFlag("--disable-domain")]
@@ -264,7 +264,7 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions
     /// <summary>
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom DB instances. (structure) Contains the processor features of a DB instance class. To specify the number of CPU cores, use the coreCount feature name for the Name parameter. To specify the number of threads per core, use the threadsPerCore feature name for the Name para- meter. You can set the processor features of the DB instance class for a DB instance when you call one of the following actions: o CreateDBInstance o ModifyDBInstance o RestoreDBInstanceFromDBSnapshot o RestoreDBInstanceFromS3 o RestoreDBInstanceToPointInTime You can view the valid processor values for a particular in- stance class by calling the DescribeOrderableDBInstanceOptions action and specifying the instance class for the DBInstanceClass parameter. In addition, you can use the following actions for DB instance class processor information: o DescribeDBInstances o DescribeDBSnapshots o DescribeValidDBInstanceModifications If you call DescribeDBInstances , ProcessorFeature returns non-null values only if the following conditions are met: o You are accessing an Oracle or SQL Server DB instance. o Your Oracle or SQL Server DB instance class supports configur- ing the number of CPU cores and threads per core. o The current number CPU cores and threads is set to a non-de- fault value. For more information, see Configuring the processor for a DB in- stance class in RDS for Oracle , Optimizing your RDS for SQL Server CPU , and DB instance classes in the Amazon RDS User Guide. Name -&gt; (string) The name of the processor feature. Valid names are coreCount and threadsPerCore . Value -&gt; (string) The value of a processor feature. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--processor-features")]
+    [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
     [CliFlag("--use-default-processor-features")]
@@ -343,13 +343,13 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions
     /// <summary>
     /// A list of additional storage volumes to modify or delete for the DB instance. You can create up to 3 additional storage volumes. Addi- tional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only. (structure) Contains details about the modification of an additional storage volume. VolumeName -&gt; (string) [required] The name of the additional storage volume that you want to modify. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4 AllocatedStorage -&gt; (integer) The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maxi- mum is 65,536 GiB (64 TiB). IOPS -&gt; (integer) The number of I/O operations per second (IOPS) provisioned for the additional storage volume. This setting is only sup- ported for Provisioned IOPS SSD (io1 and io2 ) storage types. MaxAllocatedStorage -&gt; (integer) The upper limit in gibibytes (GiB) to which RDS can automati- cally scale the storage of the additional storage volume. You must provide a value greater than or equal to AllocatedStor- age . StorageThroughput -&gt; (integer) The storage throughput value for the additional storage vol- ume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3 ) storage type. StorageType -&gt; (string) The new storage type for the additional storage volume. Valid Values: GP3 | IO2 SetForDelete -&gt; (boolean) Indicates whether to delete the additional storage volume. The value true schedules the volume for deletion. You can delete an additional storage volume only when it doesn't con- tain database files or other data. Shorthand Syntax: VolumeName=string,AllocatedStorage=integer,IOPS=integer,MaxAllocatedStorage=integer,StorageThroughput=integer,StorageType=string,SetForDelete=boolean ... JSON Syntax: [ { "VolumeName": "string", "AllocatedStorage": integer, "IOPS": integer, "MaxAllocatedStorage": integer, "StorageThroughput": integer, "StorageType": "string", "SetForDelete": true|false } ... ]
     /// </summary>
-    [CliOption("--additional-storage-volumes")]
+    [CliOption("--additional-storage-volumes", GroupValues = true)]
     public IEnumerable<string>? AdditionalStorageVolumes { get; set; }
 
     /// <summary>
     /// Tags to assign to resources associated with the DB instance. Valid Values: o auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--tag-specifications")]
+    [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>

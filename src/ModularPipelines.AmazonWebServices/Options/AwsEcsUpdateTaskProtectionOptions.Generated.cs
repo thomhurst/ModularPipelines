@@ -24,7 +24,7 @@ public record AwsEcsUpdateTaskProtectionOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--tasks")]
+    [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; set; }
 
     [CliFlag("--protection-enabled")]

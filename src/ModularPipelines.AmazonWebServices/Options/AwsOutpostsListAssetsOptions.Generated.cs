@@ -28,19 +28,19 @@ public record AwsOutpostsListAssetsOptions : AwsOptions
     /// <summary>
     /// Filters the results by the host ID of a Dedicated Host. (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z0-9-]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--host-id-filter")]
+    [CliOption("--host-id-filter", GroupValues = true)]
     public IEnumerable<string>? HostIdFilter { get; set; }
 
     /// <summary>
     /// Filters the results by state. Constraints: o min: 1 o max: 5 (string) Possible values: o ACTIVE o RETIRING o ISOLATED o INSTALLING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status-filter")]
+    [CliOption("--status-filter", GroupValues = true)]
     public IEnumerable<string>? StatusFilter { get; set; }
 
     /// <summary>
     /// Filters the results by asset type. o COMPUTE - Server asset used for customer compute o STORAGE - Server asset used by storage services o POWERSHELF - Powershelf assets o SWITCH - Switch assets o NETWORKING - Asset managed by Amazon Web Services for networking purposes Constraints: o min: 1 o max: 5 (string) Possible values: o COMPUTE o STORAGE o POWERSHELF o SWITCH o NETWORKING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--asset-type-filter")]
+    [CliOption("--asset-type-filter", GroupValues = true)]
     public IEnumerable<string>? AssetTypeFilter { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptio
     [CliOption("--managed-thing-id")]
     public string? ManagedThingId { get; set; }
 
-    [CliOption("--endpoints")]
+    [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>

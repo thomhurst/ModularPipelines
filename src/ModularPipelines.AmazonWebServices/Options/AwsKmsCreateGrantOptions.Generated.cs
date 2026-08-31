@@ -37,7 +37,7 @@ public record AwsKmsCreateGrantOptions : AwsOptions
     [CliOption("--retiring-principal")]
     public string? RetiringPrincipal { get; set; }
 
-    [CliOption("--operations")]
+    [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsKmsCreateGrantOptions : AwsOptions
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
-    [CliOption("--grant-tokens")]
+    [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
     /// <summary>

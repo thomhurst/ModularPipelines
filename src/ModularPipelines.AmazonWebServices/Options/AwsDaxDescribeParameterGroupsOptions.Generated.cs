@@ -25,7 +25,7 @@ public record AwsDaxDescribeParameterGroupsOptions : AwsOptions
     /// <summary>
     /// The names of the parameter groups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--parameter-group-names")]
+    [CliOption("--parameter-group-names", GroupValues = true)]
     public IEnumerable<string>? ParameterGroupNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,7 +28,7 @@ public record AwsMedialiveCreatePartnerInputOptions : AwsOptions
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

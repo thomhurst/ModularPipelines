@@ -46,7 +46,7 @@ public record AwsCleanroomsUpdateConfiguredTableOptions : AwsOptions
     /// <summary>
     /// The columns of the underlying table that can be used by collabora- tions or analysis rules. Constraints: o min: 1 (string) Constraints: o min: 0 o max: 128 o pattern: [a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))? Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-columns")]
+    [CliOption("--allowed-columns", GroupValues = true)]
     public IEnumerable<string>? AllowedColumns { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsCleanroomsUpdateConfiguredTableOptions : AwsOptions
     /// <summary>
     /// The selected analysis methods for the table configuration update. (string) Possible values: o DIRECT_QUERY o DIRECT_JOB Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--selected-analysis-methods")]
+    [CliOption("--selected-analysis-methods", GroupValues = true)]
     public IEnumerable<string>? SelectedAnalysisMethods { get; set; }
 
     [CliOption("--cli-input-json")]

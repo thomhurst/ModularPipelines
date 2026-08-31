@@ -31,16 +31,16 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--event-variables")]
+    [CliOption("--event-variables", GroupValues = true)]
     public IEnumerable<string>? EventVariables { get; set; }
 
     /// <summary>
     /// The event type labels. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
-    [CliOption("--entity-types")]
+    [CliOption("--entity-types", GroupValues = true)]
     public IEnumerable<string>? EntityTypes { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions
     /// <summary>
     /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

@@ -49,7 +49,7 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
 
-    [CliOption("--destination")]
+    [CliOption("--destination", GroupValues = true)]
     public IEnumerable<string>? Destination { get; set; }
 
     /// <summary>
@@ -85,13 +85,13 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     /// <summary>
     /// List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. NOTE: Instructions in the requested language are returned only if they are available. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 2 o max: 35 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--languages")]
+    [CliOption("--languages", GroupValues = true)]
     public IEnumerable<string>? Languages { get; set; }
 
     /// <summary>
     /// A list of optional additional parameters such as timezone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only PassThroughWaypoints , Sum- mary , and TravelStepInstructions o Elevation : Retrieves the elevation information for each location. o Incidents : Provides information on traffic incidents along the route. o PassThroughWaypoints : Indicates waypoints that are passed through without stopping. o Summary : Returns a summary of the route, including distance and duration. o Tolls : Supplies toll cost information along the route. o TravelStepInstructions : Provides step-by-step instructions for travel along the route. o TruckRoadTypes : Returns information about road types suitable for trucks. o TypicalDuration : Gives typical travel duration based on histori- cal data. o Zones : Specifies the time zone information for each waypoint. Constraints: o min: 0 o max: 12 (string) Possible values: o Elevation o Incidents o PassThroughWaypoints o Summary o Tolls o TravelStepInstructions o TruckRoadTypes o TypicalDuration o Zones o Bookings o IntermediateStops o NextDepartures Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--leg-additional-features")]
+    [CliOption("--leg-additional-features", GroupValues = true)]
     public IEnumerable<string>? LegAdditionalFeatures { get; set; }
 
     /// <summary>
@@ -112,7 +112,7 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     [CliOption("--optimize-routing-for")]
     public AwsGeoRoutesCalculateRoutesOptimizeRoutingFor? OptimizeRoutingFor { get; set; }
 
-    [CliOption("--origin")]
+    [CliOption("--origin", GroupValues = true)]
     public IEnumerable<string>? Origin { get; set; }
 
     /// <summary>
@@ -124,7 +124,7 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     /// <summary>
     /// A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: o min: 0 o max: 24 (string) Possible values: o BestCaseDuration o CarAccess o Country o Distance o Duration o DynamicSpeed o FunctionalClassification o Gates o Incidents o Names o Notices o PedestrianAccess o RailwayCrossings o Region o RoadAttributes o RouteNumbers o ScooterAccess o SpeedLimit o TollSystems o TruckAccess o TruckRoadTypes o TypicalDuration o Zones o Consumption Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--span-additional-features")]
+    [CliOption("--span-additional-features", GroupValues = true)]
     public IEnumerable<string>? SpanAdditionalFeatures { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     /// <summary>
     /// List of waypoints between the Origin and Destination. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions max length is 100 . Max length: 23 (structure) Waypoint between the Origin and Destination. AvoidActionsForDistance -&gt; (long) Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destina- tion. Not supported in ap-southeast-1 and ap-southeast-5 re- gions for GrabMaps customers. Constraints: o max: 2000 AvoidUTurns -&gt; (boolean) Avoid U-turns for calculation on highways and motorways. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Heading -&gt; (double) GPS Heading at the position. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: o min: 0.0 o max: 360.0 Matching -&gt; (structure) Options to configure matching the provided position to the road network. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. NameHint -&gt; (string) Attempts to match the provided position to a road similar to the provided name. Constraints: o min: 0 o max: 100 OnRoadThreshold -&gt; (long) If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad. Unit : meters Constraints: o min: 0 o max: 4294967295 Radius -&gt; (long) Considers all roads within the provided radius to match the provided destination to. The roads that are consid- ered are determined by the provided Strategy. Unit : meters Constraints: o min: 0 o max: 4294967295 Strategy -&gt; (string) Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most sig- nificant road. Possible values: o MatchAny o MatchMostSignificantRoad PassThrough -&gt; (boolean) If the waypoint should not be treated as a stop. If yes, the waypoint is passed through and doesn't split the route into different legs. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) SideOfStreet -&gt; (structure) Options to configure matching the provided position to a side of the street. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [lon- gitude, latitude]. Constraints: o min: 2 o max: 2 (double) UseWith -&gt; (string) Strategy that defines when the side of street position should be used. Default value: DividedStreetOnly Possible values: o AnyStreet o DividedStreetOnly StopDuration -&gt; (long) Duration of the stop. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Unit : seconds Constraints: o max: 49999 Shorthand Syntax: AvoidActionsForDistance=long,AvoidUTurns=boolean,Heading=double,Matching={NameHint=string,OnRoadThreshold=long,Radius=long,Strategy=string},PassThrough=boolean,Position=double,double,SideOfStreet={Position=[double,double],UseWith=string},StopDuration=long ... JSON Syntax: [ { "AvoidActionsForDistance": long, "AvoidUTurns": true|false, "Heading": double, "Matching": { "NameHint": "string", "OnRoadThreshold": long, "Radius": long, "Strategy": "MatchAny"|"MatchMostSignificantRoad" }, "PassThrough": true|false, "Position": [double, ...], "SideOfStreet": { "Position": [double, ...], "UseWith": "AnyStreet"|"DividedStreetOnly" }, "StopDuration": long } ... ]
     /// </summary>
-    [CliOption("--waypoints")]
+    [CliOption("--waypoints", GroupValues = true)]
     public IEnumerable<string>? Waypoints { get; set; }
 
     [CliOption("--cli-input-json")]

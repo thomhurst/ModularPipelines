@@ -44,7 +44,7 @@ public record AwsLightsailUpdateContainerServiceOptions : AwsOptions
     /// <summary>
     /// The public domain names to use with the container service, such as example.com and www.example.com . You can specify up to four public domain names for a container ser- vice. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the de- fault domain of the container service. WARNING: You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. You can specify public domain names using a string to array map as shown in the example later on this page. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--public-domain-names")]
+    [CliOption("--public-domain-names", GroupValues = true)]
     public IReadOnlyList<KeyValue>? PublicDomainNames { get; set; }
 
     /// <summary>

@@ -28,13 +28,13 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions : AwsOpti
     /// <summary>
     /// An array of registration version numbers. Constraints: o min: 0 o max: 5 (long) Constraints: o min: 1 o max: 100000 Syntax: long long ...
     /// </summary>
-    [CliOption("--version-numbers")]
+    [CliOption("--version-numbers", GroupValues = true)]
     public IEnumerable<string>? VersionNumbers { get; set; }
 
     /// <summary>
     /// An array of RegistrationVersionFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering registration versions that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o registration-version-status Values -&gt; (list) [required] An array of values to filter on. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "registration-version-status", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

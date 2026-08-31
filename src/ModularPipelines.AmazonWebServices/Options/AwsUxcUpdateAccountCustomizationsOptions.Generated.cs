@@ -31,13 +31,13 @@ public record AwsUxcUpdateAccountCustomizationsOptions : AwsOptions
     /// <summary>
     /// The list of Amazon Web Services service identifiers to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all services visible. For valid service identifiers, call ListServices . Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z0-9]+(-[a-z0-9]+)* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--visible-services")]
+    [CliOption("--visible-services", GroupValues = true)]
     public IEnumerable<string>? VisibleServices { get; set; }
 
     /// <summary>
     /// The list of Amazon Web Services Region codes to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all Regions visible. For a list of valid Region codes, see Amazon Web Services Regions . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: [a-z]{2}(-[a-z]{1,10}){1,2}-[1-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--visible-regions")]
+    [CliOption("--visible-regions", GroupValues = true)]
     public IEnumerable<string>? VisibleRegions { get; set; }
 
     [CliOption("--cli-input-json")]

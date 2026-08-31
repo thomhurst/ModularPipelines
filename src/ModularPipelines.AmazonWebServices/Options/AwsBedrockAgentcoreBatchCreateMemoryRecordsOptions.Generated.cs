@@ -25,7 +25,7 @@ public record AwsBedrockAgentcoreBatchCreateMemoryRecordsOptions : AwsOptions
     [CliOption("--memory-id")]
     public string? MemoryId { get; set; }
 
-    [CliOption("--records")]
+    [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; set; }
 
     /// <summary>

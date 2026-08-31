@@ -30,7 +30,7 @@ public record AwsEventsPutTargetsOptions : AwsOptions
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]

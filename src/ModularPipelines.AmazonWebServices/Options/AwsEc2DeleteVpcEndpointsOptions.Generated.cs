@@ -24,7 +24,7 @@ public record AwsEc2DeleteVpcEndpointsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--vpc-endpoint-ids")]
+    [CliOption("--vpc-endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? VpcEndpointIds { get; set; }
 
     [CliOption("--cli-input-json")]

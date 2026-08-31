@@ -32,7 +32,7 @@ public record AwsMarketplaceAgreementCreateAgreementRequestOptions : AwsOptions
     [CliOption("--intent")]
     public string? Intent { get; set; }
 
-    [CliOption("--requested-terms")]
+    [CliOption("--requested-terms", GroupValues = true)]
     public IEnumerable<string>? RequestedTerms { get; set; }
 
     /// <summary>

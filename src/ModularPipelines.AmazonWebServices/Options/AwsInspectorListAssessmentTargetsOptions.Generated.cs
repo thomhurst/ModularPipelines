@@ -25,7 +25,7 @@ public record AwsInspectorListAssessmentTargetsOptions : AwsOptions
     /// <summary>
     /// You can use this parameter to specify a subset of data to be in- cluded in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match. assessmentTargetNamePattern -&gt; (string) For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName prop- erty of the AssessmentTarget data type. Constraints: o min: 1 o max: 140 Shorthand Syntax: assessmentTargetNamePattern=string JSON Syntax: { "assessmentTargetNamePattern": "string" }
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IEnumerable<string>? Filter { get; set; }
 
     [CliOption("--cli-input-json")]

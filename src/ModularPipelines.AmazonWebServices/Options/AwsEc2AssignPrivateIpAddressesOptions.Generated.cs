@@ -24,7 +24,7 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
     /// <summary>
     /// One or more IPv4 prefixes assigned to the network interface. You can't use this option if you use the Ipv4PrefixCount option. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv4-prefixes")]
+    [CliOption("--ipv4-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv4Prefixes { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
     /// <summary>
     /// The IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>

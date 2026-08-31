@@ -65,7 +65,7 @@ public record AwsResiliencehubv2CreatePolicyOptions : AwsOptions
     /// <summary>
     /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

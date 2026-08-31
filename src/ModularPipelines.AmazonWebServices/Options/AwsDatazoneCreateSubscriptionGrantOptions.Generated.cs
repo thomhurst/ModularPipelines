@@ -40,7 +40,7 @@ public record AwsDatazoneCreateSubscriptionGrantOptions : AwsOptions
     /// <summary>
     /// The names of the assets for which the subscription grant is created. (structure) The name map for assets. assetId -&gt; (string) [required] The identifier of the inventory asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} targetName -&gt; (string) [required] The target name in the asset target name map. Shorthand Syntax: assetId=string,targetName=string ... JSON Syntax: [ { "assetId": "string", "targetName": "string" } ... ]
     /// </summary>
-    [CliOption("--asset-target-names")]
+    [CliOption("--asset-target-names", GroupValues = true)]
     public IEnumerable<string>? AssetTargetNames { get; set; }
 
     /// <summary>

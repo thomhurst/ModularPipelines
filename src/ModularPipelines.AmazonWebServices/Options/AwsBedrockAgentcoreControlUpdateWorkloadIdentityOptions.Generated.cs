@@ -27,7 +27,7 @@ public record AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions : AwsOptio
     /// <summary>
     /// The new list of allowed OAuth2 return URLs for resources associated with this workload identity. This list replaces the existing list. (string) Constraints: o min: 1 o max: 2048 o pattern: \w+:(\/?\/?)[^\s]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-resource-oauth2-return-urls")]
+    [CliOption("--allowed-resource-oauth2-return-urls", GroupValues = true)]
     public IEnumerable<string>? AllowedResourceOauth2ReturnUrls { get; set; }
 
     [CliOption("--cli-input-json")]

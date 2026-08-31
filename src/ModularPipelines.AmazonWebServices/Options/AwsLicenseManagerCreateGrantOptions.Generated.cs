@@ -32,19 +32,19 @@ public record AwsLicenseManagerCreateGrantOptions : AwsOptions
     [CliOption("--license-arn")]
     public string? LicenseArn { get; set; }
 
-    [CliOption("--principals")]
+    [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; set; }
 
     [CliOption("--home-region")]
     public string? HomeRegion { get; set; }
 
-    [CliOption("--allowed-operations")]
+    [CliOption("--allowed-operations", GroupValues = true)]
     public IEnumerable<string>? AllowedOperations { get; set; }
 
     /// <summary>
     /// Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

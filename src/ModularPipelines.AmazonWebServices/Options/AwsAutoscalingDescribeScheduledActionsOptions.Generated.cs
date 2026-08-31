@@ -31,7 +31,7 @@ public record AwsAutoscalingDescribeScheduledActionsOptions : AwsOptions
     /// <summary>
     /// The names of one or more scheduled actions. If you omit this prop- erty, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scheduled-action-names")]
+    [CliOption("--scheduled-action-names", GroupValues = true)]
     public IEnumerable<string>? ScheduledActionNames { get; set; }
 
     /// <summary>

@@ -33,7 +33,7 @@ public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions
     /// <summary>
     /// The SAML properties to delete as part of your request. Specify one of the following options: o SAML_PROPERTIES_USER_ACCESS_URL to delete the user access URL. o SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter name. (string) Possible values: o SAML_PROPERTIES_USER_ACCESS_URL o SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--properties-to-delete")]
+    [CliOption("--properties-to-delete", GroupValues = true)]
     public IEnumerable<string>? PropertiesToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

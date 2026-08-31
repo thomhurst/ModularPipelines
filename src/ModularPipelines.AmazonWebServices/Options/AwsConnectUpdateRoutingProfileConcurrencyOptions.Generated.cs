@@ -27,7 +27,7 @@ public record AwsConnectUpdateRoutingProfileConcurrencyOptions : AwsOptions
     [CliOption("--routing-profile-id")]
     public string? RoutingProfileId { get; set; }
 
-    [CliOption("--media-concurrencies")]
+    [CliOption("--media-concurrencies", GroupValues = true)]
     public IEnumerable<string>? MediaConcurrencies { get; set; }
 
     [CliOption("--cli-input-json")]

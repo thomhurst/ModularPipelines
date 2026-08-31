@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("resourcegroupstaggingapi", "tag-resources")]
 public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions
 {
-    [CliOption("--resource-arn-list")]
+    [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

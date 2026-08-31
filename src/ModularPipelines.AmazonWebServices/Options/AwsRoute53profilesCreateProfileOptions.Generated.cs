@@ -35,7 +35,7 @@ public record AwsRoute53profilesCreateProfileOptions : AwsOptions
     /// <summary>
     /// A list of the tag keys and values that you want to associate with the Route 53 Profile. Constraints: o min: 0 o max: 200 (structure) Tag for the Profile. Key -&gt; (string) [required] Key associated with the Tag . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Value for the Tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

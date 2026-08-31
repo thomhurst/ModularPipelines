@@ -31,7 +31,7 @@ public record AwsQbusinessCreateUserOptions : AwsOptions
     /// <summary>
     /// The list of user aliases in the mapping. Constraints: o min: 0 o max: 100 (structure) Aliases attached to a user id within an Amazon Q Business appli- cation. indexId -&gt; (string) The identifier of the index that the user aliases are associ- ated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} dataSourceId -&gt; (string) The identifier of the data source that the user aliases are associated with. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35} userId -&gt; (string) [required] The identifier of the user id associated with the user aliases. Constraints: o min: 1 o max: 2048 Shorthand Syntax: indexId=string,dataSourceId=string,userId=string ... JSON Syntax: [ { "indexId": "string", "dataSourceId": "string", "userId": "string" } ... ]
     /// </summary>
-    [CliOption("--user-aliases")]
+    [CliOption("--user-aliases", GroupValues = true)]
     public IEnumerable<string>? UserAliases { get; set; }
 
     /// <summary>

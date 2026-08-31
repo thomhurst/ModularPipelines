@@ -24,7 +24,7 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions 
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; set; }
 
-    [CliOption("--usernames")]
+    [CliOption("--usernames", GroupValues = true)]
     public IEnumerable<string>? Usernames { get; set; }
 
     [CliOption("--cli-input-json")]

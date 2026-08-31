@@ -31,7 +31,7 @@ public record AwsNeptuneDescribeDbInstancesOptions : AwsOptions
     /// <summary>
     /// A filter that specifies one or more DB instances to describe. Supported filters: o db-cluster-id - Accepts DB cluster identifiers and DB cluster Ama- zon Resource Names (ARNs). The results list will only include in- formation about the DB instances associated with the DB clusters identified by these ARNs. o engine - Accepts an engine name (such as neptune ), and restricts the results list to DB instances created by that engine. For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB instances are returned, you could use the fol- lowing command: (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

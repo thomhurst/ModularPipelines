@@ -48,7 +48,7 @@ public record AwsSsmIncidentsUpdateIncidentRecordOptions : AwsOptions
     /// <summary>
     /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Re- gion is down during the incident. Constraints: o min: 0 o max: 10 (tagged union structure) The SNS targets that are notified when updates are made to an incident. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: snsTopicArn. snsTopicArn -&gt; (string) The Amazon Resource Name (ARN) of the SNS topic. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: snsTopicArn=string ... JSON Syntax: [ { "snsTopicArn": "string" } ... ]
     /// </summary>
-    [CliOption("--notification-targets")]
+    [CliOption("--notification-targets", GroupValues = true)]
     public IEnumerable<string>? NotificationTargets { get; set; }
 
     /// <summary>

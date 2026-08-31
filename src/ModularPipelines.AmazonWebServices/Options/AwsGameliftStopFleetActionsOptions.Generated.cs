@@ -24,7 +24,7 @@ public record AwsGameliftStopFleetActionsOptions : AwsOptions
     [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>

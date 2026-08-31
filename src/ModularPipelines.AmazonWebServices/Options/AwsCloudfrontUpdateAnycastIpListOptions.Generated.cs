@@ -34,7 +34,7 @@ public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions
     /// <summary>
     /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list. (structure) Configuration for an IPAM CIDR that defines a specific IP ad- dress range, IPAM pool, and associated Anycast IP address. Cidr -&gt; (string) [required] The CIDR that specifies the IP address range for this IPAM configuration. IpamPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to. AnycastIp -&gt; (string) The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration. Status -&gt; (string) The current status of the IPAM CIDR configuration. Possible values: o provisioned o failed-provision o provisioning o deprovisioned o failed-deprovision o deprovisioning o advertised o failed-advertise o advertising o withdrawn o failed-withdraw o withdrawing Shorthand Syntax: Cidr=string,IpamPoolArn=string,AnycastIp=string,Status=string ... JSON Syntax: [ { "Cidr": "string", "IpamPoolArn": "string", "AnycastIp": "string", "Status": "provisioned"|"failed-provision"|"provisioning"|"deprovisioned"|"failed-deprovision"|"deprovisioning"|"advertised"|"failed-advertise"|"advertising"|"withdrawn"|"failed-withdraw"|"withdrawing" } ... ]
     /// </summary>
-    [CliOption("--ipam-cidr-configs")]
+    [CliOption("--ipam-cidr-configs", GroupValues = true)]
     public IEnumerable<string>? IpamCidrConfigs { get; set; }
 
     [CliOption("--if-match")]

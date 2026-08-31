@@ -28,7 +28,7 @@ public record AwsSupplychainCreateDataIntegrationFlowOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--transformation")]
@@ -40,7 +40,7 @@ public record AwsSupplychainCreateDataIntegrationFlowOptions : AwsOptions
     /// <summary>
     /// The tags of the DataIntegrationFlow to be created Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

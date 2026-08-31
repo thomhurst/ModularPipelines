@@ -37,13 +37,13 @@ public record AwsConnectListPhoneNumbersV2Options : AwsOptions
     /// <summary>
     /// The ISO country code. Constraints: o max: 10 (string) Possible values: o AF o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BA o BW o BR o IO o VG o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CK o CR o HR o CU o CW o CY o CZ o CD o DK o DJ o DM o DO o TL o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o PF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GU o GT o GG o GN o GW o GY o HT o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o CI o JM o JP o JE o JO o KZ o KE o KI o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o AN o NC o NZ o NI o NE o NG o NU o KP o MP o NO o OM o PK o PW o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o CG o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o KR o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TG o TK o TO o TT o TN o TR o TM o TC o TV o VI o UG o UA o AE o GB o US o UY o UZ o VU o VA o VE o VN o WF o EH o YE o ZM o ZW Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--phone-number-country-codes")]
+    [CliOption("--phone-number-country-codes", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberCountryCodes { get; set; }
 
     /// <summary>
     /// The type of phone number. Constraints: o max: 6 (string) Possible values: o TOLL_FREE o DID o UIFN o SHARED o THIRD_PARTY_TF o THIRD_PARTY_DID o SHORT_CODE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--phone-number-types")]
+    [CliOption("--phone-number-types", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberTypes { get; set; }
 
     /// <summary>

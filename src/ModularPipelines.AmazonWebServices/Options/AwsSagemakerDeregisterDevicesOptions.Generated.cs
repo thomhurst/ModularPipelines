@@ -24,7 +24,7 @@ public record AwsSagemakerDeregisterDevicesOptions : AwsOptions
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; set; }
 
-    [CliOption("--device-names")]
+    [CliOption("--device-names", GroupValues = true)]
     public IEnumerable<string>? DeviceNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -54,7 +54,7 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
     /// <summary>
     /// Connector options that are required to query the data. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\w]* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--connection-options")]
+    [CliOption("--connection-options", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ConnectionOptions { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
     /// <summary>
     /// List of fields that we want to fetch as part of preview data. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--selected-fields")]
+    [CliOption("--selected-fields", GroupValues = true)]
     public IEnumerable<string>? SelectedFields { get; set; }
 
     [CliOption("--cli-input-json")]

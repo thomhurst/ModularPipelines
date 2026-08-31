@@ -25,7 +25,7 @@ public record AwsEc2DescribeAddressTransfersOptions : AwsOptions
     /// <summary>
     /// The allocation IDs of Elastic IP addresses. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allocation-ids")]
+    [CliOption("--allocation-ids", GroupValues = true)]
     public IEnumerable<string>? AllocationIds { get; set; }
 
     [CliFlag("--dry-run")]

@@ -24,7 +24,7 @@ public record AwsElbv2AddListenerCertificatesOptions : AwsOptions
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; set; }
 
-    [CliOption("--certificates")]
+    [CliOption("--certificates", GroupValues = true)]
     public IEnumerable<string>? Certificates { get; set; }
 
     [CliOption("--cli-input-json")]

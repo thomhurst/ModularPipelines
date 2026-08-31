@@ -35,7 +35,7 @@ public record AwsGreengrassCreateSoftwareUpdateJobOptions : AwsOptions
     [CliOption("--update-agent-log-level")]
     public string? UpdateAgentLogLevel { get; set; }
 
-    [CliOption("--update-targets")]
+    [CliOption("--update-targets", GroupValues = true)]
     public IEnumerable<string>? UpdateTargets { get; set; }
 
     [CliOption("--update-targets-architecture")]

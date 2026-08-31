@@ -24,16 +24,16 @@ public record AwsEc2EnableFastSnapshotRestoresOptions : AwsOptions
     /// <summary>
     /// One or more Availability Zones. For example, us-east-2a . Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
     /// One or more Availability Zone IDs. For example, use2-az1 . Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zone-ids")]
+    [CliOption("--availability-zone-ids", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIds { get; set; }
 
-    [CliOption("--source-snapshot-ids")]
+    [CliOption("--source-snapshot-ids", GroupValues = true)]
     public IEnumerable<string>? SourceSnapshotIds { get; set; }
 
     [CliFlag("--dry-run")]

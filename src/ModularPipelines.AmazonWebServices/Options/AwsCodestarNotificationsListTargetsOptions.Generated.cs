@@ -25,7 +25,7 @@ public record AwsCodestarNotificationsListTargetsOptions : AwsOptions
     /// <summary>
     /// The filters to use to return information by service or resource type. Valid filters include target type, target address, and target status. NOTE: A filter with the same name can appear more than once when used with OR statements. Filters with different names should be ap- plied with AND statements. (structure) Information about a filter to apply to the list of returned tar- gets. You can filter by target type, address, or status. For ex- ample, to filter results to notification rules that have active Amazon Q Developer in chat applications topics as targets, you could specify a ListTargetsFilter Name as TargetType and a Value of SNS , and a Name of TARGET_STATUS and a Value of ACTIVE . Name -&gt; (string) [required] The name of the attribute you want to use to filter the re- turned targets. Possible values: o TARGET_TYPE o TARGET_ADDRESS o TARGET_STATUS Value -&gt; (string) [required] The value of the attribute you want to use to filter the re- turned targets. For example, if you specify SNS for the Tar- get type, you could specify an Amazon Resource Name (ARN) for a topic as the value. Constraints: o max: 2048 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "TARGET_TYPE"|"TARGET_ADDRESS"|"TARGET_STATUS", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codeguruprofiler", "add-notification-channels")]
 public record AwsCodeguruprofilerAddNotificationChannelsOptions : AwsOptions
 {
-    [CliOption("--channels")]
+    [CliOption("--channels", GroupValues = true)]
     public IEnumerable<string>? Channels { get; set; }
 
     [CliOption("--profiling-group-name")]

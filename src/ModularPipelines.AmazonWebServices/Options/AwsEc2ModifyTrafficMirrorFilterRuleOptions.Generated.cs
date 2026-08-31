@@ -82,7 +82,7 @@ public record AwsEc2ModifyTrafficMirrorFilterRuleOptions : AwsOptions
     /// <summary>
     /// The properties that you want to remove from the Traffic Mirror fil- ter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default. (string) Possible values: o destination-port-range o source-port-range o protocol o description Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-fields")]
+    [CliOption("--remove-fields", GroupValues = true)]
     public IEnumerable<string>? RemoveFields { get; set; }
 
     [CliFlag("--dry-run")]

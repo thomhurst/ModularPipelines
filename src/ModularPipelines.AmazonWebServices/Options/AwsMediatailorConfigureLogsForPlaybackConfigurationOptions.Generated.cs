@@ -30,7 +30,7 @@ public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions : AwsOp
     /// <summary>
     /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH . To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS . Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2] . (string) Possible values: o VENDED_LOGS o LEGACY_CLOUDWATCH Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-logging-strategies")]
+    [CliOption("--enabled-logging-strategies", GroupValues = true)]
     public IEnumerable<string>? EnabledLoggingStrategies { get; set; }
 
     /// <summary>

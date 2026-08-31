@@ -31,7 +31,7 @@ public record AwsMedialiveUpdateMultiplexOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--packet-identifiers-mapping")]
+    [CliOption("--packet-identifiers-mapping", GroupValues = true)]
     public IReadOnlyList<KeyValue>? PacketIdentifiersMapping { get; set; }
 
     [CliOption("--cli-input-json")]

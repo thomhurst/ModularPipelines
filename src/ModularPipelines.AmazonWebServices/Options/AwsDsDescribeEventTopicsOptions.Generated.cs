@@ -30,7 +30,7 @@ public record AwsDsDescribeEventTopicsOptions : AwsOptions
     /// <summary>
     /// A list of Amazon SNS topic names for which to obtain the informa- tion. If this member is null, all associations for the specified Di- rectory ID are returned. An empty list results in an InvalidParameterException being thrown. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--topic-names")]
+    [CliOption("--topic-names", GroupValues = true)]
     public IEnumerable<string>? TopicNames { get; set; }
 
     [CliOption("--cli-input-json")]

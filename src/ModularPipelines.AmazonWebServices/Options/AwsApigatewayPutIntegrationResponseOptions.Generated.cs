@@ -44,13 +44,13 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions
     /// <summary>
     /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration re- sponse header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The mapped non-sta- tic value must match the pattern of integration.re- sponse.header.{name} or integration.response.body.{JSON-expression} , where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-parameters")]
+    [CliOption("--response-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
 
     /// <summary>
     /// Specifies a put integration response's templates. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-templates")]
+    [CliOption("--response-templates", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ResponseTemplates { get; set; }
 
     /// <summary>

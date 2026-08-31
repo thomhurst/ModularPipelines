@@ -24,7 +24,7 @@ public record AwsEc2UnassignPrivateIpAddressesOptions : AwsOptions
     /// <summary>
     /// The IPv4 prefixes to unassign from the network interface. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ipv4-prefixes")]
+    [CliOption("--ipv4-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv4Prefixes { get; set; }
 
     [CliOption("--network-interface-id")]
@@ -33,7 +33,7 @@ public record AwsEc2UnassignPrivateIpAddressesOptions : AwsOptions
     /// <summary>
     /// The secondary private IP addresses to unassign from the network in- terface. You can specify this option multiple times to unassign more than one IP address. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     [CliOption("--cli-input-json")]

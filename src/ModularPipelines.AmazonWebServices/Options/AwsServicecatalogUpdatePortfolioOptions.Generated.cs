@@ -51,13 +51,13 @@ public record AwsServicecatalogUpdatePortfolioOptions : AwsOptions
     /// <summary>
     /// The tags to add. Constraints: o max: 20 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--add-tags")]
+    [CliOption("--add-tags", GroupValues = true)]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
     /// The tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-tags")]
+    [CliOption("--remove-tags", GroupValues = true)]
     public IEnumerable<string>? RemoveTags { get; set; }
 
     [CliOption("--cli-input-json")]

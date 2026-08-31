@@ -24,7 +24,7 @@ public record AwsWorkspacesInstancesUntagResourceOptions : AwsOptions
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

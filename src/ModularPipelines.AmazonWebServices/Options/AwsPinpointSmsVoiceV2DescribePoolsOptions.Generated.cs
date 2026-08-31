@@ -26,13 +26,13 @@ public record AwsPinpointSmsVoiceV2DescribePoolsOptions : AwsOptions
     /// <summary>
     /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pool-ids")]
+    [CliOption("--pool-ids", GroupValues = true)]
     public IEnumerable<string>? PoolIds { get; set; }
 
     /// <summary>
     /// An array of PoolFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for a pool that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o status o message-type o two-way-enabled o self-managed-opt-outs-enabled o opt-out-list-name o shared-routes-enabled o deletion-protection-enabled o two-way-channel-arn Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"message-type"|"two-way-enabled"|"self-managed-opt-outs-enabled"|"opt-out-list-name"|"shared-routes-enabled"|"deletion-protection-enabled"|"two-way-channel-arn", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

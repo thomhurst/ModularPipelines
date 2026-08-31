@@ -31,19 +31,19 @@ public record AwsAppConfigCreateExtensionOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Actions { get; set; }
 
     /// <summary>
     /// The parameters accepted by the extension. You specify parameter val- ues when you associate the extension to an AppConfig resource by us- ing the CreateExtensionAssociation API action. For Lambda extension actions, these parameters are included in the Lambda request object. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (structure) A value such as an Amazon Resource Name (ARN) or an Amazon Sim- ple Notification Service topic entered in an extension when in- voked. Parameter values are specified in an extension associa- tion. For more information about extensions, see Extending work- flows in the AppConfig User Guide . Description -&gt; (string) Information about the parameter. Constraints: o min: 0 o max: 1024 Required -&gt; (boolean) A parameter value must be specified in the extension associa- tion. Dynamic -&gt; (boolean) Indicates whether this parameter's value can be supplied at the extension's action point instead of during extension as- sociation. Dynamic parameters can't be marked Required . Shorthand Syntax: KeyName1={Description=string,Required=boolean,Dynamic=boolean},KeyName2={Description=string,Required=boolean,Dynamic=boolean} JSON Syntax: {"string": { "Description": "string", "Required": true|false, "Dynamic": true|false } ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
     /// Adds one or more tags for the specified extension. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

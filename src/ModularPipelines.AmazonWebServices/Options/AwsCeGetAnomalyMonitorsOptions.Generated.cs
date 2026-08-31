@@ -25,7 +25,7 @@ public record AwsCeGetAnomalyMonitorsOptions : AwsOptions
     /// <summary>
     /// A list of cost anomaly monitor ARNs. (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--monitor-arn-list")]
+    [CliOption("--monitor-arn-list", GroupValues = true)]
     public IEnumerable<string>? MonitorArnList { get; set; }
 
     [CliOption("--cli-input-json")]

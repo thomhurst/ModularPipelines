@@ -31,7 +31,7 @@ public record AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions : AwsOp
     /// <summary>
     /// The list of test identifiers to run. If not provided, all tests for the policy are run. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--test-case-ids")]
+    [CliOption("--test-case-ids", GroupValues = true)]
     public IEnumerable<string>? TestCaseIds { get; set; }
 
     /// <summary>

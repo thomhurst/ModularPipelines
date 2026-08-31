@@ -35,16 +35,16 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions
     [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CliOption("--subscription-target-config")]
+    [CliOption("--subscription-target-config", GroupValues = true)]
     public IEnumerable<string>? SubscriptionTargetConfig { get; set; }
 
-    [CliOption("--authorized-principals")]
+    [CliOption("--authorized-principals", GroupValues = true)]
     public IEnumerable<string>? AuthorizedPrincipals { get; set; }
 
     [CliOption("--manage-access-role")]
     public string? ManageAccessRole { get; set; }
 
-    [CliOption("--applicable-asset-types")]
+    [CliOption("--applicable-asset-types", GroupValues = true)]
     public IEnumerable<string>? ApplicableAssetTypes { get; set; }
 
     /// <summary>

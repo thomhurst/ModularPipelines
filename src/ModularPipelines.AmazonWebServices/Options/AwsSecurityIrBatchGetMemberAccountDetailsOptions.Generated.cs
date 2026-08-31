@@ -24,7 +24,7 @@ public record AwsSecurityIrBatchGetMemberAccountDetailsOptions : AwsOptions
     [CliOption("--membership-id")]
     public string? MembershipId { get; set; }
 
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsCeUpdateCostCategoryDefinitionOptions : AwsOptions
     [CliOption("--rule-version")]
     public string? RuleVersion { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsCeUpdateCostCategoryDefinitionOptions : AwsOptions
     /// <summary>
     /// The split charge rules used to allocate your charges between your cost category values. Constraints: o min: 1 o max: 10 (structure) Use the split charge rule to split the cost of one cost category value across several other target values. Source -&gt; (string) [required] The cost category value that you want to split. That value can't be used as a source or a target in other split charge rules. To indicate uncategorized costs, you can use an empty string as the source. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Targets -&gt; (list) [required] The cost category values that you want to split costs across. These values can't be used as a source in other split charge rules. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Method -&gt; (string) [required] The method that's used to define how to split your source costs across your targets. Proportional - Allocates charges across your targets based on the proportional weighted cost of each target. Fixed - Allocates charges across your targets based on your defined allocation percentage. &gt;``Even`` - Allocates costs evenly across all targets. Possible values: o FIXED o PROPORTIONAL o EVEN Parameters -&gt; (list) The parameters for a split charge method. This is only re- quired for the FIXED method. Constraints: o min: 1 o max: 10 (structure) The parameters for a split charge method. Type -&gt; (string) [required] The parameter type. Possible values: o ALLOCATION_PERCENTAGES Values -&gt; (list) [required] The parameter values. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* JSON Syntax: [ { "Source": "string", "Targets": ["string", ...], "Method": "FIXED"|"PROPORTIONAL"|"EVEN", "Parameters": [ { "Type": "ALLOCATION_PERCENTAGES", "Values": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--split-charge-rules")]
+    [CliOption("--split-charge-rules", GroupValues = true)]
     public IEnumerable<string>? SplitChargeRules { get; set; }
 
     [CliOption("--cli-input-json")]

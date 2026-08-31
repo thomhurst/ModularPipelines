@@ -37,19 +37,19 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CliOption("--config")]
+    [CliOption("--config", GroupValues = true)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// Configuration for parent hours of operations. Eg: ResourceArn. For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide . Constraints: o min: 0 o max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
     /// </summary>
-    [CliOption("--parent-hours-of-operation-configs")]
+    [CliOption("--parent-hours-of-operation-configs", GroupValues = true)]
     public IEnumerable<string>? ParentHoursOfOperationConfigs { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

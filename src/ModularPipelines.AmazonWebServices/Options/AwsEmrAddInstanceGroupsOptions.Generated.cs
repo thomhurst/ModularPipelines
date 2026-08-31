@@ -24,7 +24,7 @@ public record AwsEmrAddInstanceGroupsOptions : AwsOptions
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
 
-    [CliOption("--instance-groups")]
+    [CliOption("--instance-groups", GroupValues = true)]
     public IEnumerable<string>? InstanceGroups { get; set; }
 
 }

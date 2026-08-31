@@ -33,7 +33,7 @@ public record AwsBackupGatewayCreateGatewayOptions : AwsOptions
     /// <summary>
     /// A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, num- bers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

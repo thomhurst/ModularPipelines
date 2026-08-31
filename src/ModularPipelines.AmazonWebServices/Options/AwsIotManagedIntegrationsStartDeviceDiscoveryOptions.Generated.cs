@@ -30,7 +30,7 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions
     /// <summary>
     /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. NOTE: For a DiscoveryType of CUSTOM , the string-to-string map must have a key value of Name set to a non-empty-string. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+ value -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9 _.{}:"-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--custom-protocol-detail")]
+    [CliOption("--custom-protocol-detail", GroupValues = true)]
     public IReadOnlyList<KeyValue>? CustomProtocolDetail { get; set; }
 
     /// <summary>
@@ -73,13 +73,13 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions
     /// <summary>
     /// A set of key/value pairs that are used to manage the device discov- ery request. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// Used as a filter for PLA discoveries. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.,@-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connector-device-id-list")]
+    [CliOption("--connector-device-id-list", GroupValues = true)]
     public IEnumerable<string>? ConnectorDeviceIdList { get; set; }
 
     /// <summary>

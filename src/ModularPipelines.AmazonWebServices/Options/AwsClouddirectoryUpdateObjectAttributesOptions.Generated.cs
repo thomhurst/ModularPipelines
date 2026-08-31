@@ -27,7 +27,7 @@ public record AwsClouddirectoryUpdateObjectAttributesOptions : AwsOptions
     [CliOption("--object-reference")]
     public string? ObjectReference { get; set; }
 
-    [CliOption("--attribute-updates")]
+    [CliOption("--attribute-updates", GroupValues = true)]
     public IEnumerable<string>? AttributeUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

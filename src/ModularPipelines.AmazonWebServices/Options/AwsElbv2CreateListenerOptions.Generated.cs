@@ -46,22 +46,22 @@ public record AwsElbv2CreateListenerOptions : AwsOptions
     /// <summary>
     /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an in- put. This value is not included in the output when describing a listener, but is included when describing listener certifi- cates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]
     /// </summary>
-    [CliOption("--certificates")]
+    [CliOption("--certificates", GroupValues = true)]
     public IEnumerable<string>? Certificates { get; set; }
 
-    [CliOption("--default-actions")]
+    [CliOption("--default-actions", GroupValues = true)]
     public IEnumerable<string>? DefaultActions { get; set; }
 
     /// <summary>
     /// [TLS listeners] The name of the Application-Layer Protocol Negotia- tion (ALPN) policy. You can specify one policy name. The following are the possible values: o HTTP1Only o HTTP2Only o HTTP2Optional o HTTP2Preferred o None For more information, see ALPN policies in the Network Load Bal- ancers Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--alpn-policy")]
+    [CliOption("--alpn-policy", GroupValues = true)]
     public IEnumerable<string>? AlpnPolicy { get; set; }
 
     /// <summary>
     /// The tags to assign to the listener. Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

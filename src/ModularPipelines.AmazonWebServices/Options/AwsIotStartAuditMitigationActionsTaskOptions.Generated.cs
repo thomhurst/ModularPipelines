@@ -29,7 +29,7 @@ public record AwsIotStartAuditMitigationActionsTaskOptions : AwsOptions
     [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CliOption("--audit-check-to-actions-mapping")]
+    [CliOption("--audit-check-to-actions-mapping", GroupValues = true)]
     public IReadOnlyList<KeyValue>? AuditCheckToActionsMapping { get; set; }
 
     /// <summary>

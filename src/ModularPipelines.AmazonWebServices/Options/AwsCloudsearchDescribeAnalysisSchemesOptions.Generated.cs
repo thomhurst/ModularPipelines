@@ -27,7 +27,7 @@ public record AwsCloudsearchDescribeAnalysisSchemesOptions : AwsOptions
     /// <summary>
     /// The analysis schemes you want to describe. (string) Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--analysis-scheme-names")]
+    [CliOption("--analysis-scheme-names", GroupValues = true)]
     public IEnumerable<string>? AnalysisSchemeNames { get; set; }
 
     [CliFlag("--deployed")]

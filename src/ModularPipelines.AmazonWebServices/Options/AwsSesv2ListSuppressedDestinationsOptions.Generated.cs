@@ -31,7 +31,7 @@ public record AwsSesv2ListSuppressedDestinationsOptions : AwsOptions
     /// <summary>
     /// The factors that caused the email address to be added to the sup- pression list for your account or for a specific tenant. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reasons")]
+    [CliOption("--reasons", GroupValues = true)]
     public IEnumerable<string>? Reasons { get; set; }
 
     /// <summary>

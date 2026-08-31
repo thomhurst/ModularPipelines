@@ -25,7 +25,7 @@ public record AwsQuicksightSearchDataSourcesOptions : AwsOptions
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

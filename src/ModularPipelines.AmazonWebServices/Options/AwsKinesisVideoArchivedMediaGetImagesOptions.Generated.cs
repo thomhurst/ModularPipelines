@@ -56,7 +56,7 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions
     /// <summary>
     /// The list of a key-value pair structure that contains extra parame- ters that can be applied when the image is generated. The FormatCon- fig key is the JPEGQuality , which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the im- age will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o JPEGQuality value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z_0-9]+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: JPEGQuality JSON Syntax: {"JPEGQuality": "string" ...}
     /// </summary>
-    [CliOption("--format-config")]
+    [CliOption("--format-config", GroupValues = true)]
     public IReadOnlyList<KeyValue>? FormatConfig { get; set; }
 
     /// <summary>

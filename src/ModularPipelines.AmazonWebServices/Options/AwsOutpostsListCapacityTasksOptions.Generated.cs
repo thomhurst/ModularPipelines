@@ -31,7 +31,7 @@ public record AwsOutpostsListCapacityTasksOptions : AwsOptions
     /// <summary>
     /// A list of statuses. For example, REQUESTED or WAITING_FOR_EVACUATION . (string) Possible values: o REQUESTED o IN_PROGRESS o FAILED o COMPLETED o WAITING_FOR_EVACUATION o CANCELLATION_IN_PROGRESS o CANCELLED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capacity-task-status-filter")]
+    [CliOption("--capacity-task-status-filter", GroupValues = true)]
     public IEnumerable<string>? CapacityTaskStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]

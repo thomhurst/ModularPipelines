@@ -29,7 +29,7 @@ public record AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions : A
     /// The termination credentials being updated. (structure) The SIP credentials used to authenticate requests to an Amazon Chime SDK Voice Connector. Username -&gt; (string) The RFC2617 compliant user name associated with the SIP cre- dentials, in US-ASCII format. Password -&gt; (string) The RFC2617 compliant password associated with the SIP cre- dentials, in US-ASCII format. Shorthand Syntax: Username=string,Password=string ... JSON Syntax: [ { "Username": "string", "Password": "string" } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--credentials")]
+    [CliOption("--credentials", GroupValues = true)]
     public IEnumerable<string>? Credentials { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-get-configuration-policy-associations")]
 public record AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions : AwsOptions
 {
-    [CliOption("--configuration-policy-association-identifiers")]
+    [CliOption("--configuration-policy-association-identifiers", GroupValues = true)]
     public IEnumerable<string>? ConfigurationPolicyAssociationIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

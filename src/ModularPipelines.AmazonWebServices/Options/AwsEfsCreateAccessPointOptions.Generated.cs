@@ -32,7 +32,7 @@ public record AwsEfsCreateAccessPointOptions : AwsOptions
     /// <summary>
     /// Creates tags associated with the access point. Each tag is a key-value pair, each key must be unique. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . (structure) A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters:+ - = . _ : / . Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the tag key. Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--file-system-id")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("athena", "batch-get-prepared-statement")]
 public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions
 {
-    [CliOption("--prepared-statement-names")]
+    [CliOption("--prepared-statement-names", GroupValues = true)]
     public IEnumerable<string>? PreparedStatementNames { get; set; }
 
     [CliOption("--work-group")]

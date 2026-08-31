@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "create-tags")]
 public record AwsDiscoveryCreateTagsOptions : AwsOptions
 {
-    [CliOption("--configuration-ids")]
+    [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

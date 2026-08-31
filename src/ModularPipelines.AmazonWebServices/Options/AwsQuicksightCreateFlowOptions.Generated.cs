@@ -40,7 +40,7 @@ public record AwsQuicksightCreateFlowOptions : AwsOptions
     /// <summary>
     /// Initial permissions for the flow. If omitted, the flow is created without any permissions. (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>

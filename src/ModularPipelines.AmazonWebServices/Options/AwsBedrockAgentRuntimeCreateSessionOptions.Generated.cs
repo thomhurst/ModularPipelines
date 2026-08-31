@@ -31,13 +31,13 @@ public record AwsBedrockAgentRuntimeCreateSessionOptions : AwsOptions
     /// <summary>
     /// A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language pref- erence, and the type of device they are using. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 0 o max: 5000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--session-metadata")]
+    [CliOption("--session-metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SessionMetadata { get; set; }
 
     /// <summary>
     /// Specify the key-value pairs for the tags that you want to attach to the session. Constraints: o min: 1 o max: 200 key -&gt; (string) Key of a tag Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ value -&gt; (string) Value of a tag Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

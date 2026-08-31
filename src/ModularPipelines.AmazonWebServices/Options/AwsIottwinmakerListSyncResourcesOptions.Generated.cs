@@ -31,7 +31,7 @@ public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions
     /// <summary>
     /// A list of objects that filter the request. The following filter combinations are supported: o Filter with state o Filter with ResourceType and ResourceId o Filter with ResourceType and ExternalId (tagged union structure) The sync resource filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: state, resourceType, resourceId, externalId. state -&gt; (string) The sync resource filter's state. Possible values: o INITIALIZING o PROCESSING o DELETED o IN_SYNC o ERROR resourceType -&gt; (string) The sync resource filter resource type Possible values: o ENTITY o COMPONENT_TYPE resourceId -&gt; (string) The sync resource filter resource ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ externalId -&gt; (string) The external ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ Shorthand Syntax: state=string,resourceType=string,resourceId=string,externalId=string ... JSON Syntax: [ { "state": "INITIALIZING"|"PROCESSING"|"DELETED"|"IN_SYNC"|"ERROR", "resourceType": "ENTITY"|"COMPONENT_TYPE", "resourceId": "string", "externalId": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

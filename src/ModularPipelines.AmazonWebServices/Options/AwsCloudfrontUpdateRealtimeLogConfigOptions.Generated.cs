@@ -24,13 +24,13 @@ public record AwsCloudfrontUpdateRealtimeLogConfigOptions : AwsOptions
     /// <summary>
     /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
     /// </summary>
-    [CliOption("--end-points")]
+    [CliOption("--end-points", GroupValues = true)]
     public IEnumerable<string>? EndPoints { get; set; }
 
     /// <summary>
     /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

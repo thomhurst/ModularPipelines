@@ -25,19 +25,19 @@ public record AwsComputeOptimizerGetLambdaFunctionRecommendationsOptions : AwsOp
     /// <summary>
     /// The Amazon Resource Name (ARN) of the functions for which to return recommendations. You can specify a qualified or unqualified ARN. If you specify an unqualified ARN without a function version suffix, Compute Optimizer will return recommendations for the latest ($LATEST ) version of the function. If you specify a qualified ARN with a version suffix, Com- pute Optimizer will return recommendations for the specified func- tion version. For more information about using function versions, see Using versions in the Lambda Developer Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--function-arns")]
+    [CliOption("--function-arns", GroupValues = true)]
     public IEnumerable<string>? FunctionArns { get; set; }
 
     /// <summary>
     /// The ID of the Amazon Web Services account for which to return func- tion recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of function recommendations. (structure) Describes a filter that returns a more specific list of Lambda function recommendations. Use this filter with the GetLambda- FunctionRecommendations action. You can use EBSFilter with the GetEBSVolumeRecommendations ac- tion, JobFilter with the DescribeRecommendationExportJobs ac- tion, and Filter with the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations actions. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized ). Specify FindingReasonCode to return recommendations with a specific finding reason code (for example, MemoryUnderprovi- sioned ). You can filter your Lambda function recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Lambda function recommendations. Use the tag key in the filter name and the tag value as the filter value. For exam- ple, to find all Lambda function recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Lambda func- tion recommendations. Use this filter to find all of your Lambda function recommendations that have a tag with a spe- cific key. This doesnt consider the tag value. For example, you can find your Lambda function recommendations with a tag key value of Owner or without any tag keys assigned. Possible values: o Finding o FindingReasonCode values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o Specify Optimized , NotOptimized , or Unavailable if you specify the name parameter as Finding . o Specify MemoryOverprovisioned , MemoryUnderprovisioned , InsufficientData , or Inconclusive if you specify the name parameter as FindingReasonCode . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

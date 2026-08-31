@@ -31,7 +31,7 @@ public record AwsSsmDescribeAssociationExecutionTargetsOptions : AwsOptions
     /// <summary>
     /// Filters for the request. You can specify the following filters and values. Status (EQUAL) ResourceId (EQUAL) ResourceType (EQUAL) Constraints: o min: 1 (structure) Filters for the association execution. Key -&gt; (string) [required] The key value used in the request. Possible values: o Status o ResourceId o ResourceType Value -&gt; (string) [required] The value specified for the key. Constraints: o min: 1 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "Status"|"ResourceId"|"ResourceType", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

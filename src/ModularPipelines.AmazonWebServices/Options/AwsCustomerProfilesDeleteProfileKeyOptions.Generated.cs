@@ -27,7 +27,7 @@ public record AwsCustomerProfilesDeleteProfileKeyOptions : AwsOptions
     [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CliOption("--values")]
+    [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
 
     [CliOption("--domain-name")]

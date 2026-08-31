@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("configservice", "batch-get-resource-config")]
 public record AwsConfigserviceBatchGetResourceConfigOptions : AwsOptions
 {
-    [CliOption("--resource-keys")]
+    [CliOption("--resource-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceKeys { get; set; }
 
     [CliOption("--cli-input-json")]

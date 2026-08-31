@@ -27,13 +27,13 @@ public record AwsQuicksightBatchDescribeUserLimitsOptions : AwsOptions
     /// <summary>
     /// A list of users to describe limits for. Each entry contains a user name and namespace. Constraints: o min: 1 o max: 100 (structure) Identifies a user for the BatchDescribeUserLimits operation. userName -&gt; (string) [required] The name of the user. namespace -&gt; (string) [required] The namespace of the user. Shorthand Syntax: userName=string,namespace=string ... JSON Syntax: [ { "userName": "string", "namespace": "string" } ... ]
     /// </summary>
-    [CliOption("--users")]
+    [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     /// <summary>
     /// An optional filter that limits the results to specific resource types. If you don't specify a value, the operation returns limits for all resource types. (string) The type of resource that a limit applies to. Possible values: o INDEX_STORAGE o AGENT_HOURS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

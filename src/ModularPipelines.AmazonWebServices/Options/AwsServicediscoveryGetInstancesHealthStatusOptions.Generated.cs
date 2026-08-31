@@ -28,7 +28,7 @@ public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions
     /// <summary>
     /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances , Cloud Map returns the health status for all the instances that are associated with the specified service. NOTE: To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. Constraints: o min: 1 (string) Constraints: o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     /// <summary>

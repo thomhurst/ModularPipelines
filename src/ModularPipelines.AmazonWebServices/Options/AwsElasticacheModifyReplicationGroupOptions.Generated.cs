@@ -59,13 +59,13 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     /// <summary>
     /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-security-group-names")]
+    [CliOption("--cache-security-group-names", GroupValues = true)]
     public IEnumerable<string>? CacheSecurityGroupNames { get; set; }
 
     /// <summary>
     /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -145,13 +145,13 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     /// <summary>
     /// The ID of the user group you are associating with the replication group. (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-group-ids-to-add")]
+    [CliOption("--user-group-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToAdd { get; set; }
 
     /// <summary>
     /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group. (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-group-ids-to-remove")]
+    [CliOption("--user-group-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToRemove { get; set; }
 
     [CliFlag("--remove-user-groups")]
@@ -160,7 +160,7 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     /// <summary>
     /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
-    [CliOption("--log-delivery-configurations")]
+    [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
     /// <summary>

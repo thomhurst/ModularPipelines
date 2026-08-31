@@ -28,7 +28,7 @@ public record AwsConnectStartContactConversationalAnalyticsJobOptions : AwsOptio
     [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
-    [CliOption("--analytics-modes")]
+    [CliOption("--analytics-modes", GroupValues = true)]
     public IEnumerable<string>? AnalyticsModes { get; set; }
 
     [CliOption("--analytics-configuration")]

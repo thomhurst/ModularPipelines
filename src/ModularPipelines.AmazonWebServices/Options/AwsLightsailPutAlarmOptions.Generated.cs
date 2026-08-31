@@ -55,13 +55,13 @@ public record AwsLightsailPutAlarmOptions : AwsOptions
     /// <summary>
     /// The contact protocols to use for the alarm, such as Email , SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifi- cations are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the Amazon Web Services Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an Amazon Web Services Region. (string) Possible values: o Email o SMS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--contact-protocols")]
+    [CliOption("--contact-protocols", GroupValues = true)]
     public IEnumerable<string>? ContactProtocols { get; set; }
 
     /// <summary>
     /// The alarm states that trigger a notification. An alarm has the following possible states: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state. o If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm noti- fication. o If you specify INSUFFICIENT_DATA as the alarm trigger, a notifica- tion is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state. The notification trigger defaults to ALARM if you don't specify this parameter. (string) Possible values: o OK o ALARM o INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--notification-triggers")]
+    [CliOption("--notification-triggers", GroupValues = true)]
     public IEnumerable<string>? NotificationTriggers { get; set; }
 
     [CliFlag("--notification-enabled")]
@@ -70,7 +70,7 @@ public record AwsLightsailPutAlarmOptions : AwsOptions
     /// <summary>
     /// The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

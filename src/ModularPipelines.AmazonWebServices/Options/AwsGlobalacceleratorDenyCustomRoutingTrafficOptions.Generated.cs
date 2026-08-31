@@ -30,13 +30,13 @@ public record AwsGlobalacceleratorDenyCustomRoutingTrafficOptions : AwsOptions
     /// <summary>
     /// A list of specific Amazon EC2 instance IP addresses (destination ad- dresses) in a subnet that you want to prevent from receiving traf- fic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group. Constraints: o max: 100 (string) Constraints: o max: 45 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destination-addresses")]
+    [CliOption("--destination-addresses", GroupValues = true)]
     public IEnumerable<string>? DestinationAddresses { get; set; }
 
     /// <summary>
     /// A list of specific Amazon EC2 instance ports (destination ports) in a subnet endpoint that you want to prevent from receiving traffic. Constraints: o max: 100 (integer) Constraints: o min: 1 o max: 65535 Syntax: integer integer ...
     /// </summary>
-    [CliOption("--destination-ports")]
+    [CliOption("--destination-ports", GroupValues = true)]
     public IEnumerable<string>? DestinationPorts { get; set; }
 
     [CliFlag("--deny-all-traffic-to-endpoint")]

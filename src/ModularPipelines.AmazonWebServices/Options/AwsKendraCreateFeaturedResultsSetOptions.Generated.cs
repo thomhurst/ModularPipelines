@@ -51,19 +51,19 @@ public record AwsKendraCreateFeaturedResultsSetOptions : AwsOptions
     /// <summary>
     /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: o min: 0 o max: 49 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--query-texts")]
+    [CliOption("--query-texts", GroupValues = true)]
     public IEnumerable<string>? QueryTexts { get; set; }
 
     /// <summary>
     /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for cer- tain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search re- sults. You can use the Query API to search for specific docu- ments with their document IDs included in the result items, or you can use the console. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
     /// </summary>
-    [CliOption("--featured-documents")]
+    [CliOption("--featured-documents", GroupValues = true)]
     public IEnumerable<string>? FeaturedDocuments { get; set; }
 
     /// <summary>
     /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the follow- ing symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

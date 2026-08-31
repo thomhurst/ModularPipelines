@@ -24,7 +24,7 @@ public record AwsDatasyncUntagResourceOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--keys")]
+    [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     [CliOption("--cli-input-json")]

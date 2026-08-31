@@ -24,7 +24,7 @@ public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
-    [CliOption("--position")]
+    [CliOption("--position", GroupValues = true)]
     public IEnumerable<string>? Position { get; set; }
 
     /// <summary>

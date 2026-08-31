@@ -25,7 +25,7 @@ public record AwsSqsSetQueueAttributesOptions : AwsOptions
     [CliOption("--queue-url")]
     public string? QueueUrl { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

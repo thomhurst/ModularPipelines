@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codebuild", "batch-get-projects")]
 public record AwsCodebuildBatchGetProjectsOptions : AwsOptions
 {
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -56,7 +56,7 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     /// <summary>
     /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary clus- ter is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead. NOTE: If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters . Default: system chosen Availability Zones. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--preferred-cache-cluster-azs")]
+    [CliOption("--preferred-cache-cluster-azs", GroupValues = true)]
     public IEnumerable<string>? PreferredCacheClusterAzs { get; set; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     /// <summary>
     /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabili- tyZone , ReplicaAvailabilityZones , ReplicaCount , and Slots . If you're creating a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Valkey or Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group. (structure) Node group (shard) configuration options. Each node group (shard) configuration has the following: Slots , PrimaryAvail- abilityZone , ReplicaAvailabilityZones , ReplicaCount . NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ Slots -&gt; (string) A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey . Example: "0-3999" ReplicaCount -&gt; (integer) The number of read replica nodes in this node group (shard). PrimaryAvailabilityZone -&gt; (string) The Availability Zone where the primary node of this node group (shard) is launched. ReplicaAvailabilityZones -&gt; (list) A list of Availability Zones to be used for the read repli- cas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified. (string) PrimaryOutpostArn -&gt; (string) The outpost ARN of the primary node. ReplicaOutpostArns -&gt; (list) The outpost ARN of the node replicas. (string) Shorthand Syntax: NodeGroupId=string,Slots=string,ReplicaCount=integer,PrimaryAvailabilityZone=string,ReplicaAvailabilityZones=string,string,PrimaryOutpostArn=string,ReplicaOutpostArns=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "Slots": "string", "ReplicaCount": integer, "PrimaryAvailabilityZone": "string", "ReplicaAvailabilityZones": ["string", ...], "PrimaryOutpostArn": "string", "ReplicaOutpostArns": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--node-group-configuration")]
+    [CliOption("--node-group-configuration", GroupValues = true)]
     public IEnumerable<string>? NodeGroupConfiguration { get; set; }
 
     /// <summary>
@@ -110,25 +110,25 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     /// <summary>
     /// A list of cache security group names to associate with this replica- tion group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-security-group-names")]
+    [CliOption("--cache-security-group-names", GroupValues = true)]
     public IEnumerable<string>? CacheSecurityGroupNames { get; set; }
 
     /// <summary>
     /// One or more Amazon VPC security groups associated with this replica- tion group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// A list of tags to be added to this resource. Tags are comma-sepa- rated key,value pairs (e.g. Key=``myKey`` , Value=``myKeyValue`` . You can include multiple tags as shown following: Key=``myKey`` , Value=``myKeyValue`` Key=``mySecondKey`` , Value=``mySecondKey- Value`` . Tags on replication groups will be replicated to all nodes. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A list of Amazon Resource Names (ARN) that uniquely identify the Valkey or Redis OSS RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-arns")]
+    [CliOption("--snapshot-arns", GroupValues = true)]
     public IEnumerable<string>? SnapshotArns { get; set; }
 
     /// <summary>
@@ -192,13 +192,13 @@ public record AwsElasticacheCreateReplicationGroupOptions : AwsOptions
     /// <summary>
     /// The user group to associate with the replication group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-group-ids")]
+    [CliOption("--user-group-ids", GroupValues = true)]
     public IEnumerable<string>? UserGroupIds { get; set; }
 
     /// <summary>
     /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
-    [CliOption("--log-delivery-configurations")]
+    [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
     [CliFlag("--data-tiering-enabled")]

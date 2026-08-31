@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("route53globalresolver", "update-firewall-domains")]
 public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions
 {
-    [CliOption("--domains")]
+    [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; set; }
 
     [CliOption("--firewall-domain-list-id")]

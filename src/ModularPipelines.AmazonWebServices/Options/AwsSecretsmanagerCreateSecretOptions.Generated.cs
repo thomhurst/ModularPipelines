@@ -61,13 +61,13 @@ public record AwsSecretsmanagerCreateSecretOptions : AwsOptions
     /// <summary>
     /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environ- ment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the opera- tion and returns an Access Denied error. For more information, see Control access to secrets using tags and Limit access to identities with tags that match secrets' tags . For information about how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters . If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see Service quotas for Tag- ging in the Amazon Web Services General Reference guide . (structure) A structure that contains information about a tag. Key -&gt; (string) The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A list of Regions and KMS keys to replicate secrets. Constraints: o min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the se- cret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: o min: 0 o max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]
     /// </summary>
-    [CliOption("--add-replica-regions")]
+    [CliOption("--add-replica-regions", GroupValues = true)]
     public IEnumerable<string>? AddReplicaRegions { get; set; }
 
     [CliFlag("--force-overwrite-replica-secret")]

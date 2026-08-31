@@ -25,7 +25,7 @@ public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
     /// <summary>
     /// The names of the scaling plans (up to 10). If you specify applica- tion sources, you cannot specify scaling plan names. (string) Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scaling-plan-names")]
+    [CliOption("--scaling-plan-names", GroupValues = true)]
     public IEnumerable<string>? ScalingPlanNames { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
     /// <summary>
     /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources. (structure) Represents an application source. CloudFormationStackARN -&gt; (string) The Amazon Resource Name (ARN) of a AWS CloudFormation stack. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* TagFilters -&gt; (list) A set of tags (up to 50). (structure) Represents a tag. Key -&gt; (string) The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Values -&gt; (list) The tag values (0 to 20). (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: [ { "CloudFormationStackARN": "string", "TagFilters": [ { "Key": "string", "Values": ["string", ...] } ... ] } ... ]
     /// </summary>
-    [CliOption("--application-sources")]
+    [CliOption("--application-sources", GroupValues = true)]
     public IEnumerable<string>? ApplicationSources { get; set; }
 
     [CliOption("--cli-input-json")]

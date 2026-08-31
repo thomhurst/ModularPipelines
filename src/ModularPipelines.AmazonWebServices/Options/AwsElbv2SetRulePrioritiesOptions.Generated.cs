@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("elbv2", "set-rule-priorities")]
 public record AwsElbv2SetRulePrioritiesOptions : AwsOptions
 {
-    [CliOption("--rule-priorities")]
+    [CliOption("--rule-priorities", GroupValues = true)]
     public IEnumerable<string>? RulePriorities { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,16 +33,16 @@ public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
-    [CliOption("--asset-types")]
+    [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
     [CliOption("--applicable-to")]
     public string? ApplicableTo { get; set; }
 
-    [CliOption("--approval-groups")]
+    [CliOption("--approval-groups", GroupValues = true)]
     public IEnumerable<string>? ApprovalGroups { get; set; }
 
     [CliOption("--cli-input-json")]

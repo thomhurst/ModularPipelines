@@ -55,7 +55,7 @@ public record AwsDeadlineCreateJobOptions : AwsOptions
     /// <summary>
     /// The parameters for the job. key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (tagged union structure) The details of job parameters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: int, float, string, path. int -&gt; (string) A signed integer represented as a string. Constraints: o min: 1 o max: 20 o pattern: [-]?(0|[1-9][0-9]*) float -&gt; (string) A double precision IEEE-754 floating point number represented as a string. Constraints: o min: 1 o max: 26 o pattern: [-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)? string -&gt; (string) A UTF-8 string. Constraints: o min: 0 o max: 1024 path -&gt; (string) A file system path represented as a string. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1={int=string,float=string,string=string,path=string},KeyName2={int=string,float=string,string=string,path=string} JSON Syntax: {"string": { "int": "string", "float": "string", "string": "string", "path": "string" } ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
@@ -115,7 +115,7 @@ public record AwsDeadlineCreateJobOptions : AwsOptions
     /// <summary>
     /// The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

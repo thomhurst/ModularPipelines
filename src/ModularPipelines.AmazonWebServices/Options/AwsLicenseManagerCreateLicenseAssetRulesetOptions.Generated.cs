@@ -31,13 +31,13 @@ public record AwsLicenseManagerCreateLicenseAssetRulesetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// Tags to add to the license asset ruleset. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [SecretValue]

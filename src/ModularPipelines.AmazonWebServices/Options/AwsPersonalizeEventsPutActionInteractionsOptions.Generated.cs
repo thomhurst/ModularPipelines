@@ -24,7 +24,7 @@ public record AwsPersonalizeEventsPutActionInteractionsOptions : AwsOptions
     [CliOption("--tracking-id")]
     public string? TrackingId { get; set; }
 
-    [CliOption("--action-interactions")]
+    [CliOption("--action-interactions", GroupValues = true)]
     public IEnumerable<string>? ActionInteractions { get; set; }
 
     [CliOption("--cli-input-json")]

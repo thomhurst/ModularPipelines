@@ -39,7 +39,7 @@ public record AwsLightsailUpdateBucketOptions : AwsOptions
     /// <summary>
     /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket. You can give a maximum of 10 Amazon Web Services accounts access to a bucket. Constraints: o max: 10 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--readonly-access-accounts")]
+    [CliOption("--readonly-access-accounts", GroupValues = true)]
     public IEnumerable<string>? ReadonlyAccessAccounts { get; set; }
 
     /// <summary>

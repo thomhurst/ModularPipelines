@@ -24,7 +24,7 @@ public record AwsEc2DescribePlacementGroupsOptions : AwsOptions
     /// <summary>
     /// The IDs of the placement groups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-ids")]
+    [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; set; }
 
     [CliFlag("--dry-run")]
@@ -33,13 +33,13 @@ public record AwsEc2DescribePlacementGroupsOptions : AwsOptions
     /// <summary>
     /// The names of the placement groups. Constraints: o You can specify a name only if the placement group is owned by your account. o If a placement group is shared with your account, specifying the name results in an error. You must use the GroupId parameter in- stead. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-names")]
+    [CliOption("--group-names", GroupValues = true)]
     public IEnumerable<string>? GroupNames { get; set; }
 
     /// <summary>
     /// The filters. o group-name - The name of the placement group. o group-arn - The Amazon Resource Name (ARN) of the placement group. o spread-level - The spread level for the placement group (host | rack ). o state - The state of the placement group (pending | available | deleting | deleted ). o strategy - The strategy of the placement group (cluster | spread | partition | precision-time ). o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources that have a tag with a specific key, re- gardless of the tag value. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

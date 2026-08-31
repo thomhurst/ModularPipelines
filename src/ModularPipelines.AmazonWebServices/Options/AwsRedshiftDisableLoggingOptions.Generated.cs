@@ -34,7 +34,7 @@ public record AwsRedshiftDisableLoggingOptions : AwsOptions
     /// <summary>
     /// The collection of log types to stop exporting. When LogDestination- Type is s3table , the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops pub- lishing all system tables. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-exports")]
+    [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     [CliOption("--cli-input-json")]

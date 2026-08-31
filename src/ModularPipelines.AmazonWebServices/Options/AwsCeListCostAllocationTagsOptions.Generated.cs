@@ -32,7 +32,7 @@ public record AwsCeListCostAllocationTagsOptions : AwsOptions
     /// <summary>
     /// The list of cost allocation tag keys that are returned for this re- quest. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>

@@ -26,7 +26,7 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     /// <summary>
     /// The actions that the response plan starts at the beginning of an in- cident. Constraints: o min: 0 o max: 1 (tagged union structure) The action that starts at the beginning of an incident. The re- sponse plan defines the action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ssmAutomation. ssmAutomation -&gt; (structure) The Systems Manager automation document to start as the run- book at the beginning of the incident. documentName -&gt; (string) [required] The automation document's name. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ documentVersion -&gt; (string) The automation document's version to use when running. Constraints: o min: 0 o max: 128 dynamicParameters -&gt; (map) The key-value pair to resolve dynamic parameter values when processing a Systems Manager Automation runbook. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (tagged union structure) The dynamic SSM parameter value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: variable. variable -&gt; (string) Variable dynamic parameters. A parameter value is determined when an incident is created. Possible values: o INCIDENT_RECORD_ARN o INVOLVED_RESOURCES parameters -&gt; (map) The key-value pair parameters to use when running the au- tomation document. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 512 roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that the au- tomation document will assume when running commands. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:iam::([0-9]{12})?:role/.+$ targetAccount -&gt; (string) The account that the automation document will be run in. This can be in either the management account or an appli- cation account. Possible values: o RESPONSE_PLAN_OWNER_ACCOUNT o IMPACTED_ACCOUNT JSON Syntax: [ { "ssmAutomation": { "documentName": "string", "documentVersion": "string", "dynamicParameters": {"string": { "variable": "INCIDENT_RECORD_ARN"|"INVOLVED_RESOURCES" } ...}, "parameters": {"string": ["string", ...] ...}, "roleArn": "string", "targetAccount": "RESPONSE_PLAN_OWNER_ACCOUNT"|"IMPACTED_ACCOUNT" } } ... ]
     /// </summary>
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) for the contacts and escalation plans that the response plan engages during an incident. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 2048 o pattern: ^arn:aws(-cn|-us-gov)?:ssm-con- tacts:[a-z0-9-]*:([0-9]{12}):contact/[a-z0-9_-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--engagements")]
+    [CliOption("--engagements", GroupValues = true)]
     public IEnumerable<string>? Engagements { get; set; }
 
     [CliOption("--incident-template")]
@@ -60,7 +60,7 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     /// <summary>
     /// Information about third-party services integrated into the response plan. Constraints: o min: 0 o max: 1 (tagged union structure) Information about third-party services integrated into a re- sponse plan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: pagerDutyConfiguration. pagerDutyConfiguration -&gt; (structure) Information about the PagerDuty service where the response plan creates an incident. name -&gt; (string) [required] The name of the PagerDuty configuration. Constraints: o min: 1 o max: 200 pagerDutyIncidentConfiguration -&gt; (structure) [required] Details about the PagerDuty service associated with the configuration. serviceId -&gt; (string) [required] The ID of the PagerDuty service that the response plan associates with an incident when it launches. Constraints: o min: 1 o max: 200 secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 Shorthand Syntax: pagerDutyConfiguration={name=string,pagerDutyIncidentConfiguration={serviceId=string},secretId=string} ... JSON Syntax: [ { "pagerDutyConfiguration": { "name": "string", "pagerDutyIncidentConfiguration": { "serviceId": "string" }, "secretId": "string" } } ... ]
     /// </summary>
-    [CliOption("--integrations")]
+    [CliOption("--integrations", GroupValues = true)]
     public IEnumerable<string>? Integrations { get; set; }
 
     [CliOption("--name")]
@@ -69,7 +69,7 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     /// <summary>
     /// A list of tags that you are adding to the response plan. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

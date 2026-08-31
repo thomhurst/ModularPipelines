@@ -25,7 +25,7 @@ public record AwsBcmPricingCalculatorBatchCreateBillScenarioUsageModificationOpt
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; set; }
 
-    [CliOption("--usage-modifications")]
+    [CliOption("--usage-modifications", GroupValues = true)]
     public IEnumerable<string>? UsageModifications { get; set; }
 
     /// <summary>

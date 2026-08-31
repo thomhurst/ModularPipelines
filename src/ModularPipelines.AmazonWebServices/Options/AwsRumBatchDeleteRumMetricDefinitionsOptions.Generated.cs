@@ -33,7 +33,7 @@ public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CliOption("--metric-definition-ids")]
+    [CliOption("--metric-definition-ids", GroupValues = true)]
     public IEnumerable<string>? MetricDefinitionIds { get; set; }
 
     [CliOption("--cli-input-json")]

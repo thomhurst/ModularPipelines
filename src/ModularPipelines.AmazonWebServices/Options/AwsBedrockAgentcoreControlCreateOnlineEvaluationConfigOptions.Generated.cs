@@ -48,13 +48,13 @@ public record AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions : Aw
     /// <summary>
     /// The list of evaluators to apply during online evaluation. Can in- clude both built-in evaluators and custom evaluators created with CreateEvaluator . Constraints: o min: 0 o max: 10 (tagged union structure) The reference to an evaluator used in online evaluation configu- rations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
     /// </summary>
-    [CliOption("--evaluators")]
+    [CliOption("--evaluators", GroupValues = true)]
     public IEnumerable<string>? Evaluators { get; set; }
 
     /// <summary>
     /// The list of insight types to run against agent sessions. Constraints: o min: 0 o max: 10 (structure) A reference to an insight analysis to run against sessions dur- ing evaluation. Insights provide deeper analysis beyond individ- ual evaluator scores, including failure detection, user intent clustering, and execution summarization. insightId -&gt; (string) [required] The unique identifier of the insight to run. Constraints: o pattern: (Builtin\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: insightId=string ... JSON Syntax: [ { "insightId": "string" } ... ]
     /// </summary>
-    [CliOption("--insights")]
+    [CliOption("--insights", GroupValues = true)]
     public IEnumerable<string>? Insights { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions : Aw
     /// <summary>
     /// A map of tag keys and values to assign to an AgentCore Online Evalu- ation Config. Tags enable you to categorize your resources in dif- ferent ways, for example, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

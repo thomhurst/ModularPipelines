@@ -24,7 +24,7 @@ public record AwsResiliencehubAddDraftAppVersionResourceMappingsOptions : AwsOpt
     [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CliOption("--resource-mappings")]
+    [CliOption("--resource-mappings", GroupValues = true)]
     public IEnumerable<string>? ResourceMappings { get; set; }
 
     [CliOption("--cli-input-json")]

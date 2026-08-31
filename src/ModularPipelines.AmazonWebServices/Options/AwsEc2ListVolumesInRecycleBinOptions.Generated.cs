@@ -25,7 +25,7 @@ public record AwsEc2ListVolumesInRecycleBinOptions : AwsOptions
     /// <summary>
     /// The IDs of the volumes to list. Omit this parameter to list all of the volumes that are in the Recycle Bin. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--volume-ids")]
+    [CliOption("--volume-ids", GroupValues = true)]
     public IEnumerable<string>? VolumeIds { get; set; }
 
     [CliFlag("--dry-run")]

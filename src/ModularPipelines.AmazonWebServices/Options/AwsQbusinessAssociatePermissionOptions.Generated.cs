@@ -27,13 +27,13 @@ public record AwsQbusinessAssociatePermissionOptions : AwsOptions
     [CliOption("--statement-id")]
     public string? StatementId { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific at- tributes of the request. Constraints: o min: 1 o max: 10 (structure) Defines a condition that restricts when a permission is effec- tive. Conditions allow you to control access based on specific attributes of the request. conditionOperator -&gt; (string) [required] The operator to use for the condition evaluation. This deter- mines how the condition values are compared. Possible values: o StringEquals conditionKey -&gt; (string) [required] The key for the condition. This identifies the attribute that the condition applies to. Constraints: o pattern: aws:[a-zA-Z][a-zA-Z0-9-/:]* conditionValues -&gt; (list) [required] The values to compare against using the specified condition operator. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]* Shorthand Syntax: conditionOperator=string,conditionKey=string,conditionValues=string,string ... JSON Syntax: [ { "conditionOperator": "StringEquals", "conditionKey": "string", "conditionValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--conditions")]
+    [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
     [CliOption("--principal")]

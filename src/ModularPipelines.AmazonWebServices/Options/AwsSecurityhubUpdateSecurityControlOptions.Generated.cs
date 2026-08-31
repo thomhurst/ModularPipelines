@@ -25,7 +25,7 @@ public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions
     [CliOption("--security-control-id")]
     public string? SecurityControlId { get; set; }
 
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

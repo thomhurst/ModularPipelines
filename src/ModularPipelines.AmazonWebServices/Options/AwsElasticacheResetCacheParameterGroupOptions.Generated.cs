@@ -30,7 +30,7 @@ public record AwsElasticacheResetCacheParameterGroupOptions : AwsOptions
     /// <summary>
     /// An array of parameter names to reset to their default values. If Re- setAllParameters is true , do not use ParameterNameValues . If Rese- tAllParameters is false , you must specify the name of at least one parameter to reset. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter. ParameterValue -&gt; (string) The value of the parameter. Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
     /// </summary>
-    [CliOption("--parameter-name-values")]
+    [CliOption("--parameter-name-values", GroupValues = true)]
     public IEnumerable<string>? ParameterNameValues { get; set; }
 
     [CliOption("--cli-input-json")]

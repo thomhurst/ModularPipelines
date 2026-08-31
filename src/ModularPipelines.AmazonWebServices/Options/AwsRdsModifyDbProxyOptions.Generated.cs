@@ -40,7 +40,7 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     /// <summary>
     /// The new authentication settings for the DBProxy . Constraints: o min: 0 o max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: o min: 1 o max: 1000 o pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: o min: 1 o max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connec- tions from the proxy to the underlying database. Possible values: o SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Au- rora DB cluster. These secrets are stored within Amazon Se- crets Manager. Constraints: o min: 20 o max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentica- tion for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: o DISABLED o REQUIRED o ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the cor- responding engines: o RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD o RDS for SQL Server: SQL_SERVER_AUTHENTICATION o RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: o MYSQL_NATIVE_PASSWORD o MYSQL_CACHING_SHA2_PASSWORD o POSTGRES_SCRAM_SHA_256 o POSTGRES_MD5 o SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
     /// </summary>
-    [CliOption("--auth")]
+    [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
     [CliFlag("--require-tls")]
@@ -64,7 +64,7 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     /// <summary>
     /// The new list of security groups for the DBProxy . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

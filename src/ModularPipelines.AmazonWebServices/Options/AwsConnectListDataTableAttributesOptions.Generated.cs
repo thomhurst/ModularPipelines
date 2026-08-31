@@ -31,7 +31,7 @@ public record AwsConnectListDataTableAttributesOptions : AwsOptions
     /// <summary>
     /// Optional list of specific attribute IDs to retrieve. Used for Cloud- Formation to effectively describe attributes by ID. If NextToken is provided, this parameter is ignored. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-ids")]
+    [CliOption("--attribute-ids", GroupValues = true)]
     public IEnumerable<string>? AttributeIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -27,13 +27,13 @@ public record AwsElasticbeanstalkUpdateTagsForResourceOptions : AwsOptions
     /// <summary>
     /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags-to-add")]
+    [CliOption("--tags-to-add", GroupValues = true)]
     public IEnumerable<string>? TagsToAdd { get; set; }
 
     /// <summary>
     /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd , TagsToRemove . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tags-to-remove")]
+    [CliOption("--tags-to-remove", GroupValues = true)]
     public IEnumerable<string>? TagsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

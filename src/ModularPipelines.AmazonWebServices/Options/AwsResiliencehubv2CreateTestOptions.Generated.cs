@@ -37,7 +37,7 @@ public record AwsResiliencehubv2CreateTestOptions : AwsOptions
     /// <summary>
     /// The stop conditions for the test. (structure) A CloudWatch alarm that automatically stops a test run if it breaches its threshold. source -&gt; (string) [required] The source of the stop condition. Possible values: o aws:cloudwatch:alarm o none value -&gt; (string) [required] The value of the stop condition, such as the ARN of the CloudWatch alarm. Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "aws:cloudwatch:alarm"|"none", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--stop-conditions")]
+    [CliOption("--stop-conditions", GroupValues = true)]
     public IEnumerable<string>? StopConditions { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record AwsResiliencehubv2CreateTestOptions : AwsOptions
     /// <summary>
     /// The parameter values for the test. Constraints: o min: 0 o max: 20 key -&gt; (string) The key of a test parameter. Constraints: o min: 1 o max: 256 o pattern: [\w.-]+ value -&gt; (list) Constraints: o min: 0 o max: 10 (string) A value of a test parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

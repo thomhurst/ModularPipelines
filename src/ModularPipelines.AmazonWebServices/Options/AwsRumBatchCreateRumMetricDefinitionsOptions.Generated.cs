@@ -33,7 +33,7 @@ public record AwsRumBatchCreateRumMetricDefinitionsOptions : AwsOptions
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CliOption("--metric-definitions")]
+    [CliOption("--metric-definitions", GroupValues = true)]
     public IEnumerable<string>? MetricDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

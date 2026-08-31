@@ -25,7 +25,7 @@ public record AwsEc2DescribeFastSnapshotRestoresOptions : AwsOptions
     /// <summary>
     /// The filters. The possible values are: o availability-zone : The Availability Zone of the snapshot. For ex- ample, us-east-2a . o availability-zone-id : The ID of the Availability Zone of the snapshot. For example, use2-az1 . o owner-id : The ID of the Amazon Web Services account that enabled fast snapshot restore on the snapshot. o snapshot-id : The ID of the snapshot. o state : The state of fast snapshot restores for the snapshot (en- abling | optimizing | enabled | disabling | disabled ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

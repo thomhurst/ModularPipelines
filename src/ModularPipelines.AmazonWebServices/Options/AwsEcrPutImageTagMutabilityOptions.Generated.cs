@@ -36,7 +36,7 @@ public record AwsEcrPutImageTagMutabilityOptions : AwsOptions
     /// <summary>
     /// A list of filters that specify which image tags should be excluded from the image tag mutability setting being applied. Constraints: o min: 1 o max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mu- tability settings. Possible values: o WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
     /// </summary>
-    [CliOption("--image-tag-mutability-exclusion-filters")]
+    [CliOption("--image-tag-mutability-exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ImageTagMutabilityExclusionFilters { get; set; }
 
     [CliOption("--cli-input-json")]

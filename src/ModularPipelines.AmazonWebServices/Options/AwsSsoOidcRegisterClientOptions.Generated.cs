@@ -30,19 +30,19 @@ public record AwsSsoOidcRegisterClientOptions : AwsOptions
     /// <summary>
     /// The list of scopes that are defined by the client. Upon authoriza- tion, this list is used to restrict permissions when granting an ac- cess token. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scopes")]
+    [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
     /// The list of redirect URI that are defined by the client. At comple- tion of authorization, this list is used to restrict what locations the user agent can be redirected back to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--redirect-uris")]
+    [CliOption("--redirect-uris", GroupValues = true)]
     public IEnumerable<string>? RedirectUris { get; set; }
 
     /// <summary>
     /// The list of OAuth 2.0 grant types that are defined by the client. This list is used to restrict the token granting flows available to the client. Supports the following OAuth 2.0 grant types: Authoriza- tion Code, Device Code, and Refresh Token. o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--grant-types")]
+    [CliOption("--grant-types", GroupValues = true)]
     public IEnumerable<string>? GrantTypes { get; set; }
 
     /// <summary>

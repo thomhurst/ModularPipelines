@@ -34,7 +34,7 @@ public record AwsPartnercentralAccountListConnectionsOptions : AwsOptions
     /// <summary>
     /// Filter results by specific participant identifiers. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--other-participant-identifiers")]
+    [CliOption("--other-participant-identifiers", GroupValues = true)]
     public IEnumerable<string>? OtherParticipantIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

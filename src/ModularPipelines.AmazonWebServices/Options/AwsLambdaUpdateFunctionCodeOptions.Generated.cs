@@ -64,7 +64,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     /// <summary>
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The de- fault value is x86_64 . Constraints: o min: 1 o max: 1 (string) Possible values: o x86_64 o arm64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--architectures")]
+    [CliOption("--architectures", GroupValues = true)]
     public IEnumerable<string>? Architectures { get; set; }
 
     [CliFlag("--publish")]

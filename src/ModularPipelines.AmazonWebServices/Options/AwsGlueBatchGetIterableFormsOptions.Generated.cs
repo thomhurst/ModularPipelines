@@ -27,7 +27,7 @@ public record AwsGlueBatchGetIterableFormsOptions : AwsOptions
     [CliOption("--iterable-form-name")]
     public string? IterableFormName { get; set; }
 
-    [CliOption("--item-identifiers")]
+    [CliOption("--item-identifiers", GroupValues = true)]
     public IEnumerable<string>? ItemIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,7 +37,7 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions
     /// <summary>
     /// The group to modify for the snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-names")]
+    [CliOption("--group-names", GroupValues = true)]
     public IEnumerable<string>? GroupNames { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsEc2ModifySnapshotAttributeOptions : AwsOptions
     /// <summary>
     /// The account ID to modify for the snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids")]
+    [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     [CliFlag("--dry-run")]

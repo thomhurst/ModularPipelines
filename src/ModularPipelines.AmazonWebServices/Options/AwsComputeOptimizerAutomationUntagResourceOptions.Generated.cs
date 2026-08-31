@@ -28,7 +28,7 @@ public record AwsComputeOptimizerAutomationUntagResourceOptions : AwsOptions
     [CliOption("--rule-revision")]
     public int? RuleRevision { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>

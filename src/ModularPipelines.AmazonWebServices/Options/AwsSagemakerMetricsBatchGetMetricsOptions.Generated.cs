@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker-metrics", "batch-get-metrics")]
 public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions
 {
-    [CliOption("--metric-queries")]
+    [CliOption("--metric-queries", GroupValues = true)]
     public IEnumerable<string>? MetricQueries { get; set; }
 
     [CliOption("--cli-input-json")]

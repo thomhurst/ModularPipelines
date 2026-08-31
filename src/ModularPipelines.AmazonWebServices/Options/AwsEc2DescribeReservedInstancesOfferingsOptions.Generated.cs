@@ -71,7 +71,7 @@ public record AwsEc2DescribeReservedInstancesOfferingsOptions : AwsOptions
     /// <summary>
     /// One or more Reserved Instances offering IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reserved-instances-offering-ids")]
+    [CliOption("--reserved-instances-offering-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstancesOfferingIds { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record AwsEc2DescribeReservedInstancesOfferingsOptions : AwsOptions
     /// <summary>
     /// One or more filters. o availability-zone - The Availability Zone where the Reserved In- stance can be used. o availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used. o duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000 ). o fixed-price - The purchase price of the Reserved Instance (for ex- ample, 9800.0). o instance-type - The instance type that is covered by the reserva- tion. o marketplace - Set to true to show only Reserved Instance Market- place offerings. When this filter is not used, which is the de- fault behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace are listed. o product-description - The Reserved Instance product platform de- scription (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise ). o reserved-instances-offering-id - The Reserved Instances offering ID. o scope - The scope of the Reserved Instance (Availability Zone or Region ). o usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

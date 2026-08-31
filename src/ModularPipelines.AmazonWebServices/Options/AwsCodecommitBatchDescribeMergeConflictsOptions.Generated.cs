@@ -50,7 +50,7 @@ public record AwsCodecommitBatchDescribeMergeConflictsOptions : AwsOptions
     /// <summary>
     /// The path of the target files used to describe the conflicts. If not specified, the default is all conflict files. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--file-paths")]
+    [CliOption("--file-paths", GroupValues = true)]
     public IEnumerable<string>? FilePaths { get; set; }
 
     /// <summary>

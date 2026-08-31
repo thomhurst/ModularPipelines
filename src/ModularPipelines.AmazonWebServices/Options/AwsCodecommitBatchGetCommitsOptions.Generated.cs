@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codecommit", "batch-get-commits")]
 public record AwsCodecommitBatchGetCommitsOptions : AwsOptions
 {
-    [CliOption("--commit-ids")]
+    [CliOption("--commit-ids", GroupValues = true)]
     public IEnumerable<string>? CommitIds { get; set; }
 
     [CliOption("--repository-name")]

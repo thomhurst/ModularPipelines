@@ -24,7 +24,7 @@ public record AwsResiliencehubAcceptResourceGroupingRecommendationsOptions : Aws
     [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

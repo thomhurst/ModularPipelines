@@ -25,7 +25,7 @@ public record AwsLaunchWizardListDeploymentsOptions : AwsOptions
     /// <summary>
     /// Filters to scope the results. The following filters are supported: o WORKLOAD_NAME - The name used in deployments. o DEPLOYMENT_STATUS - COMPLETED | CREATING | DELETE_IN_PROGRESS | DELETE_INITIATING | DELETE_FAILED | DELETED | FAILED | IN_PROGRESS | VALIDATING Constraints: o min: 1 (structure) A filter name and value pair that is used to return more spe- cific results from a describe operation. Filters can be used to match a set of resources by specific criteria. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Possible values: o WORKLOAD_NAME o DEPLOYMENT_STATUS values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Constraints: o min: 1 o max: 100 o pattern: .*(^(([A-Za-z])+([0-9A-Za-z\-\_])+)$).* Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "WORKLOAD_NAME"|"DEPLOYMENT_STATUS", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -92,7 +92,7 @@ public record AwsMqCreateBrokerOptions : AwsOptions
     /// <summary>
     /// The list of rules (1 minimum, 125 maximum) that authorize connec- tions to brokers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>
@@ -110,19 +110,19 @@ public record AwsMqCreateBrokerOptions : AwsOptions
     /// <summary>
     /// The list of groups that define which subnets and IP ranges the bro- ker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SIN- GLE_INSTANCE deployment requires one subnet (for example, the de- fault subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ de- ployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for Rab- bitMQ deployment has no subnet requirements when deployed with pub- lic accessibility. Deployment without public accessibility requires at least one subnet. WARNING: If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// Create tags when creating the broker. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, an adminis- trative user is required if using simple authentication and autho- rization. For brokers using OAuth2, this user is optional. When pro- vided, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. (structure) A user associated with the broker. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent bro- ker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console. ConsoleAccess -&gt; (boolean) Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not apply to RabbitMQ brokers. Groups -&gt; (list) The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Does not apply to Rab- bitMQ brokers. (string) Password -&gt; (string) [required] Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=). Username -&gt; (string) [required] The username of the broker user. The following restrictions apply to broker usernames: o For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. o para&gt;For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, un- derscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid use- name. This value must be 2-100 characters long. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Ama- zon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. ReplicationUser -&gt; (boolean) Defines if this user is intended for CRDR replication pur- poses. Shorthand Syntax: ConsoleAccess=boolean,Groups=string,string,Password=string,Username=string,ReplicationUser=boolean ... JSON Syntax: [ { "ConsoleAccess": true|false, "Groups": ["string", ...], "Password": "string", "Username": "string", "ReplicationUser": true|false } ... ]
     /// </summary>
-    [CliOption("--users")]
+    [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     /// <summary>

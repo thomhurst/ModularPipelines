@@ -33,7 +33,7 @@ public record AwsLakeformationRevokePermissionsOptions : AwsOptions
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsLakeformationRevokePermissionsOptions : AwsOptions
     /// <summary>
     /// Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals. (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions-with-grant-option")]
+    [CliOption("--permissions-with-grant-option", GroupValues = true)]
     public IEnumerable<string>? PermissionsWithGrantOption { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -49,7 +49,7 @@ public record AwsEfsCreateMountTargetOptions : AwsOptions
     /// <summary>
     /// VPC security group IDs, of the form sg-xxxxxxxx . These must be for the same VPC as the subnet specified. The maximum number of security groups depends on account quota. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups ta- ble). Constraints: o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

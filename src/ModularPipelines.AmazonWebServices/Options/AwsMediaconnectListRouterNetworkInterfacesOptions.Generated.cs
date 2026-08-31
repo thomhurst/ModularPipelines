@@ -25,7 +25,7 @@ public record AwsMediaconnectListRouterNetworkInterfacesOptions : AwsOptions
     /// <summary>
     /// The filters to apply when retrieving the list of router network in- terfaces. (tagged union structure) A filter that can be used to retrieve a list of router network interfaces. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RegionNames, NetworkInterface- Types, NameContains. RegionNames -&gt; (list) The AWS Regions of the router network interfaces to include in the filter. (string) NetworkInterfaceTypes -&gt; (list) The types of router network interfaces to include in the fil- ter. (string) Possible values: o PUBLIC o VPC NameContains -&gt; (list) The names of the router network interfaces to include in the filter. (string) Shorthand Syntax: RegionNames=string,string,NetworkInterfaceTypes=string,string,NameContains=string,string ... JSON Syntax: [ { "RegionNames": ["string", ...], "NetworkInterfaceTypes": ["PUBLIC"|"VPC", ...], "NameContains": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

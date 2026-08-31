@@ -25,7 +25,7 @@ public record AwsFsxDescribeFileCachesOptions : AwsOptions
     /// <summary>
     /// IDs of the caches whose descriptions you want to retrieve (String). Constraints: o max: 50 (string) Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--file-cache-ids")]
+    [CliOption("--file-cache-ids", GroupValues = true)]
     public IEnumerable<string>? FileCacheIds { get; set; }
 
     /// <summary>

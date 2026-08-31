@@ -40,7 +40,7 @@ public record AwsRekognitionIndexFacesOptions : AwsOptions
     /// <summary>
     /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox , Confidence , Pose , Quality , and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"] . You can request for all facial attributes by using ["ALL"] . Re- questing more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"] , the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). (string) Possible values: o DEFAULT o ALL o AGE_RANGE o BEARD o EMOTIONS o EYE_DIRECTION o EYEGLASSES o EYES_OPEN o GENDER o MOUTH_OPEN o MUSTACHE o FACE_OCCLUDED o SMILE o SUNGLASSES Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--detection-attributes")]
+    [CliOption("--detection-attributes", GroupValues = true)]
     public IEnumerable<string>? DetectionAttributes { get; set; }
 
     /// <summary>

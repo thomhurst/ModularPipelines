@@ -31,7 +31,7 @@ public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocati
     [CliOption("--revenue-attribution-revision")]
     public string? RevenueAttributionRevision { get; set; }
 
-    [CliOption("--revenue-share-allocations")]
+    [CliOption("--revenue-share-allocations", GroupValues = true)]
     public IEnumerable<string>? RevenueShareAllocations { get; set; }
 
     /// <summary>

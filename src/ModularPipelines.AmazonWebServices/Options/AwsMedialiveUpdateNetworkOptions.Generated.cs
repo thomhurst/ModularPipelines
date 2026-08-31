@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "update-network")]
 public record AwsMedialiveUpdateNetworkOptions : AwsOptions
 {
-    [CliOption("--ip-pools")]
+    [CliOption("--ip-pools", GroupValues = true)]
     public IEnumerable<string>? IpPools { get; set; }
 
     [CliOption("--name")]
@@ -30,7 +30,7 @@ public record AwsMedialiveUpdateNetworkOptions : AwsOptions
     [CliOption("--network-id")]
     public string? NetworkId { get; set; }
 
-    [CliOption("--routes")]
+    [CliOption("--routes", GroupValues = true)]
     public IEnumerable<string>? Routes { get; set; }
 
     [CliOption("--cli-input-json")]

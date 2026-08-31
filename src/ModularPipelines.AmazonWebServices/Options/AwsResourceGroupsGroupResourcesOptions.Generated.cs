@@ -24,7 +24,7 @@ public record AwsResourceGroupsGroupResourcesOptions : AwsOptions
     [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliOption("--cli-input-json")]

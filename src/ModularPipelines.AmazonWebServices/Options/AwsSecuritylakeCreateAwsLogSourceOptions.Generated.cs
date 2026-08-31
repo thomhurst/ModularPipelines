@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securitylake", "create-aws-log-source")]
 public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions
 {
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]

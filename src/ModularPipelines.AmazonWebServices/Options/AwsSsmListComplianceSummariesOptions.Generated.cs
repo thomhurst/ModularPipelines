@@ -25,7 +25,7 @@ public record AwsSsmListComplianceSummariesOptions : AwsOptions
     /// <summary>
     /// One or more compliance or inventory filters. Use a filter to return a more specific list of results. (structure) One or more filters. Use a filter to return a more specific list of results. Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 200 Values -&gt; (list) The value for which to search. Constraints: o min: 1 o max: 20 (string) Type -&gt; (string) The type of comparison that should be performed for the value: Equal, NotEqual, BeginWith, LessThan, or GreaterThan. Possible values: o EQUAL o NOT_EQUAL o BEGIN_WITH o LESS_THAN o GREATER_THAN Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "EQUAL"|"NOT_EQUAL"|"BEGIN_WITH"|"LESS_THAN"|"GREATER_THAN" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

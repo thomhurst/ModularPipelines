@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("opensearchserverless", "batch-get-vpc-endpoint")]
 public record AwsOpensearchserverlessBatchGetVpcEndpointOptions : AwsOptions
 {
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliOption("--cli-input-json")]

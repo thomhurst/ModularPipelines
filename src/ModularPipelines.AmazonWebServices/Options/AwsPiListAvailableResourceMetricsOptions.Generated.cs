@@ -28,7 +28,7 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--metric-types")]
+    [CliOption("--metric-types", GroupValues = true)]
     public IEnumerable<string>? MetricTypes { get; set; }
 
     /// <summary>

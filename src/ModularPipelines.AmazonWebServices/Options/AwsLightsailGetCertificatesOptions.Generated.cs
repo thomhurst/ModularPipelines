@@ -25,7 +25,7 @@ public record AwsLightsailGetCertificatesOptions : AwsOptions
     /// <summary>
     /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an IS- SUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status. (string) Possible values: o PENDING_VALIDATION o ISSUED o INACTIVE o EXPIRED o VALIDATION_TIMED_OUT o REVOKED o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--certificate-statuses")]
+    [CliOption("--certificate-statuses", GroupValues = true)]
     public IEnumerable<string>? CertificateStatuses { get; set; }
 
     [CliFlag("--include-certificate-details")]

@@ -47,7 +47,7 @@ public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions
     /// <summary>
     /// A list of tags to associate with the partner account for organiza- tion and billing purposes. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

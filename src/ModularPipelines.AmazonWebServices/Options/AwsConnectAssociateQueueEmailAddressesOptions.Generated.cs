@@ -28,7 +28,7 @@ public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions
     [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CliOption("--email-addresses-config")]
+    [CliOption("--email-addresses-config", GroupValues = true)]
     public IEnumerable<string>? EmailAddressesConfig { get; set; }
 
     /// <summary>

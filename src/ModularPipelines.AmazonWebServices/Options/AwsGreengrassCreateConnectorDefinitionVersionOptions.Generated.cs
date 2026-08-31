@@ -29,7 +29,7 @@ public record AwsGreengrassCreateConnectorDefinitionVersionOptions : AwsOptions
     [CliOption("--connector-definition-id")]
     public string? ConnectorDefinitionId { get; set; }
 
-    [CliOption("--connectors")]
+    [CliOption("--connectors", GroupValues = true)]
     public IEnumerable<string>? Connectors { get; set; }
 
     [CliOption("--cli-input-json")]

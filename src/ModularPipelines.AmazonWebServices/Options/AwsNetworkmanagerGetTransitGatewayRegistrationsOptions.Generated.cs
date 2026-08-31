@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetTransitGatewayRegistrationsOptions : AwsOption
     /// <summary>
     /// The Amazon Resource Names (ARNs) of one or more transit gateways. The maximum is 10. (string) Constraints: o min: 0 o max: 500 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--transit-gateway-arns")]
+    [CliOption("--transit-gateway-arns", GroupValues = true)]
     public IEnumerable<string>? TransitGatewayArns { get; set; }
 
     [CliOption("--cli-input-json")]

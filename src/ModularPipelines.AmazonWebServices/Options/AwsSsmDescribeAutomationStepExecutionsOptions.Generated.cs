@@ -28,7 +28,7 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions
     /// <summary>
     /// One or more filters to limit the number of step executions returned by the request. Constraints: o min: 1 o max: 6 (structure) A filter to limit the amount of step execution information re- turned by the call. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: o StartTimeBefore o StartTimeAfter o StepExecutionStatus o StepExecutionId o StepName o Action o ParentStepExecutionId o ParentStepIteration o ParentStepIteratorValue Values -&gt; (list) [required] The values of the filter key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "StartTimeBefore"|"StartTimeAfter"|"StepExecutionStatus"|"StepExecutionId"|"StepName"|"Action"|"ParentStepExecutionId"|"ParentStepIteration"|"ParentStepIteratorValue", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--reverse-order")]

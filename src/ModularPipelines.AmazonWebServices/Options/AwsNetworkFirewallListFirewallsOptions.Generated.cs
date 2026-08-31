@@ -25,7 +25,7 @@ public record AwsNetworkFirewallListFirewallsOptions : AwsOptions
     /// <summary>
     /// The unique identifiers of the VPCs that you want Network Firewall to retrieve the firewalls for. Leave this blank to retrieve all fire- walls that you have defined. (string) Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-ids")]
+    [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
 
     [CliOption("--cli-input-json")]

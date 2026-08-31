@@ -50,7 +50,7 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
     /// <summary>
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly spec- ify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. Constraints: o min: 0 o max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are ac- cessible from the cluster through the default S3/object store segment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . Shorthand Syntax: dbPaths=string,string,volumeName=string,onDemand=boolean ... JSON Syntax: [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ]
     /// </summary>
-    [CliOption("--segment-configurations")]
+    [CliOption("--segment-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentConfigurations { get; set; }
 
     [CliFlag("--auto-update")]
@@ -68,7 +68,7 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

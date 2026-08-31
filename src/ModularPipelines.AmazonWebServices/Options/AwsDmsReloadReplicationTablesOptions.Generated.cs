@@ -25,7 +25,7 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions
     [CliOption("--replication-config-arn")]
     public string? ReplicationConfigArn { get; set; }
 
-    [CliOption("--tables-to-reload")]
+    [CliOption("--tables-to-reload", GroupValues = true)]
     public IEnumerable<string>? TablesToReload { get; set; }
 
     /// <summary>

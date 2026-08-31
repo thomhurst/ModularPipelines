@@ -32,7 +32,7 @@ public record AwsWellarchitectedCreateAgentGoalOptions : AwsOptions
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; set; }
 
-    [CliOption("--pillars")]
+    [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
 
     [CliOption("--title")]

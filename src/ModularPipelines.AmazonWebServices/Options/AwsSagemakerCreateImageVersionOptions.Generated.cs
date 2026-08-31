@@ -39,7 +39,7 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions
     /// <summary>
     /// A list of aliases created with the image version. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aliases")]
+    [CliOption("--aliases", GroupValues = true)]
     public IEnumerable<string>? Aliases { get; set; }
 
     /// <summary>

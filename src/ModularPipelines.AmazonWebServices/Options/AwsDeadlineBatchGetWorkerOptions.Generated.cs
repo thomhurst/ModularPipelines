@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deadline", "batch-get-worker")]
 public record AwsDeadlineBatchGetWorkerOptions : AwsOptions
 {
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     [CliOption("--cli-input-json")]

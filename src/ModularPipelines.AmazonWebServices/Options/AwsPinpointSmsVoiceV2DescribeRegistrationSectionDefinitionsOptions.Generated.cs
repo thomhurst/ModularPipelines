@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationSectionDefinitionsOptions
     /// <summary>
     /// An array of paths for the registration form section. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--section-paths")]
+    [CliOption("--section-paths", GroupValues = true)]
     public IEnumerable<string>? SectionPaths { get; set; }
 
     [CliOption("--cli-input-json")]

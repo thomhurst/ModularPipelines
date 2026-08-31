@@ -26,13 +26,13 @@ public record AwsSsmSendCommandOptions : AwsOptions
     /// <summary>
     /// The IDs of the managed nodes where the command should run. Specify- ing managed node IDs is most useful when you are targeting a limited number of managed nodes, though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you prefer not to list individual node IDs, we recommend using the Targets option in- stead. Using Targets , which accepts tag key-value pairs to identify the managed nodes to send commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For more information about how to use targets, see Run commands at scale in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
     /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of managed nodes at once. Using Targets , which accepts tag key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or thousands of nodes at once. To send a command to a smaller number of managed nodes, you can use the InstanceIds option instead. For more information about how to use targets, see Run commands at scale in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--document-name")]
@@ -71,7 +71,7 @@ public record AwsSsmSendCommandOptions : AwsOptions
     /// <summary>
     /// The required and optional parameters specified in the document being run. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

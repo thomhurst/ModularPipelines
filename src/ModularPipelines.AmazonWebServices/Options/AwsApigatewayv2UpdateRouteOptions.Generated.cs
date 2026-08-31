@@ -32,7 +32,7 @@ public record AwsApigatewayv2UpdateRouteOptions : AwsOptions
     /// <summary>
     /// The authorization scopes supported by this route. (string) A string with a length between [1-64]. Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorization-scopes")]
+    [CliOption("--authorization-scopes", GroupValues = true)]
     public IEnumerable<string>? AuthorizationScopes { get; set; }
 
     /// <summary>
@@ -62,13 +62,13 @@ public record AwsApigatewayv2UpdateRouteOptions : AwsOptions
     /// <summary>
     /// The request models for the route. Supported only for WebSocket APIs. key -&gt; (string) value -&gt; (string) A string with a length between [1-128]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-models")]
+    [CliOption("--request-models", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RequestModels { get; set; }
 
     /// <summary>
     /// The request parameters for the route. Supported only for WebSocket APIs. key -&gt; (string) value -&gt; (structure) Validation constraints imposed on parameters of a request (path, query string, headers). Required -&gt; (boolean) Whether or not the parameter is required. Shorthand Syntax: KeyName1={Required=boolean},KeyName2={Required=boolean} JSON Syntax: {"string": { "Required": true|false } ...}
     /// </summary>
-    [CliOption("--request-parameters")]
+    [CliOption("--request-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
 
     [CliOption("--route-id")]

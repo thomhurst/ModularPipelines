@@ -48,7 +48,7 @@ public record AwsNetworkFirewallStartFlowCaptureOptions : AwsOptions
     [CliOption("--minimum-flow-age-in-seconds")]
     public int? MinimumFlowAgeInSeconds { get; set; }
 
-    [CliOption("--flow-filters")]
+    [CliOption("--flow-filters", GroupValues = true)]
     public IEnumerable<string>? FlowFilters { get; set; }
 
     [CliOption("--cli-input-json")]

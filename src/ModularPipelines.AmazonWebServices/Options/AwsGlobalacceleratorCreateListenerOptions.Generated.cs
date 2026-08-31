@@ -26,7 +26,7 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; set; }
 
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     [CliOption("--protocol")]

@@ -35,7 +35,7 @@ public record AwsMgnCreateNetworkMigrationDefinitionOptions : AwsOptions
     /// <summary>
     /// A list of source configurations for the network migration. Constraints: o min: 0 o max: 2 (structure) Configuration for a migration source environment. sourceEnvironment -&gt; (string) [required] The source environment type. Possible values: o NSX o VSPHERE o FORTIGATE_FIREWALL o PALO_ALTO_FIREWALL o CISCO_ACI o LOGICAL_MODEL o MODELIZE_IT o AWS_DISCOVERY_COLLECTOR sourceS3Configuration -&gt; (structure) [required] The S3 configuration for the source data. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing source data. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source data. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: sourceEnvironment=string,sourceS3Configuration={s3Bucket=string,s3BucketOwner=string,s3Key=string} ... JSON Syntax: [ { "sourceEnvironment": "NSX"|"VSPHERE"|"FORTIGATE_FIREWALL"|"PALO_ALTO_FIREWALL"|"CISCO_ACI"|"LOGICAL_MODEL"|"MODELIZE_IT"|"AWS_DISCOVERY_COLLECTOR", "sourceS3Configuration": { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" } } ... ]
     /// </summary>
-    [CliOption("--source-configurations")]
+    [CliOption("--source-configurations", GroupValues = true)]
     public IEnumerable<string>? SourceConfigurations { get; set; }
 
     [CliOption("--target-s3-configuration")]
@@ -53,13 +53,13 @@ public record AwsMgnCreateNetworkMigrationDefinitionOptions : AwsOptions
     /// <summary>
     /// Tags to assign to the network migration definition. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// Scope tags for the network migration definition to control access and organization. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--scope-tags")]
+    [CliOption("--scope-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ScopeTags { get; set; }
 
     [CliOption("--cli-input-json")]

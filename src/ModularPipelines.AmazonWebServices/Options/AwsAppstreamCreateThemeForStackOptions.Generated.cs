@@ -27,7 +27,7 @@ public record AwsAppstreamCreateThemeForStackOptions : AwsOptions
     /// <summary>
     /// The links that are displayed in the footer of the streaming applica- tion catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites. (structure) The website links that display in the catalog page footer. DisplayName -&gt; (string) The name of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$ FooterLinkURL -&gt; (string) The URL of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 1000 Shorthand Syntax: DisplayName=string,FooterLinkURL=string ... JSON Syntax: [ { "DisplayName": "string", "FooterLinkURL": "string" } ... ]
     /// </summary>
-    [CliOption("--footer-links")]
+    [CliOption("--footer-links", GroupValues = true)]
     public IEnumerable<string>? FooterLinks { get; set; }
 
     [CliOption("--title-text")]

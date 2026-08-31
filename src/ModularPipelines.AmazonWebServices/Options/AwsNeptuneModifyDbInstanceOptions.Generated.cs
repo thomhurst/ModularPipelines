@@ -46,13 +46,13 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions
     /// <summary>
     /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints: o If supplied, must match existing DBSecurityGroups. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-security-groups")]
+    [CliOption("--db-security-groups", GroupValues = true)]
     public IEnumerable<string>? DbSecurityGroups { get; set; }
 
     /// <summary>
     /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBClus- ter . Constraints: o If supplied, must match existing VpcSecurityGroupIds. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliFlag("--apply-immediately")]

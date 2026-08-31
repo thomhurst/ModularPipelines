@@ -24,7 +24,7 @@ public record AwsIamUntagServerCertificateOptions : AwsOptions
     [CliOption("--server-certificate-name")]
     public string? ServerCertificateName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

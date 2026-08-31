@@ -34,7 +34,7 @@ public record AwsConnectCreateRuleOptions : AwsOptions
     [CliOption("--function")]
     public string? Function { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--publish-status")]

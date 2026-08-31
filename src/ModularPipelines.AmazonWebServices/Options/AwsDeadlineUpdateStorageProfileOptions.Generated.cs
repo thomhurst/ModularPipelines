@@ -51,13 +51,13 @@ public record AwsDeadlineUpdateStorageProfileOptions : AwsOptions
     /// <summary>
     /// The file system location names to add. Constraints: o min: 0 o max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: o min: 0 o max: 1024 type -&gt; (string) [required] The type of file. Possible values: o SHARED o LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
     /// </summary>
-    [CliOption("--file-system-locations-to-add")]
+    [CliOption("--file-system-locations-to-add", GroupValues = true)]
     public IEnumerable<string>? FileSystemLocationsToAdd { get; set; }
 
     /// <summary>
     /// The file system location names to remove. Constraints: o min: 0 o max: 20 (structure) The details of the file system location for the resource. name -&gt; (string) [required] The location name. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* path -&gt; (string) [required] The file path. Constraints: o min: 0 o max: 1024 type -&gt; (string) [required] The type of file. Possible values: o SHARED o LOCAL Shorthand Syntax: name=string,path=string,type=string ... JSON Syntax: [ { "name": "string", "path": "string", "type": "SHARED"|"LOCAL" } ... ]
     /// </summary>
-    [CliOption("--file-system-locations-to-remove")]
+    [CliOption("--file-system-locations-to-remove", GroupValues = true)]
     public IEnumerable<string>? FileSystemLocationsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("macie2", "decline-invitations")]
 public record AwsMacie2DeclineInvitationsOptions : AwsOptions
 {
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,13 +37,13 @@ public record AwsDatazoneCreateProjectOptions : AwsOptions
     /// <summary>
     /// The resource tags of the project. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>
     /// The glossary terms that can be used in this Amazon DataZone project. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--glossary-terms")]
+    [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsDatazoneCreateProjectOptions : AwsOptions
     /// <summary>
     /// The user parameters of the project. (structure) The environment configuration user parameters. environmentId -&gt; (string) The ID of the environment. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} environmentResolvedAccount -&gt; (structure) Specifies the account/Region that is to be used during project creation for a particular blueprint. awsAccountId -&gt; (string) [required] The ID of the resolved account. Constraints: o pattern: \d{12} regionName -&gt; (string) [required] The name of the resolved Region. Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d sourceAccountPoolId -&gt; (string) The ID of the account pool. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} environmentConfigurationName -&gt; (string) The environment configuration name. Constraints: o min: 1 o max: 64 o pattern: [\w -]+ environmentParameters -&gt; (list) The environment parameters. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: environmentId=string,environmentResolvedAccount={awsAccountId=string,regionName=string,sourceAccountPoolId=string},environmentConfigurationName=string,environmentParameters=[{name=string,value=string},{name=string,value=string}] ... JSON Syntax: [ { "environmentId": "string", "environmentResolvedAccount": { "awsAccountId": "string", "regionName": "string", "sourceAccountPoolId": "string" }, "environmentConfigurationName": "string", "environmentParameters": [ { "name": "string", "value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--user-parameters")]
+    [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsDatazoneCreateProjectOptions : AwsOptions
     /// <summary>
     /// The members to be assigned to the project. (structure) A map of user or group profiles to designations that need to be assigned in the project. member -&gt; (tagged union structure) [required] The details about a project member. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: userIdentifier, groupIden- tifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. designation -&gt; (string) [required] The designation of the project membership. Possible values: o PROJECT_OWNER o PROJECT_CONTRIBUTOR o PROJECT_CATALOG_VIEWER o PROJECT_CATALOG_CONSUMER o PROJECT_CATALOG_STEWARD Shorthand Syntax: member={userIdentifier=string,groupIdentifier=string},designation=string ... JSON Syntax: [ { "member": { "userIdentifier": "string", "groupIdentifier": "string" }, "designation": "PROJECT_OWNER"|"PROJECT_CONTRIBUTOR"|"PROJECT_CATALOG_VIEWER"|"PROJECT_CATALOG_CONSUMER"|"PROJECT_CATALOG_STEWARD" } ... ]
     /// </summary>
-    [CliOption("--membership-assignments")]
+    [CliOption("--membership-assignments", GroupValues = true)]
     public IEnumerable<string>? MembershipAssignments { get; set; }
 
     [CliOption("--cli-input-json")]

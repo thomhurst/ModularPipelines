@@ -28,13 +28,13 @@ public record AwsMedialiveCreateChannelPlacementGroupOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--nodes")]
+    [CliOption("--nodes", GroupValues = true)]
     public IEnumerable<string>? Nodes { get; set; }
 
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

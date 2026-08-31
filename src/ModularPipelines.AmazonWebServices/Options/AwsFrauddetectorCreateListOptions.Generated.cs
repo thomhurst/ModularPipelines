@@ -27,7 +27,7 @@ public record AwsFrauddetectorCreateListOptions : AwsOptions
     /// <summary>
     /// The names of the elements, if providing. You can also create an empty list and add elements later using the UpdateList API. Constraints: o min: 0 o max: 100000 (string) Constraints: o min: 1 o max: 320 o pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--elements")]
+    [CliOption("--elements", GroupValues = true)]
     public IEnumerable<string>? Elements { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsFrauddetectorCreateListOptions : AwsOptions
     /// <summary>
     /// A collection of the key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

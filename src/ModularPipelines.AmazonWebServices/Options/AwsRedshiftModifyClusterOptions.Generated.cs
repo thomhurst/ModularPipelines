@@ -47,13 +47,13 @@ public record AwsRedshiftModifyClusterOptions : AwsOptions
     /// <summary>
     /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints: o Must be 1 to 255 alphanumeric characters or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cluster-security-groups")]
+    [CliOption("--cluster-security-groups", GroupValues = true)]
     public IEnumerable<string>? ClusterSecurityGroups { get; set; }
 
     /// <summary>
     /// A list of virtual private cloud (VPC) security groups to be associ- ated with the cluster. This change is asynchronously applied as soon as possible. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>

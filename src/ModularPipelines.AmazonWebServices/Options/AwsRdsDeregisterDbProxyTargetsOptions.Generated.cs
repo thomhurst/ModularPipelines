@@ -33,13 +33,13 @@ public record AwsRdsDeregisterDbProxyTargetsOptions : AwsOptions
     /// <summary>
     /// One or more DB instance identifiers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-instance-identifiers")]
+    [CliOption("--db-instance-identifiers", GroupValues = true)]
     public IEnumerable<string>? DbInstanceIdentifiers { get; set; }
 
     /// <summary>
     /// One or more DB cluster identifiers. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-cluster-identifiers")]
+    [CliOption("--db-cluster-identifiers", GroupValues = true)]
     public IEnumerable<string>? DbClusterIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

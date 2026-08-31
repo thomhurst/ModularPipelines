@@ -37,7 +37,7 @@ public record AwsConfigserviceDescribeComplianceByResourceOptions : AwsOptions
     /// <summary>
     /// Filters the results by compliance. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compliance-types")]
+    [CliOption("--compliance-types", GroupValues = true)]
     public IEnumerable<string>? ComplianceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

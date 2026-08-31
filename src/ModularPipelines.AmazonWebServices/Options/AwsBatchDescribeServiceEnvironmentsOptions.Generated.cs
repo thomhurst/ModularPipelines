@@ -25,7 +25,7 @@ public record AwsBatchDescribeServiceEnvironmentsOptions : AwsOptions
     /// <summary>
     /// An array of service environment names or ARN entries. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-environments")]
+    [CliOption("--service-environments", GroupValues = true)]
     public IEnumerable<string>? ServiceEnvironments { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("groundstation", "list-contacts")]
 public record AwsGroundstationListContactsOptions : AwsOptions
 {
-    [CliOption("--status-list")]
+    [CliOption("--status-list", GroupValues = true)]
     public IEnumerable<string>? StatusList { get; set; }
 
     [CliOption("--start-time")]

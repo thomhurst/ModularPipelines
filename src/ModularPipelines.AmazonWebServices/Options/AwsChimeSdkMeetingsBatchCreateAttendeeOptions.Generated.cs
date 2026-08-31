@@ -24,7 +24,7 @@ public record AwsChimeSdkMeetingsBatchCreateAttendeeOptions : AwsOptions
     [CliOption("--meeting-id")]
     public string? MeetingId { get; set; }
 
-    [CliOption("--attendees")]
+    [CliOption("--attendees", GroupValues = true)]
     public IEnumerable<string>? Attendees { get; set; }
 
     [CliOption("--cli-input-json")]

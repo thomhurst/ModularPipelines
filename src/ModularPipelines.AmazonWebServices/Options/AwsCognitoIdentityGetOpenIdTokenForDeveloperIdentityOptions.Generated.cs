@@ -32,13 +32,13 @@ public record AwsCognitoIdentityGetOpenIdTokenForDeveloperIdentityOptions : AwsO
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
-    [CliOption("--logins")]
+    [CliOption("--logins", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
     /// <summary>
     /// Use this operation to configure attribute mappings for custom providers. Constraints: o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--principal-tags")]
+    [CliOption("--principal-tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? PrincipalTags { get; set; }
 
     /// <summary>

@@ -25,13 +25,13 @@ public record AwsWorkspacesDescribeWorkspaceDirectoriesOptions : AwsOptions
     /// <summary>
     /// The identifiers of the directories. If the value is null, all direc- tories are retrieved. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--directory-ids")]
+    [CliOption("--directory-ids", GroupValues = true)]
     public IEnumerable<string>? DirectoryIds { get; set; }
 
     /// <summary>
     /// The names of the WorkSpace directories. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.\s-]{1,64}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--workspace-directory-names")]
+    [CliOption("--workspace-directory-names", GroupValues = true)]
     public IEnumerable<string>? WorkspaceDirectoryNames { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record AwsWorkspacesDescribeWorkspaceDirectoriesOptions : AwsOptions
     /// <summary>
     /// The filter condition for the WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the filter conditions for the WorkSpaces to return. Name -&gt; (string) [required] The name of the WorkSpaces to filter. Possible values: o USER_IDENTITY_TYPE o WORKSPACE_TYPE Values -&gt; (list) [required] The values for filtering WorkSpaces Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\\/\?-_]{0,64}$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "USER_IDENTITY_TYPE"|"WORKSPACE_TYPE", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

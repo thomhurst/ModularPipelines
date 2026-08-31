@@ -24,7 +24,7 @@ public record AwsGameliftResumeGameServerGroupOptions : AwsOptions
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; set; }
 
-    [CliOption("--resume-actions")]
+    [CliOption("--resume-actions", GroupValues = true)]
     public IEnumerable<string>? ResumeActions { get; set; }
 
     [CliOption("--cli-input-json")]

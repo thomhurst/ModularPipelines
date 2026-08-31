@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "enable-insight-rules")]
 public record AwsCloudwatchEnableInsightRulesOptions : AwsOptions
 {
-    [CliOption("--rule-names")]
+    [CliOption("--rule-names", GroupValues = true)]
     public IEnumerable<string>? RuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

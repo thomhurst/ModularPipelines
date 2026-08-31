@@ -32,7 +32,7 @@ public record AwsGreengrassCreateFunctionDefinitionVersionOptions : AwsOptions
     [CliOption("--function-definition-id")]
     public string? FunctionDefinitionId { get; set; }
 
-    [CliOption("--functions")]
+    [CliOption("--functions", GroupValues = true)]
     public IEnumerable<string>? Functions { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -51,19 +51,19 @@ public record AwsDatazoneUpdateNotebookOptions : AwsOptions
     /// <summary>
     /// The updated ordered list of cells in the notebook. Constraints: o min: 0 o max: 200 (structure) The information about a cell in a notebook run in Amazon Sage- Maker Unified Studio. Shorthand Syntax: ... JSON Syntax: [ { } ... ]
     /// </summary>
-    [CliOption("--cell-order")]
+    [CliOption("--cell-order", GroupValues = true)]
     public IEnumerable<string>? CellOrder { get; set; }
 
     /// <summary>
     /// The updated metadata for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata")]
+    [CliOption("--metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// The updated sensitive parameters for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

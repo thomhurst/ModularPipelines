@@ -26,7 +26,7 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions
     /// <summary>
     /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-identifiers")]
+    [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
     [CliFlag("--include-linked-accounts")]
@@ -47,7 +47,7 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions
     /// <summary>
     /// Filters the results by data source characteristics to include only log groups associated with the specified data sources. Constraints: o min: 1 o max: 5 (structure) Filter criteria for data sources, used to specify which data sources to include in operations based on name and type. name -&gt; (string) [required] The name pattern to filter data sources by. type -&gt; (string) The type pattern to filter data sources by. Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
-    [CliOption("--data-sources")]
+    [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     [CliOption("--group-by")]

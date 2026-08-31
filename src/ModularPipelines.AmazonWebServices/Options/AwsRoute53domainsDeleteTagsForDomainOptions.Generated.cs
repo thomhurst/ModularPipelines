@@ -24,7 +24,7 @@ public record AwsRoute53domainsDeleteTagsForDomainOptions : AwsOptions
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--tags-to-delete")]
+    [CliOption("--tags-to-delete", GroupValues = true)]
     public IEnumerable<string>? TagsToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

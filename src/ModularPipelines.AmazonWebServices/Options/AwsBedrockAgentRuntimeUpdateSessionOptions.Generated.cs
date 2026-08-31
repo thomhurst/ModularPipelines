@@ -28,7 +28,7 @@ public record AwsBedrockAgentRuntimeUpdateSessionOptions : AwsOptions
     /// <summary>
     /// A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language pref- erence, and the type of device they are using. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 0 o max: 5000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--session-metadata")]
+    [CliOption("--session-metadata", GroupValues = true)]
     public IReadOnlyList<KeyValue>? SessionMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

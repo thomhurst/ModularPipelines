@@ -30,13 +30,13 @@ public record AwsEntityresolutionUpdateIdMappingWorkflowOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--input-source-config")]
+    [CliOption("--input-source-config", GroupValues = true)]
     public IEnumerable<string>? InputSourceConfig { get; set; }
 
     /// <summary>
     /// A list of OutputSource objects, each of which contains fields out- putS3Path and KMSArn . Constraints: o min: 1 o max: 1 (structure) The output source for the ID mapping workflow. KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: KMSArn=string,outputS3Path=string ... JSON Syntax: [ { "KMSArn": "string", "outputS3Path": "string" } ... ]
     /// </summary>
-    [CliOption("--output-source-config")]
+    [CliOption("--output-source-config", GroupValues = true)]
     public IEnumerable<string>? OutputSourceConfig { get; set; }
 
     [CliOption("--id-mapping-techniques")]

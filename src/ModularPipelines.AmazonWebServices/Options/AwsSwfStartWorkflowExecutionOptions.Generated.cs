@@ -58,7 +58,7 @@ public record AwsSwfStartWorkflowExecutionOptions : AwsOptions
     /// <summary>
     /// The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosed- WorkflowExecutions and specifying a TagFilter . Constraints: o max: 5 (string) Constraints: o min: 0 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>

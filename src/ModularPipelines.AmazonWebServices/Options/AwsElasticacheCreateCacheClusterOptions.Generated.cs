@@ -47,7 +47,7 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     /// <summary>
     /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached. NOTE: If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associ- ated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes . If you want all the nodes in the same Availability Zone, use Pre- ferredAvailabilityZone instead, or repeat the Availability Zone mul- tiple times in the list. Default: System chosen Availability Zones. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--preferred-availability-zones")]
+    [CliOption("--preferred-availability-zones", GroupValues = true)]
     public IEnumerable<string>? PreferredAvailabilityZones { get; set; }
 
     /// <summary>
@@ -89,25 +89,25 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     /// <summary>
     /// A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-security-group-names")]
+    [CliOption("--cache-security-group-names", GroupValues = true)]
     public IEnumerable<string>? CacheSecurityGroupNames { get; set; }
 
     /// <summary>
     /// One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// A list of tags to be added to this resource. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot con- tain any commas. NOTE: This parameter is only valid if the Engine parameter is redis . Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-arns")]
+    [CliOption("--snapshot-arns", GroupValues = true)]
     public IEnumerable<string>? SnapshotArns { get; set; }
 
     /// <summary>
@@ -171,13 +171,13 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     /// <summary>
     /// The outpost ARNs in which the cache cluster is created. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--preferred-outpost-arns")]
+    [CliOption("--preferred-outpost-arns", GroupValues = true)]
     public IEnumerable<string>? PreferredOutpostArns { get; set; }
 
     /// <summary>
     /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
-    [CliOption("--log-delivery-configurations")]
+    [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
     [CliFlag("--transit-encryption-enabled")]

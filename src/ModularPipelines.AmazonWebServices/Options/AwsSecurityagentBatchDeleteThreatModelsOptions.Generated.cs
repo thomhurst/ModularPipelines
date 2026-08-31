@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-delete-threat-models")]
 public record AwsSecurityagentBatchDeleteThreatModelsOptions : AwsOptions
 {
-    [CliOption("--threat-model-ids")]
+    [CliOption("--threat-model-ids", GroupValues = true)]
     public IEnumerable<string>? ThreatModelIds { get; set; }
 
     [CliOption("--agent-space-id")]

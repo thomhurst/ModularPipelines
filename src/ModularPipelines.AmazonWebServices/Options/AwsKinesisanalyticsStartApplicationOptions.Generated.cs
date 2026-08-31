@@ -24,7 +24,7 @@ public record AwsKinesisanalyticsStartApplicationOptions : AwsOptions
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CliOption("--input-configurations")]
+    [CliOption("--input-configurations", GroupValues = true)]
     public IEnumerable<string>? InputConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

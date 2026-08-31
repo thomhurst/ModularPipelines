@@ -25,7 +25,7 @@ public record AwsWorkspacesInstancesListWorkspaceInstancesOptions : AwsOptions
     /// <summary>
     /// Filter WorkSpaces Instances by their current provisioning states. (string) Possible values: o ALLOCATING o ALLOCATED o DEALLOCATING o DEALLOCATED o ERROR_ALLOCATING o ERROR_DEALLOCATING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--provision-states")]
+    [CliOption("--provision-states", GroupValues = true)]
     public IEnumerable<string>? ProvisionStates { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions
     /// <summary>
     /// The user parameters of this Amazon DataZone blueprint. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: o pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: o min: 0 o max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after cre- ation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
     /// </summary>
-    [CliOption("--user-parameters")]
+    [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -27,7 +27,7 @@ public record AwsCloudsearchDescribeExpressionsOptions : AwsOptions
     /// <summary>
     /// Limits the `` DescribeExpressions`` response to the specified ex- pressions. If not specified, all expressions are shown. (string) Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--expression-names")]
+    [CliOption("--expression-names", GroupValues = true)]
     public IEnumerable<string>? ExpressionNames { get; set; }
 
     [CliFlag("--deployed")]

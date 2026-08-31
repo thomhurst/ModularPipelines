@@ -25,7 +25,7 @@ public record AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions : AwsO
     [CliOption("--report-generator-name")]
     public string? ReportGeneratorName { get; set; }
 
-    [CliOption("--type")]
+    [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     [CliOption("--report-context")]
@@ -47,7 +47,7 @@ public record AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions : AwsO
     /// <summary>
     /// Tags to add to the report generator. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

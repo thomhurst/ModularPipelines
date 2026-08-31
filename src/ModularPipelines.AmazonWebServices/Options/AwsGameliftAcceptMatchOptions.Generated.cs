@@ -24,7 +24,7 @@ public record AwsGameliftAcceptMatchOptions : AwsOptions
     [CliOption("--ticket-id")]
     public string? TicketId { get; set; }
 
-    [CliOption("--player-ids")]
+    [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; set; }
 
     [CliOption("--acceptance-type")]

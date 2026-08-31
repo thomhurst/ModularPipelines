@@ -30,7 +30,7 @@ public record AwsEcrPublicBatchCheckLayerAvailabilityOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliOption("--layer-digests")]
+    [CliOption("--layer-digests", GroupValues = true)]
     public IEnumerable<string>? LayerDigests { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -51,7 +51,7 @@ public record AwsConnectCreateUserOptions : AwsOptions
     [CliOption("--directory-user-id")]
     public string? DirectoryUserId { get; set; }
 
-    [CliOption("--security-profile-ids")]
+    [CliOption("--security-profile-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityProfileIds { get; set; }
 
     [CliOption("--routing-profile-id")]
@@ -69,37 +69,37 @@ public record AwsConnectCreateUserOptions : AwsOptions
     /// <summary>
     /// The list of auto-accept configuration settings for each channel. (structure) Configuration settings for auto-accept for a specific channel. Channel -&gt; (string) [required] The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AutoAccept -&gt; (boolean) [required] Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel. AgentFirstCallbackAutoAccept -&gt; (boolean) Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel. Shorthand Syntax: Channel=string,AutoAccept=boolean,AgentFirstCallbackAutoAccept=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AutoAccept": true|false, "AgentFirstCallbackAutoAccept": true|false } ... ]
     /// </summary>
-    [CliOption("--auto-accept-configs")]
+    [CliOption("--auto-accept-configs", GroupValues = true)]
     public IEnumerable<string>? AutoAcceptConfigs { get; set; }
 
     /// <summary>
     /// The list of after contact work (ACW) timeout configuration settings for each channel. (structure) Configuration settings for after contact work (ACW) timeout for a specific channel. Channel -&gt; (string) [required] The channel for this ACW timeout configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AfterContactWorkConfig -&gt; (structure) [required] The ACW timeout settings for this channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefi- nite ACW time. Constraints: o min: 0 AgentFirstCallbackAfterContactWorkConfig -&gt; (structure) The ACW timeout settings for agent-first callbacks. This set- ting only applies to the VOICE channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefi- nite ACW time. Constraints: o min: 0 Shorthand Syntax: Channel=string,AfterContactWorkConfig={AfterContactWorkTimeLimit=integer},AgentFirstCallbackAfterContactWorkConfig={AfterContactWorkTimeLimit=integer} ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer }, "AgentFirstCallbackAfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer } } ... ]
     /// </summary>
-    [CliOption("--after-contact-work-configs")]
+    [CliOption("--after-contact-work-configs", GroupValues = true)]
     public IEnumerable<string>? AfterContactWorkConfigs { get; set; }
 
     /// <summary>
     /// The list of phone number configuration settings for each channel. (structure) Configuration settings for phone type and phone number. Channel -&gt; (string) [required] The channel for this phone number configuration. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL PhoneType -&gt; (string) [required] The phone type. Valid values: SOFT_PHONE, DESK_PHONE. Possible values: o SOFT_PHONE o DESK_PHONE PhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ Shorthand Syntax: Channel=string,PhoneType=string,PhoneNumber=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "PhoneNumber": "string" } ... ]
     /// </summary>
-    [CliOption("--phone-number-configs")]
+    [CliOption("--phone-number-configs", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberConfigs { get; set; }
 
     /// <summary>
     /// The list of persistent connection configuration settings for each channel. (structure) Configuration settings for persistent connection for a specific channel. Channel -&gt; (string) [required] Configuration settings for persistent connection. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL PersistentConnection -&gt; (boolean) [required] Indicates whether persistent connection is enabled. When en- abled, the agent's connection is maintained after a call ends, enabling subsequent calls to connect faster. Shorthand Syntax: Channel=string,PersistentConnection=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PersistentConnection": true|false } ... ]
     /// </summary>
-    [CliOption("--persistent-connection-configs")]
+    [CliOption("--persistent-connection-configs", GroupValues = true)]
     public IEnumerable<string>? PersistentConnectionConfigs { get; set; }
 
     /// <summary>
     /// The list of voice enhancement configuration settings for each chan- nel. (structure) Configuration settings for voice enhancement. Channel -&gt; (string) [required] The channel for this voice enhancement configuration. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL VoiceEnhancementMode -&gt; (string) [required] The voice enhancement mode. Possible values: o VOICE_ISOLATION o NOISE_SUPPRESSION o NONE Shorthand Syntax: Channel=string,VoiceEnhancementMode=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "VoiceEnhancementMode": "VOICE_ISOLATION"|"NOISE_SUPPRESSION"|"NONE" } ... ]
     /// </summary>
-    [CliOption("--voice-enhancement-configs")]
+    [CliOption("--voice-enhancement-configs", GroupValues = true)]
     public IEnumerable<string>? VoiceEnhancementConfigs { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

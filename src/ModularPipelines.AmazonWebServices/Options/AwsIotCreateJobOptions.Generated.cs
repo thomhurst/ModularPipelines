@@ -26,7 +26,7 @@ public record AwsIotCreateJobOptions : AwsOptions
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
@@ -80,7 +80,7 @@ public record AwsIotCreateJobOptions : AwsOptions
     /// <summary>
     /// Metadata which can be used to manage the job. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -104,7 +104,7 @@ public record AwsIotCreateJobOptions : AwsOptions
     /// <summary>
     /// Parameters of an Amazon Web Services managed template that you can specify to create the job document. NOTE: documentParameters can only be used when creating jobs from Ama- zon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ value -&gt; (string) Constraints: o min: 1 o max: 30720 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--document-parameters")]
+    [CliOption("--document-parameters", GroupValues = true)]
     public IReadOnlyList<KeyValue>? DocumentParameters { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record AwsIotCreateJobOptions : AwsOptions
     /// <summary>
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package ver- sion must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle . Note: The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed. (string) Constraints: o min: 1 o max: 1600 o pattern: ^arn:[!-~]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destination-package-versions")]
+    [CliOption("--destination-package-versions", GroupValues = true)]
     public IEnumerable<string>? DestinationPackageVersions { get; set; }
 
     [CliOption("--cli-input-json")]

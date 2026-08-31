@@ -24,7 +24,7 @@ public record AwsEc2DeleteVpcEndpointConnectionNotificationsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--connection-notification-ids")]
+    [CliOption("--connection-notification-ids", GroupValues = true)]
     public IEnumerable<string>? ConnectionNotificationIds { get; set; }
 
     [CliOption("--cli-input-json")]

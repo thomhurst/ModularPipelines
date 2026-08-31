@@ -28,7 +28,7 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions
     /// <summary>
     /// The filters. (structure) Information about a Savings Plan rate filter. name -&gt; (string) The filter name. Possible values: o region o instanceType o productDescription o tenancy o productType o serviceCode o usageType o operation values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceType"|"productDescription"|"tenancy"|"productType"|"serviceCode"|"usageType"|"operation", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

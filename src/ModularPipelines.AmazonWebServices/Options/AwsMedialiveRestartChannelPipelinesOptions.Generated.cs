@@ -24,7 +24,7 @@ public record AwsMedialiveRestartChannelPipelinesOptions : AwsOptions
     [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
-    [CliOption("--pipeline-ids")]
+    [CliOption("--pipeline-ids", GroupValues = true)]
     public IEnumerable<string>? PipelineIds { get; set; }
 
     [CliOption("--cli-input-json")]

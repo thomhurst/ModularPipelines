@@ -48,25 +48,25 @@ public record AwsMigrationhuborchestratorCreateWorkflowStepOptions : AwsOptions
     /// <summary>
     /// The servers on which a step will be run. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--step-target")]
+    [CliOption("--step-target", GroupValues = true)]
     public IEnumerable<string>? StepTarget { get; set; }
 
     /// <summary>
     /// The key value pairs added for the expected output. (structure) The output of a step. name -&gt; (string) The name of the step. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]* dataType -&gt; (string) The data type of the output. Possible values: o STRING o INTEGER o STRINGLIST o STRINGMAP required -&gt; (boolean) Determine if an output is required from a step. value -&gt; (tagged union structure) The value of the output. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: integerValue, stringValue, listOfStringValue. integerValue -&gt; (integer) The integer value. stringValue -&gt; (string) The string value. Constraints: o min: 0 o max: 2048 listOfStringValue -&gt; (list) The list of string value. (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: name=string,dataType=string,required=boolean,value={integerValue=integer,stringValue=string,listOfStringValue=[string,string]} ... JSON Syntax: [ { "name": "string", "dataType": "STRING"|"INTEGER"|"STRINGLIST"|"STRINGMAP", "required": true|false, "value": { "integerValue": integer, "stringValue": "string", "listOfStringValue": ["string", ...] } } ... ]
     /// </summary>
-    [CliOption("--outputs")]
+    [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>
     /// The previous step. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--previous")]
+    [CliOption("--previous", GroupValues = true)]
     public IEnumerable<string>? Previous { get; set; }
 
     /// <summary>
     /// The next step. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--next")]
+    [CliOption("--next", GroupValues = true)]
     public IEnumerable<string>? Next { get; set; }
 
     [CliOption("--cli-input-json")]
