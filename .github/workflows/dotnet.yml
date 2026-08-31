@@ -27,6 +27,11 @@ jobs:
     name: Fast fail
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    outputs:
+      is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
+      integration_package: ${{ steps.generated_integration.outputs.package }}
+      integration_solution: ${{ steps.generated_integration.outputs.solution }}
+      integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
     permissions:
       contents: read
     steps:
@@ -34,6 +39,46 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Detect generated integration pull request
+        id: generated_integration
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          $changedPaths = @()
+          $headRef = 'not-a-generated-pull-request'
+
+          if ($env:EVENT_NAME -eq 'pull_request') {
+            $headRef = $env:HEAD_REF
+            $baseSha = git merge-base "origin/$($env:BASE_REF)" $env:PR_HEAD_SHA
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
+              Write-Error 'Unable to determine the pull request merge base.'
+              exit 1
+            }
+
+            $changedPaths = @(git diff --name-only --diff-filter=ACMRTD $baseSha $env:PR_HEAD_SHA)
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+          }
+
+          ./scripts/Resolve-GeneratedIntegrationValidation.ps1 `
+            -HeadRef $headRef `
+            -HeadRepository $env:HEAD_REPOSITORY `
+            -PullRequestAuthor $env:PR_AUTHOR `
+            -Repository $env:REPOSITORY `
+            -ChangedPath $changedPaths `
+            -RepositoryRoot $env:GITHUB_WORKSPACE `
+            -GitHubOutput $env:GITHUB_OUTPUT
+      - name: Test generated integration validation routing
+        shell: pwsh
+        run: ./scripts/Test-ResolveGeneratedIntegrationValidation.ps1
       - name: Verify public API baseline coverage
         shell: pwsh
         run: ./scripts/Assert-PublicApiBaselines.ps1
@@ -316,7 +361,9 @@ jobs:
   pipeline:
     name: ${{ matrix.check_name }}
     needs: fast-fail
-    if: always()
+    # Generated-options PRs use the one-tool validation job below. Main pushes and
+    # every other PR retain the complete repository pipeline.
+    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
@@ -499,7 +546,9 @@ jobs:
   cross-platform-build:
     name: build (${{ matrix.os }})
     needs: fast-fail
-    if: always()
+    # Avoid compiling every integration on Windows and macOS for generated one-tool PRs.
+    # Main pushes still exercise the full cross-platform solution list.
+    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
     permissions:
       contents: read
     strategy:
@@ -558,6 +607,80 @@ jobs:
             }
             Write-Output "::endgroup::"
           }
+
+  generated-integration:
+    name: generated integration (${{ needs.fast-fail.outputs.integration_package }})
+    needs: fast-fail
+    if: ${{ always() && needs.fast-fail.outputs.is_generated_integration == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    env:
+      MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
+
+    steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-generated-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-generated-
+            ${{ runner.os }}-nuget-
+      - name: Build shared core
+        shell: bash
+        run: |
+          dotnet restore ModularPipelines.slnx
+          dotnet build ModularPipelines.slnx -c Release --no-restore
+      - name: Increase swap space for generated gcloud validation
+        if: needs.fast-fail.outputs.integration_package == 'ModularPipelines.Google'
+        shell: bash
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+      - name: Build changed integration
+        shell: bash
+        env:
+          INTEGRATION_PACKAGE: ${{ needs.fast-fail.outputs.integration_package }}
+          INTEGRATION_SOLUTION: ${{ needs.fast-fail.outputs.integration_solution }}
+        run: |
+          BUILD_ARGS=()
+          if [[ "$INTEGRATION_PACKAGE" == "ModularPipelines.Google" ]]; then
+            BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
+          fi
+          dotnet restore "$INTEGRATION_SOLUTION"
+          dotnet build "$INTEGRATION_SOLUTION" -c Release --no-restore "${BUILD_ARGS[@]}"
+      - name: Test changed integration
+        if: needs.fast-fail.outputs.integration_test_project != ''
+        shell: bash
+        env:
+          TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}
+        run: |
+          dotnet run \
+            --project "$TEST_PROJECT" \
+            --configuration Release \
+            --framework net10.0 \
+            --no-build \
+            --no-restore
 
   trim-aot:
     name: trim and Native AOT
