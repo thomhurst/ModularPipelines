@@ -658,6 +658,28 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Option_Annotations_Are_Parsed_In_Any_Order()
+    {
+        const string helpText = """
+            Command
+                az example create : Create an example.
+
+            Optional Arguments
+                --required-preview VALUE [Required] [Preview] : First value.
+                --preview-required VALUE [Preview] [Required] : Second value.
+                --many-tags VALUE [Experimental] [Preview] [Required] : Third value.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "example", "create"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options).Count().IsEqualTo(3);
+            await Assert.That(command.Options.All(option => option.IsRequired)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Unrelated_IsLinux_Remains_A_Presence_Only_Flag()
     {
         const string helpText = """
