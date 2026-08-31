@@ -149,4 +149,10 @@ public record ChocoSourceOptions : ChocoOptions
     [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
     public string? Priority { get; set; }
 
+    /// <summary>
+    /// The [list] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? List { get; set; }
+
 }

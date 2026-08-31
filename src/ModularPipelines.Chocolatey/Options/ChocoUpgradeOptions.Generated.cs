@@ -23,11 +23,6 @@ public record ChocoUpgradeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pkg
 ) : ChocoOptions
 {
-    public ChocoUpgradeOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
     /// </summary>

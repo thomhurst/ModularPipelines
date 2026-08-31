@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Chocolatey.Services;
 
 namespace ModularPipelines.Chocolatey.Extensions;
@@ -31,4 +30,5 @@ public static class ChocoExtensions
         services.TryAddScoped<IChoco, Services.Choco>();
         return services;
     }
+
 }

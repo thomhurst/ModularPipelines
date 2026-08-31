@@ -160,4 +160,10 @@ public record ChocoListOptions : ChocoOptions
     [CliFlag("--ignore-pinned")]
     public bool? IgnorePinned { get; set; }
 
+    /// <summary>
+    /// The filter operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Filter { get; set; }
+
 }

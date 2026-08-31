@@ -118,4 +118,10 @@ public record ChocoCacheOptions : ChocoOptions
     [CliFlag("--expired")]
     public bool? Expired { get; set; }
 
+    /// <summary>
+    /// The [list] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? List { get; set; }
+
 }
