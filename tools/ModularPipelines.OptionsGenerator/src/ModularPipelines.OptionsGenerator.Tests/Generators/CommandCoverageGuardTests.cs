@@ -1,5 +1,7 @@
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
@@ -129,6 +131,154 @@ public class CommandCoverageGuardTests
             await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.AddedCommands).IsEquivalentTo(["fake init"]);
             await Assert.That(current.RemovedCommands).IsEquivalentTo(["fake list-engines"]);
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task BlanketApproval_RejectsTruncatedAwsServiceScrape()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var baselineCommands = new[]
+        {
+            "aws apigateway get-model",
+            "aws ec2 describe-instances",
+            "aws ec2 modify-vpc-attribute",
+            "aws efs create-file-system",
+            "aws iam create-role",
+            "aws lambda create-function",
+            "aws s3api create-bucket",
+            "aws sts get-caller-identity",
+        };
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(baselineCommands.Select(Command).ToArray()) with { ToolVersion = "aws-cli/2.36.29" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws sts get-caller-identity")) with { ToolVersion = "aws-cli/2.36.35" },
+                outputDirectory,
+                approveShrinkage: true);
+
+            await Assert.That(current.Violations).Contains(
+                violation => violation.Contains("Blanket approval cannot authorize 7 command removals", StringComparison.Ordinal)
+                             && violation.Contains("aws-cli/2.36.29", StringComparison.Ordinal)
+                             && violation.Contains("aws-cli/2.36.35", StringComparison.Ordinal)
+                             && violation.Contains("aws apigateway get-model", StringComparison.Ordinal)
+                             && violation.Contains("explicit command coverage exclusions", StringComparison.Ordinal));
+            await Assert.That(current.PreviousCommandCount).IsEqualTo(8);
+            await Assert.That(current.PreviousToolVersion).IsEqualTo("aws-cli/2.36.29");
+            await Assert.That(current.ShrinkageApproved).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CoverageFailureDiagnostics_PreserveRelevantRawHelpAndMissingParents()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws apigateway get-model"),
+                    Command("aws ec2 describe-instances"),
+                    Command("aws ec2 modify-vpc-attribute"),
+                    Command("aws efs create-file-system"),
+                    Command("aws iam create-role"),
+                    Command("aws lambda create-function"),
+                    Command("aws s3api create-bucket")) with
+                {
+                    ToolName = "aws",
+                    ToolVersion = "aws-cli/2.36.29",
+                },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with
+                {
+                    ToolName = "aws",
+                    ToolVersion = "aws-cli/2.36.35",
+                },
+                outputDirectory,
+                approveShrinkage: true);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(
+                ["aws"],
+                "help",
+                Result("RAW ROOT HELP: ec2 only"));
+            provenance.Record(
+                ["aws", "ec2"],
+                "ec2 help",
+                Result("RAW EC2 HELP: describe-instances only"));
+            provenance.PreserveGroupHelp(
+                ["aws", "ec2"],
+                "RAW EC2 HELP: describe-instances only");
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            var json = await File.ReadAllTextAsync(path!);
+
+            await Assert.That(json).Contains("RAW ROOT HELP: ec2 only");
+            await Assert.That(json).Contains("RAW EC2 HELP: describe-instances only");
+            await Assert.That(json).Contains("aws apigateway");
+            await Assert.That(json).Contains("aws-cli/2.36.29");
+            await Assert.That(json).Contains("aws-cli/2.36.35");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task DocumentedExclusions_AllowMassRemovalWithoutBlanketApproval()
+    {
+        var outputDirectory = CreateOutputDirectory();
+        var removedCommands = Enumerable.Range(1, 6)
+            .Select(index => $"fake removed-{index}")
+            .ToArray();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool([Command("fake keep"), .. removedCommands.Select(Command)]),
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake keep")) with
+                {
+                    CommandCoverage = new CliCommandCoveragePolicy
+                    {
+                        Exclusions = removedCommands
+                            .Select(command => new CliCommandCoverageExclusion
+                            {
+                                Command = command,
+                                Reason = "Removed upstream and reviewed in issue #4465.",
+                            })
+                            .ToArray(),
+                    },
+                },
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(current.Violations).IsEmpty();
+            await Assert.That(current.RemovedCommands).Count().IsEqualTo(6);
         }
         finally
         {
@@ -389,5 +539,12 @@ public class CommandCoverageGuardTests
         ParentClassName = "FakeOptions",
         ToolNamespacePrefix = "Fake",
         Options = [],
+    };
+
+    private static CliCommandResult Result(string standardOutput) => new()
+    {
+        StandardOutput = standardOutput,
+        StandardError = string.Empty,
+        ExitCode = 0,
     };
 }

@@ -865,6 +865,8 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(approved.GetSummary())
                 .Contains("WARNING: COMMAND COVERAGE SHRINKAGE DETECTED")
                 .And.Contains("Removed (approved): fake deploy");
+            await Assert.That(approved.GetSummary()).Contains(
+                "Baseline comparison: 2 commands at fake 1.0 -> 1 commands at fake 1.0");
 
             var manifest = await File.ReadAllTextAsync(Path.Combine(
                 outputRoot,

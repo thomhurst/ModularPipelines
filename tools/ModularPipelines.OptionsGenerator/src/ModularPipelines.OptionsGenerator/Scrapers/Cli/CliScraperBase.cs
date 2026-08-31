@@ -16,6 +16,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private readonly CliScrapeProvenance _scrapeProvenance = new();
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -413,6 +414,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        if (subcommands.Count > 0)
+        {
+            _scrapeProvenance.PreserveGroupHelp(path, helpText);
+        }
+
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
         await EnqueueSubcommandsAsync(
             path,
@@ -663,6 +669,7 @@ public abstract partial class CliScraperBase : ICliScraper
             : "--help";
 
         var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        RecordHelpInvocation(commandPath, args, result);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
@@ -687,6 +694,26 @@ public abstract partial class CliScraperBase : ICliScraper
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
     }
+
+    /// <summary>
+    /// Retains raw help and execution provenance until coverage validation completes.
+    /// Failure diagnostics persist only the root and parent help relevant to removals.
+    /// </summary>
+    private protected void RecordHelpInvocation(
+        IReadOnlyList<string> commandPath,
+        string arguments,
+        CliCommandResult result,
+        bool preserveRawHelp = false) =>
+        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+
+    internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
+        string outputDirectory,
+        CommandCoverageEvaluation coverage,
+        CancellationToken cancellationToken) =>
+        _scrapeProvenance.WriteCoverageFailureDiagnosticsAsync(
+            outputDirectory,
+            coverage,
+            cancellationToken);
 
     /// <summary>
     /// Returns whether output from a help invocation is safe to parse.

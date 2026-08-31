@@ -794,7 +794,8 @@ public class CodeGeneratorOrchestrator
             emittedPaths,
             fileSystemPathComparer,
             approveCommandCoverageShrinkage,
-            cancellationToken);
+            cancellationToken,
+            scrapeProvenanceProvider: cliScraper as CliScraperBase);
 
         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
             cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
@@ -825,7 +826,8 @@ public class CodeGeneratorOrchestrator
         StringComparer? commandCoveragePathComparer = null,
         bool allowMissingCommandCoverageManifest = false,
         IReadOnlySet<string>? replaceableExistingPaths = null,
-        Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
+        Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null,
+        CliScraperBase? scrapeProvenanceProvider = null)
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
@@ -859,21 +861,16 @@ public class CodeGeneratorOrchestrator
                 replaceableExistingPaths);
         }
 
-        var coverage = CommandCoverageGuard.Evaluate(
+        var coverage = await ValidateCommandCoverageAsync(
             normalizedTool,
             outputDirectory,
+            result,
             approveCommandCoverageShrinkage,
             commandCoverageBaselinePath,
             commandCoveragePathComparer,
-            allowMissingCommandCoverageManifest);
-        result.CommandCoverage.Add(coverage);
-
-        if (coverage.Violations.Count > 0)
-        {
-            throw new InvalidOperationException(
-                $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
-                    + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
-        }
+            allowMissingCommandCoverageManifest,
+            scrapeProvenanceProvider,
+            cancellationToken);
 
         if (beforeWrite is not null)
         {
@@ -927,6 +924,73 @@ public class CodeGeneratorOrchestrator
                 enforceOutputContainment).ConfigureAwait(false);
             result.FilesGenerated.Add(
                 Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+        }
+    }
+
+    private async Task<CommandCoverageEvaluation> ValidateCommandCoverageAsync(
+        CliToolDefinition tool,
+        string outputDirectory,
+        GenerationResult result,
+        bool approveCommandCoverageShrinkage,
+        string? commandCoverageBaselinePath,
+        StringComparer? commandCoveragePathComparer,
+        bool allowMissingCommandCoverageManifest,
+        CliScraperBase? scrapeProvenanceProvider,
+        CancellationToken cancellationToken)
+    {
+        var coverage = CommandCoverageGuard.Evaluate(
+            tool,
+            outputDirectory,
+            approveCommandCoverageShrinkage,
+            commandCoverageBaselinePath,
+            commandCoveragePathComparer,
+            allowMissingCommandCoverageManifest);
+        result.CommandCoverage.Add(coverage);
+
+        if (coverage.Violations.Count == 0)
+        {
+            return coverage;
+        }
+
+        var diagnosticsPath = await TryWriteCoverageFailureDiagnosticsAsync(
+            scrapeProvenanceProvider,
+            outputDirectory,
+            coverage,
+            cancellationToken);
+        var diagnosticsMessage = diagnosticsPath is null
+            ? string.Empty
+            : $"{Environment.NewLine}- Raw help diagnostics: {diagnosticsPath}";
+        throw new InvalidOperationException(
+            $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
+                + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}"))
+                + diagnosticsMessage);
+    }
+
+    private async Task<string?> TryWriteCoverageFailureDiagnosticsAsync(
+        CliScraperBase? scrapeProvenanceProvider,
+        string outputDirectory,
+        CommandCoverageEvaluation coverage,
+        CancellationToken cancellationToken)
+    {
+        if (scrapeProvenanceProvider is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return await scrapeProvenanceProvider.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                coverage,
+                cancellationToken);
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(
+                ex,
+                "Could not persist raw help diagnostics for {Tool}",
+                coverage.Manifest.ToolName);
+            return null;
         }
     }
 
@@ -1451,6 +1515,13 @@ public class GenerationResult
             if (!coverage.HasPreviousBaseline)
             {
                 lines.Add("  - Baseline: created");
+            }
+            else
+            {
+                var previousVersion = coverage.PreviousToolVersion ?? "unknown version";
+                lines.Add(
+                    $"  - Baseline comparison: {coverage.PreviousCommandCount} commands at {previousVersion} "
+                    + $"-> {coverage.Manifest.CommandCount} commands at {version}");
             }
 
             AppendDiff(lines, coverage.ChangesApproved ? "Added (approved)" : "Added", coverage.AddedCommands);
