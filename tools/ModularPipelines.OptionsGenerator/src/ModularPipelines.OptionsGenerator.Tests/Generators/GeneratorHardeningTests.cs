@@ -1769,6 +1769,66 @@ public partial class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Unsafe_Same_Name_Required_Boolean()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--mode",
+                    PropertyName = "Mode",
+                    CSharpType = "string?",
+                    Description = "Allowed values: automatic, manual.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Mode", "bool?", switchName: "--mode", isRequired: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolRunOptions.Mode was removed from the required constructor");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Drops_Unsafe_Case_Variant_Boolean_Alias()
+    {
+        var command = Command("AzAroCreateOptions", "AzOptions", ["aro", "create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--apiserver-visibility",
+                    PropertyName = "ApiServerVisibility",
+                    CSharpType = "string?",
+                    Description = "Allowed values: Private, Public.",
+                },
+            ],
+        };
+        var baseline = new[]
+        {
+            BaselineProperty("ApiServerVisibility", "bool?", switchName: "--apiserver-visibility"),
+            BaselineProperty(
+                "ApiserverVisibility",
+                "bool?",
+                switchName: "--apiserver-visibility",
+                isCompatibility: true,
+                forwardToPropertyName: "ApiServerVisibility"),
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, baseline);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+
+        await Assert.That(preserved.Options.Single().CSharpType).IsEqualTo("string?");
+        await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Drops_Unsafe_Preexisting_Boolean_String_Alias()
     {
         var command = Command("WingetInstallOptions", "WingetOptions", ["install"]) with
