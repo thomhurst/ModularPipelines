@@ -55,13 +55,56 @@ public partial class GoCliScraper : CliScraperBase
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "help", "bug", "doc", "version"
+        "--help", "-h", "help"
     };
+
+    private static readonly HashSet<string> KnownValueOptions =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            "C", "o", "mod", "module", "godebug", "dropgodebug", "require",
+            "droprequire", "go", "toolchain", "exclude", "dropexclude", "replace",
+            "dropreplace", "retract", "dropretract", "tool", "droptool", "ignore",
+            "dropignore", "use", "dropuse"
+        };
+
+    private static readonly HashSet<string> SharedBuildFlagCommands =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            "clean", "get", "install", "list", "run", "test"
+        };
 
     /// <summary>
     /// Gets help text for go commands using "go help &lt;command&gt;" format.
     /// </summary>
     protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        var helpText = await GetRawHelpTextAsync(commandPath, cancellationToken);
+        if (string.IsNullOrWhiteSpace(helpText)
+            || commandPath is [_, "build"]
+            || !ShouldLoadSharedBuildFlags(commandPath, helpText))
+        {
+            return helpText;
+        }
+
+        var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+        if (string.IsNullOrWhiteSpace(buildHelp)
+            || !UsesSharedBuildFlags(commandPath, helpText, buildHelp))
+        {
+            return helpText;
+        }
+
+        return $"{helpText.TrimEnd()}\n\n{buildHelp}";
+    }
+
+    private static bool ShouldLoadSharedBuildFlags(
+        IReadOnlyList<string> commandPath,
+        string helpText) =>
+        BuildFlagsUsagePattern().IsMatch(helpText)
+        || (commandPath.Count == 2 && SharedBuildFlagCommands.Contains(commandPath[1]));
+
+    private async Task<string?> GetRawHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
     {
         var cacheKey = string.Join(" ", commandPath);
 
@@ -89,6 +132,32 @@ public partial class GoCliScraper : CliScraperBase
 
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
+    }
+
+    private static bool UsesSharedBuildFlags(
+        IReadOnlyList<string> commandPath,
+        string helpText,
+        string buildHelp)
+    {
+        if (BuildFlagsUsagePattern().IsMatch(helpText))
+        {
+            return true;
+        }
+
+        if (commandPath.Count != 2)
+        {
+            return false;
+        }
+
+        var sharedCommandsMatch = SharedBuildCommandsPattern().Match(buildHelp);
+        if (!sharedCommandsMatch.Success)
+        {
+            return false;
+        }
+
+        return CommandNamePattern().Matches(sharedCommandsMatch.Groups["commands"].Value)
+            .Select(match => match.Value)
+            .Contains(commandPath[1], StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -147,6 +216,14 @@ public partial class GoCliScraper : CliScraperBase
 
         return name.All(c => char.IsLower(c) || char.IsDigit(c) || c == '-');
     }
+
+    /// <summary>
+    /// Go exposes version as an ordinary root command even though the shared traversal
+    /// treats that name as a utility node by default.
+    /// </summary>
+    protected override bool IsSkippableSubcommand(string subcommand) =>
+        !subcommand.Equals("version", StringComparison.OrdinalIgnoreCase)
+        && base.IsSkippableSubcommand(subcommand);
 
     /// <summary>
     /// Parses a go command from its help text.
@@ -307,47 +384,49 @@ public partial class GoCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        AddDocumentedOptions(GetOptionSectionLines(helpText), options, seenOptions);
+        var repeatableOptions = GetRepeatableOptions(helpText);
+        AddDocumentedOptions(helpText.Split('\n'), options, seenOptions, repeatableOptions);
+        AddProseOptions(helpText, options, seenOptions, repeatableOptions);
         AddUsageOptions(usageSynopsis ?? string.Empty, options, seenOptions);
         return options;
     }
 
-    private static string[] GetOptionSectionLines(string helpText)
+    private static IReadOnlySet<string> GetRepeatableOptions(string helpText)
     {
-        var flagsSectionMatch = FlagsSectionPattern().Match(helpText);
-        var sectionStart = flagsSectionMatch.Success
-            ? flagsSectionMatch.Index + flagsSectionMatch.Length
-            : 0;
-        var sectionEnd = helpText.Length;
-
-        var nextSection = flagsSectionMatch.Success
-            ? NextSectionPattern().Match(helpText, sectionStart)
-            : Match.Empty;
-        if (flagsSectionMatch.Success && nextSection.Success)
+        var repeatableOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var paragraph in ParagraphSeparatorPattern().Split(helpText))
         {
-            sectionEnd = nextSection.Index;
+            if (!RepeatedOptionPattern().IsMatch(paragraph))
+            {
+                continue;
+            }
+
+            foreach (Match match in GoOptionReferencePattern().Matches(paragraph))
+            {
+                repeatableOptions.Add(match.Groups["flag"].Value);
+            }
         }
 
-        return helpText.Substring(sectionStart, sectionEnd - sectionStart).Split('\n');
+        return repeatableOptions;
     }
 
     private static void AddDocumentedOptions(
         string[] lines,
         ICollection<CliOptionDefinition> options,
-        ISet<string> seenOptions)
+        ISet<string> seenOptions,
+        IReadOnlySet<string> repeatableOptions)
     {
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
-            var match = GoOptionPattern().Match(line);
+            var match = GoOptionLinePattern().Match(line);
             if (!match.Success)
             {
                 continue;
             }
 
             var flagName = match.Groups["flag"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
+            var (valueHint, description) = ParseOptionLineRemainder(match.Groups["remainder"].Value);
 
             if (string.IsNullOrEmpty(flagName))
             {
@@ -370,8 +449,11 @@ public partial class GoCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
+            var isFlag = string.IsNullOrEmpty(valueHint) && !KnownValueOptions.Contains(optionKey);
+            var csharpType = acceptsMultipleValues
+                ? "IEnumerable<string>?"
+                : isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
             {
@@ -382,13 +464,87 @@ public partial class GoCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
-                ValueSeparator = isFlag ? " " : " ",
+                ValueSeparator = " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
+        }
+    }
+
+    private static (string ValueHint, string Description) ParseOptionLineRemainder(string remainder)
+    {
+        if (string.IsNullOrWhiteSpace(remainder))
+        {
+            return (string.Empty, string.Empty);
+        }
+
+        var inlineDescription = InlineOptionDescriptionPattern().Match(remainder);
+        if (inlineDescription.Success)
+        {
+            return (
+                inlineDescription.Groups["value"].Value.Trim(),
+                inlineDescription.Groups["description"].Value.Trim());
+        }
+
+        if (LeadingDescriptionPattern().IsMatch(remainder))
+        {
+            return (string.Empty, remainder.Trim());
+        }
+
+        return (remainder.Trim(), string.Empty);
+    }
+
+    private static void AddProseOptions(
+        string helpText,
+        ICollection<CliOptionDefinition> options,
+        ISet<string> seenOptions,
+        IReadOnlySet<string> repeatableOptions)
+    {
+        foreach (var paragraph in ParagraphSeparatorPattern().Split(helpText))
+        {
+            var normalizedParagraph = paragraph.Trim();
+            var declarationMatch = ProseOptionParagraphPattern().Match(normalizedParagraph);
+            if (!declarationMatch.Success)
+            {
+                continue;
+            }
+
+            foreach (Match match in GoOptionReferencePattern().Matches(
+                         declarationMatch.Groups["declarations"].Value))
+            {
+                var optionKey = match.Groups["flag"].Value;
+                if (!seenOptions.Add(optionKey))
+                {
+                    continue;
+                }
+
+                var propertyName = NormalizePropertyName(optionKey);
+                if (propertyName is null)
+                {
+                    continue;
+                }
+
+                var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
+                var isFlag = !match.Groups["value"].Success
+                             && !KnownValueOptions.Contains(optionKey)
+                             && !normalizedParagraph.Contains("flag's value", StringComparison.OrdinalIgnoreCase);
+                options.Add(new CliOptionDefinition
+                {
+                    SwitchName = $"-{optionKey}",
+                    PropertyName = propertyName,
+                    CSharpType = acceptsMultipleValues
+                        ? "IEnumerable<string>?"
+                        : isFlag ? "bool?" : "string?",
+                    Description = normalizedParagraph.ReplaceLineEndings(" "),
+                    IsFlag = isFlag,
+                    AcceptsMultipleValues = acceptsMultipleValues,
+                    ValueSeparator = match.Groups["separator"].Value == "=" ? "=" : " ",
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                });
+            }
         }
     }
 
@@ -461,7 +617,7 @@ public partial class GoCliScraper : CliScraperBase
             }
 
             var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 8)
+            if (!nextLine.StartsWith("\t\t", StringComparison.Ordinal) && leadingSpaces < 8)
             {
                 break;
             }
@@ -479,7 +635,8 @@ public partial class GoCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("flags are:") ||
+        return GoCommandUsagePattern().IsMatch(helpText) ||
+               helpText.Contains("flags are:") ||
                helpText.Contains("Flags:") ||
                FlagLinePattern().IsMatch(helpText);
     }
@@ -500,12 +657,6 @@ public partial class GoCliScraper : CliScraperBase
     private static partial Regex CommandLinePattern();
 
     /// <summary>
-    /// Matches flags sections like "The build flags are:" or "Flags:".
-    /// </summary>
-    [GeneratedRegex(@"(?:The\s+\w+\s+)?[Ff]lags(?:\s+are)?:\s*\n", RegexOptions.IgnoreCase)]
-    private static partial Regex FlagsSectionPattern();
-
-    /// <summary>
     /// Matches next section or blank line.
     /// </summary>
     [GeneratedRegex(@"\n\n|\n[A-Z]")]
@@ -517,8 +668,38 @@ public partial class GoCliScraper : CliScraperBase
     /// -n          print the commands...
     /// -o file     write output to file
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:\s+(?<value>\w+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
-    private static partial Regex GoOptionPattern();
+    [GeneratedRegex(@"^[ \t]+(?<flag>-[A-Za-z][\w-]*)(?<remainder>[^\r\n]*)$", RegexOptions.Multiline)]
+    private static partial Regex GoOptionLinePattern();
+
+    [GeneratedRegex("""^\s(?<value>(?:'[^']*'|"[^"]*"|\S+))(?:\s{2,}(?<description>.*))?\s*$""")]
+    private static partial Regex InlineOptionDescriptionPattern();
+
+    [GeneratedRegex(@"^\s{2,}\S")]
+    private static partial Regex LeadingDescriptionPattern();
+
+    [GeneratedRegex(@"(?<![\w-])-(?<flag>[A-Za-z][\w-]*)(?:(?<separator>=)(?<value>[^\s,]+))?")]
+    private static partial Regex GoOptionReferencePattern();
+
+    [GeneratedRegex(@"^(?:The|Edit also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex ProseOptionParagraphPattern();
+
+    [GeneratedRegex(@"(?:may|can) be repeated|repeatable", RegexOptions.IgnoreCase)]
+    private static partial Regex RepeatedOptionPattern();
+
+    [GeneratedRegex(@"(?:\r?\n){2,}")]
+    private static partial Regex ParagraphSeparatorPattern();
+
+    [GeneratedRegex(@"\[(?:build|build/test) flags(?:[^\]]*)\]", RegexOptions.IgnoreCase)]
+    private static partial Regex BuildFlagsUsagePattern();
+
+    [GeneratedRegex(@"The build flags are shared by the (?<commands>.+?) commands:", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex SharedBuildCommandsPattern();
+
+    [GeneratedRegex(@"[a-z][a-z0-9-]*", RegexOptions.IgnoreCase)]
+    private static partial Regex CommandNamePattern();
+
+    [GeneratedRegex(@"^\s*usage:\s+go\s+", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex GoCommandUsagePattern();
 
     /// <summary>
     /// Matches options declared directly in a Go usage synopsis, including commands whose
