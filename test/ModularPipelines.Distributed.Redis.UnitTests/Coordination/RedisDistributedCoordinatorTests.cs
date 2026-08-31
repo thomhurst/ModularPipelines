@@ -226,7 +226,6 @@ public class RedisDistributedCoordinatorTests
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
             RequiredCapabilities: requiredCapabilities ?? new HashSet<string>(),
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
     }

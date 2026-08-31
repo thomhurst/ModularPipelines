@@ -110,15 +110,6 @@ public sealed class GeneratedInheritedNamedArgumentModule : Module<string>
         => Task.FromResult<string>("generated");
 }
 
-[MatrixTarget("friend")]
-public sealed class GeneratedFriendAttributeModule : Module<string>
-{
-    protected internal override Task<string> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-        => Task.FromResult<string>("generated");
-}
-
 public class GeneratedAttributeEventMetadataTests
 {
     [Test]
@@ -236,21 +227,6 @@ public class GeneratedAttributeEventMetadataTests
                 .Single()
                 .InheritedValue)
             .IsEqualTo("inherited");
-    }
-
-    [Test]
-    public async Task Generator_UsesInternalsVisibleToForFriendAssemblyAttributes()
-    {
-        var generated = GeneratedModuleEventMetadata.TryCreateAttributes(
-            typeof(GeneratedFriendAttributeModule),
-            out var attributes);
-
-        await Assert.That(generated).IsTrue();
-        await Assert.That(attributes
-                .OfType<MatrixTargetAttribute>()
-                .Single()
-                .Targets)
-            .IsEquivalentTo(["friend"]);
     }
 
     [Test]

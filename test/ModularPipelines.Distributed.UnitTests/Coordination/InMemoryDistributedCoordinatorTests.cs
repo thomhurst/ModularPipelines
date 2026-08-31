@@ -53,7 +53,6 @@ public class InMemoryDistributedCoordinatorTests
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<string> { "docker" },
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 

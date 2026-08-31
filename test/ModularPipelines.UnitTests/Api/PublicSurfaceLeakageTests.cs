@@ -99,7 +99,6 @@ public class PublicSurfaceLeakageTests
             await Assert.That(builderMethods.Any(method => method.Name == "Configure" && method.IsGenericMethod)).IsFalse();
             await Assert.That(summaryType.GetProperty("Modules", BindingFlags.Public | BindingFlags.Instance)).IsNull();
             await Assert.That(summaryType.GetMethod("GetModule", BindingFlags.Public | BindingFlags.Instance)).IsNull();
-            await Assert.That(typeof(IModuleContext).GetMethod("GetMatrixTarget")).IsNull();
         }
     }
 }

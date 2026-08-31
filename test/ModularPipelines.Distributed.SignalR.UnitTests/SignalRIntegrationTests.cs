@@ -157,7 +157,6 @@ public class SignalRIntegrationTests
                 ModuleTypeName: "MyModule",
                 ResultTypeName: "System.Int32",
                 RequiredCapabilities: new HashSet<string>(),
-                MatrixTarget: null,
                 AssignedAt: DateTimeOffset.UtcNow,
                 Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -247,19 +246,19 @@ public class SignalRIntegrationTests
             var windowsModule = new ModuleAssignment(
                 "WindowsBuildModule", "System.String",
                 new HashSet<string> { "windows" },
-                null, DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule", "System.String",
                 new HashSet<string> { "linux", "docker" },
-                null, DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule", "System.String",
                 new HashSet<string>(),
-                null, DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
             masterState.PendingAssignments.Enqueue(windowsModule);
@@ -410,7 +409,7 @@ public class SignalRIntegrationTests
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
                     moduleName, "System.String", new HashSet<string>(),
-                    null, DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
+                    DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
             }
 
             // Worker requests work — will get first assignment, then re-request after each publish

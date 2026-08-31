@@ -121,14 +121,6 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task MatrixTargetApi_ShouldRemainHiddenUntilExecutionIsWired()
-    {
-        var method = typeof(IModuleContext).GetMethod("GetMatrixTarget");
-
-        await Assert.That(method).IsNull();
-    }
-
-    [Test]
     public async Task IModuleContext_ShouldHaveTokenAwareRunSubModuleAsyncMethods()
     {
         var moduleContextType = typeof(IModuleContext);

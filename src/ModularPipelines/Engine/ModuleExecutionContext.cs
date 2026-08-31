@@ -103,11 +103,6 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public CancellationTokenSource ModuleCancellationTokenSource { get; set; }
 
     /// <summary>
-    /// Gets or sets the matrix target value for this module instance, if it was expanded via MatrixTargetAttribute.
-    /// </summary>
-    public string? MatrixTarget { get; set; }
-
-    /// <summary>
     /// Gets the task that completes when the module execution finishes.
     /// </summary>
     public Task<IModuleResult> ExecutionTask => _resultSource.Task;

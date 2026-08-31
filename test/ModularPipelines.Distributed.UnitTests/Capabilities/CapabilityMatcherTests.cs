@@ -11,7 +11,6 @@ public class CapabilityMatcherTests
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<string>(),
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -32,7 +31,6 @@ public class CapabilityMatcherTests
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<string> { "docker", "linux" },
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -53,7 +51,6 @@ public class CapabilityMatcherTests
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<string> { "docker" },
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -74,7 +71,6 @@ public class CapabilityMatcherTests
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<string> { "Docker" },
-            MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 

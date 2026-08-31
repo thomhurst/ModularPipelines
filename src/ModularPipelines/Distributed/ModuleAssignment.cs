@@ -8,7 +8,6 @@ public record ModuleAssignment(
     string ResultTypeName,
     [property: JsonConverter(typeof(ReadOnlySetJsonConverter))]
     IReadOnlySet<string> RequiredCapabilities,
-    string? MatrixTarget,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfiguration Configuration,
     IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
