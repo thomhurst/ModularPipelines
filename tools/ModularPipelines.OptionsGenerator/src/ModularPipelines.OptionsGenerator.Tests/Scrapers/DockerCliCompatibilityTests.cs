@@ -29,18 +29,20 @@ public class DockerCliCompatibilityTests
     }
 
     [Test]
-    public async Task ComposeExec_Preserves_Canonical_NoTty_Switch_Casing()
+    [Arguments("exec")]
+    [Arguments("run")]
+    public async Task ComposeCommands_Preserve_Canonical_NoTty_Switch_Casing(string subcommand)
     {
-        const string helpText = """
+        var helpText = $$"""
             Execute a command in a running container
 
-            Usage: docker compose exec [OPTIONS] SERVICE COMMAND [ARGS...]
+            Usage: docker compose {{subcommand}} [OPTIONS] SERVICE COMMAND [ARGS...]
 
             Options:
               -T, --no-tty   Disable pseudo-TTY allocation
             """;
         var command = await new TestDockerCliScraper().Parse(
-            ["docker", "compose", "exec"],
+            ["docker", "compose", subcommand],
             helpText);
 
         var option = command!.Options.Single();

@@ -36,7 +36,7 @@ public class DockerCliScraper : CobraCliScraper
     protected override string NormalizeOptionSwitchName(
         string[] commandParts,
         string switchName) =>
-        commandParts is ["compose", "exec"]
+        commandParts is ["compose", ..]
         && switchName.Equals("--no-tty", StringComparison.OrdinalIgnoreCase)
             ? "--no-TTY"
             : switchName;
