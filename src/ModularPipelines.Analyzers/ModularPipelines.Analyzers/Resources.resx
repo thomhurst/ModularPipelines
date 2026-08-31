@@ -282,6 +282,9 @@
   <data name="MultipleCliAttributesTitle" xml:space="preserve"><value>Multiple CLI property attributes</value></data>
   <data name="MultipleCliAttributesMessageFormat" xml:space="preserve"><value>Property '{0}' has more than one CLI attribute</value></data>
   <data name="MultipleCliAttributesDescription" xml:space="preserve"><value>Apply exactly one of CliArgument, CliFlag, or CliOption to a property.</value></data>
+  <data name="NegatedFlagInvalidTypeTitle" xml:space="preserve"><value>Invalid negated CLI flag property type</value></data>
+  <data name="NegatedFlagInvalidTypeMessageFormat" xml:space="preserve"><value>CLI flag property '{0}' has type '{1}'; use bool? when NegatedName is set</value></data>
+  <data name="NegatedFlagInvalidTypeDescription" xml:space="preserve"><value>A negated flag requires nullable Boolean state to distinguish true, false, and unspecified values.</value></data>
   <data name="DuplicateCliSwitchTitle" xml:space="preserve"><value>Duplicate CLI switch</value></data>
   <data name="DuplicateCliSwitchMessageFormat" xml:space="preserve"><value>CLI switch '{0}' is declared by both '{1}' and '{2}'</value></data>
   <data name="DuplicateCliSwitchDescription" xml:space="preserve"><value>Long and short CLI switch names must be unique across an options type hierarchy.</value></data>

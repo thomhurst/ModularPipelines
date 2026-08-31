@@ -55,6 +55,33 @@ public class CliPropertyAttributeAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Negated_Flag_On_NonNullable_Or_Counted_Type()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithOptions}}
+
+            [CliTool("tool")]
+            public record Options : CommandLineToolOptions
+            {
+                [{|#0:CliFlag("--feature", NegatedName = "--no-feature")|}]
+                public bool Feature { get; init; }
+
+                [{|#1:CliFlag("--verbose", NegatedName = "--quiet")|}]
+                public int? Verbosity { get; init; }
+            }
+            """;
+
+        var nonNullableBoolean = VerifyCS.Diagnostic(CliPropertyAttributeAnalyzer.NegatedFlagTypeDiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Feature", "bool");
+        var countedFlag = VerifyCS.Diagnostic(CliPropertyAttributeAnalyzer.NegatedFlagTypeDiagnosticId)
+            .WithLocation(1)
+            .WithArguments("Verbosity", "int?");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, nonNullableBoolean, countedFlag);
+    }
+
+    [TestMethod]
     public async Task Reports_ValueLess_Boolean_Option_With_Reordered_Legacy_Enum()
     {
         const string source = """

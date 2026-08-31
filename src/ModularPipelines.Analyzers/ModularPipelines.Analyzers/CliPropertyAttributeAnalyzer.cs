@@ -13,6 +13,7 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
     public const string InvalidFlagTypeDiagnosticId = "MPCLI001";
     public const string BooleanOptionDiagnosticId = "MPCLI002";
     public const string MultipleAttributesDiagnosticId = "MPCLI003";
+    public const string NegatedFlagTypeDiagnosticId = "MPCLI004";
 
     public static DiagnosticDescriptor InvalidFlagTypeRule { get; } = DiagnosticDescriptorFactory.Create(
         InvalidFlagTypeDiagnosticId, "CliFlagInvalidTypeTitle", "CliFlagInvalidTypeMessageFormat", "CliFlagInvalidTypeDescription");
@@ -23,8 +24,11 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
     public static DiagnosticDescriptor MultipleAttributesRule { get; } = DiagnosticDescriptorFactory.Create(
         MultipleAttributesDiagnosticId, "MultipleCliAttributesTitle", "MultipleCliAttributesMessageFormat", "MultipleCliAttributesDescription");
 
+    public static DiagnosticDescriptor NegatedFlagTypeRule { get; } = DiagnosticDescriptorFactory.Create(
+        NegatedFlagTypeDiagnosticId, "NegatedFlagInvalidTypeTitle", "NegatedFlagInvalidTypeMessageFormat", "NegatedFlagInvalidTypeDescription");
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(InvalidFlagTypeRule, BooleanOptionRule, MultipleAttributesRule);
+        ImmutableArray.Create(InvalidFlagTypeRule, BooleanOptionRule, MultipleAttributesRule, NegatedFlagTypeRule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -57,7 +61,18 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
 
         foreach (var attribute in cliAttributes)
         {
-            if (CliAttributeSymbols.Is(attribute, symbols.CliFlag) && !IsBooleanOrInteger(property.Type))
+            var isFlag = CliAttributeSymbols.Is(attribute, symbols.CliFlag);
+            if (isFlag
+                && HasNamedStringValue(attribute, "NegatedName")
+                && !IsNullableBoolean(property.Type))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    NegatedFlagTypeRule,
+                    CliAttributeSymbols.GetLocation(attribute, property),
+                    property.Name,
+                    property.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            }
+            else if (isFlag && !IsBooleanOrInteger(property.Type))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     InvalidFlagTypeRule,
@@ -94,4 +109,7 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
 
     private static int? GetNamedEnumValue(AttributeData attribute, string name) =>
         attribute.NamedArguments.FirstOrDefault(pair => pair.Key == name).Value.Value as int?;
+
+    private static bool HasNamedStringValue(AttributeData attribute, string name) =>
+        attribute.NamedArguments.Any(pair => pair.Key == name && pair.Value.Value is string);
 }
