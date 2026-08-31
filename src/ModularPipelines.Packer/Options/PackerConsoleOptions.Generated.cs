@@ -24,8 +24,8 @@ public record PackerConsoleOptions : PackerOptions
     /// <summary>
     /// Variable for templates, can be used multiple times.
     /// </summary>
-    [CliFlag("--var")]
-    public bool? Var { get; set; }
+    [CliOption("--var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// JSON or HCL2 file containing user variables.

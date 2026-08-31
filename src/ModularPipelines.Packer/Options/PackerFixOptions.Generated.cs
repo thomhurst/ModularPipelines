@@ -23,11 +23,6 @@ public record PackerFixOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
 ) : PackerOptions
 {
-    public PackerFixOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// If true (default), validates the fixed template.
     /// </summary>

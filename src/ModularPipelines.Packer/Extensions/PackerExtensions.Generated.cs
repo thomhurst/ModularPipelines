@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Packer.Services;
 
 namespace ModularPipelines.Packer.Extensions;
@@ -31,4 +30,5 @@ public static class PackerExtensions
         services.TryAddScoped<IPacker, Services.Packer>();
         return services;
     }
+
 }
