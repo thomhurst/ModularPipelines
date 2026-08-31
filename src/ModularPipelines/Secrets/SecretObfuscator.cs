@@ -290,9 +290,21 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             }
         }
 
-        for (var codePoint = char.MinValue; codePoint <= char.MaxValue; codePoint++)
+        var safeCharacter = FindSafeFallbackMaskCharacter(character =>
+            IsSafeMask(new string(character, 10), secrets, comparison));
+        if (safeCharacter is not null)
         {
-            var character = (char)codePoint;
+            return new string(safeCharacter.Value, 10);
+        }
+
+        throw new InvalidOperationException("No non-secret masking characters remain available.");
+    }
+
+    internal static char? FindSafeFallbackMaskCharacter(Func<char, bool> isSafe)
+    {
+        for (var codePoint = (int) char.MinValue; codePoint <= char.MaxValue; codePoint++)
+        {
+            var character = (char) codePoint;
             if (char.IsControl(character)
                 || char.IsSurrogate(character)
                 || char.IsWhiteSpace(character))
@@ -300,14 +312,13 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
                 continue;
             }
 
-            var candidate = new string(character, 10);
-            if (IsSafeMask(candidate, secrets, comparison))
+            if (isSafe(character))
             {
-                return candidate;
+                return character;
             }
         }
 
-        throw new InvalidOperationException("No non-secret masking characters remain available.");
+        return null;
     }
 
     private static bool IsSafeMask(

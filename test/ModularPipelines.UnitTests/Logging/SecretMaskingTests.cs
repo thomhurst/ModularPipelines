@@ -274,6 +274,21 @@ public class SecretMaskingTests
     #region Edge Cases Tests
 
     [Test]
+    public async Task FallbackMaskCharacterScan_TerminatesAfterMaximumCharacter()
+    {
+        var inspectedMaximumCharacter = false;
+
+        var result = SecretObfuscator.FindSafeFallbackMaskCharacter(character =>
+        {
+            inspectedMaximumCharacter |= character == char.MaxValue;
+            return false;
+        });
+
+        await Assert.That(result).IsNull();
+        await Assert.That(inspectedMaximumCharacter).IsTrue();
+    }
+
+    [Test]
     public async Task MultipleSecrets_AllAreMasked()
     {
         var stringBuilder = new StringBuilder();
