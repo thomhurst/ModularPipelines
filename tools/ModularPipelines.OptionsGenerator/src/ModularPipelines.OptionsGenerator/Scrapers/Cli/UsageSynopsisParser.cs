@@ -205,6 +205,10 @@ public static class UsageSynopsisParser
             var groupedBehindOptionTerminator =
                 TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
             var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
+            ClearAssociatedOptionSwitch(
+                groupedBehindOptionTerminator,
+                ref associatedOptionSwitch);
+
             if (TryGetOptionSwitch(operandToken, out var optionSwitch))
             {
                 associatedOptionSwitch = optionSwitch;
@@ -229,6 +233,8 @@ public static class UsageSynopsisParser
             {
                 arguments.AddRange(nestedArguments);
                 prependOptionTerminatorToNextOperand = false;
+                AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
+
                 continue;
             }
 
@@ -253,9 +259,30 @@ public static class UsageSynopsisParser
             arguments.Add(argument);
             prependOptionTerminatorToNextOperand = false;
             associatedOptionSwitch = null;
+            AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
         }
 
         return new ParsedOperands(arguments, unparsedTokens);
+    }
+
+    private static void ClearAssociatedOptionSwitch(
+        bool groupedBehindOptionTerminator,
+        ref string? associatedOptionSwitch)
+    {
+        if (groupedBehindOptionTerminator)
+        {
+            associatedOptionSwitch = null;
+        }
+    }
+
+    private static void AdvancePastOptionTerminatedOperand(
+        bool groupedBehindOptionTerminator,
+        ref CommandLinePhase phase)
+    {
+        if (groupedBehindOptionTerminator)
+        {
+            phase = CommandLinePhase.LateOperand;
+        }
     }
 
     private static CommandLinePhase TransitionPhase(

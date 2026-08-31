@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -259,6 +261,45 @@ public class ZeroOutputScraperTests
             await Assert.That(arguments["SshFlags"].IsRequired).IsFalse();
             await Assert.That(arguments["Command"].CSharpType).IsEqualTo("string?");
         }
+    }
+
+    [Test]
+    public async Task Gh_Codespace_Cp_Models_Terminated_Scp_Flags_Before_Operands()
+    {
+        const string helpText = """
+            Copy files to and from a codespace.
+
+            USAGE
+              gh codespace cp [-e] [-r] [-- [<scp flags>...]] <sources>... <dest>
+
+            FLAGS
+              -e, --expand      Expand remote file names
+              -r, --recursive   Recursively copy directories
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "codespace", "cp"], helpText);
+        var arguments = command!.PositionalArguments.ToDictionary(argument => argument.PropertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments.Keys).IsEquivalentTo(["ScpFlags", "Sources", "Dest"]);
+            await Assert.That(arguments["ScpFlags"].PrependOptionTerminator).IsTrue();
+            await Assert.That(arguments["ScpFlags"].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(arguments["Sources"].Phase).IsEqualTo(CommandLinePhase.LateOperand);
+            await Assert.That(arguments["Dest"].Phase).IsEqualTo(CommandLinePhase.LateOperand);
+        }
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gh",
+            NamespacePrefix = "Gh",
+            TargetNamespace = "ModularPipelines.GitHub",
+            OutputDirectory = "src/ModularPipelines.GitHub",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(
+            InheritedPropertyCollisionResolver.Resolve(tool))).Single().Content;
+        await Assert.That(generated).Contains("IEnumerable<string>? ScpFlags");
     }
 
     [Test]

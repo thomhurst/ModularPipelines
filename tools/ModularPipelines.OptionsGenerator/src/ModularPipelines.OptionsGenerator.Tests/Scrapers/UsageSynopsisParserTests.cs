@@ -606,6 +606,26 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Places_Operands_After_Terminated_Passthrough_In_Late_Phase()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: gh codespace cp [-e] [-r] [-- [<scp flags>...]] <sources>... <dest>",
+            ["gh", "codespace", "cp"]);
+
+        var arguments = result.PositionalArguments;
+
+        await Assert.That(arguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["ScpFlags", "Sources", "Dest"]);
+        await Assert.That(arguments[0].CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(arguments[0].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(arguments[0].PrependOptionTerminator).IsTrue();
+        await Assert.That(arguments[0].AssociatedOptionSwitch).IsNull();
+        await Assert.That(arguments.Skip(1).All(argument =>
+                argument.Phase == CommandLinePhase.LateOperand))
+            .IsTrue();
+    }
+
+    [Test]
     public async Task Parses_Inline_Usage_Continuation_Lines()
     {
         const string helpText = """
@@ -851,6 +871,43 @@ public class UsageSynopsisParserTests
 
         await Assert.That(generated).Contains(
             "PrependOptionTerminator = true");
+    }
+
+    [Test]
+    public async Task Generator_Emits_Terminated_Passthrough_Before_Late_Operands()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: gh codespace cp [-- [<scp flags>...]] <sources>... <dest>",
+            ["gh", "codespace", "cp"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "gh codespace cp",
+            CommandParts = ["codespace", "cp"],
+            ClassName = "GhCodespaceCpOptions",
+            ParentClassName = "GhOptions",
+            ToolNamespacePrefix = "Gh",
+            Options = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
+        };
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gh",
+            NamespacePrefix = "Gh",
+            TargetNamespace = "ModularPipelines.GitHub",
+            OutputDirectory = "src/ModularPipelines.GitHub",
+            Commands = [command],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains(
+            "CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)");
+        await Assert.That(generated).Contains(
+            "CliArgument(0, Phase = CommandLinePhase.LateOperand, Required = true)");
+        await Assert.That(generated).Contains(
+            "CliArgument(1, Phase = CommandLinePhase.LateOperand, Required = true)");
     }
 
     [Test]

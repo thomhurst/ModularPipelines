@@ -489,6 +489,31 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Places_Terminated_Passthrough_Before_Late_Operands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminatedPassthroughOptions("source", "destination")
+        {
+            Force = true,
+            ScpFlags = ["-F", "config"],
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("tool copy --force -- -F config source destination");
+    }
+
+    [Test]
+    public async Task Build_Omits_Terminator_When_Terminated_Passthrough_Is_Absent()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminatedPassthroughOptions("source", "destination"));
+
+        await Assert.That(result.ToString()).IsEqualTo("tool copy source destination");
+    }
+
+    [Test]
     public async Task Build_Allows_Manual_Arguments_To_Supply_New_Required_Operand()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -601,20 +626,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Rejects_Manual_Terminal_Options_With_Manual_Terminator()
+    public async Task Build_Preserves_Terminal_Like_Tokens_After_Manual_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        CommandLine Build() => builder.Build(new TestTerminalOptions
+        var result = builder.Build(new TestTerminalOptions
         {
             Arguments = ["--", "value", "--run-tests", "tests.jq"],
             ArgumentsContainOptionTerminator = true,
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(Build)
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("end-of-options marker");
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq -- value --run-tests tests.jq");
     }
 
     [Test]
@@ -946,7 +970,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Prefers_Exact_Manual_Option_Over_NoSeparator_Prefix()
+    public async Task Build_Preserves_Exact_Option_Like_Tokens_After_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -958,7 +982,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString())
-            .IsEqualTo("jq -Debug value -- tail");
+            .IsEqualTo("jq -- tail -Debug value");
     }
 
     [Test]
@@ -978,7 +1002,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Hoists_All_Grouped_Manual_Option_Values()
+    public async Task Build_Preserves_Grouped_Option_Like_Tokens_After_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -990,7 +1014,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString())
-            .IsEqualTo("jq --arguments one two -- tail");
+            .IsEqualTo("jq -- tail --arguments one two");
     }
 
     [Test]
@@ -1010,7 +1034,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Hoists_Trailing_Values_With_Attached_Grouped_Option()
+    public async Task Build_Preserves_Attached_Grouped_Tokens_After_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -1022,7 +1046,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString())
-            .IsEqualTo("jq --arguments=one two -- tail");
+            .IsEqualTo("jq -- tail --arguments=one two");
     }
 
     [Test]
@@ -1144,7 +1168,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Hoists_Manual_Option_Before_Manual_Terminator()
+    public async Task Build_Preserves_Manual_Tokens_After_Manual_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -1157,7 +1181,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString())
-            .IsEqualTo("jq . --compact-output -- input.json");
+            .IsEqualTo("jq . -- input.json --compact-output");
     }
 
     [Test]
@@ -1194,7 +1218,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Matches_Exact_MultiCharacter_Short_Option_Before_Cluster()
+    public async Task Build_Preserves_MultiCharacter_Option_Like_Tokens_After_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -1206,7 +1230,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString())
-            .IsEqualTo("dotnet -ss https://symbols -- tail");
+            .IsEqualTo("dotnet -- tail -ss https://symbols");
     }
 
     [Test]
@@ -2063,6 +2087,20 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
         public IReadOnlyList<string>? Parameters { get; init; }
+    }
+
+    [CliTool("tool")]
+    [CliSubCommand("copy")]
+    private sealed record TestTerminatedPassthroughOptions(
+        [property: CliArgument(0, Phase = CommandLinePhase.LateOperand, Required = true)] string Source,
+        [property: CliArgument(1, Phase = CommandLinePhase.LateOperand, Required = true)] string Destination)
+        : CommandLineToolOptions
+    {
+        [CliFlag("--force")]
+        public bool Force { get; init; }
+
+        [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+        public IReadOnlyList<string>? ScpFlags { get; init; }
     }
 
     [CliTool("tool")]

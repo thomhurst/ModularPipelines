@@ -439,7 +439,7 @@ internal sealed class CommandLineBuilder(
             .OfType<ArgumentPart>()
             .Where(part => !part.IsGlobalOption
                            && part.Attribute.Required)
-            .OrderBy(static part => part.Phase)
+            .OrderBy(static part => CommandLinePhaseOrder.GetRenderOrder(part.Phase))
             .ThenBy(static part => part.Attribute.Position)
             .ToList();
         var materializedValues = requiredOperands.ToDictionary(
@@ -538,7 +538,10 @@ internal sealed class CommandLineBuilder(
         var commandOptions = new List<string>();
         var remainingArguments = new List<string>();
         var hasTerminalOptions = false;
-        for (var index = 0; index < manualArgs.Count;)
+        var optionParsingCount = GetOptionParsingCount(
+            manualArgs,
+            options.ArgumentsContainOptionTerminator);
+        for (var index = 0; index < optionParsingCount;)
         {
             var match = TryMatchManualOption(
                 manualArgs,
@@ -575,6 +578,12 @@ internal sealed class CommandLineBuilder(
             index += match.Value.ArgumentCount;
         }
 
+        AppendOptionTerminatedArguments(
+            manualArgs,
+            optionParsingCount,
+            remainingArguments,
+            positionalArgumentIndices);
+
         if (globalOptions.Count == 0
             && commandOptions.Count == 0
             && !hasTerminalOptions)
@@ -588,6 +597,32 @@ internal sealed class CommandLineBuilder(
             globalOptions,
             commandOptions,
             hasTerminalOptions);
+    }
+
+    private static int GetOptionParsingCount(
+        List<string> manualArgs,
+        bool argumentsContainOptionTerminator)
+    {
+        if (!argumentsContainOptionTerminator)
+        {
+            return manualArgs.Count;
+        }
+
+        var optionTerminatorIndex = manualArgs.IndexOf("--");
+        return optionTerminatorIndex < 0 ? manualArgs.Count : optionTerminatorIndex;
+    }
+
+    private static void AppendOptionTerminatedArguments(
+        List<string> manualArgs,
+        int optionParsingCount,
+        List<string> remainingArguments,
+        ICollection<int>? positionalArgumentIndices)
+    {
+        remainingArguments.AddRange(manualArgs.Skip(optionParsingCount));
+        for (var index = optionParsingCount + 1; index < manualArgs.Count; index++)
+        {
+            positionalArgumentIndices?.Add(index);
+        }
     }
 
     private static ManualOptionMatch? TryMatchManualOption(
