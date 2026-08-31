@@ -413,7 +413,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Metadata_Defers_Ambiguous_Legacy_Optional_Validation_Until_Rendering()
+    public async Task Schema2_Metadata_Rebuilds_Ambiguous_Legacy_Optional_Validation()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>);
         GeneratedCommandMetadata.Register(
@@ -434,14 +434,7 @@ public class CliAttributeTests
             ],
             schemaVersion: 2);
 
-        var model = new CommandModelProvider().GetCommandModel(optionsType);
-
-        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(
-                model,
-                new RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>
-                {
-                    Output = "json",
-                }))
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining(nameof(CliOptionValue));
     }
@@ -1415,16 +1408,19 @@ public class CliAttributeTests
 
     private sealed record RegisteredLegacyOptionalOptions<T> : CommandLineToolOptions
     {
+        [CliOption("--output", ValueArity = CliOptionValueArity.Optional)]
         public string? Output { get; init; }
     }
 
     private sealed record RegisteredCurrentOptionalOptions<T> : CommandLineToolOptions
     {
+        [CliOption("--output", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Output { get; init; }
     }
 
     private sealed record RegisteredFlagOptions<T> : CommandLineToolOptions
     {
+        [CliFlag("--force")]
         public bool Force { get; init; }
     }
 
