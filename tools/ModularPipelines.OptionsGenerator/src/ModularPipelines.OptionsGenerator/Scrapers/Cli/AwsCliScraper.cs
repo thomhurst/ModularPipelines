@@ -74,9 +74,6 @@ public partial class AwsCliScraper : CliScraperBase
         "letters",
         "numbers",
         "punctuation",
-        "integer",
-        "greater",
-        "than",
     };
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
@@ -461,6 +458,7 @@ public partial class AwsCliScraper : CliScraperBase
 
             if (values.Length >= 2
                 && values.Length <= 15
+                && !NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
                 && !values.Any(FreeFormValueDescriptionTokens.Contains))
             {
                 return CreateEnumDefinition(propertyName, className, values);
@@ -607,6 +605,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s{7}(?<long>--[\w-]+)(?:\s+\((?<type>[^)]+)\))?", RegexOptions.Multiline)]
     private static partial Regex AwsOptionPattern();
+
+    [GeneratedRegex(
+        @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex NumericConstraintValuesPattern();
 
     #endregion
 }

@@ -94,6 +94,18 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Enum_Detection_Preserves_Integer_Enum_Value()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "Unit",
+            "AwsConnectUpdateMetricContentOptions",
+            "Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["INTEGER", "DOUBLE", "PERCENT", "SECONDS"]);
+    }
+
+    [Test]
     public async Task Redshift_Number_Of_Nodes_Uses_Numeric_Hint_Before_Constraint_Prose()
     {
         var scraper = new AwsCliScraper(
