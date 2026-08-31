@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Java.Services;
 
 namespace ModularPipelines.Java.Extensions;
@@ -31,4 +30,5 @@ public static class GradleExtensions
         services.TryAddScoped<IGradle, Services.Gradle>();
         return services;
     }
+
 }
