@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Yq.Services;
 
 namespace ModularPipelines.Yq.Extensions;
@@ -31,4 +30,5 @@ public static class YqExtensions
         services.TryAddScoped<IYq, Services.Yq>();
         return services;
     }
+
 }
