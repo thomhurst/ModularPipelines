@@ -1,3 +1,4 @@
+using System.Globalization;
 using ModularPipelines;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -889,6 +890,32 @@ public class ConsoleWriterTests
             await Assert.That(flushOutput).Contains("write-time");
             await Assert.That(flushOutput).DoesNotContain("flush-time");
             await Assert.That(formatterCalls).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task ChartValueFormatterSnapshotDistinguishesSignedZeroAndCulture()
+    {
+        var formatterCalls = 0;
+        var formatter = SecretObfuscatedRenderable.SnapshotValueFormatter((value, culture) =>
+        {
+            formatterCalls++;
+            return $"{BitConverter.DoubleToInt64Bits(value)}:{culture.Name}";
+        });
+        var invariantCulture = CultureInfo.InvariantCulture;
+        var frenchCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+        var positiveZero = formatter(+0.0, invariantCulture);
+        var negativeZero = formatter(-0.0, invariantCulture);
+        var frenchPositiveZero = formatter(+0.0, frenchCulture);
+        var cachedPositiveZero = formatter(+0.0, invariantCulture);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positiveZero).IsNotEqualTo(negativeZero);
+            await Assert.That(positiveZero).IsNotEqualTo(frenchPositiveZero);
+            await Assert.That(cachedPositiveZero).IsEqualTo(positiveZero);
+            await Assert.That(formatterCalls).IsEqualTo(3);
         }
     }
 

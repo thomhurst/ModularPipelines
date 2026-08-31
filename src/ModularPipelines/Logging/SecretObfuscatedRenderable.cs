@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -366,8 +367,8 @@ internal sealed class SecretObfuscatedRenderable(
         return preparedChart;
     }
 
-    private static Func<double, System.Globalization.CultureInfo, string>? PrepareValueFormatter(
-        Func<double, System.Globalization.CultureInfo, string>? formatter,
+    private static Func<double, CultureInfo, string>? PrepareValueFormatter(
+        Func<double, CultureInfo, string>? formatter,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => formatter is null
         ? null
@@ -378,25 +379,43 @@ internal sealed class SecretObfuscatedRenderable(
                 secretObfuscator,
                 snapshot: false);
 
-    private static Func<double, System.Globalization.CultureInfo, string> SnapshotValueFormatter(
-        Func<double, System.Globalization.CultureInfo, string> formatter)
+    internal static Func<double, CultureInfo, string> SnapshotValueFormatter(
+        Func<double, CultureInfo, string> formatter)
     {
-        var values = new Dictionary<double, string>();
+        var values = new Dictionary<ValueFormatterSnapshotKey, string>();
         var snapshotLock = new object();
         return (value, culture) =>
         {
+            var key = new ValueFormatterSnapshotKey(BitConverter.DoubleToInt64Bits(value), culture);
             lock (snapshotLock)
             {
-                if (values.TryGetValue(value, out var formattedValue))
+                if (values.TryGetValue(key, out var formattedValue))
                 {
                     return formattedValue;
                 }
 
                 formattedValue = formatter(value, culture);
-                values.Add(value, formattedValue);
+                values.Add(key, formattedValue);
                 return formattedValue;
             }
         };
+    }
+
+    private readonly struct ValueFormatterSnapshotKey(long valueBits, CultureInfo culture)
+        : IEquatable<ValueFormatterSnapshotKey>
+    {
+        private long ValueBits { get; } = valueBits;
+
+        private CultureInfo Culture { get; } = culture;
+
+        public bool Equals(ValueFormatterSnapshotKey other) =>
+            ValueBits == other.ValueBits && ReferenceEquals(Culture, other.Culture);
+
+        public override bool Equals(object? obj) =>
+            obj is ValueFormatterSnapshotKey other && Equals(other);
+
+        public override int GetHashCode() =>
+            HashCode.Combine(ValueBits, RuntimeHelpers.GetHashCode(Culture));
     }
 
     private static Columns PrepareColumns(
