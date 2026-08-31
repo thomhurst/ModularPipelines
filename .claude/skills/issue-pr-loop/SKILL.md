@@ -19,11 +19,12 @@ Each iteration completes exactly one unit, chosen in this priority order:
 
 1. Merge a PR that meets every MERGE signal (Phase 1).
 2. Unblock a PR that is CONFLICTS, CI FAILING, or ADDRESS (Phase 1): rebase, fix CI, or address review feedback, then push.
-3. Start the best available unclaimed issue when no PR is actionable (Phase 2): claim it with the in-progress label, branch in an isolated worktree, implement, run /simplify, push, and open a PR.
+3. Recover coherent, valuable tracked changes from a dirty merged-PR worktree when no open PR is actionable (§ Dirty Merged-Worktree Recovery): transplant them onto current `origin/main`, validate, push, and open a follow-up PR.
+4. Start the best available unclaimed issue when no PR or dirty recovery is actionable (Phase 2): claim it with the in-progress label, branch in an isolated worktree, implement, run /simplify, push, and open a PR.
 
-Always survey Phase 1 before Phase 2, and fall through to Phase 2 only when no open PR is actionable. Acquire the work-item lock before touching a PR or issue. When the unit finishes, immediately begin the next iteration; never batch two units into one, and never stop between them.
+Always survey Phase 1 before dirty recovery, then fall through to Phase 2 only when neither is actionable. Acquire the work-item lock before touching a PR, recovery candidate, or issue. When the unit finishes, immediately begin the next iteration; never batch two units into one, and never stop between them.
 
-At the **start of each iteration's survey**, run the worktree cleanup sweep once (cheap — a few `gh` calls): `pwsh scripts/Remove-MergedWorktrees.ps1`. It reclaims disk by removing worktrees whose PRs already merged (including squash-merges by other agents/humans), and is safe — it never touches open-PR, detached, or dirty worktrees. See § Merge Command.
+At the **start of each iteration's survey**, run the worktree cleanup sweep once (cheap — a few `gh` calls): `pwsh scripts/Remove-MergedWorktrees.ps1`. It reclaims disk by removing worktrees whose PRs already merged (including squash-merges by other agents/humans), while preserving open-PR, locked, dirty, and harness-managed worktrees. Treat each `Preserving dirty worktree` result as a recovery candidate; do not let it become permanent ignored state. See § Merge Command and § Dirty Merged-Worktree Recovery.
 
 ## Completion Contract
 
@@ -33,6 +34,7 @@ A unit of work is **done only when it is committed AND pushed** — never before
 - Use non-interactive commit-message commands only: `git commit -m "..."`, `git commit --file <path>`, `git commit --amend --no-edit`, or `git commit --amend -m "..."`. Never run bare `git commit` or bare `git commit --amend`; VS Code may open as `$EDITOR` and block the unattended loop.
 - A status recap, a green **local** build, or an uncommitted/unpushed edit is **not** completion. If your work is uncommitted or unpushed, the unit is unfinished — finish it.
 - Confirm the push actually landed before reporting: `gh pr view <N> --json headRefOid` must match local `git rev-parse HEAD`. A green local build with no matching remote head is a failed unit, not a done one.
+- A dirty-worktree recovery that produces code follows this same contract: it is done only after the follow-up PR is pushed and confirmed. Proving a candidate has no unique valuable changes, removing it, or deferring an ambiguous candidate is survey housekeeping; continue until an actual unit completes.
 - **Before the first file edit each iteration**, run the active-checkout verify block (§ Worktree Isolation) so edits cannot silently land in the shared checkout.
 - If you cannot push (unresolvable conflict, repeated CI failure outside your context, lost lock), the unit **failed**: release the Redis lock (`pwsh $agentLocks release -LockName <lock>`), leave a GitHub comment stating the blocker, and report the failure honestly. Never report success for unpushed work.
 
@@ -50,6 +52,7 @@ inside an isolated git worktree. Before your FIRST file edit, run the active-che
 verify block (§ Worktree Isolation) and abort if cwd is not the isolated worktree;
 never edit the shared checkout.
 Do exactly ONE of: merge a mergeable PR, address review feedback and push,
+recover valuable tracked changes from a dirty merged-PR worktree into a follow-up PR,
 or pick the best available unclaimed issue, add in-progress label, branch, implement,
 /simplify, push, and open PR. Size is not a blocker: take large coherent issues whole.
 If an issue is genuinely too big for one coherent PR, split it into focused child
@@ -64,7 +67,8 @@ COMPLETION CONTRACT — you are NOT done until your work is committed AND pushed
   comment with the blocker, and report the failure — do not report success.
 
 Return one line ONLY after the push is confirmed (or the unit has failed):
-"merged #N" / "pushed fixes to #N" / "opened #N closing #M" / "failed #N: <reason>".
+"merged #N" / "pushed fixes to #N" / "opened #N recovering #M" /
+"opened #N closing #M" / "failed #N: <reason>".
 ```
 
 If subagents are not authorized, run the same one-iteration loop locally. After each iteration completes, immediately start another iteration instead of stopping.
@@ -210,9 +214,10 @@ Lock names:
 | PR merge | `pr-<N>` |
 | PR conflict rebase | `pr-<N>` |
 | PR review or CI fixes | `pr-<N>` |
+| Dirty merged-worktree recovery | `pr-<original-N>` |
 | New issue implementation | `issue-<N>` |
 
-If `acquire` exits 3 (HELD), do not wait and do not inspect local files or recorded PIDs as proof of abandonment. Skip that PR or issue and choose another actionable item.
+If `acquire` exits 3 (HELD), do not wait and do not inspect local files or recorded PIDs as proof of abandonment. Skip that PR, recovery candidate, or issue and choose another actionable item.
 
 Redis locks expire automatically after the 2h TTL. Do not manually remove another agent's Redis lock. If a lock appears stale, rely on the TTL to expire it and work a different item in the meantime. GitHub's `in-progress` issue label remains the cross-process claim for issues (it outlives the lock, so a slow-but-live agent whose lock expired is still protected there); the Redis lock is the machine-level mutual exclusion for both issues and PRs.
 
@@ -274,9 +279,9 @@ Waiting is not a stopping condition. **Default to the next iteration, never to w
 
 - The instant your current unit is pushed (or blocked), move to the next iteration. Do not stay attached to the item you just pushed to see how its CI lands — the next iteration's Phase 1 survey re-checks it for free.
 - If a PR has pending CI/review after your push, leave a short update and inspect the next PR.
-- If all PRs are pending or externally blocked, pick a new issue and start a branch.
+- If all PRs are pending or externally blocked, recover an actionable dirty merged worktree; otherwise pick a new issue and start a branch.
 - **Never wait on, poll, or monitor a pending work item.** Forbidden while any other work is queueable: `Start-Sleep`; watch loops (`gh pr checks --watch`, `gh run watch`); the `Monitor` tool; scheduling a wake-up (`ScheduleWakeup`) to revisit the item; spawning a background task/command just to poll CI; or any sleep-then-recheck loop on the same item. The queue survey at the top of each iteration is the only polling you need.
-- Watching/monitoring a pending check is a **last resort only**: no other actionable PR **and** no queueable issue (i.e. you would otherwise hit the Stopping condition). Even then, prefer one survey pass over a blocking watch.
+- Watching/monitoring a pending check is a **last resort only**: no other actionable PR, dirty recovery, **or** queueable issue (i.e. you would otherwise hit the Stopping condition). Even then, prefer one survey pass over a blocking watch.
 - If a watched check remains pending but new work appears, stop watching and take the new work.
 - When a PR becomes green in a later iteration, merge it unless it received your fix push in the current iteration.
 
@@ -312,6 +317,25 @@ Hard rules — no exceptions:
 Worktree and branch cleanup are part of `Merge-Pr.ps1`. It removes a clean merged-PR worktree before deleting its remote/local head branches. If tracked changes exist, it preserves the worktree and both branches (untracked build artifacts are cleared). Post-merge cleanup failures are warnings because the merge cannot safely be retried. You do **not** run a separate removal step after merge.
 
 **Per-iteration safety-net sweep.** Once per loop iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`. It reaps worktrees with a **merged PR**, including squash-merged review/rebase variants. It first uses GitHub branch, tip, and commit association. If those miss a local-only tip, a named worktree requires matching `pr-<N>` path and branch identities; a detached worktree additionally requires a successful GitHub lookup confirming the current commit has no open PR. It preserves dirty, open-PR, locked, and harness-managed worktrees. It also removes failed-cleanup remnants with dangling `.git` markers. For legacy remnants where Git already removed `.git`, deletion requires canonical root/name, a merged PR number, and no meaningful file newer than the merge. A `[gone]` branch remains insufficient evidence because closed-unmerged PRs also lose remote refs.
+
+### Dirty Merged-Worktree Recovery
+
+A cleanup line saying `Preserving dirty worktree` means tracked edits survived after the associated PR merged. Preserve first, then decide whether those edits deserve a new PR; never blindly delete them or blindly publish every leftover diff.
+
+Handle one candidate after Phase 1 has no actionable PR and before taking a new issue:
+
+1. Resolve and verify the original merged PR number from the cleanup evidence, canonical `pr-<N>-*` identity, branch, or GitHub commit association. If merge identity is uncertain, leave the worktree untouched and continue the queue.
+2. Acquire `pr-<original-N>`. If held, skip the candidate. Under the lock, inspect `git status --short --untracked-files=no`, the full tracked diff, original PR, and latest `origin/main`. Check intent and resulting behavior, not only whether patch text applies.
+3. Classify the tracked changes:
+   - **Coherent, unique, and valuable:** recover them into one normal follow-up PR.
+   - **Already present on `main`, obsolete, or disposable generated/build churn:** remove only after proving no unique source or test change would be lost.
+   - **Mixed, unclear, sensitive, or not safely testable:** preserve the worktree, file one recovery issue containing the path, branch, original PR, and a non-sensitive diff summary, then continue. Search first so repeated sweeps do not create duplicate issues.
+4. For recovery, make the exact edits recoverable on a local snapshot branch/commit before any reset, clean, rebase, or removal. Create a separate branch and worktree from current `origin/main`; transplant only the snapshot diff. Do not rebase and publish the old merged-PR branch because squash history may replay already-merged commits.
+5. Remove changes already on `main`, split unrelated edits, and obey generated-file boundaries: recover generator/source changes and regenerate outputs rather than treating stale generated files as source of truth. If no explainable semantic diff remains, do not open a PR.
+6. Run focused and broader validation, `/simplify`, and normal formatting. Push with `--force-with-lease`; open a non-draft follow-up PR whose body says `Follow-up to #<original-N>` and explains recovered intent. Never use `Closes #<original-N>` because that PR is already merged.
+7. Confirm remote PR head matches local HEAD. Only then remove the old dirty worktree and temporary snapshot branch. Release the original PR lock in every outcome.
+
+Recovery does not authorize guessing at intent, publishing secrets, or converting unexplained local state into a PR. When uncertain, preservation plus a recovery issue is the safe autonomous fallback.
 
 ### Other Rules
 
@@ -462,11 +486,11 @@ Closes #<N>
 Stop only when:
 
 - User explicitly says "stop", "pause", or "enough", or interrupts.
-- Queue is genuinely empty: zero queueable unassigned open issues without `in-progress`, and every open PR is blocked on a human decision or another external dependency after all eligible bot threads were resolved autonomously.
+- Queue is genuinely empty: zero actionable dirty merged-worktree recoveries, zero queueable unassigned open issues without `in-progress`, and every open PR is blocked on a human decision or another external dependency after all eligible bot threads were resolved autonomously.
 
-Do not stop because of long context, lots already shipped, compute spend, uncertainty about which issue is next, an issue being large or daunting, green PRs after a fix push, pending CI, pending review, or a desire to wrap up. If another issue is queueable, work it instead. Larger scoped issues count as queueable when no smaller unclaimed work is available; if one is too big for a single PR, split it (§ Splitting An Oversized Issue) rather than stopping.
+Do not stop because of long context, lots already shipped, compute spend, uncertainty about which issue is next, an issue being large or daunting, green PRs after a fix push, pending CI, pending review, or a desire to wrap up. If a recovery or issue is queueable, work it instead. Larger scoped issues count as queueable when no smaller unclaimed work is available; if one is too big for a single PR, split it (§ Splitting An Oversized Issue) rather than stopping.
 
-At every "maybe stop" impulse: `gh pr list`, act on actionable PRs, otherwise pick the best available unclaimed issue, claim it with `in-progress`, and branch.
+At every "maybe stop" impulse: run the cleanup sweep and `gh pr list`; act on actionable PRs, then actionable dirty recoveries, otherwise pick the best available unclaimed issue, claim it with `in-progress`, and branch.
 
 ## Red Flags: Defer, Don't Ask
 
