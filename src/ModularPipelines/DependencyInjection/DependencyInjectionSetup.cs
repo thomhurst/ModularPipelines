@@ -6,6 +6,7 @@ using MEL.Spectre.Theme;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
