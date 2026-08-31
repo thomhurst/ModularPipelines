@@ -291,6 +291,8 @@ public partial class NestedArgumentGroupParsingTests
     [Test]
     public async Task Gcloud_Ingestion_Service_Accounts_Are_Textual()
     {
+        // Verbatim FLAGS excerpt from Google Cloud SDK 550.0.0:
+        // gcloud pubsub topics update --help
         const string helpText = """
             NAME
                 gcloud pubsub topics update - update a topic
@@ -299,14 +301,18 @@ public partial class NestedArgumentGroupParsingTests
                 gcloud pubsub topics update
 
             FLAGS
-                 --aws-msk-ingestion-service-account=SERVICE_ACCOUNT
-                    Google Cloud service account used with MSK.
-                 --azure-event-hubs-ingestion-service-account=SERVICE_ACCOUNT
-                    Google Cloud service account used with Azure Event Hubs.
-                 --confluent-cloud-ingestion-service-account=SERVICE_ACCOUNT
-                    Google Cloud service account used with Confluent Cloud.
-                 --kinesis-ingestion-service-account=SERVICE_ACCOUNT
-                    Google Cloud service account used with Kinesis.
+                 --aws-msk-ingestion-service-account=AWS_MSK_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with MSK.
+                 --azure-event-hubs-ingestion-service-account=AZURE_EVENT_HUBS_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Azure Event Hubs.
+                 --confluent-cloud-ingestion-service-account=CONFLUENT_CLOUD_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Confluent Cloud.
+                 --kinesis-ingestion-service-account=KINESIS_INGESTION_SERVICE_ACCOUNT
+                    Google Cloud service account to be used for Federated Identity
+                    authentication with Kinesis.
             """;
 
         var command = await CreateGcloudScraper().Parse(
