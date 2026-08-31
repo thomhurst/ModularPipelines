@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.NerdbankGitVersioning.Services;
 
 namespace ModularPipelines.NerdbankGitVersioning.Extensions;
@@ -31,4 +30,5 @@ public static class NbgvExtensions
         services.TryAddScoped<INbgv, Services.Nbgv>();
         return services;
     }
+
 }
