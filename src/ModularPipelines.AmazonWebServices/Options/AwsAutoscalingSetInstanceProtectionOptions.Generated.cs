@@ -20,7 +20,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "set-instance-protection")]
 public record AwsAutoscalingSetInstanceProtectionOptions(
-    [property: CliOption("--instance-ids")] IEnumerable<string> InstanceIds,
+    [property: CliOption("--instance-ids", GroupValues = true)] IEnumerable<string> InstanceIds,
     [property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
     [property: CliFlag("--protected-from-scale-in")] bool ProtectedFromScaleIn
 ) : AwsOptions
