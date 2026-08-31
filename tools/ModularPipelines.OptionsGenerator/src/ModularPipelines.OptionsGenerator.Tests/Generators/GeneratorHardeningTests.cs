@@ -1,7 +1,8 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -6830,13 +6831,56 @@ public partial class GeneratorHardeningTests
                 Path.Combine(repositoryRoot, "src"),
                 "*.Generated.cs",
                 SearchOption.AllDirectories)
-            .SelectMany(file => File.ReadLines(file)
-                .Select((line, index) => (line, index))
-                .Where(item => unsafeSetter.IsMatch(item.line))
-                .Select(item => $"{Path.GetRelativePath(repositoryRoot, file)}:{item.index + 1}"))
+            .SelectMany(file => FindUnsafeBooleanStringSetters(
+                    File.ReadAllText(file),
+                    unsafeSetter)
+                .Select(line => $"{Path.GetRelativePath(repositoryRoot, file)}:{line}"))
             .ToArray();
 
         await Assert.That(matches).IsEmpty();
+    }
+
+    [Test]
+    public async Task UnsafeBooleanStringSetterScan_Ignores_NonBoolean_Properties()
+    {
+        const string source = """
+            public class Options
+            {
+                public int? Count
+                {
+                    get => null;
+                    set => Values = value is null ? null : [value.Value.ToString(null)];
+                }
+
+                public bool? Enabled
+                {
+                    get => null;
+                    set => Values = value is null ? null : [value.Value.ToString(null)];
+                }
+
+                public string[]? Values { get; set; }
+            }
+            """;
+
+        var matches = FindUnsafeBooleanStringSetters(source, UnsafeBooleanStringSetterPattern());
+
+        await Assert.That(matches).HasSingleItem();
+    }
+
+    private static int[] FindUnsafeBooleanStringSetters(string source, Regex unsafeSetter)
+    {
+        var root = CSharpSyntaxTree.ParseText(source).GetRoot();
+        return
+        [
+            .. root.DescendantNodes()
+                .OfType<PropertyDeclarationSyntax>()
+                .Where(static property => property.Type is NullableTypeSyntax
+                {
+                    ElementType: PredefinedTypeSyntax predefinedType,
+                } && predefinedType.Keyword.IsKind(SyntaxKind.BoolKeyword))
+                .Where(property => unsafeSetter.IsMatch(property.ToFullString()))
+                .Select(property => property.GetLocation().GetLineSpan().StartLinePosition.Line + 1),
+        ];
     }
 
     private static string FindRepositoryRoot()
