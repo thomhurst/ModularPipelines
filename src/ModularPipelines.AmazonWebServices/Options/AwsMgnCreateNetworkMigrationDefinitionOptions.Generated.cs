@@ -53,13 +53,13 @@ public record AwsMgnCreateNetworkMigrationDefinitionOptions : AwsOptions
     /// <summary>
     /// Tags to assign to the network migration definition. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// Scope tags for the network migration definition to control access and organization. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--scope-tags", GroupValues = true)]
+    [CliOption("--scope-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ScopeTags { get; set; }
 
     [CliOption("--cli-input-json")]

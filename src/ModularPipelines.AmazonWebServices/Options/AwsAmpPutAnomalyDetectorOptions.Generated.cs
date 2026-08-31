@@ -47,7 +47,7 @@ public record AwsAmpPutAnomalyDetectorOptions : AwsOptions
     /// <summary>
     /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector. key -&gt; (string) Constraints: o min: 1 o max: 7168 o pattern: (?!__)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 1 o max: 7168 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--labels", GroupValues = true)]
+    [CliOption("--labels", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>

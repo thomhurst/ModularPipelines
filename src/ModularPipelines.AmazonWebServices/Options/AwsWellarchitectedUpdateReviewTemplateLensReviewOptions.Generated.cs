@@ -37,7 +37,7 @@ public record AwsWellarchitectedUpdateReviewTemplateLensReviewOptions : AwsOptio
     /// <summary>
     /// List of pillar notes of a lens review in a workload. For a review template, these are the notes that will be associated with the workload when the template is applied. key -&gt; (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64 value -&gt; (string) The notes associated with the workload. For a review template, these are the notes that will be associ- ated with the workload when the template is applied. Constraints: o min: 0 o max: 2084 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--pillar-notes", GroupValues = true)]
+    [CliOption("--pillar-notes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PillarNotes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions
     [CliOption("--monitor-id")]
     public string? MonitorId { get; set; }
 
-    [CliOption("--settings", GroupValues = true)]
+    [CliOption("--settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Settings { get; set; }
 
     [CliOption("--cli-input-json")]

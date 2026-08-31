@@ -31,7 +31,7 @@ public record AwsAmplifyCreateDeploymentOptions : AwsOptions
     /// <summary>
     /// An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files. key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 32 o pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--file-map", GroupValues = true)]
+    [CliOption("--file-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FileMap { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,7 +28,7 @@ public record AwsGluePutWorkflowRunPropertiesOptions : AwsOptions
     [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CliOption("--run-properties", GroupValues = true)]
+    [CliOption("--run-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RunProperties { get; set; }
 
     [CliOption("--cli-input-json")]

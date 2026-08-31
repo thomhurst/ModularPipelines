@@ -35,7 +35,7 @@ public record AwsQbusinessUpdateChatResponseConfigurationOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliOption("--response-configurations", GroupValues = true)]
+    [CliOption("--response-configurations", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseConfigurations { get; set; }
 
     /// <summary>

@@ -48,7 +48,7 @@ public record AwsSagemakerUpdateModelPackageOptions : AwsOptions
     /// <summary>
     /// The metadata properties associated with the model package versions. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)${1,128} value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)${1,256} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--customer-metadata-properties", GroupValues = true)]
+    [CliOption("--customer-metadata-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomerMetadataProperties { get; set; }
 
     /// <summary>

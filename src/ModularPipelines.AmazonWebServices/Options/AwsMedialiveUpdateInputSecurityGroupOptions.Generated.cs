@@ -25,7 +25,7 @@ public record AwsMedialiveUpdateInputSecurityGroupOptions : AwsOptions
     [CliOption("--input-security-group-id")]
     public string? InputSecurityGroupId { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--whitelist-rules", GroupValues = true)]

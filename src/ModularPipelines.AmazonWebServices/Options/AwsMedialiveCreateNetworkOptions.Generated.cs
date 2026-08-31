@@ -34,7 +34,7 @@ public record AwsMedialiveCreateNetworkOptions : AwsOptions
     [CliOption("--routes", GroupValues = true)]
     public IEnumerable<string>? Routes { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -83,7 +83,7 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageOptions : AwsOptions
     /// <summary>
     /// Environment variables set in the MicroVM runtime environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [^\s]+ value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables", GroupValues = true)]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliOption("--image-identifier")]

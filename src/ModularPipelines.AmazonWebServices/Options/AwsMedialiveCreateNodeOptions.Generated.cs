@@ -37,7 +37,7 @@ public record AwsMedialiveCreateNodeOptions : AwsOptions
     [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

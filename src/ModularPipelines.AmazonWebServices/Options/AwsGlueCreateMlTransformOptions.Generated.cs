@@ -80,7 +80,7 @@ public record AwsGlueCreateMlTransformOptions : AwsOptions
     /// <summary>
     /// The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more in- formation about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

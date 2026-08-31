@@ -29,7 +29,7 @@ public record AwsSsmUpdateAssociationOptions : AwsOptions
     /// <summary>
     /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a tool in Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parame- ter-name}} . key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

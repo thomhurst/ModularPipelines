@@ -34,7 +34,7 @@ public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tag-specifications", GroupValues = true)]
+    [CliOption("--tag-specifications", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TagSpecifications { get; set; }
 
     /// <summary>

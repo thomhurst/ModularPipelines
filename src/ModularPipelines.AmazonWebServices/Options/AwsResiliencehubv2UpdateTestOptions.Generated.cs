@@ -49,7 +49,7 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions
     /// <summary>
     /// The updated parameter values for the test. Constraints: o min: 0 o max: 20 key -&gt; (string) The key of a test parameter. Constraints: o min: 1 o max: 256 o pattern: [\w.-]+ value -&gt; (list) Constraints: o min: 0 o max: 10 (string) A value of a test parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

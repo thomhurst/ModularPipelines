@@ -52,19 +52,19 @@ public record AwsSagemakerCreateTrialComponentOptions : AwsOptions
     /// <summary>
     /// The hyperparameters for the component. Constraints: o min: 0 o max: 300 key -&gt; (string) Constraints: o min: 0 o max: 320 o pattern: .* value -&gt; (structure) The value of a hyperparameter. Only one of NumberValue or StringValue can be specified. This object is specified in the CreateTrialComponent request. StringValue -&gt; (string) The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter. Constraints: o min: 0 o max: 2500 o pattern: .* NumberValue -&gt; (double) The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter. Shorthand Syntax: KeyName1={StringValue=string,NumberValue=double},KeyName2={StringValue=string,NumberValue=double} JSON Syntax: {"string": { "StringValue": "string", "NumberValue": double } ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
     /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
-    [CliOption("--input-artifacts", GroupValues = true)]
+    [CliOption("--input-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputArtifacts { get; set; }
 
     /// <summary>
     /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
-    [CliOption("--output-artifacts", GroupValues = true)]
+    [CliOption("--output-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OutputArtifacts { get; set; }
 
     /// <summary>

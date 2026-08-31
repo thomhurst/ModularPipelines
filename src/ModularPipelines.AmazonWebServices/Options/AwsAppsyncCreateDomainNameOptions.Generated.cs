@@ -37,7 +37,7 @@ public record AwsAppsyncCreateDomainNameOptions : AwsOptions
     /// <summary>
     /// A map with keys of TagKey objects and values of TagValue objects. Constraints: o min: 1 o max: 50 key -&gt; (string) The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: o max: 256 o pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

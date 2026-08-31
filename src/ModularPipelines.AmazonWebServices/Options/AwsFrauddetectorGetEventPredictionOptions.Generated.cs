@@ -43,13 +43,13 @@ public record AwsFrauddetectorGetEventPredictionOptions : AwsOptions
     [CliOption("--event-timestamp")]
     public string? EventTimestamp { get; set; }
 
-    [CliOption("--event-variables", GroupValues = true)]
+    [CliOption("--event-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EventVariables { get; set; }
 
     /// <summary>
     /// The Amazon SageMaker model endpoint input data blobs. key -&gt; (string) Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$ value -&gt; (structure) A pre-formed Amazon SageMaker model input you can include if your detector version includes an imported Amazon SageMaker model endpoint with pass-through input configuration. byteBuffer -&gt; (blob) The byte buffer of the Amazon SageMaker model endpoint input data blob. contentType -&gt; (string) The content type of the Amazon SageMaker model endpoint input data blob. Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1={byteBuffer=blob,contentType=string},KeyName2={byteBuffer=blob,contentType=string} JSON Syntax: {"string": { "byteBuffer": blob, "contentType": "string" } ...}
     /// </summary>
-    [CliOption("--external-model-endpoint-data-blobs", GroupValues = true)]
+    [CliOption("--external-model-endpoint-data-blobs", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExternalModelEndpointDataBlobs { get; set; }
 
     [CliOption("--cli-input-json")]

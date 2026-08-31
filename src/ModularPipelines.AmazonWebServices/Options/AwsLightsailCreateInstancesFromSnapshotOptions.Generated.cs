@@ -29,7 +29,7 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
     /// <summary>
     /// An object containing information about one or more disk mappings. key -&gt; (string) Constraints: o pattern: \w[\w\-]*\w value -&gt; (list) (structure) Describes a block storage disk mapping. originalDiskPath -&gt; (string) The original disk path exposed to the instance (for exam- ple, /dev/sdh ). Constraints: o pattern: .*\S.* newDiskName -&gt; (string) The new disk name (my-new-disk ). Constraints: o pattern: \w[\w\-]*\w Shorthand Syntax: KeyName1=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}],KeyName2=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}] JSON Syntax: {"string": [ { "originalDiskPath": "string", "newDiskName": "string" } ... ] ...}
     /// </summary>
-    [CliOption("--attached-disk-mapping", GroupValues = true)]
+    [CliOption("--attached-disk-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AttachedDiskMapping { get; set; }
 
     [CliOption("--availability-zone")]

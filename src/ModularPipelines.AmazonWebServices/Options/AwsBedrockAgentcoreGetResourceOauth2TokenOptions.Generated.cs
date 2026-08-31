@@ -55,7 +55,7 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     /// <summary>
     /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addi- tion to the standard OAuth 2.0 flow parameters, and will not over- ride them. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_\.]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--custom-parameters", GroupValues = true)]
+    [CliOption("--custom-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomParameters { get; set; }
 
     /// <summary>

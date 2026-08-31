@@ -34,7 +34,7 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
     /// <summary>
     /// Optional key:value pairs mapping provider names to provider app IDs. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w.;_/-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--supported-login-providers", GroupValues = true)]
+    [CliOption("--supported-login-providers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SupportedLoginProviders { get; set; }
 
     /// <summary>
@@ -64,7 +64,7 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
     /// <summary>
     /// Tags to assign to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--identity-pool-tags", GroupValues = true)]
+    [CliOption("--identity-pool-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IdentityPoolTags { get; set; }
 
     [CliOption("--cli-input-json")]

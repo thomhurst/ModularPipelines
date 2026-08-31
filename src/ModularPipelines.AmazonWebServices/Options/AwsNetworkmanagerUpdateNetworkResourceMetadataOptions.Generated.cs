@@ -28,7 +28,7 @@ public record AwsNetworkmanagerUpdateNetworkResourceMetadataOptions : AwsOptions
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--cli-input-json")]

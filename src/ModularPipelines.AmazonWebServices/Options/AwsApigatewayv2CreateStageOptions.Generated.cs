@@ -61,7 +61,7 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions
     /// <summary>
     /// Route settings for the stage, by routeKey. key -&gt; (string) value -&gt; (structure) Represents a collection of route settings. DataTraceEnabled -&gt; (boolean) Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for Web- Socket APIs. DetailedMetricsEnabled -&gt; (boolean) Specifies whether detailed metrics are enabled. LoggingLevel -&gt; (string) Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs. Possible values: o ERROR o INFO o OFF ThrottlingBurstLimit -&gt; (integer) Specifies the throttling burst limit. ThrottlingRateLimit -&gt; (double) Specifies the throttling rate limit. Shorthand Syntax: KeyName1={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double},KeyName2={DataTraceEnabled=boolean,DetailedMetricsEnabled=boolean,LoggingLevel=string,ThrottlingBurstLimit=integer,ThrottlingRateLimit=double} JSON Syntax: {"string": { "DataTraceEnabled": true|false, "DetailedMetricsEnabled": true|false, "LoggingLevel": "ERROR"|"INFO"|"OFF", "ThrottlingBurstLimit": integer, "ThrottlingRateLimit": double } ...}
     /// </summary>
-    [CliOption("--route-settings", GroupValues = true)]
+    [CliOption("--route-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RouteSettings { get; set; }
 
     [CliOption("--stage-name")]
@@ -70,13 +70,13 @@ public record AwsApigatewayv2CreateStageOptions : AwsOptions
     /// <summary>
     /// A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+. key -&gt; (string) value -&gt; (string) A string with a length between [0-2048]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--stage-variables", GroupValues = true)]
+    [CliOption("--stage-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StageVariables { get; set; }
 
     /// <summary>
     /// The collection of tags. Each tag element is associated with a given resource. key -&gt; (string) value -&gt; (string) A string with a length between [0-1600]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

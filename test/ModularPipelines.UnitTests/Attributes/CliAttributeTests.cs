@@ -218,6 +218,18 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Joins_CliOption_Collection_Into_One_Value()
+    {
+        var options = new TestCliOptionsWithJoinedValues
+        {
+            Values = [new("first", "one"), new("second", "two")],
+        };
+
+        await Assert.That(BuildArguments(options))
+            .IsEquivalentTo(["--values", "first=one,second=two"]);
+    }
+
+    [Test]
     public async Task Parser_Groups_CliOption_Value_Pairs()
     {
         var options = new TestCliOptionsWithGroupedPairs
@@ -1112,6 +1124,12 @@ public class CliAttributeTests
     {
         [CliOption("--values", GroupValues = true)]
         public string[]? Values { get; set; }
+    }
+
+    internal record TestCliOptionsWithJoinedValues : CommandLineToolOptions
+    {
+        [CliOption("--values", CollectionSeparator = ",")]
+        public IReadOnlyList<KeyValue>? Values { get; set; }
     }
 
     internal record TestCliOptionsWithInvalidGroupedValues : CommandLineToolOptions

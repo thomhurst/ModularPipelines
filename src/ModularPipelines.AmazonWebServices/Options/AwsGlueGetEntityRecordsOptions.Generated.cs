@@ -54,7 +54,7 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
     /// <summary>
     /// Connector options that are required to query the data. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\w]* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--connection-options", GroupValues = true)]
+    [CliOption("--connection-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ConnectionOptions { get; set; }
 
     /// <summary>

@@ -28,7 +28,7 @@ public record AwsCognitoIdentityGetCredentialsForIdentityOptions : AwsOptions
     /// <summary>
     /// A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax "provider_name": "provider_user_identifier". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as Facebook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--logins", GroupValues = true)]
+    [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
     /// <summary>

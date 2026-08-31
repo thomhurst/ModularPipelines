@@ -31,7 +31,7 @@ public record AwsDataexchangeSendApiAssetOptions : AwsOptions
     /// <summary>
     /// Attach query string parameters to the end of the URI (for example, /v1/examplePath?exampleParam=exampleValue). key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--query-string-parameters", GroupValues = true)]
+    [CliOption("--query-string-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryStringParameters { get; set; }
 
     [CliOption("--asset-id")]
@@ -43,7 +43,7 @@ public record AwsDataexchangeSendApiAssetOptions : AwsOptions
     /// <summary>
     /// Any header value prefixed with x-amzn-dataexchange-header- will have that stripped before sending the Asset API request. Use this when you want to override a header that AWS Data Exchange uses. Alterna- tively, you can use the header without a prefix to the HTTP request. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-headers", GroupValues = true)]
+    [CliOption("--request-headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestHeaders { get; set; }
 
     /// <summary>

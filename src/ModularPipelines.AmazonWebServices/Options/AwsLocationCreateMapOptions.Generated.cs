@@ -44,7 +44,7 @@ public record AwsLocationCreateMapOptions : AwsOptions
     /// <summary>
     /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource o Each resource tag must be unique with a maximum of one value. o Maximum key length: 128 Unicode characters in UTF-8 o Maximum value length: 256 Unicode characters in UTF-8 o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

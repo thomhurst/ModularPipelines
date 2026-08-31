@@ -40,7 +40,7 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions
     /// <summary>
     /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId pa- rameter. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-encryption-context", GroupValues = true)]
+    [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>

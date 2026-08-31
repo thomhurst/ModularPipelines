@@ -44,13 +44,13 @@ public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
     /// <summary>
     /// The target tag for a policy. Tags are strings in the format key=value . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-tags", GroupValues = true)]
+    [CliOption("--target-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TargetTags { get; set; }
 
     /// <summary>
     /// The tags to add to objects created by the policy. Tags are strings in the format key=value . These user-defined tags are added in addition to the Amazon Web Ser- vices-added lifecycle tags. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tags-to-add", GroupValues = true)]
+    [CliOption("--tags-to-add", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TagsToAdd { get; set; }
 
     /// <summary>

@@ -36,7 +36,7 @@ public record AwsMwaaServerlessStartWorkflowRunOptions : AwsOptions
     /// <summary>
     /// Optional parameters to override default workflow parameters for this specific run. These parameters are passed to the workflow during ex- ecution and can be used to customize behavior without modifying the workflow definition. Parameters are made available as environment variables to tasks and you can reference them within the YAML work- flow definition using standard parameter substitution syntax. key -&gt; (string) value -&gt; (document) JSON Syntax: {"string": {...} ...}
     /// </summary>
-    [CliOption("--override-parameters", GroupValues = true)]
+    [CliOption("--override-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OverrideParameters { get; set; }
 
     /// <summary>

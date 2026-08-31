@@ -52,13 +52,13 @@ public record AwsApigatewayPutMethodOptions : AwsOptions
     /// <summary>
     /// A key-value map defining required or optional method request parame- ters that can be accepted by API Gateway. A key defines a method re- quest parameter name matching the pattern of method.request.{loca- tion}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is re- quired (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to in- tegration request parameters or body-mapping templates. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
     /// </summary>
-    [CliOption("--request-parameters", GroupValues = true)]
+    [CliOption("--request-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
 
     /// <summary>
     /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-models", GroupValues = true)]
+    [CliOption("--request-models", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestModels { get; set; }
 
     /// <summary>

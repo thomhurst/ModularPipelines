@@ -34,13 +34,13 @@ public record AwsLexRuntimePostTextOptions : AwsOptions
     /// <summary>
     /// Application-specific information passed between Amazon Lex and a client application. For more information, see Setting Session Attributes . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--session-attributes", GroupValues = true)]
+    [CliOption("--session-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SessionAttributes { get; set; }
 
     /// <summary>
     /// Request-specific information passed between Amazon Lex and a client application. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex: . For more information, see Setting Request Attributes . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-attributes", GroupValues = true)]
+    [CliOption("--request-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
 
     [CliOption("--input-text")]

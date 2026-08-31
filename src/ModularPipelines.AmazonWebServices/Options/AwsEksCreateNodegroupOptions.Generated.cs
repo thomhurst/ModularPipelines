@@ -69,7 +69,7 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     /// <summary>
     /// The Kubernetes labels to apply to the nodes in the node group when they are created. key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 63 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--labels", GroupValues = true)]
+    [CliOption("--labels", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record AwsEksCreateNodegroupOptions : AwsOptions
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

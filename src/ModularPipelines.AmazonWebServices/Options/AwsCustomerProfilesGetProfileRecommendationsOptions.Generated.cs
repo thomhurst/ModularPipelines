@@ -34,7 +34,7 @@ public record AwsCustomerProfilesGetProfileRecommendationsOptions : AwsOptions
     /// <summary>
     /// The contextual metadata used to provide dynamic runtime information to tailor recommendations. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context", GroupValues = true)]
+    [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>

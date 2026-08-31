@@ -34,7 +34,7 @@ public record AwsCognitoIdentityGetIdOptions : AwsOptions
     /// <summary>
     /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as fol- lows: o Facebook: graph.facebook.com o Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazon- aws.com/&lt;YOUR_USER_POOL_ID&gt; , for example, cog- nito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . o Google: accounts.google.com o Amazon: www.amazon.com o Twitter: api.twitter.com o Digits: www.digits.com Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--logins", GroupValues = true)]
+    [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
     [CliOption("--cli-input-json")]

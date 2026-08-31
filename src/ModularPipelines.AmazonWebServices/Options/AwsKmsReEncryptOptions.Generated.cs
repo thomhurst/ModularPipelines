@@ -33,7 +33,7 @@ public record AwsKmsReEncryptOptions : AwsOptions
     /// <summary>
     /// Specifies the encryption context to use to decrypt the ciphertext. Enter the same encryption context that was used to encrypt the ci- phertext. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--source-encryption-context", GroupValues = true)]
+    [CliOption("--source-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SourceEncryptionContext { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsKmsReEncryptOptions : AwsOptions
     /// <summary>
     /// Specifies that encryption context to use when the reencrypting the data. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. A destination encryption context is valid only when the destination KMS key is a symmetric encryption KMS key. The standard ciphertext format for asymmetric KMS keys does not include fields for metadata. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--destination-encryption-context", GroupValues = true)]
+    [CliOption("--destination-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationEncryptionContext { get; set; }
 
     /// <summary>

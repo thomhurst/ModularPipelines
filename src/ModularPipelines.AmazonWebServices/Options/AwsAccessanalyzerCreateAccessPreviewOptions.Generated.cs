@@ -26,7 +26,7 @@ public record AwsAccessanalyzerCreateAccessPreviewOptions : AwsOptions
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; set; }
 
-    [CliOption("--configurations", GroupValues = true)]
+    [CliOption("--configurations", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Configurations { get; set; }
 
     /// <summary>

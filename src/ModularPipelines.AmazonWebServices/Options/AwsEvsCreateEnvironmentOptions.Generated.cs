@@ -45,7 +45,7 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w.:/=+-@]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w.:/=+-@]+| Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

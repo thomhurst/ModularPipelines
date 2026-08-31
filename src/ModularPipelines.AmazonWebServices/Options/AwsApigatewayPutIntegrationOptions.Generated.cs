@@ -70,13 +70,13 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions
     /// <summary>
     /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration re- quest parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method re- quest parameter value must match the pattern of method.request.{lo- cation}.{name} , where location is querystring , path , or header and name must be a valid and unique method request parameter name. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-parameters", GroupValues = true)]
+    [CliOption("--request-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
 
     /// <summary>
     /// Represents a map of Velocity templates that are applied on the re- quest payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-templates", GroupValues = true)]
+    [CliOption("--request-templates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestTemplates { get; set; }
 
     /// <summary>

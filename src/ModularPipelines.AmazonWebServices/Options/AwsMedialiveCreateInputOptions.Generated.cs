@@ -46,7 +46,7 @@ public record AwsMedialiveCreateInputOptions : AwsOptions
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--type")]

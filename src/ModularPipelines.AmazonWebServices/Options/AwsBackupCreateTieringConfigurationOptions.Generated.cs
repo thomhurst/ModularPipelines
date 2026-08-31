@@ -28,7 +28,7 @@ public record AwsBackupCreateTieringConfigurationOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the tiering configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tiering-configuration-tags", GroupValues = true)]
+    [CliOption("--tiering-configuration-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TieringConfigurationTags { get; set; }
 
     /// <summary>

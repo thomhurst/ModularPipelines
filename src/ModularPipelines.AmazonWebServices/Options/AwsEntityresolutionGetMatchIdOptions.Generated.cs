@@ -25,7 +25,7 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; set; }
 
-    [CliOption("--record", GroupValues = true)]
+    [CliOption("--record", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Record { get; set; }
 
     [CliFlag("--apply-normalization")]

@@ -39,7 +39,7 @@ public record AwsServicecatalogSearchProductsAsAdminOptions : AwsOptions
     /// <summary>
     /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access. key -&gt; (string) Possible values: o FullTextSearch o Owner o ProductType o SourceProductId value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: FullTextSearch Owner ProductType SourceProductId JSON Syntax: {"FullTextSearch"|"Owner"|"ProductType"|"SourceProductId": ["string", ...] ...}
     /// </summary>
-    [CliOption("--filters", GroupValues = true)]
+    [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     /// <summary>

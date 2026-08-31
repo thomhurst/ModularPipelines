@@ -35,7 +35,7 @@ public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions
     /// <summary>
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" To use attributes with Campaigns or State Templates, you must in- clude them using the request parameters dataExtraDimensions and/or metadataExtraDimensions (for state templates only) when creating your campaign/state template. key -&gt; (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>

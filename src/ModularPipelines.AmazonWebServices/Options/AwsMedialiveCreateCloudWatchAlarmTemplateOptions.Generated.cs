@@ -49,7 +49,7 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions
     [CliOption("--statistic")]
     public string? Statistic { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--target-resource-type")]

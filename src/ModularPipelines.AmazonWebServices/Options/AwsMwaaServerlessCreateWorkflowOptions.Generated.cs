@@ -78,7 +78,7 @@ public record AwsMwaaServerlessCreateWorkflowOptions : AwsOptions
     /// <summary>
     /// A map of tags to assign to the workflow resource. Tags are key-value pairs that are used for resource organization and cost allocation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

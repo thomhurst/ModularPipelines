@@ -43,7 +43,7 @@ public record AwsArcRegionSwitchCreatePlanOptions : AwsOptions
     /// <summary>
     /// The alarms associated with a Region switch plan. key -&gt; (string) value -&gt; (structure) An Amazon CloudWatch alarm associated with a Region switch plan. These alarms can be used to trigger automatic execution of the plan. crossAccountRole -&gt; (string) The cross account role for the configuration. Constraints: o pattern: arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+ externalId -&gt; (string) The external ID (secret key) for the configuration. resourceIdentifier -&gt; (string) [required] The resource identifier for alarms that you associate with a plan. alarmType -&gt; (string) [required] The alarm type for an associated alarm. An associated Cloud- Watch alarm can be an application health alarm or a trigger alarm. Possible values: o applicationHealth o trigger Shorthand Syntax: KeyName1={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string},KeyName2={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string} JSON Syntax: {"string": { "crossAccountRole": "string", "externalId": "string", "resourceIdentifier": "string", "alarmType": "applicationHealth"|"trigger" } ...}
     /// </summary>
-    [CliOption("--associated-alarms", GroupValues = true)]
+    [CliOption("--associated-alarms", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AssociatedAlarms { get; set; }
 
     /// <summary>
@@ -76,7 +76,7 @@ public record AwsArcRegionSwitchCreatePlanOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the Region switch plan. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

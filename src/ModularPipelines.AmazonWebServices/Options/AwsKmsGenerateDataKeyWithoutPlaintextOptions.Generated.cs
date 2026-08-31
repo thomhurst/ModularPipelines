@@ -30,7 +30,7 @@ public record AwsKmsGenerateDataKeyWithoutPlaintextOptions : AwsOptions
     /// <summary>
     /// Specifies the encryption context that will be used when encrypting the data key. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--encryption-context", GroupValues = true)]
+    [CliOption("--encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EncryptionContext { get; set; }
 
     /// <summary>

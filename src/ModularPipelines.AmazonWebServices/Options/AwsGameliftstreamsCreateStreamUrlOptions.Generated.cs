@@ -65,7 +65,7 @@ public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions
     /// <summary>
     /// A set of options that you can use to control the stream session run- time environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client. NOTE: If you want to debug your application with environment vari- ables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, re- fer to the Compatibility Guidance in the troubleshooting sec- tion of the Developer Guide. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data us- ing environment variables; while AdditionalLaunchArgs passes data using command-line arguments. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [_a-zA-Z][_a-zA-Z0-9]* value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-environment-variables", GroupValues = true)]
+    [CliOption("--additional-environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEnvironmentVariables { get; set; }
 
     /// <summary>

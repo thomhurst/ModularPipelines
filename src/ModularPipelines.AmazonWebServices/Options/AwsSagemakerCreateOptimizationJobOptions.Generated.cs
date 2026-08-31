@@ -43,7 +43,7 @@ public record AwsSagemakerCreateOptimizationJobOptions : AwsOptions
     /// <summary>
     /// The environment variables to set in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--optimization-environment", GroupValues = true)]
+    [CliOption("--optimization-environment", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OptimizationEnvironment { get; set; }
 
     [CliOption("--optimization-configs", GroupValues = true)]

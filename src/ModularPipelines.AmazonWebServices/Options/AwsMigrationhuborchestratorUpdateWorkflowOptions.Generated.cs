@@ -40,7 +40,7 @@ public record AwsMigrationhuborchestratorUpdateWorkflowOptions : AwsOptions
     /// <summary>
     /// The input parameters required to update a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a mi- gration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOf- StringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: o min: 0 o max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: o min: 0 o max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}
     /// </summary>
-    [CliOption("--input-parameters", GroupValues = true)]
+    [CliOption("--input-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputParameters { get; set; }
 
     /// <summary>

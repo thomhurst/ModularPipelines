@@ -32,13 +32,13 @@ public record AwsConnectStartOutboundChatContactOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--segment-attributes", GroupValues = true)]
+    [CliOption("--segment-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--contact-flow-id")]

@@ -48,7 +48,7 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     /// <summary>
     /// The updated component configurations. Creates a new version of the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
     /// </summary>
-    [CliOption("--components", GroupValues = true)]
+    [CliOption("--components", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Components { get; set; }
 
     /// <summary>

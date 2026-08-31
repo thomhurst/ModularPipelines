@@ -39,10 +39,10 @@ public record AwsFisCreateExperimentTemplateOptions : AwsOptions
     /// <summary>
     /// The targets for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both ARNs and tags. For more information, see Targets in the Fault Injection Service User Guide . resourceType -&gt; (string) [required] The resource type. The resource type must be supported for the specified action. Constraints: o max: 128 o pattern: [\S]+ resourceArns -&gt; (list) The Amazon Resource Names (ARNs) of the resources. Constraints: o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: [\S]+ resourceTags -&gt; (map) The tags for the target resources. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* filters -&gt; (list) The filters to apply to identify target resources using spe- cific attributes. (structure) Specifies a filter used for the target resource input in an experiment template. For more information, see Resource filters in the Fault Injection Service User Guide . path -&gt; (string) [required] The attribute path for the filter. Constraints: o max: 256 o pattern: [\S]+ values -&gt; (list) [required] The attribute values for the filter. (string) Constraints: o max: 128 o pattern: [\S]+ selectionMode -&gt; (string) [required] Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target. o ALL - Run the action on all identified targets. This is the default. o COUNT(n) - Run the action on the specified number of tar- gets, chosen from the identified targets at random. For ex- ample, COUNT(1) selects one of the targets. o PERCENT(n) - Run the action on the specified percentage of targets, chosen from the identified targets at random. For example, PERCENT(25) selects 25% of the targets. Constraints: o max: 64 o pattern: [\S]+ parameters -&gt; (map) The resource type parameters. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=+\-@]+$ JSON Syntax: {"string": { "resourceType": "string", "resourceArns": ["string", ...], "resourceTags": {"string": "string" ...}, "filters": [ { "path": "string", "values": ["string", ...] } ... ], "selectionMode": "string", "parameters": {"string": "string" ...} } ...}
     /// </summary>
-    [CliOption("--targets", GroupValues = true)]
+    [CliOption("--targets", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Targets { get; set; }
 
-    [CliOption("--actions", GroupValues = true)]
+    [CliOption("--actions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Actions { get; set; }
 
     [CliOption("--role-arn")]
@@ -51,7 +51,7 @@ public record AwsFisCreateExperimentTemplateOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the experiment template. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

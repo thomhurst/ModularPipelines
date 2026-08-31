@@ -40,7 +40,7 @@ public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
     /// <summary>
     /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--kms-encryption-context", GroupValues = true)]
+    [CliOption("--kms-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KmsEncryptionContext { get; set; }
 
     [CliOption("--data-access-role-arn")]

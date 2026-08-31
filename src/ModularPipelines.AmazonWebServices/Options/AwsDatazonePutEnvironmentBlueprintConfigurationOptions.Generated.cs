@@ -52,7 +52,7 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     /// <summary>
     /// The regional parameters in the environment blueprint. key -&gt; (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
-    [CliOption("--regional-parameters", GroupValues = true)]
+    [CliOption("--regional-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RegionalParameters { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     /// <summary>
     /// Region-agnostic environment blueprint parameters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--global-parameters", GroupValues = true)]
+    [CliOption("--global-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GlobalParameters { get; set; }
 
     /// <summary>

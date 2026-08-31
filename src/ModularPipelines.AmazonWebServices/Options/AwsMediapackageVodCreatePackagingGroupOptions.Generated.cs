@@ -31,7 +31,7 @@ public record AwsMediapackageVodCreatePackagingGroupOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,7 +37,7 @@ public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsO
     /// <summary>
     /// The origin configuration settings that determine how package ver- sions can enter repositories. key -&gt; (string) Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH value -&gt; (string) Possible values: o ALLOW o ALLOW_SPECIFIC_REPOSITORIES o BLOCK o INHERIT Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EXTERNAL_UPSTREAM INTERNAL_UPSTREAM PUBLISH JSON Syntax: {"EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH": "ALLOW"|"ALLOW_SPECIFIC_REPOSITORIES"|"BLOCK"|"INHERIT" ...}
     /// </summary>
-    [CliOption("--restrictions", GroupValues = true)]
+    [CliOption("--restrictions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Restrictions { get; set; }
 
     /// <summary>

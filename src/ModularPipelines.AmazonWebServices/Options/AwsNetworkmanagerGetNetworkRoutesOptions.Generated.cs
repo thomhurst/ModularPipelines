@@ -73,7 +73,7 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions
     /// <summary>
     /// Filter by route table destination. Possible Values: TRANSIT_GATE- WAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--destination-filters", GroupValues = true)]
+    [CliOption("--destination-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationFilters { get; set; }
 
     [CliOption("--cli-input-json")]

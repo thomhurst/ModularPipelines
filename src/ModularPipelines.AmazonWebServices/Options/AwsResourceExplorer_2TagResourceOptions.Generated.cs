@@ -28,7 +28,7 @@ public record AwsResourceExplorer_2TagResourceOptions : AwsOptions
     /// <summary>
     /// A list of tag key and value pairs that you want to attach to the specified view or index. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

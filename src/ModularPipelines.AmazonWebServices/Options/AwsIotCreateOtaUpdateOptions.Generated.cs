@@ -79,7 +79,7 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
     /// <summary>
     /// A list of additional OTA update parameters, which are name-value pairs. They won't be sent to devices as a part of the Job document. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-parameters", GroupValues = true)]
+    [CliOption("--additional-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalParameters { get; set; }
 
     /// <summary>

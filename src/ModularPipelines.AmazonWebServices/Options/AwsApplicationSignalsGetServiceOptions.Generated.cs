@@ -28,7 +28,7 @@ public record AwsApplicationSignalsGetServiceOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliOption("--key-attributes", GroupValues = true)]
+    [CliOption("--key-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KeyAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

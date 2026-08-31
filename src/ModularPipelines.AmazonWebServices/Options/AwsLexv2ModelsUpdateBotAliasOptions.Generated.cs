@@ -43,7 +43,7 @@ public record AwsLexv2ModelsUpdateBotAliasOptions : AwsOptions
     /// <summary>
     /// The new Lambda functions to use in each locale for the bot alias. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) Specifies settings that are unique to a locale. For example, you can use different Lambda function depending on the bot's locale. enabled -&gt; (boolean) [required] Determines whether the locale is enabled for the bot. If the value is false , the locale isn't available for use. codeHookSpecification -&gt; (structure) Specifies the Lambda function that should be used in the lo- cale. lambdaCodeHook -&gt; (structure) [required] Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot. lambdaARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:func- tion:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)? codeHookInterfaceVersion -&gt; (string) [required] The version of the request-response that you want Ama- zon Lex to use to invoke your Lambda function. Constraints: o min: 1 o max: 5 JSON Syntax: {"string": { "enabled": true|false, "codeHookSpecification": { "lambdaCodeHook": { "lambdaARN": "string", "codeHookInterfaceVersion": "string" } } } ...}
     /// </summary>
-    [CliOption("--bot-alias-locale-settings", GroupValues = true)]
+    [CliOption("--bot-alias-locale-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotAliasLocaleSettings { get; set; }
 
     /// <summary>

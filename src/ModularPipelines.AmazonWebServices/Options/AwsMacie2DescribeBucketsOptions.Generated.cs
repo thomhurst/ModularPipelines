@@ -26,7 +26,7 @@ public record AwsMacie2DescribeBucketsOptions : AwsOptions
     /// <summary>
     /// The criteria to use to filter the query results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for information about S3 buckets. eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the spec- ified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) prefix -&gt; (string) The name of the bucket begins with the specified value. Shorthand Syntax: KeyName1={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string},KeyName2={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string} JSON Syntax: {"string": { "eq": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...], "prefix": "string" } ...}
     /// </summary>
-    [CliOption("--criteria", GroupValues = true)]
+    [CliOption("--criteria", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Criteria { get; set; }
 
     /// <summary>

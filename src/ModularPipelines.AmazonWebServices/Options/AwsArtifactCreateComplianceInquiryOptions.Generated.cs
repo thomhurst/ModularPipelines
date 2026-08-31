@@ -46,7 +46,7 @@ public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions
     /// <summary>
     /// Tags to associate with the compliance inquiry resource. Constraints: o min: 0 o max: 50 key -&gt; (string) A tag key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s_.:/=+\-@]* value -&gt; (string) A tag value. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

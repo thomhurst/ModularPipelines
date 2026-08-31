@@ -31,13 +31,13 @@ public record AwsCognitoIdpCreateIdentityProviderOptions : AwsOptions
     [CliOption("--provider-type")]
     public string? ProviderType { get; set; }
 
-    [CliOption("--provider-details", GroupValues = true)]
+    [CliOption("--provider-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ProviderDetails { get; set; }
 
     /// <summary>
     /// A mapping of IdP attributes to standard and custom user pool attrib- utes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value. key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attribute-mapping", GroupValues = true)]
+    [CliOption("--attribute-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AttributeMapping { get; set; }
 
     /// <summary>

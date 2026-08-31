@@ -98,13 +98,13 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions
     /// <summary>
     /// The tags to use with this DevEndpoint. You may use tags to limit ac- cess to the DevEndpoint. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A map of arguments used to configure the DevEndpoint . Constraints: o min: 0 o max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--arguments", GroupValues = true)]
+    [CliOption("--arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GlueArguments { get; set; }
 
     [CliOption("--cli-input-json")]

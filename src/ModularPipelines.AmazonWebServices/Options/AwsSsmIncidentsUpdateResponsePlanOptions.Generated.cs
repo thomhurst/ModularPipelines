@@ -84,7 +84,7 @@ public record AwsSsmIncidentsUpdateResponsePlanOptions : AwsOptions
     /// <summary>
     /// Tags to assign to the template. When the StartIncident API action is called, Incident Manager assigns the tags specified in the template to the incident. To call this action, you must also have permission to call the TagResource API action for the incident record resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--incident-template-tags", GroupValues = true)]
+    [CliOption("--incident-template-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IncidentTemplateTags { get; set; }
 
     /// <summary>

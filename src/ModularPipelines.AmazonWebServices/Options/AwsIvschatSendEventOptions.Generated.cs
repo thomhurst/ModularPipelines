@@ -31,7 +31,7 @@ public record AwsIvschatSendEventOptions : AwsOptions
     /// <summary>
     /// Application-defined metadata to attach to the event sent to clients. The maximum length of the metadata is 1 KB total. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

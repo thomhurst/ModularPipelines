@@ -28,7 +28,7 @@ public record AwsSsmCreateOpsMetadataOptions : AwsOptions
     /// <summary>
     /// Metadata for a new Application Manager application. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^(?!\s*$).+ value -&gt; (structure) Metadata to assign to an Application Manager application. Value -&gt; (string) Metadata value to assign to an Application Manager applica- tion. Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
     /// </summary>
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>

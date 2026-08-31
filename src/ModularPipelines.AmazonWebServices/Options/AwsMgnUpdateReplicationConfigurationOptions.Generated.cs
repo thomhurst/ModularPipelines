@@ -98,7 +98,7 @@ public record AwsMgnUpdateReplicationConfigurationOptions : AwsOptions
     /// <summary>
     /// Update replication configuration Staging Area Tags request. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--staging-area-tags", GroupValues = true)]
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     [CliFlag("--use-fips-endpoint")]

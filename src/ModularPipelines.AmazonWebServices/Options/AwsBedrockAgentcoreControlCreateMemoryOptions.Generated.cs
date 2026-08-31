@@ -81,7 +81,7 @@ public record AwsBedrockAgentcoreControlCreateMemoryOptions : AwsOptions
     /// <summary>
     /// A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for exam- ple, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

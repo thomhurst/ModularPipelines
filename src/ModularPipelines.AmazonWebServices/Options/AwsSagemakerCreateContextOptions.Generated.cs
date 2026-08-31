@@ -40,7 +40,7 @@ public record AwsSagemakerCreateContextOptions : AwsOptions
     /// <summary>
     /// A list of properties to add to the context. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--properties", GroupValues = true)]
+    [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>

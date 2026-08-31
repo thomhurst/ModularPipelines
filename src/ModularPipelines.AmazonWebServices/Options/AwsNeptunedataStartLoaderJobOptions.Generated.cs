@@ -53,7 +53,7 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     /// <summary>
     /// ** parserConfiguration ** An optional object with additional parser configuration values. Each of the child parameters is also optional: o ** namedGraphUri ** - The default graph for all RDF formats when no graph is specified (for non-quads formats and NQUAD entries with no graph). The default is https://aws.amazon.com/neptune/vo- cab/v01/DefaultNamedGraph . System Message: WARNING/2 (&lt;string&gt;:, line 417) Inline strong start-string without end-string. o ** baseUri ** - The base URI for RDF/XML and Turtle formats. The de- fault is https://aws.amazon.com/neptune/default . System Message: WARNING/2 (&lt;string&gt;:, line 419) Inline strong start-string without end-string. o ** allowEmptyStrings ** - Gremlin users need to be able to pass empty string values("") as node and edge properties when loading CSV data. If allowEmptyStrings is set to false (the default), such empty strings are treated as nulls and are not loaded. If al- lowEmptyStrings is set to true , the loader treats empty strings as valid property values and loads them accordingly. System Message: WARNING/2 (&lt;string&gt;:, line 421) Inline strong start-string without end-string. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parser-configuration", GroupValues = true)]
+    [CliOption("--parser-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParserConfiguration { get; set; }
 
     [CliFlag("--update-single-cardinality-properties")]

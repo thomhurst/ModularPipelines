@@ -34,7 +34,7 @@ public record AwsBackupCreateRestoreTestingPlanOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the restore testing plan. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -32,7 +32,7 @@ public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOp
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
-    [CliOption("--provisioned-product-properties", GroupValues = true)]
+    [CliOption("--provisioned-product-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ProvisionedProductProperties { get; set; }
 
     /// <summary>

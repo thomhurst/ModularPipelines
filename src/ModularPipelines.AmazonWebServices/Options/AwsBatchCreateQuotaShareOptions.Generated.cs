@@ -47,7 +47,7 @@ public record AwsBatchCreateQuotaShareOptions : AwsOptions
     /// <summary>
     /// The tags that you apply to the quota share to help you categorize and organize your resources. Each tag consists of a key and an op- tional value. For more information, see Tagging your Batch resources in Batch User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

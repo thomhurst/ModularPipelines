@@ -40,7 +40,7 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; set; }
 
-    [CliOption("--input-parameters", GroupValues = true)]
+    [CliOption("--input-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputParameters { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
     /// <summary>
     /// The tags to add on a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

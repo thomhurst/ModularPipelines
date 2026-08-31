@@ -45,7 +45,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions
     /// <summary>
     /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session. key -&gt; (string) Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION value -&gt; (structure) A type that specifies the AI Agent ID configuration data when mapping an AI Agents to be used for an AI Agent type on a ses- sion or assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: KeyName1={aiAgentId=string},KeyName2={aiAgentId=string} Where valid key names are: MANUAL_SEARCH ANSWER_RECOMMENDATION SELF_SERVICE EMAIL_RESPONSE EMAIL_OVERVIEW EMAIL_GENERATIVE_ANSWER ORCHESTRATION NOTE_TAKING CASE_SUMMARIZATION JSON Syntax: {"MANUAL_SEARCH"|"ANSWER_RECOMMENDATION"|"SELF_SERVICE"|"EMAIL_RESPONSE"|"EMAIL_OVERVIEW"|"EMAIL_GENERATIVE_ANSWER"|"ORCHESTRATION"|"NOTE_TAKING"|"CASE_SUMMARIZATION": { "aiAgentId": "string" } ...}
     /// </summary>
-    [CliOption("--ai-agent-configuration", GroupValues = true)]
+    [CliOption("--ai-agent-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AiAgentConfiguration { get; set; }
 
     /// <summary>

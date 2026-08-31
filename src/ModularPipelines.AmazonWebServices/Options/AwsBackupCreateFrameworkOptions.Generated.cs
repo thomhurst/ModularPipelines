@@ -45,7 +45,7 @@ public record AwsBackupCreateFrameworkOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the framework. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--framework-tags", GroupValues = true)]
+    [CliOption("--framework-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FrameworkTags { get; set; }
 
     [CliOption("--cli-input-json")]

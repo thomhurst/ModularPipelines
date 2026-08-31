@@ -44,7 +44,7 @@ public record AwsGameliftstreamsCreateStreamGroupOptions : AwsOptions
     /// <summary>
     /// A list of labels to assign to the new stream group resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

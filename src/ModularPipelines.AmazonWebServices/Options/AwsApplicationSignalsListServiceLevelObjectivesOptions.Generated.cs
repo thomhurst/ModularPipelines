@@ -26,7 +26,7 @@ public record AwsApplicationSignalsListServiceLevelObjectivesOptions : AwsOption
     /// <summary>
     /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--key-attributes", GroupValues = true)]
+    [CliOption("--key-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KeyAttributes { get; set; }
 
     /// <summary>

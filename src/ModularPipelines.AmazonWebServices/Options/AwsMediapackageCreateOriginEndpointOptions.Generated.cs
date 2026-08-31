@@ -55,7 +55,7 @@ public record AwsMediapackageCreateOriginEndpointOptions : AwsOptions
     [CliOption("--startover-window-seconds")]
     public int? StartoverWindowSeconds { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--time-delay-seconds")]

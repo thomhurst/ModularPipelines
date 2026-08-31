@@ -68,7 +68,7 @@ public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions
     /// <summary>
     /// A parameter template for this workflow version. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see Parameter template files in the Amazon Web Services HealthOmics User Guide . Constraints: o min: 1 o max: 2000 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ value -&gt; (structure) A workflow parameter. description -&gt; (string) The parameter's description. Constraints: o min: 0 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ optional -&gt; (boolean) Whether the parameter is optional. Shorthand Syntax: KeyName1={description=string,optional=boolean},KeyName2={description=string,optional=boolean} JSON Syntax: {"string": { "description": "string", "optional": true|false } ...}
     /// </summary>
-    [CliOption("--parameter-template", GroupValues = true)]
+    [CliOption("--parameter-template", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParameterTemplate { get; set; }
 
     /// <summary>
@@ -92,7 +92,7 @@ public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions
     /// <summary>
     /// Tags for this workflow version. You can define up to 50 tags for the workflow. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

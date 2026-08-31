@@ -77,7 +77,7 @@ public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process. Tags are formatted as key value pairs. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags", GroupValues = true)]
+    [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The metadata tags to assign to the infrastructure configuration re- source that Image Builder creates as output. Tags are formatted as key value pairs. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

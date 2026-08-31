@@ -130,7 +130,7 @@ public record AwsIdentitystoreCreateUserOptions : AwsOptions
     /// <summary>
     /// A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent ex- tension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: aws:identitystore:[a-z]{1,20} value -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. JSON Syntax: {"string": {...} ...}
     /// </summary>
-    [CliOption("--extensions", GroupValues = true)]
+    [CliOption("--extensions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Extensions { get; set; }
 
     [CliOption("--cli-input-json")]

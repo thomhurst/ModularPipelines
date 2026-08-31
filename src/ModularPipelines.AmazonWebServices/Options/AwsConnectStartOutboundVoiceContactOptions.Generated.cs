@@ -39,7 +39,7 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions
     /// <summary>
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during voice contact creation. key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a con- tact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL ref- erence, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch time- stamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully cre- ated. Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
     /// </summary>
-    [CliOption("--references", GroupValues = true)]
+    [CliOption("--references", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? References { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>

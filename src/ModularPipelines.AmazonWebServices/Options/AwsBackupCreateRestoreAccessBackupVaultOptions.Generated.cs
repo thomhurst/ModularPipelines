@@ -34,7 +34,7 @@ public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions
     /// <summary>
     /// Optional tags to assign to the restore access backup vault. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--backup-vault-tags", GroupValues = true)]
+    [CliOption("--backup-vault-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BackupVaultTags { get; set; }
 
     /// <summary>

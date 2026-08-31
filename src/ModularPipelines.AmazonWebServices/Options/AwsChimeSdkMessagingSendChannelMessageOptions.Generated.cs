@@ -60,7 +60,7 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions
     /// <summary>
     /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Shorthand Syntax: KeyName1={StringValues=[string,string]},KeyName2={StringValues=[string,string]} JSON Syntax: {"string": { "StringValues": ["string", ...] } ...}
     /// </summary>
-    [CliOption("--message-attributes", GroupValues = true)]
+    [CliOption("--message-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MessageAttributes { get; set; }
 
     /// <summary>

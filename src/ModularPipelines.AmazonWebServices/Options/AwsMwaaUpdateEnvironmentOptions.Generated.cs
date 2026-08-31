@@ -35,7 +35,7 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs containing the Apache Airflow configura- tion options you want to attach to your environment. For more infor- mation, refer to Apache Airflow configuration options . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]+([a-z0-9._]*[a-z0-9_]+)? value -&gt; (string) Constraints: o min: 1 o max: 65536 o pattern: [ -~]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--airflow-configuration-options", GroupValues = true)]
+    [CliOption("--airflow-configuration-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AirflowConfigurationOptions { get; set; }
 
     /// <summary>

@@ -73,19 +73,19 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions
     /// <summary>
     /// A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
     /// </summary>
-    [CliOption("--fields", GroupValues = true)]
+    [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; set; }
 
     /// <summary>
     /// A list of unique keys that can be used to map data to the profile. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ value -&gt; (list) (structure) An object that defines the Key element of a ProfileObject. A Key is a special element that can be used to search for a customer profile. StandardIdentifiers -&gt; (list) The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER means that this key can be used to tie an object to a PROFILE, AS- SET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for pro- files after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles. (string) Possible values: o PROFILE o ASSET o CASE o DEVICE o WEB_ANALYTICS o ORDER o COMMUNICATION_RECORD o AIR_PREFERENCE o HOTEL_PREFERENCE o AIR_BOOKING o AIR_SEGMENT o HOTEL_RESERVATION o HOTEL_STAY_REVENUE o LOYALTY o LOYALTY_TRANSACTION o LOYALTY_PROMOTION o UNIQUE o SECONDARY o LOOKUP_ONLY o NEW_ONLY FieldNames -&gt; (list) The reference for the key name of the fields map. (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ JSON Syntax: {"string": [ { "StandardIdentifiers": ["PROFILE"|"ASSET"|"CASE"|"DEVICE"|"WEB_ANALYTICS"|"ORDER"|"COMMUNICATION_RECORD"|"AIR_PREFERENCE"|"HOTEL_PREFERENCE"|"AIR_BOOKING"|"AIR_SEGMENT"|"HOTEL_RESERVATION"|"HOTEL_STAY_REVENUE"|"LOYALTY"|"LOYALTY_TRANSACTION"|"LOYALTY_PROMOTION"|"UNIQUE"|"SECONDARY"|"LOOKUP_ONLY"|"NEW_ONLY", ...], "FieldNames": ["string", ...] } ... ] ...}
     /// </summary>
-    [CliOption("--keys", GroupValues = true)]
+    [CliOption("--keys", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Keys { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -26,7 +26,7 @@ public record AwsGluePutAssetTypeOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--forms", GroupValues = true)]
+    [CliOption("--forms", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Forms { get; set; }
 
     /// <summary>

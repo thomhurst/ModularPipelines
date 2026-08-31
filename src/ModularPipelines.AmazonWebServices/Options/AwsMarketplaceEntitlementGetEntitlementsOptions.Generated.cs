@@ -29,7 +29,7 @@ public record AwsMarketplaceEntitlementGetEntitlementsOptions : AwsOptions
     /// <summary>
     /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key. CustomerIdentifier and CustomerAWSAccountId are mutually exclu- sive parameters. You must use one or the other, but not both in the same request. NOTE: If you're migrating an existing integration, use Account Feeds to map CustomerIdentifier to CustomerAWSAccountId , and Agreements Feeds to map CustomerAWSAccountId and LicenseArn . key -&gt; (string) Possible values: o CUSTOMER_IDENTIFIER o DIMENSION o CUSTOMER_AWS_ACCOUNT_ID o LICENSE_ARN value -&gt; (list) Constraints: o min: 1 (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: CUSTOMER_IDENTIFIER DIMENSION CUSTOMER_AWS_ACCOUNT_ID LICENSE_ARN JSON Syntax: {"CUSTOMER_IDENTIFIER"|"DIMENSION"|"CUSTOMER_AWS_ACCOUNT_ID"|"LICENSE_ARN": ["string", ...] ...}
     /// </summary>
-    [CliOption("--filter", GroupValues = true)]
+    [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     [CliOption("--cli-input-json")]

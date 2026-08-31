@@ -31,7 +31,7 @@ public record AwsFrauddetectorSendEventOptions : AwsOptions
     [CliOption("--event-timestamp")]
     public string? EventTimestamp { get; set; }
 
-    [CliOption("--event-variables", GroupValues = true)]
+    [CliOption("--event-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EventVariables { get; set; }
 
     /// <summary>

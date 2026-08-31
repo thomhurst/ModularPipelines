@@ -45,7 +45,7 @@ public record AwsWorkspacesWebCreatePortalOptions : AwsOptions
     /// <summary>
     /// The additional encryption context of the portal. key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-encryption-context", GroupValues = true)]
+    [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>

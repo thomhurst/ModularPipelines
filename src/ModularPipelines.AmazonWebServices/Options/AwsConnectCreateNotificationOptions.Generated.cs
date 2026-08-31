@@ -42,13 +42,13 @@ public record AwsConnectCreateNotificationOptions : AwsOptions
     [CliOption("--priority")]
     public AwsConnectCreateNotificationPriority? Priority { get; set; }
 
-    [CliOption("--content", GroupValues = true)]
+    [CliOption("--content", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Content { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

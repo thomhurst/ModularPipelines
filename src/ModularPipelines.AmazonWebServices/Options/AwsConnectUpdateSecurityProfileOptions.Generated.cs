@@ -43,7 +43,7 @@ public record AwsConnectUpdateSecurityProfileOptions : AwsOptions
     /// <summary>
     /// The list of tags that a security profile uses to restrict access to resources in Connect Customer. Constraints: o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--allowed-access-control-tags", GroupValues = true)]
+    [CliOption("--allowed-access-control-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AllowedAccessControlTags { get; set; }
 
     /// <summary>

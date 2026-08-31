@@ -35,7 +35,7 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
     /// <summary>
     /// Filters to apply based on next hop information. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--next-hop-filters", GroupValues = true)]
+    [CliOption("--next-hop-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NextHopFilters { get; set; }
 
     /// <summary>

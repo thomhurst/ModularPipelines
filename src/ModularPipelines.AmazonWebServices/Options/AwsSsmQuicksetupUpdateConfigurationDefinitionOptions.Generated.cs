@@ -43,7 +43,7 @@ public record AwsSsmQuicksetupUpdateConfigurationDefinitionOptions : AwsOptions
     /// <summary>
     /// The parameters for the configuration definition type. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9+=@_\/\s-]+$ value -&gt; (string) Constraints: o min: 0 o max: 40960 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

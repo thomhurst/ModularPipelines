@@ -25,7 +25,7 @@ public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions
     [CliOption("--service-id")]
     public string? ServiceId { get; set; }
 
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

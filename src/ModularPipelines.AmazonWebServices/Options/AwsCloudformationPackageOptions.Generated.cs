@@ -43,7 +43,7 @@ public record AwsCloudformationPackageOptions : AwsOptions
     [CliFlag("--force-upload")]
     public bool? ForceUpload { get; set; }
 
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
 }

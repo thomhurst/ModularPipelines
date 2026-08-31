@@ -31,13 +31,13 @@ public record AwsConnectSubmitContactEvaluationOptions : AwsOptions
     /// <summary>
     /// A map of question identifiers to answer value. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (structure) Information about input answers for a contact evaluation. Value -&gt; (tagged union structure) The value for an answer in a contact evaluation. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: StringValue, NumericValue, StringValues, DateTimeValue, NotApplicable. StringValue -&gt; (string) The string value for an answer in a contact evaluation. Constraints: o min: 0 o max: 300 NumericValue -&gt; (double) The numeric value for an answer in a contact evaluation. StringValues -&gt; (list) String values provided as answers to evaluation ques- tions. (string) Constraints: o min: 0 o max: 300 DateTimeValue -&gt; (string) Date and time value provided as an answer to an evalua- tion question. NotApplicable -&gt; (boolean) The flag to mark the question as not applicable. JSON Syntax: {"string": { "Value": { "StringValue": "string", "NumericValue": double, "StringValues": ["string", ...], "DateTimeValue": "string", "NotApplicable": true|false } } ...}
     /// </summary>
-    [CliOption("--answers", GroupValues = true)]
+    [CliOption("--answers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Answers { get; set; }
 
     /// <summary>
     /// A map of question identifiers to note value. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (structure) Information about notes for a contact evaluation. Value -&gt; (string) The note for an item (section or question) in a contact eval- uation. NOTE: Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024. Constraints: o min: 0 o max: 3072 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
     /// </summary>
-    [CliOption("--notes", GroupValues = true)]
+    [CliOption("--notes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Notes { get; set; }
 
     /// <summary>

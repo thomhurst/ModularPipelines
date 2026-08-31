@@ -54,7 +54,7 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions
     /// <summary>
     /// Tags to be added to the quantum task you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

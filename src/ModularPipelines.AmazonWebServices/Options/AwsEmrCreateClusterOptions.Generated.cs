@@ -136,7 +136,7 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     /// <summary>
     /// A list of tags to associate with a cluster, which apply to each Ama- zon EC2 instance in the cluster. Tags are key-value pairs that con- sist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag with- out a value using only the key name, for example key . Use a space to separate multiple tags. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

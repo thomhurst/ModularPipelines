@@ -77,7 +77,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The tags attached to the resource created by Image Builder. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags", GroupValues = true)]
+    [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>

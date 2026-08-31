@@ -68,7 +68,7 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliFlag("--create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
-    [CliOption("--staging-area-tags", GroupValues = true)]
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     [CliOption("--pit-policy", GroupValues = true)]
@@ -77,7 +77,7 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     /// <summary>
     /// A set of tags to be associated with the Replication Configuration Template resource. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliFlag("--auto-replicate-new-disks")]

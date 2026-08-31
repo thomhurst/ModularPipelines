@@ -53,7 +53,7 @@ public record AwsCodeartifactDisposePackageVersionsOptions : AwsOptions
     /// <summary>
     /// The revisions of the package versions you want to dispose. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--version-revisions", GroupValues = true)]
+    [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     /// <summary>

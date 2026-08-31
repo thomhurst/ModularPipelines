@@ -25,7 +25,7 @@ public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions
     [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -36,7 +36,7 @@ public record AwsQbusinessCreateChatResponseConfigurationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--response-configurations", GroupValues = true)]
+    [CliOption("--response-configurations", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseConfigurations { get; set; }
 
     /// <summary>

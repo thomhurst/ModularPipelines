@@ -36,7 +36,7 @@ public record AwsWisdomCreateContentOptions : AwsOptions
     /// <summary>
     /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an ex- ternal system and Wisdom, you can store an external version identi- fier as metadata to utilize for determining drift. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--name")]
@@ -51,7 +51,7 @@ public record AwsWisdomCreateContentOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

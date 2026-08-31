@@ -56,7 +56,7 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     /// <summary>
     /// The hyperparameters to override for model training. The hyperparame- ters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choos- ing-recipes . Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\\]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\"\\\s]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--training-parameters", GroupValues = true)]
+    [CliOption("--training-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TrainingParameters { get; set; }
 
     /// <summary>

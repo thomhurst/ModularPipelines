@@ -57,13 +57,13 @@ public record AwsDatazoneUpdateNotebookOptions : AwsOptions
     /// <summary>
     /// The updated metadata for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// The updated sensitive parameters for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

@@ -45,7 +45,7 @@ public record AwsWafv2PutManagedRuleSetVersionsOptions : AwsOptions
     /// <summary>
     /// The versions of the named managed rule group that you want to offer to your customers. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$ value -&gt; (structure) A version of the named managed rule group, that the rule group's vendor publishes for use by customers. NOTE: This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group of- ferings for your customers. The APIs are ListManagedRuleSets , GetManagedRuleSet , PutManagedRuleSetVersions , and Update- ManagedRuleSetVersionExpiryDate . AssociatedRuleGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the vendor's rule group that's used in the published managed rule group version. Constraints: o min: 20 o max: 2048 o pattern: .*\S.* ForecastedLifetime -&gt; (integer) The amount of time the vendor expects this version of the managed rule group to last, in days. Constraints: o min: 1 Shorthand Syntax: KeyName1={AssociatedRuleGroupArn=string,ForecastedLifetime=integer},KeyName2={AssociatedRuleGroupArn=string,ForecastedLifetime=integer} JSON Syntax: {"string": { "AssociatedRuleGroupArn": "string", "ForecastedLifetime": integer } ...}
     /// </summary>
-    [CliOption("--versions-to-publish", GroupValues = true)]
+    [CliOption("--versions-to-publish", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionsToPublish { get; set; }
 
     [CliOption("--cli-input-json")]

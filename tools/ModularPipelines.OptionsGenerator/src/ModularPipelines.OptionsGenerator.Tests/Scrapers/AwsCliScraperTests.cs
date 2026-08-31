@@ -125,6 +125,30 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Map_Options_Join_Entries_Into_One_Operand()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsMapHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(option.IsKeyValue).IsTrue();
+            await Assert.That(option.GroupValues).IsFalse();
+            await Assert.That(option.CollectionSeparator).IsEqualTo(",");
+        }
+    }
+
+    [Test]
     public async Task Value_Taking_Global_Command_Options_Are_Not_Flags()
     {
         var scraper = new AwsCliScraper(
@@ -354,6 +378,35 @@ public class AwsCliScraperTests
 
                            --generate-cli-skeleton
                            Skeleton output mode.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsMapHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o amplify",
+                "amplify help" => "AVAILABLE COMMANDS\n       o create-app",
+                "amplify create-app help" => """
+                    OPTIONS
+                           --environment-variables (map)
+                            Shorthand Syntax: KeyName1=string,KeyName2=string
                     """,
                 _ => string.Empty,
             };

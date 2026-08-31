@@ -38,7 +38,7 @@ public record AwsIotsitewiseUpdateComputationModelOptions : AwsOptions
     [CliOption("--computation-model-configuration")]
     public string? ComputationModelConfiguration { get; set; }
 
-    [CliOption("--computation-model-data-binding", GroupValues = true)]
+    [CliOption("--computation-model-data-binding", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ComputationModelDataBinding { get; set; }
 
     /// <summary>

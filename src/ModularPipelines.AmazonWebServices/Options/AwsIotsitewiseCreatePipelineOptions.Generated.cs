@@ -38,7 +38,7 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions
     /// <summary>
     /// Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables", GroupValues = true)]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliOption("--computations", GroupValues = true)]
@@ -47,7 +47,7 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

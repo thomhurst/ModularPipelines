@@ -60,7 +60,7 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

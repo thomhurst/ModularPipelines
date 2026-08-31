@@ -45,7 +45,7 @@ public record AwsWisdomStartImportJobOptions : AwsOptions
     /// <summary>
     /// The metadata fields of the imported Wisdom resources. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--upload-id")]

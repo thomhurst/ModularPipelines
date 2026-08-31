@@ -32,7 +32,7 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions
     /// <summary>
     /// Resiliency policy to be created, including the recovery time objec- tive (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
     /// </summary>
-    [CliOption("--policy", GroupValues = true)]
+    [CliOption("--policy", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Policy { get; set; }
 
     [CliOption("--policy-arn")]

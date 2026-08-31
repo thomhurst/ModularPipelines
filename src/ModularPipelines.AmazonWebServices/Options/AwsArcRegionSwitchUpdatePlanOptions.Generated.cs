@@ -46,7 +46,7 @@ public record AwsArcRegionSwitchUpdatePlanOptions : AwsOptions
     /// <summary>
     /// The updated CloudWatch alarms associated with the plan. key -&gt; (string) value -&gt; (structure) An Amazon CloudWatch alarm associated with a Region switch plan. These alarms can be used to trigger automatic execution of the plan. crossAccountRole -&gt; (string) The cross account role for the configuration. Constraints: o pattern: arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+ externalId -&gt; (string) The external ID (secret key) for the configuration. resourceIdentifier -&gt; (string) [required] The resource identifier for alarms that you associate with a plan. alarmType -&gt; (string) [required] The alarm type for an associated alarm. An associated Cloud- Watch alarm can be an application health alarm or a trigger alarm. Possible values: o applicationHealth o trigger Shorthand Syntax: KeyName1={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string},KeyName2={crossAccountRole=string,externalId=string,resourceIdentifier=string,alarmType=string} JSON Syntax: {"string": { "crossAccountRole": "string", "externalId": "string", "resourceIdentifier": "string", "alarmType": "applicationHealth"|"trigger" } ...}
     /// </summary>
-    [CliOption("--associated-alarms", GroupValues = true)]
+    [CliOption("--associated-alarms", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AssociatedAlarms { get; set; }
 
     /// <summary>

@@ -37,7 +37,7 @@ public record AwsIotsitewiseUpdatePipelineOptions : AwsOptions
     /// <summary>
     /// Updated environment variables shared across all compute nodes. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables", GroupValues = true)]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>

@@ -41,7 +41,7 @@ public record AwsSsmStartChangeRequestExecutionOptions : AwsOptions
     /// <summary>
     /// A key-value map of parameters that match the declared parameters in the change template document. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

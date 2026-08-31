@@ -69,7 +69,7 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     /// <summary>
     /// A list of tags that you are adding to the response plan. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

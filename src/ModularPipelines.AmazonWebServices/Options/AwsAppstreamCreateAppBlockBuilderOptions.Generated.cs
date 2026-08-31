@@ -40,7 +40,7 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions
     /// <summary>
     /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environ- ment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ For more information, see Tagging Your Resources in the Amazon Work- Spaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--platform")]

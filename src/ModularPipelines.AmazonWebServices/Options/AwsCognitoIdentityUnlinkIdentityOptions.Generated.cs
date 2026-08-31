@@ -25,7 +25,7 @@ public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
-    [CliOption("--logins", GroupValues = true)]
+    [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
 
     [CliOption("--logins-to-remove", GroupValues = true)]

@@ -52,7 +52,7 @@ public record AwsGlueCreateIntegrationOptions : AwsOptions
     /// <summary>
     /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information for encryption. This can only be pro- vided if KMSKeyId is provided. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-encryption-context", GroupValues = true)]
+    [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>

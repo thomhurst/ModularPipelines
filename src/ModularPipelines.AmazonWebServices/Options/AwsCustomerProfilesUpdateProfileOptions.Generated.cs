@@ -152,7 +152,7 @@ public record AwsCustomerProfilesUpdateProfileOptions : AwsOptions
     /// <summary>
     /// A key value pair of attributes of a customer profile. key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (string) Constraints: o min: 0 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>

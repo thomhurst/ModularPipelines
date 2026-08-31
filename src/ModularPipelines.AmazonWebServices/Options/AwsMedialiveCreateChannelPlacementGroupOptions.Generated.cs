@@ -34,7 +34,7 @@ public record AwsMedialiveCreateChannelPlacementGroupOptions : AwsOptions
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

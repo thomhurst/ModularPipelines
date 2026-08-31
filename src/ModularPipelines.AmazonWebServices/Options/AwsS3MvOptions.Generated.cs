@@ -127,7 +127,7 @@ public record AwsS3MvOptions(
     [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     [CliOption("--copy-props")]

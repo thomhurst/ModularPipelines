@@ -56,7 +56,7 @@ public record AwsSagemakerCreateTransformJobOptions : AwsOptions
     /// <summary>
     /// The environment variables to set in the Docker container. Don't in- clude any sensitive data in your environment variables. We support up to 16 key and values entries in the map. Constraints: o min: 0 o max: 16 key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z_][a-zA-Z0-9_]{0,1023} value -&gt; (string) Constraints: o min: 0 o max: 10240 o pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment", GroupValues = true)]
+    [CliOption("--environment", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Environment { get; set; }
 
     [CliOption("--transform-input")]

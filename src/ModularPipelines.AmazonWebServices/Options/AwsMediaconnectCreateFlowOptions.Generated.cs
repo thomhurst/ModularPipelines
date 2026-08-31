@@ -107,7 +107,7 @@ public record AwsMediaconnectCreateFlowOptions : AwsOptions
     /// <summary>
     /// The key-value pairs that can be used to tag and organize the flow. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--flow-tags", GroupValues = true)]
+    [CliOption("--flow-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FlowTags { get; set; }
 
     [CliOption("--cli-input-json")]

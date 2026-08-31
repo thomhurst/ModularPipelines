@@ -26,7 +26,7 @@ public record AwsAmpListScrapersOptions : AwsOptions
     /// <summary>
     /// (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status , sourceArn , destinationArn , and alias . Filters on the same key are OR 'd together, and filters on different keys are AND 'd together. For example, status=ACTIVE&amp;status=CREAT- ING&amp;alias=Test , will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query: status=ACTIVE&amp;destination- Arn=arn:aws:aps:us-east-1:123456789012:workspace/ws-exam- ple1-1234-abcd-56ef-123456789012 If this is included, it filters the results to only the scrapers that match the filter. Constraints: o min: 1 o max: 4 key -&gt; (string) The name of the key to filter by. Currently supported filter keys are status , sourceArn , destinationArn , and alias . Constraints: o min: 1 o max: 256 value -&gt; (list) The values of the given key by which to filter. Constraints: o min: 1 o max: 20 (string) The value for a given key by which to filter. Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--filters", GroupValues = true)]
+    [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

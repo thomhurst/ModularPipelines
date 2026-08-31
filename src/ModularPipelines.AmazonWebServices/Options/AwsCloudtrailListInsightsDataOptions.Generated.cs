@@ -32,7 +32,7 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions
     /// <summary>
     /// Contains a map of dimensions. Currently the map can contain only one item. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o EventId o EventName o EventSource value -&gt; (string) Constraints: o min: 1 o max: 2000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EventId EventName EventSource JSON Syntax: {"EventId"|"EventName"|"EventSource": "string" ...}
     /// </summary>
-    [CliOption("--dimensions", GroupValues = true)]
+    [CliOption("--dimensions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Dimensions { get; set; }
 
     /// <summary>

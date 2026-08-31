@@ -577,6 +577,12 @@ public static partial class GeneratorUtils
     {
         var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
 
+        if (option.GroupValues && option.CollectionSeparator is not null)
+        {
+            throw new InvalidOperationException(
+                $"Option '{option.SwitchName}' cannot set both GroupValues and CollectionSeparator.");
+        }
+
         if (option.GroupValues && option.ValueSeparator != " ")
         {
             throw new InvalidOperationException(
@@ -619,6 +625,11 @@ public static partial class GeneratorUtils
         if (option.GroupValues)
         {
             optionParts.Add("GroupValues = true");
+        }
+
+        if (option.CollectionSeparator is not null)
+        {
+            optionParts.Add($"CollectionSeparator = {FormatStringLiteral(option.CollectionSeparator)}");
         }
 
         if (option.Phase != CommandLinePhase.Normal)

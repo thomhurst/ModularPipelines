@@ -28,7 +28,7 @@ public record AwsSagemakerCreateTrainingJobOptions : AwsOptions
     /// <summary>
     /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms . You can specify a maximum of 100 hyperparameters. Each hyperparame- ter is a key-value pair. Each key and value is limited to 256 char- acters, as specified by the Length Constraint . WARNING: Do not include any security-sensitive information including ac- count access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are re- sponsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sen- sitive information included in the request hyperparameter vari- able or plain text fields. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--hyper-parameters", GroupValues = true)]
+    [CliOption("--hyper-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? HyperParameters { get; set; }
 
     /// <summary>
@@ -127,7 +127,7 @@ public record AwsSagemakerCreateTrainingJobOptions : AwsOptions
     /// <summary>
     /// The environment variables to set in the Docker container. WARNING: Do not include any security-sensitive information including ac- count access IDs, secrets, or tokens in any environment fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive informa- tion included in the request environment variable or plain text fields. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 0 o max: 512 o pattern: [a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 0 o max: 512 o pattern: [\S\s]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment", GroupValues = true)]
+    [CliOption("--environment", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Environment { get; set; }
 
     /// <summary>

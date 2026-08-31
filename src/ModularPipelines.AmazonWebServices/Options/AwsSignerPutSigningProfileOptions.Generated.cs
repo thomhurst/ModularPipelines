@@ -49,13 +49,13 @@ public record AwsSignerPutSigningProfileOptions : AwsOptions
     /// <summary>
     /// Map of key-value pairs for signing. These can include any informa- tion that you want to use during signing. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--signing-parameters", GroupValues = true)]
+    [CliOption("--signing-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SigningParameters { get; set; }
 
     /// <summary>
     /// Tags to be associated with the signing profile that is being cre- ated. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

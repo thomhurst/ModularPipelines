@@ -65,7 +65,7 @@ public record AwsSecurityhubBatchUpdateFindingsOptions : AwsOptions
     /// <summary>
     /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (string) Constraints: o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--user-defined-fields", GroupValues = true)]
+    [CliOption("--user-defined-fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UserDefinedFields { get; set; }
 
     /// <summary>

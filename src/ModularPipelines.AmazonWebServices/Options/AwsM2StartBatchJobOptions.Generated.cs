@@ -39,7 +39,7 @@ public record AwsM2StartBatchJobOptions : AwsOptions
     /// <summary>
     /// The collection of batch job parameters. For details about limits for keys and values, see Coding variables in JCL . Constraints: o min: 0 o max: 500 key -&gt; (string) See https://www.ibm.com/docs/en/workload-automation/9.3.0?topic=zos-coding-variables-in-jcl to get details about limits for both keys and values: 8 for keys (variable names), 44 for values (variable values) In addition, keys will be only alphabetic characters and digits, without any space or special characters (dash, underscore, etc ...) For BluAge Engine: There is no limit in length of keys and val- ues. Additional validation may be applied in code, per engine. Parameter key: the first character must be alphabetic. Can be of up to 32 alphanumeric characters. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z][A-Za-z0-9]{1,31}$ value -&gt; (string) Parameter value can be of up to 1024 alphanumeric characters. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--job-params", GroupValues = true)]
+    [CliOption("--job-params", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? JobParams { get; set; }
 
     [CliOption("--cli-input-json")]

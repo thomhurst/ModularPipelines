@@ -40,7 +40,7 @@ public record AwsIotUpdateSecurityProfileOptions : AwsOptions
     /// <summary>
     /// Where the alerts are sent. (Alerts are always sent to the console.) key -&gt; (string) The type of alert target: one of "SNS". Possible values: o SNS value -&gt; (structure) A structure containing the alert target ARN and the role ARN. alertTargetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the notification target to which alerts are sent. roleArn -&gt; (string) [required] The ARN of the role that grants permission to send alerts to the notification target. Constraints: o min: 20 o max: 2048 Shorthand Syntax: KeyName1={alertTargetArn=string,roleArn=string},KeyName2={alertTargetArn=string,roleArn=string} Where valid key names are: SNS JSON Syntax: {"SNS": { "alertTargetArn": "string", "roleArn": "string" } ...}
     /// </summary>
-    [CliOption("--alert-targets", GroupValues = true)]
+    [CliOption("--alert-targets", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AlertTargets { get; set; }
 
     /// <summary>

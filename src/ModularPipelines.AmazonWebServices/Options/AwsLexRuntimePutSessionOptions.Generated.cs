@@ -34,7 +34,7 @@ public record AwsLexRuntimePutSessionOptions : AwsOptions
     /// <summary>
     /// Map of key/value pairs representing the session-specific context in- formation. It contains application information passed between Amazon Lex and a client application. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--session-attributes", GroupValues = true)]
+    [CliOption("--session-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SessionAttributes { get; set; }
 
     /// <summary>

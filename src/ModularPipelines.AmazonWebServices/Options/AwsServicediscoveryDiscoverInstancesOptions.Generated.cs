@@ -38,13 +38,13 @@ public record AwsServicediscoveryDiscoverInstancesOptions : AwsOptions
     /// <summary>
     /// Filters to scope the results based on custom attributes for the in- stance (for example, {version=v1, az=1a} ). Only instances that match all the specified key-value pairs are returned. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--query-parameters", GroupValues = true)]
+    [CliOption("--query-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryParameters { get; set; }
 
     /// <summary>
     /// Opportunistic filters to scope the results based on custom attrib- utes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, all of these instances are returned. Otherwise, the filters are ignored, and only instances that match the filters that are specified in the QueryParameters parameter are returned. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--optional-parameters", GroupValues = true)]
+    [CliOption("--optional-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OptionalParameters { get; set; }
 
     /// <summary>

@@ -28,7 +28,7 @@ public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliOption("--fields", GroupValues = true)]
+    [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; set; }
 
     [CliOption("--unique-key")]

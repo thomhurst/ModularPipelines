@@ -31,7 +31,7 @@ public record AwsSsmSendAutomationSignalOptions : AwsOptions
     /// <summary>
     /// The data sent with the signal. The data schema depends on the type of signal used in the request. For Approve and Reject signal types, the payload is an optional com- ment that you can send with the signal type. For example: Comment="Looks good" For StartStep and Resume signal types, you must send the name of the Automation step to start or resume as the payload. For example: StepName="step1" For the StopStep signal type, you must send the step execution ID as the payload. For example: StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab" Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--payload", GroupValues = true)]
+    [CliOption("--payload", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Payload { get; set; }
 
     [CliOption("--cli-input-json")]

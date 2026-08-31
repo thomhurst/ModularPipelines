@@ -47,7 +47,7 @@ public record AwsApigatewayv2CreateDomainNameOptions : AwsOptions
     /// <summary>
     /// The collection of tags associated with a domain name. key -&gt; (string) value -&gt; (string) A string with a length between [0-1600]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

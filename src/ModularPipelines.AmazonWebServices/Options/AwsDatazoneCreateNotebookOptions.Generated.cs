@@ -41,13 +41,13 @@ public record AwsDatazoneCreateNotebookOptions : AwsOptions
     /// <summary>
     /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--metadata", GroupValues = true)]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 charac- ters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

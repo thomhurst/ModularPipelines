@@ -286,6 +286,12 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 when groupedOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(
                     $"Grouped CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
+            case OptionPart { Attribute.GroupValues: true, Attribute.CollectionSeparator: not null }:
+                throw new InvalidOperationException(
+                    $"CLI option property '{propertyName}' cannot set both GroupValues and CollectionSeparator.");
+            case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional, Attribute.CollectionSeparator: not null }:
+                throw new InvalidOperationException(
+                    $"Optional-value CLI option property '{propertyName}' cannot set CollectionSeparator.");
             case OptionPart { ManualOperandCount: 2 } valuePairOption
                 when valuePairOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(

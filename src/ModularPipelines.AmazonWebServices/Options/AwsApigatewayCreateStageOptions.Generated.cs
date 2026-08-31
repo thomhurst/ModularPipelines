@@ -49,7 +49,7 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     /// <summary>
     /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--variables", GroupValues = true)]
+    [CliOption("--variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Variables { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     /// <summary>
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

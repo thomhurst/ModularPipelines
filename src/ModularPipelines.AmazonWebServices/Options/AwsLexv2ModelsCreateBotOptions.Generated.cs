@@ -44,13 +44,13 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions
     /// <summary>
     /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--bot-tags", GroupValues = true)]
+    [CliOption("--bot-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotTags { get; set; }
 
     /// <summary>
     /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagRe- source operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--test-bot-alias-tags", GroupValues = true)]
+    [CliOption("--test-bot-alias-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TestBotAliasTags { get; set; }
 
     /// <summary>

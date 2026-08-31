@@ -38,7 +38,7 @@ public record AwsForecastqueryQueryWhatIfForecastOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliOption("--filters", GroupValues = true)]
+    [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     /// <summary>

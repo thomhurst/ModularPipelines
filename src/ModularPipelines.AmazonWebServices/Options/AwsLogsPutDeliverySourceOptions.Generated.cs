@@ -34,13 +34,13 @@ public record AwsLogsPutDeliverySourceOptions : AwsOptions
     /// <summary>
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For exam- ple, {"samplingRate": "50"} . key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--delivery-source-configuration", GroupValues = true)]
+    [CliOption("--delivery-source-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DeliverySourceConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsWorkdocsCreateCustomMetadataOptions : AwsOptions
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CliOption("--custom-metadata", GroupValues = true)]
+    [CliOption("--custom-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomMetadata { get; set; }
 
     [CliOption("--cli-input-json")]

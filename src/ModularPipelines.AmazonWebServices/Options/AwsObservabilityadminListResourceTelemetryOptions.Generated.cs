@@ -38,13 +38,13 @@ public record AwsObservabilityadminListResourceTelemetryOptions : AwsOptions
     /// <summary>
     /// A key-value pair to filter resources based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state. key -&gt; (string) Possible values: o Logs o Metrics o Traces value -&gt; (string) Possible values: o Enabled o Disabled o NotApplicable Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Logs Metrics Traces JSON Syntax: {"Logs"|"Metrics"|"Traces": "Enabled"|"Disabled"|"NotApplicable" ...}
     /// </summary>
-    [CliOption("--telemetry-configuration-state", GroupValues = true)]
+    [CliOption("--telemetry-configuration-state", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TelemetryConfigurationState { get; set; }
 
     /// <summary>
     /// A key-value pair to filter resources based on tags associated with the resource. For more information about tags, see What are tags? Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags", GroupValues = true)]
+    [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

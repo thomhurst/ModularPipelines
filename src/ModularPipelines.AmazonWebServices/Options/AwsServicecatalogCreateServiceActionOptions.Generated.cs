@@ -29,7 +29,7 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions
     [CliOption("--definition-type")]
     public string? DefinitionType { get; set; }
 
-    [CliOption("--definition", GroupValues = true)]
+    [CliOption("--definition", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Definition { get; set; }
 
     /// <summary>

@@ -83,13 +83,13 @@ public record AwsEsCreateElasticsearchDomainOptions : AwsOptions
     /// <summary>
     /// Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By de- fault, the value is true . See Configuration Advanced Options for more information. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--advanced-options", GroupValues = true)]
+    [CliOption("--advanced-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdvancedOptions { get; set; }
 
     /// <summary>
     /// Map of LogType and LogPublishingOption , each containing options to publish a given type of Elasticsearch log. key -&gt; (string) Type of Log File, it can be one of the following: o INDEX_SLOW_LOGS: Index slow logs contain insert requests that took more time than configured index query log threshold to execute. o SEARCH_SLOW_LOGS: Search slow logs contain search queries that took more time than configured search query log threshold to execute. o ES_APPLICATION_LOGS: Elasticsearch application logs contain information about errors and warnings raised during the opera- tion of the service and can be useful for troubleshooting. o AUDIT_LOGS: Audit logs contain records of user requests for access from the domain. Possible values: o INDEX_SLOW_LOGS o SEARCH_SLOW_LOGS o ES_APPLICATION_LOGS o AUDIT_LOGS value -&gt; (structure) Log Publishing option that is set for given domain. Attributes and their details: o CloudWatchLogsLogGroupArn: ARN of the Cloudwatch log group to which log needs to be published. o Enabled: Whether the log publishing for given log type is en- abled or not CloudWatchLogsLogGroupArn -&gt; (string) ARN of the Cloudwatch log group to which log needs to be pub- lished. Enabled -&gt; (boolean) Specifies whether given log publishing option is enabled or not. Shorthand Syntax: KeyName1={CloudWatchLogsLogGroupArn=string,Enabled=boolean},KeyName2={CloudWatchLogsLogGroupArn=string,Enabled=boolean} Where valid key names are: INDEX_SLOW_LOGS SEARCH_SLOW_LOGS ES_APPLICATION_LOGS AUDIT_LOGS JSON Syntax: {"INDEX_SLOW_LOGS"|"SEARCH_SLOW_LOGS"|"ES_APPLICATION_LOGS"|"AUDIT_LOGS": { "CloudWatchLogsLogGroupArn": "string", "Enabled": true|false } ...}
     /// </summary>
-    [CliOption("--log-publishing-options", GroupValues = true)]
+    [CliOption("--log-publishing-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? LogPublishingOptions { get; set; }
 
     /// <summary>

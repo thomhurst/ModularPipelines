@@ -34,7 +34,7 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions
     /// <summary>
     /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are un- changed. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--status-details", GroupValues = true)]
+    [CliOption("--status-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StatusDetails { get; set; }
 
     /// <summary>

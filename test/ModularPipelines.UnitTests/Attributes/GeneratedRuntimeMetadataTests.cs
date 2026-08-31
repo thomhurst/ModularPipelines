@@ -38,6 +38,9 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
         Phase = CommandLinePhase.Terminal)]
     public IEnumerable<CliOptionValue>? Output { get; init; }
 
+    [CliOption("--environment", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Environment { get; init; }
+
     [SecretValue]
     public string? Token { get; init; }
 
@@ -128,12 +131,13 @@ public class GeneratedRuntimeMetadataTests
             File = "pipeline.yml",
             Verbose = true,
             Output = [CliOptionValue.Bare, "json"],
+            Environment = [new("first", "one"), new("second", "two")],
         };
 
         var found = GeneratedCommandMetadata.TryGet(typeof(GeneratedMetadataOptions), out var model);
 
         await Assert.That(found).IsTrue();
-        await Assert.That(model).Count().IsEqualTo(3);
+        await Assert.That(model).Count().IsEqualTo(4);
 
         var argument = model.OfType<ArgumentPart>().Single();
         await Assert.That(argument.PropertyName).IsEqualTo(nameof(GeneratedMetadataOptions.File));
@@ -151,12 +155,15 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(flag.Attribute.ShortForm).IsEqualTo("-v");
         await Assert.That(flag.Attribute.PreferShortForm).IsTrue();
         await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
-        var option = model.OfType<OptionPart>().Single();
+        var option = model.OfType<OptionPart>().Single(part => part.Attribute.Name == "--output");
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.EqualsSeparated);
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         await Assert.That(option.Attribute.GroupValues).IsTrue();
         await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
+        var joinedOption = model.OfType<OptionPart>()
+            .Single(part => part.Attribute.Name == "--environment");
+        await Assert.That(joinedOption.Attribute.CollectionSeparator).IsEqualTo(",");
     }
 
     [Test]

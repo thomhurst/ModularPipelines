@@ -40,7 +40,7 @@ public record AwsIvsRealtimeStartParticipantReplicationOptions : AwsOptions
     /// <summary>
     /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 en- coded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. These attributes are merged with any attributes set for this partic- ipant when creating the token. If there is overlap in keys, the val- ues in these attributes are replaced. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes", GroupValues = true)]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,7 +25,7 @@ public record AwsMachinelearningPredictOptions : AwsOptions
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; set; }
 
-    [CliOption("--record", GroupValues = true)]
+    [CliOption("--record", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Record { get; set; }
 
     [CliOption("--predict-endpoint")]

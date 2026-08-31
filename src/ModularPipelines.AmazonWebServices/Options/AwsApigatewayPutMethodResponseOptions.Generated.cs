@@ -37,13 +37,13 @@ public record AwsApigatewayPutMethodResponseOptions : AwsOptions
     /// <summary>
     /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag in- dicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration re- sponse header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'appli- cation/json' ), or a JSON expression from the back-end response pay- load in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ pre- fix.) key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
     /// </summary>
-    [CliOption("--response-parameters", GroupValues = true)]
+    [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
 
     /// <summary>
     /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--response-models", GroupValues = true)]
+    [CliOption("--response-models", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseModels { get; set; }
 
     [CliOption("--cli-input-json")]

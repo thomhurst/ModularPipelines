@@ -34,7 +34,7 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions
     /// <summary>
     /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when up- grading to an OpenSearch version. Specifies whether the domain re- ports its version as 7.10 so that it continues to work with Elastic- search OSS clients and plugins. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--advanced-options", GroupValues = true)]
+    [CliOption("--advanced-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdvancedOptions { get; set; }
 
     [CliOption("--cli-input-json")]

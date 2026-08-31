@@ -29,7 +29,7 @@ public record AwsSocialmessagingListWhatsappTemplateLibraryOptions : AwsOptions
     /// <summary>
     /// Map of filters to apply (searchKey, topic, usecase, industry, lan- guage). Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--filters", GroupValues = true)]
+    [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

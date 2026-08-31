@@ -103,7 +103,7 @@ public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
     /// <summary>
     /// The metadata for the managed thing. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .*[a-zA-Z0-9_.,@/:#-]+.* value -&gt; (string) Constraints: o min: 0 o max: 800 o pattern: .*[a-zA-Z0-9_.,@/:#-]*.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--meta-data", GroupValues = true)]
+    [CliOption("--meta-data", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetaData { get; set; }
 
     [CliOption("--cli-input-json")]

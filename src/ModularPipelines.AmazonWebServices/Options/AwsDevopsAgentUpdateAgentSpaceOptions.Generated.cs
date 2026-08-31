@@ -46,7 +46,7 @@ public record AwsDevopsAgentUpdateAgentSpaceOptions : AwsOptions
     /// <summary>
     /// The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not in- cluded revert to their default values. When omitted, the current preferences are left unchanged. Constraints: o min: 0 o max: 25 key -&gt; (string) The key of a preference that can be configured on an agent space. The elevatedActionsEnabled key controls whether elevated directed actions are permitted in the agent space. Elevated di- rected actions are mutating operations that also require per-ac- tion operator approval, and default to false when not set. Possible values: o elevatedActionsEnabled value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean Where valid key names are: elevatedActionsEnabled JSON Syntax: {"elevatedActionsEnabled": true|false ...}
     /// </summary>
-    [CliOption("--preferences", GroupValues = true)]
+    [CliOption("--preferences", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Preferences { get; set; }
 
     [CliOption("--cli-input-json")]

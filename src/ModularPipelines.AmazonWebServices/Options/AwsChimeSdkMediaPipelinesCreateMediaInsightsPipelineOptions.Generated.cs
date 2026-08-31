@@ -36,7 +36,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
     /// <summary>
     /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings. key -&gt; (string) Constraints: o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o max: 4096 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--media-insights-runtime-metadata", GroupValues = true)]
+    [CliOption("--media-insights-runtime-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MediaInsightsRuntimeMetadata { get; set; }
 
     /// <summary>

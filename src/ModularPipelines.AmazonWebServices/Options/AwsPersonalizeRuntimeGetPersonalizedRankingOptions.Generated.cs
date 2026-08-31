@@ -34,7 +34,7 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions
     /// <summary>
     /// The contextual metadata to use when getting recommendations. Contex- tual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: o max: 150 key -&gt; (string) Constraints: o max: 150 o pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context", GroupValues = true)]
+    [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
@@ -46,13 +46,13 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions
     /// <summary>
     /// The values to use when filtering recommendations. For each place- holder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the cor- responding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values .In this case, Ama- zon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations . Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--filter-values", GroupValues = true)]
+    [CliOption("--filter-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FilterValues { get; set; }
 
     /// <summary>
     /// If you enabled metadata in recommendations when you created or up- dated the campaign, specify metadata columns from your Items dataset to include in the personalized ranking. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . Constraints: o max: 1 key -&gt; (string) Constraints: o max: 256 value -&gt; (list) Constraints: o max: 99 (string) Constraints: o max: 150 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--metadata-columns", GroupValues = true)]
+    [CliOption("--metadata-columns", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetadataColumns { get; set; }
 
     [CliOption("--cli-input-json")]

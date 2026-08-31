@@ -32,7 +32,7 @@ public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions
     [CliOption("--identity-provider-type")]
     public string? IdentityProviderType { get; set; }
 
-    [CliOption("--identity-provider-details", GroupValues = true)]
+    [CliOption("--identity-provider-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; set; }
 
     /// <summary>

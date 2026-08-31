@@ -49,7 +49,7 @@ public record AwsBillingconductorCreateCustomLineItemOptions : AwsOptions
     /// <summary>
     /// A map that contains tag keys and tag values that are attached to a custom line item. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--charge-details")]

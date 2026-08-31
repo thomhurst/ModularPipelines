@@ -48,7 +48,7 @@ public record AwsCodepipelinePutJobSuccessResultOptions : AwsOptions
     /// <summary>
     /// Key-value pairs produced as output by a job worker that can be made available to a downstream action configuration. outputVariables can be included only when there is no continuation token on the request. key -&gt; (string) Constraints: o pattern: [A-Za-z0-9@\-_]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--output-variables", GroupValues = true)]
+    [CliOption("--output-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OutputVariables { get; set; }
 
     [CliOption("--cli-input-json")]

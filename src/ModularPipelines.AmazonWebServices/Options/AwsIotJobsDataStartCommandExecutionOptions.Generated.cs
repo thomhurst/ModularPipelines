@@ -32,7 +32,7 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions
     /// <summary>
     /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 192 o pattern: ^[.$a-zA-Z0-9_-]+$ value -&gt; (structure) The list of values used to describe a specific command parame- ter. S -&gt; (string) An attribute of type String. For example: "S": "Hello" Constraints: o min: 1 B -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true I -&gt; (integer) An attribute of type Integer (Thirty-Two Bits). L -&gt; (long) An attribute of type Long. D -&gt; (double) An attribute of type Double (Sixty-Four Bits). BIN -&gt; (blob) An attribute of type Binary. Constraints: o min: 1 UL -&gt; (string) An attribute of type Unsigned Long. Constraints: o min: 1 o max: 20 o pattern: ^[0-9]*$ Shorthand Syntax: KeyName1={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string},KeyName2={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string} JSON Syntax: {"string": { "S": "string", "B": true|false, "I": integer, "L": long, "D": double, "BIN": blob, "UL": "string" } ...}
     /// </summary>
-    [CliOption("--parameters", GroupValues = true)]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>

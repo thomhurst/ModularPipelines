@@ -104,7 +104,7 @@ public record AwsIotCreateJobOptions : AwsOptions
     /// <summary>
     /// Parameters of an Amazon Web Services managed template that you can specify to create the job document. NOTE: documentParameters can only be used when creating jobs from Ama- zon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ value -&gt; (string) Constraints: o min: 1 o max: 30720 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--document-parameters", GroupValues = true)]
+    [CliOption("--document-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DocumentParameters { get; set; }
 
     /// <summary>

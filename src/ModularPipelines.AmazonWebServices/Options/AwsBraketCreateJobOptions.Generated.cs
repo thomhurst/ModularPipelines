@@ -66,7 +66,7 @@ public record AwsBraketCreateJobOptions : AwsOptions
     /// <summary>
     /// Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the training job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of the hyperparameter. WARNING: Do not include any security-sensitive information including ac- count access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are re- sponsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensi- tive information included in the request hyperparameter variable or plain text fields. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (string) Constraints: o min: 1 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--hyper-parameters", GroupValues = true)]
+    [CliOption("--hyper-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? HyperParameters { get; set; }
 
     [CliOption("--device-config")]
@@ -75,7 +75,7 @@ public record AwsBraketCreateJobOptions : AwsOptions
     /// <summary>
     /// Tags to be added to the hybrid job you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

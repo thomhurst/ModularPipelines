@@ -31,7 +31,7 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions
     /// <summary>
     /// A map of keys to values that represent the configuration for the connector. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--connector-configuration", GroupValues = true)]
+    [CliOption("--connector-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ConnectorConfiguration { get; set; }
 
     [CliOption("--connector-arn")]

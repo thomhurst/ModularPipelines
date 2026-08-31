@@ -41,7 +41,7 @@ public record AwsWellarchitectedUpdateReviewTemplateAnswerOptions : AwsOptions
     /// <summary>
     /// A list of choices to be updated. key -&gt; (string) The ID of a choice. Constraints: o min: 1 o max: 64 value -&gt; (structure) A list of choices to be updated. Status -&gt; (string) [required] The status of a choice. Possible values: o SELECTED o NOT_APPLICABLE o UNSELECTED Reason -&gt; (string) The reason why a choice is non-applicable to a question in your workload. Possible values: o OUT_OF_SCOPE o BUSINESS_PRIORITIES o ARCHITECTURE_CONSTRAINTS o OTHER o NONE Notes -&gt; (string) The notes associated with a choice. Constraints: o min: 0 o max: 250 Shorthand Syntax: KeyName1={Status=string,Reason=string,Notes=string},KeyName2={Status=string,Reason=string,Notes=string} JSON Syntax: {"string": { "Status": "SELECTED"|"NOT_APPLICABLE"|"UNSELECTED", "Reason": "OUT_OF_SCOPE"|"BUSINESS_PRIORITIES"|"ARCHITECTURE_CONSTRAINTS"|"OTHER"|"NONE", "Notes": "string" } ...}
     /// </summary>
-    [CliOption("--choice-updates", GroupValues = true)]
+    [CliOption("--choice-updates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ChoiceUpdates { get; set; }
 
     /// <summary>

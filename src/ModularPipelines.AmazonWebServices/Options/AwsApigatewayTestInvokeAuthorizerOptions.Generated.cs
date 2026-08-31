@@ -31,13 +31,13 @@ public record AwsApigatewayTestInvokeAuthorizerOptions : AwsOptions
     /// <summary>
     /// A key-value map of headers to simulate an incoming invocation re- quest. This is where the incoming authorization token, or identity source, should be specified. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--headers", GroupValues = true)]
+    [CliOption("--headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
 
     /// <summary>
     /// The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authoriza- tion token, or identity source, may be specified. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--multi-value-headers", GroupValues = true)]
+    [CliOption("--multi-value-headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MultiValueHeaders { get; set; }
 
     /// <summary>
@@ -55,13 +55,13 @@ public record AwsApigatewayTestInvokeAuthorizerOptions : AwsOptions
     /// <summary>
     /// A key-value map of stage variables to simulate an invocation on a deployed Stage. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--stage-variables", GroupValues = true)]
+    [CliOption("--stage-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StageVariables { get; set; }
 
     /// <summary>
     /// A key-value map of additional context variables. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--additional-context", GroupValues = true)]
+    [CliOption("--additional-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalContext { get; set; }
 
     [CliOption("--cli-input-json")]

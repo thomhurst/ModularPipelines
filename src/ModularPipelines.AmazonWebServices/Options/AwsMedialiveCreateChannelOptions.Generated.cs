@@ -58,7 +58,7 @@ public record AwsMedialiveCreateChannelOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--vpc")]

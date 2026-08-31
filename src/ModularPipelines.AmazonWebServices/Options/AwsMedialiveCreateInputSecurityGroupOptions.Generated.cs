@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "create-input-security-group")]
 public record AwsMedialiveCreateInputSecurityGroupOptions : AwsOptions
 {
-    [CliOption("--tags", GroupValues = true)]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--whitelist-rules", GroupValues = true)]
