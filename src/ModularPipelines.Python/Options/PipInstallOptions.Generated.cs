@@ -24,13 +24,13 @@ public record PipInstallOptions : PipOptions
     /// Install from the given requirements file. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public IEnumerable<string>? RequirementValues { get; set; }
+    public IEnumerable<string>? Requirement { get; set; }
 
     /// <summary>
     /// Constrain versions using the given constraints file. This option can be used multiple times.
     /// </summary>
     [CliOption("--constraint", ShortForm = "-c")]
-    public IEnumerable<string>? ConstraintValues { get; set; }
+    public IEnumerable<string>? Constraint { get; set; }
 
     /// <summary>
     /// Don't install package dependencies.
@@ -66,13 +66,13 @@ public record PipInstallOptions : PipOptions
     /// Only use wheels compatible with &lt;platform&gt;. Defaults to the platform of the running system. Use this option multiple times to specify multiple platforms supported by the target interpreter.
     /// </summary>
     [CliOption("--platform")]
-    public IEnumerable<string>? PlatformValues { get; set; }
+    public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
     /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify
     /// </summary>
     [CliOption("--abi")]
-    public IEnumerable<string>? AbiValues { get; set; }
+    public IEnumerable<string>? Abi { get; set; }
 
     /// <summary>
     /// Install to the Python user install directory for your platform. Typically ~/.local/, or %APPDATA%\Python on Windows. (See the Python documentation for site.USER_BASE for full details.)
@@ -185,8 +185,8 @@ public record PipInstallOptions : PipOptions
     /// <summary>
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
-    [CliOption("--require-hashes")]
-    public string? RequireHashes { get; set; }
+    [CliFlag("--require-hashes")]
+    public bool? RequireHashes { get; set; }
 
     /// <summary>
     /// Generate a JSON file describing what pip did to install the provided requirements. Can be used in combination with --dry-run and --ignore- installed to 'resolve' the requirements. When - is used as file name it writes to stdout. When writing to stdout, please combine with the
@@ -361,33 +361,5 @@ public record PipInstallOptions : PipOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }
-
-    [Obsolete("Use RequirementValues instead.")]
-    public string? Requirement
-    {
-        get => RequirementValues?.FirstOrDefault();
-        set => RequirementValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ConstraintValues instead.")]
-    public string? Constraint
-    {
-        get => ConstraintValues?.FirstOrDefault();
-        set => ConstraintValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use PlatformValues instead.")]
-    public string? Platform
-    {
-        get => PlatformValues?.FirstOrDefault();
-        set => PlatformValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use AbiValues instead.")]
-    public string? Abi
-    {
-        get => AbiValues?.FirstOrDefault();
-        set => AbiValues = value is null ? null : [value];
-    }
 
 }

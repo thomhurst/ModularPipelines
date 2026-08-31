@@ -22,11 +22,6 @@ public record PipShowOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Package
 ) : PipOptions
 {
-    public PipShowOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Show the full list of installed files for each package.
     /// </summary>
