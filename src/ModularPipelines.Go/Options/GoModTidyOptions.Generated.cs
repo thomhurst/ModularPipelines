@@ -21,16 +21,22 @@ namespace ModularPipelines.Go.Options;
 public record GoModTidyOptions : GoOptions
 {
     /// <summary>
+    /// The -e flag causes tidy to attempt to proceed despite errors encountered while loading packages.
+    /// </summary>
+    [CliFlag("-e")]
+    public bool? E { get; set; }
+
+    /// <summary>
     /// The -v flag causes tidy to print information about removed modules to standard error.
     /// </summary>
     [CliFlag("-v")]
     public bool? V { get; set; }
 
     /// <summary>
-    /// The -e flag causes tidy to attempt to proceed despite errors encountered while loading packages.
+    /// The -x flag causes tidy to print the commands download executes.
     /// </summary>
-    [CliFlag("-e")]
-    public bool? E { get; set; }
+    [CliFlag("-x")]
+    public bool? X { get; set; }
 
     /// <summary>
     /// The -diff flag causes tidy not to modify go.mod or go.sum but instead print the necessary changes as a unified diff. It exits with a non-zero code if the diff is not empty.
@@ -41,19 +47,13 @@ public record GoModTidyOptions : GoOptions
     /// <summary>
     /// The -go flag causes tidy to update the 'go' directive in the go.mod file to the given version, which may change which module dependencies are retained as explicit requirements in the go.mod file. (Go versions 1.17 and higher retain more requirements in order to support lazy module loading.)
     /// </summary>
-    [CliOption("-go")]
+    [CliOption("-go", Format = OptionFormat.EqualsSeparated)]
     public string? Go { get; set; }
 
     /// <summary>
     /// The -compat flag preserves any additional checksums needed for the 'go' command from the indicated major Go release to successfully load the module graph, and causes tidy to error out if that version of the 'go' command would load any imported package from a different module version. By default, tidy acts as if the -compat flag were set to the version prior to the one indicated by the 'go' directive in the go.mod file.
     /// </summary>
-    [CliFlag("-compat")]
-    public bool? Compat { get; set; }
-
-    /// <summary>
-    /// The -x flag causes tidy to print the commands download executes.
-    /// </summary>
-    [CliFlag("-x")]
-    public bool? X { get; set; }
+    [CliOption("-compat", Format = OptionFormat.EqualsSeparated)]
+    public string? Compat { get; set; }
 
 }

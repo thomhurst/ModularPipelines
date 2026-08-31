@@ -21,6 +21,12 @@ namespace ModularPipelines.Go.Options;
 public record GoModDownloadOptions : GoOptions
 {
     /// <summary>
+    /// The -x flag causes download to print the commands download executes.
+    /// </summary>
+    [CliFlag("-x")]
+    public bool? X { get; set; }
+
+    /// <summary>
     /// The -json flag causes download to print a sequence of JSON objects to standard output, describing each downloaded module (or failure), corresponding to this Go struct:
     /// </summary>
     [CliFlag("-json")]
@@ -29,14 +35,8 @@ public record GoModDownloadOptions : GoOptions
     /// <summary>
     /// The -reuse flag accepts the name of file containing the JSON output of a previous 'go mod download -json' invocation. The go command may use this file to determine that a module is unchanged since the previous invocation and avoid redownloading it. Modules that are not redownloaded will be marked in the new output by setting the Reuse field to true. Normally the module cache provides this kind of reuse automatically; the -reuse flag can be useful on systems that do not preserve the module cache.
     /// </summary>
-    [CliFlag("-reuse")]
-    public bool? Reuse { get; set; }
-
-    /// <summary>
-    /// The -x flag causes download to print the commands download executes.
-    /// </summary>
-    [CliFlag("-x")]
-    public bool? X { get; set; }
+    [CliOption("-reuse", Format = OptionFormat.EqualsSeparated)]
+    public string? Reuse { get; set; }
 
     /// <summary>
     /// The modules operand.

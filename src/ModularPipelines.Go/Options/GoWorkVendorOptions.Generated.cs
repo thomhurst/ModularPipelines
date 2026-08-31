@@ -21,16 +21,16 @@ namespace ModularPipelines.Go.Options;
 public record GoWorkVendorOptions : GoOptions
 {
     /// <summary>
-    /// The -v flag causes vendor to print the names of vendored modules and packages to standard error.
-    /// </summary>
-    [CliFlag("-v")]
-    public bool? V { get; set; }
-
-    /// <summary>
     /// The -e flag causes vendor to attempt to proceed despite errors encountered while loading packages.
     /// </summary>
     [CliFlag("-e")]
     public bool? E { get; set; }
+
+    /// <summary>
+    /// The -v flag causes vendor to print the names of vendored modules and packages to standard error.
+    /// </summary>
+    [CliFlag("-v")]
+    public bool? V { get; set; }
 
     /// <summary>
     /// The -o flag causes vendor to create the vendor directory at the given path instead of "vendor". The go command can only use a vendor directory named "vendor" within the module root directory, so this flag is primarily useful for other tools.

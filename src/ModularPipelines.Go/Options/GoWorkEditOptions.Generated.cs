@@ -39,25 +39,25 @@ public record GoWorkEditOptions : GoOptions
     public string? Dropgodebug { get; set; }
 
     /// <summary>
-    /// The -use=path and -dropuse=path flags add and drop a use directive from the go.work file's set of module directories.
+    /// The -use, -dropuse, -replace, and -dropreplace, editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-use", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Use { get; set; }
 
     /// <summary>
-    /// The -use=path and -dropuse=path flags add and drop a use directive from the go.work file's set of module directories.
+    /// The -use, -dropuse, -replace, and -dropreplace, editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropuse", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropuse { get; set; }
 
     /// <summary>
-    /// The -replace=old[@v]=new[@v] flag adds a replacement of the given module path and version pair. If the @v in old@v is omitted, a replacement without a version on the left side is added, which applies to all versions of the old module path. If the @v in new@v is omitted, the new path should be a local module root directory, not a module path. Note that -replace overrides any redundant replacements for old[@v], so omitting @v will drop existing replacements for specific versions.
+    /// The -use, -dropuse, -replace, and -dropreplace, editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-replace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Replace { get; set; }
 
     /// <summary>
-    /// The -dropreplace=old[@v] flag drops a replacement of the given module path and version pair. If the @v is omitted, a replacement without a version on the left side is dropped.
+    /// The -use, -dropuse, -replace, and -dropreplace, editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropreplace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropreplace { get; set; }

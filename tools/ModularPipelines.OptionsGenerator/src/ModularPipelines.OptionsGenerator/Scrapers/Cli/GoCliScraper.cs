@@ -58,21 +58,6 @@ public partial class GoCliScraper : CliScraperBase
         "--help", "-h", "help"
     };
 
-    private static readonly HashSet<string> KnownValueOptions =
-        new(StringComparer.OrdinalIgnoreCase)
-        {
-            "C", "o", "mod", "module", "godebug", "dropgodebug", "require",
-            "droprequire", "go", "toolchain", "exclude", "dropexclude", "replace",
-            "dropreplace", "retract", "dropretract", "tool", "droptool", "ignore",
-            "dropignore", "use", "dropuse"
-        };
-
-    private static readonly HashSet<string> SharedBuildFlagCommands =
-        new(StringComparer.OrdinalIgnoreCase)
-        {
-            "clean", "get", "install", "list", "run", "test"
-        };
-
     /// <summary>
     /// Gets help text for go commands using "go help &lt;command&gt;" format.
     /// </summary>
@@ -81,7 +66,7 @@ public partial class GoCliScraper : CliScraperBase
         var helpText = await GetRawHelpTextAsync(commandPath, cancellationToken);
         if (string.IsNullOrWhiteSpace(helpText)
             || commandPath is [_, "build"]
-            || !ShouldLoadSharedBuildFlags(commandPath, helpText))
+            || commandPath.Length != 2)
         {
             return helpText;
         }
@@ -93,14 +78,17 @@ public partial class GoCliScraper : CliScraperBase
             return helpText;
         }
 
-        return $"{helpText.TrimEnd()}\n\n{buildHelp}";
+        var sharedBuildFlags = GetSharedBuildFlagsHelp(buildHelp);
+        return string.IsNullOrWhiteSpace(sharedBuildFlags)
+            ? helpText
+            : $"{helpText.TrimEnd()}\n\n{sharedBuildFlags}";
     }
 
-    private static bool ShouldLoadSharedBuildFlags(
-        IReadOnlyList<string> commandPath,
-        string helpText) =>
-        BuildFlagsUsagePattern().IsMatch(helpText)
-        || (commandPath.Count == 2 && SharedBuildFlagCommands.Contains(commandPath[1]));
+    private static string? GetSharedBuildFlagsHelp(string buildHelp)
+    {
+        var sharedCommandsMatch = SharedBuildCommandsPattern().Match(buildHelp);
+        return sharedCommandsMatch.Success ? buildHelp[sharedCommandsMatch.Index..] : null;
+    }
 
     private async Task<string?> GetRawHelpTextAsync(
         string[] commandPath,
@@ -311,6 +299,16 @@ public partial class GoCliScraper : CliScraperBase
             };
         }
 
+        if (commandParts is ["doc"])
+        {
+            return argument with
+            {
+                CSharpType = "IEnumerable<string>?",
+                IsRequired = false,
+                IsVariadic = true,
+            };
+        }
+
         if (argument.PropertyName is not (
             "Arguments" or "CliArguments" or "Packages" or "Modules" or "Moddirs" or "Targets"))
         {
@@ -383,20 +381,21 @@ public partial class GoCliScraper : CliScraperBase
     private static List<CliOptionDefinition> ParseOptions(string helpText, string? usageSynopsis)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var repeatableOptions = GetRepeatableOptions(helpText);
-        AddDocumentedOptions(helpText.Split('\n'), options, seenOptions, repeatableOptions);
-        AddProseOptions(helpText, options, seenOptions, repeatableOptions);
-        AddUsageOptions(usageSynopsis ?? string.Empty, options, seenOptions);
+        var normalizedHelpText = helpText.ReplaceLineEndings("\n");
+        var paragraphs = ParagraphSeparatorPattern().Split(normalizedHelpText);
+        var repeatableOptions = GetRepeatableOptions(paragraphs);
+        AddUsageOptions(usageSynopsis ?? string.Empty, options, repeatableOptions);
+        AddDocumentedOptions(normalizedHelpText.Split('\n'), options, repeatableOptions);
+        AddProseOptions(paragraphs, options, repeatableOptions);
         return options;
     }
 
-    private static IReadOnlySet<string> GetRepeatableOptions(string helpText)
+    private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
     {
         var repeatableOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var paragraph in ParagraphSeparatorPattern().Split(helpText))
+        foreach (var paragraph in paragraphs)
         {
-            if (!RepeatedOptionPattern().IsMatch(paragraph))
+            if (!DescriptionDeclaresRepeatableOption(paragraph))
             {
                 continue;
             }
@@ -412,8 +411,7 @@ public partial class GoCliScraper : CliScraperBase
 
     private static void AddDocumentedOptions(
         string[] lines,
-        ICollection<CliOptionDefinition> options,
-        ISet<string> seenOptions,
+        List<CliOptionDefinition> options,
         IReadOnlySet<string> repeatableOptions)
     {
         for (var i = 0; i < lines.Length; i++)
@@ -435,11 +433,6 @@ public partial class GoCliScraper : CliScraperBase
 
             var optionKey = flagName.TrimStart('-');
 
-            if (!seenOptions.Add(optionKey))
-            {
-                continue;
-            }
-
             // Accumulate multi-line descriptions
             i = AccumulateMultiLineDescription(lines, i, ref description);
 
@@ -450,24 +443,24 @@ public partial class GoCliScraper : CliScraperBase
             }
 
             var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
-            var isFlag = string.IsNullOrEmpty(valueHint) && !KnownValueOptions.Contains(optionKey);
-            var csharpType = acceptsMultipleValues
-                ? "IEnumerable<string>?"
-                : isFlag ? "bool?" : "string?";
+            var valueSeparator = GetValueSeparator(optionKey, description);
+            var isFlag = string.IsNullOrEmpty(valueHint) && valueSeparator is null;
 
-            options.Add(new CliOptionDefinition
+            AddOrMergeOption(options, new CliOptionDefinition
             {
                 SwitchName = flagName,
                 ShortForm = null,
                 PropertyName = propertyName,
-                CSharpType = csharpType,
+                CSharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues),
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
-                ValueSeparator = " ",
+                ValueSeparator = valueHint.Contains('=')
+                    ? "="
+                    : valueSeparator ?? " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
@@ -498,70 +491,63 @@ public partial class GoCliScraper : CliScraperBase
     }
 
     private static void AddProseOptions(
-        string helpText,
-        ICollection<CliOptionDefinition> options,
-        ISet<string> seenOptions,
+        IEnumerable<string> paragraphs,
+        List<CliOptionDefinition> options,
         IReadOnlySet<string> repeatableOptions)
     {
-        foreach (var paragraph in ParagraphSeparatorPattern().Split(helpText))
+        foreach (var paragraph in paragraphs)
         {
             var normalizedParagraph = paragraph.Trim();
-            var declarationMatch = ProseOptionParagraphPattern().Match(normalizedParagraph);
-            if (!declarationMatch.Success)
+            foreach (Match sentenceMatch in ProseOptionSentencePattern().Matches(normalizedParagraph))
             {
-                continue;
-            }
-
-            foreach (Match match in GoOptionReferencePattern().Matches(
-                         declarationMatch.Groups["declarations"].Value))
-            {
-                var optionKey = match.Groups["flag"].Value;
-                if (!seenOptions.Add(optionKey))
+                var sentence = sentenceMatch.Groups["sentence"].Value.Trim();
+                var declarationMatch = ProseOptionParagraphPattern().Match(sentence);
+                if (!declarationMatch.Success)
                 {
                     continue;
                 }
 
-                var propertyName = NormalizePropertyName(optionKey);
-                if (propertyName is null)
+                foreach (Match match in GoOptionReferencePattern().Matches(
+                             declarationMatch.Groups["declarations"].Value))
                 {
-                    continue;
-                }
+                    var optionKey = match.Groups["flag"].Value;
 
-                var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
-                var isFlag = !match.Groups["value"].Success
-                             && !KnownValueOptions.Contains(optionKey)
-                             && !normalizedParagraph.Contains("flag's value", StringComparison.OrdinalIgnoreCase);
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = $"-{optionKey}",
-                    PropertyName = propertyName,
-                    CSharpType = acceptsMultipleValues
-                        ? "IEnumerable<string>?"
-                        : isFlag ? "bool?" : "string?",
-                    Description = normalizedParagraph.ReplaceLineEndings(" "),
-                    IsFlag = isFlag,
-                    AcceptsMultipleValues = acceptsMultipleValues,
-                    ValueSeparator = match.Groups["separator"].Value == "=" ? "=" : " ",
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
-                });
+                    var propertyName = NormalizePropertyName(optionKey);
+                    if (propertyName is null)
+                    {
+                        continue;
+                    }
+
+                    var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
+                    var detectedSeparator = GetValueSeparator(optionKey, normalizedParagraph);
+                    var isFlag = !match.Groups["value"].Success && detectedSeparator is null;
+                    AddOrMergeOption(options, new CliOptionDefinition
+                    {
+                        SwitchName = $"-{optionKey}",
+                        PropertyName = propertyName,
+                        CSharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues),
+                        Description = sentence.ReplaceLineEndings(" "),
+                        IsFlag = isFlag,
+                        AcceptsMultipleValues = acceptsMultipleValues,
+                        ValueSeparator = match.Groups["separator"].Value == "="
+                            ? "="
+                            : detectedSeparator ?? " ",
+                        IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                    });
+                }
             }
         }
     }
 
     private static void AddUsageOptions(
         string helpText,
-        ICollection<CliOptionDefinition> options,
-        ISet<string> seenOptions)
+        List<CliOptionDefinition> options,
+        IReadOnlySet<string> repeatableOptions)
     {
         foreach (Match match in GoUsageOptionPattern().Matches(helpText))
         {
             var flagName = match.Groups["flag"].Value;
             var optionKey = flagName.TrimStart('-');
-            if (!seenOptions.Add(optionKey))
-            {
-                continue;
-            }
-
             var propertyName = NormalizePropertyName(optionKey);
             if (propertyName is null)
             {
@@ -570,18 +556,68 @@ public partial class GoCliScraper : CliScraperBase
 
             var valueHint = match.Groups["value"].Value;
             var isFlag = string.IsNullOrEmpty(valueHint);
+            var acceptsMultipleValues = repeatableOptions.Contains(optionKey);
             var valueSeparator = match.Groups["separator"].Value == "=" ? "=" : " ";
-            options.Add(new CliOptionDefinition
+            AddOrMergeOption(options, new CliOptionDefinition
             {
                 SwitchName = flagName,
                 PropertyName = propertyName,
-                CSharpType = isFlag ? "bool?" : "string?",
+                CSharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues),
                 Description = $"The {flagName} option.",
                 IsFlag = isFlag,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 ValueSeparator = valueSeparator,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
             });
         }
+    }
+
+    private static string? GetValueSeparator(string optionKey, string description)
+    {
+        var optionPattern = Regex.Escape(optionKey);
+        if (Regex.IsMatch(description, $@"(?<![\w-])-{optionPattern}=\S", RegexOptions.IgnoreCase))
+        {
+            return "=";
+        }
+
+        return Regex.IsMatch(
+            description,
+            $@"(?<![\w-])-{optionPattern}\s+(?!(?:flag|flags|option|options)\b)\S+",
+            RegexOptions.IgnoreCase)
+            || description.Contains($"-{optionKey} flag's value", StringComparison.OrdinalIgnoreCase)
+                ? " "
+                : null;
+    }
+
+    private static void AddOrMergeOption(
+        List<CliOptionDefinition> options,
+        CliOptionDefinition candidate)
+    {
+        var existingIndex = options.FindIndex(option =>
+            option.SwitchName.Equals(candidate.SwitchName, StringComparison.OrdinalIgnoreCase));
+
+        if (existingIndex < 0)
+        {
+            options.Add(candidate);
+            return;
+        }
+
+        var existing = options[existingIndex];
+        var isFlag = existing.IsFlag && candidate.IsFlag;
+        var acceptsMultipleValues = existing.AcceptsMultipleValues || candidate.AcceptsMultipleValues;
+        options[existingIndex] = existing with
+        {
+            CSharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues),
+            Description = string.IsNullOrWhiteSpace(candidate.Description)
+                ? existing.Description
+                : candidate.Description,
+            IsFlag = isFlag,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            ValueSeparator = existing.IsFlag && !candidate.IsFlag
+                ? candidate.ValueSeparator
+                : existing.ValueSeparator,
+            IsSecret = GeneratorUtils.IsSecretOption(existing.PropertyName, isFlag),
+        };
     }
 
     /// <summary>
@@ -680,11 +716,11 @@ public partial class GoCliScraper : CliScraperBase
     [GeneratedRegex(@"(?<![\w-])-(?<flag>[A-Za-z][\w-]*)(?:(?<separator>=)(?<value>[^\s,]+))?")]
     private static partial Regex GoOptionReferencePattern();
 
-    [GeneratedRegex(@"^(?:The|Edit also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex(@"^(?:The|Edit also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag|options|option)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex ProseOptionParagraphPattern();
 
-    [GeneratedRegex(@"(?:may|can) be repeated|repeatable", RegexOptions.IgnoreCase)]
-    private static partial Regex RepeatedOptionPattern();
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?<sentence>(?:The|Edit also provides the)\s+-.+?(?=(?:[.!?]\s+(?:The|Edit also provides the)\s+-)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex ProseOptionSentencePattern();
 
     [GeneratedRegex(@"(?:\r?\n){2,}")]
     private static partial Regex ParagraphSeparatorPattern();

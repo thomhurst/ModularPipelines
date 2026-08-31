@@ -27,31 +27,43 @@ public record GoModEditOptions : GoOptions
     public bool? Fmt { get; set; }
 
     /// <summary>
-    /// The -module flag changes the module's path (the go.mod file's module line).
+    /// The -print flag prints the final go.mod in its text format instead of writing it back to go.mod.
     /// </summary>
-    [CliOption("-module")]
-    public string? Module { get; set; }
+    [CliFlag("-print")]
+    public bool? Print { get; set; }
 
     /// <summary>
-    /// The -godebug=key=value flag adds a godebug key=value line, replacing any existing godebug lines with the given key.
+    /// The -json flag prints the final go.mod file in JSON format instead of writing it back to go.mod. The JSON output corresponds to these Go types:
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// The -module flag changes the module's path (the go.mod file's module line).
+    /// </summary>
+    [CliFlag("-module")]
+    public bool? Module { get; set; }
+
+    /// <summary>
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-godebug", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Godebug { get; set; }
 
     /// <summary>
-    /// The -dropgodebug=key flag drops any existing godebug lines with the given key.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropgodebug", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropgodebug { get; set; }
 
     /// <summary>
-    /// The -require=path@version and -droprequire=path flags add and drop a requirement on the given module path and version. Note that -require overrides any existing requirements on path. These flags are mainly for tools that understand the module graph. Users should prefer 'go get path@version' or 'go get path@none', which make other go.mod adjustments as needed to satisfy constraints imposed by other modules.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-require", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Require { get; set; }
 
     /// <summary>
-    /// The -require=path@version and -droprequire=path flags add and drop a requirement on the given module path and version. Note that -require overrides any existing requirements on path. These flags are mainly for tools that understand the module graph. Users should prefer 'go get path@version' or 'go get path@none', which make other go.mod adjustments as needed to satisfy constraints imposed by other modules.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-droprequire", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Droprequire { get; set; }
@@ -69,82 +81,70 @@ public record GoModEditOptions : GoOptions
     public string? Toolchain { get; set; }
 
     /// <summary>
-    /// The -exclude=path@version and -dropexclude=path@version flags add and drop an exclusion for the given module path and version. Note that -exclude=path@version is a no-op if that exclusion already exists.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
-    /// The -exclude=path@version and -dropexclude=path@version flags add and drop an exclusion for the given module path and version. Note that -exclude=path@version is a no-op if that exclusion already exists.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropexclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropexclude { get; set; }
 
     /// <summary>
-    /// The -replace=old[@v]=new[@v] flag adds a replacement of the given module path and version pair. If the @v in old@v is omitted, a replacement without a version on the left side is added, which applies to all versions of the old module path. If the @v in new@v is omitted, the new path should be a local module root directory, not a module path. Note that -replace overrides any redundant replacements for old[@v], so omitting @v will drop existing replacements for specific versions.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-replace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Replace { get; set; }
 
     /// <summary>
-    /// The -dropreplace=old[@v] flag drops a replacement of the given module path and version pair. If the @v is omitted, a replacement without a version on the left side is dropped.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropreplace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropreplace { get; set; }
 
     /// <summary>
-    /// The -retract=version and -dropretract=version flags add and drop a retraction on the given version. The version may be a single version like "v1.2.3" or a closed interval like "[v1.1.0,v1.1.9]". Note that -retract=version is a no-op if that retraction already exists.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-retract", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Retract { get; set; }
 
     /// <summary>
-    /// The -retract=version and -dropretract=version flags add and drop a retraction on the given version. The version may be a single version like "v1.2.3" or a closed interval like "[v1.1.0,v1.1.9]". Note that -retract=version is a no-op if that retraction already exists.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropretract", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropretract { get; set; }
 
     /// <summary>
-    /// The -tool=path and -droptool=path flags add and drop a tool declaration for the given path.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-tool", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ModTool { get; set; }
 
     /// <summary>
-    /// The -tool=path and -droptool=path flags add and drop a tool declaration for the given path.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-droptool", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Droptool { get; set; }
 
     /// <summary>
-    /// The -ignore=path and -dropignore=path flags add and drop a ignore declaration for the given path.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-ignore", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ignore { get; set; }
 
     /// <summary>
-    /// The -ignore=path and -dropignore=path flags add and drop a ignore declaration for the given path.
+    /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
     /// </summary>
     [CliOption("-dropignore", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dropignore { get; set; }
 
     /// <summary>
-    /// The -print flag prints the final go.mod in its text format instead of writing it back to go.mod.
-    /// </summary>
-    [CliFlag("-print")]
-    public bool? Print { get; set; }
-
-    /// <summary>
-    /// The -json flag prints the final go.mod file in JSON format instead of writing it back to go.mod. The JSON output corresponds to these Go types:
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
-
-    /// <summary>
     /// Edit also provides the -C, -n, and -x build flags.
     /// </summary>
-    [CliOption("-C")]
-    public string? C { get; set; }
+    [CliFlag("-C")]
+    public bool? C { get; set; }
 
     /// <summary>
     /// Edit also provides the -C, -n, and -x build flags.
@@ -155,8 +155,8 @@ public record GoModEditOptions : GoOptions
     /// <summary>
     /// Edit also provides the -C, -n, and -x build flags.
     /// </summary>
-    [CliFlag("-x")]
-    public bool? X { get; set; }
+    [CliOption("-x")]
+    public string? X { get; set; }
 
     /// <summary>
     /// The go.mod operand.
