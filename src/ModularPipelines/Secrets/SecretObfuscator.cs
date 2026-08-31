@@ -1,9 +1,11 @@
 using System.Buffers;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
+using Spectre.Console;
 
 namespace ModularPipelines.Secrets;
 
@@ -305,9 +307,17 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         for (var codePoint = (int) char.MinValue; codePoint <= char.MaxValue; codePoint++)
         {
             var character = (char) codePoint;
+            var category = char.GetUnicodeCategory(character);
             if (char.IsControl(character)
                 || char.IsSurrogate(character)
-                || char.IsWhiteSpace(character))
+                || char.IsWhiteSpace(character)
+                || category is UnicodeCategory.Format
+                    or UnicodeCategory.NonSpacingMark
+                    or UnicodeCategory.SpacingCombiningMark
+                    or UnicodeCategory.EnclosingMark
+                    or UnicodeCategory.PrivateUse
+                    or UnicodeCategory.OtherNotAssigned
+                || character.GetCellWidth() <= 0)
             {
                 continue;
             }
