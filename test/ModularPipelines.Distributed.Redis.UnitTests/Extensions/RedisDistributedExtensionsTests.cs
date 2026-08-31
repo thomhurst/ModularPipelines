@@ -8,6 +8,7 @@ using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Extensions;
 
@@ -45,6 +46,27 @@ public class RedisDistributedExtensionsTests
             await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
             await Assert.That(configuredOptions.CompressionLevel)
                 .IsEqualTo(CompressionLevel.NoCompression);
+        }
+    }
+
+    [Test]
+    public async Task ArtifactStoreRegistersStandaloneRedisDependencies()
+    {
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddRedisDistributedArtifactStore(options =>
+            options.ConnectionString = "artifact-only");
+
+        using var serviceProvider = builder.Services.BuildServiceProvider();
+        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(redisOptions.ConnectionString).IsEqualTo("artifact-only");
+            await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsTrue();
+            await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IDistributedArtifactStoreFactory))).IsTrue();
         }
     }
 
