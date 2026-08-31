@@ -373,13 +373,6 @@ public partial class AzCliScraper : CliScraperBase
             return true;
         }
 
-        if (switchName.Equals("cs", StringComparison.OrdinalIgnoreCase)
-            && description.Contains("DenySettings will be applied to child scopes", StringComparison.OrdinalIgnoreCase)
-            && string.IsNullOrEmpty(valueHint))
-        {
-            return true;
-        }
-
         if (explicitBooleanValue || HelpDeclaresOptionValue(switchName, description))
         {
             return false;
@@ -392,6 +385,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
+        || AzDenySettingsModeDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || HelpDeclaresSpaceSeparatedList(description)
@@ -605,8 +599,11 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|denysettings|accepts?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?denysettings\s+mode\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzDenySettingsModeDescriptionPattern();
 
     [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?|allowed values?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzEmbeddedValueDescriptionPattern();

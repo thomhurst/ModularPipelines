@@ -637,23 +637,27 @@ public class AzCliScraperTests
     }
 
     [Test]
-    public async Task Stack_Child_Scope_Is_A_Presence_Only_Flag()
+    public async Task Stack_Deny_Settings_Mode_Is_A_Value_And_Child_Scope_Is_A_Flag()
     {
         const string helpText = """
             Command
                 az stack group create : Create a stack.
 
             Optional Arguments
-                --cs --deny-settings-apply-to-child-scopes : DenySettings will be applied to child scopes.
+                --deny-settings-mode --dm                  : DenySettings mode.
+                --cs --deny-settings-apply-to-child-scopes : DenySettings apply to child scopes.
             """;
 
         var command = await new TestAzCliScraper().Parse(["az", "stack", "group", "create"], helpText);
-        var option = command!.Options.Single();
+        var denySettingsMode = command!.Options.Single(option => option.SwitchName == "--deny-settings-mode");
+        var childScope = command.Options.Single(option => option.SwitchName == "--cs");
 
         using (Assert.Multiple())
         {
-            await Assert.That(option.IsFlag).IsTrue();
-            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(denySettingsMode.IsFlag).IsFalse();
+            await Assert.That(denySettingsMode.CSharpType).IsEqualTo("string?");
+            await Assert.That(childScope.IsFlag).IsTrue();
+            await Assert.That(childScope.CSharpType).IsEqualTo("bool?");
         }
     }
 
