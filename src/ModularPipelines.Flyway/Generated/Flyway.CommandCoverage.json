@@ -3,7 +3,7 @@
   "toolName": "flyway",
   "toolVersion": "10.20.1",
   "commandCount": 12,
-  "commandTreeSha256": "a19a36e1bda9ae6bc1366839f6f6b0f64881cc10089c09d6164c9723da1f8ebf",
+  "commandTreeSha256": "a3becc8cae99bc1e4d40cd817d9a11c9f71363fcd7eecd7c5394a048e2f6c504",
   "commands": [
     "flyway auth",
     "flyway baseline",
@@ -12,7 +12,7 @@
     "flyway diff",
     "flyway diffText",
     "flyway info",
-    "flyway list-engines",
+    "flyway init",
     "flyway migrate",
     "flyway repair",
     "flyway snapshot",

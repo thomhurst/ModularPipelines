@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Flyway.Services;
 
 namespace ModularPipelines.Flyway.Extensions;
@@ -31,4 +30,5 @@ public static class FlywayExtensions
         services.TryAddScoped<IFlyway, Services.Flyway>();
         return services;
     }
+
 }
