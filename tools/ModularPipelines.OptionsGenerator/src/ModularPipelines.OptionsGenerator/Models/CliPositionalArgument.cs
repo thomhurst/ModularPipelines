@@ -75,7 +75,7 @@ public record CliPositionalArgument
     /// <summary>
     /// Rendering phase relative to flags and options. Generated operands default to
     /// <see cref="CommandLinePhase.EarlyOperand"/> because scraper syntax places them beside
-    /// the command path; hand-written attributes retain their pass-through default for compatibility.
+    /// the command path.
     /// </summary>
     public CommandLinePhase Phase { get; init; } = CommandLinePhase.EarlyOperand;
 
@@ -111,15 +111,8 @@ public record CliPositionalArgument
     public bool PrependOptionTerminatorIfValueStartsWithDash { get; init; }
 
     /// <summary>
-    /// Allows an intentional rendering-phase migration for an existing generated operand.
-    /// The compatibility guard still requires the same property name and type. Position may
-    /// change because positional indexes are scoped to a rendering phase.
-    /// </summary>
-    public bool AllowRenderingPhaseMigrationFromBaseline { get; init; }
-
-    /// <summary>
     /// Overrides whether command rendering validates that this operand has a value.
-    /// Constructor requiredness remains controlled by <see cref="IsRequired"/> for API compatibility.
+    /// Constructor requiredness remains controlled by <see cref="IsRequired"/>.
     /// </summary>
     internal bool? IsValidationRequired { get; init; }
 

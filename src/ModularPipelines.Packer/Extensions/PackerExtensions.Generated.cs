@@ -31,13 +31,4 @@ public static class PackerExtensions
         services.TryAddScoped<IPacker, Services.Packer>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the packer service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IPacker"/> service for executing packer commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Packer.Services.IPacker>().")]
-    public static IPacker Packer(this IPipelineContext context) => context.Services.GetRequiredService<IPacker>();
 }

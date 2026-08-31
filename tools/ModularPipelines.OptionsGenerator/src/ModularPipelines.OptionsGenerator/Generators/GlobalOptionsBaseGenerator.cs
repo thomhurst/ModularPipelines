@@ -33,9 +33,6 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
     {
         var sb = new StringBuilder();
         var globalOptions = tool.GetGlobalOptions();
-        var virtualDispatchAliases = GetVirtualDispatchAliases(
-            globalOptions,
-            tool.GlobalCompatibilityProperties);
 
         // File header with nullable enable
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
@@ -61,11 +58,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
 
-        if (globalOptions.Any(o => o.EnumDefinition is not null)
-            || tool.GlobalCompatibilityProperties.Any(property => tool.AllEnums.Any(definition =>
-                definition.EnumName.Equals(
-                    GeneratorUtils.GetEnumTypeName(property.CSharpType),
-                    StringComparison.Ordinal))))
+        if (globalOptions.Any(o => o.EnumDefinition is not null))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
@@ -101,21 +94,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         // Properties for global options
         foreach (var option in globalOptions.OrderBy(o => o.PropertyName))
         {
-            virtualDispatchAliases.TryGetValue(option.PropertyName, out var virtualDispatchAlias);
-            GenerateProperty(sb, option, virtualDispatchAlias?.PropertyName);
-            sb.AppendLine();
-        }
-
-        foreach (var compatibilityProperty in tool.GlobalCompatibilityProperties)
-        {
-            var newModifier = InheritedPropertyCollisionResolver.IsInheritedPropertyName(
-                compatibilityProperty.PropertyName)
-                ? "new "
-                : string.Empty;
-            GeneratorUtils.GenerateCompatibilityProperty(
-                sb,
-                GetEmittedCompatibilityProperty(compatibilityProperty, virtualDispatchAliases),
-                $"{newModifier}virtual ");
+            GenerateProperty(sb, option);
             sb.AppendLine();
         }
 
@@ -124,45 +103,9 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         return sb.ToString();
     }
 
-    private static IReadOnlyDictionary<string, CliCompatibilityProperty> GetVirtualDispatchAliases(
-        IReadOnlyList<CliOptionDefinition> globalOptions,
-        IReadOnlyList<CliCompatibilityProperty> compatibilityProperties)
-    {
-        return compatibilityProperties
-            .Where(property => property is
-            {
-                ForwardToPropertyName: not null,
-                ForwardingKind: CliCompatibilityForwardingKind.Direct,
-                UseInitAccessor: false,
-            })
-            .Where(property => globalOptions.Any(option =>
-                option.PropertyName.Equals(property.ForwardToPropertyName, StringComparison.Ordinal)
-                && option.PropertyType.Equals(property.CSharpType, StringComparison.Ordinal)))
-            .GroupBy(property => property.ForwardToPropertyName!, StringComparer.Ordinal)
-            .Where(group => group.Count() == 1)
-            .ToDictionary(group => group.Key, group => group.Single(), StringComparer.Ordinal);
-    }
-
-    private static CliCompatibilityProperty GetEmittedCompatibilityProperty(
-        CliCompatibilityProperty compatibilityProperty,
-        IReadOnlyDictionary<string, CliCompatibilityProperty> virtualDispatchAliases)
-    {
-        if (compatibilityProperty.ForwardToPropertyName is not { } target
-            || !virtualDispatchAliases.TryGetValue(target, out var virtualDispatchAlias)
-            || !virtualDispatchAlias.PropertyName.Equals(
-                compatibilityProperty.PropertyName,
-                StringComparison.Ordinal))
-        {
-            return compatibilityProperty;
-        }
-
-        return compatibilityProperty with { ForwardToPropertyName = null };
-    }
-
     private static void GenerateProperty(
         StringBuilder sb,
-        CliOptionDefinition option,
-        string? virtualDispatchAlias)
+        CliOptionDefinition option)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, GetDescription(option));
@@ -187,19 +130,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        if (virtualDispatchAlias is null)
-        {
-            sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
-            return;
-        }
-
-        sb.AppendLine("#pragma warning disable CS0618");
-        sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName}");
-        sb.AppendLine("    {");
-        sb.AppendLine($"        get => {virtualDispatchAlias};");
-        sb.AppendLine($"        set => {virtualDispatchAlias} = value;");
-        sb.AppendLine("    }");
-        sb.AppendLine("#pragma warning restore CS0618");
+        sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static string? GetDescription(CliOptionDefinition option)

@@ -2,7 +2,7 @@ using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers;
 
-internal static class DotNetCliCompatibility
+internal static class DotNetCliNormalizer
 {
     private static readonly HashSet<string> NoLogoCommands =
         new(StringComparer.OrdinalIgnoreCase)
@@ -13,33 +13,9 @@ internal static class DotNetCliCompatibility
             "publish",
         };
 
-    private static readonly CliCompatibilityProperty NoLogoProperty = new()
-    {
-        PropertyName = "Nologo",
-        CSharpType = "bool?",
-        ForwardToPropertyName = "NoLogo",
-        ObsoleteMessage = "Use NoLogo instead.",
-    };
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> NoLogoProperties =
-    [
-        NoLogoProperty,
-    ];
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> BuildProperties =
-    [
-        NoLogoProperty,
-        new CliCompatibilityProperty
-        {
-            PropertyName = "Debug",
-            CSharpType = "bool?",
-            ObsoleteMessage = "The dotnet --debug switch is no longer supported and this property has no effect.",
-        },
-    ];
-
     public static void NormalizeOptions(IReadOnlyList<string> commandParts, List<CliOptionDefinition> options)
     {
-        if (!SupportsNoLogoCompatibility(commandParts))
+        if (!SupportsNoLogo(commandParts))
         {
             return;
         }
@@ -63,16 +39,9 @@ internal static class DotNetCliCompatibility
         }
     }
 
-    public static IReadOnlyList<CliCompatibilityProperty> GetProperties(IReadOnlyList<string> commandParts) =>
-        IsBuildCommand(commandParts)
-            ? BuildProperties
-            : SupportsNoLogoCompatibility(commandParts)
-                ? NoLogoProperties
-                : [];
-
     private static bool IsBuildCommand(IReadOnlyList<string> commandParts) =>
         commandParts.Count == 1 && commandParts[0].Equals("build", StringComparison.OrdinalIgnoreCase);
 
-    private static bool SupportsNoLogoCompatibility(IReadOnlyList<string> commandParts) =>
+    private static bool SupportsNoLogo(IReadOnlyList<string> commandParts) =>
         commandParts.Count == 1 && NoLogoCommands.Contains(commandParts[0]);
 }

@@ -26,7 +26,6 @@ internal static class InheritedPropertyCollisionResolver
         var globalNames = tool.GlobalOptions
             .Concat(tool.SupplementalGlobalOptions)
             .Select(option => option.PropertyName)
-            .Concat(tool.GlobalCompatibilityProperties.Select(property => property.PropertyName))
             .ToHashSet(StringComparer.Ordinal);
         var globalRenamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var globalOptions = ResolveOptions(
@@ -42,7 +41,6 @@ internal static class InheritedPropertyCollisionResolver
         var resolvedGlobalNames = globalOptions
             .Concat(supplementalGlobalOptions)
             .Select(option => option.PropertyName)
-            .Concat(tool.GlobalCompatibilityProperties.Select(property => property.PropertyName))
             .ToHashSet(StringComparer.Ordinal);
 
         return tool with
@@ -55,12 +53,6 @@ internal static class InheritedPropertyCollisionResolver
                 .ToArray(),
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = supplementalGlobalOptions,
-            GlobalCompatibilityProperties = tool.GlobalCompatibilityProperties
-                .Select(property => property.ForwardToPropertyName is { } target
-                    && globalRenamedProperties.TryGetValue(target, out var renamedTarget)
-                        ? property with { ForwardToPropertyName = renamedTarget }
-                        : property)
-                .ToArray(),
         };
     }
 
@@ -72,7 +64,6 @@ internal static class InheritedPropertyCollisionResolver
         var occupiedNames = command.Options
             .Select(option => option.PropertyName)
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
-            .Concat(command.CompatibilityProperties.Select(property => property.PropertyName))
             .Concat(globalPropertyNames)
             .ToHashSet(StringComparer.Ordinal);
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -108,16 +99,6 @@ internal static class InheritedPropertyCollisionResolver
         {
             Options = options,
             PositionalArguments = positionalArguments,
-            CompatibilityProperties = command.CompatibilityProperties
-                .Select(property => property.ForwardToPropertyName is { } target
-                    && TryGetRename(
-                        target,
-                        renamedProperties,
-                        globalRenamedProperties,
-                        out var renamedTarget)
-                        ? property with { ForwardToPropertyName = renamedTarget }
-                        : property)
-                .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
                     pair => TryGetRename(
@@ -230,14 +211,14 @@ internal static class InheritedPropertyCollisionResolver
         for (var index = commandParts.Count - 2; index >= 0; index--)
         {
             var candidate = GeneratorUtils.ToPascalCase(commandParts[index]) + propertyName;
-            if (occupiedNames.Add(candidate))
+            if (TryOccupyResolvedName(candidate, occupiedNames))
             {
                 return RecordRename(propertyName, candidate, renamedProperties);
             }
         }
 
         var cliCandidate = $"Cli{propertyName}";
-        if (occupiedNames.Add(cliCandidate))
+        if (TryOccupyResolvedName(cliCandidate, occupiedNames))
         {
             return RecordRename(propertyName, cliCandidate, renamedProperties);
         }
@@ -245,12 +226,17 @@ internal static class InheritedPropertyCollisionResolver
         for (var suffix = 2; ; suffix++)
         {
             var candidate = $"{cliCandidate}{suffix}";
-            if (occupiedNames.Add(candidate))
+            if (TryOccupyResolvedName(candidate, occupiedNames))
             {
                 return RecordRename(propertyName, candidate, renamedProperties);
             }
         }
     }
+
+    private static bool TryOccupyResolvedName(string candidate, HashSet<string> occupiedNames) =>
+        !IsInheritedPropertyName(candidate)
+        && !RecordReservedPropertyNames.Contains(candidate)
+        && occupiedNames.Add(candidate);
 
     private static string RecordRename(
         string propertyName,

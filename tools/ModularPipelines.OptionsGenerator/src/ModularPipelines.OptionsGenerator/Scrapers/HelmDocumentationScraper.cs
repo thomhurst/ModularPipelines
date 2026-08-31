@@ -233,7 +233,7 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
                 continue;
 
             // Detect if this is a boolean flag
-            var isFlag = DetectBooleanFlag(description, valueType);
+            var isFlag = DetectBooleanFlag(description, valueType, null, null);
             var isNumeric = DetectNumericType(valueType);
             var acceptsMultiple = DetectMultipleValues(description, valueType) ||
                                   valueType.Contains("Array", StringComparison.OrdinalIgnoreCase);

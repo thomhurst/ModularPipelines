@@ -31,13 +31,4 @@ public static class JqExtensions
         services.TryAddScoped<IJq, Services.Jq>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the jq service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IJq"/> service for executing jq commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Jq.Services.IJq>().")]
-    public static IJq Jq(this IPipelineContext context) => context.Services.GetRequiredService<IJq>();
 }

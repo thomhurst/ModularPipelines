@@ -40,9 +40,4 @@ public record CliEnumValue
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }
-
-    /// <summary>
-    /// Stable numeric value preserved from an existing generated enum.
-    /// </summary>
-    public int? NumericValue { get; init; }
 }

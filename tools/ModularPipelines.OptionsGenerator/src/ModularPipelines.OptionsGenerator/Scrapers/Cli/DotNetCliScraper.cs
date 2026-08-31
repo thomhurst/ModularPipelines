@@ -150,7 +150,7 @@ public partial class DotNetCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
-        DotNetCliCompatibility.NormalizeOptions(commandParts, options);
+        DotNetCliNormalizer.NormalizeOptions(commandParts, options);
 
         // Parse positional arguments
         var positionalArgs = ParsePositionalArguments(helpText);
@@ -190,7 +190,6 @@ public partial class DotNetCliScraper : CliScraperBase
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             Enums = enums,
-            CompatibilityProperties = DotNetCliCompatibility.GetProperties(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -499,18 +498,6 @@ public partial class DotNetCliScraper : CliScraperBase
             ];
         }
 
-        // Keep the established public API names until a major release can model the newer
-        // NuGet operand spellings and push cardinality without compatibility warnings.
-        if (commandKey.Equals("nuget add source", StringComparison.OrdinalIgnoreCase))
-        {
-            return RenameSingleArgument(args, "Packagesourcepath", isVariadic: false);
-        }
-
-        if (commandKey.Equals("nuget push", StringComparison.OrdinalIgnoreCase))
-        {
-            return RenameSingleArgument(args, "Path", isVariadic: false);
-        }
-
         if (commandKey.Equals("tool run", StringComparison.OrdinalIgnoreCase))
         {
             return args.Select(argument =>
@@ -519,7 +506,6 @@ public partial class DotNetCliScraper : CliScraperBase
                     {
                         Phase = CommandLinePhase.Passthrough,
                         PrependOptionTerminator = true,
-                        AllowRenderingPhaseMigrationFromBaseline = true,
                     }
                     : argument).ToList();
         }
@@ -560,44 +546,15 @@ public partial class DotNetCliScraper : CliScraperBase
                 : argument;
         }).ToList();
 
-    private static List<CliPositionalArgument> RenameSingleArgument(
-        List<CliPositionalArgument> args,
-        string propertyName,
-        bool isVariadic)
-    {
-        if (args.Count != 1)
-        {
-            return args;
-        }
-
-        var argument = args[0];
-        return
-        [
-            argument with
-            {
-                PropertyName = propertyName,
-                CSharpType = isVariadic ? "IEnumerable<string>?" : "string?",
-                IsVariadic = isVariadic,
-            },
-        ];
-    }
-
     /// <summary>
     /// Simplifies combined positional argument names.
     /// Returns names with hyphens so NormalizePropertyName can properly PascalCase them.
     /// "PROJECT | SOLUTION | FILE" becomes "Project-Solution" → "ProjectSolution"
     /// "PROJECT | SOLUTION" becomes "Project-Solution" → "ProjectSolution"
-    /// "root" becomes "Path" (for nuget push compatibility)
     /// "PACKAGE_ID" stays as "Package-Id" → "PackageId"
     /// </summary>
     private static string SimplifyPositionalArgName(string argName)
     {
-        // Handle specific name mappings for backward compatibility
-        if (string.Equals(argName, "root", StringComparison.OrdinalIgnoreCase))
-        {
-            return "Path";
-        }
-
         // Handle common combined patterns - use hyphen separator for proper PascalCase conversion
         if (argName.Contains("PROJECT", StringComparison.OrdinalIgnoreCase) &&
             argName.Contains("SOLUTION", StringComparison.OrdinalIgnoreCase))

@@ -190,7 +190,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Get the first subcommand for grouping. Record only tool-specific identifier
-        // overrides so shared generators preserve existing public names for other tools.
+        // overrides so they do not affect naming for other Cobra tools.
         var commandGroupIdentifier = NormalizeCommandIdentifier(commandParts[0]);
         var commandGroupIdentifierOverride = commandGroupIdentifier.Equals(
             ToPascalCase(commandParts[0]),
@@ -229,13 +229,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
             DocumentationUrl = null, // CLI-first, no URL
             Options = options,
             PositionalArguments = positionalArgs,
-            CompatibilityProperties = GetCompatibilityProperties(commandParts),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums,
-            CompatibilityMethods = GetCompatibilityMethods(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -509,12 +507,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     protected virtual string? NormalizeOptionPropertyName(string switchName) =>
         NormalizePropertyName(switchName);
-
-    /// <summary>
-    /// Returns obsolete forwarding methods that preserve established public API names.
-    /// </summary>
-    protected virtual IReadOnlyList<CliCompatibilityMethod> GetCompatibilityMethods(
-        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether an option accepts repeated values when the source type is scalar.
@@ -844,18 +836,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
 
     /// <summary>
-    /// Applies tool-specific corrections when Cobra's option metadata would change
-    /// an established generated API.
+    /// Applies tool-specific corrections to Cobra option metadata.
     /// </summary>
     protected virtual IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options) => options;
-
-    /// <summary>
-    /// Returns public properties that remain available after the installed CLI removes a switch.
-    /// </summary>
-    protected virtual IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
-        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether a Boolean must be emitted with an explicit value instead of

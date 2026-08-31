@@ -79,7 +79,6 @@ public class CommandTreeNode
     internal IReadOnlyList<CliCommandDefinition> GetNamedFacadeCommands()
     {
         var movedCommands = GetChildParentCommands().Values
-            .Where(command => !command.PreserveNamedFacade)
             .ToHashSet();
         return Commands.Where(command => !movedCommands.Contains(command)).ToList();
     }
@@ -97,7 +96,7 @@ public class CommandTreeNode
         string subDomain,
         IReadOnlyList<CliCommandDefinition> commands)
     {
-        // The caller resolves legacy casing or an explicit scraper override.
+        // The caller resolves casing and any explicit scraper override.
         var rootClassName = $"{toolPrefix}{subDomain}";
 
         var root = new CommandTreeNode

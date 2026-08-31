@@ -161,14 +161,6 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     }
 
     /// <summary>
-    /// Overload for backwards compatibility with scrapers that don't have acceptedValues/explicitType.
-    /// </summary>
-    protected static bool DetectBooleanFlag(string? description, string? defaultValue)
-    {
-        return DetectBooleanFlag(description, defaultValue, null, null);
-    }
-
-    /// <summary>
     /// Parses a description to detect if this option accepts multiple values.
     /// </summary>
     protected static bool DetectMultipleValues(string? description, string? valueType)

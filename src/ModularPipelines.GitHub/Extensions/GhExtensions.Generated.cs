@@ -57,13 +57,4 @@ public static class GhExtensions
         services.TryAddScoped<IGhWorkflow, GhWorkflow>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the gh service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IGh"/> service for executing gh commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.GitHub.Services.IGh>().")]
-    public static IGh Gh(this IPipelineContext context) => context.Services.GetRequiredService<IGh>();
 }

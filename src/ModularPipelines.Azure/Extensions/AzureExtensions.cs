@@ -78,16 +78,4 @@ public static class AzureExtensions
         RegisterAzureContext(services);
         return services.AddSingleton(new ArmClient(tokenCredential));
     }
-
-    /// <summary>
-    /// Gets the Azure services from the pipeline context.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The Azure services.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Azure.IAzure>().")]
-    public static IAzure Azure(this IPipelineContext context)
-    {
-        return context.Services.GetRequiredService<IAzure>();
-    }
 }

@@ -167,21 +167,6 @@ public partial class LiquibaseCliScraper : CliScraperBase
         },
     ];
 
-    public override CliToolDefinition CreateToolDefinition() =>
-        base.CreateToolDefinition() with
-        {
-            GlobalCompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "AllowDuplicatedChangesetIdentifiers",
-                    CSharpType = "bool?",
-                    ForwardToPropertyName = "AllowDuplicatedChangeSetIdentifiers",
-                    ObsoleteMessage = "Use AllowDuplicatedChangeSetIdentifiers instead.",
-                },
-            ],
-        };
-
     /// <summary>
     /// Extracts subcommand names from liquibase help text.
     /// </summary>

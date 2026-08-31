@@ -25,68 +25,6 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PodmanCliScraper : CobraCliScraper
 {
-    private static readonly IReadOnlyList<CliCompatibilityProperty> NoTruncCompatibilityProperties =
-    [
-        RemovedCompatibilityProperty(
-            "NoTrunc",
-            "bool?",
-            "Podman no longer supports --no-trunc and this property has no effect."),
-    ];
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> SaveKeysCompatibilityProperties =
-    [
-        RemovedCompatibilityProperty(
-            "SaveKeys",
-            "bool?",
-            "Podman no longer supports --save-keys and this property has no effect."),
-    ];
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> MachineInitCompatibilityProperties =
-    [
-        new CliCompatibilityProperty
-        {
-            PropertyName = "ImagePath",
-            CSharpType = "string?",
-            ForwardToPropertyName = "Image",
-            ObsoleteMessage = "Use Image instead.",
-        },
-        new CliCompatibilityProperty
-        {
-            PropertyName = "VolumeDriver",
-            CSharpType = "string?",
-            ObsoleteMessage = "Podman no longer supports --volume-driver and this property has no effect.",
-        },
-    ];
-
-    private static readonly CliCompatibilityProperty BuildOutputCompatibilityProperty = new()
-    {
-        PropertyName = "Output",
-        CSharpType = "string?",
-        ForwardToPropertyName = "Outputs",
-        ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
-        ObsoleteMessage = "Use Outputs instead.",
-    };
-
-    private static readonly CliCompatibilityProperty BuildTimestampCompatibilityProperty = new()
-    {
-        PropertyName = "Timestamp",
-        CSharpType = "int?",
-        ForwardToPropertyName = "TimestampValue",
-        ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
-        ObsoleteMessage = "Use TimestampValue instead.",
-    };
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> BuildCompatibilityProperties =
-    [
-        BuildOutputCompatibilityProperty,
-        BuildTimestampCompatibilityProperty,
-    ];
-
-    private static readonly IReadOnlyList<CliCompatibilityProperty> FarmBuildCompatibilityProperties =
-    [
-        BuildTimestampCompatibilityProperty,
-    ];
-
     public PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -326,16 +264,6 @@ public partial class PodmanCliScraper : CobraCliScraper
             .ToList();
     }
 
-    private static CliCompatibilityProperty RemovedCompatibilityProperty(
-        string propertyName,
-        string csharpType,
-        string obsoleteMessage) => new()
-        {
-            PropertyName = propertyName,
-            CSharpType = csharpType,
-            ObsoleteMessage = obsoleteMessage,
-        };
-
     private static string GetPositionalElementType(string csharpType)
     {
         var nonNullableType = csharpType.TrimEnd('?');
@@ -345,17 +273,6 @@ public partial class PodmanCliScraper : CobraCliScraper
             ? nonNullableType[enumerablePrefix.Length..^1]
             : nonNullableType;
     }
-
-    protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
-        string[] commandParts) => string.Join(' ', commandParts) switch
-        {
-            "build" or "image build" => BuildCompatibilityProperties,
-            "farm build" => FarmBuildCompatibilityProperties,
-            "generate kube" or "kube generate" or "kube play" => NoTruncCompatibilityProperties,
-            "machine init" => MachineInitCompatibilityProperties,
-            "machine rm" => SaveKeysCompatibilityProperties,
-            _ => [],
-        };
 
     private static IReadOnlyList<CliPositionalArgument> SetRequiredCount(
         IReadOnlyList<CliPositionalArgument> positionalArguments,

@@ -529,7 +529,7 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Bms_Update_Defers_Shipped_Api_Compatibility()
+    public async Task Gcloud_Bms_Update_Uses_Current_Structured_Value_Type()
     {
         const string helpText = """
             NAME
@@ -555,7 +555,6 @@ public partial class NestedArgumentGroupParsingTests
         {
             await Assert.That(option.PropertyName).IsEqualTo("UpdateLabels");
             await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
-            await Assert.That(command.CompatibilityProperties).IsEmpty();
         }
     }
 

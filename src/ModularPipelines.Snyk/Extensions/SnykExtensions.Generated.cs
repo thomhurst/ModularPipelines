@@ -31,13 +31,4 @@ public static class SnykExtensions
         services.TryAddScoped<ISnyk, Services.Snyk>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the snyk service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="ISnyk"/> service for executing snyk commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Snyk.Services.ISnyk>().")]
-    public static ISnyk Snyk(this IPipelineContext context) => context.Services.GetRequiredService<ISnyk>();
 }

@@ -17,9 +17,6 @@ public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
 
-    private readonly ConcurrentDictionary<string, CliCommandGroupAlias> _commandGroupAliases =
-        new(StringComparer.OrdinalIgnoreCase);
-
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
     protected readonly ILogger Logger;
@@ -266,8 +263,6 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        _commandGroupAliases.Clear();
-
         Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
             ToolName, ExecutablePath, MaxParallelism);
 
@@ -383,17 +378,6 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         helpText = NormalizeHelpText(helpText);
-
-        var commandGroupAlias = DetectCommandGroupAlias(path, helpText);
-        if (commandGroupAlias is not null)
-        {
-            _commandGroupAliases.TryAdd(commandGroupAlias.Alias, commandGroupAlias);
-            Logger.LogInformation(
-                "Skipping alias command tree {Alias}; using canonical tree {Canonical}",
-                commandGroupAlias.Alias,
-                commandGroupAlias.CanonicalCommand);
-            return;
-        }
 
         if (path.Length == 1)
         {
@@ -640,9 +624,6 @@ public abstract partial class CliScraperBase : ICliScraper
             OutputDirectory = OutputDirectory,
             GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
-            CommandGroupAliases = _commandGroupAliases.Values
-                .OrderBy(alias => alias.Alias, StringComparer.OrdinalIgnoreCase)
-                .ToList(),
             GlobalOptions = GlobalOptions,
             SupplementalGlobalOptions = SupplementalGlobalOptions,
             GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
@@ -773,13 +754,6 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IEnumerable<string> GetAdditionalUsageSynopses(
         string[] commandPath,
         string helpText) => [];
-
-    /// <summary>
-    /// Detects a top-level command group whose help resolves to a canonical alias target.
-    /// </summary>
-    protected virtual CliCommandGroupAlias? DetectCommandGroupAlias(
-        string[] commandPath,
-        string helpText) => null;
 
     /// <summary>
     /// Returns whether the help output belongs to the requested command path.

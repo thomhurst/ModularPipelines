@@ -113,13 +113,4 @@ public static class AzExtensions
         services.TryAddScoped<IAzWebapp, AzWebapp>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the az service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IAz"/> service for executing az commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Azure.Services.IAz>().")]
-    public static IAz Az(this IPipelineContext context) => context.Services.GetRequiredService<IAz>();
 }

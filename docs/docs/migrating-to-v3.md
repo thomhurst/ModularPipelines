@@ -341,7 +341,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Tool options only contain tool-specific arguments
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",
@@ -399,7 +399,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Rich logging configuration via CommandLoggingOptions
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {
@@ -674,7 +674,7 @@ public class PackageModule : Module<PackageResult>
             // Method moved to context
             await context.SubModule(package, async () =>
             {
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { ProjectSolution = package });
             });
         }
 
@@ -1145,7 +1145,7 @@ public class BuildModule : Module<BuildOutput>
     protected override async Task<BuildOutput?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions());
         return new BuildOutput(result.StandardOutput);
     }
 }
@@ -1480,7 +1480,7 @@ if (result is ModuleResult<BuildOutput>.Success)
 
 ```csharp
 // Tool-specific options separate from execution options
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",

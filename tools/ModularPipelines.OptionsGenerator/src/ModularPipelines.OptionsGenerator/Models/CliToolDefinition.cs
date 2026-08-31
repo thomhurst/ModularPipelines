@@ -57,11 +57,6 @@ public record CliToolDefinition
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }
 
     /// <summary>
-    /// Top-level command groups that are aliases of a canonical generated command tree.
-    /// </summary>
-    public IReadOnlyList<CliCommandGroupAlias> CommandGroupAliases { get; init; } = [];
-
-    /// <summary>
     /// Version reported by the installed CLI, when available.
     /// </summary>
     public string? ToolVersion { get; init; }
@@ -88,11 +83,6 @@ public record CliToolDefinition
     /// selected command path.
     /// </summary>
     public bool GlobalOptionsBeforeSubcommands { get; init; } = true;
-
-    /// <summary>
-    /// Public global properties retained for source and binary compatibility but excluded from CLI rendering.
-    /// </summary>
-    public IReadOnlyList<CliCompatibilityProperty> GlobalCompatibilityProperties { get; init; } = [];
 
     /// <summary>
     /// Returns the validated, deterministic union of scraped and supplemental global options.
@@ -143,45 +133,13 @@ public record CliToolDefinition
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
-        .Concat(CompatibilityEnums)
         .DistinctBy(e => e.EnumName)
         .ToList();
-
-    /// <summary>
-    /// Generated enum types retained after the installed CLI stops advertising them.
-    /// </summary>
-    public IReadOnlyList<CliEnumDefinition> CompatibilityEnums { get; init; } = [];
-
-    /// <summary>
-    /// Known scraper artifacts to remove from existing generated enums during stabilization.
-    /// </summary>
-    public IReadOnlySet<string> DiscardedGeneratedEnumValues { get; init; } = new HashSet<string>(StringComparer.Ordinal);
 
     /// <summary>
     /// Any scraping errors encountered.
     /// </summary>
     public IReadOnlyList<ScrapingError> Errors { get; init; } = [];
-}
-
-/// <summary>
-/// Describes a top-level command group that aliases a canonical command group.
-/// </summary>
-public record CliCommandGroupAlias
-{
-    /// <summary>
-    /// Alias command segment exposed for compatibility.
-    /// </summary>
-    public required string Alias { get; init; }
-
-    /// <summary>
-    /// Canonical command segment whose generated tree performs execution.
-    /// </summary>
-    public required string CanonicalCommand { get; init; }
-
-    /// <summary>
-    /// Obsolete diagnostic shown to consumers of the alias API.
-    /// </summary>
-    public required string ObsoleteMessage { get; init; }
 }
 
 /// <summary>
@@ -201,7 +159,6 @@ public record CliCommandCoveragePolicy
 
     /// <summary>
     /// Commands whose help visibility depends on an edition, license, plugin, or environment.
-    /// When one is absent from a fresh scrape, its existing generated definition remains active.
     /// </summary>
     public IReadOnlyList<CliConditionallyAvailableCommand> ConditionallyAvailableCommands { get; init; } = [];
 

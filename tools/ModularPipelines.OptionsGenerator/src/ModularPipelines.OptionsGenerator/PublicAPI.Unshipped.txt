@@ -1,7 +1,6 @@
 #nullable enable
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.init -> void
-ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind.NullableBooleanToStringCollection = 9 -> ModularPipelines.OptionsGenerator.Models.CliCompatibilityForwardingKind
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.CliConditionallyAvailableCommand() -> void
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.CliConditionallyAvailableCommand(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand! original) -> void
@@ -19,7 +18,6 @@ override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableComma
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FlywayCliScraper.MaxParallelism.get -> int
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.LiquibaseCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator !=(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.operator ==(ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? left, ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand? right) -> bool
 virtual ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.<Clone>$() -> ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!

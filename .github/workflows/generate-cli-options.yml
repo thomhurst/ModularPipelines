@@ -27,11 +27,6 @@ on:
         required: false
         default: false
         type: boolean
-      approve-api-breaking-changes:
-        description: 'Explicitly approve generated API breaking changes for this run'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -172,21 +167,14 @@ jobs:
 
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
-      - name: Pack API baseline and clean up legacy files
+      - name: Clean up legacy files
         id: package
         if: steps.should-run.outputs.run == 'true'
         run: |
           PACKAGE="${{ matrix.package }}"
           PREFIX="${{ matrix.prefix }}"
           PKG_DIR="${{ matrix.outputDirectory }}"
-          PROJECT="$PKG_DIR/$PACKAGE.csproj"
-          if [ ! -f "$PROJECT" ]; then
-            echo "Package project not found: $PROJECT" >&2
-            exit 1
-          fi
-
           echo "package=$PACKAGE" >> "$GITHUB_OUTPUT"
-          dotnet pack "$PROJECT" -c Release --output "$RUNNER_TEMP/api-baseline"
 
           echo "Cleaning up legacy files in $PKG_DIR for prefix $PREFIX..."
           LEGACY_PATHS="$RUNNER_TEMP/legacy-generated-paths.txt"
@@ -649,18 +637,6 @@ jobs:
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
             -c Release "${BUILD_ARGS[@]}"
 
-      - name: Validate generated API compatibility
-        id: api-compat
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        continue-on-error: true
-        run: |
-          PACKAGE="${{ steps.package.outputs.package }}"
-          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release \
-            --output "$RUNNER_TEMP/api-current"
-          pwsh -File tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 \
-            -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
-            -CurrentDirectory "$RUNNER_TEMP/api-current"
-
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         shell: pwsh
@@ -697,7 +673,6 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
-            - API compatibility gate: **${{ steps.api-compat.outcome }}${{ steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'] && ' (explicitly approved)' || '' }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -713,20 +688,10 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
+        if: steps.create-pr.outputs.pull-request-number && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-
-      - name: Report breaking generated API
-        if: steps.api-compat.outcome == 'failure' && !(github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'])
-        run: |
-          echo "Generated API is not backward compatible. Auto-merge was not enabled." >&2
-          exit 1
-
-      - name: Acknowledge approved breaking generated API
-        if: steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes']
-        run: echo "::warning::Generated API breaking changes were explicitly approved. Auto-merge remains disabled."
 
   # Generate options for Windows-only tools
   generate-windows:
@@ -789,7 +754,7 @@ jobs:
 
       # Clean up legacy manual files before generation
       # Only delete specific service interface/implementation files that will be replaced
-      - name: Pack API baseline and clean up legacy files
+      - name: Clean up legacy files
         id: package
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
@@ -797,16 +762,7 @@ jobs:
           $package = "${{ matrix.package }}"
           $prefix = "${{ matrix.prefix }}"
           $pkgDir = "${{ matrix.outputDirectory }}"
-          $project = "$pkgDir/$package.csproj"
-          if (-not (Test-Path -LiteralPath $project -PathType Leaf)) {
-            throw "Package project not found: $project"
-          }
-
           "package=$package" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          dotnet pack $project -c Release --output "$env:RUNNER_TEMP/api-baseline"
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to pack API baseline for $package"
-          }
 
           Write-Host "Cleaning up legacy files in $pkgDir for prefix $prefix..."
           $legacyPaths = Join-Path $env:RUNNER_TEMP 'legacy-generated-paths.txt'
@@ -938,23 +894,6 @@ jobs:
           "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
           -c Release
 
-      - name: Validate generated API compatibility
-        id: api-compat
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        continue-on-error: true
-        shell: pwsh
-        run: |
-          $package = "${{ steps.package.outputs.package }}"
-          dotnet pack "src/$package/$package.csproj" -c Release `
-            --output "$env:RUNNER_TEMP/api-current"
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to pack current API for $package"
-          }
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 `
-            -BaselineDirectory "$env:RUNNER_TEMP/api-baseline" `
-            -CurrentDirectory "$env:RUNNER_TEMP/api-current"
-
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         shell: pwsh
@@ -991,7 +930,6 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
-            - API compatibility gate: **${{ steps.api-compat.outcome }}${{ steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'] && ' (explicitly approved)' || '' }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -1007,21 +945,11 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
+        if: steps.create-pr.outputs.pull-request-number && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-
-      - name: Report breaking generated API
-        if: steps.api-compat.outcome == 'failure' && !(github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'])
-        shell: pwsh
-        run: throw "Generated API is not backward compatible. Auto-merge was not enabled."
-
-      - name: Acknowledge approved breaking generated API
-        if: steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes']
-        shell: pwsh
-        run: Write-Warning "Generated API breaking changes were explicitly approved. Auto-merge remains disabled."
 
   report-scheduled-failure:
     name: Report scheduled failure

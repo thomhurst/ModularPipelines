@@ -31,13 +31,4 @@ public static class NewmanExtensions
         services.TryAddScoped<INewman, Services.Newman>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the newman service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="INewman"/> service for executing newman commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Newman.Services.INewman>().")]
-    public static INewman Newman(this IPipelineContext context) => context.Services.GetRequiredService<INewman>();
 }

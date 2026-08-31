@@ -23,15 +23,6 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class EksctlCliScraper : CobraCliScraper
 {
-    private static readonly IReadOnlyList<CliCompatibilityMethod> WriteKubeconfigCompatibilityMethods =
-    [
-        new()
-        {
-            MethodName = "WriteKubeconfig",
-            ObsoleteMessage = "Use WriteKubeConfig instead.",
-        },
-    ];
-
     public EksctlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<EksctlCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -61,13 +52,6 @@ public partial class EksctlCliScraper : CobraCliScraper
         "--dump-logs" or "--dumpLogs" => "Dumplogs",
         _ => base.NormalizeOptionPropertyName(switchName),
     };
-
-    protected override IReadOnlyList<CliCompatibilityMethod> GetCompatibilityMethods(
-        string[] commandParts) => string.Join(' ', commandParts) switch
-        {
-            "utils write-kubeconfig" => WriteKubeconfigCompatibilityMethods,
-            _ => [],
-        };
 
     /// <summary>
     /// Eksctl prints the complete command path on every command line. Return only

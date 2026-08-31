@@ -106,8 +106,6 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
             Commands = commands,
-            CommandGroupAliases =
-                DockerCliCompatibility.GetSupportedCommandGroupAliases(commands),
             Errors = errors
         };
     }
@@ -282,7 +280,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
                 if (propertyName is null)
                     continue;
 
-                var isFlag = DetectBooleanFlag(description, valueType);
+                var isFlag = DetectBooleanFlag(description, valueType, null, null);
                 var isNumeric = DetectNumericType(valueType);
                 var acceptsMultiple = DetectMultipleValues(description, valueType);
 
@@ -347,7 +345,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         if (propertyName is null)
             return null;
 
-        var isFlag = DetectBooleanFlag(descriptionCell, defaultCell);
+        var isFlag = DetectBooleanFlag(descriptionCell, defaultCell, null, null);
         var isNumeric = DetectNumericType(defaultCell);
         var acceptsMultiple = DetectMultipleValues(descriptionCell, defaultCell);
 

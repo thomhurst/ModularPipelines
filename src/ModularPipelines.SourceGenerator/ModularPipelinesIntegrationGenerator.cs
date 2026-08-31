@@ -21,6 +21,10 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string PipelineContextFullName =
         "ModularPipelines.IPipelineContext";
 
+    private const string RegistrationMethodPrefix = "Register";
+
+    private const string RegistrationMethodSuffix = "Context";
+
     private const string AssemblyMetadataAttributeFullName =
         "System.Reflection.AssemblyMetadataAttribute";
 
@@ -105,17 +109,22 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             new IntegrationRegistration(
                 method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 method.Name),
-            GetToolProperties(method.ContainingType, context.SemanticModel.Compilation),
+            GetToolProperties(
+                method,
+                (MethodDeclarationSyntax) context.TargetNode,
+                context.SemanticModel),
             GetGeneratedTypeName(context.SemanticModel.Compilation.AssemblyName),
             method.ToDisplayString(),
             location);
     }
 
     private static EquatableArray<ToolProperty> GetToolProperties(
-        INamedTypeSymbol type,
-        Compilation compilation)
+        IMethodSymbol registrationMethod,
+        MethodDeclarationSyntax registrationDeclaration,
+        SemanticModel semanticModel)
     {
-        return type.GetMembers()
+        var compilation = semanticModel.Compilation;
+        var accessorProperties = registrationMethod.ContainingType.GetMembers()
             .OfType<IMethodSymbol>()
             .Where(static method =>
                 method.IsStatic
@@ -134,7 +143,59 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 method.ToDisplayString(),
                 method.Locations.FirstOrDefault(),
                 method.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
-            .ToImmutableArray();
+            .ToList();
+        var inferredProperty = GetConventionBasedToolProperty(
+            registrationMethod,
+            registrationDeclaration,
+            semanticModel);
+        if (inferredProperty is not null
+            && accessorProperties.All(property => property.Name != inferredProperty.Name))
+        {
+            accessorProperties.Add(inferredProperty);
+        }
+
+        return accessorProperties.ToImmutableArray();
+    }
+
+    private static ToolProperty? GetConventionBasedToolProperty(
+        IMethodSymbol registrationMethod,
+        MethodDeclarationSyntax registrationDeclaration,
+        SemanticModel semanticModel)
+    {
+        var methodName = registrationMethod.Name;
+        if (!methodName.StartsWith(RegistrationMethodPrefix, StringComparison.Ordinal)
+            || !methodName.EndsWith(RegistrationMethodSuffix, StringComparison.Ordinal)
+            || methodName.Length <= RegistrationMethodPrefix.Length + RegistrationMethodSuffix.Length)
+        {
+            return null;
+        }
+
+        var propertyName = methodName.Substring(
+            RegistrationMethodPrefix.Length,
+            methodName.Length - RegistrationMethodPrefix.Length - RegistrationMethodSuffix.Length);
+        var expectedServiceName = $"I{propertyName}";
+        var expectedContextServiceName = $"{expectedServiceName}Context";
+        var serviceType = registrationDeclaration.DescendantNodes()
+            .OfType<InvocationExpressionSyntax>()
+            .Select(invocation => semanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol)
+            .Where(static method => method is { Name: "TryAddScoped", TypeArguments.Length: > 0 })
+            .Select(static method => method!.TypeArguments[0])
+            .FirstOrDefault(type => type.Name == expectedServiceName
+                                    || type.Name == expectedContextServiceName);
+        if (serviceType is null
+            || !serviceType.IsReferenceType
+            || !IsPubliclyAccessible(serviceType))
+        {
+            return null;
+        }
+
+        return new ToolProperty(
+            propertyName,
+            serviceType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            GetTypeIdentity(serviceType, semanticModel.Compilation),
+            registrationMethod.ToDisplayString(),
+            registrationMethod.Locations.FirstOrDefault(),
+            registrationMethod.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
     }
 
     private static string GetTypeIdentity(ITypeSymbol type, Compilation compilation)

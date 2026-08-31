@@ -193,31 +193,6 @@ public class EksctlCliScraperTests
             ]);
     }
 
-    [Test]
-    public async Task Preserves_Established_Write_Kubeconfig_Type_And_Method()
-    {
-        const string helpText = """
-            Write kubeconfig file for a given cluster
-
-            Usage: eksctl utils write-kubeconfig [flags]
-
-            Flags:
-                  --cluster string   EKS cluster name
-            """;
-
-        var command = await new TestEksctlCliScraper().Parse(
-            ["eksctl", "utils", "write-kubeconfig"],
-            helpText);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(command!.ClassName)
-                .IsEqualTo("EksctlUtilsWriteKubeconfigOptions");
-            await Assert.That(command.CompatibilityMethods.Single().MethodName)
-                .IsEqualTo("WriteKubeconfig");
-        }
-    }
-
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()

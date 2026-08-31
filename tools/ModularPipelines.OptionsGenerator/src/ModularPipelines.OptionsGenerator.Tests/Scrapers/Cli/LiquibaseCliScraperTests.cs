@@ -243,6 +243,38 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task Windows_Resolver_Prefers_Batch_Launcher()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "mp-liquibase-resolver-tests", Guid.NewGuid().ToString("N"));
+
+        try
+        {
+            Directory.CreateDirectory(root);
+            var batchLauncher = Path.Combine(root, "liquibase.bat");
+            await File.WriteAllTextAsync(batchLauncher, string.Empty);
+
+            var resolved = LiquibaseCliScraper.ResolveExecutablePath(root, isWindows: true);
+
+            await Assert.That(resolved).IsEqualTo(Path.GetFullPath(batchLauncher));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Test]
+    public async Task Windows_Resolver_Falls_Back_To_Normal_Command_Name()
+    {
+        var resolved = LiquibaseCliScraper.ResolveExecutablePath(string.Empty, isWindows: true);
+
+        await Assert.That(resolved).IsEqualTo("liquibase");
+    }
+
+    [Test]
     public async Task Scrape_Separates_Global_Options_From_Command_Options()
     {
         const string rootHelp = """
@@ -296,47 +328,10 @@ public class LiquibaseCliScraperTests
         await Assert.That(duplicatedIdentifiers.PropertyName).IsEqualTo("AllowDuplicatedChangeSetIdentifiers");
         await Assert.That(duplicatedIdentifiers.CSharpType).IsEqualTo("bool?");
 
-        var legacyDuplicatedIdentifiers = tool.GlobalCompatibilityProperties.Single(
-            property => property.PropertyName == "AllowDuplicatedChangesetIdentifiers");
-        await Assert.That(legacyDuplicatedIdentifiers.ForwardToPropertyName)
-            .IsEqualTo("AllowDuplicatedChangeSetIdentifiers");
-
         var monitorPerformance = tool.GetGlobalOptions().Single(
             option => option.SwitchName == "--monitor-performance");
         await Assert.That(monitorPerformance.PropertyName).IsEqualTo("MonitorPerformance");
         await Assert.That(monitorPerformance.CSharpType).IsEqualTo("string?");
-    }
-
-    [Test]
-    public async Task Windows_Resolver_Prefers_Batch_Launcher()
-    {
-        var root = Path.Combine(Path.GetTempPath(), "mp-liquibase-resolver-tests", Guid.NewGuid().ToString("N"));
-
-        try
-        {
-            Directory.CreateDirectory(root);
-            var batchLauncher = Path.Combine(root, "liquibase.bat");
-            await File.WriteAllTextAsync(batchLauncher, string.Empty);
-
-            var resolved = LiquibaseCliScraper.ResolveExecutablePath(root, isWindows: true);
-
-            await Assert.That(resolved).IsEqualTo(Path.GetFullPath(batchLauncher));
-        }
-        finally
-        {
-            if (Directory.Exists(root))
-            {
-                Directory.Delete(root, recursive: true);
-            }
-        }
-    }
-
-    [Test]
-    public async Task Windows_Resolver_Falls_Back_To_Normal_Command_Name()
-    {
-        var resolved = LiquibaseCliScraper.ResolveExecutablePath(string.Empty, isWindows: true);
-
-        await Assert.That(resolved).IsEqualTo("liquibase");
     }
 
     [Test]

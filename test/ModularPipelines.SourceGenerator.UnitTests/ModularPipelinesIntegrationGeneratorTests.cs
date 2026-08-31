@@ -21,12 +21,15 @@ public class ModularPipelinesIntegrationGeneratorTests
             }
         }
 
-        namespace ModularPipelines.Context
+        namespace ModularPipelines
         {
             public interface IPipelineContext
             {
             }
+        }
 
+        namespace ModularPipelines.Context
+        {
             public interface IToolsContext
             {
                 T Get<T>() where T : class;
@@ -89,7 +92,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IGit
@@ -122,11 +125,62 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    [Arguments("Docker", "IDocker")]
+    [Arguments("Cmd", "ICmdContext")]
+    [Arguments("Cloud", "ICloudContext")]
+    public async Task Conventional_Registration_Generates_Discoverable_Extension_Property(
+        string propertyName,
+        string serviceTypeName)
+    {
+        var result = RunGenerator($$"""
+            using ModularPipelines.Attributes;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface {{serviceTypeName}}
+            {
+            }
+
+            public sealed class Tool : {{serviceTypeName}}
+            {
+            }
+
+            public static class ServiceCollectionExtensions
+            {
+                public static IServiceCollection TryAddScoped<TService, TImplementation>(
+                    this IServiceCollection services)
+                    where TImplementation : TService => services;
+            }
+
+            public static class ToolIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register{{propertyName}}Context(IServiceCollection services)
+                {
+                    services.TryAddScoped<{{serviceTypeName}}, Tool>();
+                }
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains($"public global::{serviceTypeName} {propertyName} "
+                          + $"=> tools.Get<global::{serviceTypeName}>();");
+            await Assert.That(generatedSource)
+                .Contains($"\"ModularPipelines.ToolProperty:{propertyName}\", "
+                          + $"\"global::{serviceTypeName}\"");
+        }
+    }
+
+    [Test]
     public async Task Generic_Tool_Accessor_Generates_Runtime_Stable_Type_Identity()
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IFoo<T>
@@ -160,7 +214,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public static class AvailabilityIntegration
@@ -189,7 +243,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IGit
@@ -229,7 +283,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IClassTool
@@ -302,7 +356,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IGit
@@ -423,7 +477,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             internal interface IHiddenTool
@@ -456,7 +510,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface IClassTool
@@ -491,7 +545,7 @@ public class ModularPipelinesIntegrationGeneratorTests
     {
         var result = RunGenerator("""
             using ModularPipelines.Attributes;
-            using ModularPipelines.Context;
+            using ModularPipelines;
             using Microsoft.Extensions.DependencyInjection;
 
             public interface ITool

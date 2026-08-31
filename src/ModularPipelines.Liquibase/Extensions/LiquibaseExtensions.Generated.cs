@@ -31,13 +31,4 @@ public static class LiquibaseExtensions
         services.TryAddScoped<ILiquibase, Services.Liquibase>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the liquibase service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="ILiquibase"/> service for executing liquibase commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Liquibase.Services.ILiquibase>().")]
-    public static ILiquibase Liquibase(this IPipelineContext context) => context.Services.GetRequiredService<ILiquibase>();
 }

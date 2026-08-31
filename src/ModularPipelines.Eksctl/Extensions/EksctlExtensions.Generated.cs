@@ -46,13 +46,4 @@ public static class EksctlExtensions
         services.TryAddScoped<IEksctlUtils, EksctlUtils>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the eksctl service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IEksctl"/> service for executing eksctl commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Eksctl.Services.IEksctl>().")]
-    public static IEksctl Eksctl(this IPipelineContext context) => context.Services.GetRequiredService<IEksctl>();
 }

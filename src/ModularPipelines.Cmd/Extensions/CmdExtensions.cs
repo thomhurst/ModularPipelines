@@ -24,13 +24,4 @@ public static class CmdExtensions
 
         return services;
     }
-
-    /// <summary>
-    /// Gets the Command Prompt integration from a pipeline context.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The Command Prompt context.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Cmd.ICmdContext>().")]
-    public static ICmdContext Cmd(this IPipelineContext context) => context.Services.GetRequiredService<ICmdContext>();
 }

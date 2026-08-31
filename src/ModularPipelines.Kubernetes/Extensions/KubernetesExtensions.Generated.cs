@@ -39,13 +39,4 @@ public static class KubernetesExtensions
         services.TryAddScoped<IKubernetesTop, KubernetesTop>();
         return services;
     }
-
-    /// <summary>
-    /// Gets the kubectl service from the pipeline context for compatibility.
-    /// </summary>
-    /// <param name="context">The pipeline context.</param>
-    /// <returns>The <see cref="IKubernetes"/> service for executing kubectl commands.</returns>
-    [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-    [global::System.Obsolete("Use context.Tools.Get<global::ModularPipelines.Kubernetes.Services.IKubernetes>().")]
-    public static IKubernetes Kubernetes(this IPipelineContext context) => context.Services.GetRequiredService<IKubernetes>();
 }
