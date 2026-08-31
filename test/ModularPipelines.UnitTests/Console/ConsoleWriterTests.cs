@@ -613,6 +613,23 @@ public class ConsoleWriterTests
     }
 
     [Test]
+    public async Task Write_RemovesRelatedControlSequencesAcrossNestedChildren()
+    {
+        var renderable = new SecretObfuscatedRenderable(
+            new Rows(
+                new ControlRenderable("\u001b[?25l"),
+                new ControlRenderable("\u001b[?25h")),
+            CreateSecretObfuscator("25h"));
+
+        var segments = renderable.Render(
+                RenderOptions.Create(AnsiConsole.Console),
+                80)
+            .ToArray();
+
+        await Assert.That(segments.Any(static segment => segment.IsControlCode)).IsFalse();
+    }
+
+    [Test]
     public async Task Write_UsesConfiguredMaskWidthWhileObfuscating()
     {
         var renderable = new SecretObfuscatedRenderable(
@@ -962,6 +979,51 @@ public class ConsoleWriterTests
             await Assert.That(flushOutput).Contains("write-time");
             await Assert.That(flushOutput).DoesNotContain("flush-time");
             await Assert.That(formatterCalls).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Write_SnapshotsChartCultures()
+    {
+        var culture = new CultureInfo("en-US");
+        string FormatValue(double _, CultureInfo valueCulture) =>
+            valueCulture.NumberFormat.NumberDecimalSeparator == "."
+                ? "original-culture"
+                : "mutated-culture";
+        IRenderable[] charts =
+        [
+            new BarChart
+            {
+                Culture = culture,
+                ValueFormatter = FormatValue,
+                Width = 24,
+            }.AddItem("item", 100, Color.Red),
+            new BreakdownChart
+            {
+                Culture = culture,
+                ValueFormatter = FormatValue,
+                Width = 24,
+            }.AddItem("item", 100, Color.Red),
+        ];
+        var renderables = charts.Select(chart => new SecretObfuscatedRenderable(
+                chart,
+                CreateSecretObfuscator("unrelated")))
+            .ToArray();
+
+        culture.NumberFormat.NumberDecimalSeparator = ",";
+
+        foreach (var renderable in renderables)
+        {
+            var output = string.Concat(renderable.Render(
+                    RenderOptions.Create(AnsiConsole.Console),
+                    24)
+                .Select(static segment => segment.Text));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(output).Contains("original-culture");
+                await Assert.That(output).DoesNotContain("mutated-culture");
+            }
         }
     }
 

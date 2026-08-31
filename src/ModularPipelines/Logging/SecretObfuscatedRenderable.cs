@@ -15,7 +15,8 @@ namespace ModularPipelines.Logging;
 internal sealed class SecretObfuscatedRenderable(
     IRenderable inner,
     ISecretObfuscator secretObfuscator,
-    bool isObfuscatedBeforeRender = false) : IRenderable
+    bool isObfuscatedBeforeRender = false,
+    bool sanitizeControlCodes = true) : IRenderable
 {
     private readonly IRenderable _source = isObfuscatedBeforeRender
         ? inner
@@ -68,8 +69,10 @@ internal sealed class SecretObfuscatedRenderable(
         int maxWidth,
         out Segment[] originalSegments)
     {
-        originalSegments = SanitizeControlCodes(
-            prepared.Renderable.Render(options, maxWidth).ToArray());
+        var renderedSegments = prepared.Renderable.Render(options, maxWidth).ToArray();
+        originalSegments = sanitizeControlCodes
+            ? SanitizeControlCodes(renderedSegments)
+            : renderedSegments;
         var segments = originalSegments;
         if (prepared.IsObfuscatedBeforeRender)
         {
@@ -225,7 +228,10 @@ internal sealed class SecretObfuscatedRenderable(
         ISecretObfuscator secretObfuscator,
         bool snapshot) => snapshot
         ? SnapshotRenderable(renderable, secretObfuscator)
-        : new SecretObfuscatedRenderable(renderable, secretObfuscator);
+        : new SecretObfuscatedRenderable(
+            renderable,
+            secretObfuscator,
+            sanitizeControlCodes: false);
 
     private static string PrepareMarkup(
         string value,
@@ -321,7 +327,7 @@ internal sealed class SecretObfuscatedRenderable(
     {
         var preparedChart = new BarChart
         {
-            Culture = barChart.Culture,
+            Culture = PrepareCulture(barChart.Culture, snapshot),
             Label = barChart.Label is null
                 ? null
                 : PrepareMarkup(barChart.Label, secretObfuscator, snapshot),
@@ -350,7 +356,7 @@ internal sealed class SecretObfuscatedRenderable(
         var preparedChart = new BreakdownChart
         {
             Compact = breakdownChart.Compact,
-            Culture = breakdownChart.Culture,
+            Culture = PrepareCulture(breakdownChart.Culture, snapshot),
             Expand = breakdownChart.Expand,
             ShowTags = breakdownChart.ShowTags,
             ShowTagValues = breakdownChart.ShowTagValues,
@@ -368,6 +374,9 @@ internal sealed class SecretObfuscatedRenderable(
             item.Color)));
         return preparedChart;
     }
+
+    private static CultureInfo? PrepareCulture(CultureInfo? culture, bool snapshot) =>
+        snapshot && culture is not null ? (CultureInfo) culture.Clone() : culture;
 
     private static Func<double, CultureInfo, string>? PrepareValueFormatter(
         Func<double, CultureInfo, string>? formatter,
