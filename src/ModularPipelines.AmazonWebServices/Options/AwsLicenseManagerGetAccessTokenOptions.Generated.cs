@@ -30,7 +30,7 @@ public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions
     /// Token properties to validate against those present in the JWT token. Constraints: o max: 3 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
-    [CliOption("--token-properties")]
+    [CliOption("--token-properties", GroupValues = true)]
     public IEnumerable<string>? TokenProperties { get; set; }
 
     [CliOption("--cli-input-json")]

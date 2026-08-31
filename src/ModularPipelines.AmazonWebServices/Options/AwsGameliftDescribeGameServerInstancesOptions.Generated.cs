@@ -28,7 +28,7 @@ public record AwsGameliftDescribeGameServerInstancesOptions : AwsOptions
     /// <summary>
     /// The Amazon EC2 instance IDs that you want to retrieve status on. Amazon EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . To retrieve all instances in the game server group, leave this parameter empty. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 19 o max: 19 o pattern: ^i-[0-9a-zA-Z]{17}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--cli-input-json")]

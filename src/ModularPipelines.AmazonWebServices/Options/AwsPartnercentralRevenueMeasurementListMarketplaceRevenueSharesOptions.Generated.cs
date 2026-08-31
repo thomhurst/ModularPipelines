@@ -29,13 +29,13 @@ public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOpt
     /// <summary>
     /// Filter results to only include shares with these product identi- fiers. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--product-ids")]
+    [CliOption("--product-ids", GroupValues = true)]
     public IEnumerable<string>? ProductIds { get; set; }
 
     /// <summary>
     /// Filter results to only include shares with these product codes. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--product-codes")]
+    [CliOption("--product-codes", GroupValues = true)]
     public IEnumerable<string>? ProductCodes { get; set; }
 
     /// <summary>

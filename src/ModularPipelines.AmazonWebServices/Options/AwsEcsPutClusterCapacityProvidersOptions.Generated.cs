@@ -24,10 +24,10 @@ public record AwsEcsPutClusterCapacityProvidersOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--capacity-providers")]
+    [CliOption("--capacity-providers", GroupValues = true)]
     public IEnumerable<string>? CapacityProviders { get; set; }
 
-    [CliOption("--default-capacity-provider-strategy")]
+    [CliOption("--default-capacity-provider-strategy", GroupValues = true)]
     public IEnumerable<string>? DefaultCapacityProviderStrategy { get; set; }
 
     [CliOption("--cli-input-json")]

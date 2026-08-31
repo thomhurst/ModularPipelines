@@ -26,7 +26,7 @@ public record AwsRamGetResourceSharesOptions : AwsOptions
     /// <summary>
     /// Specifies the Amazon Resource Names (ARNs) of individual resource shares that you want information about. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AwsRamGetResourceSharesOptions : AwsOptions
     /// <summary>
     /// Specifies that you want to retrieve details of only those resource shares that match the specified tag keys and values. (structure) A tag key and optional list of possible values that you can use to filter results for tagged resources. NOTE: Multiple tag filters are evaluated as an OR condition. tagKey -&gt; (string) The tag key. This must have a valid string value and can't be empty. tagValues -&gt; (list) A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, re- gardless of its value. (string) Shorthand Syntax: tagKey=string,tagValues=string,string ... JSON Syntax: [ { "tagKey": "string", "tagValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--tag-filters")]
+    [CliOption("--tag-filters", GroupValues = true)]
     public IEnumerable<string>? TagFilters { get; set; }
 
     /// <summary>

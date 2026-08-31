@@ -25,7 +25,7 @@ public record AwsSsmListOpsItemEventsOptions : AwsOptions
     /// <summary>
     /// One or more OpsItem filters. Use a filter to return a more specific list of results. (structure) Describes a filter for a specific list of OpsItem events. You can filter event information by using tags. You specify tags by using a key-value pair mapping. Key -&gt; (string) [required] The name of the filter key. Currently, the only supported value is OpsItemId . Possible values: o OpsItemId Values -&gt; (list) [required] The values for the filter, consisting of one or more OpsItem IDs. (string) Constraints: o min: 1 o max: 15 o pattern: ^(oi)-[0-9a-f]{12}$ Operator -&gt; (string) [required] The operator used by the filter call. Currently, the only supported value is Equal . Possible values: o Equal Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "OpsItemId", "Values": ["string", ...], "Operator": "Equal" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

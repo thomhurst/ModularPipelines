@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "associate-targets-with-job")]
 public record AwsIotAssociateTargetsWithJobOptions : AwsOptions
 {
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--job-id")]

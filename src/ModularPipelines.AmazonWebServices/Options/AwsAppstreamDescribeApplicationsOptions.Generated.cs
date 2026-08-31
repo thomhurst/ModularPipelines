@@ -25,7 +25,7 @@ public record AwsAppstreamDescribeApplicationsOptions : AwsOptions
     /// <summary>
     /// The ARNs for the applications. (string) Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>

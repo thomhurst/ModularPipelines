@@ -27,7 +27,7 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions
     /// <summary>
     /// A list of Identity Center scopes that define the permissions and ac- cess levels for the Glue configuration. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 50 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--scopes")]
+    [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     [CliFlag("--user-background-sessions-enabled")]

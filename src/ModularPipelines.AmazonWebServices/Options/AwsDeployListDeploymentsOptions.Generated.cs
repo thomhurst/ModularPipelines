@@ -43,7 +43,7 @@ public record AwsDeployListDeploymentsOptions : AwsOptions
     /// <summary>
     /// A subset of deployments to list by status: o Created : Include created deployments in the resulting list. o Queued : Include queued deployments in the resulting list. o In Progress : Include in-progress deployments in the resulting list. o Succeeded : Include successful deployments in the resulting list. o Failed : Include failed deployments in the resulting list. o Stopped : Include stopped deployments in the resulting list. (string) Possible values: o Created o Queued o InProgress o Baking o Succeeded o Failed o Stopped o Ready Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include-only-statuses")]
+    [CliOption("--include-only-statuses", GroupValues = true)]
     public IEnumerable<string>? IncludeOnlyStatuses { get; set; }
 
     /// <summary>

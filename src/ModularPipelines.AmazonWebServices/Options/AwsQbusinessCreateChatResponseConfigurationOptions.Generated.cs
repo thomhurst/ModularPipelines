@@ -36,13 +36,13 @@ public record AwsQbusinessCreateChatResponseConfigurationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--response-configurations")]
+    [CliOption("--response-configurations", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseConfigurations { get; set; }
 
     /// <summary>
     /// A list of key-value pairs to apply as tags to the new chat response configuration, enabling categorization and management of resources across Amazon Web Services services. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

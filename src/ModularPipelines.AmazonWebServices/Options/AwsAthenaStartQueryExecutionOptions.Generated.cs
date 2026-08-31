@@ -53,7 +53,7 @@ public record AwsAthenaStartQueryExecutionOptions : AwsOptions
     /// <summary>
     /// A list of values for the parameters in a query. The values are ap- plied sequentially to the parameters in the query in the order in which the parameters occur. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--execution-parameters")]
+    [CliOption("--execution-parameters", GroupValues = true)]
     public IEnumerable<string>? ExecutionParameters { get; set; }
 
     /// <summary>

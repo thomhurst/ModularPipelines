@@ -28,7 +28,7 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTasksOptions : AwsOptions
     /// <summary>
     /// Optional filters used to scope down the returned tasks. The sup- ported filter key is STATUS with the corresponding values PENDING , IN_PROGRESS , SUCCESS , FAILED , TIMED_OUT , CANCELLING , and CAN- CELLED . Constraints: o min: 0 o max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: o DescribeMaintenanceWindowExecutions o DescribeMaintenanceWindowExecutionTaskInvocations o DescribeMaintenanceWindowExecutionTasks o DescribeMaintenanceWindows o DescribeMaintenanceWindowTargets o DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The filter values. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

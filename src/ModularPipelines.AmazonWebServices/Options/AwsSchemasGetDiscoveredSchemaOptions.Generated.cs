@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("schemas", "get-discovered-schema")]
 public record AwsSchemasGetDiscoveredSchemaOptions : AwsOptions
 {
-    [CliOption("--events")]
+    [CliOption("--events", GroupValues = true)]
     public IEnumerable<string>? Events { get; set; }
 
     [CliOption("--type")]

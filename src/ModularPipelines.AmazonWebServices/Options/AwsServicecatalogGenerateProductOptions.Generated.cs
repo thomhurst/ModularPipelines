@@ -36,7 +36,7 @@ public record AwsServicecatalogGenerateProductOptions : AwsOptions
     [CliOption("--product-distributor")]
     public string? ProductDistributor { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--file-path")]

@@ -32,7 +32,7 @@ public record AwsConnectBatchPutContactOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--contact-data-request-list")]
+    [CliOption("--contact-data-request-list", GroupValues = true)]
     public IEnumerable<string>? ContactDataRequestList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,13 +34,13 @@ public record AwsChatbotCreateCustomActionOptions : AwsOptions
     /// <summary>
     /// Defines when this custom action button should be attached to a noti- fication. (structure) Defines when a custom action button should be attached to a no- tification. NotificationType -&gt; (string) The type of notification that the custom action should be at- tached to. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ ButtonText -&gt; (string) The text of the button that appears on the notification. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+ Criteria -&gt; (list) The criteria for when a button should be shown based on val- ues in the notification. Constraints: o min: 1 o max: 5 (structure) A criteria for when a button should be shown based on values in the notification Operator -&gt; (string) [required] The operation to perform on the named variable. Possible values: o HAS_VALUE o EQUALS VariableName -&gt; (string) [required] The name of the variable to operate on. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9-_]+ Value -&gt; (string) A value that is compared with the actual value of the variable based on the behavior of the operator. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]+ Variables -&gt; (map) The variables to extract from the notification. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9-_]+ value -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\x21-\x7F]+ Shorthand Syntax: NotificationType=string,ButtonText=string,Criteria=[{Operator=string,VariableName=string,Value=string},{Operator=string,VariableName=string,Value=string}],Variables={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "NotificationType": "string", "ButtonText": "string", "Criteria": [ { "Operator": "HAS_VALUE"|"EQUALS", "VariableName": "string", "Value": "string" } ... ], "Variables": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--attachments")]
+    [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>
     /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: o min: 0 o max: 200 (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

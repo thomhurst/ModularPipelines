@@ -37,7 +37,7 @@ public record AwsPinpointSmsVoiceV2SendMediaMessageOptions : AwsOptions
     /// <summary>
     /// An array of URLs to each media file to send. The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits . For more information on creating an S3 bucket and managing ob- jects, see Creating a bucket , Uploading objects in the Amazon S3 User Guide , and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide . Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: s3://([a-z0-9\.-]{3,63})/(.+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--media-urls")]
+    [CliOption("--media-urls", GroupValues = true)]
     public IEnumerable<string>? MediaUrls { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsPinpointSmsVoiceV2SendMediaMessageOptions : AwsOptions
     /// <summary>
     /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context")]
+    [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     [CliFlag("--dry-run")]

@@ -53,7 +53,7 @@ public record AwsWellarchitectedUpdateAgentProfileOptions : AwsOptions
     /// <summary>
     /// The updated aggregation configuration. Constraints: o min: 0 o max: 100 (structure) Configuration settings that define the scope of Amazon Web Ser- vices resources to analyze for optimization recommendations. accountId -&gt; (string) [required] The Amazon Web Services account ID to analyze. Constraints: o pattern: \d{12} regions -&gt; (list) [required] A list of Amazon Web Services Regions to include in the analysis. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 64 o pattern: [a-z]{2}-[a-z]+-\d{1} accessRoleArn -&gt; (string) [required] The ARN of an IAM role to assume for resource analysis in this account. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: accountId=string,regions=string,string,accessRoleArn=string ... JSON Syntax: [ { "accountId": "string", "regions": ["string", ...], "accessRoleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--aggregation-configuration")]
+    [CliOption("--aggregation-configuration", GroupValues = true)]
     public IEnumerable<string>? AggregationConfiguration { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsWellarchitectedUpdateAgentProfileOptions : AwsOptions
     /// <summary>
     /// The updated Well-Architected Tool Framework pillars for the profile. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pillars")]
+    [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
 
     [CliFlag("--deletion-protection")]

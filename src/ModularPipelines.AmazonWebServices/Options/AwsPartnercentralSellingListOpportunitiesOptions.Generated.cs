@@ -40,25 +40,25 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions
     /// <summary>
     /// Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: O[0-9]{1,19} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--identifier")]
+    [CliOption("--identifier", GroupValues = true)]
     public IEnumerable<string>? Identifier { get; set; }
 
     /// <summary>
     /// Filters the opportunities based on their lifecycle stage. This fil- ter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified , Technical Validation , Business Validation , or Closed Won . Constraints: o min: 0 o max: 10 (string) Possible values: o Prospect o Qualified o Technical Validation o Business Validation o Committed o Launched o Closed Lost Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--life-cycle-stage")]
+    [CliOption("--life-cycle-stage", GroupValues = true)]
     public IEnumerable<string>? LifeCycleStage { get; set; }
 
     /// <summary>
     /// Filters the opportunities based on their current lifecycle approval status. Use this filter to retrieve opportunities with statuses such as Pending Submission , In Review , Action Required , or Approved . Constraints: o min: 0 o max: 10 (string) Possible values: o Pending Submission o Submitted o In review o Approved o Rejected o Action Required Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--life-cycle-review-status")]
+    [CliOption("--life-cycle-review-status", GroupValues = true)]
     public IEnumerable<string>? LifeCycleReviewStatus { get; set; }
 
     /// <summary>
     /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a spe- cific customer by matching the provided company name string. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--customer-company-name")]
+    [CliOption("--customer-company-name", GroupValues = true)]
     public IEnumerable<string>? CustomerCompanyName { get; set; }
 
     /// <summary>

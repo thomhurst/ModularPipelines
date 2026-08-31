@@ -27,7 +27,7 @@ public record AwsS3controlPutJobTaggingOptions : AwsOptions
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

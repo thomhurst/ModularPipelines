@@ -318,6 +318,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         Type optionsType)
     {
         ValidateGroupedOptionFormat(optionPart, optionsType);
+        ValidateCollectionSeparator(optionPart, optionsType);
 
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
@@ -335,6 +336,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         var valuePairs = GetOptionValuePairs(rawValue);
         ValidateValuePairOptionFormat(optionPart, valuePairs, optionsType);
+
+        if (optionPart.Attribute.CollectionSeparator is { } collectionSeparator)
+        {
+            AddJoinedOption(args, optionPart, GetValues(rawValue), collectionSeparator);
+            return;
+        }
 
         if (optionPart.Attribute.GroupValues)
         {
@@ -362,6 +369,28 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             throw new InvalidOperationException(
                 $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
                 + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void ValidateCollectionSeparator(OptionPart optionPart, Type optionsType)
+    {
+        if (optionPart.Attribute.CollectionSeparator is null)
+        {
+            return;
+        }
+
+        if (optionPart.Attribute.GroupValues)
+        {
+            throw new InvalidOperationException(
+                $"CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "cannot set both GroupValues and CollectionSeparator.");
+        }
+
+        if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
+        {
+            throw new InvalidOperationException(
+                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "cannot set CollectionSeparator.");
         }
     }
 
@@ -393,6 +422,18 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var value in values)
         {
             AddOptionValue(args, optionPart, value);
+        }
+    }
+
+    private static void AddJoinedOption(
+        List<string> args,
+        OptionPart optionPart,
+        IReadOnlyCollection<string> values,
+        string collectionSeparator)
+    {
+        if (values.Count > 0)
+        {
+            AddOptionValue(args, optionPart, string.Join(collectionSeparator, values));
         }
     }
 

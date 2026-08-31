@@ -33,7 +33,7 @@ public record AwsGlueGetColumnStatisticsForTableOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--column-names")]
+    [CliOption("--column-names", GroupValues = true)]
     public IEnumerable<string>? ColumnNames { get; set; }
 
     [CliOption("--cli-input-json")]

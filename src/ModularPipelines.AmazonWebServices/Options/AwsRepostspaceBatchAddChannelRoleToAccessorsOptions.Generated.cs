@@ -27,7 +27,7 @@ public record AwsRepostspaceBatchAddChannelRoleToAccessorsOptions : AwsOptions
     [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
-    [CliOption("--accessor-ids")]
+    [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; set; }
 
     [CliOption("--channel-role")]

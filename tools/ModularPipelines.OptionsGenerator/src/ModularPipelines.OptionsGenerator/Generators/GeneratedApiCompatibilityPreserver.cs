@@ -630,6 +630,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 ValueArity = property.ValueArity,
                 Phase = property.Phase ?? CommandLinePhase.Normal,
                 GroupValues = property.GroupValues,
+                CollectionSeparator = property.CollectionSeparator,
                 ValueSeparator = property.ValueSeparator,
                 IsSecret = property.IsSecret,
                 SecretValueKeys = property.SecretValueKeys ?? [],
@@ -3528,6 +3529,7 @@ internal static class GeneratedApiCompatibilityPreserver
             GetOptionValueSeparator(cliOption),
             GetEnumNamedArgument(cliOption, "ValueArity", CliOptionValueArity.Required),
             GetBooleanNamedArgument(cliOption, "GroupValues"),
+            GetStringNamedArgument(cliOption, "CollectionSeparator"),
             GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
             ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
@@ -3908,6 +3910,7 @@ internal sealed record GeneratedApiProperty(
     string ValueSeparator = " ",
     CliOptionValueArity ValueArity = CliOptionValueArity.Required,
     bool GroupValues = false,
+    string? CollectionSeparator = null,
     CommandLinePhase? Phase = null,
     bool PrependOptionTerminator = false,
     bool RepeatOptionTerminator = false,

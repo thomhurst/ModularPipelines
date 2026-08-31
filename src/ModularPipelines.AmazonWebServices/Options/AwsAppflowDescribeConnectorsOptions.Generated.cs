@@ -25,7 +25,7 @@ public record AwsAppflowDescribeConnectorsOptions : AwsOptions
     /// <summary>
     /// The type of connector, such as Salesforce, Amplitude, and so on. Constraints: o min: 0 o max: 100 (string) Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--connector-types")]
+    [CliOption("--connector-types", GroupValues = true)]
     public IEnumerable<string>? ConnectorTypes { get; set; }
 
     /// <summary>

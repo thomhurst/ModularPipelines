@@ -47,13 +47,13 @@ public record AwsCodeartifactUpdatePackageVersionsStatusOptions : AwsOptions
     [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>
     /// A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2 ), and the map value is the package version revision. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--version-revisions")]
+    [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     /// <summary>

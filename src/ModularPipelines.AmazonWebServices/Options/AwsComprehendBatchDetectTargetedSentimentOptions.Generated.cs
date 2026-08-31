@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("comprehend", "batch-detect-targeted-sentiment")]
 public record AwsComprehendBatchDetectTargetedSentimentOptions : AwsOptions
 {
-    [CliOption("--text-list")]
+    [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; set; }
 
     [CliOption("--language-code")]

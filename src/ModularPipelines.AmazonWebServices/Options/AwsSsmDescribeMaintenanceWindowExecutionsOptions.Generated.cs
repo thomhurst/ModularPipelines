@@ -28,7 +28,7 @@ public record AwsSsmDescribeMaintenanceWindowExecutionsOptions : AwsOptions
     /// <summary>
     /// Each entry in the array is a structure containing: o Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter . o Values. An array of strings, each between 1 and 256 characters. Supported values are date/time strings in a valid ISO 8601 date/time format, such as 2024-11-04T05:00:00Z . Constraints: o min: 0 o max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: o DescribeMaintenanceWindowExecutions o DescribeMaintenanceWindowExecutionTaskInvocations o DescribeMaintenanceWindowExecutionTasks o DescribeMaintenanceWindows o DescribeMaintenanceWindowTargets o DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The filter values. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

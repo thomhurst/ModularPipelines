@@ -27,7 +27,7 @@ public record AwsAutoscalingPlansCreateScalingPlanOptions : AwsOptions
     [CliOption("--application-source")]
     public string? ApplicationSource { get; set; }
 
-    [CliOption("--scaling-instructions")]
+    [CliOption("--scaling-instructions", GroupValues = true)]
     public IEnumerable<string>? ScalingInstructions { get; set; }
 
     [CliOption("--cli-input-json")]

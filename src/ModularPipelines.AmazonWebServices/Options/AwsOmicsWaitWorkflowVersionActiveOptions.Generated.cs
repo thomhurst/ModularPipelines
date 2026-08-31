@@ -37,7 +37,7 @@ public record AwsOmicsWaitWorkflowVersionActiveOptions : AwsOptions
     /// <summary>
     /// The export format for the workflow. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION o README Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--export")]
+    [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
 
     /// <summary>

@@ -35,7 +35,7 @@ public record AwsAcmRequestCertificateOptions : AwsOptions
     /// <summary>
     /// Additional FQDNs to be included in the Subject Alternative Name ex- tension of the ACM certificate. For example, add the name www.exam- ple.net to a certificate for which the DomainName field is www.exam- ple.com if users can reach your site by using either name. The maxi- mum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more informa- tion, see Quotas . The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples: o (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets. o (64 octets).(63 octets).(63 octets).(61 octets) is not legal be- cause the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets. o (63 octets).(63 octets).(63 octets).(62 octets) is not legal be- cause the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subject-alternative-names")]
+    [CliOption("--subject-alternative-names", GroupValues = true)]
     public IEnumerable<string>? SubjectAlternativeNames { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsAcmRequestCertificateOptions : AwsOptions
     /// <summary>
     /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership. Constraints: o min: 1 o max: 100 (structure) Contains information about the domain names that you want ACM to use to send you emails that enable you to validate domain owner- ship. DomainName -&gt; (string) [required] A fully qualified domain name (FQDN) in the certificate re- quest. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) ValidationDomain -&gt; (string) [required] The domain name that you want ACM to use to send you valida- tion emails. This domain name is the suffix of the email ad- dresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for test- ing.example.com , you can specify example.com for this value. In that case, ACM sends domain validation emails to the fol- lowing five addresses: o admin@example.com o administrator@example.com o hostmaster@example.com o postmaster@example.com o webmaster@example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Shorthand Syntax: DomainName=string,ValidationDomain=string ... JSON Syntax: [ { "DomainName": "string", "ValidationDomain": "string" } ... ]
     /// </summary>
-    [CliOption("--domain-validation-options")]
+    [CliOption("--domain-validation-options", GroupValues = true)]
     public IEnumerable<string>? DomainValidationOptions { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record AwsAcmRequestCertificateOptions : AwsOptions
     /// <summary>
     /// One or more resource tags to associate with the certificate. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

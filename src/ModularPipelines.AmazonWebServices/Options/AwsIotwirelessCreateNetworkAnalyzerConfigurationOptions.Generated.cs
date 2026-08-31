@@ -34,13 +34,13 @@ public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Wireless device resources to add to the network analyzer configura- tion. Provide the WirelessDeviceId of the resource to add in the in- put array. Constraints: o min: 0 o max: 250 (string) The ID of the wireless device. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-devices")]
+    [CliOption("--wireless-devices", GroupValues = true)]
     public IEnumerable<string>? WirelessDevices { get; set; }
 
     /// <summary>
     /// Wireless gateway resources to add to the network analyzer configura- tion. Provide the WirelessGatewayId of the resource to add in the input array. (string) Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--wireless-gateways")]
+    [CliOption("--wireless-gateways", GroupValues = true)]
     public IEnumerable<string>? WirelessGateways { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions : AwsOptio
     /// <summary>
     /// Multicast Group resources to add to the network analyzer configrua- tion. Provide the MulticastGroupId of the resource to add in the in- put array. Constraints: o min: 0 o max: 10 (string) The ID of the multicast group. Constraints: o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--multicast-groups")]
+    [CliOption("--multicast-groups", GroupValues = true)]
     public IEnumerable<string>? MulticastGroups { get; set; }
 
     [CliOption("--cli-input-json")]

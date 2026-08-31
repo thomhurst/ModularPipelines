@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("geo-places", "reverse-geocode")]
 public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions
 {
-    [CliOption("--query-position")]
+    [CliOption("--query-position", GroupValues = true)]
     public IEnumerable<string>? QueryPosition { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions
     /// <summary>
     /// A list of optional additional parameters, such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: o min: 1 o max: 3 (string) Possible values: o TimeZone o Access o Intersections Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-features")]
+    [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>

@@ -33,7 +33,7 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions
     /// <summary>
     /// A list of tags to attach to the certificate revocation list (CRL). Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--trust-anchor-arn")]

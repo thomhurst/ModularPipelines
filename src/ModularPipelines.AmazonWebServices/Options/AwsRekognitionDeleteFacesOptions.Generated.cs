@@ -24,7 +24,7 @@ public record AwsRekognitionDeleteFacesOptions : AwsOptions
     [CliOption("--collection-id")]
     public string? CollectionId { get; set; }
 
-    [CliOption("--face-ids")]
+    [CliOption("--face-ids", GroupValues = true)]
     public IEnumerable<string>? FaceIds { get; set; }
 
     [CliOption("--cli-input-json")]

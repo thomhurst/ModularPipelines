@@ -27,7 +27,7 @@ public record AwsGlueBatchDeleteConnectionOptions : AwsOptions
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--connection-name-list")]
+    [CliOption("--connection-name-list", GroupValues = true)]
     public IEnumerable<string>? ConnectionNameList { get; set; }
 
     [CliOption("--cli-input-json")]

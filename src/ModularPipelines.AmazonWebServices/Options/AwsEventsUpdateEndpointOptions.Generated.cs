@@ -45,7 +45,7 @@ public record AwsEventsUpdateEndpointOptions : AwsOptions
     /// <summary>
     /// Define event buses used for replication. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
     /// </summary>
-    [CliOption("--event-buses")]
+    [CliOption("--event-buses", GroupValues = true)]
     public IEnumerable<string>? EventBuses { get; set; }
 
     /// <summary>

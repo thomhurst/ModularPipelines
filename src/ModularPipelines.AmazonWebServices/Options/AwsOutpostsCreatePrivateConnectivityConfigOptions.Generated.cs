@@ -24,7 +24,7 @@ public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions
     [CliOption("--outpost-id")]
     public string? OutpostId { get; set; }
 
-    [CliOption("--vpc-information-list")]
+    [CliOption("--vpc-information-list", GroupValues = true)]
     public IEnumerable<string>? VpcInformationList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -27,7 +27,7 @@ public record AwsCustomerProfilesMergeProfilesOptions : AwsOptions
     [CliOption("--main-profile-id")]
     public string? MainProfileId { get; set; }
 
-    [CliOption("--profile-ids-to-be-merged")]
+    [CliOption("--profile-ids-to-be-merged", GroupValues = true)]
     public IEnumerable<string>? ProfileIdsToBeMerged { get; set; }
 
     /// <summary>

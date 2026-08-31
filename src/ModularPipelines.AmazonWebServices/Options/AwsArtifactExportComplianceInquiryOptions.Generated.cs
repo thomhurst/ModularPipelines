@@ -27,7 +27,7 @@ public record AwsArtifactExportComplianceInquiryOptions : AwsOptions
     /// <summary>
     /// List of query identifiers to include in the export. (integer) Syntax: integer integer ...
     /// </summary>
-    [CliOption("--query-identifiers")]
+    [CliOption("--query-identifiers", GroupValues = true)]
     public IEnumerable<string>? QueryIdentifiers { get; set; }
 
     [CliFlag("--include-citations")]

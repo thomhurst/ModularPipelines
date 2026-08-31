@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "create-network")]
 public record AwsMedialiveCreateNetworkOptions : AwsOptions
 {
-    [CliOption("--ip-pools")]
+    [CliOption("--ip-pools", GroupValues = true)]
     public IEnumerable<string>? IpPools { get; set; }
 
     [CliOption("--name")]
@@ -31,10 +31,10 @@ public record AwsMedialiveCreateNetworkOptions : AwsOptions
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CliOption("--routes")]
+    [CliOption("--routes", GroupValues = true)]
     public IEnumerable<string>? Routes { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

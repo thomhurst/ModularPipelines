@@ -24,7 +24,7 @@ public record AwsDsAddIpRoutesOptions : AwsOptions
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CliOption("--ip-routes")]
+    [CliOption("--ip-routes", GroupValues = true)]
     public IEnumerable<string>? IpRoutes { get; set; }
 
     [CliFlag("--update-security-group-for-directory-controllers")]

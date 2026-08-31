@@ -27,7 +27,7 @@ public record AwsAutoscalingPutNotificationConfigurationOptions : AwsOptions
     [CliOption("--topic-arn")]
     public string? TopicArn { get; set; }
 
-    [CliOption("--notification-types")]
+    [CliOption("--notification-types", GroupValues = true)]
     public IEnumerable<string>? NotificationTypes { get; set; }
 
     [CliOption("--cli-input-json")]

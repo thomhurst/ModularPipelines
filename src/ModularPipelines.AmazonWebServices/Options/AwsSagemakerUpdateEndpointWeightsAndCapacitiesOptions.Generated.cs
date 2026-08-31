@@ -24,7 +24,7 @@ public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CliOption("--desired-weights-and-capacities")]
+    [CliOption("--desired-weights-and-capacities", GroupValues = true)]
     public IEnumerable<string>? DesiredWeightsAndCapacities { get; set; }
 
     [CliOption("--cli-input-json")]

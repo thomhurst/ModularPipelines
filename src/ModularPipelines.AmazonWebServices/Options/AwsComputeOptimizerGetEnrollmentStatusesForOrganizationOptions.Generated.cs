@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions : A
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of account enrollment statuses. (structure) Describes a filter that returns a more specific list of account enrollment statuses. Use this filter with the GetEnrollmentSta- tusesForOrganization action. name -&gt; (string) The name of the filter. Specify Status to return accounts with a specific enrollment status (for example, Active ). Possible values: o Status values -&gt; (list) The value of the filter. The valid values are Active , Inactive , Pending , and Failed . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Status", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,19 +31,19 @@ public record AwsBillingListBillingViewsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>
     /// The type of billing view. (string) Possible values: o PRIMARY o BILLING_GROUP o CUSTOM o BILLING_TRANSFER o BILLING_TRANSFER_SHOWBACK Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--billing-view-types")]
+    [CliOption("--billing-view-types", GroupValues = true)]
     public IEnumerable<string>? BillingViewTypes { get; set; }
 
     /// <summary>
     /// Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option pro- vided. Constraints: o min: 1 o max: 1 (structure) A structure that defines how to search for string values. You can specify a search option and the value to search for. searchOption -&gt; (string) [required] The type of search operation to perform on the string value. Determines how the search value is matched against the target field. Possible values: o STARTS_WITH searchValue -&gt; (string) [required] The string value to use in the search operation. This value is compared against the target field using the specified search option. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@ ]+ Shorthand Syntax: searchOption=string,searchValue=string ... JSON Syntax: [ { "searchOption": "STARTS_WITH", "searchValue": "string" } ... ]
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

@@ -36,7 +36,7 @@ public record AwsSocialmessagingUpdateWhatsappFlowOptions : AwsOptions
     /// <summary>
     /// The updated categories for the Flow. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--categories")]
+    [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -41,7 +41,7 @@ public record AwsEmrServerlessListJobRunsOptions : AwsOptions
     /// <summary>
     /// An optional filter for job run states. Note that if this filter con- tains multiple states, the resulting list will be grouped by the state. Constraints: o min: 0 o max: 8 (string) Possible values: o SUBMITTED o PENDING o SCHEDULED o RUNNING o SUCCESS o FAILED o CANCELLING o CANCELLED o QUEUED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>

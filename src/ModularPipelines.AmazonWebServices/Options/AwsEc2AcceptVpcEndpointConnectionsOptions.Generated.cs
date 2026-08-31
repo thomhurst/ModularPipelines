@@ -27,7 +27,7 @@ public record AwsEc2AcceptVpcEndpointConnectionsOptions : AwsOptions
     [CliOption("--service-id")]
     public string? ServiceId { get; set; }
 
-    [CliOption("--vpc-endpoint-ids")]
+    [CliOption("--vpc-endpoint-ids", GroupValues = true)]
     public IEnumerable<string>? VpcEndpointIds { get; set; }
 
     [CliOption("--cli-input-json")]

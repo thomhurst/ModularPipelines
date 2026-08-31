@@ -28,13 +28,13 @@ public record AwsWorkspacesWebUpdateTrustStoreOptions : AwsOptions
     /// <summary>
     /// A list of CA certificates to add to the trust store. (blob) Constraints: o min: 1 o max: 32768 Syntax: blob blob ...
     /// </summary>
-    [CliOption("--certificates-to-add")]
+    [CliOption("--certificates-to-add", GroupValues = true)]
     public IEnumerable<string>? CertificatesToAdd { get; set; }
 
     /// <summary>
     /// A list of CA certificates to delete from a trust store. (string) Constraints: o min: 64 o max: 64 o pattern: [A-Fa-f0-9]{64} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--certificates-to-delete")]
+    [CliOption("--certificates-to-delete", GroupValues = true)]
     public IEnumerable<string>? CertificatesToDelete { get; set; }
 
     /// <summary>

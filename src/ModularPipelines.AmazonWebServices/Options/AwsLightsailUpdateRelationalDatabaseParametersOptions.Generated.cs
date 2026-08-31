@@ -24,7 +24,7 @@ public record AwsLightsailUpdateRelationalDatabaseParametersOptions : AwsOptions
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; set; }
 
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

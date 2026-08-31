@@ -33,7 +33,7 @@ public record AwsNovaActInvokeActStepOptions : AwsOptions
     [CliOption("--act-id")]
     public string? ActId { get; set; }
 
-    [CliOption("--call-results")]
+    [CliOption("--call-results", GroupValues = true)]
     public IEnumerable<string>? CallResults { get; set; }
 
     /// <summary>

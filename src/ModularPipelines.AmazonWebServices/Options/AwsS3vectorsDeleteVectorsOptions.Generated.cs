@@ -39,7 +39,7 @@ public record AwsS3vectorsDeleteVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--keys")]
+    [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     [CliOption("--cli-input-json")]

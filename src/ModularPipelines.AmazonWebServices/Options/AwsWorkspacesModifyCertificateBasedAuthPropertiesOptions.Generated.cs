@@ -33,7 +33,7 @@ public record AwsWorkspacesModifyCertificateBasedAuthPropertiesOptions : AwsOpti
     /// <summary>
     /// The properties of the certificate-based authentication you want to delete. (string) Possible values: o CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--properties-to-delete")]
+    [CliOption("--properties-to-delete", GroupValues = true)]
     public IEnumerable<string>? PropertiesToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

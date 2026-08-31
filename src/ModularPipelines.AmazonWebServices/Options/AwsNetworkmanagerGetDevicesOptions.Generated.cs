@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetDevicesOptions : AwsOptions
     /// <summary>
     /// One or more device IDs. The maximum is 10. (string) Constraints: o min: 0 o max: 50 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--device-ids")]
+    [CliOption("--device-ids", GroupValues = true)]
     public IEnumerable<string>? DeviceIds { get; set; }
 
     /// <summary>

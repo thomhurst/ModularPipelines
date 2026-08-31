@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconvert", "start-jobs-query")]
 public record AwsMediaconvertStartJobsQueryOptions : AwsOptions
 {
-    [CliOption("--filter-list")]
+    [CliOption("--filter-list", GroupValues = true)]
     public IEnumerable<string>? FilterList { get; set; }
 
     [CliOption("--max-results")]

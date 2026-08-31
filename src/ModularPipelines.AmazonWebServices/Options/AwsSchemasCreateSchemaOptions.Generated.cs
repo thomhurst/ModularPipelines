@@ -40,7 +40,7 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions
     /// <summary>
     /// Tags associated with the schema. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--type")]

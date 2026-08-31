@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "validate-security-profile-behaviors")]
 public record AwsIotValidateSecurityProfileBehaviorsOptions : AwsOptions
 {
-    [CliOption("--behaviors")]
+    [CliOption("--behaviors", GroupValues = true)]
     public IEnumerable<string>? Behaviors { get; set; }
 
     [CliOption("--cli-input-json")]

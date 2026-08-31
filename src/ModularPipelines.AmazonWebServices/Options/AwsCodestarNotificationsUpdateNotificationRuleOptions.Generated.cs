@@ -40,13 +40,13 @@ public record AwsCodestarNotificationsUpdateNotificationRuleOptions : AwsOptions
     /// <summary>
     /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see Notification concepts in the Developer Tools Console User Guide . (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-type-ids")]
+    [CliOption("--event-type-ids", GroupValues = true)]
     public IEnumerable<string>? EventTypeIds { get; set; }
 
     /// <summary>
     /// The address and type of the targets to receive notifications from this notification rule. Constraints: o max: 10 (structure) Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients asso- ciated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat appli- cations topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are speci- fied as SNS . o Amazon Q Developer in chat applications clients are speci- fied as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat appli- cations client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string ... JSON Syntax: [ { "TargetType": "string", "TargetAddress": "string" } ... ]
     /// </summary>
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>

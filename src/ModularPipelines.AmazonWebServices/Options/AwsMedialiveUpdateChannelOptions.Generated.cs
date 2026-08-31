@@ -27,13 +27,13 @@ public record AwsMedialiveUpdateChannelOptions : AwsOptions
     [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--encoder-settings")]
     public string? EncoderSettings { get; set; }
 
-    [CliOption("--input-attachments")]
+    [CliOption("--input-attachments", GroupValues = true)]
     public IEnumerable<string>? InputAttachments { get; set; }
 
     [CliOption("--input-specification")]
@@ -63,7 +63,7 @@ public record AwsMedialiveUpdateChannelOptions : AwsOptions
     [CliOption("--linked-channel-settings")]
     public string? LinkedChannelSettings { get; set; }
 
-    [CliOption("--channel-security-groups")]
+    [CliOption("--channel-security-groups", GroupValues = true)]
     public IEnumerable<string>? ChannelSecurityGroups { get; set; }
 
     [CliOption("--inference-settings")]

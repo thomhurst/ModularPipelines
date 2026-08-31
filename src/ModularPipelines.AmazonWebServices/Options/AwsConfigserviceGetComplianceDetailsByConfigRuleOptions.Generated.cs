@@ -28,7 +28,7 @@ public record AwsConfigserviceGetComplianceDetailsByConfigRuleOptions : AwsOptio
     /// <summary>
     /// Filters the results by compliance. INSUFFICIENT_DATA is a valid ComplianceType that is returned when an Config rule cannot be evaluated. However, INSUFFI- CIENT_DATA cannot be used as a ComplianceType for filtering re- sults. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compliance-types")]
+    [CliOption("--compliance-types", GroupValues = true)]
     public IEnumerable<string>? ComplianceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

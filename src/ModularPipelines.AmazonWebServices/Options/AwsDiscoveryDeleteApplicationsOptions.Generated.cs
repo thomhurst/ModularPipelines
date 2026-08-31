@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "delete-applications")]
 public record AwsDiscoveryDeleteApplicationsOptions : AwsOptions
 {
-    [CliOption("--configuration-ids")]
+    [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; set; }
 
     [CliOption("--cli-input-json")]

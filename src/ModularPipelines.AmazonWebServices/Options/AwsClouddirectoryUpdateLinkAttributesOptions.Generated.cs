@@ -27,7 +27,7 @@ public record AwsClouddirectoryUpdateLinkAttributesOptions : AwsOptions
     [CliOption("--typed-link-specifier")]
     public string? TypedLinkSpecifier { get; set; }
 
-    [CliOption("--attribute-updates")]
+    [CliOption("--attribute-updates", GroupValues = true)]
     public IEnumerable<string>? AttributeUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

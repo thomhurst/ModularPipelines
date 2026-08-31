@@ -54,13 +54,13 @@ public record AwsEksCreateClusterOptions : AwsOptions
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The encryption configuration for the cluster. Constraints: o max: 1 (structure) The encryption configuration for the cluster. resources -&gt; (list) Specifies the resources to be encrypted. The only supported value is secrets . (string) provider -&gt; (structure) Key Management Service (KMS) key. Either the ARN or the alias can be used. keyArn -&gt; (string) Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide . Shorthand Syntax: resources=string,string,provider={keyArn=string} ... JSON Syntax: [ { "resources": ["string", ...], "provider": { "keyArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--encryption-config")]
+    [CliOption("--encryption-config", GroupValues = true)]
     public IEnumerable<string>? EncryptionConfig { get; set; }
 
     /// <summary>

@@ -30,7 +30,7 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
     /// <summary>
     /// An array of parameters to set for advanced control over a database. The options are auto_mv , datestyle , enable_case_sensitive_identi- fier , enable_user_activity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execution_time ) or use wlm_json_con- figuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameter- Value is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . (structure) An array of key-value pairs to set for advanced control over Amazon Redshift Serverless. parameterKey -&gt; (string) The key of the parameter. The options are auto_mv , datestyle , enable_case_sensitive_identifier , enable_user_activ- ity_logging , query_group , search_path , require_ssl , use_fips_ssl , and either wlm_json_configuration or query monitoring metrics that let you define performance bound- aries. You can either specify individual query monitoring metrics (such as max_scan_row_count , max_query_execu- tion_time ) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration , the maximum size of parameterValue is 8000 characters. For more information about query monitor- ing rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless . parameterValue -&gt; (string) The value of the parameter to set. Shorthand Syntax: parameterKey=string,parameterValue=string ... JSON Syntax: [ { "parameterKey": "string", "parameterValue": "string" } ... ]
     /// </summary>
-    [CliOption("--config-parameters")]
+    [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
 
     [CliFlag("--enhanced-vpc-routing")]
@@ -69,13 +69,13 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
     /// <summary>
     /// An array of security group IDs to associate with the workgroup. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// An array of VPC subnet IDs to associate with the workgroup. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>

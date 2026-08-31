@@ -42,7 +42,7 @@ public record AwsGlueUpdateColumnStatisticsTaskSettingsOptions : AwsOptions
     /// <summary>
     /// A list of column names for which to run statistics. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--column-name-list")]
+    [CliOption("--column-name-list", GroupValues = true)]
     public IEnumerable<string>? ColumnNameList { get; set; }
 
     /// <summary>

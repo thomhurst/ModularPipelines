@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("batch", "describe-scheduling-policies")]
 public record AwsBatchDescribeSchedulingPoliciesOptions : AwsOptions
 {
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     [CliOption("--cli-input-json")]

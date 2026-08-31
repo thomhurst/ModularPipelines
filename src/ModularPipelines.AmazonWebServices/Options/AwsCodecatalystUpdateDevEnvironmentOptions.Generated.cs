@@ -41,7 +41,7 @@ public record AwsCodecatalystUpdateDevEnvironmentOptions : AwsOptions
     /// <summary>
     /// Information about the integrated development environment (IDE) con- figured for a Dev Environment. Constraints: o min: 0 o max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: o min: 1 o max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: o min: 1 o max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
     /// </summary>
-    [CliOption("--ides")]
+    [CliOption("--ides", GroupValues = true)]
     public IEnumerable<string>? Ides { get; set; }
 
     /// <summary>

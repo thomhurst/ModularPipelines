@@ -33,7 +33,7 @@ public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions
     [CliOption("--upload-id")]
     public string? UploadId { get; set; }
 
-    [CliOption("--layer-digests")]
+    [CliOption("--layer-digests", GroupValues = true)]
     public IEnumerable<string>? LayerDigests { get; set; }
 
     [CliOption("--cli-input-json")]

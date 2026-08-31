@@ -33,7 +33,7 @@ public record AwsDevicefarmUpdateDeviceInstanceOptions : AwsOptions
     /// <summary>
     /// An array of strings that you want to associate with the device in- stance. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     [CliOption("--cli-input-json")]

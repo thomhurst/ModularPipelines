@@ -34,7 +34,7 @@ public record AwsEbsStartSnapshotOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the snapshot. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: o max: 127 o pattern: ^[\S\s]+$ Value -&gt; (string) The value of the tag. Constraints: o max: 255 o pattern: ^[\S\s]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

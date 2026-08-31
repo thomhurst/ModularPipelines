@@ -25,7 +25,7 @@ public record AwsShieldListAttacksOptions : AwsOptions
     /// <summary>
     /// The ARNs (Amazon Resource Names) of the resources that were at- tacked. If you leave this blank, all applicable resources for this account will be included. (string) Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>

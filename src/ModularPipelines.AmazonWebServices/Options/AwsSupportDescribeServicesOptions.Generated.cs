@@ -24,7 +24,7 @@ public record AwsSupportDescribeServicesOptions : AwsOptions
     /// <summary>
     /// A JSON-formatted list of service codes available for Amazon Web Ser- vices services. Constraints: o min: 0 o max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-code-list")]
+    [CliOption("--service-code-list", GroupValues = true)]
     public IEnumerable<string>? ServiceCodeList { get; set; }
 
     /// <summary>

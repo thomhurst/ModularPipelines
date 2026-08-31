@@ -31,7 +31,7 @@ public record AwsBedrockAgentListIngestionJobsOptions : AwsOptions
     /// <summary>
     /// Contains information about the filters for filtering the data. Constraints: o min: 1 o max: 1 (structure) The definition of a filter to filter the data. attribute -&gt; (string) [required] The name of field or attribute to apply the filter. Possible values: o STATUS operator -&gt; (string) [required] The operation to apply to the field or attribute. Possible values: o EQ values -&gt; (list) [required] A list of values that belong to the field or attribute. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 100 o pattern: .* Shorthand Syntax: attribute=string,operator=string,values=string,string ... JSON Syntax: [ { "attribute": "STATUS", "operator": "EQ", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

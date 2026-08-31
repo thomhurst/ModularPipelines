@@ -33,7 +33,7 @@ public record AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions : AwsOptio
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("gamelift", "describe-matchmaking")]
 public record AwsGameliftDescribeMatchmakingOptions : AwsOptions
 {
-    [CliOption("--ticket-ids")]
+    [CliOption("--ticket-ids", GroupValues = true)]
     public IEnumerable<string>? TicketIds { get; set; }
 
     [CliOption("--cli-input-json")]

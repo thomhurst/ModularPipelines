@@ -31,10 +31,10 @@ public record AwsSsmListNodesSummaryOptions : AwsOptions
     /// <summary>
     /// One or more filters. Use a filter to generate a summary that matches your specified filter criteria. Constraints: o min: 1 o max: 5 (structure) The filters for the operation. Key -&gt; (string) [required] The name of the filter. Possible values: o AgentType o AgentVersion o ComputerName o InstanceId o InstanceStatus o IpAddress o ManagedStatus o PlatformName o PlatformType o PlatformVersion o ResourceType o OrganizationalUnitId o OrganizationalUnitPath o Region o AccountId o SourceType o SourceId o SourceLocation o AvailabilityZone o AvailabilityZoneId Values -&gt; (list) [required] A filter value supported by the specified key. For example, for the key PlatformType , supported values include Linux and Windows . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 512 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Type -&gt; (string) The type of filter operator. Possible values: o Equal o NotEqual o BeginWith Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "AgentType"|"AgentVersion"|"ComputerName"|"InstanceId"|"InstanceStatus"|"IpAddress"|"ManagedStatus"|"PlatformName"|"PlatformType"|"PlatformVersion"|"ResourceType"|"OrganizationalUnitId"|"OrganizationalUnitPath"|"Region"|"AccountId"|"SourceType"|"SourceId"|"SourceLocation"|"AvailabilityZone"|"AvailabilityZoneId", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliOption("--aggregators")]
+    [CliOption("--aggregators", GroupValues = true)]
     public IEnumerable<string>? Aggregators { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsPiListPerformanceAnalysisReportRecommendationsOptions : AwsOpti
     /// <summary>
     /// A list of recommendation identifiers to filter the results. (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     [CliOption("--cli-input-json")]

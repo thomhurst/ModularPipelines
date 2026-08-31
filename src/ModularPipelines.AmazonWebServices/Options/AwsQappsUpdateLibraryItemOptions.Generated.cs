@@ -37,7 +37,7 @@ public record AwsQappsUpdateLibraryItemOptions : AwsOptions
     /// <summary>
     /// The new categories to associate with the library item. Constraints: o min: 0 o max: 3 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--categories")]
+    [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     [CliOption("--cli-input-json")]

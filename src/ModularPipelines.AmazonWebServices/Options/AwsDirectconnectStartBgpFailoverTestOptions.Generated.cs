@@ -27,7 +27,7 @@ public record AwsDirectconnectStartBgpFailoverTestOptions : AwsOptions
     /// <summary>
     /// The BGP peers to place in the DOWN state. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--bgp-peers")]
+    [CliOption("--bgp-peers", GroupValues = true)]
     public IEnumerable<string>? BgpPeers { get; set; }
 
     /// <summary>

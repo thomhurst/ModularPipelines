@@ -24,7 +24,7 @@ public record AwsLogsPutTransformerOptions : AwsOptions
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
-    [CliOption("--transformer-config")]
+    [CliOption("--transformer-config", GroupValues = true)]
     public IEnumerable<string>? TransformerConfig { get; set; }
 
     [CliOption("--cli-input-json")]

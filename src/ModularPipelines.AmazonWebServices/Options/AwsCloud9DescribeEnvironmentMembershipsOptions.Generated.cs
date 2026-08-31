@@ -37,7 +37,7 @@ public record AwsCloud9DescribeEnvironmentMembershipsOptions : AwsOptions
     /// <summary>
     /// The type of environment member permissions to get information about. Available values include: o owner : Owns the environment. o read-only : Has read-only access to the environment. o read-write : Has read-write access to the environment. If no value is specified, information about all environment members are returned. (string) Possible values: o owner o read-write o read-only Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     [CliOption("--cli-input-json")]

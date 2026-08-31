@@ -41,7 +41,7 @@ public record AwsServicecatalogAppregistryGetAssociatedResourceOptions : AwsOpti
     /// <summary>
     /// States whether an application tag is applied, not applied, in the process of being applied, or skipped. Constraints: o min: 1 o max: 4 (string) Possible values: o SUCCESS o FAILED o IN_PROGRESS o SKIPPED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-tag-status")]
+    [CliOption("--resource-tag-status", GroupValues = true)]
     public IEnumerable<string>? ResourceTagStatus { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsChimeSdkMessagingCreateChannelFlowOptions : AwsOptions
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; set; }
 
-    [CliOption("--processors")]
+    [CliOption("--processors", GroupValues = true)]
     public IEnumerable<string>? Processors { get; set; }
 
     [CliOption("--name")]
@@ -34,7 +34,7 @@ public record AwsChimeSdkMessagingCreateChannelFlowOptions : AwsOptions
     /// <summary>
     /// The tags for the creation request. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

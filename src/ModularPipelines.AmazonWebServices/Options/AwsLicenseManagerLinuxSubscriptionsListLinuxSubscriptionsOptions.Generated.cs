@@ -25,7 +25,7 @@ public record AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions :
     /// <summary>
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you spec- ify. For example, you can filter by the name of Subscription with an optional operator to see subscriptions that match, partially match, or don't match a certain subscription's name. The valid names for this filter are: o Subscription The valid Operators for this filter are: o contains o equals o Notequal (structure) A filter object that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria. Name -&gt; (string) The type of name to filter by. Operator -&gt; (string) An operator for filtering results. Possible values: o Equal o NotEqual o Contains Constraints: o min: 1 o max: 20 Values -&gt; (list) One or more values for the name to filter by. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Operator": "Equal"|"NotEqual"|"Contains", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

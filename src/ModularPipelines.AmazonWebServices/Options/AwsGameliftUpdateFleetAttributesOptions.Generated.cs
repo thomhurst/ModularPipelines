@@ -52,7 +52,7 @@ public record AwsGameliftUpdateFleetAttributesOptions : AwsOptions
     /// <summary>
     /// The name of a metric group to add this fleet to. Use a metric group in Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing metric group name, or create a new metric group by providing a new name. A fleet can only be in one metric group at a time. Constraints: o max: 1 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metric-groups")]
+    [CliOption("--metric-groups", GroupValues = true)]
     public IEnumerable<string>? MetricGroups { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record AwsEc2DescribeRegionsOptions : AwsOptions
     /// <summary>
     /// The names of the Regions. You can specify any Regions, whether they are enabled and disabled for your account. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--region-names")]
+    [CliOption("--region-names", GroupValues = true)]
     public IEnumerable<string>? RegionNames { get; set; }
 
     [CliFlag("--all-regions")]
@@ -36,7 +36,7 @@ public record AwsEc2DescribeRegionsOptions : AwsOptions
     /// <summary>
     /// The filters. o endpoint - The endpoint of the Region (for example, ec2.us-east-1.amazonaws.com ). o opt-in-status - The opt-in status of the Region (opt-in-not-re- quired | opted-in | not-opted-in ). o region-name - The name of the Region (for example, us-east-1 ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

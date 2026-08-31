@@ -40,7 +40,7 @@ public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
     /// <summary>
     /// Assigns one or more tags to the Amazon Web Services Payment Cryptog- raphy key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Constraints: o min: 0 o max: 200 (structure) A structure that contains information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
     /// <summary>
     /// A list of Amazon Web Services Regions for key replication opera- tions. Each region in the list must be a valid Amazon Web Services Region identifier where Amazon Web Services Payment Cryptography is avail- able. This list is used to specify which regions should be added to or removed from a key's replication configuration. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-regions")]
+    [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; set; }
 
     [CliOption("--cli-input-json")]

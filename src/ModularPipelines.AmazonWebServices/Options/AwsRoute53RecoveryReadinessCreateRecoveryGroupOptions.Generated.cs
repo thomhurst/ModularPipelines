@@ -25,7 +25,7 @@ public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
     /// <summary>
     /// A list of the cell Amazon Resource Names (ARNs) in the recovery group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cells")]
+    [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; set; }
 
     [CliOption("--recovery-group-name")]
@@ -34,7 +34,7 @@ public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
     /// <summary>
     /// A collection of tags associated with a resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

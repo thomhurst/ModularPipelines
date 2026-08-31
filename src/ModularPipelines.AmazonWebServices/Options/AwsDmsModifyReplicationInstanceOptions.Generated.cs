@@ -42,7 +42,7 @@ public record AwsDmsModifyReplicationInstanceOptions : AwsOptions
     /// <summary>
     /// Specifies the VPC security group to be used with the replication in- stance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>

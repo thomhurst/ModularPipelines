@@ -30,7 +30,7 @@ public record AwsGameliftStartMatchmakingOptions : AwsOptions
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
-    [CliOption("--players")]
+    [CliOption("--players", GroupValues = true)]
     public IEnumerable<string>? Players { get; set; }
 
     [CliOption("--cli-input-json")]

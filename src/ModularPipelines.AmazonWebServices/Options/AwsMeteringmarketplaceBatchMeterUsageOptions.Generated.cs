@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("meteringmarketplace", "batch-meter-usage")]
 public record AwsMeteringmarketplaceBatchMeterUsageOptions : AwsOptions
 {
-    [CliOption("--usage-records")]
+    [CliOption("--usage-records", GroupValues = true)]
     public IEnumerable<string>? UsageRecords { get; set; }
 
     /// <summary>

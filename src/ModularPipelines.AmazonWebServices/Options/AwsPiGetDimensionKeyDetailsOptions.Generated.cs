@@ -36,7 +36,7 @@ public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions
     /// <summary>
     /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Perfor- mance Insights returns all dimension data within the specified di- mension group. Specify dimension names for the following dimension groups: o db.execution_plan - Specify the dimension name db.execu- tion_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only) o db.lock_snapshot - Specify the dimension name db.lock_snap- shot.lock_trees or the short dimension name lock_trees . (Aurora only) o db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only). o db.query - Specify either the full dimension name db.query.state- ment or the short dimension name statement (DocumentDB only). Constraints: o min: 1 o max: 10 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--requested-dimensions")]
+    [CliOption("--requested-dimensions", GroupValues = true)]
     public IEnumerable<string>? RequestedDimensions { get; set; }
 
     [CliOption("--cli-input-json")]

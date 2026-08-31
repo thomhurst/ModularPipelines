@@ -25,7 +25,7 @@ public record AwsEksAssociateEncryptionConfigOptions : AwsOptions
     [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CliOption("--encryption-config")]
+    [CliOption("--encryption-config", GroupValues = true)]
     public IEnumerable<string>? EncryptionConfig { get; set; }
 
     /// <summary>

@@ -33,19 +33,19 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions
     [CliOption("--membership-name")]
     public string? MembershipName { get; set; }
 
-    [CliOption("--incident-response-team")]
+    [CliOption("--incident-response-team", GroupValues = true)]
     public IEnumerable<string>? IncidentResponseTeam { get; set; }
 
     /// <summary>
     /// Optional element to enable the monitoring and investigation opt-in features for the service. Constraints: o min: 1 o max: 2 (structure) featureName -&gt; (string) [required] Possible values: o Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
     /// </summary>
-    [CliOption("--opt-in-features")]
+    [CliOption("--opt-in-features", GroupValues = true)]
     public IEnumerable<string>? OptInFeatures { get; set; }
 
     /// <summary>
     /// Optional element for customer configured tags. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliFlag("--cover-entire-organization")]

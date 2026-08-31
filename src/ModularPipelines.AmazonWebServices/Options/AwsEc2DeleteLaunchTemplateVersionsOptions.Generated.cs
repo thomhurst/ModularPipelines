@@ -36,7 +36,7 @@ public record AwsEc2DeleteLaunchTemplateVersionsOptions : AwsOptions
     [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
 
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     [CliOption("--cli-input-json")]

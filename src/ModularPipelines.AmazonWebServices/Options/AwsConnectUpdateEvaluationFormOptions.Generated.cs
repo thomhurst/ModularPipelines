@@ -43,7 +43,7 @@ public record AwsConnectUpdateEvaluationFormOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     /// <summary>

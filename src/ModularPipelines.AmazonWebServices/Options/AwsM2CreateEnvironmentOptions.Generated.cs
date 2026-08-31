@@ -82,25 +82,25 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// The list of security groups for the VPC associated with this runtime environment. (string) Constraints: o pattern: ^\S{1,50}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// Optional. The storage configurations for this runtime environment. (tagged union structure) Defines the storage configuration for a runtime environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: efs, fsx. efs -&gt; (structure) Defines the storage configuration for an Amazon EFS file sys- tem. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: o pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: o pattern: ^\S{1,200}$ fsx -&gt; (structure) Defines the storage configuration for an Amazon FSx file sys- tem. fileSystemId -&gt; (string) [required] The file system identifier. Constraints: o pattern: ^\S{1,200}$ mountPoint -&gt; (string) [required] The mount point for the file system. Constraints: o pattern: ^\S{1,200}$ Shorthand Syntax: efs={fileSystemId=string,mountPoint=string},fsx={fileSystemId=string,mountPoint=string} ... JSON Syntax: [ { "efs": { "fileSystemId": "string", "mountPoint": "string" }, "fsx": { "fileSystemId": "string", "mountPoint": "string" } } ... ]
     /// </summary>
-    [CliOption("--storage-configurations")]
+    [CliOption("--storage-configurations", GroupValues = true)]
     public IEnumerable<string>? StorageConfigurations { get; set; }
 
     /// <summary>
     /// The list of subnets associated with the VPC for this runtime envi- ronment. (string) Constraints: o pattern: ^\S{1,50}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// The tags for the runtime environment. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -56,7 +56,7 @@ public record AwsBatchCreateComputeEnvironmentOptions : AwsOptions
     /// <summary>
     /// The tags that you apply to the compute environment to help you cate- gorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Ser- vices Resources in Amazon Web Services General Reference . These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the un- derlying compute resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

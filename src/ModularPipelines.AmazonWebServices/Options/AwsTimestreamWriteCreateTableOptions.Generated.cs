@@ -36,7 +36,7 @@ public record AwsTimestreamWriteCreateTableOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to label the table. Constraints: o min: 0 o max: 200 (structure) A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. With tags, you can categorize databases and/or tables, for example, by purpose, owner, or environment. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

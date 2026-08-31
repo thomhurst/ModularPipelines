@@ -24,7 +24,7 @@ public record AwsCloudhsmv2UntagResourceOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--tag-key-list")]
+    [CliOption("--tag-key-list", GroupValues = true)]
     public IEnumerable<string>? TagKeyList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsEc2DeleteFleetsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--fleet-ids")]
+    [CliOption("--fleet-ids", GroupValues = true)]
     public IEnumerable<string>? FleetIds { get; set; }
 
     [CliFlag("--terminate-instances")]

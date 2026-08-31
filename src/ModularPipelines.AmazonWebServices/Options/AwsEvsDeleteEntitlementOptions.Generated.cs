@@ -38,7 +38,7 @@ public record AwsEvsDeleteEntitlementOptions : AwsOptions
     [CliOption("--entitlement-type")]
     public string? EntitlementType { get; set; }
 
-    [CliOption("--vm-ids")]
+    [CliOption("--vm-ids", GroupValues = true)]
     public IEnumerable<string>? VmIds { get; set; }
 
     [CliOption("--cli-input-json")]

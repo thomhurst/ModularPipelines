@@ -27,7 +27,7 @@ public record AwsCognitoIdpAdminDeleteUserAttributesOptions : AwsOptions
     [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CliOption("--user-attribute-names")]
+    [CliOption("--user-attribute-names", GroupValues = true)]
     public IEnumerable<string>? UserAttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -54,13 +54,13 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions
     [CliOption("--az-mode")]
     public string? AzMode { get; set; }
 
-    [CliOption("--availability-zone-ids")]
+    [CliOption("--availability-zone-ids", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIds { get; set; }
 
     /// <summary>
     /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

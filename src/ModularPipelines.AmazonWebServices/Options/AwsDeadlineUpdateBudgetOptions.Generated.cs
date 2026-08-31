@@ -63,13 +63,13 @@ public record AwsDeadlineUpdateBudgetOptions : AwsOptions
     /// <summary>
     /// The budget actions to add. Budget actions specify what happens when the budget runs out. Constraints: o min: 0 o max: 10 (structure) The budget action to add. type -&gt; (string) [required] The type of budget action to add. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to add. Constraints: o min: 0 o max: 100 description -&gt; (string) A description for the budget action to add. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float,description=string ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float, "description": "string" } ... ]
     /// </summary>
-    [CliOption("--actions-to-add")]
+    [CliOption("--actions-to-add", GroupValues = true)]
     public IEnumerable<string>? ActionsToAdd { get; set; }
 
     /// <summary>
     /// The budget actions to remove from the budget. Constraints: o min: 0 o max: 10 (structure) The budget action to remove. type -&gt; (string) [required] The type of budget action to remove. Possible values: o STOP_SCHEDULING_AND_COMPLETE_TASKS o STOP_SCHEDULING_AND_CANCEL_TASKS thresholdPercentage -&gt; (float) [required] The percentage threshold for the budget action to remove. Constraints: o min: 0 o max: 100 Shorthand Syntax: type=string,thresholdPercentage=float ... JSON Syntax: [ { "type": "STOP_SCHEDULING_AND_COMPLETE_TASKS"|"STOP_SCHEDULING_AND_CANCEL_TASKS", "thresholdPercentage": float } ... ]
     /// </summary>
-    [CliOption("--actions-to-remove")]
+    [CliOption("--actions-to-remove", GroupValues = true)]
     public IEnumerable<string>? ActionsToRemove { get; set; }
 
     /// <summary>

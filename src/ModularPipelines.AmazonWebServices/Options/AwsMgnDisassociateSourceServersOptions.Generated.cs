@@ -24,7 +24,7 @@ public record AwsMgnDisassociateSourceServersOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliOption("--source-server-ids")]
+    [CliOption("--source-server-ids", GroupValues = true)]
     public IEnumerable<string>? SourceServerIds { get; set; }
 
     /// <summary>

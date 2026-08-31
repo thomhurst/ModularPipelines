@@ -44,7 +44,7 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions
     /// The public keys used to verify the token signature. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o max: 5120 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [SecretValue]
-    [CliOption("--token-signing-public-keys")]
+    [CliOption("--token-signing-public-keys", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TokenSigningPublicKeys { get; set; }
 
     /// <summary>

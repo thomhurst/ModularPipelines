@@ -25,13 +25,13 @@ public record AwsControltowerCreateLandingZoneOptions : AwsOptions
     /// <summary>
     /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remediation-types")]
+    [CliOption("--remediation-types", GroupValues = true)]
     public IEnumerable<string>? RemediationTypes { get; set; }
 
     /// <summary>
     /// Tags to be applied to the landing zone. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

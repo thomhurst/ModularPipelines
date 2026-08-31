@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "batch-get-applications")]
 public record AwsDeployBatchGetApplicationsOptions : AwsOptions
 {
-    [CliOption("--application-names")]
+    [CliOption("--application-names", GroupValues = true)]
     public IEnumerable<string>? ApplicationNames { get; set; }
 
     [CliOption("--cli-input-json")]

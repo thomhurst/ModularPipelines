@@ -30,7 +30,7 @@ public record AwsEc2AttachClassicLinkVpcOptions : AwsOptions
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--groups")]
+    [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     [CliOption("--cli-input-json")]

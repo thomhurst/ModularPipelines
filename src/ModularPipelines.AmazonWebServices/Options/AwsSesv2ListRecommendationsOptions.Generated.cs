@@ -26,7 +26,7 @@ public record AwsSesv2ListRecommendationsOptions : AwsOptions
     /// <summary>
     /// Filters applied when retrieving recommendations. Can eiter be an in- dividual filter, or combinations of STATUS and IMPACT or STATUS and TYPE Constraints: o min: 1 o max: 2 key -&gt; (string) The ListRecommendations filter type. This can be one of the fol- lowing: o TYPE The recommendation type, with values like DKIM , SPF , DMARC , BIMI , or COMPLAINT . o IMPACT The recommendation impact, with values like HIGH or LOW . o STATUS The recommendation status, with values like OPEN or FIXED . o RESOURCE_ARN The resource affected by the recommendation, with values like arn:aws:ses:us-east-1:123456789012:iden- tity/example.com . Possible values: o TYPE o IMPACT o STATUS o RESOURCE_ARN value -&gt; (string) Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: TYPE IMPACT STATUS RESOURCE_ARN JSON Syntax: {"TYPE"|"IMPACT"|"STATUS"|"RESOURCE_ARN": "string" ...}
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>

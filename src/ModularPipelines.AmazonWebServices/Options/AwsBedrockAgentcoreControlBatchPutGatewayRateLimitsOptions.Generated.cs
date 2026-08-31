@@ -32,7 +32,7 @@ public record AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions : AwsOp
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--rate-limits")]
+    [CliOption("--rate-limits", GroupValues = true)]
     public IEnumerable<string>? RateLimits { get; set; }
 
     [CliOption("--cli-input-json")]

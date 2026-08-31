@@ -28,7 +28,7 @@ public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions
     /// <summary>
     /// A list of OutputSource objects. Constraints: o min: 1 o max: 1 (structure) An object containing KMSArn , outputS3Path , and roleARN . roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Entity Reso- lution assumes this role to access Amazon Web Services re- sources on your behalf as part of workflow execution. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* Shorthand Syntax: roleArn=string,outputS3Path=string,KMSArn=string ... JSON Syntax: [ { "roleArn": "string", "outputS3Path": "string", "KMSArn": "string" } ... ]
     /// </summary>
-    [CliOption("--output-source-config")]
+    [CliOption("--output-source-config", GroupValues = true)]
     public IEnumerable<string>? OutputSourceConfig { get; set; }
 
     /// <summary>

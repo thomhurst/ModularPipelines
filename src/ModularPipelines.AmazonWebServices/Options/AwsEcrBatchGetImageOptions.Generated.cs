@@ -30,13 +30,13 @@ public record AwsEcrBatchGetImageOptions : AwsOptions
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CliOption("--image-ids")]
+    [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; set; }
 
     /// <summary>
     /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | applica- tion/vnd.oci.image.manifest.v1+json Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--accepted-media-types")]
+    [CliOption("--accepted-media-types", GroupValues = true)]
     public IEnumerable<string>? AcceptedMediaTypes { get; set; }
 
     [CliOption("--cli-input-json")]

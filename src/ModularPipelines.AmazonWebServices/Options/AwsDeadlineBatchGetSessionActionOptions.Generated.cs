@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deadline", "batch-get-session-action")]
 public record AwsDeadlineBatchGetSessionActionOptions : AwsOptions
 {
-    [CliOption("--identifiers")]
+    [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; set; }
 
     [CliOption("--cli-input-json")]

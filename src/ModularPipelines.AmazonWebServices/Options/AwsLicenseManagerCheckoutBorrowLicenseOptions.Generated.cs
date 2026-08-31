@@ -25,7 +25,7 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions
     [CliOption("--license-arn")]
     public string? LicenseArn { get; set; }
 
-    [CliOption("--entitlements")]
+    [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; set; }
 
     [CliOption("--digital-signature-method")]
@@ -40,7 +40,7 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions
     /// <summary>
     /// Information about constraints. (structure) Describes key/value pairs. Name -&gt; (string) The key name. Value -&gt; (string) The value. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--checkout-metadata")]
+    [CliOption("--checkout-metadata", GroupValues = true)]
     public IEnumerable<string>? CheckoutMetadata { get; set; }
 
     [SecretValue]

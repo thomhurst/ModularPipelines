@@ -25,19 +25,19 @@ public record AwsOutpostsListOutpostsOptions : AwsOptions
     /// <summary>
     /// Filters the results by the lifecycle status. Constraints: o min: 1 o max: 5 (string) The life cycle status. Constraints: o min: 1 o max: 20 o pattern: ^[ A-Za-z]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--life-cycle-status-filter")]
+    [CliOption("--life-cycle-status-filter", GroupValues = true)]
     public IEnumerable<string>? LifeCycleStatusFilter { get; set; }
 
     /// <summary>
     /// Filters the results by Availability Zone (for example, us-east-1a ). Constraints: o min: 1 o max: 5 (string) The Availability Zone. Constraints: o min: 1 o max: 1000 o pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zone-filter")]
+    [CliOption("--availability-zone-filter", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneFilter { get; set; }
 
     /// <summary>
     /// Filters the results by AZ ID (for example, use1-az1 ). Constraints: o min: 1 o max: 5 (string) The ID of the Availability Zone. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+\d-[a-zA-Z]+\d$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zone-id-filter")]
+    [CliOption("--availability-zone-id-filter", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIdFilter { get; set; }
 
     [CliOption("--cli-input-json")]

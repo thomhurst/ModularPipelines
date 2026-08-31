@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker", "batch-describe-model-package")]
 public record AwsSagemakerBatchDescribeModelPackageOptions : AwsOptions
 {
-    [CliOption("--model-package-arn-list")]
+    [CliOption("--model-package-arn-list", GroupValues = true)]
     public IEnumerable<string>? ModelPackageArnList { get; set; }
 
     [CliOption("--cli-input-json")]

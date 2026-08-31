@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "batch-delete-import-data")]
 public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions
 {
-    [CliOption("--import-task-ids")]
+    [CliOption("--import-task-ids", GroupValues = true)]
     public IEnumerable<string>? ImportTaskIds { get; set; }
 
     [CliFlag("--delete-history")]

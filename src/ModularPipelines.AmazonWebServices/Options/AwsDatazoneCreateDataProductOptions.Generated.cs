@@ -40,19 +40,19 @@ public record AwsDatazoneCreateDataProductOptions : AwsOptions
     /// <summary>
     /// The glossary terms of the data product. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--glossary-terms")]
+    [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
     /// The metadata forms of the data product. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
-    [CliOption("--forms-input")]
+    [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
 
     /// <summary>
     /// The data assets of the data product. Constraints: o min: 1 (structure) The data product. itemType -&gt; (string) [required] The type of the data product. Possible values: o ASSET identifier -&gt; (string) [required] The ID of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} revision -&gt; (string) The revision of the data product. Constraints: o min: 1 o max: 64 glossaryTerms -&gt; (list) The glossary terms of the data product. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: itemType=string,identifier=string,revision=string,glossaryTerms=string,string ... JSON Syntax: [ { "itemType": "ASSET", "identifier": "string", "revision": "string", "glossaryTerms": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     /// <summary>

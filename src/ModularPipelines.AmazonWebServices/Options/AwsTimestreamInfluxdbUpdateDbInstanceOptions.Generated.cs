@@ -76,7 +76,7 @@ public record AwsTimestreamInfluxdbUpdateDbInstanceOptions : AwsOptions
     /// <summary>
     /// A list of backup configurations to update for the DB instance. Constraints: o min: 1 o max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINU- OUS. Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY o CUSTOM_SCHEDULE o CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: o min: 1 o max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: o min: 9 o max: 256 o pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
     /// </summary>
-    [CliOption("--db-backup-configurations")]
+    [CliOption("--db-backup-configurations", GroupValues = true)]
     public IEnumerable<string>? DbBackupConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

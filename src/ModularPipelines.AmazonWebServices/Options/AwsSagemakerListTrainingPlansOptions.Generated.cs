@@ -50,7 +50,7 @@ public record AwsSagemakerListTrainingPlansOptions : AwsOptions
     /// <summary>
     /// Additional filters to apply to the list of training plans. Constraints: o min: 1 o max: 5 (structure) A filter to apply when listing or searching for training plans. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see `` CreateTrainingPlan `` . Name -&gt; (string) [required] The name of the filter field (e.g., Status, InstanceType). Possible values: o Status Value -&gt; (string) [required] The value to filter by for the specified field. Constraints: o min: 0 o max: 64 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "Status", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

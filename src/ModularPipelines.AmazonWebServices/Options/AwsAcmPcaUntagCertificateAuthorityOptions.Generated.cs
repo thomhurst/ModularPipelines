@@ -24,7 +24,7 @@ public record AwsAcmPcaUntagCertificateAuthorityOptions : AwsOptions
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

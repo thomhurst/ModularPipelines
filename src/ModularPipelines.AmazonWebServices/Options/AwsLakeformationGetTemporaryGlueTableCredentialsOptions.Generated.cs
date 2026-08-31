@@ -27,7 +27,7 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
     /// <summary>
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
     /// <summary>
     /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION . Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-permission-types")]
+    [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>

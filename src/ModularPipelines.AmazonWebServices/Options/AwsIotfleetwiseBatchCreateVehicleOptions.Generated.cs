@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iotfleetwise", "batch-create-vehicle")]
 public record AwsIotfleetwiseBatchCreateVehicleOptions : AwsOptions
 {
-    [CliOption("--vehicles")]
+    [CliOption("--vehicles", GroupValues = true)]
     public IEnumerable<string>? Vehicles { get; set; }
 
     [CliOption("--cli-input-json")]

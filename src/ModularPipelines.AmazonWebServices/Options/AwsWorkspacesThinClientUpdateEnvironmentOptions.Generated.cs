@@ -71,7 +71,7 @@ public record AwsWorkspacesThinClientUpdateEnvironmentOptions : AwsOptions
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[A-Za-z0-9 _=@:.+-/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9 _=@:.+-/]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--device-creation-tags")]
+    [CliOption("--device-creation-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DeviceCreationTags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -25,13 +25,13 @@ public record AwsRekognitionDescribeProjectsOptions : AwsOptions
     /// <summary>
     /// A list of the projects that you want Rekognition to describe. If you don't specify a value, the response includes descriptions for all the projects in your AWS account. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--project-names")]
+    [CliOption("--project-names", GroupValues = true)]
     public IEnumerable<string>? ProjectNames { get; set; }
 
     /// <summary>
     /// Specifies the type of customization to filter projects by. If no value is specified, CUSTOM_LABELS is used as a default. Constraints: o min: 1 o max: 2 (string) Possible values: o CONTENT_MODERATION o CUSTOM_LABELS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     [CliOption("--cli-input-json")]

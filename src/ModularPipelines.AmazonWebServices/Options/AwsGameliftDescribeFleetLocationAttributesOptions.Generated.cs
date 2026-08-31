@@ -28,7 +28,7 @@ public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions
     /// <summary>
     /// A list of fleet locations to retrieve information for. Specify loca- tions in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--locations")]
+    [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>

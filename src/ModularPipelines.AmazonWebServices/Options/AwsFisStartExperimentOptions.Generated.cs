@@ -42,7 +42,7 @@ public record AwsFisStartExperimentOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the experiment. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

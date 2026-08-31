@@ -29,7 +29,7 @@ public record AwsGreengrassCreateSubscriptionDefinitionVersionOptions : AwsOptio
     [CliOption("--subscription-definition-id")]
     public string? SubscriptionDefinitionId { get; set; }
 
-    [CliOption("--subscriptions")]
+    [CliOption("--subscriptions", GroupValues = true)]
     public IEnumerable<string>? Subscriptions { get; set; }
 
     [CliOption("--cli-input-json")]

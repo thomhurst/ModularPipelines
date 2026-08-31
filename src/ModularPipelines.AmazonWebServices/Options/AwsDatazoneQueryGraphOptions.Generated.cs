@@ -25,7 +25,7 @@ public record AwsDatazoneQueryGraphOptions : AwsOptions
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; set; }
 
-    [CliOption("--match")]
+    [CliOption("--match", GroupValues = true)]
     public IEnumerable<string>? Match { get; set; }
 
     /// <summary>

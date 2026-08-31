@@ -51,7 +51,7 @@ public record AwsIvschatUpdateRoomOptions : AwsOptions
     /// <summary>
     /// Array of logging-configuration identifiers attached to the room. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--logging-configuration-identifiers")]
+    [CliOption("--logging-configuration-identifiers", GroupValues = true)]
     public IEnumerable<string>? LoggingConfigurationIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,7 +28,7 @@ public record AwsAppConfigUpdateExtensionAssociationOptions : AwsOptions
     /// <summary>
     /// The parameter names and values defined in the extension. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

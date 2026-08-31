@@ -394,6 +394,8 @@ public partial class AwsCliScraper : CliScraperBase
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = isArray,
+                GroupValues = isArray && !isKeyValue,
+                CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
@@ -543,11 +545,31 @@ public partial class AwsCliScraper : CliScraperBase
 
     private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (enumDef is not null)
+        {
+            return $"{enumDef.EnumName}?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IReadOnlyList<KeyValue>?";
+        }
+
+        if (isArray)
+        {
+            return "IEnumerable<string>?";
+        }
+
+        if (isNumeric)
+        {
+            return "int?";
+        }
+
         return "string?";
     }
 

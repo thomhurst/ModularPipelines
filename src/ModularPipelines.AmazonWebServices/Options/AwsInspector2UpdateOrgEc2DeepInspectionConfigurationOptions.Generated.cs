@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector2", "update-org-ec2-deep-inspection-configuration")]
 public record AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions : AwsOptions
 {
-    [CliOption("--org-package-paths")]
+    [CliOption("--org-package-paths", GroupValues = true)]
     public IEnumerable<string>? OrgPackagePaths { get; set; }
 
     [CliOption("--cli-input-json")]

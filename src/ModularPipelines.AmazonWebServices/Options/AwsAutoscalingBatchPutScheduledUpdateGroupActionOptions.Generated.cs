@@ -24,7 +24,7 @@ public record AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions : AwsOptio
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--scheduled-update-group-actions")]
+    [CliOption("--scheduled-update-group-actions", GroupValues = true)]
     public IEnumerable<string>? ScheduledUpdateGroupActions { get; set; }
 
     [CliOption("--cli-input-json")]

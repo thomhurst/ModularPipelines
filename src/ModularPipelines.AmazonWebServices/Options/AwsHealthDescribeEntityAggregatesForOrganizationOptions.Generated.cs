@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("health", "describe-entity-aggregates-for-organization")]
 public record AwsHealthDescribeEntityAggregatesForOrganizationOptions : AwsOptions
 {
-    [CliOption("--event-arns")]
+    [CliOption("--event-arns", GroupValues = true)]
     public IEnumerable<string>? EventArns { get; set; }
 
     /// <summary>
     /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: o min: 1 o max: 25 (string) Constraints: o max: 12 o pattern: ^\S+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aws-account-ids")]
+    [CliOption("--aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? AwsAccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

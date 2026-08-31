@@ -25,7 +25,7 @@ public record AwsOpensearchDescribePackagesOptions : AwsOptions
     /// <summary>
     /// Only returns packages that match the DescribePackagesFilterList val- ues. (structure) A filter to apply to the DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: o PackageID o PackageName o PackageStatus o PackageType o EngineVersion o PackageOwner Value -&gt; (list) A non-empty list of values for the specified filter field. Constraints: o min: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\_\\\/\?-]+$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus"|"PackageType"|"EngineVersion"|"PackageOwner", "Value": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

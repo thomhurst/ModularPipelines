@@ -50,6 +50,13 @@ public class AwsCliScraperTests
 
         await Assert.That(commands.Select(command => command.FullCommand))
             .IsEquivalentTo(["aws ec2 describe-instances"]);
+
+        var instanceIds = commands.Single().Options.Single(option => option.SwitchName == "--instance-ids");
+        using (Assert.Multiple())
+        {
+            await Assert.That(instanceIds.AcceptsMultipleValues).IsTrue();
+            await Assert.That(instanceIds.GroupValues).IsTrue();
+        }
     }
 
     [Test]
@@ -112,7 +119,32 @@ public class AwsCliScraperTests
         {
             await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.GroupValues).IsTrue();
             await Assert.That(option.EnumDefinition).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Map_Options_Join_Entries_Into_One_Operand()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsMapHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+            await Assert.That(option.IsKeyValue).IsTrue();
+            await Assert.That(option.GroupValues).IsFalse();
+            await Assert.That(option.CollectionSeparator).IsEqualTo(",");
         }
     }
 
@@ -131,16 +163,16 @@ public class AwsCliScraperTests
         }
 
         var options = commands.Single().Options;
+        var cliInputJson = options.Single(option => option.SwitchName == "--cli-input-json");
+        var generateCliSkeleton = options.Single(option => option.SwitchName == "--generate-cli-skeleton");
         using (Assert.Multiple())
         {
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--cli-input-json").IsFlag)
-                .IsFalse();
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").CSharpType)
-                .IsEqualTo("string?");
-            await Assert.That(options.Single(option => option.SwitchName == "--generate-cli-skeleton").IsFlag)
-                .IsFalse();
+            await Assert.That(cliInputJson.CSharpType).IsEqualTo("string?");
+            await Assert.That(cliInputJson.IsFlag).IsFalse();
+            await Assert.That(cliInputJson.GroupValues).IsFalse();
+            await Assert.That(generateCliSkeleton.CSharpType).IsEqualTo("string?");
+            await Assert.That(generateCliSkeleton.IsFlag).IsFalse();
+            await Assert.That(generateCliSkeleton.GroupValues).IsFalse();
         }
     }
 
@@ -346,6 +378,35 @@ public class AwsCliScraperTests
 
                            --generate-cli-skeleton
                            Skeleton output mode.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsMapHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o amplify",
+                "amplify help" => "AVAILABLE COMMANDS\n       o create-app",
+                "amplify create-app help" => """
+                    OPTIONS
+                           --environment-variables (map)
+                            Shorthand Syntax: KeyName1=string,KeyName2=string
                     """,
                 _ => string.Empty,
             };

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("datapipeline", "describe-pipelines")]
 public record AwsDatapipelineDescribePipelinesOptions : AwsOptions
 {
-    [CliOption("--pipeline-ids")]
+    [CliOption("--pipeline-ids", GroupValues = true)]
     public IEnumerable<string>? PipelineIds { get; set; }
 
     [CliOption("--cli-input-json")]

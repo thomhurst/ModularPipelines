@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securitylake", "create-data-lake")]
 public record AwsSecuritylakeCreateDataLakeOptions : AwsOptions
 {
-    [CliOption("--configurations")]
+    [CliOption("--configurations", GroupValues = true)]
     public IEnumerable<string>? Configurations { get; set; }
 
     [CliOption("--meta-store-manager-role-arn")]
@@ -30,7 +30,7 @@ public record AwsSecuritylakeCreateDataLakeOptions : AwsOptions
     /// <summary>
     /// An array of objects, one for each tag to associate with the data lake configuration. For each tag, you must specify both a tag key and a tag value. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 50 (structure) A tag is a label that you can define and associate with Amazon Web Services resources, including certain types of Amazon Secu- rity Lake resources. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environ- ment, or other criteria. You can associate tags with the follow- ing types of Security Lake resources: subscribers, and the data lake configuration for your Amazon Web Services account in indi- vidual Amazon Web Services Regions. A resource can have up to 50 tags. Each tag consists of a re- quired tag key and an associated tag value . A tag key is a gen- eral label that acts as a category for a more specific tag value. Each tag key must be unique and it can have only one tag value. A tag value acts as a descriptor for a tag key. Tag keys and values are case sensitive. They can contain letters, num- bers, spaces, or the following symbols: _ . : / = + @ - For more information, see Tagging Amazon Security Lake resources in the Amazon Security Lake User Guide . key -&gt; (string) [required] The name of the tag. This is a general label that acts as a category for a more specific tag value (value ). Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value thats associated with the specified tag key (key ). This value acts as a descriptor for the tag key. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

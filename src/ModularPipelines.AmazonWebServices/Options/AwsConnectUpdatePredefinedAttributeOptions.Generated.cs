@@ -36,7 +36,7 @@ public record AwsConnectUpdatePredefinedAttributeOptions : AwsOptions
     /// <summary>
     /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--purposes")]
+    [CliOption("--purposes", GroupValues = true)]
     public IEnumerable<string>? Purposes { get; set; }
 
     /// <summary>

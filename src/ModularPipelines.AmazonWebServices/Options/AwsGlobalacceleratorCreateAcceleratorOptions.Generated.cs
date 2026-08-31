@@ -35,7 +35,7 @@ public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions
     /// <summary>
     /// Optionally, if you've added your own IP address pool to Global Ac- celerator (BYOIP), you can choose an IPv4 address from your own pool to use for the accelerator's static IPv4 address when you create an accelerator. After you bring an address range to Amazon Web Services, it appears in your account as an address pool. When you create an accelerator, you can assign one IPv4 address from your range to it. Global Accel- erator assigns you a second static IPv4 address from an Amazon IP address range. If you bring two IPv4 address ranges to Amazon Web Services, you can assign one IPv4 address from each range to your accelerator. This restriction is because Global Accelerator assigns each address range to a different network zone, for high availabil- ity. You can specify one or two addresses, separated by a space. Do not include the /32 suffix. Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new ad- dresses. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 2 (string) Constraints: o max: 45 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ip-addresses")]
+    [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
 
     [CliFlag("--enabled")]
@@ -51,7 +51,7 @@ public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions
     /// <summary>
     /// Create tags for an accelerator. For more information, see Tagging in Global Accelerator in the Global Accelerator Developer Guide . (structure) A complex type that contains a Tag key and Tag value. Key -&gt; (string) [required] A string that contains a Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] A string that contains a Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

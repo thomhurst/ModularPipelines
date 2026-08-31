@@ -25,13 +25,13 @@ public record AwsRamGetResourceShareInvitationsOptions : AwsOptions
     /// <summary>
     /// Specifies the Amazon Resource Names (ARNs) of the resource share in- vitations you want information about. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-invitation-arns")]
+    [CliOption("--resource-share-invitation-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareInvitationArns { get; set; }
 
     /// <summary>
     /// Specifies that you want details about invitations only for the re- source shares described by this list of Amazon Resource Names (ARNs) (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-share-arns")]
+    [CliOption("--resource-share-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     [CliOption("--cli-input-json")]

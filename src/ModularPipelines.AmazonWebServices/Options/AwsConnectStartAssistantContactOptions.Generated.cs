@@ -41,7 +41,7 @@ public record AwsConnectStartAssistantContactOptions : AwsOptions
     /// <summary>
     /// A map of key-value pairs to associate with the contact. We make these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs for each contact. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>

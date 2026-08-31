@@ -25,13 +25,13 @@ public record AwsGlueCreateScriptOptions : AwsOptions
     /// <summary>
     /// A list of the nodes in the DAG. (structure) Represents a node in a directed acyclic graph (DAG) Id -&gt; (string) [required] A node identifier that is unique within the node's graph. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_]* NodeType -&gt; (string) [required] The type of node that this is. Args -&gt; (list) [required] Properties of the node, in the form of name-value pairs. Constraints: o min: 0 o max: 50 (structure) An argument or property of a node. Name -&gt; (string) [required] The name of the argument or property. Value -&gt; (string) [required] The value of the argument or property. Param -&gt; (boolean) True if the value is used as a parameter. LineNumber -&gt; (integer) The line number of the node. Shorthand Syntax: Id=string,NodeType=string,Args=[{Name=string,Value=string,Param=boolean},{Name=string,Value=string,Param=boolean}],LineNumber=integer ... JSON Syntax: [ { "Id": "string", "NodeType": "string", "Args": [ { "Name": "string", "Value": "string", "Param": true|false } ... ], "LineNumber": integer } ... ]
     /// </summary>
-    [CliOption("--dag-nodes")]
+    [CliOption("--dag-nodes", GroupValues = true)]
     public IEnumerable<string>? DagNodes { get; set; }
 
     /// <summary>
     /// A list of the edges in the DAG. (structure) Represents a directional edge in a directed acyclic graph (DAG). Source -&gt; (string) [required] The ID of the node at which the edge starts. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_]* Target -&gt; (string) [required] The ID of the node at which the edge ends. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_]* TargetParameter -&gt; (string) The target of the edge. Shorthand Syntax: Source=string,Target=string,TargetParameter=string ... JSON Syntax: [ { "Source": "string", "Target": "string", "TargetParameter": "string" } ... ]
     /// </summary>
-    [CliOption("--dag-edges")]
+    [CliOption("--dag-edges", GroupValues = true)]
     public IEnumerable<string>? DagEdges { get; set; }
 
     /// <summary>

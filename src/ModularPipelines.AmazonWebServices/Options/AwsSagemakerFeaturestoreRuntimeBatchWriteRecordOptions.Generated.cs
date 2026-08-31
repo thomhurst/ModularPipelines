@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker-featurestore-runtime", "batch-write-record")]
 public record AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions : AwsOptions
 {
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     /// <summary>

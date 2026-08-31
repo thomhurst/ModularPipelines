@@ -38,7 +38,7 @@ public record AwsEksDescribeClusterVersionsOptions : AwsOptions
     /// <summary>
     /// List of specific cluster versions to describe. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cluster-versions")]
+    [CliOption("--cluster-versions", GroupValues = true)]
     public IEnumerable<string>? ClusterVersions { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsConfigserviceGetDiscoveredResourceCountsOptions : AwsOptions
     /// <summary>
     /// The comma-separated list that specifies the resource types that you want Config to return (for example, "AWS::EC2::Instance" , "AWS::IAM::User" ). If a value for resourceTypes is not specified, Config returns all resource types that Config is recording in the region for your ac- count. NOTE: If the configuration recorder is turned off, Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>

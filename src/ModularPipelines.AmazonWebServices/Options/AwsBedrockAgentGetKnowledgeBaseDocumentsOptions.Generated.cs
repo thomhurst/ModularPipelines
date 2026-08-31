@@ -27,7 +27,7 @@ public record AwsBedrockAgentGetKnowledgeBaseDocumentsOptions : AwsOptions
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CliOption("--document-identifiers")]
+    [CliOption("--document-identifiers", GroupValues = true)]
     public IEnumerable<string>? DocumentIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

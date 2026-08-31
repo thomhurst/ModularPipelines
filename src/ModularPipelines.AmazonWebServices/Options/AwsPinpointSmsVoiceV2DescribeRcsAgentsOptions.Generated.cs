@@ -26,7 +26,7 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentsOptions : AwsOptions
     /// <summary>
     /// An array of unique identifiers for the RCS agents. This is an array of strings that can be either the RcsAgentId or RcsAgentArn. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--rcs-agent-ids")]
+    [CliOption("--rcs-agent-ids", GroupValues = true)]
     public IEnumerable<string>? RcsAgentIds { get; set; }
 
     /// <summary>
@@ -38,7 +38,7 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentsOptions : AwsOptions
     /// <summary>
     /// An array of RcsAgentFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for an RCS agent that meets a specified crite- ria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o status o two-way-enabled o self-managed-opt-outs-enabled o opt-out-list-name o deletion-protection-enabled o two-way-channel-arn Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "status"|"two-way-enabled"|"self-managed-opt-outs-enabled"|"opt-out-list-name"|"deletion-protection-enabled"|"two-way-channel-arn", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

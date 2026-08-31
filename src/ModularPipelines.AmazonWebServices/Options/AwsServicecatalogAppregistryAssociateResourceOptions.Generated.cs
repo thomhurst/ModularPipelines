@@ -33,7 +33,7 @@ public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions
     /// <summary>
     /// Determines whether an application tag is applied or skipped. (string) Possible values: o APPLY_APPLICATION_TAG o SKIP_APPLICATION_TAG Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,7 +37,7 @@ public record AwsConnectCreateHoursOfOperationOverrideOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--config")]
+    [CliOption("--config", GroupValues = true)]
     public IEnumerable<string>? Config { get; set; }
 
     [CliOption("--effective-from")]
@@ -49,7 +49,7 @@ public record AwsConnectCreateHoursOfOperationOverrideOptions : AwsOptions
     /// <summary>
     /// Configuration for a recurring event. RecurrencePattern -&gt; (structure) [required] The recurrence pattern that defines how the event repeats. Exam- ple: Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccur- rence Frequency -&gt; (string) [required] Defines how often the pattern repeats. This is the base unit for the recurrence schedule and works in conjunction with the Interval field to determine the exact repetition sequence. Possible values: o WEEKLY o MONTHLY o YEARLY Interval -&gt; (integer) [required] Specifies the number of frequency units between each occur- rence. Must be a positive integer. Examples: To repeat every week, set Interval=1 with WEEKLY frequency. To repeat every two months, set Interval=2 with MONTHLY frequency. Constraints: o min: 1 o max: 6 ByMonth -&gt; (list) Specifies which month the event should occur in (1-12, where 1=January, 12=December). Used with YEARLY frequency to sched- ule events in specific month. Note: It does not accept multiple values in the same list (integer) Constraints: o min: 1 o max: 12 ByMonthDay -&gt; (list) Specifies which day of the month the event should occur on (1-31). Used with MONTHLY or YEARLY frequency to schedule events on specific date within a month. Examples: [15] for events on the 15th of each month, [-1] for events on the last day of month. Note: It does not accept multiple values in the same list. If a specified day doesn't exist in a particular month (e.g., day 31 in February), the event will be skipped for that month. This field cannot be used simultaneously with ByWeek- dayOccurrence as they represent different scheduling ap- proaches (specific dates vs. relative weekday positions). (integer) Constraints: o min: -1 o max: 31 ByWeekdayOccurrence -&gt; (list) Specifies which occurrence of a weekday within the month the event should occur on. Must be used with MONTHLY or YEARLY frequency. Example: 2 corresponds to second occurrence of the weekday in the month. -1 corresponds to last occurrence of the weekday in the month The weekday itself is specified separately in the HoursOfOp- erationConfig. Example: To schedule the recurring event for the 2nd Thursday of April every year, set ByWeekdayOccur- rence=[2], Day=THURSDAY, ByMonth=[4], Frequency: YEARLY and INTERVAL=1. Constraints: o min: 0 o max: 1 (integer) Constraints: o min: -1 o max: 4 Shorthand Syntax: RecurrencePattern={Frequency=string,Interval=integer,ByMonth=[integer,integer],ByMonthDay=[integer,integer],ByWeekdayOccurrence=[integer,integer]} JSON Syntax: { "RecurrencePattern": { "Frequency": "WEEKLY"|"MONTHLY"|"YEARLY", "Interval": integer, "ByMonth": [integer, ...], "ByMonthDay": [integer, ...], "ByWeekdayOccurrence": [integer, ...] } }
     /// </summary>
-    [CliOption("--recurrence-config")]
+    [CliOption("--recurrence-config", GroupValues = true)]
     public IEnumerable<string>? RecurrenceConfig { get; set; }
 
     /// <summary>

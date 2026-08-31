@@ -27,7 +27,7 @@ public record AwsQconnectNotifyRecommendationsReceivedOptions : AwsOptions
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     [CliOption("--cli-input-json")]

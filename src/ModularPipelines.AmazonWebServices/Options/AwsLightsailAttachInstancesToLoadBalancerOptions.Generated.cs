@@ -24,7 +24,7 @@ public record AwsLightsailAttachInstancesToLoadBalancerOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--instance-names")]
+    [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; set; }
 
     [CliOption("--cli-input-json")]

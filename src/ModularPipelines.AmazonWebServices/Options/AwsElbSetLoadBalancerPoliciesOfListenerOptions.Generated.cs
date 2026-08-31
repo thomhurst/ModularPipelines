@@ -27,7 +27,7 @@ public record AwsElbSetLoadBalancerPoliciesOfListenerOptions : AwsOptions
     [CliOption("--load-balancer-port")]
     public int? LoadBalancerPort { get; set; }
 
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     [CliOption("--cli-input-json")]

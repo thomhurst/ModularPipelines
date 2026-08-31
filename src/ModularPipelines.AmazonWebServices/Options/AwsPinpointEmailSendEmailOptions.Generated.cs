@@ -33,7 +33,7 @@ public record AwsPinpointEmailSendEmailOptions : AwsOptions
     /// <summary>
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses", GroupValues = true)]
     public IEnumerable<string>? ReplyToAddresses { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record AwsPinpointEmailSendEmailOptions : AwsOptions
     /// <summary>
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events. Name -&gt; (string) [required] The name of the message tag. The message tag name has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Value -&gt; (string) [required] The value of the message tag. The message tag value has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--email-tags")]
+    [CliOption("--email-tags", GroupValues = true)]
     public IEnumerable<string>? EmailTags { get; set; }
 
     /// <summary>

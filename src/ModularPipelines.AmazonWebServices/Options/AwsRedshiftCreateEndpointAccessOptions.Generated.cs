@@ -42,7 +42,7 @@ public record AwsRedshiftCreateEndpointAccessOptions : AwsOptions
     /// <summary>
     /// The security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

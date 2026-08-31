@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "create-resource-group")]
 public record AwsInspectorCreateResourceGroupOptions : AwsOptions
 {
-    [CliOption("--resource-group-tags")]
+    [CliOption("--resource-group-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupTags { get; set; }
 
     [CliOption("--cli-input-json")]

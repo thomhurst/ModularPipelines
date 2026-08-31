@@ -31,7 +31,7 @@ public record AwsMigrationhubstrategyStartAssessmentOptions : AwsOptions
     /// <summary>
     /// List of criteria for assessment. Constraints: o min: 0 o max: 10 (structure) Defines the criteria of assessment. condition -&gt; (string) [required] Condition of an assessment. Possible values: o EQUALS o NOT_EQUALS o CONTAINS o NOT_CONTAINS name -&gt; (string) [required] Name of an assessment. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* values -&gt; (list) [required] Values of an assessment. (string) Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: condition=string,name=string,values=string,string ... JSON Syntax: [ { "condition": "EQUALS"|"NOT_EQUALS"|"CONTAINS"|"NOT_CONTAINS", "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--assessment-targets")]
+    [CliOption("--assessment-targets", GroupValues = true)]
     public IEnumerable<string>? AssessmentTargets { get; set; }
 
     /// <summary>

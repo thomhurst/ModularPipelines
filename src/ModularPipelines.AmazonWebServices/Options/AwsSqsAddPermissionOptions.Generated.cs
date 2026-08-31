@@ -27,10 +27,10 @@ public record AwsSqsAddPermissionOptions : AwsOptions
     [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CliOption("--aws-account-ids")]
+    [CliOption("--aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? AwsAccountIds { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--cli-input-json")]

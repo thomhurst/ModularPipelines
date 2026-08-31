@@ -42,7 +42,7 @@ public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions
     /// <summary>
     /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following met- rics: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value , during that period. o SampleCount -- the number of data points matched by the rule. o Sum -- the sum of the values from all contributors during the time period represented by that data point. o Minimum -- the minimum value from a single observation during the time period represented by that data point. o Maximum -- the maximum value from a single observation during the time period represented by that data point. o Average -- the average value from all contributors during the time period represented by that data point. (string) Constraints: o min: 1 o max: 32 o pattern: [\x20-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsConfigserviceListConfigurationRecordersOptions : AwsOptions
     /// <summary>
     /// Filters the results based on a list of ConfigurationRecorderFilter objects that you specify. (structure) Filters configuration recorders by recording scope. filterName -&gt; (string) The name of the type of filter. Currently, only record- ingScope is supported. Possible values: o recordingScope filterValue -&gt; (list) The value of the filter. For recordingScope , valid values include: INTERNAL and PAID . INTERNAL indicates that the ConfigurationItems in scope for the configuration recorder are recorded for free. PAID indicates that the ConfigurationItems in scope for the configuration recorder impact the costs to your bill. (string) Constraints: o pattern: ^[0-9a-zA-Z\\*\\.\\\/\\?-]*$ Shorthand Syntax: filterName=string,filterValue=string,string ... JSON Syntax: [ { "filterName": "recordingScope", "filterValue": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

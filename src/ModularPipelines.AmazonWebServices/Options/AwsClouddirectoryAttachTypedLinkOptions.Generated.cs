@@ -33,7 +33,7 @@ public record AwsClouddirectoryAttachTypedLinkOptions : AwsOptions
     [CliOption("--typed-link-facet")]
     public string? TypedLinkFacet { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

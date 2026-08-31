@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "start-live-tail")]
 public record AwsLogsStartLiveTailOptions : AwsOptions
 {
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
-    [CliOption("--log-stream-names")]
+    [CliOption("--log-stream-names", GroupValues = true)]
     public IEnumerable<string>? LogStreamNames { get; set; }
 
-    [CliOption("--log-stream-name-prefixes")]
+    [CliOption("--log-stream-name-prefixes", GroupValues = true)]
     public IEnumerable<string>? LogStreamNamePrefixes { get; set; }
 
     [CliOption("--log-event-filter-pattern")]

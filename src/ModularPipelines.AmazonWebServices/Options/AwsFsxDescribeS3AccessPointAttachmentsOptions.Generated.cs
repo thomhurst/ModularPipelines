@@ -25,13 +25,13 @@ public record AwsFsxDescribeS3AccessPointAttachmentsOptions : AwsOptions
     /// <summary>
     /// The names of the S3 access point attachments whose descriptions you want to retrieve. Constraints: o max: 50 (string) Constraints: o min: 3 o max: 50 o pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>
     /// Enter a filter Name and Values pair to view a select set of S3 ac- cess point attachments. Constraints: o max: 2 (structure) A set of Name and Values pairs used to view a select set of S3 access point attachments. Name -&gt; (string) The name of the filter. Possible values: o file-system-id o volume-id o type Values -&gt; (list) The values of the filter. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"volume-id"|"type", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

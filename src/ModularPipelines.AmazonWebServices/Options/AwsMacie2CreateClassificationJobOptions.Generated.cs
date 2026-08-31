@@ -27,7 +27,7 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions
     /// <summary>
     /// An array of unique identifiers, one for each allow list for the job to use when it analyzes data. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allow-list-ids")]
+    [CliOption("--allow-list-ids", GroupValues = true)]
     public IEnumerable<string>? AllowListIds { get; set; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions
     /// <summary>
     /// An array of unique identifiers, one for each custom data identifier for the job to use when it analyzes data. To use only managed data identifiers, don't specify a value for this property and specify a value other than NONE for the managedDataIdentifierSelector prop- erty. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--custom-data-identifier-ids")]
+    [CliOption("--custom-data-identifier-ids", GroupValues = true)]
     public IEnumerable<string>? CustomDataIdentifierIds { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions
     /// <summary>
     /// An array of unique identifiers, one for each managed data identifier for the job to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type that you specify for the job (managedDataIdentifierS- elector). To retrieve a list of valid values for this property, use the List- ManagedDataIdentifiers operation. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--managed-data-identifier-ids")]
+    [CliOption("--managed-data-identifier-ids", GroupValues = true)]
     public IEnumerable<string>? ManagedDataIdentifierIds { get; set; }
 
     /// <summary>
@@ -88,7 +88,7 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions
     /// <summary>
     /// A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

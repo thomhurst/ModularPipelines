@@ -30,7 +30,7 @@ public record AwsGlueBatchDeleteTableOptions : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliOption("--tables-to-delete")]
+    [CliOption("--tables-to-delete", GroupValues = true)]
     public IEnumerable<string>? TablesToDelete { get; set; }
 
     /// <summary>

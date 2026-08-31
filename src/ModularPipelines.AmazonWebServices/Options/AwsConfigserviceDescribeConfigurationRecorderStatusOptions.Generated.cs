@@ -24,7 +24,7 @@ public record AwsConfigserviceDescribeConfigurationRecorderStatusOptions : AwsOp
     /// <summary>
     /// The name of the configuration recorder. If the name is not speci- fied, the operation returns the status for the customer managed con- figuration recorder configured for the account, if applicable. NOTE: When making a request to this operation, you can only specify one configuration recorder. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--configuration-recorder-names")]
+    [CliOption("--configuration-recorder-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationRecorderNames { get; set; }
 
     /// <summary>

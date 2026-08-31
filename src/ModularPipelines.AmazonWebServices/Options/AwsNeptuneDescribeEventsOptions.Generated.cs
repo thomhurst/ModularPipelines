@@ -56,13 +56,13 @@ public record AwsNeptuneDescribeEventsOptions : AwsOptions
     /// <summary>
     /// A list of event categories that trigger notifications for a event notification subscription. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     /// <summary>
     /// This parameter is not currently supported. (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

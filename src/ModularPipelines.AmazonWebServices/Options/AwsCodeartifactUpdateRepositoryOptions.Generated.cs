@@ -42,7 +42,7 @@ public record AwsCodeartifactUpdateRepositoryOptions : AwsOptions
     /// <summary>
     /// A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package ver- sion. For more information, see Working with upstream repositories . (structure) Information about an upstream repository. A list of Upstream- Repository objects is an input parameter to CreateRepository and UpdateRepository . repositoryName -&gt; (string) [required] The name of an upstream repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} Shorthand Syntax: repositoryName=string ... JSON Syntax: [ { "repositoryName": "string" } ... ]
     /// </summary>
-    [CliOption("--upstreams")]
+    [CliOption("--upstreams", GroupValues = true)]
     public IEnumerable<string>? Upstreams { get; set; }
 
     [CliOption("--cli-input-json")]

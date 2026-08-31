@@ -33,7 +33,7 @@ public record AwsCodebuildCreateReportGroupOptions : AwsOptions
     /// <summary>
     /// A list of tag key and value pairs associated with this report group. These tags are available for use by Amazon Web Services services that support CodeBuild report group tags. Constraints: o min: 0 o max: 50 (structure) A tag, consisting of a key and a value. This tag is available for use by Amazon Web Services services that support tags in CodeBuild. key -&gt; (string) The tag's key. Constraints: o min: 1 o max: 127 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 255 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

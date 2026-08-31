@@ -27,13 +27,13 @@ public record AwsMemorydbUpdateAclOptions : AwsOptions
     /// <summary>
     /// The list of users to add to the Access Control List. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-names-to-add")]
+    [CliOption("--user-names-to-add", GroupValues = true)]
     public IEnumerable<string>? UserNamesToAdd { get; set; }
 
     /// <summary>
     /// The list of users to remove from the Access Control List. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-names-to-remove")]
+    [CliOption("--user-names-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserNamesToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

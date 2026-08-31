@@ -110,6 +110,7 @@ public static class CliGlobalOptionMerger
                && left.IsRequired == right.IsRequired
                && left.AcceptsMultipleValues == right.AcceptsMultipleValues
                && left.GroupValues == right.GroupValues
+               && left.CollectionSeparator == right.CollectionSeparator
                && left.IsCollection == right.IsCollection
                && left.IsKeyValue == right.IsKeyValue
                && left.IsNumeric == right.IsNumeric

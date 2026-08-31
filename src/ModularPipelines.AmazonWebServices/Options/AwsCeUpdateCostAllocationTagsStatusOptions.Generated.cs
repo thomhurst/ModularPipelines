@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ce", "update-cost-allocation-tags-status")]
 public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions
 {
-    [CliOption("--cost-allocation-tags-status")]
+    [CliOption("--cost-allocation-tags-status", GroupValues = true)]
     public IEnumerable<string>? CostAllocationTagsStatus { get; set; }
 
     [CliOption("--cli-input-json")]

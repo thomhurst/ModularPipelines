@@ -24,7 +24,7 @@ public record AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions : A
     /// <summary>
     /// The list of client devices to associate. Constraints: o min: 1 o max: 100 (structure) Contains a request to associate a client device with a core de- vice. The BatchAssociateClientDeviceWithCoreDevice operation consumes a list of these requests. thingName -&gt; (string) [required] The name of the IoT thing that represents the client device to associate. Constraints: o min: 1 o max: 128 Shorthand Syntax: thingName=string ... JSON Syntax: [ { "thingName": "string" } ... ]
     /// </summary>
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--core-device-thing-name")]

@@ -31,19 +31,19 @@ public record AwsLogsDescribeConfigurationTemplatesOptions : AwsOptions
     /// <summary>
     /// Use this parameter to filter the response to include only the con- figuration templates that apply to the log types that you specify here. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-types")]
+    [CliOption("--log-types", GroupValues = true)]
     public IEnumerable<string>? LogTypes { get; set; }
 
     /// <summary>
     /// Use this parameter to filter the response to include only the con- figuration templates that apply to the resource types that you spec- ify here. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w-_]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
     /// Use this parameter to filter the response to include only the con- figuration templates that apply to the delivery destination types that you specify here. Constraints: o min: 1 o max: 4 (string) Possible values: o S3 o CWL o FH o XRAY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--delivery-destination-types")]
+    [CliOption("--delivery-destination-types", GroupValues = true)]
     public IEnumerable<string>? DeliveryDestinationTypes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,19 +28,19 @@ public record AwsPartnercentralBenefitsListBenefitsOptions : AwsOptions
     /// <summary>
     /// Filter benefits by specific AWS partner programs. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--programs")]
+    [CliOption("--programs", GroupValues = true)]
     public IEnumerable<string>? Programs { get; set; }
 
     /// <summary>
     /// Filter benefits by specific fulfillment types. Constraints: o min: 0 o max: 2 (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fulfillment-types")]
+    [CliOption("--fulfillment-types", GroupValues = true)]
     public IEnumerable<string>? FulfillmentTypes { get; set; }
 
     /// <summary>
     /// Filter benefits by their current status. Constraints: o min: 0 o max: 2 (string) Possible values: o ACTIVE o INACTIVE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliOption("--cli-input-json")]

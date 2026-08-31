@@ -25,13 +25,13 @@ public record AwsEc2DescribeTransitGatewaysOptions : AwsOptions
     /// <summary>
     /// The IDs of the transit gateways. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--transit-gateway-ids")]
+    [CliOption("--transit-gateway-ids", GroupValues = true)]
     public IEnumerable<string>? TransitGatewayIds { get; set; }
 
     /// <summary>
     /// One or more filters. The possible values are: o options.propagation-default-route-table-id - The ID of the default propagation route table. o options.amazon-side-asn - The private ASN for the Amazon side of a BGP session. o options.association-default-route-table-id - The ID of the default association route table. o options.auto-accept-shared-attachments - Indicates whether there is automatic acceptance of attachment requests (enable | disable ). o options.default-route-table-association - Indicates whether re- source attachments are automatically associated with the default association route table (enable | disable ). o options.default-route-table-propagation - Indicates whether re- source attachments automatically propagate routes to the default propagation route table (enable | disable ). o options.dns-support - Indicates whether DNS support is enabled (enable | disable ). o options.vpn-ecmp-support - Indicates whether Equal Cost Multipath Protocol support is enabled (enable | disable ). o owner-id - The ID of the Amazon Web Services account that owns the transit gateway. o state - The state of the transit gateway (available | deleted | deleting | modifying | pending ). o transit-gateway-id - The ID of the transit gateway. o tag-key - The key/value combination of a tag assigned to the re- source. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--dry-run")]

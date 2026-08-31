@@ -42,49 +42,49 @@ public record AwsEc2ModifyVpcEndpointServiceConfigurationOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of Network Load Balancers to add to the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-network-load-balancer-arns")]
+    [CliOption("--add-network-load-balancer-arns", GroupValues = true)]
     public IEnumerable<string>? AddNetworkLoadBalancerArns { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of Network Load Balancers to remove from the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-network-load-balancer-arns")]
+    [CliOption("--remove-network-load-balancer-arns", GroupValues = true)]
     public IEnumerable<string>? RemoveNetworkLoadBalancerArns { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of Gateway Load Balancers to add to the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-gateway-load-balancer-arns")]
+    [CliOption("--add-gateway-load-balancer-arns", GroupValues = true)]
     public IEnumerable<string>? AddGatewayLoadBalancerArns { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of Gateway Load Balancers to remove from the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-gateway-load-balancer-arns")]
+    [CliOption("--remove-gateway-load-balancer-arns", GroupValues = true)]
     public IEnumerable<string>? RemoveGatewayLoadBalancerArns { get; set; }
 
     /// <summary>
     /// The IP address types to add to the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-supported-ip-address-types")]
+    [CliOption("--add-supported-ip-address-types", GroupValues = true)]
     public IEnumerable<string>? AddSupportedIpAddressTypes { get; set; }
 
     /// <summary>
     /// The IP address types to remove from the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-supported-ip-address-types")]
+    [CliOption("--remove-supported-ip-address-types", GroupValues = true)]
     public IEnumerable<string>? RemoveSupportedIpAddressTypes { get; set; }
 
     /// <summary>
     /// The supported Regions to add to the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-supported-regions")]
+    [CliOption("--add-supported-regions", GroupValues = true)]
     public IEnumerable<string>? AddSupportedRegions { get; set; }
 
     /// <summary>
     /// The supported Regions to remove from the service configuration. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-supported-regions")]
+    [CliOption("--remove-supported-regions", GroupValues = true)]
     public IEnumerable<string>? RemoveSupportedRegions { get; set; }
 
     [CliOption("--cli-input-json")]

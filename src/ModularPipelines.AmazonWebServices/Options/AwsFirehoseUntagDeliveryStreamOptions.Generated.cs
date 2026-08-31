@@ -24,7 +24,7 @@ public record AwsFirehoseUntagDeliveryStreamOptions : AwsOptions
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

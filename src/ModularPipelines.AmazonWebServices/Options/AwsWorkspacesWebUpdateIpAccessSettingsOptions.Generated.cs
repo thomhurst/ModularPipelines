@@ -40,7 +40,7 @@ public record AwsWorkspacesWebUpdateIpAccessSettingsOptions : AwsOptions
     /// <summary>
     /// The updated IP rules of the IP access settings. Constraints: o min: 1 o max: 100 (structure) The IP rules of the IP access settings. ipRange -&gt; (string) [required] The IP range of the IP rule. description -&gt; (string) The description of the IP rule. Constraints: o min: 1 o max: 256 o pattern: .+ Shorthand Syntax: ipRange=string,description=string ... JSON Syntax: [ { "ipRange": "string", "description": "string" } ... ]
     /// </summary>
-    [CliOption("--ip-rules")]
+    [CliOption("--ip-rules", GroupValues = true)]
     public IEnumerable<string>? IpRules { get; set; }
 
     /// <summary>

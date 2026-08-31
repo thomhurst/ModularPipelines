@@ -34,7 +34,7 @@ public record AwsIamAcquireRoleOptions : AwsOptions
     /// <summary>
     /// A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replace- ment values for that parameter. Constraints: o max: 30 key -&gt; (string) value -&gt; (structure) Contains the list of replacement values for a single template parameter used when creating a role from a role template. Values -&gt; (list) [required] The list of replacement values for the template parameter. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: KeyName1={Values=[string,string]},KeyName2={Values=[string,string]} JSON Syntax: {"string": { "Values": ["string", ...] } ...}
     /// </summary>
-    [CliOption("--replacement-values")]
+    [CliOption("--replacement-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ReplacementValues { get; set; }
 
     [CliOption("--cli-input-json")]

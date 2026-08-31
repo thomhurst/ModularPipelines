@@ -25,7 +25,7 @@ public record AwsComputeOptimizerAutomationListAutomationEventSummariesOptions :
     /// <summary>
     /// The filters to apply to the list of automation event summaries. (structure) A filter to apply when listing automation events. name -&gt; (string) [required] The name of the filter to apply. Possible values: o AccountId o ResourceType o EventType o EventStatus values -&gt; (list) [required] The values to use for the specified filter. (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\-_\.\*\?\s]+ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "AccountId"|"ResourceType"|"EventType"|"EventStatus", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

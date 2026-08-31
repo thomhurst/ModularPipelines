@@ -24,7 +24,7 @@ public record AwsCurTagResourceOptions : AwsOptions
     [CliOption("--report-name")]
     public string? ReportName { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsShieldUpdateEmergencyContactSettingsOptions : AwsOptions
     /// <summary>
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive cus- tomer support. If you have proactive engagement enabled, the contact list must in- clude at least one phone number. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
     /// </summary>
-    [CliOption("--emergency-contact-list")]
+    [CliOption("--emergency-contact-list", GroupValues = true)]
     public IEnumerable<string>? EmergencyContactList { get; set; }
 
     [CliOption("--cli-input-json")]

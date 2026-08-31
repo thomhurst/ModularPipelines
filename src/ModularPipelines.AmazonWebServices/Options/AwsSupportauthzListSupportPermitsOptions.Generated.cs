@@ -25,7 +25,7 @@ public record AwsSupportauthzListSupportPermitsOptions : AwsOptions
     /// <summary>
     /// Filters the results by support permit status. Valid values: ACTIVE, INACTIVE, DELETING. Constraints: o min: 1 o max: 5 (string) The status of a support permit. Possible values: o ACTIVE o INACTIVE o DELETING Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--support-permit-statuses")]
+    [CliOption("--support-permit-statuses", GroupValues = true)]
     public IEnumerable<string>? SupportPermitStatuses { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -24,7 +24,7 @@ public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions
     [CliOption("--queue-url")]
     public string? QueueUrl { get; set; }
 
-    [CliOption("--entries")]
+    [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
     [CliOption("--cli-input-json")]

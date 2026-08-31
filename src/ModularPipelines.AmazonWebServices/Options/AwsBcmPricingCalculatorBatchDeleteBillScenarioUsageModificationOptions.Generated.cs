@@ -24,7 +24,7 @@ public record AwsBcmPricingCalculatorBatchDeleteBillScenarioUsageModificationOpt
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; set; }
 
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliOption("--cli-input-json")]

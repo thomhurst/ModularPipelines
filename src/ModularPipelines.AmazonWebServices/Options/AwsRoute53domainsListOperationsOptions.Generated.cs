@@ -38,13 +38,13 @@ public record AwsRoute53domainsListOperationsOptions : AwsOptions
     /// <summary>
     /// The status of the operations. Constraints: o max: 5 (string) Possible values: o SUBMITTED o IN_PROGRESS o ERROR o SUCCESSFUL o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
     /// An arrays of the domains operation types. Constraints: o max: 21 (string) Possible values: o REGISTER_DOMAIN o DELETE_DOMAIN o TRANSFER_IN_DOMAIN o UPDATE_DOMAIN_CONTACT o UPDATE_NAMESERVER o CHANGE_PRIVACY_PROTECTION o DOMAIN_LOCK o ENABLE_AUTORENEW o DISABLE_AUTORENEW o ADD_DNSSEC o REMOVE_DNSSEC o EXPIRE_DOMAIN o TRANSFER_OUT_DOMAIN o CHANGE_DOMAIN_OWNER o RENEW_DOMAIN o PUSH_DOMAIN o INTERNAL_TRANSFER_OUT_DOMAIN o INTERNAL_TRANSFER_IN_DOMAIN o RELEASE_TO_GANDI o TRANSFER_ON_RENEW o RESTORE_DOMAIN Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--type")]
+    [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     /// <summary>

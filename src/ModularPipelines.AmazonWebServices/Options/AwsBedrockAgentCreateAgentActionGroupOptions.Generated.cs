@@ -55,7 +55,7 @@ public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions
     /// <summary>
     /// The configuration settings for a computer use action. WARNING: Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools . key -&gt; (string) Constraints: o min: 0 o max: 100 value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--parent-action-group-signature-params")]
+    [CliOption("--parent-action-group-signature-params", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParentActionGroupSignatureParams { get; set; }
 
     /// <summary>

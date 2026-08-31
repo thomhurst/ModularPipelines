@@ -27,7 +27,7 @@ public record AwsConnectAssociateQueueQuickConnectsOptions : AwsOptions
     [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CliOption("--quick-connect-ids")]
+    [CliOption("--quick-connect-ids", GroupValues = true)]
     public IEnumerable<string>? QuickConnectIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -37,7 +37,7 @@ public record AwsLexv2RuntimePutSessionOptions : AwsOptions
     /// <summary>
     /// A list of messages to send to the user. Messages are sent in the or- der that they are defined in the list. Constraints: o max: 10 (structure) Container for text that is returned to the customer.. content -&gt; (string) The text of the message. Constraints: o min: 1 o max: 1024 contentType -&gt; (string) [required] Indicates the type of response. Possible values: o CustomPayload o ImageResponseCard o PlainText o SSML imageResponseCard -&gt; (structure) A card that is shown to the user by a messaging platform. You define the contents of the card, the card is displayed by the platform. When you use a response card, the response from the user is constrained to the text associated with a button on the card. title -&gt; (string) [required] The title to display on the response card. The format of the title is determined by the platform displaying the response card. Constraints: o min: 1 o max: 250 subtitle -&gt; (string) The subtitle to display on the response card. The format of the subtitle is determined by the platform displaying the response card. Constraints: o min: 1 o max: 250 imageUrl -&gt; (string) The URL of an image to display on the response card. The image URL must be publicly available so that the platform displaying the response card has access to the image. Constraints: o min: 1 o max: 250 buttons -&gt; (list) A list of buttons that should be displayed on the re- sponse card. The arrangement of the buttons is determined by the platform that displays the button. Constraints: o min: 0 o max: 5 (structure) A button that appears on a response card show to the user. text -&gt; (string) [required] The text that is displayed on the button. Constraints: o min: 1 o max: 50 value -&gt; (string) [required] The value returned to Amazon Lex V2 when a user chooses the button. Constraints: o min: 1 o max: 50 JSON Syntax: [ { "content": "string", "contentType": "CustomPayload"|"ImageResponseCard"|"PlainText"|"SSML", "imageResponseCard": { "title": "string", "subtitle": "string", "imageUrl": "string", "buttons": [ { "text": "string", "value": "string" } ... ] } } ... ]
     /// </summary>
-    [CliOption("--messages")]
+    [CliOption("--messages", GroupValues = true)]
     public IEnumerable<string>? Messages { get; set; }
 
     [CliOption("--session-state")]
@@ -46,7 +46,7 @@ public record AwsLexv2RuntimePutSessionOptions : AwsOptions
     /// <summary>
     /// Request-specific information passed between Amazon Lex V2 and the client application. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex: . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-attributes")]
+    [CliOption("--request-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
 
     /// <summary>

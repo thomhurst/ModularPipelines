@@ -52,13 +52,13 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
     /// <summary>
     /// The versions of the package to be copied. NOTE: You must specify versions or versionRevisions . You cannot spec- ify both. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>
     /// A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision. NOTE: You must specify versions or versionRevisions . You cannot spec- ify both. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--version-revisions")]
+    [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     [CliFlag("--allow-overwrite")]

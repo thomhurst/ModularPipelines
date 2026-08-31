@@ -31,13 +31,13 @@ public record AwsControltowerEnableControlOptions : AwsOptions
     /// <summary>
     /// Tags to be applied to the EnabledControl resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A list of input parameter values, which are specified to configure the control when you enable it. (structure) A key/value pair, where Key is of type String and Value is of type Document . key -&gt; (string) [required] The key of a key/value pair. value -&gt; (document) [required] The value of a key/value pair. Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

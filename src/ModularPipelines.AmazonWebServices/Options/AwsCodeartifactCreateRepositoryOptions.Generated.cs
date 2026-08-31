@@ -42,13 +42,13 @@ public record AwsCodeartifactCreateRepositoryOptions : AwsOptions
     /// <summary>
     /// A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package ver- sion. For more information, see Working with upstream repositories . (structure) Information about an upstream repository. A list of Upstream- Repository objects is an input parameter to CreateRepository and UpdateRepository . repositoryName -&gt; (string) [required] The name of an upstream repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99} Shorthand Syntax: repositoryName=string ... JSON Syntax: [ { "repositoryName": "string" } ... ]
     /// </summary>
-    [CliOption("--upstreams")]
+    [CliOption("--upstreams", GroupValues = true)]
     public IEnumerable<string>? Upstreams { get; set; }
 
     /// <summary>
     /// One or more tag key-value pairs for the repository. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,19 +28,19 @@ public record AwsEc2DescribeFpgaImagesOptions : AwsOptions
     /// <summary>
     /// The AFI IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fpga-image-ids")]
+    [CliOption("--fpga-image-ids", GroupValues = true)]
     public IEnumerable<string>? FpgaImageIds { get; set; }
 
     /// <summary>
     /// Filters the AFI by owner. Specify an Amazon Web Services account ID, self (owner is the sender of the request), or an Amazon Web Services owner alias (valid values are amazon | aws-marketplace ). (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--owners")]
+    [CliOption("--owners", GroupValues = true)]
     public IEnumerable<string>? Owners { get; set; }
 
     /// <summary>
     /// The filters. o create-time - The creation time of the AFI. o fpga-image-id - The FPGA image identifier (AFI ID). o fpga-image-global-id - The global FPGA image identifier (AGFI ID). o name - The name of the AFI. o owner-id - The Amazon Web Services account ID of the AFI owner. o product-code - The product code. o shell-version - The version of the Amazon Web Services Shell that was used to create the bitstream. o state - The state of the AFI (pending | failed | available | un- available ). o tag :&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. o update-time - The time of the most recent update. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

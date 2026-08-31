@@ -33,7 +33,7 @@ public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions
     /// <summary>
     /// The routing configuration of the state machine alias. An array of RoutingConfig objects that specifies up to two state ma- chine versions that the alias starts executions for. Constraints: o min: 1 o max: 2 (structure) Contains details about the routing configuration of a state ma- chine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version. stateMachineVersionArn -&gt; (string) [required] The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version. Constraints: o min: 1 o max: 256 weight -&gt; (integer) [required] The percentage of traffic you want to route to a state ma- chine version. The sum of the weights in the routing configu- ration must be equal to 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: stateMachineVersionArn=string,weight=integer ... JSON Syntax: [ { "stateMachineVersionArn": "string", "weight": integer } ... ]
     /// </summary>
-    [CliOption("--routing-configuration")]
+    [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]

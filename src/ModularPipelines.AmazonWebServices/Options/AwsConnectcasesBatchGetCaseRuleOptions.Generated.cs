@@ -24,7 +24,7 @@ public record AwsConnectcasesBatchGetCaseRuleOptions : AwsOptions
     [CliOption("--domain-id")]
     public string? DomainId { get; set; }
 
-    [CliOption("--case-rules")]
+    [CliOption("--case-rules", GroupValues = true)]
     public IEnumerable<string>? CaseRules { get; set; }
 
     [CliOption("--cli-input-json")]

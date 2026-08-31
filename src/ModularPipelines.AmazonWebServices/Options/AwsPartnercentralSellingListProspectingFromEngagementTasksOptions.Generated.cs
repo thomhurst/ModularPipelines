@@ -28,13 +28,13 @@ public record AwsPartnercentralSellingListProspectingFromEngagementTasksOptions 
     /// <summary>
     /// Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to spe- cific tasks. If omitted, tasks are not filtered by identifier. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: task-[0-9a-z]{14} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-identifier")]
+    [CliOption("--task-identifier", GroupValues = true)]
     public IEnumerable<string>? TaskIdentifier { get; set; }
 
     /// <summary>
     /// Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--task-name")]
+    [CliOption("--task-name", GroupValues = true)]
     public IEnumerable<string>? TaskName { get; set; }
 
     /// <summary>

@@ -28,7 +28,7 @@ public record AwsInspector2ListFindingAggregationsOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account IDs to retrieve finding aggregation data for. Constraints: o min: 1 o max: 10 (structure) An object that describes the details of a string filter. comparison -&gt; (string) [required] The operator to use when comparing values in the filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value to filter on. Constraints: o min: 1 o max: 1024 Shorthand Syntax: comparison=string,value=string ... JSON Syntax: [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>

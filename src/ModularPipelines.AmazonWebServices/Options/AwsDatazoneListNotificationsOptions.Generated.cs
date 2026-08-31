@@ -44,7 +44,7 @@ public record AwsDatazoneListNotificationsOptions : AwsOptions
     /// <summary>
     /// The subjects of notifications. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subjects")]
+    [CliOption("--subjects", GroupValues = true)]
     public IEnumerable<string>? Subjects { get; set; }
 
     /// <summary>

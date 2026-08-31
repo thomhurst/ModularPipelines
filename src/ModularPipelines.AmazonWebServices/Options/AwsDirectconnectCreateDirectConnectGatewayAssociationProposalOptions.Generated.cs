@@ -33,13 +33,13 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
     /// <summary>
     /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
-    [CliOption("--add-allowed-prefixes-to-direct-connect-gateway")]
+    [CliOption("--add-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? AddAllowedPrefixesToDirectConnectGateway { get; set; }
 
     /// <summary>
     /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-allowed-prefixes-to-direct-connect-gateway")]
+    [CliOption("--remove-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedPrefixesToDirectConnectGateway { get; set; }
 
     [CliOption("--cli-input-json")]

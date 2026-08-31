@@ -24,7 +24,7 @@ public record AwsGuarddutyCreateMembersOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliOption("--account-details")]
+    [CliOption("--account-details", GroupValues = true)]
     public IEnumerable<string>? AccountDetails { get; set; }
 
     [CliOption("--cli-input-json")]

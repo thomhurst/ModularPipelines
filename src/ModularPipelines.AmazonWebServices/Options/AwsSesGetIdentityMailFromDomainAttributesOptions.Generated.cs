@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ses", "get-identity-mail-from-domain-attributes")]
 public record AwsSesGetIdentityMailFromDomainAttributesOptions : AwsOptions
 {
-    [CliOption("--identities")]
+    [CliOption("--identities", GroupValues = true)]
     public IEnumerable<string>? Identities { get; set; }
 
     [CliOption("--cli-input-json")]

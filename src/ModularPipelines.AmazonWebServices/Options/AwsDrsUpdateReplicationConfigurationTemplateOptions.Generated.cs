@@ -44,7 +44,7 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     /// <summary>
     /// The security group IDs that will be used by the replication server. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-servers-security-groups-ids")]
+    [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
@@ -92,13 +92,13 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     /// <summary>
     /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--staging-area-tags")]
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     /// <summary>
     /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: o min: 3 o max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: o min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: o MINUTE o HOUR o DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: o min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: o min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
     /// </summary>
-    [CliOption("--pit-policy")]
+    [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
     [CliFlag("--auto-replicate-new-disks")]

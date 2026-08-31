@@ -28,7 +28,7 @@ public record AwsNetworkmanagerGetCustomerGatewayAssociationsOptions : AwsOption
     /// <summary>
     /// One or more customer gateway Amazon Resource Names (ARNs). The maxi- mum is 10. (string) Constraints: o min: 0 o max: 500 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--customer-gateway-arns")]
+    [CliOption("--customer-gateway-arns", GroupValues = true)]
     public IEnumerable<string>? CustomerGatewayArns { get; set; }
 
     [CliOption("--cli-input-json")]

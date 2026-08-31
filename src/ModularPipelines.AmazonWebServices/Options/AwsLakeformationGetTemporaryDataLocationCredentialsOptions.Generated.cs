@@ -38,7 +38,7 @@ public record AwsLakeformationGetTemporaryDataLocationCredentialsOptions : AwsOp
     /// <summary>
     /// The Amazon S3 data location that you want to access. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--data-locations")]
+    [CliOption("--data-locations", GroupValues = true)]
     public IEnumerable<string>? DataLocations { get; set; }
 
     /// <summary>

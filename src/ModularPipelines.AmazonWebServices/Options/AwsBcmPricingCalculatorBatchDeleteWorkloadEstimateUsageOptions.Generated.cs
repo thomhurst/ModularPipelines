@@ -24,7 +24,7 @@ public record AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions : A
     [CliOption("--workload-estimate-id")]
     public string? WorkloadEstimateId { get; set; }
 
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     [CliOption("--cli-input-json")]

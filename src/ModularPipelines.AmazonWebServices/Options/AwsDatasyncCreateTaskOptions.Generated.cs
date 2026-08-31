@@ -49,7 +49,7 @@ public record AwsDatasyncCreateTaskOptions : AwsOptions
     /// <summary>
     /// Specifies exclude filters that define the files, objects, and fold- ers in your source location that you don't want DataSync to trans- fer. For more information and examples, see Specifying what DataSync transfers by using filters . Constraints: o min: 0 o max: 1 (structure) Specifies which files, folders, and objects to include or ex- clude when transferring files from source to destination. FilterType -&gt; (string) The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN rule type. Possible values: o SIMPLE_PATTERN Constraints: o max: 128 o pattern: ^[A-Z0-9_]+$ Value -&gt; (string) A single filter string that consists of the patterns to in- clude or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2 Constraints: o max: 102400 o pattern: ^[^\x00]+$ Shorthand Syntax: FilterType=string,Value=string ... JSON Syntax: [ { "FilterType": "SIMPLE_PATTERN", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--excludes")]
+    [CliOption("--excludes", GroupValues = true)]
     public IEnumerable<string>? Excludes { get; set; }
 
     /// <summary>
@@ -61,13 +61,13 @@ public record AwsDatasyncCreateTaskOptions : AwsOptions
     /// <summary>
     /// Specifies the tags that you want to apply to your task. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Specifies include filters that define the files, objects, and fold- ers in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync trans- fers by using filters . Constraints: o min: 0 o max: 1 (structure) Specifies which files, folders, and objects to include or ex- clude when transferring files from source to destination. FilterType -&gt; (string) The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN rule type. Possible values: o SIMPLE_PATTERN Constraints: o max: 128 o pattern: ^[A-Z0-9_]+$ Value -&gt; (string) A single filter string that consists of the patterns to in- clude or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2 Constraints: o max: 102400 o pattern: ^[^\x00]+$ Shorthand Syntax: FilterType=string,Value=string ... JSON Syntax: [ { "FilterType": "SIMPLE_PATTERN", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--includes")]
+    [CliOption("--includes", GroupValues = true)]
     public IEnumerable<string>? Includes { get; set; }
 
     /// <summary>

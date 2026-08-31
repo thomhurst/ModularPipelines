@@ -28,7 +28,7 @@ public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions
     [CliOption("--data-table-id")]
     public string? DataTableId { get; set; }
 
-    [CliOption("--values")]
+    [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>

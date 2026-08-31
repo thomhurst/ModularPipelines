@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetEbsVolumeRecommendationsOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) of the volumes for which to return recommendations. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--volume-arns")]
+    [CliOption("--volume-arns", GroupValues = true)]
     public IEnumerable<string>? VolumeArns { get; set; }
 
     /// <summary>
@@ -44,13 +44,13 @@ public record AwsComputeOptimizerGetEbsVolumeRecommendationsOptions : AwsOptions
     /// <summary>
     /// An array of objects to specify a filter that returns a more specific list of volume recommendations. (structure) Describes a filter that returns a more specific list of Amazon Elastic Block Store (Amazon EBS) volume recommendations. Use this filter with the GetEBSVolumeRecommendations action. You can use LambdaFunctionRecommendationFilter with the Get- LambdaFunctionRecommendations action, JobFilter with the De- scribeRecommendationExportJobs action, and Filter with the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommen- dations actions. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized ). You can filter your Amazon EBS volume recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon EBS volume recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon EBS volume recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the fil- ter value. A tag-key is the key of a tag assigned to your Amazon EBS volume recommendations. Use this filter to find all of your Amazon EBS volume recommendations that have a tag with a spe- cific key. This doesnt consider the tag value. For example, you can find your Amazon EBS volume recommendations with a tag key value of Owner or without any tag keys assigned. Possible values: o Finding values -&gt; (list) The value of the filter. The valid values are Optimized , or NotOptimized . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The ID of the Amazon Web Services account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

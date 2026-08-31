@@ -40,7 +40,7 @@ public record AwsGeoPlacesSuggestOptions : AwsOptions
     /// <summary>
     /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. NOTE: The fields BiasPosition , FilterBoundingBox , and FilterCircle are mutually exclusive. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
     /// </summary>
-    [CliOption("--bias-position")]
+    [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsGeoPlacesSuggestOptions : AwsOptions
     /// <summary>
     /// A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the Core and TimeZone values. Constraints: o min: 1 o max: 5 (string) Possible values: o Core o TimeZone o Phonemes o Access o CrossReferences Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-features")]
+    [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>

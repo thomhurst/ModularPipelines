@@ -25,7 +25,7 @@ public record AwsForecastListExplainabilitiesOptions : AwsOptions
     /// <summary>
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT , which speci- fies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties o Condition - The condition to apply. Valid values are IS and IS_NOT . o Key - The name of the parameter to filter on. Valid values are Re- sourceArn and Status . o Value - The value to match. (structure) Describes a filter for choosing a subset of objects. Each filter consists of a condition and a match statement. The condition is either IS or IS_NOT , which specifies whether to include or ex- clude the objects that match the statement, respectively. The match statement consists of a key and a value. Key -&gt; (string) [required] The name of the parameter to filter on. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_]+$ Value -&gt; (string) [required] The value to match. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Condition -&gt; (string) [required] The condition to apply. To include the objects that match the statement, specify IS . To exclude matching objects, specify IS_NOT . Possible values: o IS o IS_NOT Shorthand Syntax: Key=string,Value=string,Condition=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Condition": "IS"|"IS_NOT" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

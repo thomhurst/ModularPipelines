@@ -25,7 +25,7 @@ public record AwsComputeOptimizerGetRecommendationSummariesOptions : AwsOptions
     /// <summary>
     /// The ID of the Amazon Web Services account for which to return recom- mendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     [CliOption("--cli-input-json")]

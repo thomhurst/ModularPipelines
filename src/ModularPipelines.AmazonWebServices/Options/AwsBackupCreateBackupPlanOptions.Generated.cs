@@ -28,7 +28,7 @@ public record AwsBackupCreateBackupPlanOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the backup plan. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--backup-plan-tags")]
+    [CliOption("--backup-plan-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BackupPlanTags { get; set; }
 
     /// <summary>

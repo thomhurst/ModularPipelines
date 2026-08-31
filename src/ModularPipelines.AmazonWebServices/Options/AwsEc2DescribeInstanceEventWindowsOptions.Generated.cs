@@ -28,13 +28,13 @@ public record AwsEc2DescribeInstanceEventWindowsOptions : AwsOptions
     /// <summary>
     /// The IDs of the event windows. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-event-window-ids")]
+    [CliOption("--instance-event-window-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceEventWindowIds { get; set; }
 
     /// <summary>
     /// One or more filters. o dedicated-host-id - The event windows associated with the speci- fied Dedicated Host ID. o event-window-name - The event windows associated with the speci- fied names. o instance-id - The event windows associated with the specified in- stance ID. o instance-tag - The event windows associated with the specified tag and value. o instance-tag-key - The event windows associated with the specified tag key, regardless of the value. o instance-tag-value - The event windows associated with the speci- fied tag value, regardless of the key. o tag:&lt;key&gt; - The key/value combination of a tag assigned to the event window. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value CMX , specify tag:Owner for the filter name and CMX for the filter value. o tag-key - The key of a tag assigned to the event window. Use this filter to find all event windows that have a tag with a specific key, regardless of the tag value. o tag-value - The value of a tag assigned to the event window. Use this filter to find all event windows that have a tag with a spe- cific value, regardless of the tag key. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

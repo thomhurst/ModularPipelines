@@ -24,7 +24,7 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     [CliOption("--status")]
@@ -42,7 +42,7 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliOption("--reason-codes")]
+    [CliOption("--reason-codes", GroupValues = true)]
     public IEnumerable<string>? ReasonCodes { get; set; }
 
     /// <summary>

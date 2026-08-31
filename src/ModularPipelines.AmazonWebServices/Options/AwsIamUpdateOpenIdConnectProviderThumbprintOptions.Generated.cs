@@ -24,7 +24,7 @@ public record AwsIamUpdateOpenIdConnectProviderThumbprintOptions : AwsOptions
     [CliOption("--open-id-connect-provider-arn")]
     public string? OpenIdConnectProviderArn { get; set; }
 
-    [CliOption("--thumbprint-list")]
+    [CliOption("--thumbprint-list", GroupValues = true)]
     public IEnumerable<string>? ThumbprintList { get; set; }
 
     [CliOption("--cli-input-json")]

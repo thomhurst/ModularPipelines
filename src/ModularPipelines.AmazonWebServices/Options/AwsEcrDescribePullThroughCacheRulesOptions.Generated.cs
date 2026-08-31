@@ -31,7 +31,7 @@ public record AwsEcrDescribePullThroughCacheRulesOptions : AwsOptions
     /// <summary>
     /// The Amazon ECR repository prefixes associated with the pull through cache rules to return. If no repository prefix value is specified, all pull through cache rules are returned. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ecr-repository-prefixes")]
+    [CliOption("--ecr-repository-prefixes", GroupValues = true)]
     public IEnumerable<string>? EcrRepositoryPrefixes { get; set; }
 
     [CliOption("--cli-input-json")]

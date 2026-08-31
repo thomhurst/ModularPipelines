@@ -31,13 +31,13 @@ public record AwsObservabilityadminListTelemetryRulesForOrganizationOptions : Aw
     /// <summary>
     /// The list of account IDs to filter organization telemetry rules by their source accounts. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--source-account-ids")]
+    [CliOption("--source-account-ids", GroupValues = true)]
     public IEnumerable<string>? SourceAccountIds { get; set; }
 
     /// <summary>
     /// The list of organizational unit IDs to filter organization telemetry rules by their source organizational units. Constraints: o min: 1 (string) Constraints: o pattern: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--source-organization-unit-ids")]
+    [CliOption("--source-organization-unit-ids", GroupValues = true)]
     public IEnumerable<string>? SourceOrganizationUnitIds { get; set; }
 
     [CliOption("--cli-input-json")]

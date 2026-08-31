@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector2", "batch-associate-code-security-scan-configuration")]
 public record AwsInspector2BatchAssociateCodeSecurityScanConfigurationOptions : AwsOptions
 {
-    [CliOption("--associate-configuration-requests")]
+    [CliOption("--associate-configuration-requests", GroupValues = true)]
     public IEnumerable<string>? AssociateConfigurationRequests { get; set; }
 
     [CliOption("--cli-input-json")]

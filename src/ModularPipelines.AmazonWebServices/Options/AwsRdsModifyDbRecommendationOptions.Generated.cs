@@ -40,7 +40,7 @@ public record AwsRdsModifyDbRecommendationOptions : AwsOptions
     /// <summary>
     /// The list of recommended action status to update. You can update mul- tiple recommended actions at one time. (structure) The recommended status to update for the specified recommenda- tion action ID. ActionId -&gt; (string) [required] A unique identifier of the updated recommendation action. Status -&gt; (string) [required] The status of the updated recommendation action. o applied o scheduled Shorthand Syntax: ActionId=string,Status=string ... JSON Syntax: [ { "ActionId": "string", "Status": "string" } ... ]
     /// </summary>
-    [CliOption("--recommended-action-updates")]
+    [CliOption("--recommended-action-updates", GroupValues = true)]
     public IEnumerable<string>? RecommendedActionUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

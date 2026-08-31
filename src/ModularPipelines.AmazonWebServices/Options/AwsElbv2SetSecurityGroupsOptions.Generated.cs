@@ -25,7 +25,7 @@ public record AwsElbv2SetSecurityGroupsOptions : AwsOptions
     [CliOption("--load-balancer-arn")]
     public string? LoadBalancerArn { get; set; }
 
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>

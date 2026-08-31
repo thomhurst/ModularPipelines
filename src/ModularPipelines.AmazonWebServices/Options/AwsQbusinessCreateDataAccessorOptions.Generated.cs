@@ -28,7 +28,7 @@ public record AwsQbusinessCreateDataAccessorOptions : AwsOptions
     [CliOption("--principal")]
     public string? Principal { get; set; }
 
-    [CliOption("--action-configurations")]
+    [CliOption("--action-configurations", GroupValues = true)]
     public IEnumerable<string>? ActionConfigurations { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsQbusinessCreateDataAccessorOptions : AwsOptions
     /// <summary>
     /// The tags to associate with the data accessor. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

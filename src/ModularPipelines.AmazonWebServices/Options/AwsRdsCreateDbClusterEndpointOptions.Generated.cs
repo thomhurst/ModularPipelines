@@ -33,19 +33,19 @@ public record AwsRdsCreateDbClusterEndpointOptions : AwsOptions
     /// <summary>
     /// List of DB instance identifiers that are part of the custom endpoint group. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--static-members")]
+    [CliOption("--static-members", GroupValues = true)]
     public IEnumerable<string>? StaticMembers { get; set; }
 
     /// <summary>
     /// List of DB instance identifiers that aren't part of the custom end- point group. All other eligible instances are reachable through the custom endpoint. This parameter is relevant only if the list of sta- tic members is empty. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--excluded-members")]
+    [CliOption("--excluded-members", GroupValues = true)]
     public IEnumerable<string>? ExcludedMembers { get; set; }
 
     /// <summary>
     /// The tags to be assigned to the Amazon RDS resource. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -40,7 +40,7 @@ public record AwsSsmContactsCreateContactOptions : AwsOptions
     /// <summary>
     /// Adds a tag to the target. You can only tag resources created in the first Region of your replication set. Constraints: o min: 0 o max: 50 (structure) A container of a key-value name pair. Key -&gt; (string) Name of the object key. Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Value -&gt; (string) Value of the tag. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

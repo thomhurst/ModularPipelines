@@ -31,7 +31,7 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions
     /// <summary>
     /// List of configuration IDs to test for one-hop-away. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--neighbor-configuration-ids")]
+    [CliOption("--neighbor-configuration-ids", GroupValues = true)]
     public IEnumerable<string>? NeighborConfigurationIds { get; set; }
 
     /// <summary>

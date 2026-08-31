@@ -36,7 +36,7 @@ public record AwsQuicksightGenerateEmbedUrlForRegisteredUserWithIdentityOptions 
     /// <summary>
     /// A list of domains to be allowed to generate the embed URL. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-domains")]
+    [CliOption("--allowed-domains", GroupValues = true)]
     public IEnumerable<string>? AllowedDomains { get; set; }
 
     [CliOption("--cli-input-json")]

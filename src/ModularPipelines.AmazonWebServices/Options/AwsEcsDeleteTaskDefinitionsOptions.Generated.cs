@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "delete-task-definitions")]
 public record AwsEcsDeleteTaskDefinitionsOptions : AwsOptions
 {
-    [CliOption("--task-definitions")]
+    [CliOption("--task-definitions", GroupValues = true)]
     public IEnumerable<string>? TaskDefinitions { get; set; }
 
     [CliOption("--cli-input-json")]

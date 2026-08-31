@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-get-threats")]
 public record AwsSecurityagentBatchGetThreatsOptions : AwsOptions
 {
-    [CliOption("--threat-ids")]
+    [CliOption("--threat-ids", GroupValues = true)]
     public IEnumerable<string>? ThreatIds { get; set; }
 
     [CliOption("--agent-space-id")]

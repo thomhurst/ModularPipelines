@@ -24,7 +24,7 @@ public record AwsMediaconnectAddFlowMediaStreamsOptions : AwsOptions
     [CliOption("--flow-arn")]
     public string? FlowArn { get; set; }
 
-    [CliOption("--media-streams")]
+    [CliOption("--media-streams", GroupValues = true)]
     public IEnumerable<string>? MediaStreams { get; set; }
 
     [CliOption("--cli-input-json")]

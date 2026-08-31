@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("appstream", "batch-disassociate-user-stack")]
 public record AwsAppstreamBatchDisassociateUserStackOptions : AwsOptions
 {
-    [CliOption("--user-stack-associations")]
+    [CliOption("--user-stack-associations", GroupValues = true)]
     public IEnumerable<string>? UserStackAssociations { get; set; }
 
     [CliOption("--cli-input-json")]

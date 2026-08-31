@@ -28,7 +28,7 @@ public record AwsCloudformationImportStacksToStackSetOptions : AwsOptions
     /// <summary>
     /// The IDs of the stacks you are importing into a StackSet. You import up to 10 stacks per StackSet at a time. Specify either StackIds or StackIdsUrl . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--stack-ids")]
+    [CliOption("--stack-ids", GroupValues = true)]
     public IEnumerable<string>? StackIds { get; set; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public record AwsCloudformationImportStacksToStackSetOptions : AwsOptions
     /// <summary>
     /// The list of OU ID's to which the imported stacks must be mapped as deployment targets. (string) Constraints: o pattern: ^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organizational-unit-ids")]
+    [CliOption("--organizational-unit-ids", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitIds { get; set; }
 
     /// <summary>

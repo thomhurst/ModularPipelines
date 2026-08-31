@@ -42,13 +42,13 @@ public record AwsCustomerProfilesSearchProfilesOptions : AwsOptions
     [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CliOption("--values")]
+    [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
     /// A list of AdditionalSearchKey objects that are each searchable iden- tifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required Key- Name and Values parameters to search for profiles that satisfy the search criteria. Constraints: o min: 1 o max: 4 (structure) A data type pair that consists of a KeyName and Values list that is used in conjunction with the KeyName and Values parameters to search for profiles using the SearchProfiles API. KeyName -&gt; (string) [required] A searchable identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName=string,Values=string,string ... JSON Syntax: [ { "KeyName": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--additional-search-keys")]
+    [CliOption("--additional-search-keys", GroupValues = true)]
     public IEnumerable<string>? AdditionalSearchKeys { get; set; }
 
     /// <summary>

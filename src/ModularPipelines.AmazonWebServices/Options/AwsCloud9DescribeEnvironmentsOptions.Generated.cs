@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloud9", "describe-environments")]
 public record AwsCloud9DescribeEnvironmentsOptions : AwsOptions
 {
-    [CliOption("--environment-ids")]
+    [CliOption("--environment-ids", GroupValues = true)]
     public IEnumerable<string>? EnvironmentIds { get; set; }
 
     [CliOption("--cli-input-json")]

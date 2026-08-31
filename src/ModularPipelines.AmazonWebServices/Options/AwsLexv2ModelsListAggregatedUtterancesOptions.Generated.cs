@@ -52,7 +52,7 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions
     /// <summary>
     /// Provides the specification of a filter used to limit the utterances in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters responses returned by the ListAggregatedUtterances oper- ation. name -&gt; (string) [required] The name of the field to filter the utterance list. Possible values: o Utterance values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListAggregatedUtterances operation should return only utter- ances that equal the specified value. Specify CO when the ListAggregatedUtterances operation should return utterances that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "Utterance", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -31,7 +31,7 @@ public record AwsElasticbeanstalkDescribeApplicationVersionsOptions : AwsOptions
     /// <summary>
     /// Specify a version label to show a specific application version. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--version-labels")]
+    [CliOption("--version-labels", GroupValues = true)]
     public IEnumerable<string>? VersionLabels { get; set; }
 
     [CliOption("--cli-input-json")]

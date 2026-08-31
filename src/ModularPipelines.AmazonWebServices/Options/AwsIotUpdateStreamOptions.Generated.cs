@@ -33,7 +33,7 @@ public record AwsIotUpdateStreamOptions : AwsOptions
     /// <summary>
     /// The files associated with the stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
     /// </summary>
-    [CliOption("--files")]
+    [CliOption("--files", GroupValues = true)]
     public IEnumerable<string>? Files { get; set; }
 
     /// <summary>

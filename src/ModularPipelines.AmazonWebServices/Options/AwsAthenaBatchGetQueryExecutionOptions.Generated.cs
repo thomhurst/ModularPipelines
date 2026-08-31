@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("athena", "batch-get-query-execution")]
 public record AwsAthenaBatchGetQueryExecutionOptions : AwsOptions
 {
-    [CliOption("--query-execution-ids")]
+    [CliOption("--query-execution-ids", GroupValues = true)]
     public IEnumerable<string>? QueryExecutionIds { get; set; }
 
     [CliOption("--cli-input-json")]

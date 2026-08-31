@@ -38,13 +38,13 @@ public record AwsOdbCreateOdbPeeringConnectionOptions : AwsOptions
     /// <summary>
     /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peer-network-cidrs-to-be-added")]
+    [CliOption("--peer-network-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeAdded { get; set; }
 
     /// <summary>
     /// The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: rtb-[a-z0-9]{8,17} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--peer-network-route-table-ids")]
+    [CliOption("--peer-network-route-table-ids", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkRouteTableIds { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record AwsOdbCreateOdbPeeringConnectionOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the ODB peering connection. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

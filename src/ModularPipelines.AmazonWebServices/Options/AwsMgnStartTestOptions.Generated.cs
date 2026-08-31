@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mgn", "start-test")]
 public record AwsMgnStartTestOptions : AwsOptions
 {
-    [CliOption("--source-server-ids")]
+    [CliOption("--source-server-ids", GroupValues = true)]
     public IEnumerable<string>? SourceServerIds { get; set; }
 
     /// <summary>
     /// Start Test by Tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

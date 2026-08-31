@@ -30,13 +30,13 @@ public record AwsIotUpdateThingGroupsForThingOptions : AwsOptions
     /// <summary>
     /// The groups to which the thing will be added. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--thing-groups-to-add")]
+    [CliOption("--thing-groups-to-add", GroupValues = true)]
     public IEnumerable<string>? ThingGroupsToAdd { get; set; }
 
     /// <summary>
     /// The groups from which the thing will be removed. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--thing-groups-to-remove")]
+    [CliOption("--thing-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? ThingGroupsToRemove { get; set; }
 
     [CliFlag("--override-dynamic-groups")]

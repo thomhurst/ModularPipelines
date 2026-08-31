@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeConfigRulesOptions : AwsOptions
     /// <summary>
     /// The names of the Config rules for which you want details. If you do not specify any names, Config returns details for all your rules. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--config-rule-names")]
+    [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     /// <summary>

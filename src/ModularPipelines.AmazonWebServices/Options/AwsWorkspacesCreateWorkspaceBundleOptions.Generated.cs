@@ -45,7 +45,7 @@ public record AwsWorkspacesCreateWorkspaceBundleOptions : AwsOptions
     /// <summary>
     /// The tags associated with the bundle. NOTE: To add tags at the same time when you're creating the bundle, you must create an IAM policy that grants your IAM user permis- sions to use workspaces:CreateTags . (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

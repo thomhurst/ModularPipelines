@@ -24,7 +24,7 @@ public record AwsRedshiftRegisterNamespaceOptions : AwsOptions
     [CliOption("--namespace-identifier")]
     public string? NamespaceIdentifier { get; set; }
 
-    [CliOption("--consumer-identifiers")]
+    [CliOption("--consumer-identifiers", GroupValues = true)]
     public IEnumerable<string>? ConsumerIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

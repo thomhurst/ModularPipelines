@@ -31,13 +31,13 @@ public record AwsElasticacheDescribeUpdateActionsOptions : AwsOptions
     /// <summary>
     /// The replication group IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--replication-group-ids")]
+    [CliOption("--replication-group-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationGroupIds { get; set; }
 
     /// <summary>
     /// The cache cluster IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cache-cluster-ids")]
+    [CliOption("--cache-cluster-ids", GroupValues = true)]
     public IEnumerable<string>? CacheClusterIds { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record AwsElasticacheDescribeUpdateActionsOptions : AwsOptions
     /// <summary>
     /// The status of the service update Constraints: o max: 3 (string) Possible values: o available o cancelled o expired Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-update-status")]
+    [CliOption("--service-update-status", GroupValues = true)]
     public IEnumerable<string>? ServiceUpdateStatus { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record AwsElasticacheDescribeUpdateActionsOptions : AwsOptions
     /// <summary>
     /// The status of the update action. Constraints: o max: 9 (string) Possible values: o not-applied o waiting-to-start o in-progress o stopping o stopped o complete o scheduling o scheduled o not-applicable Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--update-action-status")]
+    [CliOption("--update-action-status", GroupValues = true)]
     public IEnumerable<string>? UpdateActionStatus { get; set; }
 
     [CliFlag("--show-node-level-update-status")]

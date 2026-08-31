@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cleanrooms", "create-collaboration")]
 public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
 {
-    [CliOption("--members")]
+    [CliOption("--members", GroupValues = true)]
     public IEnumerable<string>? Members { get; set; }
 
     [CliOption("--name")]
@@ -35,7 +35,7 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--creator-member-abilities")]
+    [CliOption("--creator-member-abilities", GroupValues = true)]
     public IEnumerable<string>? CreatorMemberAbilities { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -83,13 +83,13 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     /// <summary>
     /// The types of change requests that are automatically approved for this collaboration. (string) Possible values: o ADD_MEMBER o GRANT_RECEIVE_RESULTS_ABILITY o REVOKE_RECEIVE_RESULTS_ABILITY o GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY o REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--auto-approved-change-request-types")]
+    [CliOption("--auto-approved-change-request-types", GroupValues = true)]
     public IEnumerable<string>? AutoApprovedChangeRequestTypes { get; set; }
 
     /// <summary>
     /// The Amazon Web Services Regions where collaboration query results can be stored. When specified, results can only be written to these Regions. This parameter enables you to meet your compliance and data governance requirements, and implement regional data governance policies. (string) Possible values: o us-west-1 o us-west-2 o us-east-1 o us-east-2 o af-south-1 o ap-east-1 o ap-east-2 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-southeast-5 o ap-southeast-4 o ap-southeast-7 o ap-south-1 o ap-northeast-3 o ap-northeast-1 o ap-northeast-2 o ca-central-1 o ca-west-1 o eu-south-1 o eu-west-3 o eu-south-2 o eu-central-2 o eu-central-1 o eu-north-1 o eu-west-1 o eu-west-2 o me-south-1 o me-central-1 o il-central-1 o sa-east-1 o mx-central-1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-result-regions")]
+    [CliOption("--allowed-result-regions", GroupValues = true)]
     public IEnumerable<string>? AllowedResultRegions { get; set; }
 
     [CliFlag("--is-metrics-enabled")]

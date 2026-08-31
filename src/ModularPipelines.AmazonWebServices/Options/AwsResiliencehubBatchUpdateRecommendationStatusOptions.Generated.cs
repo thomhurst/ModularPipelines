@@ -24,7 +24,7 @@ public record AwsResiliencehubBatchUpdateRecommendationStatusOptions : AwsOption
     [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CliOption("--request-entries")]
+    [CliOption("--request-entries", GroupValues = true)]
     public IEnumerable<string>? RequestEntries { get; set; }
 
     [CliOption("--cli-input-json")]

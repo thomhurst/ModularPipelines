@@ -35,7 +35,7 @@ public record AwsRtbfabricUpdateLinkModuleFlowOptions : AwsOptions
     [CliOption("--link-id")]
     public string? LinkId { get; set; }
 
-    [CliOption("--modules")]
+    [CliOption("--modules", GroupValues = true)]
     public IEnumerable<string>? Modules { get; set; }
 
     [CliOption("--cli-input-json")]

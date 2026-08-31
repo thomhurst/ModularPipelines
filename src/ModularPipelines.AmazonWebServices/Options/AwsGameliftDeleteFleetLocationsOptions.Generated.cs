@@ -24,7 +24,7 @@ public record AwsGameliftDeleteFleetLocationsOptions : AwsOptions
     [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
-    [CliOption("--locations")]
+    [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     [CliOption("--cli-input-json")]

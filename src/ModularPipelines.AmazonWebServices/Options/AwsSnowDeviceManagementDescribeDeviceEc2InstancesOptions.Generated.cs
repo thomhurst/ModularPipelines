@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("snow-device-management", "describe-device-ec2-instances")]
 public record AwsSnowDeviceManagementDescribeDeviceEc2InstancesOptions : AwsOptions
 {
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--managed-device-id")]

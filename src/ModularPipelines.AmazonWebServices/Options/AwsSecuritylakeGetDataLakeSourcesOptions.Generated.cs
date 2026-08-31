@@ -25,7 +25,7 @@ public record AwsSecuritylakeGetDataLakeSourcesOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account ID for which a static snapshot of the current Amazon Web Services Region, including enabled accounts and log sources, is retrieved. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--accounts")]
+    [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     [CliOption("--cli-input-json")]

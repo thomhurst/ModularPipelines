@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "remove-attributes-from-findings")]
 public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-arns")]
+    [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; set; }
 
-    [CliOption("--attribute-keys")]
+    [CliOption("--attribute-keys", GroupValues = true)]
     public IEnumerable<string>? AttributeKeys { get; set; }
 
     [CliOption("--cli-input-json")]

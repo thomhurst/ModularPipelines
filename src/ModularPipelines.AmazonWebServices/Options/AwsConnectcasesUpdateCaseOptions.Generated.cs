@@ -27,7 +27,7 @@ public record AwsConnectcasesUpdateCaseOptions : AwsOptions
     [CliOption("--case-id")]
     public string? CaseId { get; set; }
 
-    [CliOption("--fields")]
+    [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

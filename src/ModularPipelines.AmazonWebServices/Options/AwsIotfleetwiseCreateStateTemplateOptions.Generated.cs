@@ -33,25 +33,25 @@ public record AwsIotfleetwiseCreateStateTemplateOptions : AwsOptions
     [CliOption("--signal-catalog-arn")]
     public string? SignalCatalogArn { get; set; }
 
-    [CliOption("--state-template-properties")]
+    [CliOption("--state-template-properties", GroupValues = true)]
     public IEnumerable<string>? StateTemplateProperties { get; set; }
 
     /// <summary>
     /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehi- cle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--data-extra-dimensions")]
+    [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
 
     /// <summary>
     /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attrib- utes.Model attributes, Amazon Web Services IoT FleetWise will in- clude these attributes as User Properties with the MQTT message. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--metadata-extra-dimensions")]
+    [CliOption("--metadata-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? MetadataExtraDimensions { get; set; }
 
     /// <summary>
     /// Metadata that can be used to manage the state template. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

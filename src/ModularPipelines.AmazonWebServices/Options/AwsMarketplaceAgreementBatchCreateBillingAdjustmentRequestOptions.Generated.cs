@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("marketplace-agreement", "batch-create-billing-adjustment-request")]
 public record AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions : AwsOptions
 {
-    [CliOption("--billing-adjustment-request-entries")]
+    [CliOption("--billing-adjustment-request-entries", GroupValues = true)]
     public IEnumerable<string>? BillingAdjustmentRequestEntries { get; set; }
 
     [CliOption("--cli-input-json")]

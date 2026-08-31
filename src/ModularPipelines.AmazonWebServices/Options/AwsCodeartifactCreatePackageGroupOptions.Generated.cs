@@ -48,7 +48,7 @@ public record AwsCodeartifactCreatePackageGroupOptions : AwsOptions
     /// <summary>
     /// One or more tag key-value pairs for the package group. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

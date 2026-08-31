@@ -24,7 +24,7 @@ public record AwsAppstreamDisassociateSoftwareFromImageBuilderOptions : AwsOptio
     [CliOption("--image-builder-name")]
     public string? ImageBuilderName { get; set; }
 
-    [CliOption("--software-names")]
+    [CliOption("--software-names", GroupValues = true)]
     public IEnumerable<string>? SoftwareNames { get; set; }
 
     [CliOption("--cli-input-json")]

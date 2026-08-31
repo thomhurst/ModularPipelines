@@ -27,7 +27,7 @@ public record AwsDsDataDescribeUserOptions : AwsOptions
     /// <summary>
     /// One or more attribute names to be returned for the user. A key is an attribute name, and the value is a list of maps. For a list of sup- ported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--other-attributes")]
+    [CliOption("--other-attributes", GroupValues = true)]
     public IEnumerable<string>? OtherAttributes { get; set; }
 
     /// <summary>

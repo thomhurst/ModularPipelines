@@ -77,7 +77,7 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs containing the Apache Airflow configura- tion options you want to attach to your environment. For more infor- mation, refer to Apache Airflow configuration options . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]+([a-z0-9._]*[a-z0-9_]+)? value -&gt; (string) Constraints: o min: 1 o max: 65536 o pattern: [ -~]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--airflow-configuration-options")]
+    [CliOption("--airflow-configuration-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AirflowConfigurationOptions { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging" . For more information, refer to Tagging Amazon Web Services resources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

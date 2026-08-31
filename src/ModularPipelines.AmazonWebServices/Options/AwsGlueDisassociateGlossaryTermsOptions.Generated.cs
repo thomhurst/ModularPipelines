@@ -37,7 +37,7 @@ public record AwsGlueDisassociateGlossaryTermsOptions : AwsOptions
     [CliOption("--item-identifier")]
     public string? ItemIdentifier { get; set; }
 
-    [CliOption("--glossary-term-identifiers")]
+    [CliOption("--glossary-term-identifiers", GroupValues = true)]
     public IEnumerable<string>? GlossaryTermIdentifiers { get; set; }
 
     /// <summary>

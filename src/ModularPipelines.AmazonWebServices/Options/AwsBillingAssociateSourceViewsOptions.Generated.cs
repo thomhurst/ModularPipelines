@@ -24,7 +24,7 @@ public record AwsBillingAssociateSourceViewsOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--source-views")]
+    [CliOption("--source-views", GroupValues = true)]
     public IEnumerable<string>? SourceViews { get; set; }
 
     [CliOption("--cli-input-json")]

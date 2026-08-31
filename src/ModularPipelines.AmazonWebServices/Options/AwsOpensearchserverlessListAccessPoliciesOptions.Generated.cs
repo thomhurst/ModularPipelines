@@ -28,7 +28,7 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions
     /// <summary>
     /// Resource filters (can be collections or indexes) that policies can apply to. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource")]
+    [CliOption("--resource", GroupValues = true)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>

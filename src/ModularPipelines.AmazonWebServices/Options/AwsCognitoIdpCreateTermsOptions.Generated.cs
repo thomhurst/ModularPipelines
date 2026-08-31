@@ -40,7 +40,7 @@ public record AwsCognitoIdpCreateTermsOptions : AwsOptions
     /// <summary>
     /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cog- nito:default displays for all languages that don't have a lan- guage-specific URL. For example, "cognito:default": "https://terms.example.com", "cog- nito:spanish": "https://terms.example.com/es" . Constraints: o min: 1 o max: 13 key -&gt; (string) Constraints: o pattern: ^cognito:(default|dutch|english|french|spanish|ger- man|bahasa-indonesia|italian|japanese|korean|por- tuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--links")]
+    [CliOption("--links", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Links { get; set; }
 
     [CliOption("--cli-input-json")]

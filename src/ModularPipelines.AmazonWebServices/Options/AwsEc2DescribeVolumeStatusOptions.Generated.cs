@@ -25,7 +25,7 @@ public record AwsEc2DescribeVolumeStatusOptions : AwsOptions
     /// <summary>
     /// The IDs of the volumes. Default: Describes all your volumes. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--volume-ids")]
+    [CliOption("--volume-ids", GroupValues = true)]
     public IEnumerable<string>? VolumeIds { get; set; }
 
     [CliFlag("--include-managed-resources")]
@@ -37,7 +37,7 @@ public record AwsEc2DescribeVolumeStatusOptions : AwsOptions
     /// <summary>
     /// The filters. o action.code - The action code for the event (for example, en- able-volume-io ). o action.description - A description of the action. o action.event-id - The event ID associated with the action. o availability-zone - The Availability Zone of the instance. o event.description - A description of the event. o event.event-id - The event ID. o event.event-type - The event type (for io-enabled : passed | failed ; for io-performance : io-performance:degraded | io-perfor- mance:severely-degraded | io-performance:stalled ). o event.not-after - The latest end time for the event. o event.not-before - The earliest start time for the event. o volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance ). o volume-status.details-status - The status of volume-status.de- tails-name (for io-enabled : passed | failed ; for io-performance : normal | degraded | severely-degraded | stalled ). o volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

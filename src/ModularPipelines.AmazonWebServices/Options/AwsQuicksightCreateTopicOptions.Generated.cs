@@ -33,13 +33,13 @@ public record AwsQuicksightCreateTopicOptions : AwsOptions
     /// <summary>
     /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The Folder ARN of the folder that you want the topic to reside in. Constraints: o max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--folder-arns")]
+    [CliOption("--folder-arns", GroupValues = true)]
     public IEnumerable<string>? FolderArns { get; set; }
 
     /// <summary>

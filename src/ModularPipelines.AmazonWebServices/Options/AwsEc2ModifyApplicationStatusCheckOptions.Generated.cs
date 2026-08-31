@@ -35,7 +35,7 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions
     /// <summary>
     /// The health check paths to use for the application status check. (structure) Describes a health check path for an application status check request. Source -&gt; (structure) The source for the health check path. SubnetId -&gt; (string) The ID of the subnet for the source. SecurityGroupId -&gt; (string) The ID of the security group for the source. Destinations -&gt; (list) The destinations for the health check path. (structure) Describes a destination for a health check path in a re- quest. Destinations can be in a different Availability Zone than the source (cross-AZ) or in a Local Zone (AZ to Local Zone), enabling remote health validation of your application. SubnetId -&gt; (string) The ID of the subnet for the destination. SecurityGroupId -&gt; (string) The ID of the security group for the destination. Shorthand Syntax: Source={SubnetId=string,SecurityGroupId=string},Destinations=[{SubnetId=string,SecurityGroupId=string},{SubnetId=string,SecurityGroupId=string}] ... JSON Syntax: [ { "Source": { "SubnetId": "string", "SecurityGroupId": "string" }, "Destinations": [ { "SubnetId": "string", "SecurityGroupId": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--health-check-paths")]
+    [CliOption("--health-check-paths", GroupValues = true)]
     public IEnumerable<string>? HealthCheckPaths { get; set; }
 
     /// <summary>

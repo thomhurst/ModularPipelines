@@ -200,6 +200,11 @@ public record CliOptionDefinition
     public bool GroupValues { get; init; }
 
     /// <summary>
+    /// Separator used to join collection elements into one option value.
+    /// </summary>
+    public string? CollectionSeparator { get; init; }
+
+    /// <summary>
     /// Whether an optional value type unavailable to the generator has collection semantics.
     /// </summary>
     public bool? IsCollection { get; init; }

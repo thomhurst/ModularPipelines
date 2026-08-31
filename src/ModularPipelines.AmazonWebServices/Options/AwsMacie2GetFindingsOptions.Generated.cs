@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("macie2", "get-findings")]
 public record AwsMacie2GetFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-ids")]
+    [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; set; }
 
     /// <summary>

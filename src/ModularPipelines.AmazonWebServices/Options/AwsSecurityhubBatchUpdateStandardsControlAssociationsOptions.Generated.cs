@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-update-standards-control-associations")]
 public record AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions : AwsOptions
 {
-    [CliOption("--standards-control-association-updates")]
+    [CliOption("--standards-control-association-updates", GroupValues = true)]
     public IEnumerable<string>? StandardsControlAssociationUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

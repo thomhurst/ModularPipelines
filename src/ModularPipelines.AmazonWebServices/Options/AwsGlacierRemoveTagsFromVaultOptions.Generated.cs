@@ -30,7 +30,7 @@ public record AwsGlacierRemoveTagsFromVaultOptions : AwsOptions
     /// <summary>
     /// A list of tag keys. Each corresponding tag is removed from the vault. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

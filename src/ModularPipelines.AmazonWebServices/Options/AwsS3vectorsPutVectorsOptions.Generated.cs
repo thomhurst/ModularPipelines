@@ -39,7 +39,7 @@ public record AwsS3vectorsPutVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--vectors")]
+    [CliOption("--vectors", GroupValues = true)]
     public IEnumerable<string>? Vectors { get; set; }
 
     [CliOption("--cli-input-json")]

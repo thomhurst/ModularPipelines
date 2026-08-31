@@ -27,7 +27,7 @@ public record AwsEfsModifyMountTargetSecurityGroupsOptions : AwsOptions
     /// <summary>
     /// An array of VPC security group IDs. Constraints: o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: ^sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

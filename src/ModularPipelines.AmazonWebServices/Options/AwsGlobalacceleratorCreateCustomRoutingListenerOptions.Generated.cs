@@ -25,7 +25,7 @@ public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOption
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; set; }
 
-    [CliOption("--port-ranges")]
+    [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     /// <summary>

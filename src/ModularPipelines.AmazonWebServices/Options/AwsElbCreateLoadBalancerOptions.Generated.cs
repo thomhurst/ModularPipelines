@@ -24,25 +24,25 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; set; }
 
-    [CliOption("--listeners")]
+    [CliOption("--listeners", GroupValues = true)]
     public IEnumerable<string>? Listeners { get; set; }
 
     /// <summary>
     /// One or more Availability Zones from the same region as the load bal- ancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load bal- ancer using EnableAvailabilityZonesForLoadBalancer . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
     /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in Availability- Zones . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// The IDs of the security groups to assign to the load balancer. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions
     /// <summary>
     /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide . Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

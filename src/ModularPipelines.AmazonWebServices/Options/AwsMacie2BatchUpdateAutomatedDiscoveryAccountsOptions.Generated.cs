@@ -24,7 +24,7 @@ public record AwsMacie2BatchUpdateAutomatedDiscoveryAccountsOptions : AwsOptions
     /// <summary>
     /// An array of objects, one for each account to change the status of automated sensitive data discovery for. Each object specifies the Amazon Web Services account ID for an account and a new status for that account. (structure) Changes the status of automated sensitive data discovery for an Amazon Macie account. accountId -&gt; (string) The Amazon Web Services account ID for the account. status -&gt; (string) The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, perform automated sensi- tive data discovery activities for the account; and, DIS- ABLED, don't perform automated sensitive data discovery ac- tivities for the account. Possible values: o ENABLED o DISABLED Shorthand Syntax: accountId=string,status=string ... JSON Syntax: [ { "accountId": "string", "status": "ENABLED"|"DISABLED" } ... ]
     /// </summary>
-    [CliOption("--accounts")]
+    [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     [CliOption("--cli-input-json")]

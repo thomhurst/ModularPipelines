@@ -29,7 +29,7 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
     /// <summary>
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values: o CosellArchitectural Validation: Confirmation from Amazon Web Ser- vices that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal archi- tectural risks. o CosellBusiness Presentation: Request Amazon Web Services seller's participation in a joint customer presentation. o CosellCompetitive Information: Access to Amazon Web Services com- petitive resources and support for the partner's proposed solu- tion. o CosellPricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals). o CosellTechnical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution. o CosellTotal Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Ser- vices versus on-premises or a traditional hosting environment. o CosellDeal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning). o CosellSupport for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx sup- port. (string) Possible values: o Co-Sell - Architectural Validation o Co-Sell - Business Presentation o Co-Sell - Competitive Information o Co-Sell - Pricing Assistance o Co-Sell - Technical Consultation o Co-Sell - Total Cost of Ownership Evaluation o Co-Sell - Deal Support o Co-Sell - Support for Public Tender / RFx Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--primary-needs-from-aws")]
+    [CliOption("--primary-needs-from-aws", GroupValues = true)]
     public IEnumerable<string>? PrimaryNeedsFromAws { get; set; }
 
     /// <summary>
@@ -96,13 +96,13 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
     /// <summary>
     /// Represents the internal team handling the opportunity. Specify col- laborating members of this opportunity who are within the partner's organization. Constraints: o min: 0 o max: 10 (structure) An object that contains a Customer Partner 's contact details. Email -&gt; (string) The contact's email address associated with the Opportunity . Constraints: o pattern: (?=.{0,80}$)[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The contact's first name associated with the Opportunity . Constraints: o pattern: (?s).{0,80} LastName -&gt; (string) The contact's last name associated with the Opportunity . Constraints: o pattern: (?s).{0,80} BusinessTitle -&gt; (string) The partner contact's title (job title or role) associated with the Opportunity . BusinessTitle supports either Partner- AccountManager or OpportunityOwner . Constraints: o pattern: (?s).{0,80} Phone -&gt; (string) The contact's phone number associated with the Opportunity . Constraints: o pattern: \+[1-9]\d{1,14} Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
     /// </summary>
-    [CliOption("--opportunity-team")]
+    [CliOption("--opportunity-team", GroupValues = true)]
     public IEnumerable<string>? OpportunityTeam { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

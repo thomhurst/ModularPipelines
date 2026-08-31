@@ -27,7 +27,7 @@ public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions
     [CliOption("--certificate-field")]
     public string? CertificateField { get; set; }
 
-    [CliOption("--mapping-rules")]
+    [CliOption("--mapping-rules", GroupValues = true)]
     public IEnumerable<string>? MappingRules { get; set; }
 
     [CliOption("--cli-input-json")]

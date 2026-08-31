@@ -24,7 +24,7 @@ public record AwsRepostspaceSendInvitesOptions : AwsOptions
     [CliOption("--space-id")]
     public string? SpaceId { get; set; }
 
-    [CliOption("--accessor-ids")]
+    [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; set; }
 
     [CliOption("--title")]

@@ -31,7 +31,7 @@ public record AwsRumGetAppMonitorDataOptions : AwsOptions
     /// <summary>
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you spec- ify. (structure) A structure that defines a key and values that you can use to filter the results. The only performance events that are re- turned are those that have values matching the ones that you specify in one of your QueryFilter structures. For example, you could specify Browser as the Name and specify Chrome,Firefox as the Values to return events generated only from those browsers. Specifying Invert as the Name works as a "not equal to" filter. For example, specify Invert as the Name and specify Chrome as the value to return all events except events from user sessions with the Chrome browser. Name -&gt; (string) The name of a key to search for. The filter returns only the events that match the Name and Values that you specify. Valid values for Name are Browser | Device | Country | Page | OS | EventType | Invert Values -&gt; (list) The values of the Name that are to be be included in the re- turned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

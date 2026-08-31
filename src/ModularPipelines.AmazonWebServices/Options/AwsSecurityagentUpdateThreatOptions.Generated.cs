@@ -85,13 +85,13 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions
     /// <summary>
     /// The updated security goals affected by the threat. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-goal")]
+    [CliOption("--impacted-goal", GroupValues = true)]
     public IEnumerable<string>? ImpactedGoal { get; set; }
 
     /// <summary>
     /// The updated list of specific assets affected by the threat. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--impacted-assets")]
+    [CliOption("--impacted-assets", GroupValues = true)]
     public IEnumerable<string>? ImpactedAssets { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions
     /// <summary>
     /// The updated source code files supporting the threat. (structure) Source code file supporting a threat. packageId -&gt; (string) The package identifier containing the evidence file. path -&gt; (string) The file path of the evidence. Shorthand Syntax: packageId=string,path=string ... JSON Syntax: [ { "packageId": "string", "path": "string" } ... ]
     /// </summary>
-    [CliOption("--evidence")]
+    [CliOption("--evidence", GroupValues = true)]
     public IEnumerable<string>? Evidence { get; set; }
 
     /// <summary>

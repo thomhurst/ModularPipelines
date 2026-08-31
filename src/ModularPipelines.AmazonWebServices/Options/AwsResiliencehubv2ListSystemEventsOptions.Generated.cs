@@ -28,7 +28,7 @@ public record AwsResiliencehubv2ListSystemEventsOptions : AwsOptions
     /// <summary>
     /// Filter events by type. (string) Possible values: o SYSTEM_CREATED o SYSTEM_DELETED o SYSTEM_USER_JOURNEY_CREATED o SYSTEM_USER_JOURNEY_UPDATED o SYSTEM_USER_JOURNEY_DELETED o SYSTEM_SERVICE_ASSOCIATED o SYSTEM_SERVICE_DISASSOCIATED o SYSTEM_POLICY_ASSOCIATED o SYSTEM_POLICY_DISASSOCIATED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-types")]
+    [CliOption("--event-types", GroupValues = true)]
     public IEnumerable<string>? EventTypes { get; set; }
 
     /// <summary>

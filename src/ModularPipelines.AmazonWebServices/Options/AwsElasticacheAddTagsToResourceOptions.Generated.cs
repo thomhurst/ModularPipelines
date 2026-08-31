@@ -24,7 +24,7 @@ public record AwsElasticacheAddTagsToResourceOptions : AwsOptions
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

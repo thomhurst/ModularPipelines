@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("apigatewayv2", "put-routing-rule")]
 public record AwsApigatewayv2PutRoutingRuleOptions : AwsOptions
 {
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
-    [CliOption("--conditions")]
+    [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
     [CliOption("--domain-name")]

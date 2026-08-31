@@ -35,31 +35,31 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
     /// <summary>
     /// Filters to apply based on next hop information. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--next-hop-filters")]
+    [CliOption("--next-hop-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NextHopFilters { get; set; }
 
     /// <summary>
     /// Local preference values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--local-preference-matches")]
+    [CliOption("--local-preference-matches", GroupValues = true)]
     public IEnumerable<string>? LocalPreferenceMatches { get; set; }
 
     /// <summary>
     /// Exact AS path values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--exact-as-path-matches")]
+    [CliOption("--exact-as-path-matches", GroupValues = true)]
     public IEnumerable<string>? ExactAsPathMatches { get; set; }
 
     /// <summary>
     /// Multi-Exit Discriminator (MED) values to match when filtering rout- ing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--med-matches")]
+    [CliOption("--med-matches", GroupValues = true)]
     public IEnumerable<string>? MedMatches { get; set; }
 
     /// <summary>
     /// BGP community values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--community-matches")]
+    [CliOption("--community-matches", GroupValues = true)]
     public IEnumerable<string>? CommunityMatches { get; set; }
 
     [CliOption("--cli-input-json")]

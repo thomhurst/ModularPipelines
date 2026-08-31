@@ -25,7 +25,7 @@ public record AwsEsDescribeInboundCrossClusterSearchConnectionsOptions : AwsOpti
     /// <summary>
     /// A list of filters used to match properties for inbound cross-cluster search connection. Available `` Filter`` names for this operation are: o cross-cluster-search-connection-id o source-domain-info.domain-name o source-domain-info.owner-id o source-domain-info.region o destination-domain-info.domain-name (structure) A filter used to limit results when describing inbound or out- bound cross-cluster search connections. Multiple values can be specified per filter. A cross-cluster search connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) Specifies the name of the filter. Constraints: o min: 1 Values -&gt; (list) Contains one or more values for the filter. Constraints: o min: 1 (string) Constraints: o min: 1 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

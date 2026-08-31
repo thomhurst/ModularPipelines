@@ -30,7 +30,7 @@ public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--service-namespaces")]
+    [CliOption("--service-namespaces", GroupValues = true)]
     public IEnumerable<string>? ServiceNamespaces { get; set; }
 
     [CliOption("--cli-input-json")]

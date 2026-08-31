@@ -28,7 +28,7 @@ public record AwsConnectListQuickConnectsOptions : AwsOptions
     /// <summary>
     /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE). Constraints: o max: 4 (string) Possible values: o USER o QUEUE o PHONE_NUMBER o FLOW Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--quick-connect-types")]
+    [CliOption("--quick-connect-types", GroupValues = true)]
     public IEnumerable<string>? QuickConnectTypes { get; set; }
 
     [CliOption("--cli-input-json")]

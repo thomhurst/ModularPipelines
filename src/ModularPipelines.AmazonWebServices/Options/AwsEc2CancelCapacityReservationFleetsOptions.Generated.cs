@@ -24,7 +24,7 @@ public record AwsEc2CancelCapacityReservationFleetsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--capacity-reservation-fleet-ids")]
+    [CliOption("--capacity-reservation-fleet-ids", GroupValues = true)]
     public IEnumerable<string>? CapacityReservationFleetIds { get; set; }
 
     [CliOption("--cli-input-json")]

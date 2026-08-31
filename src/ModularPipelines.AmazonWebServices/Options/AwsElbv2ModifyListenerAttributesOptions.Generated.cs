@@ -24,7 +24,7 @@ public record AwsElbv2ModifyListenerAttributesOptions : AwsOptions
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

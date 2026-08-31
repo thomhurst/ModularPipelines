@@ -39,13 +39,13 @@ public record AwsQuicksightUpdateApprovalPolicyOptions : AwsOptions
     /// <summary>
     /// The list of governed actions that trigger the approval workflow. Constraints: o min: 1 o max: 10 (string) Possible values: o SHARE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// The list of asset types that the approval policy applies to. Constraints: o min: 1 (string) Possible values: o AGENT o SPACE o KNOWLEDGE_BASE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--asset-types")]
+    [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record AwsQuicksightUpdateApprovalPolicyOptions : AwsOptions
     /// <summary>
     /// The list of group ARNs whose members can approve requests. Constraints: o min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--approval-groups")]
+    [CliOption("--approval-groups", GroupValues = true)]
     public IEnumerable<string>? ApprovalGroups { get; set; }
 
     [CliOption("--cli-input-json")]

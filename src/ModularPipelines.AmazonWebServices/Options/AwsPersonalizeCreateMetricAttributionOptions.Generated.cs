@@ -27,7 +27,7 @@ public record AwsPersonalizeCreateMetricAttributionOptions : AwsOptions
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; set; }
 
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     [CliOption("--metrics-output-config")]

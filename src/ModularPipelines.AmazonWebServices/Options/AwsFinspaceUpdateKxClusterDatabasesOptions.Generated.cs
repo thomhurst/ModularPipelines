@@ -35,7 +35,7 @@ public record AwsFinspaceUpdateKxClusterDatabasesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--databases")]
+    [CliOption("--databases", GroupValues = true)]
     public IEnumerable<string>? Databases { get; set; }
 
     /// <summary>

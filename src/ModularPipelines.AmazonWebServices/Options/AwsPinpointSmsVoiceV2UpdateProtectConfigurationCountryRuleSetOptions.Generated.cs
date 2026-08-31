@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptio
     [CliOption("--number-capability")]
     public string? NumberCapability { get; set; }
 
-    [CliOption("--country-rule-set-updates")]
+    [CliOption("--country-rule-set-updates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CountryRuleSetUpdates { get; set; }
 
     [CliOption("--cli-input-json")]

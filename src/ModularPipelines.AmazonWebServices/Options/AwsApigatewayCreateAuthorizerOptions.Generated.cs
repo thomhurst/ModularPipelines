@@ -34,7 +34,7 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions
     /// <summary>
     /// A list of the Amazon Cognito user pool ARNs for the COG- NITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id} . For a TOKEN or REQUEST authorizer, this is not defined. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--provider-arns")]
+    [CliOption("--provider-arns", GroupValues = true)]
     public IEnumerable<string>? ProviderArns { get; set; }
 
     /// <summary>

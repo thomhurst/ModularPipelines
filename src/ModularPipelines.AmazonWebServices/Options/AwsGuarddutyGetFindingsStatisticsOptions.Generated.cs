@@ -28,7 +28,7 @@ public record AwsGuarddutyGetFindingsStatisticsOptions : AwsOptions
     /// <summary>
     /// The types of finding statistics to retrieve. Constraints: o min: 0 o max: 10 (string) Possible values: o COUNT_BY_SEVERITY Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--finding-statistic-types")]
+    [CliOption("--finding-statistic-types", GroupValues = true)]
     public IEnumerable<string>? FindingStatisticTypes { get; set; }
 
     /// <summary>

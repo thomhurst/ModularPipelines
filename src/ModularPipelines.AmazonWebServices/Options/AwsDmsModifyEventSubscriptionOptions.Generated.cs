@@ -39,7 +39,7 @@ public record AwsDmsModifyEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// A list of event categories for a source type that you want to sub- scribe to. Use the DescribeEventCategories action to see a list of event categories. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     [CliFlag("--enabled")]

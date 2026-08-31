@@ -49,7 +49,7 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions
     /// <summary>
     /// The Amazon Web Services account IDs that you want to share your con- tent with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subscribers")]
+    [CliOption("--subscribers", GroupValues = true)]
     public IEnumerable<string>? Subscribers { get; set; }
 
     [CliOption("--cli-input-json")]

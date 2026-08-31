@@ -30,7 +30,7 @@ public record AwsKendraBatchPutDocumentOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--documents")]
+    [CliOption("--documents", GroupValues = true)]
     public IEnumerable<string>? Documents { get; set; }
 
     /// <summary>

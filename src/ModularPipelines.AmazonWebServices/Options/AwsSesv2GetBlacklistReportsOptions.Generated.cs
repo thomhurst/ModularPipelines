@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "get-blacklist-reports")]
 public record AwsSesv2GetBlacklistReportsOptions : AwsOptions
 {
-    [CliOption("--blacklist-item-names")]
+    [CliOption("--blacklist-item-names", GroupValues = true)]
     public IEnumerable<string>? BlacklistItemNames { get; set; }
 
     [CliOption("--cli-input-json")]

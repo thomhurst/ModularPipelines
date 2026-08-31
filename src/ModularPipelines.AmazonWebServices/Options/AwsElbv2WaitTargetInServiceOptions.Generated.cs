@@ -27,13 +27,13 @@ public record AwsElbv2WaitTargetInServiceOptions : AwsOptions
     /// <summary>
     /// The targets. (structure) Information about a target. Id -&gt; (string) [required] The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address. If the target type is lambda , specify the ARN of the Lambda function. If the target type is alb , specify the ARN of the Application Load Balancer tar- get. Port -&gt; (integer) The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb , the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function. Constraints: o min: 1 o max: 65535 AvailabilityZone -&gt; (string) An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. For Application Load Balancer target groups, the specified Availability Zone value is only applicable when cross-zone load balancing is off. Otherwise the parameter is ignored and treated as all . This parameter is not supported if the target type of the target group is instance or alb . If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is auto- matically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. For Application Load Balancer target groups with cross-zone load balancing off, if the target type is ip and the IP ad- dress is outside of the VPC for the target group, this should be an Availability Zone inside the VPC for the target group. If the target type is lambda , this parameter is optional and the only supported value is all . QuicServerId -&gt; (string) The server ID for the targets. This value is required if the protocol is QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters. Any letters must be lowercase. The value must be unique at the listener level. You can't modify the server ID for a registered target. You must deregister the target and then provide a new server ID when you register the target again. Constraints: o min: 1 o max: 256 Shorthand Syntax: Id=string,Port=integer,AvailabilityZone=string,QuicServerId=string ... JSON Syntax: [ { "Id": "string", "Port": integer, "AvailabilityZone": "string", "QuicServerId": "string" } ... ]
     /// </summary>
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
     /// Used to include anomaly detection information. (string) Possible values: o AnomalyDetection o All Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     [CliOption("--cli-input-json")]

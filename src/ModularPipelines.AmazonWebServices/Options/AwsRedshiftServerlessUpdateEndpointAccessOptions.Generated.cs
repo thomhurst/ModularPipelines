@@ -27,7 +27,7 @@ public record AwsRedshiftServerlessUpdateEndpointAccessOptions : AwsOptions
     /// <summary>
     /// The list of VPC security groups associated with the endpoint after the endpoint is modified. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

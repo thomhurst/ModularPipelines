@@ -36,7 +36,7 @@ public record AwsApigatewayv2UpdatePortalOptions : AwsOptions
     /// <summary>
     /// The ARNs of the portal products included in the portal. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--included-portal-product-arns")]
+    [CliOption("--included-portal-product-arns", GroupValues = true)]
     public IEnumerable<string>? IncludedPortalProductArns { get; set; }
 
     /// <summary>

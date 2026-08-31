@@ -28,7 +28,7 @@ public record AwsSsmDescribeAssociationExecutionsOptions : AwsOptions
     /// <summary>
     /// Filters for the request. You can specify the following filters and values. ExecutionId (EQUAL) Status (EQUAL) CreatedTime (EQUAL, GREATER_THAN, LESS_THAN) Constraints: o min: 1 (structure) Filters used in the request. Key -&gt; (string) [required] The key value used in the request. Possible values: o ExecutionId o Status o CreatedTime Value -&gt; (string) [required] The value specified for the key. Constraints: o min: 1 Type -&gt; (string) [required] The filter type specified in the request. Possible values: o EQUAL o LESS_THAN o GREATER_THAN Shorthand Syntax: Key=string,Value=string,Type=string ... JSON Syntax: [ { "Key": "ExecutionId"|"Status"|"CreatedTime", "Value": "string", "Type": "EQUAL"|"LESS_THAN"|"GREATER_THAN" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

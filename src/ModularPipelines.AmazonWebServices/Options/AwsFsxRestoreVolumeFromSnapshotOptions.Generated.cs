@@ -38,7 +38,7 @@ public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions
     /// <summary>
     /// The settings used when restoring the specified volume from snapshot. o DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the cur- rent state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails. o DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes cre- ated from intermediate snapshots. If there are any dependent clone volumes and this option isn't used, RestoreVolumeFromSnapshot fails. Constraints: o max: 2 (string) Possible values: o DELETE_INTERMEDIATE_SNAPSHOTS o DELETE_CLONED_VOLUMES Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--options")]
+    [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
 
     [CliOption("--cli-input-json")]

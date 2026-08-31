@@ -27,7 +27,7 @@ public record AwsApplicationSignalsReportInstrumentationConfigurationStatusOptio
     [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CliOption("--configurations")]
+    [CliOption("--configurations", GroupValues = true)]
     public IEnumerable<string>? Configurations { get; set; }
 
     [CliOption("--cli-input-json")]

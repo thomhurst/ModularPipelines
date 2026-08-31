@@ -49,7 +49,7 @@ public record AwsS3filesCreateMountTargetOptions : AwsOptions
     /// <summary>
     /// An array of VPC security group IDs to associate with the mount tar- get's network interface. These security groups control network ac- cess to the mount target. If not specified, the default security group for the subnet's VPC is used. All security groups must belong to the same VPC as the subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-groups")]
+    [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     [CliOption("--cli-input-json")]

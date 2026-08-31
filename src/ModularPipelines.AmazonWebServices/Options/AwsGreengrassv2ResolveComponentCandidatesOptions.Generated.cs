@@ -30,7 +30,7 @@ public record AwsGreengrassv2ResolveComponentCandidatesOptions : AwsOptions
     /// <summary>
     /// The list of components to resolve. (structure) Contains information about a component that is a candidate to deploy to a Greengrass core device. componentName -&gt; (string) The name of the component. Constraints: o min: 1 o max: 128 componentVersion -&gt; (string) The version of the component. Constraints: o min: 1 o max: 64 versionRequirements -&gt; (map) The version requirements for the component's dependencies. Greengrass core devices get the version requirements from component recipes. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: componentName=string,componentVersion=string,versionRequirements={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "componentName": "string", "componentVersion": "string", "versionRequirements": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--component-candidates")]
+    [CliOption("--component-candidates", GroupValues = true)]
     public IEnumerable<string>? ComponentCandidates { get; set; }
 
     [CliOption("--cli-input-json")]

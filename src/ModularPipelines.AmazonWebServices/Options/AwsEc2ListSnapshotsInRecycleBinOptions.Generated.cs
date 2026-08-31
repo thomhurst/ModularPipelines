@@ -25,7 +25,7 @@ public record AwsEc2ListSnapshotsInRecycleBinOptions : AwsOptions
     /// <summary>
     /// The IDs of the snapshots to list. Omit this parameter to list all of the snapshots that are in the Recycle Bin. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--snapshot-ids")]
+    [CliOption("--snapshot-ids", GroupValues = true)]
     public IEnumerable<string>? SnapshotIds { get; set; }
 
     [CliFlag("--dry-run")]

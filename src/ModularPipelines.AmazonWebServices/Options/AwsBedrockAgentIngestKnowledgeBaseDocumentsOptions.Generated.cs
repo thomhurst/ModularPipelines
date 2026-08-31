@@ -35,7 +35,7 @@ public record AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--documents")]
+    [CliOption("--documents", GroupValues = true)]
     public IEnumerable<string>? Documents { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -47,7 +47,7 @@ public record AwsSecurityagentCreateSecurityRequirementPackOptions : AwsOptions
     /// <summary>
     /// The tags to associate with the security requirement pack. key -&gt; (string) Key for a resource tag. value -&gt; (string) Value for a resource tag. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

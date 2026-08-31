@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "create-instances-from-snapshot")]
 public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
 {
-    [CliOption("--instance-names")]
+    [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; set; }
 
     /// <summary>
     /// An object containing information about one or more disk mappings. key -&gt; (string) Constraints: o pattern: \w[\w\-]*\w value -&gt; (list) (structure) Describes a block storage disk mapping. originalDiskPath -&gt; (string) The original disk path exposed to the instance (for exam- ple, /dev/sdh ). Constraints: o pattern: .*\S.* newDiskName -&gt; (string) The new disk name (my-new-disk ). Constraints: o pattern: \w[\w\-]*\w Shorthand Syntax: KeyName1=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}],KeyName2=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}] JSON Syntax: {"string": [ { "originalDiskPath": "string", "newDiskName": "string" } ... ] ...}
     /// </summary>
-    [CliOption("--attached-disk-mapping")]
+    [CliOption("--attached-disk-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AttachedDiskMapping { get; set; }
 
     [CliOption("--availability-zone")]
@@ -59,13 +59,13 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
     /// <summary>
     /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// An array of objects representing the add-ons to enable for the new instance. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be cre- ated. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research re- sources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your vir- tual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
     /// </summary>
-    [CliOption("--add-ons")]
+    [CliOption("--add-ons", GroupValues = true)]
     public IEnumerable<string>? AddOns { get; set; }
 
     /// <summary>

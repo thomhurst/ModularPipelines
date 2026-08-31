@@ -31,13 +31,13 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CliOption("--ip-addresses")]
+    [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
     /// <summary>
     /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
     /// <summary>
     /// The protocols you want to use for the endpoint. DoH-FIPS is applica- ble for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as fol- lows: o Do53 and DoH in combination. o Do53 and DoH-FIPS in combination. o Do53 alone. o DoH alone. o DoH-FIPS alone. o None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: o Do53 and DoH in combination. o Do53 alone. o DoH alone. o None, which is treated as Do53. Constraints: o min: 1 o max: 2 (string) Possible values: o DoH o Do53 o DoH-FIPS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protocols")]
+    [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     [CliFlag("--rni-enhanced-metrics-enabled")]

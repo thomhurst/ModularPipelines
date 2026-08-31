@@ -38,7 +38,7 @@ public record AwsServiceQuotasUpdateAutoManagementOptions : AwsOptions
     /// <summary>
     /// List of Amazon Web Services services you want to exclude from Auto- matic Management. You won't be notified of Service Quotas utiliza- tion for Amazon Web Services services added to the Automatic Manage- ment exclusion list. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} value -&gt; (list) (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ /]{1,128} Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--exclusion-list")]
+    [CliOption("--exclusion-list", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExclusionList { get; set; }
 
     [CliOption("--cli-input-json")]

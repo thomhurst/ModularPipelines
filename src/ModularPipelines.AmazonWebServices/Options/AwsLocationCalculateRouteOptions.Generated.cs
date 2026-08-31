@@ -25,16 +25,16 @@ public record AwsLocationCalculateRouteOptions : AwsOptions
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; set; }
 
-    [CliOption("--departure-position")]
+    [CliOption("--departure-position", GroupValues = true)]
     public IEnumerable<string>? DeparturePosition { get; set; }
 
-    [CliOption("--destination-position")]
+    [CliOption("--destination-position", GroupValues = true)]
     public IEnumerable<string>? DestinationPosition { get; set; }
 
     /// <summary>
     /// Specifies an ordered list of up to 23 intermediate positions to in- clude along a route between the departure position and destination position. o For example, from the DeparturePosition [-123.115, 49.285] , the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]] NOTE: If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road . Specifying more than 23 waypoints returns a 400 ValidationExcep- tion error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValida- tionException error. Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 0 o max: 23 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
     /// </summary>
-    [CliOption("--waypoint-positions")]
+    [CliOption("--waypoint-positions", GroupValues = true)]
     public IEnumerable<string>? WaypointPositions { get; set; }
 
     /// <summary>

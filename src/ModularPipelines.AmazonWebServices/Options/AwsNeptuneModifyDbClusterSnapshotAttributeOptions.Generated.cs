@@ -30,13 +30,13 @@ public record AwsNeptuneModifyDbClusterSnapshotAttributeOptions : AwsOptions
     /// <summary>
     /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon ac- count IDs, or all to make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--values-to-add")]
+    [CliOption("--values-to-add", GroupValues = true)]
     public IEnumerable<string>? ValuesToAdd { get; set; }
 
     /// <summary>
     /// A list of DB cluster snapshot attributes to remove from the at- tribute specified by AttributeName . To remove authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account identifiers, or all to remove authorization for any Amazon account to copy or restore the DB cluster snapshot. If you specify all , an Amazon account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB clus- ter snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--values-to-remove")]
+    [CliOption("--values-to-remove", GroupValues = true)]
     public IEnumerable<string>? ValuesToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

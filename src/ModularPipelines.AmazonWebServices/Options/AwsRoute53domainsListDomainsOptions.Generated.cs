@@ -25,7 +25,7 @@ public record AwsRoute53domainsListDomainsOptions : AwsOptions
     /// <summary>
     /// A complex type that contains information about the filters applied during the ListDomains request. The filter conditions can include domain name and domain expiration. (structure) Information for the filtering of a list of domains returned by ListDomains . Name -&gt; (string) [required] Name of the field which should be used for filtering the list of domains. Possible values: o DomainName o Expiry Operator -&gt; (string) [required] The operator values for filtering domain names. The values can be: o LE : Less than, or equal to o GE : Greater than, or equal to o BEGINS_WITH : Begins with Possible values: o LE o GE o BEGINS_WITH Values -&gt; (list) [required] An array of strings presenting values to compare. Only 1 item in the list is currently supported. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "DomainName"|"Expiry", "Operator": "LE"|"GE"|"BEGINS_WITH", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filter-conditions")]
+    [CliOption("--filter-conditions", GroupValues = true)]
     public IEnumerable<string>? FilterConditions { get; set; }
 
     /// <summary>

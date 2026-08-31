@@ -50,13 +50,13 @@ public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions 
     /// <summary>
     /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context")]
+    [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
     /// This field is used for any country-specific registration require- ments. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India . Constraints: o min: 0 o max: 10 key -&gt; (string) Possible values: o IN_TEMPLATE_ID o IN_ENTITY_ID value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IN_TEMPLATE_ID IN_ENTITY_ID JSON Syntax: {"IN_TEMPLATE_ID"|"IN_ENTITY_ID": "string" ...}
     /// </summary>
-    [CliOption("--destination-country-parameters")]
+    [CliOption("--destination-country-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationCountryParameters { get; set; }
 
     [CliOption("--cli-input-json")]

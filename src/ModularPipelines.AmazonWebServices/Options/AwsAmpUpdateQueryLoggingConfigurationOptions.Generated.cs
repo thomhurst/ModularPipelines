@@ -25,7 +25,7 @@ public record AwsAmpUpdateQueryLoggingConfigurationOptions : AwsOptions
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>

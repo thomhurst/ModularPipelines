@@ -59,7 +59,7 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions
     /// <summary>
     /// Template post migration custom action parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ Shorthand Syntax: KeyName1=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}],KeyName2=[{parameterType=string,parameterName=string},{parameterType=string,parameterName=string}] JSON Syntax: {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AwsMgnPutTemplateActionOptions : AwsOptions
     /// <summary>
     /// Template post migration custom action external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* Shorthand Syntax: KeyName1={dynamicPath=string},KeyName2={dynamicPath=string} JSON Syntax: {"string": { "dynamicPath": "string" } ...}
     /// </summary>
-    [CliOption("--external-parameters")]
+    [CliOption("--external-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExternalParameters { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconnect", "batch-get-router-input")]
 public record AwsMediaconnectBatchGetRouterInputOptions : AwsOptions
 {
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     [CliOption("--cli-input-json")]

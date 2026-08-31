@@ -66,37 +66,37 @@ public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
     /// <summary>
     /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their ac- cess token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified , phone_number_verified , and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttrib- utes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--read-attributes")]
+    [CliOption("--read-attributes", GroupValues = true)]
     public IEnumerable<string>? ReadAttributes { get; set; }
 
     /// <summary>
     /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attrib- utes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have spec- ified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this ar- ray must include all attributes that you have mapped to IdP attrib- utes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool . (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--write-attributes")]
+    [CliOption("--write-attributes", GroupValues = true)]
     public IEnumerable<string>? WriteAttributes { get; set; }
 
     /// <summary>
     /// The authentication flows that you want your user pool client to sup- port. For each app client in your user pool, you can sign in your users with any combination of one or more flows, including with a user name and Secure Remote Password (SRP), a user name and pass- word, or a custom authentication process that you define with Lambda functions. NOTE: If you don't specify a value for ExplicitAuthFlows , your app client supports ALLOW_REFRESH_TOKEN_AUTH , ALLOW_USER_SRP_AUTH , and ALLOW_CUSTOM_AUTH . The values for authentication flow options include the following. o ALLOW_USER_AUTH : Enable selection-based sign-in with USER_AUTH . This setting covers username-password, secure remote password (SRP), passwordless, and passkey authentication. This authentia- tion flow can do username-password and SRP authentication without other ExplicitAuthFlows permitting them. For example users can complete an SRP challenge through USER_AUTH without the flow USER_SRP_AUTH being active for the app client. This flow doesn't include CUSTOM_AUTH . To activate this setting, your user pool must be in the Essentials tier or higher. o ALLOW_ADMIN_USER_PASSWORD_AUTH : Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH . This setting re- places the ADMIN_NO_SRP_AUTH setting. With this authentication flow, your app passes a user name and password to Amazon Cognito in the request, instead of using the Secure Remote Password (SRP) protocol to securely transmit the password. o ALLOW_CUSTOM_AUTH : Enable Lambda trigger based authentication. o ALLOW_USER_PASSWORD_AUTH : Enable user password-based authentica- tion. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords. o ALLOW_USER_SRP_AUTH : Enable SRP-based authentication. o ALLOW_REFRESH_TOKEN_AUTH : Enable authflow to refresh tokens. In some environments, you will see the values ADMIN_NO_SRP_AUTH , CUSTOM_AUTH_FLOW_ONLY , or USER_PASSWORD_AUTH . You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_ , like AL- LOW_USER_SRP_AUTH . (string) Possible values: o ADMIN_NO_SRP_AUTH o CUSTOM_AUTH_FLOW_ONLY o USER_PASSWORD_AUTH o ALLOW_ADMIN_USER_PASSWORD_AUTH o ALLOW_CUSTOM_AUTH o ALLOW_USER_PASSWORD_AUTH o ALLOW_USER_SRP_AUTH o ALLOW_REFRESH_TOKEN_AUTH o ALLOW_USER_AUTH Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--explicit-auth-flows")]
+    [CliOption("--explicit-auth-flows", GroupValues = true)]
     public IEnumerable<string>? ExplicitAuthFlows { get; set; }
 
     /// <summary>
     /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO , Facebook , Google , SignInWithApple , and LoginWithAmazon . You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP . This parameter sets the IdPs that managed login will display on the login page for your app client. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent SDK-based authentication is to block access with a WAF rule . (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-identity-providers")]
+    [CliOption("--supported-identity-providers", GroupValues = true)]
     public IEnumerable<string>? SupportedIdentityProviders { get; set; }
 
     /// <summary>
     /// A list of allowed redirect, or callback, URLs for managed login au- thentication. These URLs are the paths where you want to send your users' browsers after they complete authentication with managed lo- gin or a third-party IdP. Typically, callback URLs are the home of an application that uses OAuth or OIDC libraries to process authen- tication outcomes. A redirect URI must meet the following requirements: o Be an absolute URI. o Be registered with the authorization server. Amazon Cognito doesn't accept authorization requests with redirect_uri values that aren't in the list of CallbackURLs that you provide in this parameter. o Not include a fragment component. See OAuth 2.0 - Redirection Endpoint . Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--callback-urls")]
+    [CliOption("--callback-urls", GroupValues = true)]
     public IEnumerable<string>? CallbackUrls { get; set; }
 
     /// <summary>
     /// A list of allowed logout URLs for managed login authentication. When you pass logout_uri and client_id parameters to /logout , Amazon Cognito signs out your user and redirects them to the logout URL. This parameter describes the URLs that you want to be the permitted targets of logout_uri . A typical use of these URLs is when a user selects "Sign out" and you redirect them to your public homepage. For more information, see Logout endpoint . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--logout-urls")]
+    [CliOption("--logout-urls", GroupValues = true)]
     public IEnumerable<string>? LogoutUrls { get; set; }
 
     /// <summary>
@@ -108,13 +108,13 @@ public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
     /// <summary>
     /// The OAuth grant types that you want your app client to generate. To create an app client that generates client credentials grants, you must add client_credentials as the only allowed OAuth flow. code Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint. implicit Issue the access token (and, optionally, ID token, based on scopes) directly to your user. client_credentials Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client se- cret. Constraints: o min: 0 o max: 3 (string) Possible values: o code o implicit o client_credentials Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-o-auth-flows")]
+    [CliOption("--allowed-o-auth-flows", GroupValues = true)]
     public IEnumerable<string>? AllowedOAuthFlows { get; set; }
 
     /// <summary>
     /// The OAuth, OpenID Connect (OIDC), and custom scopes that you want to permit your app client to authorize access with. Scopes govern ac- cess control to user pool self-service API operations, user data from the userInfo endpoint, and third-party APIs. Scope values in- clude phone , email , openid , and profile . The aws.cog- nito.signin.user.admin scope authorizes user self-service opera- tions. Custom scopes with resource servers authorize access to ex- ternal APIs. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-o-auth-scopes")]
+    [CliOption("--allowed-o-auth-scopes", GroupValues = true)]
     public IEnumerable<string>? AllowedOAuthScopes { get; set; }
 
     /// <summary>

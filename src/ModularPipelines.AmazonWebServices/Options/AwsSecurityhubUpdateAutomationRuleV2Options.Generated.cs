@@ -58,7 +58,7 @@ public record AwsSecurityhubUpdateAutomationRuleV2Options : AwsOptions
     /// <summary>
     /// A list of actions to be performed when the rule criteria is met. Constraints: o min: 1 o max: 1 (structure) Allows you to configure automated responses. Type -&gt; (string) [required] The category of action to be executed by the automation rule. Possible values: o FINDING_FIELDS_UPDATE o EXTERNAL_INTEGRATION FindingFieldsUpdate -&gt; (structure) The changes to be applied to fields in a security finding when an automation rule is triggered. SeverityId -&gt; (integer) The severity level to be assigned to findings that match the automation rule criteria. Comment -&gt; (string) Notes or contextual information for findings that are modified by the automation rule. Constraints: o pattern: .*\S.* StatusId -&gt; (integer) The status to be applied to findings that match automa- tion rule criteria. ExternalIntegrationConfiguration -&gt; (structure) The settings for integrating automation rule actions with ex- ternal systems or service. ConnectorArn -&gt; (string) The ARN of the connector that establishes the integra- tion. Constraints: o pattern: .*\S.* Shorthand Syntax: Type=string,FindingFieldsUpdate={SeverityId=integer,Comment=string,StatusId=integer},ExternalIntegrationConfiguration={ConnectorArn=string} ... JSON Syntax: [ { "Type": "FINDING_FIELDS_UPDATE"|"EXTERNAL_INTEGRATION", "FindingFieldsUpdate": { "SeverityId": integer, "Comment": "string", "StatusId": integer }, "ExternalIntegrationConfiguration": { "ConnectorArn": "string" } } ... ]
     /// </summary>
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     [CliOption("--cli-input-json")]

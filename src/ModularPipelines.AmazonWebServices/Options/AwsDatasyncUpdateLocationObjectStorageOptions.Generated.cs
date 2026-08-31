@@ -67,7 +67,7 @@ public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions
     /// <summary>
     /// (Optional) Specifies the Amazon Resource Names (ARNs) of the Data- Sync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. NOTE: You cannot add or remove agents from a storage location after you initially create it. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--agent-arns")]
+    [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>

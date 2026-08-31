@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-get-code-review-jobs")]
 public record AwsSecurityagentBatchGetCodeReviewJobsOptions : AwsOptions
 {
-    [CliOption("--code-review-job-ids")]
+    [CliOption("--code-review-job-ids", GroupValues = true)]
     public IEnumerable<string>? CodeReviewJobIds { get; set; }
 
     [CliOption("--agent-space-id")]

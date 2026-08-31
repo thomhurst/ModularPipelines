@@ -24,7 +24,7 @@ public record AwsWorkspacesDescribeBundleAssociationsOptions : AwsOptions
     [CliOption("--bundle-id")]
     public string? BundleId { get; set; }
 
-    [CliOption("--associated-resource-types")]
+    [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

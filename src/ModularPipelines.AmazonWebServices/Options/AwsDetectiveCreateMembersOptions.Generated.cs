@@ -33,7 +33,7 @@ public record AwsDetectiveCreateMembersOptions : AwsOptions
     [CliFlag("--disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
-    [CliOption("--accounts")]
+    [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     [CliOption("--cli-input-json")]

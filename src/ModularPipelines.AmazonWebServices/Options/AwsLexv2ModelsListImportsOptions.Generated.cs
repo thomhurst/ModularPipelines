@@ -43,7 +43,7 @@ public record AwsLexv2ModelsListImportsOptions : AwsOptions
     /// <summary>
     /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters the response from the ListImports operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: o ImportResourceType values -&gt; (list) [required] The values to use to filter the response. The values must be Bot , BotLocale , or CustomVocabulary . Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListImports operation should return only resource types that equal the specified value. Specify CO when the ListImports operation should return resource types that contain the spec- ified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "ImportResourceType", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

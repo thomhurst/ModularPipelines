@@ -81,13 +81,13 @@ public record AwsNeptunedataStartMlModelTransformJobOptions : AwsOptions
     /// <summary>
     /// The IDs of the subnets in the Neptune VPC. The default is None. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subnets")]
+    [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// The VPC security group IDs. The default is None. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

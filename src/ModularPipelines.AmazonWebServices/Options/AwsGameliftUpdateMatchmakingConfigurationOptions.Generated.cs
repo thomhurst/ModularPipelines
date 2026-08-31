@@ -34,7 +34,7 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--game-session-queue-arns")]
+    [CliOption("--game-session-queue-arns", GroupValues = true)]
     public IEnumerable<string>? GameSessionQueueArns { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
     /// <summary>
     /// A set of key-value pairs that can store custom data in a game ses- sion. For example: {"Key": "difficulty", "Value": "novice"} . This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE . NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys contain- ing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API re- sults. Constraints: o max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game ses- sion's map, level of difficulty, or remaining time. The diffi- culty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: o max: 32 Value -&gt; (string) [required] The game property value. Constraints: o max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--game-properties")]
+    [CliOption("--game-properties", GroupValues = true)]
     public IEnumerable<string>? GameProperties { get; set; }
 
     /// <summary>

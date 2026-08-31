@@ -45,7 +45,7 @@ public record AwsServerlessrepoUpdateApplicationOptions : AwsOptions
     /// <summary>
     /// Labels to improve discovery of apps in search results. Minimum length=1. Maximum length=127. Maximum number of labels: 10 Pattern: "^[a-zA-Z0-9+\-_:\/@]+$"; (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--labels")]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>

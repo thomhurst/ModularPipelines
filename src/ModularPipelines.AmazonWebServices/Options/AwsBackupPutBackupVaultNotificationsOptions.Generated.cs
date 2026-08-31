@@ -27,7 +27,7 @@ public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CliOption("--backup-vault-events")]
+    [CliOption("--backup-vault-events", GroupValues = true)]
     public IEnumerable<string>? BackupVaultEvents { get; set; }
 
     [CliOption("--cli-input-json")]

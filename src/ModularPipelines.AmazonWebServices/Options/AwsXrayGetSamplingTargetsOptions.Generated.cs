@@ -21,13 +21,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("xray", "get-sampling-targets")]
 public record AwsXrayGetSamplingTargetsOptions : AwsOptions
 {
-    [CliOption("--sampling-statistics-documents")]
+    [CliOption("--sampling-statistics-documents", GroupValues = true)]
     public IEnumerable<string>? SamplingStatisticsDocuments { get; set; }
 
     /// <summary>
     /// Information about rules that the service is using to boost sampling rate. Constraints: o max: 25 (structure) Request anomaly stats for a single rule from a service. Results are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to GetSamplingTargets . RuleName -&gt; (string) [required] The name of the sampling rule. Constraints: o min: 1 o max: 32 ServiceName -&gt; (string) [required] Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 Timestamp -&gt; (timestamp) [required] The current time. AnomalyCount -&gt; (integer) [required] The number of requests with anomaly. Constraints: o min: 0 TotalCount -&gt; (integer) [required] The number of requests that associated to the rule. Constraints: o min: 0 SampledAnomalyCount -&gt; (integer) [required] The number of requests with anomaly recorded. Constraints: o min: 0 Shorthand Syntax: RuleName=string,ServiceName=string,Timestamp=timestamp,AnomalyCount=integer,TotalCount=integer,SampledAnomalyCount=integer ... JSON Syntax: [ { "RuleName": "string", "ServiceName": "string", "Timestamp": timestamp, "AnomalyCount": integer, "TotalCount": integer, "SampledAnomalyCount": integer } ... ]
     /// </summary>
-    [CliOption("--sampling-boost-statistics-documents")]
+    [CliOption("--sampling-boost-statistics-documents", GroupValues = true)]
     public IEnumerable<string>? SamplingBoostStatisticsDocuments { get; set; }
 
     [CliOption("--cli-input-json")]

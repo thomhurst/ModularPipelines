@@ -39,13 +39,13 @@ public record AwsDrsStartRecoveryPlanExecutionOptions : AwsOptions
     /// <summary>
     /// Optional list of source servers with specific recovery snapshots. If not provided, the latest snapshot is used for each server. Constraints: o min: 0 o max: 200 (structure) A source server with a specific recovery snapshot for plan exe- cution. sourceServerID -&gt; (string) [required] The ID of the source server. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) [required] The ID of the recovery snapshot to use. Constraints: o min: 21 o max: 21 o pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]
     /// </summary>
-    [CliOption("--source-servers")]
+    [CliOption("--source-servers", GroupValues = true)]
     public IEnumerable<string>? SourceServers { get; set; }
 
     /// <summary>
     /// The tags to apply to the Recovery Plan execution. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

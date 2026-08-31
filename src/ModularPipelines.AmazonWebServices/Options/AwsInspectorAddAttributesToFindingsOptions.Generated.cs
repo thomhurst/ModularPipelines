@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "add-attributes-to-findings")]
 public record AwsInspectorAddAttributesToFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-arns")]
+    [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

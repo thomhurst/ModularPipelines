@@ -74,7 +74,7 @@ public record AwsAmplifyCreateAppOptions : AwsOptions
     /// <summary>
     /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Am- plify by default, see Amplify Environment variables in the Amplify Hosting User Guide . key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 5500 o pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--environment-variables")]
+    [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     [CliFlag("--enable-branch-auto-build")]
@@ -96,13 +96,13 @@ public record AwsAmplifyCreateAppOptions : AwsOptions
     /// <summary>
     /// The custom rewrite and redirect rules for an Amplify app. (structure) Describes a custom rewrite or redirect rule. source -&gt; (string) [required] The source pattern for a URL rewrite or redirect rule. Constraints: o min: 1 o max: 2048 o pattern: (?s).+ target -&gt; (string) [required] The target pattern for a URL rewrite or redirect rule. Constraints: o min: 1 o max: 2048 o pattern: (?s).+ status -&gt; (string) The status code for a URL rewrite or redirect rule. 200 Represents a 200 rewrite rule. 301 Represents a 301 (moved permanently) redirect rule. This and all future requests should be directed to the target URL. 302 Represents a 302 temporary redirect rule. 404 Represents a 404 redirect rule. 404-200 Represents a 404 rewrite rule. Constraints: o min: 3 o max: 7 o pattern: .{3,7} condition -&gt; (string) The condition for a URL rewrite or redirect rule, such as a country code. Constraints: o min: 0 o max: 2048 o pattern: (?s).* Shorthand Syntax: source=string,target=string,status=string,condition=string ... JSON Syntax: [ { "source": "string", "target": "string", "status": "string", "condition": "string" } ... ]
     /// </summary>
-    [CliOption("--custom-rules")]
+    [CliOption("--custom-rules", GroupValues = true)]
     public IEnumerable<string>? CustomRules { get; set; }
 
     /// <summary>
     /// The tag for an Amplify app. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -123,7 +123,7 @@ public record AwsAmplifyCreateAppOptions : AwsOptions
     /// <summary>
     /// The automated branch creation glob patterns for an Amplify app. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--auto-branch-creation-patterns")]
+    [CliOption("--auto-branch-creation-patterns", GroupValues = true)]
     public IEnumerable<string>? AutoBranchCreationPatterns { get; set; }
 
     /// <summary>

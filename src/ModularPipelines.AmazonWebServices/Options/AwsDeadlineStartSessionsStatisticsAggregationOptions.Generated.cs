@@ -46,10 +46,10 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions
     [CliOption("--period")]
     public AwsDeadlineStartSessionsStatisticsAggregationPeriod? Period { get; set; }
 
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
-    [CliOption("--statistics")]
+    [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; set; }
 
     [CliOption("--cli-input-json")]

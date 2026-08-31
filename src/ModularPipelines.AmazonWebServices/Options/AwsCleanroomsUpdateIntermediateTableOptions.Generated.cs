@@ -42,7 +42,7 @@ public record AwsCleanroomsUpdateIntermediateTableOptions : AwsOptions
     /// <summary>
     /// The list of columns with updated type definitions. Only the type of existing columns can be updated. (structure) Contains the name and type of a column in an intermediate table. name -&gt; (string) [required] The name of the column. Constraints: o min: 0 o max: 128 o pattern: [a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))? type -&gt; (string) [required] The data type of the column. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
     /// </summary>
-    [CliOption("--columns")]
+    [CliOption("--columns", GroupValues = true)]
     public IEnumerable<string>? Columns { get; set; }
 
     [CliOption("--cli-input-json")]

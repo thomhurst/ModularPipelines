@@ -24,7 +24,7 @@ public record AwsEc2CancelSpotFleetRequestsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--spot-fleet-request-ids")]
+    [CliOption("--spot-fleet-request-ids", GroupValues = true)]
     public IEnumerable<string>? SpotFleetRequestIds { get; set; }
 
     [CliFlag("--terminate-instances")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("discovery", "batch-delete-agents")]
 public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions
 {
-    [CliOption("--delete-agents")]
+    [CliOption("--delete-agents", GroupValues = true)]
     public IEnumerable<string>? DeleteAgents { get; set; }
 
     [CliOption("--cli-input-json")]

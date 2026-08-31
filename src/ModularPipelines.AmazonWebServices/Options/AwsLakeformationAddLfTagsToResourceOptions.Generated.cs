@@ -30,7 +30,7 @@ public record AwsLakeformationAddLfTagsToResourceOptions : AwsOptions
     [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CliOption("--lf-tags")]
+    [CliOption("--lf-tags", GroupValues = true)]
     public IEnumerable<string>? LfTags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -39,7 +39,7 @@ public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions
     /// <summary>
     /// The ARNs of the SNS topics that deliver notifications to AWS Chat- bot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--sns-topic-arns")]
+    [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     /// <summary>

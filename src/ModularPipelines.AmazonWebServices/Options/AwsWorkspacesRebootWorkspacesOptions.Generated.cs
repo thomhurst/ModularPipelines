@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workspaces", "reboot-workspaces")]
 public record AwsWorkspacesRebootWorkspacesOptions : AwsOptions
 {
-    [CliOption("--reboot-workspace-requests")]
+    [CliOption("--reboot-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? RebootWorkspaceRequests { get; set; }
 
     [CliOption("--cli-input-json")]

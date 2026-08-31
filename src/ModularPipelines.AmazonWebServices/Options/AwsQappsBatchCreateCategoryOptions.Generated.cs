@@ -24,7 +24,7 @@ public record AwsQappsBatchCreateCategoryOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--categories")]
+    [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     [CliOption("--cli-input-json")]

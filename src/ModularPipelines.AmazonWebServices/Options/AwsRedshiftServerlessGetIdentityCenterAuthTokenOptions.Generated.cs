@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("redshift-serverless", "get-identity-center-auth-token")]
 public record AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions : AwsOptions
 {
-    [CliOption("--workgroup-names")]
+    [CliOption("--workgroup-names", GroupValues = true)]
     public IEnumerable<string>? WorkgroupNames { get; set; }
 
     [CliOption("--cli-input-json")]

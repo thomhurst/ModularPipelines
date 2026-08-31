@@ -59,7 +59,7 @@ public record AwsOpensearchUpdateDomainConfigOptions : AwsOptions
     /// <summary>
     /// Key-value pairs to specify advanced configuration options. The fol- lowing key-value pairs are supported: o "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether ex- plicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true. o "indices.fielddata.cache.size": "80" - Note the use of a string rather than a boolean. Specifies the percentage of heap space al- located to field data. Default is unbounded. o "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error. For more information, see Advanced cluster parameters . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--advanced-options")]
+    [CliOption("--advanced-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdvancedOptions { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record AwsOpensearchUpdateDomainConfigOptions : AwsOptions
     /// <summary>
     /// Options to publish OpenSearch logs to Amazon CloudWatch Logs. key -&gt; (string) The type of log file. Can be one of the following: o INDEX_SLOW_LOGS - Index slow logs contain insert requests that took more time than the configured index query log threshold to execute. o SEARCH_SLOW_LOGS - Search slow logs contain search queries that took more time than the configured search query log threshold to execute. o ES_APPLICATION_LOGS - OpenSearch application logs contain in- formation about errors and warnings raised during the opera- tion of the service and can be useful for troubleshooting. o AUDIT_LOGS - Audit logs contain records of user requests for access to the domain. Possible values: o INDEX_SLOW_LOGS o SEARCH_SLOW_LOGS o ES_APPLICATION_LOGS o AUDIT_LOGS value -&gt; (structure) Specifies whether the Amazon OpenSearch Service domain publishes the OpenSearch application and slow logs to Amazon CloudWatch. For more information, see Monitoring OpenSearch logs with Amazon CloudWatch Logs . NOTE: After you enable log publishing, you still have to enable the collection of slow logs using the OpenSearch REST API. CloudWatchLogsLogGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs to. Constraints: o min: 20 o max: 2048 o pattern: .* Enabled -&gt; (boolean) Whether the log should be published. Shorthand Syntax: KeyName1={CloudWatchLogsLogGroupArn=string,Enabled=boolean},KeyName2={CloudWatchLogsLogGroupArn=string,Enabled=boolean} Where valid key names are: INDEX_SLOW_LOGS SEARCH_SLOW_LOGS ES_APPLICATION_LOGS AUDIT_LOGS JSON Syntax: {"INDEX_SLOW_LOGS"|"SEARCH_SLOW_LOGS"|"ES_APPLICATION_LOGS"|"AUDIT_LOGS": { "CloudWatchLogsLogGroupArn": "string", "Enabled": true|false } ...}
     /// </summary>
-    [CliOption("--log-publishing-options")]
+    [CliOption("--log-publishing-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? LogPublishingOptions { get; set; }
 
     /// <summary>

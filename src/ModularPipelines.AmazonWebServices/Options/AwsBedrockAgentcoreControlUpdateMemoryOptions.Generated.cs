@@ -59,13 +59,13 @@ public record AwsBedrockAgentcoreControlUpdateMemoryOptions : AwsOptions
     /// <summary>
     /// Additional metadata keys to index. Previously indexed keys cannot be removed. Constraints: o min: 1 o max: 10 (structure) A metadata key indexed for filtering. key -&gt; (string) [required] The metadata key name to index. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* type -&gt; (string) [required] The data type of the indexed key. Possible values: o STRING o STRINGLIST o NUMBER Shorthand Syntax: key=string,type=string ... JSON Syntax: [ { "key": "string", "type": "STRING"|"STRINGLIST"|"NUMBER" } ... ]
     /// </summary>
-    [CliOption("--add-indexed-keys")]
+    [CliOption("--add-indexed-keys", GroupValues = true)]
     public IEnumerable<string>? AddIndexedKeys { get; set; }
 
     /// <summary>
     /// The namespace variable key definitions with validation rules for this memory. This value fully replaces the existing set any key you omit is removed. Any referenced namespaceKey omission will throw ValidationException. Constraints: o min: 1 o max: 5 (structure) A namespace variable key definition with optional NamespaceKey- Validation rules. key -&gt; (string) [required] The namespace variable key name. Constraints: o min: 1 o max: 32 o pattern: (?!memoryStrategyId$|actorId$|ses- sionId$)[a-z][a-z0-9]* validation -&gt; (structure) The validation rules that constrain values for this namespace variable at runtime (CreateEvent API). allowedValues -&gt; (list) The allowed values for this namespace variable key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z0-9][a-z0-9-_]* regexPattern -&gt; (string) A regex pattern that the namespace variable key-value must match. Constraints: o min: 1 o max: 64 Shorthand Syntax: key=string,validation={allowedValues=[string,string],regexPattern=string} ... JSON Syntax: [ { "key": "string", "validation": { "allowedValues": ["string", ...], "regexPattern": "string" } } ... ]
     /// </summary>
-    [CliOption("--namespace-keys")]
+    [CliOption("--namespace-keys", GroupValues = true)]
     public IEnumerable<string>? NamespaceKeys { get; set; }
 
     /// <summary>

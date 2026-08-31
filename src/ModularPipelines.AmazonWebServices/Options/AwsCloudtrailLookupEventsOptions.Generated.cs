@@ -26,7 +26,7 @@ public record AwsCloudtrailLookupEventsOptions : AwsOptions
     /// <summary>
     /// Contains a list of lookup attributes. Currently the list can contain only one item. (structure) Specifies an attribute and value that filter the events re- turned. AttributeKey -&gt; (string) [required] Specifies an attribute on which to filter the events re- turned. Possible values: o EventId o EventName o ReadOnly o Username o ResourceType o ResourceName o EventSource o AccessKeyId AttributeValue -&gt; (string) [required] Specifies a value for the specified AttributeKey . The maximum length for the AttributeValue is 2000 characters. The following characters ('_ ', ' `` `` ', ', ', '\\n ') count as two characters towards the 2000 character limit. System Message: WARNING/2 (&lt;string&gt;:, line 198) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2000 Shorthand Syntax: AttributeKey=string,AttributeValue=string ... JSON Syntax: [ { "AttributeKey": "EventId"|"EventName"|"ReadOnly"|"Username"|"ResourceType"|"ResourceName"|"EventSource"|"AccessKeyId", "AttributeValue": "string" } ... ]
     /// </summary>
-    [CliOption("--lookup-attributes")]
+    [CliOption("--lookup-attributes", GroupValues = true)]
     public IEnumerable<string>? LookupAttributes { get; set; }
 
     /// <summary>

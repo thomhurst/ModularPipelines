@@ -34,7 +34,7 @@ public record AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions : AwsOptions
     /// <summary>
     /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-stores")]
+    [CliOption("--target-stores", GroupValues = true)]
     public IEnumerable<string>? TargetStores { get; set; }
 
     /// <summary>

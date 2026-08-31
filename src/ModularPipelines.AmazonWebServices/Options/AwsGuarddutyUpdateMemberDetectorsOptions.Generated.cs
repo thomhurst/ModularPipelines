@@ -24,7 +24,7 @@ public record AwsGuarddutyUpdateMemberDetectorsOptions : AwsOptions
     [CliOption("--detector-id")]
     public string? DetectorId { get; set; }
 
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public record AwsGuarddutyUpdateMemberDetectorsOptions : AwsOptions
     /// <summary>
     /// A list of features that will be updated for the specified member ac- counts. (structure) Contains information about the features for the member account. Name -&gt; (string) The name of the feature. Possible values: o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o RUNTIME_MONITORING o AI_PROTECTION Status -&gt; (string) The status of the feature. Possible values: o ENABLED o DISABLED AdditionalConfiguration -&gt; (list) Additional configuration of the feature for the member ac- count. (structure) Information about the additional configuration for the member account. Name -&gt; (string) Name of the additional configuration. Possible values: o EKS_ADDON_MANAGEMENT o ECS_FARGATE_AGENT_MANAGEMENT o EC2_AGENT_MANAGEMENT Status -&gt; (string) Status of the additional configuration. Possible values: o ENABLED o DISABLED Shorthand Syntax: Name=string,Status=string,AdditionalConfiguration=[{Name=string,Status=string},{Name=string,Status=string}] ... JSON Syntax: [ { "Name": "S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"RUNTIME_MONITORING"|"AI_PROTECTION", "Status": "ENABLED"|"DISABLED", "AdditionalConfiguration": [ { "Name": "EKS_ADDON_MANAGEMENT"|"ECS_FARGATE_AGENT_MANAGEMENT"|"EC2_AGENT_MANAGEMENT", "Status": "ENABLED"|"DISABLED" } ... ] } ... ]
     /// </summary>
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     [CliOption("--cli-input-json")]

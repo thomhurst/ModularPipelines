@@ -37,7 +37,7 @@ public record AwsIotCreateScheduledAuditOptions : AwsOptions
     [CliOption("--day-of-week")]
     public AwsIotCreateScheduledAuditDayOfWeek? DayOfWeek { get; set; }
 
-    [CliOption("--target-check-names")]
+    [CliOption("--target-check-names", GroupValues = true)]
     public IEnumerable<string>? TargetCheckNames { get; set; }
 
     [CliOption("--scheduled-audit-name")]
@@ -46,7 +46,7 @@ public record AwsIotCreateScheduledAuditOptions : AwsOptions
     /// <summary>
     /// Metadata that can be used to manage the scheduled audit. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

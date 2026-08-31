@@ -38,16 +38,16 @@ public record AwsLicenseManagerUpdateLicenseAssetGroupOptions : AwsOptions
     /// <summary>
     /// License asset group configurations. (structure) License asset group configuration. UsageDimension -&gt; (string) License Asset Group Configuration Usage dimension. Shorthand Syntax: UsageDimension=string ... JSON Syntax: [ { "UsageDimension": "string" } ... ]
     /// </summary>
-    [CliOption("--license-asset-group-configurations")]
+    [CliOption("--license-asset-group-configurations", GroupValues = true)]
     public IEnumerable<string>? LicenseAssetGroupConfigurations { get; set; }
 
-    [CliOption("--associated-license-asset-ruleset-arns")]
+    [CliOption("--associated-license-asset-ruleset-arns", GroupValues = true)]
     public IEnumerable<string>? AssociatedLicenseAssetRulesetArns { get; set; }
 
     /// <summary>
     /// License asset group properties. (structure) License asset group property. Key -&gt; (string) [required] Property key. Value -&gt; (string) [required] Property value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--properties")]
+    [CliOption("--properties", GroupValues = true)]
     public IEnumerable<string>? Properties { get; set; }
 
     [CliOption("--license-asset-group-arn")]

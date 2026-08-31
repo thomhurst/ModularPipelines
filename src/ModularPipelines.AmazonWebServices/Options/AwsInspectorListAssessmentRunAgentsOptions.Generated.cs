@@ -28,7 +28,7 @@ public record AwsInspectorListAssessmentRunAgentsOptions : AwsOptions
     /// <summary>
     /// You can use this parameter to specify a subset of data to be in- cluded in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match. agentHealths -&gt; (list) [required] The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY . Constraints: o min: 0 o max: 10 (string) Possible values: o HEALTHY o UNHEALTHY o UNKNOWN agentHealthCodes -&gt; (list) [required] The detailed health state of the agent. Values can be set to IDLE , RUNNING , SHUTDOWN , UNHEALTHY , THROTTLED , and UNKNOWN . Constraints: o min: 0 o max: 10 (string) Possible values: o IDLE o RUNNING o SHUTDOWN o UNHEALTHY o THROTTLED o UNKNOWN Shorthand Syntax: agentHealths=string,string,agentHealthCodes=string,string JSON Syntax: { "agentHealths": ["HEALTHY"|"UNHEALTHY"|"UNKNOWN", ...], "agentHealthCodes": ["IDLE"|"RUNNING"|"SHUTDOWN"|"UNHEALTHY"|"THROTTLED"|"UNKNOWN", ...] }
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", GroupValues = true)]
     public IEnumerable<string>? Filter { get; set; }
 
     [CliOption("--cli-input-json")]

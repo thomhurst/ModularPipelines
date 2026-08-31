@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityhub", "batch-update-findings")]
 public record AwsSecurityhubBatchUpdateFindingsOptions : AwsOptions
 {
-    [CliOption("--finding-identifiers")]
+    [CliOption("--finding-identifiers", GroupValues = true)]
     public IEnumerable<string>? FindingIdentifiers { get; set; }
 
     /// <summary>
@@ -59,13 +59,13 @@ public record AwsSecurityhubBatchUpdateFindingsOptions : AwsOptions
     /// <summary>
     /// One or more finding types in the format of namespace/category/clas- sifier that classify a finding. Valid namespace values are as follows. o Software and Configuration Checks o TTPs o Effects o Unusual Behaviors o Sensitive Data Identifications (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--types")]
+    [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
     /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (string) Constraints: o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--user-defined-fields")]
+    [CliOption("--user-defined-fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UserDefinedFields { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record AwsSecurityhubBatchUpdateFindingsOptions : AwsOptions
     /// <summary>
     /// A list of findings that are related to the updated findings. (structure) Details about a related finding. ProductArn -&gt; (string) [required] The ARN of the product that generated a related finding. Constraints: o pattern: .*\S.* Id -&gt; (string) [required] The product-generated identifier for a related finding. Constraints: o pattern: .*\S.* Shorthand Syntax: ProductArn=string,Id=string ... JSON Syntax: [ { "ProductArn": "string", "Id": "string" } ... ]
     /// </summary>
-    [CliOption("--related-findings")]
+    [CliOption("--related-findings", GroupValues = true)]
     public IEnumerable<string>? RelatedFindings { get; set; }
 
     [CliOption("--cli-input-json")]

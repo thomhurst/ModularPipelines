@@ -24,7 +24,7 @@ public record AwsIamTagRoleOptions : AwsOptions
     [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

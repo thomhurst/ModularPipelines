@@ -24,7 +24,7 @@ public record AwsLocationBatchUpdateDevicePositionOptions : AwsOptions
     [CliOption("--tracker-name")]
     public string? TrackerName { get; set; }
 
-    [CliOption("--updates")]
+    [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; set; }
 
     [CliOption("--cli-input-json")]

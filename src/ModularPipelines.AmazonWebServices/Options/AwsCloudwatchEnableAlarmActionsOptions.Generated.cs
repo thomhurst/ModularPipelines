@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "enable-alarm-actions")]
 public record AwsCloudwatchEnableAlarmActionsOptions : AwsOptions
 {
-    [CliOption("--alarm-names")]
+    [CliOption("--alarm-names", GroupValues = true)]
     public IEnumerable<string>? AlarmNames { get; set; }
 
     [CliOption("--cli-input-json")]

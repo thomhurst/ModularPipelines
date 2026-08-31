@@ -70,7 +70,7 @@ public record AwsDlmUpdateLifecyclePolicyOptions : AwsOptions
     /// <summary>
     /// [Default policies only] Specifies destination Regions for snap- shot or AMI copies. You can specify up to 3 destination Regions. If you do not want to create cross-Region copies, omit this pa- rameter. Constraints: o min: 0 o max: 3 (structure) [Default policies only] Specifies a destination Region for cross-Region copy actions. TargetRegion -&gt; (string) The target Region, for example us-east-1 . Constraints: o min: 0 o max: 16 o pattern: ([a-z]+-){2,3}\d Shorthand Syntax: TargetRegion=string ... JSON Syntax: [ { "TargetRegion": "string" } ... ]
     /// </summary>
-    [CliOption("--cross-region-copy-targets")]
+    [CliOption("--cross-region-copy-targets", GroupValues = true)]
     public IEnumerable<string>? CrossRegionCopyTargets { get; set; }
 
     /// <summary>

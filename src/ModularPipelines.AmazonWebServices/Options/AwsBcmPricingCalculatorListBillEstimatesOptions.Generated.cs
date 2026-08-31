@@ -25,7 +25,7 @@ public record AwsBcmPricingCalculatorListBillEstimatesOptions : AwsOptions
     /// <summary>
     /// Filters to apply to the list of bill estimates. (structure) Represents a filter for listing bill estimates. name -&gt; (string) [required] The name of the filter attribute. Possible values: o STATUS o NAME values -&gt; (list) [required] The values to filter by. (string) matchOption -&gt; (string) The match option for the filter (e.g., equals, contains). Possible values: o EQUALS o STARTS_WITH o CONTAINS Shorthand Syntax: name=string,values=string,string,matchOption=string ... JSON Syntax: [ { "name": "STATUS"|"NAME", "values": ["string", ...], "matchOption": "EQUALS"|"STARTS_WITH"|"CONTAINS" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsBraketGetQuantumTaskOptions : AwsOptions
     /// <summary>
     /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported. (string) Possible values: o QueueInfo Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-attribute-names")]
+    [CliOption("--additional-attribute-names", GroupValues = true)]
     public IEnumerable<string>? AdditionalAttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

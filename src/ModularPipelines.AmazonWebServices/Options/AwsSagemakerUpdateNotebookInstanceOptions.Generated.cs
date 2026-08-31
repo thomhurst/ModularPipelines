@@ -73,13 +73,13 @@ public record AwsSagemakerUpdateNotebookInstanceOptions : AwsOptions
     /// <summary>
     /// An array of up to three Git repositories to associate with the note- book instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances . Constraints: o min: 0 o max: 3 (string) Constraints: o min: 1 o max: 1024 o pattern: https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--additional-code-repositories")]
+    [CliOption("--additional-code-repositories", GroupValues = true)]
     public IEnumerable<string>? AdditionalCodeRepositories { get; set; }
 
     /// <summary>
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance. (string) Possible values: o ml.eia1.medium o ml.eia1.large o ml.eia1.xlarge o ml.eia2.medium o ml.eia2.large o ml.eia2.xlarge Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--accelerator-types")]
+    [CliOption("--accelerator-types", GroupValues = true)]
     public IEnumerable<string>? AcceleratorTypes { get; set; }
 
     [CliFlag("--disassociate-accelerator-types")]

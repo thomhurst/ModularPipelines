@@ -28,7 +28,7 @@ public record AwsEmrServerlessListSessionsOptions : AwsOptions
     /// <summary>
     /// An optional filter for session states. Note that if this filter con- tains multiple states, the resulting list will be grouped by the state. Constraints: o min: 1 o max: 8 (string) Possible values: o SUBMITTED o STARTING o STARTED o IDLE o BUSY o FAILED o TERMINATING o TERMINATED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>

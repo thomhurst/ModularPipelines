@@ -25,7 +25,7 @@ public record AwsSsmDescribeAutomationExecutionsOptions : AwsOptions
     /// <summary>
     /// Filters used to limit the scope of executions that are requested. Constraints: o min: 1 o max: 10 (structure) A filter used to match specific automation executions. This is used to limit the scope of Automation execution information re- turned. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: o DocumentNamePrefix o ExecutionStatus o ExecutionId o ParentExecutionId o CurrentAction o StartTimeBefore o StartTimeAfter o AutomationType o TagKey o TargetResourceGroup o AutomationSubtype o OpsItemId Values -&gt; (list) [required] The values used to limit the execution information associated with the filter's key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "DocumentNamePrefix"|"ExecutionStatus"|"ExecutionId"|"ParentExecutionId"|"CurrentAction"|"StartTimeBefore"|"StartTimeAfter"|"AutomationType"|"TagKey"|"TargetResourceGroup"|"AutomationSubtype"|"OpsItemId", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

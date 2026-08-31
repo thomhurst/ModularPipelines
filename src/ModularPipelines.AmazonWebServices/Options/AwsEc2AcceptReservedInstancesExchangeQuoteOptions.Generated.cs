@@ -24,13 +24,13 @@ public record AwsEc2AcceptReservedInstancesExchangeQuoteOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--reserved-instance-ids")]
+    [CliOption("--reserved-instance-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstanceIds { get; set; }
 
     /// <summary>
     /// The configuration of the target Convertible Reserved Instance to ex- change for your current Convertible Reserved Instances. (structure) Details about the target configuration. InstanceCount -&gt; (integer) The number of instances the Convertible Reserved Instance of- fering can be applied to. This parameter is reserved and can- not be specified in a request OfferingId -&gt; (string) [required] The Convertible Reserved Instance offering ID. Shorthand Syntax: InstanceCount=integer,OfferingId=string ... JSON Syntax: [ { "InstanceCount": integer, "OfferingId": "string" } ... ]
     /// </summary>
-    [CliOption("--target-configurations")]
+    [CliOption("--target-configurations", GroupValues = true)]
     public IEnumerable<string>? TargetConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

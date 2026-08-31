@@ -49,7 +49,7 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of virtual private cloud (VPC) security groups that the clus- ter will belong to. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsDatabrewCreateScheduleOptions : AwsOptions
     /// <summary>
     /// The name or names of one or more jobs to be run. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 240 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--job-names")]
+    [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
 
     [CliOption("--cron-expression")]
@@ -34,7 +34,7 @@ public record AwsDatabrewCreateScheduleOptions : AwsOptions
     /// <summary>
     /// Metadata tags to apply to this schedule. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--name")]

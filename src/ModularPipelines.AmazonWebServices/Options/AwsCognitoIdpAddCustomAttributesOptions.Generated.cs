@@ -24,7 +24,7 @@ public record AwsCognitoIdpAddCustomAttributesOptions : AwsOptions
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; set; }
 
-    [CliOption("--custom-attributes")]
+    [CliOption("--custom-attributes", GroupValues = true)]
     public IEnumerable<string>? CustomAttributes { get; set; }
 
     [CliOption("--cli-input-json")]

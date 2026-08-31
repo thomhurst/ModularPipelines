@@ -24,7 +24,7 @@ public record AwsGameliftGetPlayerConnectionDetailsOptions : AwsOptions
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; set; }
 
-    [CliOption("--player-ids")]
+    [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; set; }
 
     [CliOption("--cli-input-json")]

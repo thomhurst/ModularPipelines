@@ -33,7 +33,7 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationOptions : AwsOptions
     /// <summary>
     /// The new set of endpoints for the specified SIP media application. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
     /// </summary>
-    [CliOption("--endpoints")]
+    [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     [CliOption("--cli-input-json")]

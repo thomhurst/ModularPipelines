@@ -25,7 +25,7 @@ public record AwsLicenseManagerListResourceInventoryOptions : AwsOptions
     /// <summary>
     /// Filters to scope the results. The following filters and logical op- erators are supported: o account_id - The ID of the Amazon Web Services account that owns the resource. Logical operators are EQUALS | NOT_EQUALS . o application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH . o license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS . Possible values are sql-server-enter- prise | sql-server-standard | sql-server-web | windows-server-dat- acenter . o platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH . o resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS . o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account). (structure) An inventory filter. Name -&gt; (string) [required] Name of the filter. Condition -&gt; (string) [required] Condition of the filter. Possible values: o EQUALS o NOT_EQUALS o BEGINS_WITH o CONTAINS Value -&gt; (string) Value of the filter. Shorthand Syntax: Name=string,Condition=string,Value=string ... JSON Syntax: [ { "Name": "string", "Condition": "EQUALS"|"NOT_EQUALS"|"BEGINS_WITH"|"CONTAINS", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -27,7 +27,7 @@ public record AwsElbDescribeInstanceHealthOptions : AwsOptions
     /// <summary>
     /// The IDs of the instances. (structure) The ID of an EC2 instance. InstanceId -&gt; (string) The instance ID. Shorthand Syntax: --instances InstanceId1 InstanceId2 InstanceId3 JSON Syntax: [ { "InstanceId": "string" } ... ]
     /// </summary>
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     [CliOption("--cli-input-json")]

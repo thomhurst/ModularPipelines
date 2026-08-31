@@ -28,7 +28,7 @@ public record AwsAgentRegistryListDiscoverableRegistryRecordsOptions : AwsOption
     /// <summary>
     /// The filters to apply to the discoverable registry record list. Constraints: o min: 0 o max: 10 (structure) A single filter applied to a ListDiscoverableRegistryRecords re- quest. name -&gt; (string) [required] The attribute to filter on. Possible values: o recordType o descriptorType values -&gt; (list) [required] The values to match for the attribute. Constraints: o min: 1 o max: 10 (string) A single filter value. Constrained by length only; the accepted set of values is filter-specific and validated server-side so enum-style values such as READY or AWS_IAM are accepted. Constraints: o min: 1 o max: 255 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "recordType"|"descriptorType", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

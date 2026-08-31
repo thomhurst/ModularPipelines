@@ -52,19 +52,19 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions
     /// <summary>
     /// Not supported. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--product-codes")]
+    [CliOption("--product-codes", GroupValues = true)]
     public IEnumerable<string>? ProductCodes { get; set; }
 
     /// <summary>
     /// The user groups. This parameter can be used only when the Attribute parameter is launchPermission . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-groups")]
+    [CliOption("--user-groups", GroupValues = true)]
     public IEnumerable<string>? UserGroups { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account IDs. This parameter can be used only when the Attribute parameter is launchPermission . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--user-ids")]
+    [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
@@ -76,13 +76,13 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Name (ARN) of an organization. This parameter can be used only when the Attribute parameter is launchPermission . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organization-arns")]
+    [CliOption("--organization-arns", GroupValues = true)]
     public IEnumerable<string>? OrganizationArns { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an organizational unit (OU). This parameter can be used only when the Attribute parameter is launch- Permission . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organizational-unit-arns")]
+    [CliOption("--organizational-unit-arns", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitArns { get; set; }
 
     /// <summary>

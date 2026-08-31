@@ -31,7 +31,7 @@ public record AwsLexv2ModelsListBotsOptions : AwsOptions
     /// <summary>
     /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: o min: 1 o max: 2 (structure) Filters the responses returned by the ListBots operation. name -&gt; (string) [required] The name of the field to filter the list of bots. Possible values: o BotName o BotType values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the List- Bots operation should return only aliases that equal the specified value. Specify CO when the ListBots operation should return aliases that contain the specified value. Possible values: o CO o EQ o NE Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "BotName"|"BotType", "values": ["string", ...], "operator": "CO"|"EQ"|"NE" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

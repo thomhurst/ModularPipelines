@@ -36,7 +36,7 @@ public record AwsGlueGetUnfilteredTableMetadataOptions : AwsOptions
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CliOption("--supported-permission-types")]
+    [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public record AwsGlueGetUnfilteredTableMetadataOptions : AwsOptions
     /// <summary>
     /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found. (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>

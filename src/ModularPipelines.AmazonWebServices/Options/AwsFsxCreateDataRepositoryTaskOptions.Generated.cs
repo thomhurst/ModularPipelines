@@ -28,7 +28,7 @@ public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions
     /// <summary>
     /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails. If you don't provide paths, the default behavior is to export all files to S3 (for export tasks), import all files from S3 (for import tasks), or release all exported files that meet the last accessed time criteria (for release tasks). o For export tasks, the list contains paths on the FSx for Lustre file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1 . o For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the FSx for Lus- tre file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix (where prefix is optional). o For release tasks, the list contains directory or file paths on the FSx for Lustre file system from which to release exported files. If a directory is specified, files within the directory are released. If a file path is specified, only that file is released. To release all exported files in the file system, specify a for- ward slash (/) as the path. NOTE: A file must also meet the last accessed time criteria specified in for the file to be released. Constraints: o max: 100 (string) Constraints: o min: 0 o max: 4096 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{0,4096}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--paths")]
+    [CliOption("--paths", GroupValues = true)]
     public IEnumerable<string>? Paths { get; set; }
 
     [CliOption("--file-system-id")]
@@ -47,7 +47,7 @@ public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions
     /// <summary>
     /// A list of Tag values, with a maximum of 50 elements. Constraints: o min: 1 o max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are at- tached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

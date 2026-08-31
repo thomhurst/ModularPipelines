@@ -34,25 +34,25 @@ public record AwsPartnercentralSellingListSolutionsOptions : AwsOptions
     /// <summary>
     /// Filters solutions based on their status. This filter helps partners manage their solution portfolios effectively. Constraints: o min: 0 o max: 10 (string) Possible values: o Active o Inactive o Draft Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
     /// Filters the solutions based on their unique identifier. Use this filter to retrieve specific solutions by providing the solution's identifier for accurate results. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: S-[0-9]{1,19} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--identifier")]
+    [CliOption("--identifier", GroupValues = true)]
     public IEnumerable<string>? Identifier { get; set; }
 
     /// <summary>
     /// Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific cate- gories, such as Software , Consulting , or Managed Services . Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--category")]
+    [CliOption("--category", GroupValues = true)]
     public IEnumerable<string>? Category { get; set; }
 
     /// <summary>
     /// Filters results by AWS Marketplace solution ARN. You can provide up to 10 ARNs. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 4 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aws-marketplace-solution-arn")]
+    [CliOption("--aws-marketplace-solution-arn", GroupValues = true)]
     public IEnumerable<string>? AwsMarketplaceSolutionArn { get; set; }
 
     [CliOption("--cli-input-json")]

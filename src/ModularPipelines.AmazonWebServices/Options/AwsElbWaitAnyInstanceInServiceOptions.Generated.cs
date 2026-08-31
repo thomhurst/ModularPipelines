@@ -27,7 +27,7 @@ public record AwsElbWaitAnyInstanceInServiceOptions : AwsOptions
     /// <summary>
     /// The IDs of the instances. (structure) The ID of an EC2 instance. InstanceId -&gt; (string) The instance ID. Shorthand Syntax: InstanceId=string ... JSON Syntax: [ { "InstanceId": "string" } ... ]
     /// </summary>
-    [CliOption("--instances")]
+    [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     [CliOption("--cli-input-json")]

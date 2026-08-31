@@ -31,7 +31,7 @@ public record AwsRedshiftDescribeIntegrationsOptions : AwsOptions
     /// <summary>
     /// A filter that specifies one or more resources to return. (structure) A set of elements to filter the returned integrations. Name -&gt; (string) [required] Specifies the type of integration filter. Possible values: o integration-arn o source-arn o source-types o status Values -&gt; (list) [required] Specifies the values to filter on. (string) Constraints: o max: 2147483647 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "integration-arn"|"source-arn"|"source-types"|"status", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

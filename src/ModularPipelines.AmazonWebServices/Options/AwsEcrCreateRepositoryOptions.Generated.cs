@@ -34,7 +34,7 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions
     /// <summary>
     /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. (structure) The metadata to apply to a resource to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Value -&gt; (string) [required] A value acts as a descriptor within a tag category (key). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions
     /// <summary>
     /// A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting. Constraints: o min: 1 o max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mu- tability settings. Possible values: o WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
     /// </summary>
-    [CliOption("--image-tag-mutability-exclusion-filters")]
+    [CliOption("--image-tag-mutability-exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ImageTagMutabilityExclusionFilters { get; set; }
 
     /// <summary>

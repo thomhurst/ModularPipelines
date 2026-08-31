@@ -25,7 +25,7 @@ public record AwsWickrBatchLookupUserUnameOptions : AwsOptions
     [CliOption("--network-id")]
     public string? NetworkId { get; set; }
 
-    [CliOption("--unames")]
+    [CliOption("--unames", GroupValues = true)]
     public IEnumerable<string>? Unames { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions
     /// <summary>
     /// The bundle names. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--bundle-names")]
+    [CliOption("--bundle-names", GroupValues = true)]
     public IEnumerable<string>? BundleNames { get; set; }
 
     [CliOption("--cli-input-json")]

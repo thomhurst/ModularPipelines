@@ -27,7 +27,7 @@ public record AwsIdentitystoreUpdateGroupOptions : AwsOptions
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CliOption("--operations")]
+    [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     [CliOption("--cli-input-json")]

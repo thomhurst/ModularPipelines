@@ -24,7 +24,7 @@ public record AwsPersonalizeEventsPutUsersOptions : AwsOptions
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; set; }
 
-    [CliOption("--users")]
+    [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; set; }
 
     [CliOption("--cli-input-json")]

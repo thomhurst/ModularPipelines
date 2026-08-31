@@ -24,7 +24,7 @@ public record AwsResourceGroupsUntagOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--keys")]
+    [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     [CliOption("--cli-input-json")]

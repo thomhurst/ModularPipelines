@@ -25,7 +25,7 @@ public record AwsEcrDescribeRepositoryCreationTemplatesOptions : AwsOptions
     /// <summary>
     /// The repository namespace prefixes associated with the repository creation templates to describe. If this value is not specified, all repository creation templates are returned. (string) Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--prefixes")]
+    [CliOption("--prefixes", GroupValues = true)]
     public IEnumerable<string>? Prefixes { get; set; }
 
     [CliOption("--cli-input-json")]

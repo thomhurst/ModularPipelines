@@ -28,7 +28,7 @@ public record AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions : Aw
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CliOption("--disassociate-data-segment-entries")]
+    [CliOption("--disassociate-data-segment-entries", GroupValues = true)]
     public IEnumerable<string>? DisassociateDataSegmentEntries { get; set; }
 
     /// <summary>

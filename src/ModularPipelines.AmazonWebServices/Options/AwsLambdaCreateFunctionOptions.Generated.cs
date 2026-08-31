@@ -113,19 +113,19 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     /// <summary>
     /// A list of tags to apply to the function. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A list of function layers to add to the function's execution envi- ronment. Specify each layer by its ARN, including the version. (string) Constraints: o min: 1 o max: 2048 o pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+)) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--layers")]
+    [CliOption("--layers", GroupValues = true)]
     public IEnumerable<string>? Layers { get; set; }
 
     /// <summary>
     /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system. Constraints: o min: 0 o max: 1 (structure) Details about the connection between a Lambda function and an Amazon EFS file system or an Amazon S3 Files file system . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-zA-Z-]*:elasticfilesys- tem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ac- cess-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40} LocalMountPath -&gt; (string) [required] The path where the function can access the file system, starting with /mnt/ . Constraints: o min: 0 o max: 160 o pattern: /mnt/[a-zA-Z0-9-_.]+ Shorthand Syntax: Arn=string,LocalMountPath=string ... JSON Syntax: [ { "Arn": "string", "LocalMountPath": "string" } ... ]
     /// </summary>
-    [CliOption("--file-system-configs")]
+    [CliOption("--file-system-configs", GroupValues = true)]
     public IEnumerable<string>? FileSystemConfigs { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     /// <summary>
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The de- fault value is x86_64 . Constraints: o min: 1 o max: 1 (string) Possible values: o x86_64 o arm64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--architectures")]
+    [CliOption("--architectures", GroupValues = true)]
     public IEnumerable<string>? Architectures { get; set; }
 
     /// <summary>

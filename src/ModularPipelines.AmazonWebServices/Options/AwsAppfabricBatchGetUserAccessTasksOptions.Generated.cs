@@ -24,7 +24,7 @@ public record AwsAppfabricBatchGetUserAccessTasksOptions : AwsOptions
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; set; }
 
-    [CliOption("--task-id-list")]
+    [CliOption("--task-id-list", GroupValues = true)]
     public IEnumerable<string>? TaskIdList { get; set; }
 
     [CliOption("--cli-input-json")]

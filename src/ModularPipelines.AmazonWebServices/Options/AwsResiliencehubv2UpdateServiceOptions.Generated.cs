@@ -34,7 +34,7 @@ public record AwsResiliencehubv2UpdateServiceOptions : AwsOptions
     /// <summary>
     /// The updated systems to associate with the service. Constraints: o min: 0 o max: 20 (structure) Represents a system associated with a service. systemArn -&gt; (string) [required] ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} systemName -&gt; (string) Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59} userJourneyIds -&gt; (list) The list of user journey identifiers that associate this sys- tem with the service. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 255 o pattern: \S{1,255} Shorthand Syntax: systemArn=string,systemName=string,userJourneyIds=string,string ... JSON Syntax: [ { "systemArn": "string", "systemName": "string", "userJourneyIds": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--associated-systems")]
+    [CliOption("--associated-systems", GroupValues = true)]
     public IEnumerable<string>? AssociatedSystems { get; set; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public record AwsResiliencehubv2UpdateServiceOptions : AwsOptions
     /// <summary>
     /// The updated AWS Regions where the service operates. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 6 o pattern: [a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9] Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--regions")]
+    [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

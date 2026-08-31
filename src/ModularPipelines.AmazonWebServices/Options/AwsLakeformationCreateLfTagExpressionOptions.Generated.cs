@@ -36,7 +36,7 @@ public record AwsLakeformationCreateLfTagExpressionOptions : AwsOptions
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--expression")]
+    [CliOption("--expression", GroupValues = true)]
     public IEnumerable<string>? Expression { get; set; }
 
     [CliOption("--cli-input-json")]

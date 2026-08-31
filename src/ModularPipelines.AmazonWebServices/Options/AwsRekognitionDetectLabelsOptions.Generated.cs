@@ -42,7 +42,7 @@ public record AwsRekognitionDetectLabelsOptions : AwsOptions
     /// <summary>
     /// A list of the types of analysis to perform. Specifying GENERAL_LA- BELS uses the label detection feature, while specifying IMAGE_PROP- ERTIES returns information regarding image color and quality. If no option is specified GENERAL_LABELS is used by default. Constraints: o min: 0 o max: 2 (string) Possible values: o GENERAL_LABELS o IMAGE_PROPERTIES Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>

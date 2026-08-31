@@ -25,7 +25,7 @@ public record AwsImagebuilderListImagePipelinesOptions : AwsOptions
     /// <summary>
     /// Use the following filters to streamline results: o description o distributionConfigurationArn o imageRecipeArn o infrastructureConfigurationArn o name o status Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

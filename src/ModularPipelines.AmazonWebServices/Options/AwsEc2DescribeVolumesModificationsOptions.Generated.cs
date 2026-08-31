@@ -28,13 +28,13 @@ public record AwsEc2DescribeVolumesModificationsOptions : AwsOptions
     /// <summary>
     /// The IDs of the volumes. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--volume-ids")]
+    [CliOption("--volume-ids", GroupValues = true)]
     public IEnumerable<string>? VolumeIds { get; set; }
 
     /// <summary>
     /// The filters. o modification-state - The current modification state (modifying | optimizing | completed | failed). o original-iops - The original IOPS rate of the volume. o original-size - The original size of the volume, in GiB. o original-volume-type - The original volume type of the volume (standard | io1 | io2 | gp2 | sc1 | st1). o originalMultiAttachEnabled - Indicates whether Multi-Attach sup- port was enabled (true | false). o start-time - The modification start time. o target-iops - The target IOPS rate of the volume. o target-size - The target size of the volume, in GiB. o target-volume-type - The target volume type of the volume (stan- dard | io1 | io2 | gp2 | sc1 | st1). o targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false). o volume-id - The ID of the volume. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliFlag("--include-managed-resources")]

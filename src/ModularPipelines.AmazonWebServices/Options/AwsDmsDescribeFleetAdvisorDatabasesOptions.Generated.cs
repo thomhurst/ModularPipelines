@@ -25,7 +25,7 @@ public record AwsDmsDescribeFleetAdvisorDatabasesOptions : AwsOptions
     /// <summary>
     /// If you specify any of the following filters, the output includes in- formation for only those databases that meet the filter criteria: o database-id The ID of the database. o database-name The name of the database. o database-engine The name of the database engine. o server-ip-address The IP address of the database server. o database-ip-address The IP address of the database. o collector-name The name of the associated Fleet Advisor collec- tor. An example is: describe-fleet-advisor-databases --filter Name="data- base-id",Values="45" (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("importexport", "get-shipping-label")]
 public record AwsImportexportGetShippingLabelOptions : AwsOptions
 {
-    [CliOption("--job-ids")]
+    [CliOption("--job-ids", GroupValues = true)]
     public IEnumerable<string>? JobIds { get; set; }
 
     [CliOption("--name")]

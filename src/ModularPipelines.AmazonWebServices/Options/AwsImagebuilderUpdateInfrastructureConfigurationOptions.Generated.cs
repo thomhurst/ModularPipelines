@@ -35,7 +35,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The ser- vice will pick one of these instance types based on availability. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-types")]
+    [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
 
     [CliOption("--instance-profile-name")]
@@ -44,7 +44,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The security group IDs to associate with the instance used to cus- tomize your Amazon EC2 AMI. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     /// <summary>
     /// The tags attached to the resource created by Image Builder. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions
     [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CliOption("--package-user-list")]
+    [CliOption("--package-user-list", GroupValues = true)]
     public IEnumerable<string>? PackageUserList { get; set; }
 
     [CliOption("--cli-input-json")]

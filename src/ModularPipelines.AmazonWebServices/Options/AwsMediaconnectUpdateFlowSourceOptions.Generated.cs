@@ -70,7 +70,7 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions
     /// <summary>
     /// The media stream that is associated with the source, and the parame- ters for that association. (structure) The media stream that you want to associate with the source, and the parameters for that association. EncodingName -&gt; (string) [required] The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv. Possible values: o jxsv o raw o smpte291 o pcm InputConfigurations -&gt; (list) The media streams that you want to associate with the source. (structure) The transport parameters that you want to associate with an incoming media stream. InputPort -&gt; (integer) [required] The port that you want the flow to listen on for an incoming media stream. Interface -&gt; (structure) [required] The VPC interface that you want to use for the incom- ing media stream. Name -&gt; (string) [required] The name of the VPC interface. MediaStreamName -&gt; (string) [required] The name of the media stream. JSON Syntax: [ { "EncodingName": "jxsv"|"raw"|"smpte291"|"pcm", "InputConfigurations": [ { "InputPort": integer, "Interface": { "Name": "string" } } ... ], "MediaStreamName": "string" } ... ]
     /// </summary>
-    [CliOption("--media-stream-source-configurations")]
+    [CliOption("--media-stream-source-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaStreamSourceConfigurations { get; set; }
 
     /// <summary>

@@ -34,7 +34,7 @@ public record AwsGroundstationListGroundStationReservationsOptions : AwsOptions
     /// <summary>
     /// Types of reservations to filter by. (string) Possible values: o MAINTENANCE o CONTACT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--reservation-types")]
+    [CliOption("--reservation-types", GroupValues = true)]
     public IEnumerable<string>? ReservationTypes { get; set; }
 
     [CliOption("--cli-input-json")]

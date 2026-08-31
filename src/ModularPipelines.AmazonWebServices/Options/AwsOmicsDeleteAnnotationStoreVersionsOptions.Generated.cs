@@ -24,7 +24,7 @@ public record AwsOmicsDeleteAnnotationStoreVersionsOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--versions")]
+    [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     [CliFlag("--force")]

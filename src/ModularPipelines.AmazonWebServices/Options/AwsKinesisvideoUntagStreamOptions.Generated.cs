@@ -33,7 +33,7 @@ public record AwsKinesisvideoUntagStreamOptions : AwsOptions
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CliOption("--tag-key-list")]
+    [CliOption("--tag-key-list", GroupValues = true)]
     public IEnumerable<string>? TagKeyList { get; set; }
 
     [CliOption("--cli-input-json")]

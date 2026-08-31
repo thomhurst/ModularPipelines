@@ -39,13 +39,13 @@ public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
     /// <summary>
     /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-countries")]
+    [CliOption("--enabled-countries", GroupValues = true)]
     public IEnumerable<string>? EnabledCountries { get; set; }
 
     /// <summary>
     /// An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-channels")]
+    [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; set; }
 
     [CliFlag("--deletion-protection-enabled")]

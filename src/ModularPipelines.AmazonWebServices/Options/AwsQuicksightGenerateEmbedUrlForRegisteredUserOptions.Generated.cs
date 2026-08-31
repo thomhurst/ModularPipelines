@@ -39,7 +39,7 @@ public record AwsQuicksightGenerateEmbedUrlForRegisteredUserOptions : AwsOptions
     /// <summary>
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter over- rides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use * . For example, https://*.sapp.amazon.com includes all subdo- mains under https://sapp.amazon.com . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-domains")]
+    [CliOption("--allowed-domains", GroupValues = true)]
     public IEnumerable<string>? AllowedDomains { get; set; }
 
     [CliOption("--cli-input-json")]

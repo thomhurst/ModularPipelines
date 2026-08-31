@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-get-data-quality-ruleset-evaluation-run")]
 public record AwsGlueBatchGetDataQualityRulesetEvaluationRunOptions : AwsOptions
 {
-    [CliOption("--run-ids")]
+    [CliOption("--run-ids", GroupValues = true)]
     public IEnumerable<string>? RunIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -28,13 +28,13 @@ public record AwsEc2DescribeSecondaryInterfacesOptions : AwsOptions
     /// <summary>
     /// The filters. o attachment.attachment-id - The ID of the secondary interface at- tachment. o attachment.instance-id - The ID of the instance to which the sec- ondary interface is attached. o attachment.instance-owner-id - The ID of the Amazon Web Services account that owns the instance to which the secondary interface is attached. o attachment.status - The attachment status (attaching | attached | detaching | detached ). o private-ipv4-addresses.private-ip-address - The private IPv4 ad- dress associated with the secondary interface. o owner-id - The ID of the Amazon Web Services account that owns the secondary interface. o secondary-interface-arn - The ARN of the secondary interface. o secondary-interface-id - The ID of the secondary interface. o secondary-interface-type - The type of secondary interface (sec- ondary ). o secondary-network-id - The ID of the secondary network. o secondary-network-type - The type of the secondary network (rdma ). o secondary-subnet-id - The ID of the secondary subnet. o status - The status of the secondary interface (available | in-use ). o tag :&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The IDs of the secondary interfaces. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--secondary-interface-ids")]
+    [CliOption("--secondary-interface-ids", GroupValues = true)]
     public IEnumerable<string>? SecondaryInterfaceIds { get; set; }
 
     [CliOption("--cli-input-json")]

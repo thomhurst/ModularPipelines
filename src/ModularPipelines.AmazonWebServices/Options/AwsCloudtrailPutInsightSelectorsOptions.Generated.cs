@@ -27,7 +27,7 @@ public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
-    [CliOption("--insight-selectors")]
+    [CliOption("--insight-selectors", GroupValues = true)]
     public IEnumerable<string>? InsightSelectors { get; set; }
 
     /// <summary>

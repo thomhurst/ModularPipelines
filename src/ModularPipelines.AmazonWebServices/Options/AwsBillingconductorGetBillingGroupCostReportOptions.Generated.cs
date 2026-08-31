@@ -34,7 +34,7 @@ public record AwsBillingconductorGetBillingGroupCostReportOptions : AwsOptions
     /// <summary>
     /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period. (string) Possible values: o PRODUCT_NAME o BILLING_PERIOD Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>

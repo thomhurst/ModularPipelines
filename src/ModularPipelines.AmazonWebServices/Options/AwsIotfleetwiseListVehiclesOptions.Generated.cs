@@ -32,13 +32,13 @@ public record AwsIotfleetwiseListVehiclesOptions : AwsOptions
     /// <summary>
     /// The fully qualified names of the attributes. You can use this op- tional parameter to list the vehicles containing all the attributes in the request. For example, attributeNames could be "Vehi- cle.Body.Engine.Type, Vehicle.Color " and the corresponding attrib- uteValues could be "1.3 L R2, Blue " . In this case, the API will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue ". A request must contain unique val- ues for the attributeNames filter and the matching number of attrib- uteValues filters to return the subset of vehicles that match the attributes filter condition. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     /// <summary>
     /// Static information about a vehicle attribute value in string format. You can use this optional parameter in conjunction with attribute- Names to list the vehicles containing all the attributeValues corre- sponding to the attributeNames filter. For example, attributeValues could be "1.3 L R2, Blue " and the corresponding attributeNames fil- ter could be "Vehicle.Body.Engine.Type, Vehicle.Color ". In this case, the API will filter vehicles with attribute name Vehi- cle.Body.Engine.Type that contains a value of 1.3 L R2 AND an at- tribute name Vehicle.Color that contains a value of "Blue ". A re- quest must contain unique values for the attributeNames filter and the matching number of attributeValues filter to return the subset of vehicles that match the attributes filter condition. Constraints: o min: 1 o max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-values")]
+    [CliOption("--attribute-values", GroupValues = true)]
     public IEnumerable<string>? AttributeValues { get; set; }
 
     /// <summary>

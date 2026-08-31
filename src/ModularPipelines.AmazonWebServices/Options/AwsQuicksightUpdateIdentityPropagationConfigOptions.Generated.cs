@@ -30,7 +30,7 @@ public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions
     /// <summary>
     /// Specifies a list of application ARNs that represent the authorized targets for a service. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorized-targets")]
+    [CliOption("--authorized-targets", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTargets { get; set; }
 
     [CliOption("--cli-input-json")]

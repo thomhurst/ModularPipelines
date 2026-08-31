@@ -35,25 +35,25 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
     /// <summary>
     /// The list of Amazon Web Services account IDs associated with the workload. Constraints: o min: 0 o max: 100 (string) An Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// The list of Amazon Web Services Regions associated with the work- load, for example, us-east-2 , or ca-central-1 . Constraints: o min: 0 o max: 50 (string) An Amazon Web Services Region, for example, us-west-2 or ap-northeast-1 . Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aws-regions")]
+    [CliOption("--aws-regions", GroupValues = true)]
     public IEnumerable<string>? AwsRegions { get; set; }
 
     /// <summary>
     /// The list of non-Amazon Web Services Regions associated with the workload. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 3 o max: 25 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--non-aws-regions")]
+    [CliOption("--non-aws-regions", GroupValues = true)]
     public IEnumerable<string>? NonAwsRegions { get; set; }
 
     /// <summary>
     /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its PillarReview- Summary$PillarId . (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--pillar-priorities")]
+    [CliOption("--pillar-priorities", GroupValues = true)]
     public IEnumerable<string>? PillarPriorities { get; set; }
 
     /// <summary>
@@ -80,7 +80,7 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
     [CliOption("--industry")]
     public string? Industry { get; set; }
 
-    [CliOption("--lenses")]
+    [CliOption("--lenses", GroupValues = true)]
     public IEnumerable<string>? Lenses { get; set; }
 
     /// <summary>
@@ -99,7 +99,7 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
     /// <summary>
     /// The tags to be associated with the workload. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -111,19 +111,19 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
     /// <summary>
     /// List of AppRegistry application ARNs associated to the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--applications")]
+    [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
     /// The list of profile ARNs associated with the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--profile-arns")]
+    [CliOption("--profile-arns", GroupValues = true)]
     public IEnumerable<string>? ProfileArns { get; set; }
 
     /// <summary>
     /// The list of review template ARNs to associate with the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(re- view-template)/[a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--review-template-arns")]
+    [CliOption("--review-template-arns", GroupValues = true)]
     public IEnumerable<string>? ReviewTemplateArns { get; set; }
 
     /// <summary>

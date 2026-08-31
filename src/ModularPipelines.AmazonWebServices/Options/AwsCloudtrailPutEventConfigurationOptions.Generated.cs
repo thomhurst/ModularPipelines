@@ -43,13 +43,13 @@ public record AwsCloudtrailPutEventConfigurationOptions : AwsOptions
     /// <summary>
     /// A list of context key selectors that will be included to provide en- riched event data. Constraints: o max: 2 (structure) An object that contains information types to be included in CloudTrail enriched events. Type -&gt; (string) [required] Specifies the type of the event record field in ContextKeySe- lector. Valid values include RequestContext, TagContext. Possible values: o TagContext o RequestContext Equals -&gt; (list) [required] A list of keys defined by Type to be included in CloudTrail enriched events. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Type=string,Equals=string,string ... JSON Syntax: [ { "Type": "TagContext"|"RequestContext", "Equals": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--context-key-selectors")]
+    [CliOption("--context-key-selectors", GroupValues = true)]
     public IEnumerable<string>? ContextKeySelectors { get; set; }
 
     /// <summary>
     /// The list of aggregation configurations that you want to configure for the trail. Constraints: o max: 1 (structure) An object that contains configuration settings for aggregating events. Templates -&gt; (list) [required] A list of aggregation templates that can be used to configure event aggregation. Constraints: o min: 1 o max: 50 (string) Specifies the type of the aggregation templates in the aggregation configuration. Valid values include API_AC- TIVITY, RESOURCE_ACCESS and USER_ACTIONS. Possible values: o API_ACTIVITY o RESOURCE_ACCESS o USER_ACTIONS EventCategory -&gt; (string) [required] Specifies the event category for which aggregation should be performed. Possible values: o Data Shorthand Syntax: Templates=string,string,EventCategory=string ... JSON Syntax: [ { "Templates": ["API_ACTIVITY"|"RESOURCE_ACCESS"|"USER_ACTIONS", ...], "EventCategory": "Data" } ... ]
     /// </summary>
-    [CliOption("--aggregation-configurations")]
+    [CliOption("--aggregation-configurations", GroupValues = true)]
     public IEnumerable<string>? AggregationConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

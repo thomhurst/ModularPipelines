@@ -29,7 +29,7 @@ public record AwsSecretsmanagerListSecretsOptions : AwsOptions
     /// <summary>
     /// The filters to apply to the list of secrets. Constraints: o max: 10 (structure) Allows you to add filters when you use the search function in Secrets Manager. For more information, see Find secrets in Se- crets Manager . Key -&gt; (string) The following are keys you can use: o description : Prefix match, not case-sensitive. o name : Prefix match, case-sensitive. o tag-key : Prefix match, case-sensitive. o tag-value : Prefix match, case-sensitive. o primary-region : Prefix match, case-sensitive. o owning-service : Prefix match, case-sensitive. o all : Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive. Possible values: o description o name o tag-key o tag-value o primary-region o owning-service o all Values -&gt; (list) The keyword to filter for. You can prefix your search value with an exclamation mark (! ) in order to perform negation filters. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 512 o pattern: ^\!?[a-zA-Z0-9 :_@\/\+\=\.\-\!]*$ Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "description"|"name"|"tag-key"|"tag-value"|"primary-region"|"owning-service"|"all", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

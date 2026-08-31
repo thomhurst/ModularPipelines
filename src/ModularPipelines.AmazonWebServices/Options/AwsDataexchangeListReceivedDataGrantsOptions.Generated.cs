@@ -25,7 +25,7 @@ public record AwsDataexchangeListReceivedDataGrantsOptions : AwsOptions
     /// <summary>
     /// The acceptance state of the data grants to list. (string) Possible values: o PENDING_RECEIVER_ACCEPTANCE o ACCEPTED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--acceptance-state")]
+    [CliOption("--acceptance-state", GroupValues = true)]
     public IEnumerable<string>? AcceptanceState { get; set; }
 
     [CliOption("--cli-input-json")]

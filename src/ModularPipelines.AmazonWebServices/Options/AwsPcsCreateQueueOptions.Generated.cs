@@ -32,7 +32,7 @@ public record AwsPcsCreateQueueOptions : AwsOptions
     /// <summary>
     /// The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups. (structure) The compute node group configuration for a queue. computeNodeGroupId -&gt; (string) The compute node group ID for the compute node group configu- ration. Shorthand Syntax: computeNodeGroupId=string ... JSON Syntax: [ { "computeNodeGroupId": "string" } ... ]
     /// </summary>
-    [CliOption("--compute-node-group-configurations")]
+    [CliOption("--compute-node-group-configurations", GroupValues = true)]
     public IEnumerable<string>? ComputeNodeGroupConfigurations { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record AwsPcsCreateQueueOptions : AwsOptions
     /// <summary>
     /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

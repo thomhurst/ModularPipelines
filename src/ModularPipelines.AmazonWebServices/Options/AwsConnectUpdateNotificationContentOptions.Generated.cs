@@ -28,7 +28,7 @@ public record AwsConnectUpdateNotificationContentOptions : AwsOptions
     [CliOption("--notification-id")]
     public string? NotificationId { get; set; }
 
-    [CliOption("--content")]
+    [CliOption("--content", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Content { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("directconnect", "describe-tags")]
 public record AwsDirectconnectDescribeTagsOptions : AwsOptions
 {
-    [CliOption("--resource-arns")]
+    [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
 
     [CliOption("--cli-input-json")]

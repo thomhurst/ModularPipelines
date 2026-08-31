@@ -28,7 +28,7 @@ public record AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions : AwsO
     [CliOption("--report-generator-name")]
     public string? ReportGeneratorName { get; set; }
 
-    [CliOption("--type")]
+    [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     [CliOption("--report-context")]

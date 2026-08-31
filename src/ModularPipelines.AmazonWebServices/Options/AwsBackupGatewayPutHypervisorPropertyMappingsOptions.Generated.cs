@@ -24,7 +24,7 @@ public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions : AwsOptions
     [CliOption("--hypervisor-arn")]
     public string? HypervisorArn { get; set; }
 
-    [CliOption("--vmware-to-aws-tag-mappings")]
+    [CliOption("--vmware-to-aws-tag-mappings", GroupValues = true)]
     public IEnumerable<string>? VmwareToAwsTagMappings { get; set; }
 
     [CliOption("--iam-role-arn")]

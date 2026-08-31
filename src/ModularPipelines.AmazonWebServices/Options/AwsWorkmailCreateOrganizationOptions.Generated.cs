@@ -41,7 +41,7 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions
     /// <summary>
     /// The email domains to associate with the organization. Constraints: o min: 0 o max: 5 (structure) The domain to associate with an WorkMail organization. When you configure a domain hosted in Amazon Route 53 (Route 53), all recommended DNS records are added to the organization when you create it. For more information, see Adding a domain in the WorkMail Administrator Guide . DomainName -&gt; (string) [required] The fully qualified domain name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+ HostedZoneId -&gt; (string) The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53. Constraints: o min: 1 o max: 32 o pattern: [^/\\]* Shorthand Syntax: DomainName=string,HostedZoneId=string ... JSON Syntax: [ { "DomainName": "string", "HostedZoneId": "string" } ... ]
     /// </summary>
-    [CliOption("--domains")]
+    [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; set; }
 
     /// <summary>

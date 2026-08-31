@@ -32,7 +32,7 @@ public record AwsConnectStartChatContactOptions : AwsOptions
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--attributes")]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--participant-details")]
@@ -66,7 +66,7 @@ public record AwsConnectStartChatContactOptions : AwsOptions
     /// <summary>
     /// The supported chat message content types. Supported types are text/plain , text/markdown , application/json , application/vnd.ama- zonaws.connect.message.interactive , and application/vnd.amazon- aws.connect.message.interactive.response . Content types must always contain text/plain . You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain : [text/plain, text/markdown, application/json] , [text/markdown, text/plain] , [text/plain, application/json, application/vnd.amazonaws.con- nect.message.interactive.response] . NOTE: The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--supported-messaging-content-types")]
+    [CliOption("--supported-messaging-content-types", GroupValues = true)]
     public IEnumerable<string>? SupportedMessagingContentTypes { get; set; }
 
     /// <summary>
@@ -84,7 +84,7 @@ public record AwsConnectStartChatContactOptions : AwsOptions
     /// <summary>
     /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as con- nect:Guide . NOTE: The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.re- sponse must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as {"con- nect:Subtype": {"valueString" : "connect:Guide" }} . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
     /// </summary>
-    [CliOption("--segment-attributes")]
+    [CliOption("--segment-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
     /// <summary>
@@ -96,7 +96,7 @@ public record AwsConnectStartChatContactOptions : AwsOptions
     /// <summary>
     /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Constraints: o min: 1 o max: 1 (string) Possible values: o AGENT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--disconnect-on-customer-exit")]
+    [CliOption("--disconnect-on-customer-exit", GroupValues = true)]
     public IEnumerable<string>? DisconnectOnCustomerExit { get; set; }
 
     [CliOption("--cli-input-json")]

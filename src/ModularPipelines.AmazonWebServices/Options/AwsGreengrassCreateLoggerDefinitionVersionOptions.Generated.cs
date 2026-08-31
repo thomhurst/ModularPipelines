@@ -29,7 +29,7 @@ public record AwsGreengrassCreateLoggerDefinitionVersionOptions : AwsOptions
     [CliOption("--logger-definition-id")]
     public string? LoggerDefinitionId { get; set; }
 
-    [CliOption("--loggers")]
+    [CliOption("--loggers", GroupValues = true)]
     public IEnumerable<string>? Loggers { get; set; }
 
     [CliOption("--cli-input-json")]

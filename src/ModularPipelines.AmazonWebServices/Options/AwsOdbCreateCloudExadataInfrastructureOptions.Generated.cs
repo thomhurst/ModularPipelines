@@ -44,7 +44,7 @@ public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
     /// <summary>
     /// The list of resource tags to apply to the Exadata infrastructure. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--compute-count")]
@@ -53,7 +53,7 @@ public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
     /// <summary>
     /// The email addresses of contacts to receive notification from Oracle about maintenance updates for the Exadata infrastructure. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: o min: 1 o max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
     /// </summary>
-    [CliOption("--customer-contacts-to-send-to-oci")]
+    [CliOption("--customer-contacts-to-send-to-oci", GroupValues = true)]
     public IEnumerable<string>? CustomerContactsToSendToOci { get; set; }
 
     /// <summary>

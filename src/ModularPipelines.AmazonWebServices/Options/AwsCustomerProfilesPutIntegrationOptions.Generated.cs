@@ -41,13 +41,13 @@ public record AwsCustomerProfilesPutIntegrationOptions : AwsOptions
     /// <summary>
     /// A map in which each key is an event type from an external applica- tion such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event. It supports the following event types: SegmentIdentify , ShopifyCreateCustomers , ShopifyUpdateCus- tomers , ShopifyCreateDraftOrders , ShopifyUpdateDraftOrders , ShopifyCreateOrders , and ShopifyUpdatedOrders . key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--object-type-names")]
+    [CliOption("--object-type-names", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ObjectTypeNames { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AwsCustomerProfilesPutIntegrationOptions : AwsOptions
     /// <summary>
     /// A list of unique names for active event triggers associated with the integration. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-trigger-names")]
+    [CliOption("--event-trigger-names", GroupValues = true)]
     public IEnumerable<string>? EventTriggerNames { get; set; }
 
     /// <summary>

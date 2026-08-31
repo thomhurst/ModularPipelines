@@ -55,19 +55,19 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     /// <summary>
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the Parameter data type. (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Man- ager parameter types in the template. For more information, see Specify existing resources at runtime with CloudForma- tion-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// In some cases, you must explicitly acknowledge that your stack tem- plate contains certain capabilities in order for CloudFormation to update the stack. o CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capa- bility. o If you have IAM resources, you can specify either capability. o If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM . o If you don't specify either of these capabilities, CloudForma- tion returns an InsufficientCapabilities error. If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permis- sions if necessary. o AWS::IAM::AccessKey o AWS::IAM::Group o AWS::IAM::InstanceProfile o AWS::IAM::ManagedPolicy o AWS::IAM::Policy o AWS::IAM::Role o AWS::IAM::User o AWS::IAM::UserToGroupAddition For more information, see Acknowledging IAM resources in CloudForma- tion templates . o CAPABILITY_AUTO_EXPAND Some template contain macros. Macros per- form custom processing on templates; this can include simple ac- tions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typi- cally create a change set from the processed template, so that they can review the changes resulting from the macros before actu- ally updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This in- cludes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capa- bility. WARNING: You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation with- out CloudFormation being notified. For more information, see Perform custom processing on CloudFor- mation templates with template macros . NOTE: Only one of the Capabilities and ResourceType parameters can be specified. (string) Possible values: o CAPABILITY_IAM o CAPABILITY_NAMED_IAM o CAPABILITY_AUTO_EXPAND Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capabilities")]
+    [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
     /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance . If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more in- formation, see Control CloudFormation access with Identity and Ac- cess Management . NOTE: Only one of the Capabilities and ResourceType parameters can be specified. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
@@ -97,13 +97,13 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     /// <summary>
     /// Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics. Constraints: o max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--notification-arns")]
+    [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
     /// <summary>
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 50 tags. If you don't specify this parameter, CloudFormation doesn't modify the stack's tags. If you specify an empty value, CloudFormation re- moves all associated tags. Constraints: o max: 50 (structure) The Tag type enables you to specify a key-value pair that can be used to store information about an CloudFormation stack. Key -&gt; (string) [required] A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws: . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] A string that contains the value for this tag. You can spec- ify a maximum of 256 characters for a tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--disable-rollback")]

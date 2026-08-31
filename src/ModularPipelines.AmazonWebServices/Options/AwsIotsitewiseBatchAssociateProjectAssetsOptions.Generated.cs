@@ -25,7 +25,7 @@ public record AwsIotsitewiseBatchAssociateProjectAssetsOptions : AwsOptions
     [CliOption("--project-id")]
     public string? ProjectId { get; set; }
 
-    [CliOption("--asset-ids")]
+    [CliOption("--asset-ids", GroupValues = true)]
     public IEnumerable<string>? AssetIds { get; set; }
 
     /// <summary>

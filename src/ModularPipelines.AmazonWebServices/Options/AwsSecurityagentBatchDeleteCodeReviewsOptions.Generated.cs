@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-delete-code-reviews")]
 public record AwsSecurityagentBatchDeleteCodeReviewsOptions : AwsOptions
 {
-    [CliOption("--code-review-ids")]
+    [CliOption("--code-review-ids", GroupValues = true)]
     public IEnumerable<string>? CodeReviewIds { get; set; }
 
     [CliOption("--agent-space-id")]

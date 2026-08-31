@@ -24,7 +24,7 @@ public record AwsGrafanaUpdateWorkspaceAuthenticationOptions : AwsOptions
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 
-    [CliOption("--authentication-providers")]
+    [CliOption("--authentication-providers", GroupValues = true)]
     public IEnumerable<string>? AuthenticationProviders { get; set; }
 
     /// <summary>

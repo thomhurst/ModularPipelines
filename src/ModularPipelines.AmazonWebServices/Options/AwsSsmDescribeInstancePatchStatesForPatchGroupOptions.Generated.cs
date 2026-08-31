@@ -28,7 +28,7 @@ public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
     /// <summary>
     /// Each entry in the array is a structure containing: o Key (string between 1 and 200 characters) o Values (array containing a single string) o Type (string "Equal", "NotEqual", "LessThan", "GreaterThan") Constraints: o min: 0 o max: 4 (structure) Defines a filter used in DescribeInstancePatchStatesForPatch- Group to scope down the information returned by the API. Example : To filter for all managed nodes in a patch group having more than three patches with a FailedCount status, use the following for the filter: o Value for Key : FailedCount o Value for Type : GreaterThan o Value for Values : 3 Key -&gt; (string) [required] The key for the filter. Supported values include the follow- ing: o InstalledCount o InstalledOtherCount o InstalledPendingRebootCount o InstalledRejectedCount o MissingCount o FailedCount o UnreportedNotApplicableCount o NotApplicableCount Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The value for the filter. Must be an integer greater than or equal to 0. Constraints: o min: 1 o max: 1 (string) Type -&gt; (string) [required] The type of comparison that should be performed for the value. Possible values: o Equal o NotEqual o LessThan o GreaterThan Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"LessThan"|"GreaterThan" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

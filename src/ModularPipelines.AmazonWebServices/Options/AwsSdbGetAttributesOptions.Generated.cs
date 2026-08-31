@@ -27,7 +27,7 @@ public record AwsSdbGetAttributesOptions : AwsOptions
     [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     [CliFlag("--consistent-read")]

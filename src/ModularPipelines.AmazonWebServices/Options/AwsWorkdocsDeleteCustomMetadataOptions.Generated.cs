@@ -41,7 +41,7 @@ public record AwsWorkdocsDeleteCustomMetadataOptions : AwsOptions
     /// <summary>
     /// List of properties to remove. Constraints: o max: 8 (string) Constraints: o min: 1 o max: 56 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--keys")]
+    [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     [CliFlag("--delete-all")]

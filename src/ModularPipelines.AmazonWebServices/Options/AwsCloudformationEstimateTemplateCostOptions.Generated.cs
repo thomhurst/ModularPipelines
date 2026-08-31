@@ -36,7 +36,7 @@ public record AwsCloudformationEstimateTemplateCostOptions : AwsOptions
     /// <summary>
     /// A list of Parameter structures that specify input parameters. (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Man- ager parameter types in the template. For more information, see Specify existing resources at runtime with CloudForma- tion-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--cli-input-json")]

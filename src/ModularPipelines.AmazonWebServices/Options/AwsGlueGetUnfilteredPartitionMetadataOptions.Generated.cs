@@ -30,7 +30,7 @@ public record AwsGlueGetUnfilteredPartitionMetadataOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--partition-values")]
+    [CliOption("--partition-values", GroupValues = true)]
     public IEnumerable<string>? PartitionValues { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public record AwsGlueGetUnfilteredPartitionMetadataOptions : AwsOptions
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CliOption("--supported-permission-types")]
+    [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>

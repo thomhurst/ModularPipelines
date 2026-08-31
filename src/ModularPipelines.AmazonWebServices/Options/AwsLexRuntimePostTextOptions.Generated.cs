@@ -34,13 +34,13 @@ public record AwsLexRuntimePostTextOptions : AwsOptions
     /// <summary>
     /// Application-specific information passed between Amazon Lex and a client application. For more information, see Setting Session Attributes . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--session-attributes")]
+    [CliOption("--session-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SessionAttributes { get; set; }
 
     /// <summary>
     /// Request-specific information passed between Amazon Lex and a client application. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex: . For more information, see Setting Request Attributes . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--request-attributes")]
+    [CliOption("--request-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
 
     [CliOption("--input-text")]
@@ -49,7 +49,7 @@ public record AwsLexRuntimePostTextOptions : AwsOptions
     /// <summary>
     /// A list of contexts active for the request. A context can be acti- vated when a previous intent is fulfilled, or by including the con- text in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared. Constraints: o min: 0 o max: 20 (structure) A context is a variable that contains information about the cur- rent state of the conversation between a user and Amazon Lex. Context can be set automatically by Amazon Lex when an intent is fulfilled, or it can be set at runtime using the PutContent , PutText , or PutSession operation. name -&gt; (string) [required] The name of the context. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ timeToLive -&gt; (structure) [required] The length of time or number of turns that a context remains active. timeToLiveInSeconds -&gt; (integer) The number of seconds that the context should be active after it is first sent in a PostContent or PostText re- sponse. You can set the value between 5 and 86,400 sec- onds (24 hours). Constraints: o min: 5 o max: 86400 turnsToLive -&gt; (integer) The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Ama- zon Lex. Constraints: o min: 1 o max: 20 parameters -&gt; (map) [required] State variables for the current context. You can use these values as default values for slots in subsequent events. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: name=string,timeToLive={timeToLiveInSeconds=integer,turnsToLive=integer},parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "timeToLive": { "timeToLiveInSeconds": integer, "turnsToLive": integer }, "parameters": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--active-contexts")]
+    [CliOption("--active-contexts", GroupValues = true)]
     public IEnumerable<string>? ActiveContexts { get; set; }
 
     [CliOption("--cli-input-json")]

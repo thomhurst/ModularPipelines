@@ -25,7 +25,7 @@ public record AwsOrganizationsListCreateAccountStatusOptions : AwsOptions
     /// <summary>
     /// A list of one or more states that you want included in the response. If this parameter isn't present, all requests are included in the response. (string) Possible values: o IN_PROGRESS o SUCCEEDED o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     [CliOption("--cli-input-json")]

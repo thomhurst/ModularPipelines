@@ -39,7 +39,7 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions
     [CliOption("--event-timestamp")]
     public string? EventTimestamp { get; set; }
 
-    [CliOption("--payload")]
+    [CliOption("--payload", GroupValues = true)]
     public IEnumerable<string>? Payload { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions
     /// <summary>
     /// The key-value metadata to attach to the event. Constraints: o min: 0 o max: 15 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) Value associated with the eventMetadata key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1={stringValue=string},KeyName2={stringValue=string} JSON Syntax: {"string": { "stringValue": "string" } ...}
     /// </summary>
-    [CliOption("--metadata")]
+    [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>

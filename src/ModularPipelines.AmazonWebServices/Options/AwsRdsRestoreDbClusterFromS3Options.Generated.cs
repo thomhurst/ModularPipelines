@@ -26,7 +26,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// <summary>
     /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--availability-zones")]
+    [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// <summary>
     /// A list of EC2 VPC security groups to associate with the restored DB cluster. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
@@ -114,7 +114,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// <summary>
     /// A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliFlag("--storage-encrypted")]
@@ -156,7 +156,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// <summary>
     /// The list of logs that the restored DB cluster is to export to Cloud- Watch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit , error , general , instance , slowquery , and iam-db-auth-error . Aurora PostgreSQL Possible value are instance , postgresql , and iam-db-auth-error . For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Au- rora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     [CliFlag("--deletion-protection")]
@@ -214,13 +214,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// <summary>
     /// Tags to assign to resources associated with the DB cluster. Valid Values: o cluster-auto-backup - The DB cluster's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--tag-specifications")]
+    [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>
     /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored from Ama- zon S3. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import , s3Export , or Lambda ). Constraints: o min: 0 o max: 15 (structure) Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of CreateDBCluster , RestoreDBClusterFromS3 , RestoreDBCluster- FromSnapshot , and RestoreDBClusterToPointInTime . RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.* FeatureName -&gt; (string) The name of the feature associated with the IAM role. For in- formation about supported feature names, see DBEngineVersion . Shorthand Syntax: RoleArn=string,FeatureName=string ... JSON Syntax: [ { "RoleArn": "string", "FeatureName": "string" } ... ]
     /// </summary>
-    [CliOption("--associated-roles")]
+    [CliOption("--associated-roles", GroupValues = true)]
     public IEnumerable<string>? AssociatedRoles { get; set; }
 
     [CliOption("--cli-input-json")]

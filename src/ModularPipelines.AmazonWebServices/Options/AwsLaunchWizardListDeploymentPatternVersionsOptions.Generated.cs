@@ -31,7 +31,7 @@ public record AwsLaunchWizardListDeploymentPatternVersionsOptions : AwsOptions
     /// <summary>
     /// Filters to apply when listing deployment pattern versions. (structure) A filter for deployment pattern versions. Use this filter to specify criteria for querying deployment pattern versions in Launch Wizard. name -&gt; (string) [required] The name of the filter attribute. Specifies which attribute to filter on when querying deployment pattern versions. Possible values: o updateFromVersion values -&gt; (list) [required] The values to filter by. Contains the specific values to match against when filtering deployment pattern versions. (string) Constraints: o min: 1 o max: 100 o pattern: (0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "updateFromVersion", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

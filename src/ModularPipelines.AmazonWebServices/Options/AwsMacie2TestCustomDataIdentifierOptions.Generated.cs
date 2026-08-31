@@ -24,13 +24,13 @@ public record AwsMacie2TestCustomDataIdentifierOptions : AwsOptions
     /// <summary>
     /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expres- sion contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ignore-words")]
+    [CliOption("--ignore-words", GroupValues = true)]
     public IEnumerable<string>? IgnoreWords { get; set; }
 
     /// <summary>
     /// An array that lists specific character sequences (keywords ), one of which must precede and be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--keywords")]
+    [CliOption("--keywords", GroupValues = true)]
     public IEnumerable<string>? Keywords { get; set; }
 
     /// <summary>

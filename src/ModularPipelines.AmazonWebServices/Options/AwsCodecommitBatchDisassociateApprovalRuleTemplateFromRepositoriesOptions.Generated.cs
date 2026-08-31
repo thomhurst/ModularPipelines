@@ -24,7 +24,7 @@ public record AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositories
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; set; }
 
-    [CliOption("--repository-names")]
+    [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
 
     [CliOption("--cli-input-json")]

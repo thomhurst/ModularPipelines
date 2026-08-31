@@ -28,13 +28,13 @@ public record AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions : AwsOptions
     /// <summary>
     /// An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--opted-out-numbers")]
+    [CliOption("--opted-out-numbers", GroupValues = true)]
     public IEnumerable<string>? OptedOutNumbers { get; set; }
 
     /// <summary>
     /// An array of OptedOutFilter objects to filter the results on. Constraints: o min: 0 o max: 20 (structure) The information for opted out numbers that meet a specified cri- teria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o end-user-opted-out Values -&gt; (list) [required] An array of values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "end-user-opted-out", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

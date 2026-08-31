@@ -67,13 +67,13 @@ public record AwsRedshiftDescribeClusterSnapshotsOptions : AwsOptions
     /// <summary>
     /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment . If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snap- shots that have either or both of these tag keys associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>
     /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test . If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values as- sociated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-values")]
+    [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     [CliFlag("--cluster-exists")]
@@ -82,7 +82,7 @@ public record AwsRedshiftDescribeClusterSnapshotsOptions : AwsOptions
     /// <summary>
     /// (structure) Describes a sorting entity Attribute -&gt; (string) [required] The category for sorting the snapshots. Possible values: o SOURCE_TYPE o TOTAL_SIZE o CREATE_TIME SortOrder -&gt; (string) The order for listing the attributes. Possible values: o ASC o DESC Shorthand Syntax: Attribute=string,SortOrder=string ... JSON Syntax: [ { "Attribute": "SOURCE_TYPE"|"TOTAL_SIZE"|"CREATE_TIME", "SortOrder": "ASC"|"DESC" } ... ]
     /// </summary>
-    [CliOption("--sorting-entities")]
+    [CliOption("--sorting-entities", GroupValues = true)]
     public IEnumerable<string>? SortingEntities { get; set; }
 
     [CliOption("--cli-input-json")]

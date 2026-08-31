@@ -36,7 +36,7 @@ public record AwsOpensearchUpdateDirectQueryDataSourceOptions : AwsOptions
     /// <summary>
     /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake data- source types. (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Ac- cess Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--open-search-arns")]
+    [CliOption("--open-search-arns", GroupValues = true)]
     public IEnumerable<string>? OpenSearchArns { get; set; }
 
     /// <summary>

@@ -34,7 +34,7 @@ public record AwsConnectMonitorContactOptions : AwsOptions
     /// <summary>
     /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent moni- toring to barge. AllowedMonitorCapabilities is required if barge is enabled. Constraints: o max: 2 (string) Possible values: o SILENT_MONITOR o BARGE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-monitor-capabilities")]
+    [CliOption("--allowed-monitor-capabilities", GroupValues = true)]
     public IEnumerable<string>? AllowedMonitorCapabilities { get; set; }
 
     /// <summary>

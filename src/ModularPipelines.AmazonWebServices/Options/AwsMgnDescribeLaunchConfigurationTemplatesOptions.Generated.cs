@@ -25,7 +25,7 @@ public record AwsMgnDescribeLaunchConfigurationTemplatesOptions : AwsOptions
     /// <summary>
     /// Request to filter Launch Configuration Templates list by Launch Con- figuration Template ID. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--launch-configuration-template-ids")]
+    [CliOption("--launch-configuration-template-ids", GroupValues = true)]
     public IEnumerable<string>? LaunchConfigurationTemplateIds { get; set; }
 
     [CliOption("--cli-input-json")]

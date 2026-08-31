@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("securityagent", "batch-get-agent-spaces")]
 public record AwsSecurityagentBatchGetAgentSpacesOptions : AwsOptions
 {
-    [CliOption("--agent-space-ids")]
+    [CliOption("--agent-space-ids", GroupValues = true)]
     public IEnumerable<string>? AgentSpaceIds { get; set; }
 
     [CliOption("--cli-input-json")]

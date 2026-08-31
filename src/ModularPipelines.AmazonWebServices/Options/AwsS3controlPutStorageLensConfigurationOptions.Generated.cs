@@ -33,7 +33,7 @@ public record AwsS3controlPutStorageLensConfigurationOptions : AwsOptions
     /// <summary>
     /// The tag set of the S3 Storage Lens configuration. NOTE: You can set up to a maximum of 50 tags. (structure) Key -&gt; (string) [required] Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

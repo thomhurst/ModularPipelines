@@ -34,25 +34,25 @@ public record AwsCustomerProfilesGetProfileRecommendationsOptions : AwsOptions
     /// <summary>
     /// The contextual metadata used to provide dynamic runtime information to tailor recommendations. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--context")]
+    [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
     /// A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommen- dation results. Constraints: o max: 1 (structure) A filter that specifies criteria for including or excluding items from recommendations. Name -&gt; (string) The name of the recommender filter to apply. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 3000 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--recommender-filters")]
+    [CliOption("--recommender-filters", GroupValues = true)]
     public IEnumerable<string>? RecommenderFilters { get; set; }
 
     /// <summary>
     /// A list of promotional filters to apply to the recommendations. Pro- motional filters allow you to promote specific items within a con- figurable subset of recommendation results. Constraints: o max: 1 (structure) Contains information on a promotion. A promotion defines addi- tional business rules that apply to a configurable subset of recommended items. Name -&gt; (string) The name of the recommender filter to use for the promotion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (map) The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 3000 PromotionName -&gt; (string) The name of the promotion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ PercentPromotedItems -&gt; (integer) The percentage of recommended items to apply the promotion to. Constraints: o min: 1 o max: 100 Shorthand Syntax: Name=string,Values={KeyName1=string,KeyName2=string},PromotionName=string,PercentPromotedItems=integer ... JSON Syntax: [ { "Name": "string", "Values": {"string": "string" ...}, "PromotionName": "string", "PercentPromotedItems": integer } ... ]
     /// </summary>
-    [CliOption("--recommender-promotional-filters")]
+    [CliOption("--recommender-promotional-filters", GroupValues = true)]
     public IEnumerable<string>? RecommenderPromotionalFilters { get; set; }
 
     /// <summary>
     /// A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--candidate-ids")]
+    [CliOption("--candidate-ids", GroupValues = true)]
     public IEnumerable<string>? CandidateIds { get; set; }
 
     /// <summary>

@@ -39,13 +39,13 @@ public record AwsLambdaPublishLayerVersionOptions : AwsOptions
     /// <summary>
     /// A list of compatible instruction set architectures . Constraints: o min: 0 o max: 2 (string) Possible values: o x86_64 o arm64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compatible-architectures")]
+    [CliOption("--compatible-architectures", GroupValues = true)]
     public IEnumerable<string>? CompatibleArchitectures { get; set; }
 
     /// <summary>
     /// A list of compatible function runtimes . Used for filtering with ListLayers and ListLayerVersions . The following list includes deprecated runtimes. For more informa- tion, see Runtime deprecation policy . Constraints: o min: 0 o max: 15 (string) Possible values: o nodejs o nodejs4.3 o nodejs6.10 o nodejs8.10 o nodejs10.x o nodejs12.x o nodejs14.x o nodejs16.x o nodejs18.x o nodejs20.x o nodejs22.x o nodejs24.x o java8 o java8.al2 o java11 o java17 o java21 o java25 o python2.7 o python3.6 o python3.7 o python3.8 o python3.9 o python3.10 o python3.11 o python3.12 o python3.13 o python3.14 o dotnetcore1.0 o dotnetcore2.0 o dotnetcore2.1 o dotnetcore3.1 o dotnet6 o dotnet8 o dotnet10 o nodejs4.3-edge o go1.x o ruby2.5 o ruby2.7 o ruby3.2 o ruby3.3 o ruby3.4 o ruby4.0 o provided o provided.al2 o provided.al2023 o nodejs26.x o python3.15 o java8.al2023 o java11.al2023 o java17.al2023 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--compatible-runtimes")]
+    [CliOption("--compatible-runtimes", GroupValues = true)]
     public IEnumerable<string>? CompatibleRuntimes { get; set; }
 
     /// <summary>

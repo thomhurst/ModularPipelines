@@ -24,7 +24,7 @@ public record AwsElasticacheTestMigrationOptions : AwsOptions
     [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CliOption("--customer-node-endpoint-list")]
+    [CliOption("--customer-node-endpoint-list", GroupValues = true)]
     public IEnumerable<string>? CustomerNodeEndpointList { get; set; }
 
     [CliOption("--cli-input-json")]

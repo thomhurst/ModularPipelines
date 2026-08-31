@@ -33,13 +33,13 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions
     /// <summary>
     /// The tags to attach to the trust anchor. Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A list of notification settings to be associated to the trust an- chor. Constraints: o min: 0 o max: 50 (structure) Customizable notification settings that will be applied to noti- fication events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard. enabled -&gt; (boolean) [required] Indicates whether the notification setting is enabled. event -&gt; (string) [required] The event to which this notification setting is applied. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY threshold -&gt; (integer) The number of days before a notification event. This value is required for a notification setting that is enabled. Constraints: o min: 1 o max: 360 channel -&gt; (string) The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. NOTE: In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels. Possible values: o ALL Shorthand Syntax: enabled=boolean,event=string,threshold=integer,channel=string ... JSON Syntax: [ { "enabled": true|false, "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "threshold": integer, "channel": "ALL" } ... ]
     /// </summary>
-    [CliOption("--notification-settings")]
+    [CliOption("--notification-settings", GroupValues = true)]
     public IEnumerable<string>? NotificationSettings { get; set; }
 
     [CliOption("--cli-input-json")]

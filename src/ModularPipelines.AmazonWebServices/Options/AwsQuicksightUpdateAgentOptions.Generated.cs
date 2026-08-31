@@ -45,7 +45,7 @@ public record AwsQuicksightUpdateAgentOptions : AwsOptions
     /// <summary>
     /// A list of starter prompts that are displayed to users when they be- gin interacting with the agent. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--starter-prompts")]
+    [CliOption("--starter-prompts", GroupValues = true)]
     public IEnumerable<string>? StarterPrompts { get; set; }
 
     /// <summary>
@@ -63,25 +63,25 @@ public record AwsQuicksightUpdateAgentOptions : AwsOptions
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--spaces-to-add")]
+    [CliOption("--spaces-to-add", GroupValues = true)]
     public IEnumerable<string>? SpacesToAdd { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the spaces to detach from the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--spaces-to-remove")]
+    [CliOption("--spaces-to-remove", GroupValues = true)]
     public IEnumerable<string>? SpacesToRemove { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--action-connectors-to-add")]
+    [CliOption("--action-connectors-to-add", GroupValues = true)]
     public IEnumerable<string>? ActionConnectorsToAdd { get; set; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the action connectors to detach from the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--action-connectors-to-remove")]
+    [CliOption("--action-connectors-to-remove", GroupValues = true)]
     public IEnumerable<string>? ActionConnectorsToRemove { get; set; }
 
     [CliOption("--cli-input-json")]

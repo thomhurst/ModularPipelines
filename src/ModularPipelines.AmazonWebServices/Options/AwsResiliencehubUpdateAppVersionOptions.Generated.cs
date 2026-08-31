@@ -25,7 +25,7 @@ public record AwsResiliencehubUpdateAppVersionOptions : AwsOptions
     /// <summary>
     /// Additional configuration parameters for an Resilience Hub applica- tion. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the appli- cation configuration parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;AC- COUNT_ID&gt;"}]}]" key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--additional-info")]
+    [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
 
     [CliOption("--app-arn")]

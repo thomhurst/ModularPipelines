@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "batch-get-deployments")]
 public record AwsDeployBatchGetDeploymentsOptions : AwsOptions
 {
-    [CliOption("--deployment-ids")]
+    [CliOption("--deployment-ids", GroupValues = true)]
     public IEnumerable<string>? DeploymentIds { get; set; }
 
     [CliOption("--cli-input-json")]

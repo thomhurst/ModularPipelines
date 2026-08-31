@@ -32,7 +32,7 @@ public record AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions : Aws
     /// <summary>
     /// The IDs for each specific recommendation. (string) Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--recommendation-ids")]
+    [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
 
     /// <summary>

@@ -31,7 +31,7 @@ public record AwsSecurityhubListSecurityControlDefinitionsOptions : AwsOptions
     /// <summary>
     /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources. (string) Possible values: o AWS o Azure Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--providers")]
+    [CliOption("--providers", GroupValues = true)]
     public IEnumerable<string>? Providers { get; set; }
 
     [CliOption("--cli-input-json")]

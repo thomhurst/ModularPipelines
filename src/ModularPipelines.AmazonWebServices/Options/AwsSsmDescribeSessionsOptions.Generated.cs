@@ -28,7 +28,7 @@ public record AwsSsmDescribeSessionsOptions : AwsOptions
     /// <summary>
     /// One or more filters to limit the type of sessions returned by the request. Constraints: o min: 1 o max: 6 (structure) Describes a filter for Session Manager information. key -&gt; (string) [required] The name of the filter. Possible values: o InvokedAfter o InvokedBefore o Target o Owner o Status o SessionId o AccessType value -&gt; (string) [required] The filter value. Valid values for each filter key are as follows: o InvokedAfter: Specify a timestamp to limit your results. For example, specify 2024-08-29T00:00:00Z to see sessions that started August 29, 2024, and later. o InvokedBefore: Specify a timestamp to limit your results. For example, specify 2024-08-29T00:00:00Z to see sessions that started before August 29, 2024. o Target: Specify a managed node to which session connections have been made. o Owner: Specify an Amazon Web Services user to see a list of sessions started by that user. o Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include: o Connected o Connecting o Disconnected o Terminated o Terminating o Failed o SessionId: Specify a session ID to return details about the session. Constraints: o min: 1 o max: 400 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "InvokedAfter"|"InvokedBefore"|"Target"|"Owner"|"Status"|"SessionId"|"AccessType", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

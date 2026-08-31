@@ -25,13 +25,13 @@ public record AwsSecurityhubListFreeTrialStatusesV2Options : AwsOptions
     /// <summary>
     /// The Amazon Web Services account identifiers to list free trial sta- tus for. You can specify accounts other than your own only if you are a delegated Security Hub administrator. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// The free trial statuses to filter the results by. Valid values: o ACTIVE returns only features with an ongoing free trial period. o INACTIVE returns only features whose free trial period has ended, or that never started. Constraints: o min: 1 o max: 10 (string) Possible values: o ACTIVE o INACTIVE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     [CliOption("--cli-input-json")]

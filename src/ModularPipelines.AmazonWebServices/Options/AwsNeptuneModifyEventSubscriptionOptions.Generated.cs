@@ -39,7 +39,7 @@ public record AwsNeptuneModifyEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// A list of event categories for a SourceType that you want to sub- scribe to. You can see a list of the categories for a given Source- Type by using the DescribeEventCategories action. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     [CliFlag("--enabled")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("storagegateway", "describe-cached-iscsi-volumes")]
 public record AwsStoragegatewayDescribeCachedIscsiVolumesOptions : AwsOptions
 {
-    [CliOption("--volume-arns")]
+    [CliOption("--volume-arns", GroupValues = true)]
     public IEnumerable<string>? VolumeArns { get; set; }
 
     [CliOption("--cli-input-json")]

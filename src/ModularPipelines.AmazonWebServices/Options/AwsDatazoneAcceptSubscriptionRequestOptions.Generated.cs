@@ -36,13 +36,13 @@ public record AwsDatazoneAcceptSubscriptionRequestOptions : AwsOptions
     /// <summary>
     /// The asset scopes of the accept subscription request. (structure) The accepted asset scope. assetId -&gt; (string) [required] The asset ID of the accepted asset scope. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} filterIds -&gt; (list) [required] The filter IDs of the accepted asset scope. (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetId=string,filterIds=string,string ... JSON Syntax: [ { "assetId": "string", "filterIds": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--asset-scopes")]
+    [CliOption("--asset-scopes", GroupValues = true)]
     public IEnumerable<string>? AssetScopes { get; set; }
 
     /// <summary>
     /// The asset permissions of the accept subscription request. (structure) The asset permissions. assetId -&gt; (string) [required] The asset ID as part of the asset permissions. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} permissions -&gt; (tagged union structure) [required] The details as part of the asset permissions. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3. s3 -&gt; (list) The S3 details of the asset permissions. (string) Possible values: o READ o WRITE Shorthand Syntax: assetId=string,permissions={s3=[string,string]} ... JSON Syntax: [ { "assetId": "string", "permissions": { "s3": ["READ"|"WRITE", ...] } } ... ]
     /// </summary>
-    [CliOption("--asset-permissions")]
+    [CliOption("--asset-permissions", GroupValues = true)]
     public IEnumerable<string>? AssetPermissions { get; set; }
 
     [CliOption("--cli-input-json")]

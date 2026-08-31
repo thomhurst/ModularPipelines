@@ -26,7 +26,7 @@ public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
     /// <summary>
     /// The identifiers of the data lifecycle policies. (string) Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--policy-ids")]
+    [CliOption("--policy-ids", GroupValues = true)]
     public IEnumerable<string>? PolicyIds { get; set; }
 
     /// <summary>
@@ -38,19 +38,19 @@ public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
     /// <summary>
     /// The resource type. Constraints: o min: 1 o max: 1 (string) Possible values: o VOLUME o INSTANCE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
     /// The target tag for a policy. Tags are strings in the format key=value . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-tags")]
+    [CliOption("--target-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TargetTags { get; set; }
 
     /// <summary>
     /// The tags to add to objects created by the policy. Tags are strings in the format key=value . These user-defined tags are added in addition to the Amazon Web Ser- vices-added lifecycle tags. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tags-to-add")]
+    [CliOption("--tags-to-add", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TagsToAdd { get; set; }
 
     /// <summary>

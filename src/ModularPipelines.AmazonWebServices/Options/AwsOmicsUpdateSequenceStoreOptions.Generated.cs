@@ -53,7 +53,7 @@ public record AwsOmicsUpdateSequenceStoreOptions : AwsOptions
     /// <summary>
     /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--propagated-set-level-tags")]
+    [CliOption("--propagated-set-level-tags", GroupValues = true)]
     public IEnumerable<string>? PropagatedSetLevelTags { get; set; }
 
     /// <summary>

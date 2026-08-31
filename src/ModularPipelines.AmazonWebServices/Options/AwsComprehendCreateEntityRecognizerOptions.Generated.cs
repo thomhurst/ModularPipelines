@@ -37,7 +37,7 @@ public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions
     /// <summary>
     /// Tags to associate with the entity recognizer. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Compre- hend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--input-data-config")]

@@ -44,13 +44,13 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions
     /// <summary>
     /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--bot-tags")]
+    [CliOption("--bot-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotTags { get; set; }
 
     /// <summary>
     /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagRe- source operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--test-bot-alias-tags")]
+    [CliOption("--test-bot-alias-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TestBotAliasTags { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions
     /// <summary>
     /// The list of bot members in a network to be created. Constraints: o min: 0 o max: 10 (structure) A bot that is a member of a network of bots. botMemberId -&gt; (string) [required] The unique ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botMemberName -&gt; (string) [required] The unique name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$ botMemberAliasId -&gt; (string) [required] The alias ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ botMemberAliasName -&gt; (string) [required] The alias name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^(\bAmazonLexTestAlias\b|[0-9a-zA-Z][_-]?)+$ botMemberVersion -&gt; (string) [required] The version of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: botMemberId=string,botMemberName=string,botMemberAliasId=string,botMemberAliasName=string,botMemberVersion=string ... JSON Syntax: [ { "botMemberId": "string", "botMemberName": "string", "botMemberAliasId": "string", "botMemberAliasName": "string", "botMemberVersion": "string" } ... ]
     /// </summary>
-    [CliOption("--bot-members")]
+    [CliOption("--bot-members", GroupValues = true)]
     public IEnumerable<string>? BotMembers { get; set; }
 
     /// <summary>

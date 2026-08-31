@@ -38,7 +38,7 @@ public record AwsGlueGetDatabasesOptions : AwsOptions
     /// <summary>
     /// Specifies the database fields returned by the GetDatabases call. This parameter doesnt accept an empty list. The request must include the NAME . (string) Possible values: o NAME o TARGET_DATABASE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-get")]
+    [CliOption("--attributes-to-get", GroupValues = true)]
     public IEnumerable<string>? AttributesToGet { get; set; }
 
     [CliOption("--cli-input-json")]

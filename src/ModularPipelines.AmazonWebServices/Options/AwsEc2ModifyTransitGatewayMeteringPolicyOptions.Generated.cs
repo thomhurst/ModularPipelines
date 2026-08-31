@@ -27,13 +27,13 @@ public record AwsEc2ModifyTransitGatewayMeteringPolicyOptions : AwsOptions
     /// <summary>
     /// The IDs of middlebox attachments to add to the metering policy. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--add-middlebox-attachment-ids")]
+    [CliOption("--add-middlebox-attachment-ids", GroupValues = true)]
     public IEnumerable<string>? AddMiddleboxAttachmentIds { get; set; }
 
     /// <summary>
     /// The IDs of middlebox attachments to remove from the metering policy. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--remove-middlebox-attachment-ids")]
+    [CliOption("--remove-middlebox-attachment-ids", GroupValues = true)]
     public IEnumerable<string>? RemoveMiddleboxAttachmentIds { get; set; }
 
     [CliFlag("--dry-run")]

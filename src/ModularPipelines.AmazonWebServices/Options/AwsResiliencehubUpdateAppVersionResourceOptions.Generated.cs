@@ -25,7 +25,7 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
     /// <summary>
     /// Currently, there is no supported additional information for re- sources. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
-    [CliOption("--additional-info")]
+    [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
 
     [CliOption("--app-arn")]
@@ -34,7 +34,7 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
     /// <summary>
     /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--app-components")]
+    [CliOption("--app-components", GroupValues = true)]
     public IEnumerable<string>? AppComponents { get; set; }
 
     /// <summary>

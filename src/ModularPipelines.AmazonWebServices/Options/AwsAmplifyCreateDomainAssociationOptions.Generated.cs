@@ -30,13 +30,13 @@ public record AwsAmplifyCreateDomainAssociationOptions : AwsOptions
     [CliFlag("--enable-auto-sub-domain")]
     public bool? EnableAutoSubDomain { get; set; }
 
-    [CliOption("--sub-domain-settings")]
+    [CliOption("--sub-domain-settings", GroupValues = true)]
     public IEnumerable<string>? SubDomainSettings { get; set; }
 
     /// <summary>
     /// Sets the branch patterns for automatic subdomain creation. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--auto-sub-domain-creation-patterns")]
+    [CliOption("--auto-sub-domain-creation-patterns", GroupValues = true)]
     public IEnumerable<string>? AutoSubDomainCreationPatterns { get; set; }
 
     /// <summary>

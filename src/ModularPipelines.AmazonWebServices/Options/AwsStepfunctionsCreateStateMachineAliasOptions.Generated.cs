@@ -30,7 +30,7 @@ public record AwsStepfunctionsCreateStateMachineAliasOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--routing-configuration")]
+    [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]

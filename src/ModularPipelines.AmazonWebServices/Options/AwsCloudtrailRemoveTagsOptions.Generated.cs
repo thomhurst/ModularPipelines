@@ -24,7 +24,7 @@ public record AwsCloudtrailRemoveTagsOptions : AwsOptions
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CliOption("--tags-list")]
+    [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
     [CliOption("--cli-input-json")]

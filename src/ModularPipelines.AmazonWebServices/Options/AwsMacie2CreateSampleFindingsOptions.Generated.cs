@@ -24,7 +24,7 @@ public record AwsMacie2CreateSampleFindingsOptions : AwsOptions
     /// <summary>
     /// An array of finding types, one for each type of sample finding to create. To create a sample of every type of finding that Amazon Ma- cie supports, don't include this array in your request. (string) The type of finding. For details about each type, see Types of findings in the Amazon Macie User Guide . Possible values are: Possible values: o SensitiveData:S3Object/Multiple o SensitiveData:S3Object/Financial o SensitiveData:S3Object/Personal o SensitiveData:S3Object/Credentials o SensitiveData:S3Object/CustomIdentifier o Policy:IAMUser/S3BucketPublic o Policy:IAMUser/S3BucketSharedExternally o Policy:IAMUser/S3BucketReplicatedExternally o Policy:IAMUser/S3BucketEncryptionDisabled o Policy:IAMUser/S3BlockPublicAccessDisabled o Policy:IAMUser/S3BucketSharedWithCloudFront Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--finding-types")]
+    [CliOption("--finding-types", GroupValues = true)]
     public IEnumerable<string>? FindingTypes { get; set; }
 
     [CliOption("--cli-input-json")]

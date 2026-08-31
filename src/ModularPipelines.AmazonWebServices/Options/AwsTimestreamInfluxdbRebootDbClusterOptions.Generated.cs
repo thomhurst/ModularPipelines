@@ -27,7 +27,7 @@ public record AwsTimestreamInfluxdbRebootDbClusterOptions : AwsOptions
     /// <summary>
     /// A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot. Constraints: o min: 0 o max: 3 (string) Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     [CliOption("--cli-input-json")]

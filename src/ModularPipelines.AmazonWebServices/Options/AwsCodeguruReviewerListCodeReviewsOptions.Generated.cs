@@ -25,19 +25,19 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions
     /// <summary>
     /// List of provider types for filtering that needs to be applied before displaying the result. For example, providerTypes=[GitHub] lists code reviews from GitHub. Constraints: o min: 1 o max: 3 (string) Possible values: o CodeCommit o GitHub o Bitbucket o GitHubEnterpriseServer o S3Bucket Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--provider-types")]
+    [CliOption("--provider-types", GroupValues = true)]
     public IEnumerable<string>? ProviderTypes { get; set; }
 
     /// <summary>
     /// List of states for filtering that needs to be applied before dis- playing the result. For example, states=[Pending] lists code reviews in the Pending state. The valid code review states are: o Completed : The code review is complete. o Pending : The code review started and has not completed or failed. o Failed : The code review failed. o Deleting : The code review is being deleted. Constraints: o min: 1 o max: 3 (string) Possible values: o Completed o Pending o Failed o Deleting Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
     /// List of repository names for filtering that needs to be applied be- fore displaying the result. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: ^\S[\w.-]*$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--repository-names")]
+    [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
 
     [CliOption("--type")]

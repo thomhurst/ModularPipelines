@@ -30,7 +30,7 @@ public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOpti
     /// <summary>
     /// The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>

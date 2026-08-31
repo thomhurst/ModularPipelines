@@ -30,7 +30,7 @@ public record AwsRoute53ChangeCidrCollectionOptions : AwsOptions
     [CliOption("--collection-version")]
     public int? CollectionVersion { get; set; }
 
-    [CliOption("--changes")]
+    [CliOption("--changes", GroupValues = true)]
     public IEnumerable<string>? Changes { get; set; }
 
     [CliOption("--cli-input-json")]

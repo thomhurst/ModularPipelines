@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("shield", "associate-proactive-engagement-details")]
 public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions
 {
-    [CliOption("--emergency-contact-list")]
+    [CliOption("--emergency-contact-list", GroupValues = true)]
     public IEnumerable<string>? EmergencyContactList { get; set; }
 
     [CliOption("--cli-input-json")]

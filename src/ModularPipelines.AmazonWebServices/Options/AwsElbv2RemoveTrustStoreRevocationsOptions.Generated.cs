@@ -24,7 +24,7 @@ public record AwsElbv2RemoveTrustStoreRevocationsOptions : AwsOptions
     [CliOption("--trust-store-arn")]
     public string? TrustStoreArn { get; set; }
 
-    [CliOption("--revocation-ids")]
+    [CliOption("--revocation-ids", GroupValues = true)]
     public IEnumerable<string>? RevocationIds { get; set; }
 
     [CliOption("--cli-input-json")]

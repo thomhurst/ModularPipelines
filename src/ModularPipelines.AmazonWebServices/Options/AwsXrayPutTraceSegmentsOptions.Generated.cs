@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("xray", "put-trace-segments")]
 public record AwsXrayPutTraceSegmentsOptions : AwsOptions
 {
-    [CliOption("--trace-segment-documents")]
+    [CliOption("--trace-segment-documents", GroupValues = true)]
     public IEnumerable<string>? TraceSegmentDocuments { get; set; }
 
     [CliOption("--cli-input-json")]

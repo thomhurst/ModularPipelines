@@ -31,7 +31,7 @@ public record AwsElasticacheDescribeServiceUpdatesOptions : AwsOptions
     /// <summary>
     /// The status of the service update Constraints: o max: 3 (string) Possible values: o available o cancelled o expired Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--service-update-status")]
+    [CliOption("--service-update-status", GroupValues = true)]
     public IEnumerable<string>? ServiceUpdateStatus { get; set; }
 
     [CliOption("--cli-input-json")]

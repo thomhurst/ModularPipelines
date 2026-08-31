@@ -50,7 +50,7 @@ public record AwsSecretsmanagerPutSecretValueOptions : AwsOptions
     /// <summary>
     /// A list of staging labels to attach to this version of the secret. Secrets Manager uses staging labels to track versions of a secret through the rotation process. If you specify a staging label that's already associated with a dif- ferent version of the same secret, then Secrets Manager removes the label from the other version and attaches it to this version. If you specify AWSCURRENT , and it is already attached to another version, then Secrets Manager also moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you don't include VersionStages , then Secrets Manager automati- cally moves the staging label AWSCURRENT to this version. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--version-stages")]
+    [CliOption("--version-stages", GroupValues = true)]
     public IEnumerable<string>? VersionStages { get; set; }
 
     /// <summary>

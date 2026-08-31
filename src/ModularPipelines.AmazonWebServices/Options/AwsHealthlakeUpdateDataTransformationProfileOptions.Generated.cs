@@ -25,7 +25,7 @@ public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions
     [CliOption("--profile-id")]
     public string? ProfileId { get; set; }
 
-    [CliOption("--profile-mapping")]
+    [CliOption("--profile-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ProfileMapping { get; set; }
 
     /// <summary>

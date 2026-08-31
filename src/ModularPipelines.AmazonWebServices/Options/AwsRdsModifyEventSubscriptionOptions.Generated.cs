@@ -39,7 +39,7 @@ public record AwsRdsModifyEventSubscriptionOptions : AwsOptions
     /// <summary>
     /// A list of event categories for a source type (SourceType ) that you want to subscribe to. You can see a list of the categories for a given source type in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--event-categories")]
+    [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
     [CliFlag("--enabled")]

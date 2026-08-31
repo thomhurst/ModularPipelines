@@ -33,7 +33,7 @@ public record AwsCognitoIdpUpdateResourceServerOptions : AwsOptions
     /// <summary>
     /// An array of updated custom scope names and descriptions that you want to associate with your resource server. Constraints: o max: 100 (structure) One custom scope associated with a user pool resource server. This data type is a member of ResourceServerScopeType . For more information, see Scopes, M2M, and API authorization with re- source servers . ScopeName -&gt; (string) [required] The name of the scope. Amazon Cognito renders custom scopes in the format resourceServerIdentifier/ScopeName . For exam- ple, if this parameter is exampleScope in the resource server with the identifier exampleResourceServer , you request and receive the scope exampleResourceServer/exampleScope . Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x2E\x30-\x5B\x5D-\x7E]+ ScopeDescription -&gt; (string) [required] A friendly description of a custom scope. Constraints: o min: 1 o max: 256 Shorthand Syntax: ScopeName=string,ScopeDescription=string ... JSON Syntax: [ { "ScopeName": "string", "ScopeDescription": "string" } ... ]
     /// </summary>
-    [CliOption("--scopes")]
+    [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -30,7 +30,7 @@ public record AwsNeptuneModifyDbSubnetGroupOptions : AwsOptions
     [CliOption("--db-subnet-group-description")]
     public string? DbSubnetGroupDescription { get; set; }
 
-    [CliOption("--subnet-ids")]
+    [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     [CliOption("--cli-input-json")]

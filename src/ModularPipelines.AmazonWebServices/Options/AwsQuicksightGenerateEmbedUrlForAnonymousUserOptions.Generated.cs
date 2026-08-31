@@ -36,10 +36,10 @@ public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions
     /// <summary>
     /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level se- curity (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser , o Treat SessionTags as security credentials. Do not expose Session- Tags to end users or client-side code. o Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify. o Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants. o Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access. Besides, these are not the tags used for the Amazon Web Services re- source tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick User Guide . Constraints: o min: 1 o max: 50 (structure) The key-value pair used for the row-level security tags feature. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value that you want to assign the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--session-tags")]
+    [CliOption("--session-tags", GroupValues = true)]
     public IEnumerable<string>? SessionTags { get; set; }
 
-    [CliOption("--authorized-resource-arns")]
+    [CliOption("--authorized-resource-arns", GroupValues = true)]
     public IEnumerable<string>? AuthorizedResourceArns { get; set; }
 
     [CliOption("--experience-configuration")]
@@ -48,7 +48,7 @@ public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions
     /// <summary>
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter over- rides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use * . For example, https://*.sapp.amazon.com includes all subdo- mains under https://sapp.amazon.com . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-domains")]
+    [CliOption("--allowed-domains", GroupValues = true)]
     public IEnumerable<string>? AllowedDomains { get; set; }
 
     [CliOption("--cli-input-json")]

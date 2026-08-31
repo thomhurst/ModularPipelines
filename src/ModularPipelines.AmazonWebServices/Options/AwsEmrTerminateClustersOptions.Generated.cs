@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "terminate-clusters")]
 public record AwsEmrTerminateClustersOptions : AwsOptions
 {
-    [CliOption("--cluster-ids")]
+    [CliOption("--cluster-ids", GroupValues = true)]
     public IEnumerable<string>? ClusterIds { get; set; }
 
 }

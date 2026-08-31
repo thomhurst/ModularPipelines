@@ -24,7 +24,7 @@ public record AwsSnsPublishBatchOptions : AwsOptions
     [CliOption("--topic-arn")]
     public string? TopicArn { get; set; }
 
-    [CliOption("--publish-batch-request-entries")]
+    [CliOption("--publish-batch-request-entries", GroupValues = true)]
     public IEnumerable<string>? PublishBatchRequestEntries { get; set; }
 
     [CliOption("--cli-input-json")]

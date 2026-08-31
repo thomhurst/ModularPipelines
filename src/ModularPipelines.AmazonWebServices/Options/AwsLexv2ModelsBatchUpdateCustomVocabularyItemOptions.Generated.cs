@@ -30,7 +30,7 @@ public record AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions : AwsOptions
     [CliOption("--locale-id")]
     public string? LocaleId { get; set; }
 
-    [CliOption("--custom-vocabulary-item-list")]
+    [CliOption("--custom-vocabulary-item-list", GroupValues = true)]
     public IEnumerable<string>? CustomVocabularyItemList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -31,7 +31,7 @@ public record AwsOamCreateLinkOptions : AwsOptions
     [CliOption("--link-configuration")]
     public string? LinkConfiguration { get; set; }
 
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--sink-identifier")]
@@ -40,7 +40,7 @@ public record AwsOamCreateLinkOptions : AwsOptions
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the link. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permis- sion to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

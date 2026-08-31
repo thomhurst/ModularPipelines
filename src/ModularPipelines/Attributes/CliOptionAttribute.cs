@@ -65,6 +65,13 @@ public sealed class CliOptionAttribute(string name) : Attribute
     public bool GroupValues { get; set; }
 
     /// <summary>
+    /// Gets or sets the separator used to join collection elements into one option value.
+    /// A <see langword="null"/> value renders collection elements independently.
+    /// </summary>
+    /// <example><c>--environment key1=value1,key2=value2</c></example>
+    public string? CollectionSeparator { get; set; }
+
+    /// <summary>
     /// Gets or sets the semantic phase used to order this option.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;

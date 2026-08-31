@@ -24,7 +24,7 @@ public record AwsIamUntagInstanceProfileOptions : AwsOptions
     [CliOption("--instance-profile-name")]
     public string? InstanceProfileName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

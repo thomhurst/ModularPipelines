@@ -24,7 +24,7 @@ public record AwsAutoscalingBatchDeleteScheduledActionOptions : AwsOptions
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--scheduled-action-names")]
+    [CliOption("--scheduled-action-names", GroupValues = true)]
     public IEnumerable<string>? ScheduledActionNames { get; set; }
 
     [CliOption("--cli-input-json")]

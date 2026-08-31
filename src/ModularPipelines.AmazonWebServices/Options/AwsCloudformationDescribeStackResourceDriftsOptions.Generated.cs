@@ -28,7 +28,7 @@ public record AwsCloudformationDescribeStackResourceDriftsOptions : AwsOptions
     /// <summary>
     /// The resource drift status values to use as filters for the resource drift results returned. o DELETED : The resource differs from its expected template configu- ration in that the resource has been deleted. o MODIFIED : One or more resource properties differ from their ex- pected template values. o IN_SYNC : The resource's actual configuration matches its expected template configuration. o NOT_CHECKED : CloudFormation doesn't currently return this value. o UNKNOWN : CloudFormation could not run drift detection for the re- source. Constraints: o min: 1 o max: 4 (string) Possible values: o IN_SYNC o MODIFIED o DELETED o NOT_CHECKED o UNKNOWN o UNSUPPORTED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--stack-resource-drift-status-filters")]
+    [CliOption("--stack-resource-drift-status-filters", GroupValues = true)]
     public IEnumerable<string>? StackResourceDriftStatusFilters { get; set; }
 
     /// <summary>

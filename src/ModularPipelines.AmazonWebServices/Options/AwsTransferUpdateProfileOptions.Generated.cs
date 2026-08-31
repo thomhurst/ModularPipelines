@@ -27,7 +27,7 @@ public record AwsTransferUpdateProfileOptions : AwsOptions
     /// <summary>
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. (string) Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--certificate-ids")]
+    [CliOption("--certificate-ids", GroupValues = true)]
     public IEnumerable<string>? CertificateIds { get; set; }
 
     [CliOption("--cli-input-json")]

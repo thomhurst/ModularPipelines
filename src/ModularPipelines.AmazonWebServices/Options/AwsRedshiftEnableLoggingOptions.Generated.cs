@@ -46,7 +46,7 @@ public record AwsRedshiftEnableLoggingOptions : AwsOptions
     /// <summary>
     /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch , possible values are connectionlog , useractivitylog , and userlog . When LogDestinationType is s3table , the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all cur- rent and future system tables. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-exports")]
+    [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     /// <summary>

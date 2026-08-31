@@ -28,7 +28,7 @@ public record AwsEc2DescribeSpotFleetRequestsOptions : AwsOptions
     /// <summary>
     /// The IDs of the Spot Fleet requests. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--spot-fleet-request-ids")]
+    [CliOption("--spot-fleet-request-ids", GroupValues = true)]
     public IEnumerable<string>? SpotFleetRequestIds { get; set; }
 
     [CliOption("--cli-input-json")]

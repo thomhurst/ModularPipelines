@@ -37,13 +37,13 @@ public record AwsLogsStartQueryOptions : AwsOptions
     /// <summary>
     /// The list of log groups to be queried. You can include up to 50 log groups. NOTE: A StartQuery operation must include exactly one of the following parameters: logGroupName , logGroupNames , or logGroupIdenti- fiers . The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here. (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-names")]
+    [CliOption("--log-group-names", GroupValues = true)]
     public IEnumerable<string>? LogGroupNames { get; set; }
 
     /// <summary>
     /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a moni- toring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region :ac- count-id :log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following pa- rameters: logGroupName , logGroupNames , or logGroupIdentifiers . The exception is queries using the OpenSearch Service SQL query lan- guage, where you specify the log group names inside the querystring instead of here. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     [CliOption("--start-time")]

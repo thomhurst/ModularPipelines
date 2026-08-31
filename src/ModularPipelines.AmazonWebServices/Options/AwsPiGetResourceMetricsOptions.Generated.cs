@@ -29,7 +29,7 @@ public record AwsPiGetResourceMetricsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--metric-queries")]
+    [CliOption("--metric-queries", GroupValues = true)]
     public IEnumerable<string>? MetricQueries { get; set; }
 
     [CliOption("--start-time")]

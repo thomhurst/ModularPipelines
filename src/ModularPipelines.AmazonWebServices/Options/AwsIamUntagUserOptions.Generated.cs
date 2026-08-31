@@ -24,7 +24,7 @@ public record AwsIamUntagUserOptions : AwsOptions
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CliOption("--tag-keys")]
+    [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     [CliOption("--cli-input-json")]

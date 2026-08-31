@@ -963,7 +963,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetManualOperandCount(property.Type),
             property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             IsSupportedOptionalValueType(property.Type),
-            false);
+            false,
+            CollectionSeparator: GetNamedString(attribute, "CollectionSeparator"));
     }
 
     private static bool IsSupportedFlagType(ITypeSymbol propertyType)
@@ -1535,6 +1536,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
+                    sb.AppendLine($"                        CollectionSeparator = {NullableLiteral(property.CollectionSeparator)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
                     break;
@@ -2315,7 +2317,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string AccessorTypeName,
         bool IsSupportedPropertyType,
         bool HasExplicitArgumentPosition,
-        bool RepeatOptionTerminator = false);
+        bool RepeatOptionTerminator = false,
+        string? CollectionSeparator = null);
 
     private enum PropertyKind
     {

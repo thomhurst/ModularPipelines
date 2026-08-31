@@ -97,7 +97,7 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
     /// <summary>
     /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when check- ing for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as com- mas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multi- ple values (for example, "0,1") or a range of values (for exam- ple, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
     /// </summary>
-    [CliOption("--matcher")]
+    [CliOption("--matcher", GroupValues = true)]
     public IEnumerable<string>? Matcher { get; set; }
 
     /// <summary>
@@ -109,7 +109,7 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
     /// <summary>
     /// The tags to assign to the target group. Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

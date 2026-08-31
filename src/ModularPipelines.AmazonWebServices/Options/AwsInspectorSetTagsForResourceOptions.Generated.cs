@@ -27,7 +27,7 @@ public record AwsInspectorSetTagsForResourceOptions : AwsOptions
     /// <summary>
     /// A collection of key and value pairs that you want to set to the as- sessment template. Constraints: o min: 0 o max: 10 (structure) A key and value pair. This data type is used as a request para- meter in the SetTagsForResource action and a response element in the ListTagsForResource action. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) A value assigned to a tag key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("glue", "batch-put-data-quality-statistic-annotation")]
 public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions
 {
-    [CliOption("--inclusion-annotations")]
+    [CliOption("--inclusion-annotations", GroupValues = true)]
     public IEnumerable<string>? InclusionAnnotations { get; set; }
 
     /// <summary>

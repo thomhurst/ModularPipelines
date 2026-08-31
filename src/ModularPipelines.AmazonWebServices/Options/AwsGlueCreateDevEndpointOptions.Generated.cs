@@ -32,7 +32,7 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions
     /// <summary>
     /// Security group IDs for the security groups to be used by the new De- vEndpoint . (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions
     /// <summary>
     /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client. NOTE: If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. Constraints: o max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--public-keys")]
+    [CliOption("--public-keys", GroupValues = true)]
     public IEnumerable<string>? PublicKeys { get; set; }
 
     /// <summary>
@@ -98,13 +98,13 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions
     /// <summary>
     /// The tags to use with this DevEndpoint. You may use tags to limit ac- cess to the DevEndpoint. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// A map of arguments used to configure the DevEndpoint . Constraints: o min: 0 o max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--arguments")]
+    [CliOption("--arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GlueArguments { get; set; }
 
     [CliOption("--cli-input-json")]

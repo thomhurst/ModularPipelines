@@ -56,7 +56,7 @@ public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions
     [CliFlag("--enable-simple-responses")]
     public bool? EnableSimpleResponses { get; set; }
 
-    [CliOption("--identity-source")]
+    [CliOption("--identity-source", GroupValues = true)]
     public IEnumerable<string>? IdentitySource { get; set; }
 
     /// <summary>

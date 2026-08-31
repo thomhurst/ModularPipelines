@@ -24,7 +24,7 @@ public record AwsEsAddTagsOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--tag-list")]
+    [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -43,7 +43,7 @@ public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions
     /// <summary>
     /// The tag structure that contains a tag key and value. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The object key of your of your resource tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The specific value of the resource tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     /// <summary>

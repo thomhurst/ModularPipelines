@@ -37,13 +37,13 @@ public record AwsEc2ModifyIpamOptions : AwsOptions
     /// <summary>
     /// Choose the operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . Constraints: o min: 0 o max: 50 (structure) Add an operating Region to an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP ad- dress CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . RegionName -&gt; (string) The name of the operating Region. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
     /// </summary>
-    [CliOption("--add-operating-regions")]
+    [CliOption("--add-operating-regions", GroupValues = true)]
     public IEnumerable<string>? AddOperatingRegions { get; set; }
 
     /// <summary>
     /// The operating Regions to remove. Constraints: o min: 0 o max: 50 (structure) Remove an operating Region from an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide RegionName -&gt; (string) The name of the operating Region you want to remove. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
     /// </summary>
-    [CliOption("--remove-operating-regions")]
+    [CliOption("--remove-operating-regions", GroupValues = true)]
     public IEnumerable<string>? RemoveOperatingRegions { get; set; }
 
     /// <summary>

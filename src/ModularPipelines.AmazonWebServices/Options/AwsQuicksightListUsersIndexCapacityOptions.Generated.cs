@@ -35,7 +35,7 @@ public record AwsQuicksightListUsersIndexCapacityOptions : AwsOptions
     /// <summary>
     /// Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclu- sive. (tagged union structure) A filter for user index capacity queries. Only one filter type can be specified per request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userNameOrEmail, totalCapacity- Bytes. userNameOrEmail -&gt; (structure) Filter users by username or email prefix. prefix -&gt; (string) [required] The prefix to match against username or email (starts-with match). Constraints: o min: 0 o max: 256 totalCapacityBytes -&gt; (structure) Filter users by total capacity range in bytes. minBytes -&gt; (long) The minimum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: o min: 1 maxBytes -&gt; (long) The maximum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required. Constraints: o min: 1 Shorthand Syntax: userNameOrEmail={prefix=string},totalCapacityBytes={minBytes=long,maxBytes=long} ... JSON Syntax: [ { "userNameOrEmail": { "prefix": "string" }, "totalCapacityBytes": { "minBytes": long, "maxBytes": long } } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

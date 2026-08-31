@@ -28,7 +28,7 @@ public record AwsIottwinmakerListEntitiesOptions : AwsOptions
     /// <summary>
     /// A list of objects that filter the request. NOTE: Only one object is accepted as a valid input. (tagged union structure) An object that filters items in a list of entities. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: parentEntityId, componentTypeId, externalId. parentEntityId -&gt; (string) The parent of the entities in the list. Constraints: o min: 1 o max: 128 o pattern: \$ROOT|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ componentTypeId -&gt; (string) The ID of the component type in the entities in the list. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ externalId -&gt; (string) The external-Id property of a component. The external-Id property is the primary key of an external storage system. Constraints: o min: 1 o max: 256 o pattern: .* Shorthand Syntax: parentEntityId=string,componentTypeId=string,externalId=string ... JSON Syntax: [ { "parentEntityId": "string", "componentTypeId": "string", "externalId": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

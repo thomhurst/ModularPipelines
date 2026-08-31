@@ -28,7 +28,7 @@ public record AwsIdentitystoreListGroupsOptions : AwsOptions
     /// <summary>
     /// A list of Filter objects, which is used in the ListUsers and List- Groups requests. Constraints: o min: 0 o max: 1 (structure) A query filter used by ListUsers and ListGroups . This filter object provides the attribute name and attribute value to search users or groups. AttributePath -&gt; (string) [required] The attribute path that is used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (string) [required] Represents the data for an attribute. Each attribute value is described as a name-value pair. Constraints: o min: 1 o max: 1024 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Shorthand Syntax: AttributePath=string,AttributeValue=string ... JSON Syntax: [ { "AttributePath": "string", "AttributeValue": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

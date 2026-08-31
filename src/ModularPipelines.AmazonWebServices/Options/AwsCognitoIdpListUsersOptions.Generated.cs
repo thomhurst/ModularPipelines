@@ -28,7 +28,7 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions
     /// <summary>
     /// A JSON array of user attribute names, for example given_name , that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user. Use AttributesToGet with required attributes in your user pool, or in conjunction with Filter . Amazon Cognito returns an error if not all users in the results have set a value for the attribute you re- quest. Attributes that you can't filter on, including custom attrib- utes, must have a value set in every user profile before an Attrib- utesToGet parameter returns results. (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-get")]
+    [CliOption("--attributes-to-get", GroupValues = true)]
     public IEnumerable<string>? AttributesToGet { get; set; }
 
     /// <summary>

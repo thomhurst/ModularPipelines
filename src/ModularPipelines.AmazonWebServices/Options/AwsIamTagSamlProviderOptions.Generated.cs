@@ -24,7 +24,7 @@ public record AwsIamTagSamlProviderOptions : AwsOptions
     [CliOption("--saml-provider-arn")]
     public string? SamlProviderArn { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

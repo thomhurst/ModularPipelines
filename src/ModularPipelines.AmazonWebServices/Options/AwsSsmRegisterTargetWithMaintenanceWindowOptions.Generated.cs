@@ -28,7 +28,7 @@ public record AwsSsmRegisterTargetWithMaintenanceWindowOptions : AwsOptions
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CliOption("--targets")]
+    [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>

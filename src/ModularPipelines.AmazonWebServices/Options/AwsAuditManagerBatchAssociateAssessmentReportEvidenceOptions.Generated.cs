@@ -27,7 +27,7 @@ public record AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions : Aws
     [CliOption("--evidence-folder-id")]
     public string? EvidenceFolderId { get; set; }
 
-    [CliOption("--evidence-ids")]
+    [CliOption("--evidence-ids", GroupValues = true)]
     public IEnumerable<string>? EvidenceIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsCognitoIdentitySetPrincipalTagAttributeMapOptions : AwsOptions
     /// <summary>
     /// You can use this operation to add principal tags. Constraints: o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--principal-tags")]
+    [CliOption("--principal-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PrincipalTags { get; set; }
 
     [CliOption("--cli-input-json")]

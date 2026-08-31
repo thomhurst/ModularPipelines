@@ -24,7 +24,7 @@ public record AwsDeployRegisterOptions : AwsOptions
     [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--iam-user-arn")]

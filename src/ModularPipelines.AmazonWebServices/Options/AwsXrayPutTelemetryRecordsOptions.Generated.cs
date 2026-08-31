@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("xray", "put-telemetry-records")]
 public record AwsXrayPutTelemetryRecordsOptions : AwsOptions
 {
-    [CliOption("--telemetry-records")]
+    [CliOption("--telemetry-records", GroupValues = true)]
     public IEnumerable<string>? TelemetryRecords { get; set; }
 
     /// <summary>

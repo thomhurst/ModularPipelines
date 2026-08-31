@@ -24,7 +24,7 @@ public record AwsIamTagMfaDeviceOptions : AwsOptions
     [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

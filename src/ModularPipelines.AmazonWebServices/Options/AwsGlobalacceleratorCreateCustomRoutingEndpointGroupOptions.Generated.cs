@@ -28,7 +28,7 @@ public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsO
     [CliOption("--endpoint-group-region")]
     public string? EndpointGroupRegion { get; set; }
 
-    [CliOption("--destination-configurations")]
+    [CliOption("--destination-configurations", GroupValues = true)]
     public IEnumerable<string>? DestinationConfigurations { get; set; }
 
     /// <summary>

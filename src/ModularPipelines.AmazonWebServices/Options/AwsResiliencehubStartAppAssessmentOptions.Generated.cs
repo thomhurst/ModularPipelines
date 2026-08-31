@@ -42,7 +42,7 @@ public record AwsResiliencehubStartAppAssessmentOptions : AwsOptions
     /// <summary>
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

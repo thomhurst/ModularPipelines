@@ -29,14 +29,14 @@ public record AwsSsmSapUpdateApplicationSettingsOptions : AwsOptions
     /// The credentials to be added or updated. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--credentials-to-add-or-update")]
+    [CliOption("--credentials-to-add-or-update", GroupValues = true)]
     public IEnumerable<string>? CredentialsToAddOrUpdate { get; set; }
 
     /// <summary>
     /// The credentials to be removed. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--credentials-to-remove")]
+    [CliOption("--credentials-to-remove", GroupValues = true)]
     public IEnumerable<string>? CredentialsToRemove { get; set; }
 
     /// <summary>

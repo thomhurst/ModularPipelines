@@ -28,7 +28,7 @@ public record AwsLookoutequipmentCreateLabelGroupOptions : AwsOptions
     /// <summary>
     /// The acceptable fault codes (indicating the type of anomaly associ- ated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--fault-codes")]
+    [CliOption("--fault-codes", GroupValues = true)]
     public IEnumerable<string>? FaultCodes { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsLookoutequipmentCreateLabelGroupOptions : AwsOptions
     /// <summary>
     /// Tags that provide metadata about the label group you are creating. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

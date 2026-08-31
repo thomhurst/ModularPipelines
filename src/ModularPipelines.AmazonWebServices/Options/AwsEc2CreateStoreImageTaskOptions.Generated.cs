@@ -30,7 +30,7 @@ public record AwsEc2CreateStoreImageTaskOptions : AwsOptions
     /// <summary>
     /// The tags to apply to the AMI object that will be stored in the Ama- zon S3 bucket. (structure) The tags to apply to the AMI object that will be stored in the Amazon S3 bucket. For more information, see Categorizing your storage using tags in the Amazon Simple Storage Service User Guide . Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and can be up to 128 Unicode characters in length. May not begin with aws :. Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and can be up to 256 Unicode characters in length. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--s3-object-tags")]
+    [CliOption("--s3-object-tags", GroupValues = true)]
     public IEnumerable<string>? S3ObjectTags { get; set; }
 
     [CliFlag("--dry-run")]

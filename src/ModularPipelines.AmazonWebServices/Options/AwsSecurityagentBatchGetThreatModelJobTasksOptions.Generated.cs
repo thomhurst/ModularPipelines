@@ -24,7 +24,7 @@ public record AwsSecurityagentBatchGetThreatModelJobTasksOptions : AwsOptions
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; set; }
 
-    [CliOption("--threat-model-job-task-ids")]
+    [CliOption("--threat-model-job-task-ids", GroupValues = true)]
     public IEnumerable<string>? ThreatModelJobTaskIds { get; set; }
 
     [CliOption("--cli-input-json")]

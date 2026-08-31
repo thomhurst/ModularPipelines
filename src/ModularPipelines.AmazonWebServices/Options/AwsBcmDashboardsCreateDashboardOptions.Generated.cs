@@ -30,13 +30,13 @@ public record AwsBcmDashboardsCreateDashboardOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--widgets")]
+    [CliOption("--widgets", GroupValues = true)]
     public IEnumerable<string>? Widgets { get; set; }
 
     /// <summary>
     /// The tags to apply to the dashboard resource for organization and management. Constraints: o min: 0 o max: 200 (structure) A key-value pair that can be attached to a dashboard for organi- zation and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: o min: 1 o max: 128 o pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard re- source. Constraints: o min: 0 o max: 256 o pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

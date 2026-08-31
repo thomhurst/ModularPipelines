@@ -27,7 +27,7 @@ public record AwsEc2AssignPrivateNatGatewayAddressOptions : AwsOptions
     /// <summary>
     /// The private IPv4 addresses you want to assign to the private NAT gateway. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>

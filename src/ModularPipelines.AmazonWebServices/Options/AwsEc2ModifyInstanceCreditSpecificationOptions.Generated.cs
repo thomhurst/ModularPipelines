@@ -32,7 +32,7 @@ public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--instance-credit-specifications")]
+    [CliOption("--instance-credit-specifications", GroupValues = true)]
     public IEnumerable<string>? InstanceCreditSpecifications { get; set; }
 
     [CliOption("--cli-input-json")]

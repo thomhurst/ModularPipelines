@@ -36,7 +36,7 @@ public record AwsDmsExportMetadataModelAssessmentOptions : AwsOptions
     /// <summary>
     /// The file format of the assessment file. Constraints: o min: 1 (string) Possible values: o pdf o csv Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--assessment-report-types")]
+    [CliOption("--assessment-report-types", GroupValues = true)]
     public IEnumerable<string>? AssessmentReportTypes { get; set; }
 
     [CliOption("--cli-input-json")]

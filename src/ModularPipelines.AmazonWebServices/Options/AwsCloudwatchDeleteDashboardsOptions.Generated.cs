@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "delete-dashboards")]
 public record AwsCloudwatchDeleteDashboardsOptions : AwsOptions
 {
-    [CliOption("--dashboard-names")]
+    [CliOption("--dashboard-names", GroupValues = true)]
     public IEnumerable<string>? DashboardNames { get; set; }
 
     [CliOption("--cli-input-json")]

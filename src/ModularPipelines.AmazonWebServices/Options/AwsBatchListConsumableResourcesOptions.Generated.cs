@@ -25,7 +25,7 @@ public record AwsBatchListConsumableResourcesOptions : AwsOptions
     /// <summary>
     /// The filters to apply to the consumable resource list query. If used, only those consumable resources that match the filter are listed. Filter names and values can be: o name: CONSUMABLE_RESOURCE_NAME values: case-insensitive matches for the consumable resource name. If a filter value ends with an asterisk (*), it matches any consumable resource name that begins with the string before the '*'. (structure) A filter name and value pair that's used to return a more spe- cific list of results from a ListJobs or ListJobsByConsumableRe- source API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

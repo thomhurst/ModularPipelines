@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("detective", "batch-get-membership-datasources")]
 public record AwsDetectiveBatchGetMembershipDatasourcesOptions : AwsOptions
 {
-    [CliOption("--graph-arns")]
+    [CliOption("--graph-arns", GroupValues = true)]
     public IEnumerable<string>? GraphArns { get; set; }
 
     [CliOption("--cli-input-json")]

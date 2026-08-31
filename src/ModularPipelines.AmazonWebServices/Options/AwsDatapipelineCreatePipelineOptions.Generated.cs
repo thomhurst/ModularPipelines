@@ -36,7 +36,7 @@ public record AwsDatapipelineCreatePipelineOptions : AwsOptions
     /// <summary>
     /// A list of tags to associate with the pipeline at creation. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Devel- oper Guide . Constraints: o min: 0 o max: 10 (structure) Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to as- sociate ten tags per pipeline. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . key -&gt; (string) [required] The key name of a tag defined by a user. For more informa- tion, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide . Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

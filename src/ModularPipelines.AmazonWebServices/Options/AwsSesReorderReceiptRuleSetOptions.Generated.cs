@@ -24,7 +24,7 @@ public record AwsSesReorderReceiptRuleSetOptions : AwsOptions
     [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [CliOption("--rule-names")]
+    [CliOption("--rule-names", GroupValues = true)]
     public IEnumerable<string>? RuleNames { get; set; }
 
     [CliOption("--cli-input-json")]

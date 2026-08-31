@@ -45,7 +45,7 @@ public record AwsRdsStartExportTaskOptions : AwsOptions
     /// <summary>
     /// The data to be exported from the snapshot or cluster. If this para- meter isn't provided, all of the data is exported. Valid Values: o database - Export all the data from a specified database. o database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL. o database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for Post- greSQL and Aurora PostgreSQL. o database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Au- rora PostgreSQL. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--export-only")]
+    [CliOption("--export-only", GroupValues = true)]
     public IEnumerable<string>? ExportOnly { get; set; }
 
     [CliOption("--cli-input-json")]

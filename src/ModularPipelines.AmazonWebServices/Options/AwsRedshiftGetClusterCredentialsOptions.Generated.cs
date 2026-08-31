@@ -48,7 +48,7 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions
     /// <summary>
     /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints o Must be 1 to 64 alphanumeric characters or hyphens o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--db-groups")]
+    [CliOption("--db-groups", GroupValues = true)]
     public IEnumerable<string>? DbGroups { get; set; }
 
     /// <summary>

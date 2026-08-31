@@ -25,7 +25,7 @@ public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of one or more ca- pacity providers. Up to 100 capacity providers can be described in an action. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--capacity-providers")]
+    [CliOption("--capacity-providers", GroupValues = true)]
     public IEnumerable<string>? CapacityProviders { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
     /// <summary>
     /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--include")]
+    [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsWorkspacesListAccountLinksOptions : AwsOptions
     /// <summary>
     /// Filters the account based on their link status. (string) Possible values: o LINKED o LINKING_FAILED o LINK_NOT_FOUND o PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT o REJECTED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--link-status-filter")]
+    [CliOption("--link-status-filter", GroupValues = true)]
     public IEnumerable<string>? LinkStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]

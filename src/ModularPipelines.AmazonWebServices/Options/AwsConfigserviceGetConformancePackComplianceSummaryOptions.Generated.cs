@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("configservice", "get-conformance-pack-compliance-summary")]
 public record AwsConfigserviceGetConformancePackComplianceSummaryOptions : AwsOptions
 {
-    [CliOption("--conformance-pack-names")]
+    [CliOption("--conformance-pack-names", GroupValues = true)]
     public IEnumerable<string>? ConformancePackNames { get; set; }
 
     [CliOption("--cli-input-json")]

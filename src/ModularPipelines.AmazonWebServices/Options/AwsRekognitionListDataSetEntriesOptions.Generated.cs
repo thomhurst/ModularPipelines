@@ -28,7 +28,7 @@ public record AwsRekognitionListDataSetEntriesOptions : AwsOptions
     /// <summary>
     /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: .{1,} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--contains-labels")]
+    [CliOption("--contains-labels", GroupValues = true)]
     public IEnumerable<string>? ContainsLabels { get; set; }
 
     [CliFlag("--labeled")]

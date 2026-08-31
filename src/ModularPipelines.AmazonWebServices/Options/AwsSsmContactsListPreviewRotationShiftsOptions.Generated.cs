@@ -37,7 +37,7 @@ public record AwsSsmContactsListPreviewRotationShiftsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliOption("--members")]
+    [CliOption("--members", GroupValues = true)]
     public IEnumerable<string>? Members { get; set; }
 
     [CliOption("--time-zone-id")]
@@ -49,7 +49,7 @@ public record AwsSsmContactsListPreviewRotationShiftsOptions : AwsOptions
     /// <summary>
     /// Information about changes that would be made in a rotation override. (structure) Information about contacts and times that an on-call override replaces. NewMembers -&gt; (list) Information about contacts to add to an on-call rotation override. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 512 o pattern: .*\S.* StartTime -&gt; (timestamp) Information about the time a rotation override would begin. EndTime -&gt; (timestamp) Information about the time a rotation override would end. Shorthand Syntax: NewMembers=string,string,StartTime=timestamp,EndTime=timestamp ... JSON Syntax: [ { "NewMembers": ["string", ...], "StartTime": timestamp, "EndTime": timestamp } ... ]
     /// </summary>
-    [CliOption("--overrides")]
+    [CliOption("--overrides", GroupValues = true)]
     public IEnumerable<string>? Overrides { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -29,7 +29,7 @@ public record AwsSustainabilityGetEstimatedCarbonEmissionsOptions : AwsOptions
     /// <summary>
     /// The dimensions available for grouping estimated carbon emissions. (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: o USAGE_ACCOUNT_ID o REGION o SERVICE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-by")]
+    [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AwsSustainabilityGetEstimatedCarbonEmissionsOptions : AwsOptions
     /// <summary>
     /// The emission types to include in the results. If absent, returns TO- TAL_LBM_CARBON_EMISSIONS and TOTAL_MBM_CARBON_EMISSIONS emissions types. (string) Specifies the types of carbon emissions calculations available. Possible values: o TOTAL_LBM_CARBON_EMISSIONS o TOTAL_MBM_CARBON_EMISSIONS o TOTAL_SCOPE_1_CARBON_EMISSIONS o TOTAL_SCOPE_2_LBM_CARBON_EMISSIONS o TOTAL_SCOPE_2_MBM_CARBON_EMISSIONS o TOTAL_SCOPE_3_LBM_CARBON_EMISSIONS o TOTAL_SCOPE_3_MBM_CARBON_EMISSIONS Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--emissions-types")]
+    [CliOption("--emissions-types", GroupValues = true)]
     public IEnumerable<string>? EmissionsTypes { get; set; }
 
     /// <summary>

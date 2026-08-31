@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "wait", "daemon-deployment-successful")]
 public record AwsEcsWaitDaemonDeploymentSuccessfulOptions : AwsOptions
 {
-    [CliOption("--daemon-deployment-arns")]
+    [CliOption("--daemon-deployment-arns", GroupValues = true)]
     public IEnumerable<string>? DaemonDeploymentArns { get; set; }
 
     [CliOption("--cli-input-json")]

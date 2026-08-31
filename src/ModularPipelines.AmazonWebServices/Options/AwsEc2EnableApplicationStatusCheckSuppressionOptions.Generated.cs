@@ -25,7 +25,7 @@ public record AwsEc2EnableApplicationStatusCheckSuppressionOptions : AwsOptions
     /// <summary>
     /// The IDs of the instances for which to suppress application status checks. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-ids")]
+    [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsLogsUpdateDeliveryConfigurationOptions : AwsOptions
     /// <summary>
     /// The list of record fields to be delivered to the destination, in or- der. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: o min: 0 o max: 128 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--record-fields")]
+    [CliOption("--record-fields", GroupValues = true)]
     public IEnumerable<string>? RecordFields { get; set; }
 
     /// <summary>

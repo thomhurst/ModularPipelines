@@ -46,13 +46,13 @@ public record AwsServicecatalogCopyProductOptions : AwsOptions
     /// <summary>
     /// The identifiers of the provisioning artifacts (also known as ver- sions) of the product to copy. By default, all provisioning arti- facts are copied. (map) key -&gt; (string) Possible values: o Id value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Id ... JSON Syntax: [ {"Id": "string" ...} ... ]
     /// </summary>
-    [CliOption("--source-provisioning-artifact-identifiers")]
+    [CliOption("--source-provisioning-artifact-identifiers", GroupValues = true)]
     public IEnumerable<string>? SourceProvisioningArtifactIdentifiers { get; set; }
 
     /// <summary>
     /// The copy options. If the value is CopyTags , the tags from the source product are copied to the target product. (string) Possible values: o CopyTags Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--copy-options")]
+    [CliOption("--copy-options", GroupValues = true)]
     public IEnumerable<string>? CopyOptions { get; set; }
 
     /// <summary>

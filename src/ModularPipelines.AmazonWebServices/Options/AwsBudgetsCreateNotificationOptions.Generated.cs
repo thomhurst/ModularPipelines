@@ -30,7 +30,7 @@ public record AwsBudgetsCreateNotificationOptions : AwsOptions
     [CliOption("--notification")]
     public string? Notification { get; set; }
 
-    [CliOption("--subscribers")]
+    [CliOption("--subscribers", GroupValues = true)]
     public IEnumerable<string>? Subscribers { get; set; }
 
     [CliOption("--cli-input-json")]

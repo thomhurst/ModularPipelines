@@ -75,25 +75,25 @@ public record AwsDeadlineUpdateQueueOptions : AwsOptions
     /// <summary>
     /// The required file system location names to add to the queue. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--required-file-system-location-names-to-add")]
+    [CliOption("--required-file-system-location-names-to-add", GroupValues = true)]
     public IEnumerable<string>? RequiredFileSystemLocationNamesToAdd { get; set; }
 
     /// <summary>
     /// The required file system location names to remove from the queue. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--required-file-system-location-names-to-remove")]
+    [CliOption("--required-file-system-location-names-to-remove", GroupValues = true)]
     public IEnumerable<string>? RequiredFileSystemLocationNamesToRemove { get; set; }
 
     /// <summary>
     /// The storage profile IDs to add. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: sp-[0-9a-f]{32} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-storage-profile-ids-to-add")]
+    [CliOption("--allowed-storage-profile-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? AllowedStorageProfileIdsToAdd { get; set; }
 
     /// <summary>
     /// The storage profile ID to remove. Constraints: o min: 0 o max: 20 (string) Constraints: o pattern: sp-[0-9a-f]{32} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--allowed-storage-profile-ids-to-remove")]
+    [CliOption("--allowed-storage-profile-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? AllowedStorageProfileIdsToRemove { get; set; }
 
     /// <summary>

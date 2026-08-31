@@ -34,7 +34,7 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions
     /// <summary>
     /// Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions . Constraints: o max: 500 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     [CliOption("--instance-id")]
@@ -43,31 +43,31 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The list of tags that a security profile uses to restrict access to resources in Connect Customer. Constraints: o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--allowed-access-control-tags")]
+    [CliOption("--allowed-access-control-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AllowedAccessControlTags { get; set; }
 
     /// <summary>
     /// The list of resources that a security profile applies tag restric- tions to in Connect Customer. For a list of Connect Customer re- sources that you can tag, see Add tags to resources in Connect Cus- tomer in the Connect Customer Administrator Guide . Constraints: o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--tag-restricted-resources")]
+    [CliOption("--tag-restricted-resources", GroupValues = true)]
     public IEnumerable<string>? TagRestrictedResources { get; set; }
 
     /// <summary>
     /// A list of third-party applications or MCP Servers that the security profile will give access to. Constraints: o max: 10 (structure) This API is in preview release for Connect Customer and is sub- ject to change. A third-party application's metadata. Namespace -&gt; (string) Namespace of the application that you want to give access to. Constraints: o min: 1 o max: 128 ApplicationPermissions -&gt; (list) The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identi- fiers accepted by MCP Server. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 Type -&gt; (string) Type of Application. Possible values: o MCP o THIRD_PARTY_APPLICATION Shorthand Syntax: Namespace=string,ApplicationPermissions=string,string,Type=string ... JSON Syntax: [ { "Namespace": "string", "ApplicationPermissions": ["string", ...], "Type": "MCP"|"THIRD_PARTY_APPLICATION" } ... ]
     /// </summary>
-    [CliOption("--applications")]
+    [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
     /// The list of resources that a security profile applies hierarchy re- strictions to in Connect Customer. Following are acceptable Re- sourceNames: User . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--hierarchy-restricted-resources")]
+    [CliOption("--hierarchy-restricted-resources", GroupValues = true)]
     public IEnumerable<string>? HierarchyRestrictedResources { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions
     /// <summary>
     /// A list of Flow Modules an AI Agent can invoke as a tool. Constraints: o max: 10 (structure) A list of Flow Modules an AI Agent can invoke as a tool Type -&gt; (string) Only Type we support is MCP. Possible values: o MCP FlowModuleId -&gt; (string) If of Flow Modules invocable as tool Constraints: o min: 1 o max: 128 Shorthand Syntax: Type=string,FlowModuleId=string ... JSON Syntax: [ { "Type": "MCP", "FlowModuleId": "string" } ... ]
     /// </summary>
-    [CliOption("--allowed-flow-modules")]
+    [CliOption("--allowed-flow-modules", GroupValues = true)]
     public IEnumerable<string>? AllowedFlowModules { get; set; }
 
     /// <summary>

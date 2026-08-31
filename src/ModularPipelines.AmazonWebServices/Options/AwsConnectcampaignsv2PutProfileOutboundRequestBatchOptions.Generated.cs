@@ -24,7 +24,7 @@ public record AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions : AwsOp
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--profile-outbound-requests")]
+    [CliOption("--profile-outbound-requests", GroupValues = true)]
     public IEnumerable<string>? ProfileOutboundRequests { get; set; }
 
     [CliOption("--cli-input-json")]

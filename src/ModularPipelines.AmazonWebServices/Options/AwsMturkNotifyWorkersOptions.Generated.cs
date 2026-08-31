@@ -27,7 +27,7 @@ public record AwsMturkNotifyWorkersOptions : AwsOptions
     [CliOption("--message-text")]
     public string? MessageText { get; set; }
 
-    [CliOption("--worker-ids")]
+    [CliOption("--worker-ids", GroupValues = true)]
     public IEnumerable<string>? WorkerIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ivs", "batch-get-channel")]
 public record AwsIvsBatchGetChannelOptions : AwsOptions
 {
-    [CliOption("--arns")]
+    [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     [CliOption("--cli-input-json")]

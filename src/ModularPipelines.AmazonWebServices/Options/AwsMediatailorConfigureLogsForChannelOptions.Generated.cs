@@ -24,7 +24,7 @@ public record AwsMediatailorConfigureLogsForChannelOptions : AwsOptions
     [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
-    [CliOption("--log-types")]
+    [CliOption("--log-types", GroupValues = true)]
     public IEnumerable<string>? LogTypes { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,7 +34,7 @@ public record AwsSsmPutComplianceItemsOptions : AwsOptions
     [CliOption("--execution-summary")]
     public string? ExecutionSummary { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     /// <summary>

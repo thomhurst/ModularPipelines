@@ -37,7 +37,7 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
     /// <summary>
     /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For infor- mation about storing lexicons, see PutLexicon . Constraints: o max: 5 (string) Constraints: o pattern: [0-9A-Za-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--lexicon-names")]
+    [CliOption("--lexicon-names", GroupValues = true)]
     public IEnumerable<string>? LexiconNames { get; set; }
 
     [CliOption("--output-format")]
@@ -52,7 +52,7 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
     /// <summary>
     /// The type of speech marks returned for the input text. Constraints: o max: 4 (string) Possible values: o sentence o ssml o viseme o word Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--speech-mark-types")]
+    [CliOption("--speech-mark-types", GroupValues = true)]
     public IEnumerable<string>? SpeechMarkTypes { get; set; }
 
     [CliOption("--text")]

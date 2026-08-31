@@ -33,7 +33,7 @@ public record AwsOamUpdateLinkOptions : AwsOptions
     [CliOption("--link-configuration")]
     public string? LinkConfiguration { get; set; }
 
-    [CliOption("--resource-types")]
+    [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

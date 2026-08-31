@@ -48,7 +48,7 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     /// <summary>
     /// A list of email addresses that Amazon Web Services Support copies on case correspondence. Amazon Web Services Support identifies the ac- count that creates the case when you specify your Amazon Web Ser- vices credentials in an HTTP POST method or use the Amazon Web Ser- vices SDKs . Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cc-email-addresses")]
+    [CliOption("--cc-email-addresses", GroupValues = true)]
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>

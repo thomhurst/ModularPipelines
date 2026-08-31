@@ -24,7 +24,7 @@ public record AwsConnectBatchAssociateAnalyticsDataSetOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--data-set-ids")]
+    [CliOption("--data-set-ids", GroupValues = true)]
     public IEnumerable<string>? DataSetIds { get; set; }
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsControltowerUpdateEnabledBaselineOptions : AwsOptions
     /// <summary>
     /// Parameters to apply when making an update. (structure) A key-value parameter to an EnabledBaseline resource. key -&gt; (string) [required] A string denoting the parameter key. value -&gt; (document) [required] A low-level Document object of any type (for example, a Java Object). Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
     /// </summary>
-    [CliOption("--parameters")]
+    [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     [CliOption("--enabled-baseline-identifier")]

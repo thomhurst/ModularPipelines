@@ -25,7 +25,7 @@ public record AwsWorkspacesDescribeIpGroupsOptions : AwsOptions
     /// <summary>
     /// The identifiers of one or more IP access control groups. (string) Constraints: o pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--group-ids")]
+    [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

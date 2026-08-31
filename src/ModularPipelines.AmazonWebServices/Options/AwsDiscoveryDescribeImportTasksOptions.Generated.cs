@@ -25,7 +25,7 @@ public record AwsDiscoveryDescribeImportTasksOptions : AwsOptions
     /// <summary>
     /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters. (structure) A name-values pair of elements you can use to filter the results when querying your import tasks. Currently, wildcards are not supported for filters. NOTE: When filtering by import status, all other filter values are ignored. name -&gt; (string) The name, status, or import task ID for a specific import task. Possible values: o IMPORT_TASK_ID o STATUS o NAME o FILE_CLASSIFICATION values -&gt; (list) An array of strings that you can provide to match against a specific name, status, or import task ID to filter the re- sults for your import task queries. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "IMPORT_TASK_ID"|"STATUS"|"NAME"|"FILE_CLASSIFICATION", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

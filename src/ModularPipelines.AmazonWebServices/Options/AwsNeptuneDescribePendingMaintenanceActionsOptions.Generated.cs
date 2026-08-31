@@ -31,7 +31,7 @@ public record AwsNeptuneDescribePendingMaintenanceActionsOptions : AwsOptions
     /// <summary>
     /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters: o db-cluster-id - Accepts DB cluster identifiers and DB cluster Ama- zon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs. o db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance ac- tions for the DB instances identified by these ARNs. (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

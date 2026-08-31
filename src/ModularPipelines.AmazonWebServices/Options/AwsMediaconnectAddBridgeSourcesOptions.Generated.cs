@@ -24,7 +24,7 @@ public record AwsMediaconnectAddBridgeSourcesOptions : AwsOptions
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; set; }
 
-    [CliOption("--sources")]
+    [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -45,7 +45,7 @@ public record AwsLicenseManagerUpdateServiceSettingsOptions : AwsOptions
     /// <summary>
     /// Cross region discovery enabled source regions. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enabled-discovery-source-regions")]
+    [CliOption("--enabled-discovery-source-regions", GroupValues = true)]
     public IEnumerable<string>? EnabledDiscoverySourceRegions { get; set; }
 
     [CliOption("--cli-input-json")]

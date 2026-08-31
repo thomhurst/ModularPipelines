@@ -34,7 +34,7 @@ public record AwsSagemakerStartPipelineExecutionOptions : AwsOptions
     /// <summary>
     /// Contains a list of pipeline parameters. This list can be empty. Constraints: o min: 0 o max: 200 (structure) Assigns a value to a named Pipeline parameter. Name -&gt; (string) [required] The name of the parameter to assign a value to. This parame- ter name must match a named parameter in the pipeline defini- tion. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9\-_]* Value -&gt; (string) [required] The literal value for the parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--pipeline-parameters")]
+    [CliOption("--pipeline-parameters", GroupValues = true)]
     public IEnumerable<string>? PipelineParameters { get; set; }
 
     /// <summary>

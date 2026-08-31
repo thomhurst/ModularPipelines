@@ -32,7 +32,7 @@ public record AwsSagemakerBatchAddClusterNodesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--nodes-to-add")]
+    [CliOption("--nodes-to-add", GroupValues = true)]
     public IEnumerable<string>? NodesToAdd { get; set; }
 
     [CliOption("--cli-input-json")]

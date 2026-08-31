@@ -57,7 +57,7 @@ public record AwsGlueGetTableOptions : AwsOptions
     /// <summary>
     /// Specifies the table fields returned by the GetTable call. This para- meter doesn't accept an empty list. The following are the valid combinations of values: o DEFAULT - Returns the Hive-style table definition only. o LATEST_ICEBERG_METADATA - Returns only the latest Apache Iceberg table metadata. o DEFAULT , LATEST_ICEBERG_METADATA - Returns both the Hive-style table definition and the latest Apache Iceberg table metadata. (string) Possible values: o NAME o TABLE_TYPE o DEFAULT o LATEST_ICEBERG_METADATA Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attributes-to-get")]
+    [CliOption("--attributes-to-get", GroupValues = true)]
     public IEnumerable<string>? AttributesToGet { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -33,7 +33,7 @@ public record AwsGlueBatchDeleteTableVersionOptions : AwsOptions
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CliOption("--version-ids")]
+    [CliOption("--version-ids", GroupValues = true)]
     public IEnumerable<string>? VersionIds { get; set; }
 
     [CliOption("--cli-input-json")]

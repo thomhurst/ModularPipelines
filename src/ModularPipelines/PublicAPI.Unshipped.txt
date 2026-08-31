@@ -1180,6 +1180,8 @@
 *REMOVED*virtual ModularPipelines.Options.SecretMaskingOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 *REMOVED*virtual ModularPipelines.Requirements.PipelineRequirement.Must(ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Models.RequirementDecision!
 *REMOVED*virtual ModularPipelines.Requirements.PipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
+ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.get -> string?
+ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.set -> void
 ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.Enums.ExecutionHint executionHint) -> void
 ModularPipelines.Attributes.PriorityAttribute.Priority.get -> ModularPipelines.ModulePriority

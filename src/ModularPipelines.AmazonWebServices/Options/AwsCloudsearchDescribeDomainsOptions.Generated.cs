@@ -24,7 +24,7 @@ public record AwsCloudsearchDescribeDomainsOptions : AwsOptions
     /// <summary>
     /// The names of the domains you want to include in the response. (string) A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS re- gion. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--domain-names")]
+    [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; set; }
 
     [CliOption("--cli-input-json")]

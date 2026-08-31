@@ -24,7 +24,7 @@ public record AwsConfigserviceDescribeDeliveryChannelsOptions : AwsOptions
     /// <summary>
     /// A list of delivery channel names. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--delivery-channel-names")]
+    [CliOption("--delivery-channel-names", GroupValues = true)]
     public IEnumerable<string>? DeliveryChannelNames { get; set; }
 
     [CliOption("--cli-input-json")]

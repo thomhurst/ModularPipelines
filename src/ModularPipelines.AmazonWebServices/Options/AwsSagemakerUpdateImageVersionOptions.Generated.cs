@@ -34,13 +34,13 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions
     /// <summary>
     /// A list of aliases to add. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aliases-to-add")]
+    [CliOption("--aliases-to-add", GroupValues = true)]
     public IEnumerable<string>? AliasesToAdd { get; set; }
 
     /// <summary>
     /// A list of aliases to delete. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aliases-to-delete")]
+    [CliOption("--aliases-to-delete", GroupValues = true)]
     public IEnumerable<string>? AliasesToDelete { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsAppstreamDescribeImageBuildersOptions : AwsOptions
     /// <summary>
     /// The names of the image builders to describe. (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

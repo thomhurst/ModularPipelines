@@ -31,7 +31,7 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--source-views")]
+    [CliOption("--source-views", GroupValues = true)]
     public IEnumerable<string>? SourceViews { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions
     /// <summary>
     /// A list of key value map specifying tags associated to the billing view being created. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--resource-tags")]
+    [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
 
     [CliOption("--cli-input-json")]

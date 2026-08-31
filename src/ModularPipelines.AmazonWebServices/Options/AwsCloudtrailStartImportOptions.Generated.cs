@@ -24,7 +24,7 @@ public record AwsCloudtrailStartImportOptions : AwsOptions
     /// <summary>
     /// The ARN of the destination event data store. Use this parameter for a new import. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>

@@ -25,7 +25,7 @@ public record AwsCodestarNotificationsListNotificationRulesOptions : AwsOptions
     /// <summary>
     /// The filters to use to return information by service or resource type. For valid values, see ListNotificationRulesFilter . NOTE: A filter with the same name can appear more than once when used with OR statements. Filters with different names should be ap- plied with AND statements. (structure) Information about a filter to apply to the list of returned no- tification rules. You can filter by event type, owner, resource, or target. Name -&gt; (string) [required] The name of the attribute you want to use to filter the re- turned notification rules. Possible values: o EVENT_TYPE_ID o CREATED_BY o RESOURCE o TARGET_ADDRESS Value -&gt; (string) [required] The value of the attribute you want to use to filter the re- turned notification rules. For example, if you specify fil- tering by RESOURCE in Name, you might specify the ARN of a pipeline in CodePipeline for the value. Constraints: o max: 2048 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "EVENT_TYPE_ID"|"CREATED_BY"|"RESOURCE"|"TARGET_ADDRESS", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

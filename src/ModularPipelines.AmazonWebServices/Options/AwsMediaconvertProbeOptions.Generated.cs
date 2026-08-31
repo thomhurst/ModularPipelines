@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediaconvert", "probe")]
 public record AwsMediaconvertProbeOptions : AwsOptions
 {
-    [CliOption("--input-files")]
+    [CliOption("--input-files", GroupValues = true)]
     public IEnumerable<string>? InputFiles { get; set; }
 
     [CliOption("--cli-input-json")]

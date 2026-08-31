@@ -40,7 +40,7 @@ public record AwsLambdaListDurableExecutionsByFunctionOptions : AwsOptions
     /// <summary>
     /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED. Constraints: o min: 1 o max: 10 (string) Possible values: o RUNNING o SUCCEEDED o FAILED o TIMED_OUT o STOPPED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     /// <summary>

@@ -34,7 +34,7 @@ public record AwsGlueListCrawlsOptions : AwsOptions
     /// <summary>
     /// Filters the crawls by the criteria you specify in a list of Crawls- Filter objects. (structure) A list of fields, comparators and value that you can use to fil- ter the crawler runs for a specified crawler. FieldName -&gt; (string) A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are: o CRAWL_ID : A string representing the UUID identifier for a crawl. o STATE : A string representing the state of the crawl. o START_TIME and END_TIME : The epoch timestamp in millisec- onds. o DPU_HOUR : The number of data processing unit (DPU) hours used for the crawl. Possible values: o CRAWL_ID o STATE o START_TIME o END_TIME o DPU_HOUR FilterOperator -&gt; (string) A defined comparator that operates on the value. The avail- able operators are: o GT : Greater than. o GE : Greater than or equal to. o LT : Less than. o LE : Less than or equal to. o EQ : Equal to. o NE : Not equal to. Possible values: o GT o GE o LT o LE o EQ o NE FieldValue -&gt; (string) The value provided for comparison on the crawl field. Shorthand Syntax: FieldName=string,FilterOperator=string,FieldValue=string ... JSON Syntax: [ { "FieldName": "CRAWL_ID"|"STATE"|"START_TIME"|"END_TIME"|"DPU_HOUR", "FilterOperator": "GT"|"GE"|"LT"|"LE"|"EQ"|"NE", "FieldValue": "string" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>

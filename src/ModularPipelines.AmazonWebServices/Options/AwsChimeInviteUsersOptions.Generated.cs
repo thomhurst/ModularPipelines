@@ -25,7 +25,7 @@ public record AwsChimeInviteUsersOptions : AwsOptions
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--user-email-list")]
+    [CliOption("--user-email-list", GroupValues = true)]
     public IEnumerable<string>? UserEmailList { get; set; }
 
     /// <summary>

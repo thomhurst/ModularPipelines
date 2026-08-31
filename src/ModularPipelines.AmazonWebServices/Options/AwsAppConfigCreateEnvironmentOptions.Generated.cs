@@ -37,13 +37,13 @@ public record AwsAppConfigCreateEnvironmentOptions : AwsOptions
     /// <summary>
     /// Amazon CloudWatch alarms to monitor during the deployment process. Constraints: o min: 0 o max: 5 (structure) Amazon CloudWatch alarms to monitor during the deployment process. AlarmArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon CloudWatch alarm. Constraints: o min: 1 o max: 2048 AlarmRoleArn -&gt; (string) ARN of an Identity and Access Management (IAM) role for App- Config to monitor AlarmArn . Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$ Shorthand Syntax: AlarmArn=string,AlarmRoleArn=string ... JSON Syntax: [ { "AlarmArn": "string", "AlarmRoleArn": "string" } ... ]
     /// </summary>
-    [CliOption("--monitors")]
+    [CliOption("--monitors", GroupValues = true)]
     public IEnumerable<string>? Monitors { get; set; }
 
     /// <summary>
     /// Metadata to assign to the environment. Tags help organize and cate- gorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

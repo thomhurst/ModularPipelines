@@ -36,7 +36,7 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions
     /// <summary>
     /// The time ranges of the event window. (structure) The start day and time and the end day and time of the time range, in UTC. StartWeekDay -&gt; (string) The day on which the time range begins. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday StartHour -&gt; (integer) The hour when the time range begins. Constraints: o min: 0 o max: 23 EndWeekDay -&gt; (string) The day on which the time range ends. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday EndHour -&gt; (integer) The hour when the time range ends. Constraints: o min: 0 o max: 23 Shorthand Syntax: StartWeekDay=string,StartHour=integer,EndWeekDay=string,EndHour=integer ... JSON Syntax: [ { "StartWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "StartHour": integer, "EndWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "EndHour": integer } ... ]
     /// </summary>
-    [CliOption("--time-ranges")]
+    [CliOption("--time-ranges", GroupValues = true)]
     public IEnumerable<string>? TimeRanges { get; set; }
 
     /// <summary>

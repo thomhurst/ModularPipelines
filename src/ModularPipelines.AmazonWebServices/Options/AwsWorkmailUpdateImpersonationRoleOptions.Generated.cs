@@ -39,7 +39,7 @@ public record AwsWorkmailUpdateImpersonationRoleOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--rules")]
+    [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     [CliOption("--cli-input-json")]

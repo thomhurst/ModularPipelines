@@ -31,7 +31,7 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     [CliOption("--resource-credential-provider-name")]
     public string? ResourceCredentialProviderName { get; set; }
 
-    [CliOption("--scopes")]
+    [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     [CliOption("--oauth2-flow")]
@@ -55,7 +55,7 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     /// <summary>
     /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addi- tion to the standard OAuth 2.0 flow parameters, and will not over- ride them. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_\.]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--custom-parameters")]
+    [CliOption("--custom-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomParameters { get; set; }
 
     /// <summary>
@@ -67,13 +67,13 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions
     /// <summary>
     /// The resources to include in the token request. These are used to specify the target resources for which the OAuth2 token is being re- quested. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
     /// The audiences to include in the token request. These are used to specify the intended recipients of the OAuth2 token. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--audiences")]
+    [CliOption("--audiences", GroupValues = true)]
     public IEnumerable<string>? Audiences { get; set; }
 
     [CliOption("--cli-input-json")]

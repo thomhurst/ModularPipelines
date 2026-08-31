@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2CreateEventDestinationOptions : AwsOptions
     [CliOption("--event-destination-name")]
     public string? EventDestinationName { get; set; }
 
-    [CliOption("--matching-event-types")]
+    [CliOption("--matching-event-types", GroupValues = true)]
     public IEnumerable<string>? MatchingEventTypes { get; set; }
 
     /// <summary>

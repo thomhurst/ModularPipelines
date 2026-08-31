@@ -25,7 +25,7 @@ public record AwsSnsSetEndpointAttributesOptions : AwsOptions
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; set; }
 
-    [CliOption("--attributes")]
+    [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     [CliOption("--cli-input-json")]

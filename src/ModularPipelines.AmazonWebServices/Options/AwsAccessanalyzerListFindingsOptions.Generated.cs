@@ -29,7 +29,7 @@ public record AwsAccessanalyzerListFindingsOptions : AwsOptions
     /// <summary>
     /// A filter to match for the findings to return. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to cre- ate the rule. Constraints: o min: 1 o max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
 
     /// <summary>

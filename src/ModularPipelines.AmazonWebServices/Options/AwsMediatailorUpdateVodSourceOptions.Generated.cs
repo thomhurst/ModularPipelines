@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediatailor", "update-vod-source")]
 public record AwsMediatailorUpdateVodSourceOptions : AwsOptions
 {
-    [CliOption("--http-package-configurations")]
+    [CliOption("--http-package-configurations", GroupValues = true)]
     public IEnumerable<string>? HttpPackageConfigurations { get; set; }
 
     [CliOption("--source-location-name")]

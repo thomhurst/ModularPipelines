@@ -27,7 +27,7 @@ public record AwsConnectAssociateHoursOfOperationsOptions : AwsOptions
     [CliOption("--hours-of-operation-id")]
     public string? HoursOfOperationId { get; set; }
 
-    [CliOption("--parent-hours-of-operation-configs")]
+    [CliOption("--parent-hours-of-operation-configs", GroupValues = true)]
     public IEnumerable<string>? ParentHoursOfOperationConfigs { get; set; }
 
     [CliOption("--cli-input-json")]

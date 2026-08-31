@@ -24,7 +24,7 @@ public record AwsBillingconductorAssociatePricingRulesOptions : AwsOptions
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CliOption("--pricing-rule-arns")]
+    [CliOption("--pricing-rule-arns", GroupValues = true)]
     public IEnumerable<string>? PricingRuleArns { get; set; }
 
     [CliOption("--cli-input-json")]

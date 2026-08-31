@@ -54,7 +54,7 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     /// <summary>
     /// Modifies the DeleteOnTermination attribute for volumes that are cur- rently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination , the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide . (structure) Describes a block device mapping entry. DeviceName -&gt; (string) The device name. For available device names, see Device names for volumes . Ebs -&gt; (structure) Parameters used to automatically set up EBS volumes when the instance is launched. VolumeId -&gt; (string) The ID of the EBS volume. DeleteOnTermination -&gt; (boolean) Indicates whether the volume is deleted on instance ter- mination. VirtualName -&gt; (string) The virtual device name. NoDevice -&gt; (string) Suppresses the specified device included in the block device mapping. Shorthand Syntax: DeviceName=string,Ebs={VolumeId=string,DeleteOnTermination=boolean},VirtualName=string,NoDevice=string ... JSON Syntax: [ { "DeviceName": "string", "Ebs": { "VolumeId": "string", "DeleteOnTermination": true|false }, "VirtualName": "string", "NoDevice": "string" } ... ]
     /// </summary>
-    [CliOption("--block-device-mappings")]
+    [CliOption("--block-device-mappings", GroupValues = true)]
     public IEnumerable<string>? BlockDeviceMappings { get; set; }
 
     [CliFlag("--disable-api-termination")]
@@ -93,7 +93,7 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     /// <summary>
     /// Replaces the security groups of the instance with the specified se- curity groups. You must specify the ID of at least one security group, even if it's just the default security group for the VPC. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--groups")]
+    [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
     [CliFlag("--ebs-optimized")]

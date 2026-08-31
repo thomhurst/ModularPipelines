@@ -44,13 +44,13 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
     /// <summary>
     /// A list of VPC subnet IDs for the restored resource. If not speci- fied, the restored resource uses the same subnets as the backup. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-subnet-ids")]
+    [CliOption("--vpc-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSubnetIds { get; set; }
 
     /// <summary>
     /// A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliFlag("--publicly-accessible")]
@@ -71,7 +71,7 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs to associate with the restored resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
     /// <summary>
     /// A list of backup configurations to apply to the restored resource. Constraints: o min: 1 o max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINU- OUS. Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY o CUSTOM_SCHEDULE o CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: o min: 1 o max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: o min: 9 o max: 256 o pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
     /// </summary>
-    [CliOption("--db-backup-configurations")]
+    [CliOption("--db-backup-configurations", GroupValues = true)]
     public IEnumerable<string>? DbBackupConfigurations { get; set; }
 
     /// <summary>

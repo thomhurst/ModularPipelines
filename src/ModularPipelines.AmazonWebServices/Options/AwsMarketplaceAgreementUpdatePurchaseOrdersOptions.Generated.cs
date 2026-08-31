@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("marketplace-agreement", "update-purchase-orders")]
 public record AwsMarketplaceAgreementUpdatePurchaseOrdersOptions : AwsOptions
 {
-    [CliOption("--purchase-orders")]
+    [CliOption("--purchase-orders", GroupValues = true)]
     public IEnumerable<string>? PurchaseOrders { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -49,13 +49,13 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions
     /// <summary>
     /// The new information about the source data provider for the data mi- gration. (structure) Defines settings for a source data provider for a data migra- tion. CDCStartPosition -&gt; (string) The change data capture (CDC) start position for the source data provider. CDCStartTime -&gt; (timestamp) The change data capture (CDC) start time for the source data provider. CDCStopTime -&gt; (timestamp) The change data capture (CDC) stop time for the source data provider. SlotName -&gt; (string) The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora Post- greSQL source. Shorthand Syntax: CDCStartPosition=string,CDCStartTime=timestamp,CDCStopTime=timestamp,SlotName=string ... JSON Syntax: [ { "CDCStartPosition": "string", "CDCStartTime": timestamp, "CDCStopTime": timestamp, "SlotName": "string" } ... ]
     /// </summary>
-    [CliOption("--source-data-settings")]
+    [CliOption("--source-data-settings", GroupValues = true)]
     public IEnumerable<string>? SourceDataSettings { get; set; }
 
     /// <summary>
     /// The new information about the target data provider for the data mi- gration. (structure) Defines settings for a target data provider for a data migra- tion. TablePreparationMode -&gt; (string) This setting determines how DMS handles the target tables be- fore starting a data migration, either by leaving them un- touched, dropping and recreating them, or truncating the ex- isting data in the target tables. Possible values: o drop-tables-on-target o truncate o do-nothing Shorthand Syntax: TablePreparationMode=string ... JSON Syntax: [ { "TablePreparationMode": "drop-tables-on-target"|"truncate"|"do-nothing" } ... ]
     /// </summary>
-    [CliOption("--target-data-settings")]
+    [CliOption("--target-data-settings", GroupValues = true)]
     public IEnumerable<string>? TargetDataSettings { get; set; }
 
     /// <summary>

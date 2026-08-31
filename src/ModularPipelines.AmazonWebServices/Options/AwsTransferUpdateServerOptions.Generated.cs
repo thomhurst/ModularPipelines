@@ -79,7 +79,7 @@ public record AwsTransferUpdateServerOptions : AwsOptions
     /// <summary>
     /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are: o SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH o FTPS (File Transfer Protocol Secure): File transfer with TLS en- cryption o FTP (File Transfer Protocol): Unencrypted file transfer o AS2 (Applicability Statement 2): used for transporting structured business-to-business data NOTE: o If you select FTPS , you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS. o If Protocol includes either FTP or FTPS , then the Endpoint- Type must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE , AWS_LAMBDA , or API_GATEWAY . o If Protocol includes FTP , then AddressAllocationIds cannot be associated. o If Protocol is set only to SFTP , the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED , AWS_DIRECTORY_SER- VICE , AWS_LAMBDA , or API_GATEWAY . o If Protocol includes AS2 , then the EndpointType must be VPC , and domain must be Amazon S3. Constraints: o min: 1 o max: 4 (string) Possible values: o SFTP o FTP o FTPS o AS2 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--protocols")]
+    [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
@@ -100,7 +100,7 @@ public record AwsTransferUpdateServerOptions : AwsOptions
     /// <summary>
     /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-ac- count-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytest- group:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For exam- ple: update-server --server-id s-1234567890abcdef0 --struc- tured-log-destinations Constraints: o min: 0 o max: 1 (string) Constraints: o min: 20 o max: 1600 o pattern: arn:\S+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--structured-log-destinations")]
+    [CliOption("--structured-log-destinations", GroupValues = true)]
     public IEnumerable<string>? StructuredLogDestinations { get; set; }
 
     /// <summary>

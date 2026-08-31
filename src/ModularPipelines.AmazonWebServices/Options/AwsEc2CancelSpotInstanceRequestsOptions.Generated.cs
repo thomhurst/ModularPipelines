@@ -24,7 +24,7 @@ public record AwsEc2CancelSpotInstanceRequestsOptions : AwsOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--spot-instance-request-ids")]
+    [CliOption("--spot-instance-request-ids", GroupValues = true)]
     public IEnumerable<string>? SpotInstanceRequestIds { get; set; }
 
     [CliOption("--cli-input-json")]

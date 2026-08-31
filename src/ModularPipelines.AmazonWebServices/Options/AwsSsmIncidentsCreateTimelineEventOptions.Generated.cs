@@ -35,7 +35,7 @@ public record AwsSsmIncidentsCreateTimelineEventOptions : AwsOptions
     /// <summary>
     /// Adds one or more references to the TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the inci- dent. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a re- source, use the table's ARN. You can also specify an Amazon Cloud- Watch metric associated with the DynamoDB table as a related item. Constraints: o min: 0 o max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a Re- latedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services re- source referenced in a TimelineEvent . Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
     /// </summary>
-    [CliOption("--event-references")]
+    [CliOption("--event-references", GroupValues = true)]
     public IEnumerable<string>? EventReferences { get; set; }
 
     [CliOption("--event-time")]

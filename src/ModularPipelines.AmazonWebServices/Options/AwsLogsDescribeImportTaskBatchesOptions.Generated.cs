@@ -28,7 +28,7 @@ public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions
     /// <summary>
     /// Optional filter to list import batches by their status. Accepts mul- tiple status values: IN_PROGRESS, CANCELLED, COMPLETED and FAILED. (string) Possible values: o IN_PROGRESS o CANCELLED o COMPLETED o FAILED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--batch-import-status")]
+    [CliOption("--batch-import-status", GroupValues = true)]
     public IEnumerable<string>? BatchImportStatus { get; set; }
 
     /// <summary>

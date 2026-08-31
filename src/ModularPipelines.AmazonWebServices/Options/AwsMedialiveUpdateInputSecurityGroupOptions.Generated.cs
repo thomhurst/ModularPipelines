@@ -25,10 +25,10 @@ public record AwsMedialiveUpdateInputSecurityGroupOptions : AwsOptions
     [CliOption("--input-security-group-id")]
     public string? InputSecurityGroupId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--whitelist-rules")]
+    [CliOption("--whitelist-rules", GroupValues = true)]
     public IEnumerable<string>? WhitelistRules { get; set; }
 
     [CliOption("--cli-input-json")]

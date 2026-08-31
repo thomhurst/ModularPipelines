@@ -27,7 +27,7 @@ public record AwsEc2DescribeAccountAttributesOptions : AwsOptions
     /// <summary>
     /// The account attribute names. (string) Possible values: o supported-platforms o default-vpc Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--attribute-names")]
+    [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     [CliOption("--cli-input-json")]

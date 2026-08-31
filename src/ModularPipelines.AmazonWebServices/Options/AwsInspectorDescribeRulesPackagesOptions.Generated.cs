@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector", "describe-rules-packages")]
 public record AwsInspectorDescribeRulesPackagesOptions : AwsOptions
 {
-    [CliOption("--rules-package-arns")]
+    [CliOption("--rules-package-arns", GroupValues = true)]
     public IEnumerable<string>? RulesPackageArns { get; set; }
 
     /// <summary>

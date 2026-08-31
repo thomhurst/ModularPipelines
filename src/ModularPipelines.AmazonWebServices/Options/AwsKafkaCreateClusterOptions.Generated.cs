@@ -77,7 +77,7 @@ public record AwsKafkaCreateClusterOptions : AwsOptions
     /// <summary>
     /// Create tags when creating the cluster. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

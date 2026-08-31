@@ -27,7 +27,7 @@ public record AwsRedshiftModifyEndpointAccessOptions : AwsOptions
     /// <summary>
     /// The complete list of VPC security groups associated with the end- point after the endpoint is modified. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     [CliOption("--cli-input-json")]

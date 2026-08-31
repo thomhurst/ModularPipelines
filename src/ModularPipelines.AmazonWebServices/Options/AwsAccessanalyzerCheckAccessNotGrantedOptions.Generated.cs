@@ -24,7 +24,7 @@ public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CliOption("--access")]
+    [CliOption("--access", GroupValues = true)]
     public IEnumerable<string>? Access { get; set; }
 
     [CliOption("--policy-type")]

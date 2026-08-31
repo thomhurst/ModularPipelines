@@ -27,7 +27,7 @@ public record AwsMacie2UpdateResourceProfileDetectionsOptions : AwsOptions
     /// <summary>
     /// An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array. (structure) Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to exclude from an S3 bucket's sensitivity score. id -&gt; (string) The unique identifier for the custom data identifier or man- aged data identifier that detected the type of sensitive data to exclude from the score. type -&gt; (string) The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier. Possible values: o CUSTOM o MANAGED Shorthand Syntax: id=string,type=string ... JSON Syntax: [ { "id": "string", "type": "CUSTOM"|"MANAGED" } ... ]
     /// </summary>
-    [CliOption("--suppress-data-identifiers")]
+    [CliOption("--suppress-data-identifiers", GroupValues = true)]
     public IEnumerable<string>? SuppressDataIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

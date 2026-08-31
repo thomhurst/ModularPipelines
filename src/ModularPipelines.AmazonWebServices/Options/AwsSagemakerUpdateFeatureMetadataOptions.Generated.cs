@@ -36,13 +36,13 @@ public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions
     /// <summary>
     /// A list of key-value pairs that you can add to better describe the feature. Constraints: o min: 0 o max: 25 (structure) A key-value pair that you specify to describe the feature. Key -&gt; (string) A key that must contain a value to describe the feature. Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Value -&gt; (string) The value that belongs to a key. Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--parameter-additions")]
+    [CliOption("--parameter-additions", GroupValues = true)]
     public IEnumerable<string>? ParameterAdditions { get; set; }
 
     /// <summary>
     /// A list of parameter keys that you can specify to remove parameters that describe your feature. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--parameter-removals")]
+    [CliOption("--parameter-removals", GroupValues = true)]
     public IEnumerable<string>? ParameterRemovals { get; set; }
 
     [CliOption("--cli-input-json")]

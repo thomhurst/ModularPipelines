@@ -27,7 +27,7 @@ public record AwsEcsSubmitAttachmentStateChangesOptions : AwsOptions
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--attachments")]
+    [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     [CliOption("--cli-input-json")]

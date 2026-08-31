@@ -27,7 +27,7 @@ public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions
     /// <summary>
     /// The revocation file to add. (structure) Information about a revocation file. S3Bucket -&gt; (string) The Amazon S3 bucket for the revocation file. S3Key -&gt; (string) The Amazon S3 path for the revocation file. S3ObjectVersion -&gt; (string) The Amazon S3 object version of the revocation file. RevocationType -&gt; (string) The type of revocation file. Possible values: o CRL Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,RevocationType=string ... JSON Syntax: [ { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "RevocationType": "CRL" } ... ]
     /// </summary>
-    [CliOption("--revocation-contents")]
+    [CliOption("--revocation-contents", GroupValues = true)]
     public IEnumerable<string>? RevocationContents { get; set; }
 
     [CliOption("--cli-input-json")]

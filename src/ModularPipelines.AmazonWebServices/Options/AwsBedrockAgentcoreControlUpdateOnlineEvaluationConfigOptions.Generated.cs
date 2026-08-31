@@ -54,13 +54,13 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
     /// <summary>
     /// The updated list of evaluators to apply during online evaluation. Constraints: o min: 0 o max: 10 (tagged union structure) The reference to an evaluator used in online evaluation configu- rations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
     /// </summary>
-    [CliOption("--evaluators")]
+    [CliOption("--evaluators", GroupValues = true)]
     public IEnumerable<string>? Evaluators { get; set; }
 
     /// <summary>
     /// The updated list of insight types to run against agent sessions. Constraints: o min: 0 o max: 10 (structure) A reference to an insight analysis to run against sessions dur- ing evaluation. Insights provide deeper analysis beyond individ- ual evaluator scores, including failure detection, user intent clustering, and execution summarization. insightId -&gt; (string) [required] The unique identifier of the insight to run. Constraints: o pattern: (Builtin\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: insightId=string ... JSON Syntax: [ { "insightId": "string" } ... ]
     /// </summary>
-    [CliOption("--insights")]
+    [CliOption("--insights", GroupValues = true)]
     public IEnumerable<string>? Insights { get; set; }
 
     /// <summary>

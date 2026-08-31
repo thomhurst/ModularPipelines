@@ -34,7 +34,7 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions
     [CliOption("--namespace")]
     public AwsQconnectUpdateSessionDataNamespace? Namespace { get; set; }
 
-    [CliOption("--data")]
+    [CliOption("--data", GroupValues = true)]
     public IEnumerable<string>? Data { get; set; }
 
     [CliOption("--cli-input-json")]

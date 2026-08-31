@@ -28,7 +28,7 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions
     [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>

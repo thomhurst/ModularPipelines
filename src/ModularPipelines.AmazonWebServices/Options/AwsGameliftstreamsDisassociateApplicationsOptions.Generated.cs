@@ -24,7 +24,7 @@ public record AwsGameliftstreamsDisassociateApplicationsOptions : AwsOptions
     [CliOption("--identifier")]
     public string? Identifier { get; set; }
 
-    [CliOption("--application-identifiers")]
+    [CliOption("--application-identifiers", GroupValues = true)]
     public IEnumerable<string>? ApplicationIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

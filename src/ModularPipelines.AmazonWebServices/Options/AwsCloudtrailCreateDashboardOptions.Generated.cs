@@ -33,7 +33,7 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions
     /// <summary>
     /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags-list")]
+    [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
     [CliFlag("--termination-protection-enabled")]
@@ -42,7 +42,7 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions
     /// <summary>
     /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets. You do not need to specify widgets for the Highlights dashboard. (structure) Contains information about a widget on a CloudTrail Lake dash- board. QueryStatement -&gt; (string) [required] The query statement for the widget. For custom dashboard wid- gets, you can query across multiple event data stores as long as all event data stores exist in your account. NOTE: When a query uses ? with eventTime , ? must be surrounded by single quotes as follows: '?' . Constraints: o min: 1 o max: 10000 o pattern: (?s).* QueryParameters -&gt; (list) The optional query parameters. The following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: .* ViewProperties -&gt; (map) [required] The view properties for the widget. For more information about view properties, see View properties for widgets in the CloudTrail User Guide . key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._\- ]+$ Shorthand Syntax: QueryStatement=string,QueryParameters=string,string,ViewProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "QueryStatement": "string", "QueryParameters": ["string", ...], "ViewProperties": {"string": "string" ...} } ... ]
     /// </summary>
-    [CliOption("--widgets")]
+    [CliOption("--widgets", GroupValues = true)]
     public IEnumerable<string>? Widgets { get; set; }
 
     [CliOption("--cli-input-json")]

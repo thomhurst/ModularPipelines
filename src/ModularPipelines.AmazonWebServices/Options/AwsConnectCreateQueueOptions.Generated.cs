@@ -58,19 +58,19 @@ public record AwsConnectCreateQueueOptions : AwsOptions
     /// <summary>
     /// The quick connects available to agents who are working the queue. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--quick-connect-ids")]
+    [CliOption("--quick-connect-ids", GroupValues = true)]
     public IEnumerable<string>? QuickConnectIds { get; set; }
 
     /// <summary>
     /// Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email ad- dress ID that agents can select when handling email contacts in this queue. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
     /// </summary>
-    [CliOption("--email-addresses-config")]
+    [CliOption("--email-addresses-config", GroupValues = true)]
     public IEnumerable<string>? EmailAddressesConfig { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

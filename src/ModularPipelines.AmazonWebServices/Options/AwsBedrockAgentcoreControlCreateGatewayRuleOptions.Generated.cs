@@ -38,10 +38,10 @@ public record AwsBedrockAgentcoreControlCreateGatewayRuleOptions : AwsOptions
     /// <summary>
     /// The conditions that must be met for the rule to apply. Conditions can match on principals (IAM ARNs) or request paths. Constraints: o min: 0 o max: 2 (tagged union structure) A condition that determines when a gateway rule applies. Condi- tions can match on principals or request paths. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: matchPrincipals, matchPaths. matchPrincipals -&gt; (structure) A condition that matches on the identity of the caller making the request. anyOf -&gt; (list) [required] A list of principal entries. The condition is met if any of the entries match the caller's identity. Constraints: o min: 1 o max: 100 (tagged union structure) Union for principal matching. Currently supports IAM principal ARN glob matching. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: iamPrincipal. iamPrincipal -&gt; (structure) An IAM principal to match against, specified by ARN. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM prin- cipal. Supports user, role, and assumed-role ARNs. Wildcards can be used with the StringLike operator. Constraints: o min: 0 o max: 2048 o pattern: (arn:aws[a-zA-Z-]*:iam::(\d{12}|\*):(user|role)/[\w+=,.@*?/-]+|arn:aws[a-zA-Z-]*:sts::(\d{12}|\*):as- sumed-role/[\w+=,.@*?/-]+) operator -&gt; (string) The match operator. StringEquals requires an exact match. StringLike supports wildcard pat- terns using * and ? . Possible values: o StringEquals o StringLike matchPaths -&gt; (structure) A condition that matches on the request path. anyOf -&gt; (list) [required] A list of path patterns. The condition is met if the re- quest path matches any of the patterns. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 0 o max: 512 o pattern: /[\w\-.]+/\* JSON Syntax: [ { "matchPrincipals": { "anyOf": [ { "iamPrincipal": { "arn": "string", "operator": "StringEquals"|"StringLike" } } ... ] }, "matchPaths": { "anyOf": ["string", ...] } } ... ]
     /// </summary>
-    [CliOption("--conditions")]
+    [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
-    [CliOption("--actions")]
+    [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>

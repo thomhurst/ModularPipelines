@@ -27,7 +27,7 @@ public record AwsCustomerProfilesBatchPutProfileObjectOptions : AwsOptions
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; set; }
 
-    [CliOption("--items")]
+    [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     [CliOption("--cli-input-json")]

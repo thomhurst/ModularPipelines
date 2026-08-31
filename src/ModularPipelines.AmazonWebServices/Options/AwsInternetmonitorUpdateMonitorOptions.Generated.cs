@@ -29,13 +29,13 @@ public record AwsInternetmonitorUpdateMonitorOptions : AwsOptions
     /// <summary>
     /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other re- sources. NOTE: If you add only Amazon Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity. (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources-to-add")]
+    [CliOption("--resources-to-add", GroupValues = true)]
     public IEnumerable<string>? ResourcesToAdd { get; set; }
 
     /// <summary>
     /// The resources to remove from a monitor, which you provide as a set of Amazon Resource Names (ARNs). (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources-to-remove")]
+    [CliOption("--resources-to-remove", GroupValues = true)]
     public IEnumerable<string>? ResourcesToRemove { get; set; }
 
     /// <summary>

@@ -31,7 +31,7 @@ public record AwsApigatewayv2CreatePortalOptions : AwsOptions
     /// <summary>
     /// The ARNs of the portal products included in the portal. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--included-portal-product-arns")]
+    [CliOption("--included-portal-product-arns", GroupValues = true)]
     public IEnumerable<string>? IncludedPortalProductArns { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public record AwsApigatewayv2CreatePortalOptions : AwsOptions
     /// <summary>
     /// The collection of tags. Each tag element is associated with a given resource. key -&gt; (string) value -&gt; (string) A string with a length between [0-1600]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -86,7 +86,7 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     /// <summary>
     /// A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -98,7 +98,7 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     /// <summary>
     /// A list of Amazon EC2 VPC security groups to associate with the read replica. This setting doesn't apply to RDS Custom DB instances. Default: The default EC2 VPC security group for the DB subnet group's VPC. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
@@ -161,13 +161,13 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     /// <summary>
     /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     /// <summary>
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom DB instances. (structure) Contains the processor features of a DB instance class. To specify the number of CPU cores, use the coreCount feature name for the Name parameter. To specify the number of threads per core, use the threadsPerCore feature name for the Name para- meter. You can set the processor features of the DB instance class for a DB instance when you call one of the following actions: o CreateDBInstance o ModifyDBInstance o RestoreDBInstanceFromDBSnapshot o RestoreDBInstanceFromS3 o RestoreDBInstanceToPointInTime You can view the valid processor values for a particular in- stance class by calling the DescribeOrderableDBInstanceOptions action and specifying the instance class for the DBInstanceClass parameter. In addition, you can use the following actions for DB instance class processor information: o DescribeDBInstances o DescribeDBSnapshots o DescribeValidDBInstanceModifications If you call DescribeDBInstances , ProcessorFeature returns non-null values only if the following conditions are met: o You are accessing an Oracle or SQL Server DB instance. o Your Oracle or SQL Server DB instance class supports configur- ing the number of CPU cores and threads per core. o The current number CPU cores and threads is set to a non-de- fault value. For more information, see Configuring the processor for a DB in- stance class in RDS for Oracle , Optimizing your RDS for SQL Server CPU , and DB instance classes in the Amazon RDS User Guide. Name -&gt; (string) The name of the processor feature. Valid names are coreCount and threadsPerCore . Value -&gt; (string) The value of a processor feature. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--processor-features")]
+    [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
     [CliFlag("--use-default-processor-features")]
@@ -210,7 +210,7 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     /// <summary>
     /// The IPv4 DNS IP addresses of your primary and secondary Active Di- rectory domain controllers. Constraints: o Two IP addresses must be provided. If there isn't a secondary do- main controller, use the IP address of the primary domain con- troller for both entries in the list. Example: 123.124.125.126,234.235.236.237 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--domain-dns-ips")]
+    [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
     /// <summary>
@@ -273,13 +273,13 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     /// <summary>
     /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2 , rdsdbdata3 , and rdsdbdata4 . Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only. (structure) Contains details about an additional storage volume for a DB in- stance. RDS support additional storage volumes for RDS for Ora- cle and RDS for SQL Server. VolumeName -&gt; (string) [required] The name of the additional storage volume. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4 AllocatedStorage -&gt; (integer) The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maxi- mum is 65,536 GiB (64 TiB). IOPS -&gt; (integer) The number of I/O operations per second (IOPS) provisioned for the additional storage volume. MaxAllocatedStorage -&gt; (integer) The upper limit in gibibytes (GiB) to which RDS can automati- cally scale the storage of the additional storage volume. StorageThroughput -&gt; (integer) The storage throughput value for the additional storage vol- ume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3 ) storage type. StorageType -&gt; (string) The storage type for the additional storage volume. Valid Values: GP3 | IO2 Shorthand Syntax: VolumeName=string,AllocatedStorage=integer,IOPS=integer,MaxAllocatedStorage=integer,StorageThroughput=integer,StorageType=string ... JSON Syntax: [ { "VolumeName": "string", "AllocatedStorage": integer, "IOPS": integer, "MaxAllocatedStorage": integer, "StorageThroughput": integer, "StorageType": "string" } ... ]
     /// </summary>
-    [CliOption("--additional-storage-volumes")]
+    [CliOption("--additional-storage-volumes", GroupValues = true)]
     public IEnumerable<string>? AdditionalStorageVolumes { get; set; }
 
     /// <summary>
     /// Tags to assign to resources associated with the DB instance. Valid Values: o auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
-    [CliOption("--tag-specifications")]
+    [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>

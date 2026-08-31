@@ -40,19 +40,19 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; set; }
 
-    [CliOption("--input-parameters")]
+    [CliOption("--input-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputParameters { get; set; }
 
     /// <summary>
     /// The servers on which a step will be run. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--step-targets")]
+    [CliOption("--step-targets", GroupValues = true)]
     public IEnumerable<string>? StepTargets { get; set; }
 
     /// <summary>
     /// The tags to add on a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

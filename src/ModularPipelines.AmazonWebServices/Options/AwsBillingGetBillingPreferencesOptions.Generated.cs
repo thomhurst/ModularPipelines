@@ -35,13 +35,13 @@ public record AwsBillingGetBillingPreferencesOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--features")]
+    [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
     /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY , which accepts 1 to 10 values to match preference keys. Constraints: o min: 1 o max: 1 (structure) A filter that narrows the set of preferences returned by Get- BillingPreferences . name -&gt; (string) The filter name. Currently the only supported value is PREF- ERENCE_KEY . Possible values: o PREFERENCE_KEY value -&gt; (list) The filter values to match. For PREFERENCE_KEY , supply 1 to 10 preference key values to match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-/]+ Shorthand Syntax: name=string,value=string,string ... JSON Syntax: [ { "name": "PREFERENCE_KEY", "value": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -40,7 +40,7 @@ public record AwsIotSetV2LoggingOptionsOptions : AwsOptions
     /// <summary>
     /// The list of event configurations that override account-level log- ging. (structure) Configuration for event-based logging that specifies which event types to log and their logging settings. Used for account-level logging overrides. eventType -&gt; (string) [required] The type of event to log. These include event types like Con- nect, Publish, and Disconnect. Constraints: o min: 1 o max: 512 logLevel -&gt; (string) The logging level for the specified event type. Determines the verbosity of log messages generated for this event type. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED logDestination -&gt; (string) CloudWatch Log Group for event-based logging. Specifies where log events should be sent. The log destination for event-based logging overrides default Log Group for the spec- ified event type and applies to all resources associated with that event. Constraints: o min: 1 o max: 512 o pattern: ^[.\-_/#A-Za-z0-9]+$ Shorthand Syntax: eventType=string,logLevel=string,logDestination=string ... JSON Syntax: [ { "eventType": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED", "logDestination": "string" } ... ]
     /// </summary>
-    [CliOption("--event-configurations")]
+    [CliOption("--event-configurations", GroupValues = true)]
     public IEnumerable<string>? EventConfigurations { get; set; }
 
     [CliOption("--cli-input-json")]

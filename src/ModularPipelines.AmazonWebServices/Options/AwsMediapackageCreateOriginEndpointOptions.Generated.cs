@@ -55,13 +55,13 @@ public record AwsMediapackageCreateOriginEndpointOptions : AwsOptions
     [CliOption("--startover-window-seconds")]
     public int? StartoverWindowSeconds { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--time-delay-seconds")]
     public int? TimeDelaySeconds { get; set; }
 
-    [CliOption("--whitelist")]
+    [CliOption("--whitelist", GroupValues = true)]
     public IEnumerable<string>? Whitelist { get; set; }
 
     [CliOption("--cli-input-json")]

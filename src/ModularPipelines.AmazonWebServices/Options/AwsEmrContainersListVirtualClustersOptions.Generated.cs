@@ -50,7 +50,7 @@ public record AwsEmrContainersListVirtualClustersOptions : AwsOptions
     /// <summary>
     /// The states of the requested virtual clusters. Constraints: o max: 10 (string) Possible values: o RUNNING o TERMINATING o TERMINATED o ARRESTED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--states")]
+    [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     [CliFlag("--eks-access-entry-integrated")]

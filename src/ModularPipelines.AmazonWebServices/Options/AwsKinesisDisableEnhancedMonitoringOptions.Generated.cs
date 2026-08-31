@@ -27,7 +27,7 @@ public record AwsKinesisDisableEnhancedMonitoringOptions : AwsOptions
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CliOption("--shard-level-metrics")]
+    [CliOption("--shard-level-metrics", GroupValues = true)]
     public IEnumerable<string>? ShardLevelMetrics { get; set; }
 
     /// <summary>

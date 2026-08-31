@@ -27,7 +27,7 @@ public record AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions : AwsOpti
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     [CliFlag("--dry-run")]

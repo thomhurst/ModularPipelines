@@ -62,7 +62,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOp
     /// <summary>
     /// The tag key-value pairs. Constraints: o min: 1 o max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

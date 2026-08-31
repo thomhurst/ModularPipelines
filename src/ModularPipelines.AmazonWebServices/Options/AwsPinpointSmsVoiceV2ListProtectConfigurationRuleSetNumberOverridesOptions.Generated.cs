@@ -28,7 +28,7 @@ public record AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverride
     /// <summary>
     /// An array of ProtectConfigurationRuleSetNumberOverrideFilterItem ob- jects to filter the results. Constraints: o min: 0 o max: 100 (structure) The information for a protect configuration rule set number override that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o iso-country-code o destination-phone-number-begins-with o action o expires-before o expires-after o created-before o created-after Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "iso-country-code"|"destination-phone-number-begins-with"|"action"|"expires-before"|"expires-after"|"created-before"|"created-after", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

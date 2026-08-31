@@ -25,10 +25,10 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; set; }
 
-    [CliOption("--subscribed-principals")]
+    [CliOption("--subscribed-principals", GroupValues = true)]
     public IEnumerable<string>? SubscribedPrincipals { get; set; }
 
-    [CliOption("--subscribed-listings")]
+    [CliOption("--subscribed-listings", GroupValues = true)]
     public IEnumerable<string>? SubscribedListings { get; set; }
 
     [CliOption("--request-reason")]
@@ -44,19 +44,19 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions
     /// <summary>
     /// The metadata form included in the subscription request. (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
-    [CliOption("--metadata-forms")]
+    [CliOption("--metadata-forms", GroupValues = true)]
     public IEnumerable<string>? MetadataForms { get; set; }
 
     /// <summary>
     /// The asset permissions of the subscription request. (structure) The asset permissions. assetId -&gt; (string) [required] The asset ID as part of the asset permissions. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} permissions -&gt; (tagged union structure) [required] The details as part of the asset permissions. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3. s3 -&gt; (list) The S3 details of the asset permissions. (string) Possible values: o READ o WRITE Shorthand Syntax: assetId=string,permissions={s3=[string,string]} ... JSON Syntax: [ { "assetId": "string", "permissions": { "s3": ["READ"|"WRITE", ...] } } ... ]
     /// </summary>
-    [CliOption("--asset-permissions")]
+    [CliOption("--asset-permissions", GroupValues = true)]
     public IEnumerable<string>? AssetPermissions { get; set; }
 
     /// <summary>
     /// The asset scopes of the subscription request. (structure) The accepted asset scope. assetId -&gt; (string) [required] The asset ID of the accepted asset scope. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} filterIds -&gt; (list) [required] The filter IDs of the accepted asset scope. (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: assetId=string,filterIds=string,string ... JSON Syntax: [ { "assetId": "string", "filterIds": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--asset-scopes")]
+    [CliOption("--asset-scopes", GroupValues = true)]
     public IEnumerable<string>? AssetScopes { get; set; }
 
     [CliOption("--cli-input-json")]

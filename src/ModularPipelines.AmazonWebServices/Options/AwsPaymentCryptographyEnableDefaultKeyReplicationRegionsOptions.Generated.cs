@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("payment-cryptography", "enable-default-key-replication-regions")]
 public record AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions : AwsOptions
 {
-    [CliOption("--replication-regions")]
+    [CliOption("--replication-regions", GroupValues = true)]
     public IEnumerable<string>? ReplicationRegions { get; set; }
 
     [CliOption("--cli-input-json")]

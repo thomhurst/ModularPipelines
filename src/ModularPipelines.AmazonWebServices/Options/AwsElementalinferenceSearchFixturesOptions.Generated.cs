@@ -37,7 +37,7 @@ public record AwsElementalinferenceSearchFixturesOptions : AwsOptions
     /// <summary>
     /// An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters. A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values. Constraints: o min: 0 o max: 10 (structure) A filter for a fixture search. It is used in the filters array of a SearchFixtures request. name -&gt; (string) [required] The dimension of the fixture to filter on. Valid values: COM- PETITOR. Possible values: o COMPETITOR values -&gt; (list) [required] An array of values to match in the dimension that you speci- fied in name. You can specify up to 10 values. A fixture ap- pears in the results if it matches at least one of these val- ues. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "COMPETITOR", "values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -66,7 +66,7 @@ public record AwsEmrContainersStartJobRunOptions : AwsOptions
     /// <summary>
     /// The tags assigned to job runs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record AwsEmrContainersStartJobRunOptions : AwsOptions
     /// <summary>
     /// The values of job template parameters to start a job run. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_\#A-Za-z0-9]+ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--job-template-parameters")]
+    [CliOption("--job-template-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? JobTemplateParameters { get; set; }
 
     /// <summary>

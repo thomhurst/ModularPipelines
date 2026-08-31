@@ -25,7 +25,7 @@ public record AwsDaxDescribeClustersOptions : AwsOptions
     /// <summary>
     /// The names of the DAX clusters being described. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cluster-names")]
+    [CliOption("--cluster-names", GroupValues = true)]
     public IEnumerable<string>? ClusterNames { get; set; }
 
     [CliOption("--cli-input-json")]

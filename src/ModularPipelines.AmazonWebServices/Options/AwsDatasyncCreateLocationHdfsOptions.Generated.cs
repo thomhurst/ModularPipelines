@@ -28,7 +28,7 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CliOption("--name-nodes")]
+    [CliOption("--name-nodes", GroupValues = true)]
     public IEnumerable<string>? NameNodes { get; set; }
 
     /// <summary>
@@ -82,13 +82,13 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
     [CliOption("--kerberos-krb5-conf")]
     public string? KerberosKrb5Conf { get; set; }
 
-    [CliOption("--agent-arns")]
+    [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
     /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

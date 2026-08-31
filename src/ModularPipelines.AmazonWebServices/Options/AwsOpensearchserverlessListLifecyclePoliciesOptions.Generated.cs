@@ -28,7 +28,7 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions
     /// <summary>
     /// Resource filters that policies can apply to. Currently, the only supported resource type is index . Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--resources")]
+    [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record AwsEfsPutLifecycleConfigurationOptions : AwsOptions
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; set; }
 
-    [CliOption("--lifecycle-policies")]
+    [CliOption("--lifecycle-policies", GroupValues = true)]
     public IEnumerable<string>? LifecyclePolicies { get; set; }
 
     [CliOption("--cli-input-json")]

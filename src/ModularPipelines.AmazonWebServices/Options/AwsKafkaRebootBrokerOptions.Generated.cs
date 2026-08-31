@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("kafka", "reboot-broker")]
 public record AwsKafkaRebootBrokerOptions : AwsOptions
 {
-    [CliOption("--broker-ids")]
+    [CliOption("--broker-ids", GroupValues = true)]
     public IEnumerable<string>? BrokerIds { get; set; }
 
     [CliOption("--cluster-arn")]

@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "remove-tags-from-on-premises-instances")]
 public record AwsDeployRemoveTagsFromOnPremisesInstancesOptions : AwsOptions
 {
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--instance-names")]
+    [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; set; }
 
     [CliOption("--cli-input-json")]

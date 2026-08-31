@@ -27,7 +27,7 @@ public record AwsCloudtrailUpdateChannelOptions : AwsOptions
     /// <summary>
     /// The ARNs of event data stores that you want to log events arriving through the channel. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
     /// </summary>
-    [CliOption("--destinations")]
+    [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     /// <summary>

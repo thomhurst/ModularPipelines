@@ -27,7 +27,7 @@ public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions
     /// <summary>
     /// Specifies an array list of ARNs that represent the authorized tar- gets for this access scope. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::(\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--authorized-targets")]
+    [CliOption("--authorized-targets", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTargets { get; set; }
 
     [CliOption("--application-arn")]

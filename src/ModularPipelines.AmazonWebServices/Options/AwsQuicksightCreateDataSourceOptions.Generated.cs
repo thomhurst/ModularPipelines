@@ -50,7 +50,7 @@ public record AwsQuicksightCreateDataSourceOptions : AwsOptions
     /// <summary>
     /// A list of resource permissions on the data source. Constraints: o min: 1 o max: 64 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--permissions")]
+    [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
@@ -68,13 +68,13 @@ public record AwsQuicksightCreateDataSourceOptions : AwsOptions
     /// <summary>
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// When you create the data source, Amazon Quick Sight adds the data source to these folders. Constraints: o max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--folder-arns")]
+    [CliOption("--folder-arns", GroupValues = true)]
     public IEnumerable<string>? FolderArns { get; set; }
 
     [CliOption("--cli-input-json")]

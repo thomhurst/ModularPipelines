@@ -28,13 +28,13 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions : 
     /// <summary>
     /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--iso-country-codes")]
+    [CliOption("--iso-country-codes", GroupValues = true)]
     public IEnumerable<string>? IsoCountryCodes { get; set; }
 
     /// <summary>
     /// An array of CountryLaunchStatusFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for a country launch status that meets a speci- fied criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o country-launch-status Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "country-launch-status", "Values": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

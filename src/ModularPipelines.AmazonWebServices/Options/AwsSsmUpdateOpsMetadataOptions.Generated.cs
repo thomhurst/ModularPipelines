@@ -28,13 +28,13 @@ public record AwsSsmUpdateOpsMetadataOptions : AwsOptions
     /// <summary>
     /// Metadata to add to an OpsMetadata object. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^(?!\s*$).+ value -&gt; (structure) Metadata to assign to an Application Manager application. Value -&gt; (string) Metadata value to assign to an Application Manager applica- tion. Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
     /// </summary>
-    [CliOption("--metadata-to-update")]
+    [CliOption("--metadata-to-update", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetadataToUpdate { get; set; }
 
     /// <summary>
     /// The metadata keys to delete from the OpsMetadata object. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: ^(?!\s*$).+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--keys-to-delete")]
+    [CliOption("--keys-to-delete", GroupValues = true)]
     public IEnumerable<string>? KeysToDelete { get; set; }
 
     [CliOption("--cli-input-json")]

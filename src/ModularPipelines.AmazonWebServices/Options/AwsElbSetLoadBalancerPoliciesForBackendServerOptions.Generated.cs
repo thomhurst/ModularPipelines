@@ -27,7 +27,7 @@ public record AwsElbSetLoadBalancerPoliciesForBackendServerOptions : AwsOptions
     [CliOption("--instance-port")]
     public int? InstancePort { get; set; }
 
-    [CliOption("--policy-names")]
+    [CliOption("--policy-names", GroupValues = true)]
     public IEnumerable<string>? PolicyNames { get; set; }
 
     [CliOption("--cli-input-json")]

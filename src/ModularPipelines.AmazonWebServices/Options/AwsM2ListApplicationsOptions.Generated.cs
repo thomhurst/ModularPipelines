@@ -31,7 +31,7 @@ public record AwsM2ListApplicationsOptions : AwsOptions
     /// <summary>
     /// The names of the applications. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

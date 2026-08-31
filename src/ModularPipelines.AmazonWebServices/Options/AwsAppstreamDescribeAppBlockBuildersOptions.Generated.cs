@@ -25,7 +25,7 @@ public record AwsAppstreamDescribeAppBlockBuildersOptions : AwsOptions
     /// <summary>
     /// The names of the app block builders. (string) Constraints: o min: 1 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

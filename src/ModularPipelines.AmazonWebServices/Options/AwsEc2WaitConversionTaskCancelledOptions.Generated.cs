@@ -27,7 +27,7 @@ public record AwsEc2WaitConversionTaskCancelledOptions : AwsOptions
     /// <summary>
     /// The conversion task IDs. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--conversion-task-ids")]
+    [CliOption("--conversion-task-ids", GroupValues = true)]
     public IEnumerable<string>? ConversionTaskIds { get; set; }
 
     [CliOption("--cli-input-json")]

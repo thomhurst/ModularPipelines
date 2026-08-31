@@ -29,13 +29,13 @@ public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions
     /// <summary>
     /// The list of evaluators to apply during the batch evaluation. Can in- clude both built-in evaluators and custom evaluators. Maximum of 10 evaluators. Constraints: o min: 0 o max: 10 (structure) An evaluator to run against sessions during batch evaluation. evaluatorId -&gt; (string) [required] The unique identifier of the evaluator. Can reference built-in evaluators (e.g., Builtin.Helpfulness ) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
     /// </summary>
-    [CliOption("--evaluators")]
+    [CliOption("--evaluators", GroupValues = true)]
     public IEnumerable<string>? Evaluators { get; set; }
 
     /// <summary>
     /// The list of insight analyses to run against sessions during the batch evaluation. Maximum of 10 insights. Constraints: o min: 0 o max: 10 (structure) A reference to an insight analysis to run against sessions dur- ing batch evaluation. Insights provide deeper analysis beyond individual evaluator scores, including failure detection, user intent clustering, and execution summarization. insightId -&gt; (string) [required] The unique identifier of the insight to run. Constraints: o pattern: (Builtin\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: insightId=string ... JSON Syntax: [ { "insightId": "string" } ... ]
     /// </summary>
-    [CliOption("--insights")]
+    [CliOption("--insights", GroupValues = true)]
     public IEnumerable<string>? Insights { get; set; }
 
     [CliOption("--data-source-config")]
@@ -57,7 +57,7 @@ public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions
     /// <summary>
     /// A map of tag keys and values to associate with the batch evaluation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>

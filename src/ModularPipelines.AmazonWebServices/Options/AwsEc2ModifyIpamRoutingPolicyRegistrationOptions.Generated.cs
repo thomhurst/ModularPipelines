@@ -31,7 +31,7 @@ public record AwsEc2ModifyIpamRoutingPolicyRegistrationOptions : AwsOptions
     [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
-    [CliOption("--asns")]
+    [CliOption("--asns", GroupValues = true)]
     public IEnumerable<string>? Asns { get; set; }
 
     [CliFlag("--permit-more-specific-announcements")]

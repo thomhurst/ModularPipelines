@@ -27,7 +27,7 @@ public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; set; }
 
-    [CliOption("--link-entities")]
+    [CliOption("--link-entities", GroupValues = true)]
     public IEnumerable<string>? LinkEntities { get; set; }
 
     [CliOption("--cli-input-json")]

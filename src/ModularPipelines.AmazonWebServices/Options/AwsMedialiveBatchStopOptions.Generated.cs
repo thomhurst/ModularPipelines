@@ -21,10 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medialive", "batch-stop")]
 public record AwsMedialiveBatchStopOptions : AwsOptions
 {
-    [CliOption("--channel-ids")]
+    [CliOption("--channel-ids", GroupValues = true)]
     public IEnumerable<string>? ChannelIds { get; set; }
 
-    [CliOption("--multiplex-ids")]
+    [CliOption("--multiplex-ids", GroupValues = true)]
     public IEnumerable<string>? MultiplexIds { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -34,13 +34,13 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions
     /// <summary>
     /// Filter results by handshake status. (string) Possible values: o PENDING o ACCEPTED o REJECTED o CANCELED o EXPIRED Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--statuses")]
+    [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     /// <summary>
     /// Filter by associated resource identifiers. (string) Constraints: o min: 16 o max: 1011 o pattern: ((arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-manage- ment-account/pma-[a-z0-9]{13}(/relation- ship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13}) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--associated-resource-identifiers")]
+    [CliOption("--associated-resource-identifiers", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceIdentifiers { get; set; }
 
     /// <summary>

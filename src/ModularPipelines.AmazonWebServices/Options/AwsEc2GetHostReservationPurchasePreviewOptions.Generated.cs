@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "get-host-reservation-purchase-preview")]
 public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions
 {
-    [CliOption("--host-id-set")]
+    [CliOption("--host-id-set", GroupValues = true)]
     public IEnumerable<string>? HostIdSet { get; set; }
 
     [CliOption("--offering-id")]

@@ -37,16 +37,16 @@ public record AwsConnectGetMetricDataV2Options : AwsOptions
     [CliOption("--interval")]
     public string? Interval { get; set; }
 
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_NAME_VERSION | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_NAME_VERSION | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIER- ARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERAR- CHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERAR- CHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAM- PAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEM- PLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/con- nect:Subtype | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUA- TION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RE- SOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIME- STAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_ARTICLE_NAME | KNOWL- EDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUT- ING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECU- TION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD | WEB_NOTIFICA- TION_TYPE NOTE: AI_AGENT_NAME_VERSION , AI_PROMPT_NAME_VERSION , and KNOWL- EDGE_ARTICLE_NAME are valid groupings but not valid filters. API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYS- TEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECU- TION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No Constraints: o max: 4 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--groupings")]
+    [CliOption("--groupings", GroupValues = true)]
     public IEnumerable<string>? Groupings { get; set; }
 
-    [CliOption("--metrics")]
+    [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>

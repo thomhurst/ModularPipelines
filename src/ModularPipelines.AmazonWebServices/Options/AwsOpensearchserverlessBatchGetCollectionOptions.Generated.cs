@@ -24,13 +24,13 @@ public record AwsOpensearchserverlessBatchGetCollectionOptions : AwsOptions
     /// <summary>
     /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// A list of collection names. You can't provide names and IDs in the same request. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 64 o pattern: [a-z][a-z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

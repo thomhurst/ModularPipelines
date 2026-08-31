@@ -24,7 +24,7 @@ public record AwsCleanroomsBatchGetSchemaOptions : AwsOptions
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; set; }
 
-    [CliOption("--names")]
+    [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     [CliOption("--cli-input-json")]

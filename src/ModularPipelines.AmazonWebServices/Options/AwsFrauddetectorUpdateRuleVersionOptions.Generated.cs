@@ -36,13 +36,13 @@ public record AwsFrauddetectorUpdateRuleVersionOptions : AwsOptions
     [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CliOption("--outcomes")]
+    [CliOption("--outcomes", GroupValues = true)]
     public IEnumerable<string>? Outcomes { get; set; }
 
     /// <summary>
     /// The tags to assign to the rule version. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

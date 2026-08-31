@@ -31,7 +31,7 @@ public record AwsLaunchWizardCreateDeploymentOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--specifications")]
+    [CliOption("--specifications", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Specifications { get; set; }
 
     [CliFlag("--dry-run")]
@@ -40,7 +40,7 @@ public record AwsLaunchWizardCreateDeploymentOptions : AwsOptions
     /// <summary>
     /// The tags to add to the deployment. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9 _.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

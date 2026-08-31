@@ -41,7 +41,7 @@ public record AwsRamCreatePermissionOptions : AwsOptions
     /// <summary>
     /// Specifies a list of one or more tag key and value pairs to attach to the permission. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

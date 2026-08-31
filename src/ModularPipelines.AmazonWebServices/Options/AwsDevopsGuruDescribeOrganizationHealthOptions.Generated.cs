@@ -24,13 +24,13 @@ public record AwsDevopsGuruDescribeOrganizationHealthOptions : AwsOptions
     /// <summary>
     /// The ID of the Amazon Web Services account. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-ids")]
+    [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
     /// The ID of the organizational unit. Constraints: o min: 0 o max: 5 (string) Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--organizational-unit-ids")]
+    [CliOption("--organizational-unit-ids", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitIds { get; set; }
 
     [CliOption("--cli-input-json")]

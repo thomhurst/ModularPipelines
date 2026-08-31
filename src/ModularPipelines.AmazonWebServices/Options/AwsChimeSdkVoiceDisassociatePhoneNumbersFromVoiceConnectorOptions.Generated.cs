@@ -24,7 +24,7 @@ public record AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions 
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; set; }
 
-    [CliOption("--e164-phone-numbers")]
+    [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ssm", "start-associations-once")]
 public record AwsSsmStartAssociationsOnceOptions : AwsOptions
 {
-    [CliOption("--association-ids")]
+    [CliOption("--association-ids", GroupValues = true)]
     public IEnumerable<string>? AssociationIds { get; set; }
 
     [CliOption("--cli-input-json")]

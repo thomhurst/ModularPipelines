@@ -67,7 +67,7 @@ public record AwsSagemakerSearchTrainingPlanOfferingsOptions : AwsOptions
     /// <summary>
     /// The target resources (e.g., SageMaker Training Jobs, SageMaker Hy- perPod, SageMaker Endpoints, Studio apps) to search for in the of- ferings. Training plans are specific to their target resource. o A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs. o A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group. o A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deploy- ment. o A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity. Constraints: o min: 1 (string) Possible values: o training-job o hyperpod-cluster o endpoint o studio-apps Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--target-resources")]
+    [CliOption("--target-resources", GroupValues = true)]
     public IEnumerable<string>? TargetResources { get; set; }
 
     /// <summary>

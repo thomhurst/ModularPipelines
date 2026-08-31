@@ -28,7 +28,7 @@ public record AwsWickrBatchResetDevicesForUserOptions : AwsOptions
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliOption("--app-ids")]
+    [CliOption("--app-ids", GroupValues = true)]
     public IEnumerable<string>? AppIds { get; set; }
 
     /// <summary>

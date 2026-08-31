@@ -24,7 +24,7 @@ public record AwsCleanroomsCreateCollaborationChangeRequestOptions : AwsOptions
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; set; }
 
-    [CliOption("--changes")]
+    [CliOption("--changes", GroupValues = true)]
     public IEnumerable<string>? Changes { get; set; }
 
     [CliOption("--cli-input-json")]

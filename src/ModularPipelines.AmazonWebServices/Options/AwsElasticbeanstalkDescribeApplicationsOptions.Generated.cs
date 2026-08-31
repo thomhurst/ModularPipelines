@@ -24,7 +24,7 @@ public record AwsElasticbeanstalkDescribeApplicationsOptions : AwsOptions
     /// <summary>
     /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to only include those with the specified names. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--application-names")]
+    [CliOption("--application-names", GroupValues = true)]
     public IEnumerable<string>? ApplicationNames { get; set; }
 
     [CliOption("--cli-input-json")]

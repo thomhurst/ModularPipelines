@@ -31,13 +31,13 @@ public record AwsGlueCreateCustomEntityTypeOptions : AwsOptions
     /// <summary>
     /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data. If no context words are passed only a regular expression is checked. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--context-words")]
+    [CliOption("--context-words", GroupValues = true)]
     public IEnumerable<string>? ContextWords { get; set; }
 
     /// <summary>
     /// A list of tags applied to the custom entity type. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

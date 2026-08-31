@@ -53,13 +53,13 @@ public record AwsNetworkFirewallUpdateProxyRuleOptions : AwsOptions
     /// <summary>
     /// Proxy rule conditions to add. Match criteria that specify what traf- fic attributes to examine. Conditions include operators (StringE- quals, StringLike) and values to match against. (structure) Match criteria that specify what traffic attributes to examine. ConditionOperator -&gt; (string) Defines how to perform a match. ConditionKey -&gt; (string) Defines what is to be matched. ConditionValues -&gt; (list) Specifes the exact value that needs to be matched against. (string) Shorthand Syntax: ConditionOperator=string,ConditionKey=string,ConditionValues=string,string ... JSON Syntax: [ { "ConditionOperator": "string", "ConditionKey": "string", "ConditionValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--add-conditions")]
+    [CliOption("--add-conditions", GroupValues = true)]
     public IEnumerable<string>? AddConditions { get; set; }
 
     /// <summary>
     /// Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against. (structure) Match criteria that specify what traffic attributes to examine. ConditionOperator -&gt; (string) Defines how to perform a match. ConditionKey -&gt; (string) Defines what is to be matched. ConditionValues -&gt; (list) Specifes the exact value that needs to be matched against. (string) Shorthand Syntax: ConditionOperator=string,ConditionKey=string,ConditionValues=string,string ... JSON Syntax: [ { "ConditionOperator": "string", "ConditionKey": "string", "ConditionValues": ["string", ...] } ... ]
     /// </summary>
-    [CliOption("--remove-conditions")]
+    [CliOption("--remove-conditions", GroupValues = true)]
     public IEnumerable<string>? RemoveConditions { get; set; }
 
     [SecretValue]

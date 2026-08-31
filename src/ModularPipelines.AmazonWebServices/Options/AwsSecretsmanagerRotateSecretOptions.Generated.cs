@@ -49,7 +49,7 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
     /// The metadata needed to successfully rotate a managed external se- cret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see Using Secrets Manager managed external secrets (structure) The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information, see Managed external secret partners . Key -&gt; (string) The key that identifies the item. Constraints: o min: 1 o max: 256 Value -&gt; (string) The value of the specified item. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [SecretValue]
-    [CliOption("--external-secret-rotation-metadata")]
+    [CliOption("--external-secret-rotation-metadata", GroupValues = true)]
     public IEnumerable<string>? ExternalSecretRotationMetadata { get; set; }
 
     /// <summary>

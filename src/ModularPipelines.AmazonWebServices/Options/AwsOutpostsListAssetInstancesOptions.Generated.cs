@@ -28,25 +28,25 @@ public record AwsOutpostsListAssetInstancesOptions : AwsOptions
     /// <summary>
     /// Filters the results by asset ID. (string) Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--asset-id-filter")]
+    [CliOption("--asset-id-filter", GroupValues = true)]
     public IEnumerable<string>? AssetIdFilter { get; set; }
 
     /// <summary>
     /// Filters the results by instance ID. (string) Constraints: o min: 3 o max: 30 o pattern: [a-z0-9\-\.]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--instance-type-filter")]
+    [CliOption("--instance-type-filter", GroupValues = true)]
     public IEnumerable<string>? InstanceTypeFilter { get; set; }
 
     /// <summary>
     /// Filters the results by account ID. (string) The ID of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--account-id-filter")]
+    [CliOption("--account-id-filter", GroupValues = true)]
     public IEnumerable<string>? AccountIdFilter { get; set; }
 
     /// <summary>
     /// Filters the results by Amazon Web Services service. (string) Possible values: o AWS o EC2 o EKS o ELASTICACHE o ELB o RDS o ROUTE53 Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--aws-service-filter")]
+    [CliOption("--aws-service-filter", GroupValues = true)]
     public IEnumerable<string>? AwsServiceFilter { get; set; }
 
     [CliOption("--cli-input-json")]

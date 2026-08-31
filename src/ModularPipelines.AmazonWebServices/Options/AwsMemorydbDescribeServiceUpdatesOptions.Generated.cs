@@ -31,13 +31,13 @@ public record AwsMemorydbDescribeServiceUpdatesOptions : AwsOptions
     /// <summary>
     /// The list of cluster names to identify service updates to apply. Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--cluster-names")]
+    [CliOption("--cluster-names", GroupValues = true)]
     public IEnumerable<string>? ClusterNames { get; set; }
 
     /// <summary>
     /// The status(es) of the service updates to filter on. Constraints: o max: 4 (string) Possible values: o available o in-progress o complete o scheduled Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--status")]
+    [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliOption("--cli-input-json")]

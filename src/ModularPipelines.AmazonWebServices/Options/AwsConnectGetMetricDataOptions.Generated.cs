@@ -37,10 +37,10 @@ public record AwsConnectGetMetricDataOptions : AwsOptions
     /// <summary>
     /// The grouping applied to the metrics returned. For example, when re- sults are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features. Constraints: o max: 2 (string) Possible values: o QUEUE o CHANNEL o ROUTING_PROFILE o ROUTING_STEP_EXPRESSION o AGENT_STATUS o SUBTYPE o VALIDATION_TEST_TYPE Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--groupings")]
+    [CliOption("--groupings", GroupValues = true)]
     public IEnumerable<string>? Groupings { get; set; }
 
-    [CliOption("--historical-metrics")]
+    [CliOption("--historical-metrics", GroupValues = true)]
     public IEnumerable<string>? HistoricalMetrics { get; set; }
 
     [CliOption("--cli-input-json")]

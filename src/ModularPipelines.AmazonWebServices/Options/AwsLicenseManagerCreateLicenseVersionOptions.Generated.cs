@@ -43,10 +43,10 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions
     /// <summary>
     /// Information about the license. (structure) Describes key/value pairs. Name -&gt; (string) The key name. Value -&gt; (string) The value. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--license-metadata")]
+    [CliOption("--license-metadata", GroupValues = true)]
     public IEnumerable<string>? LicenseMetadata { get; set; }
 
-    [CliOption("--entitlements")]
+    [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; set; }
 
     [CliOption("--consumption-configuration")]

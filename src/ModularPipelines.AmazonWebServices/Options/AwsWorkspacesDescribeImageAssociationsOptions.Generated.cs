@@ -24,7 +24,7 @@ public record AwsWorkspacesDescribeImageAssociationsOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliOption("--associated-resource-types")]
+    [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; set; }
 
     [CliOption("--cli-input-json")]

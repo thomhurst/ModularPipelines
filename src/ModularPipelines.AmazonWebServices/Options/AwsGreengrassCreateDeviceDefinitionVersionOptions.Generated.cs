@@ -29,7 +29,7 @@ public record AwsGreengrassCreateDeviceDefinitionVersionOptions : AwsOptions
     [CliOption("--device-definition-id")]
     public string? DeviceDefinitionId { get; set; }
 
-    [CliOption("--devices")]
+    [CliOption("--devices", GroupValues = true)]
     public IEnumerable<string>? Devices { get; set; }
 
     [CliOption("--cli-input-json")]

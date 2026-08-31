@@ -28,7 +28,7 @@ public record AwsLogsPutLogEventsOptions : AwsOptions
     [CliOption("--log-stream-name")]
     public string? LogStreamName { get; set; }
 
-    [CliOption("--log-events")]
+    [CliOption("--log-events", GroupValues = true)]
     public IEnumerable<string>? LogEvents { get; set; }
 
     /// <summary>

@@ -28,7 +28,7 @@ public record AwsCodecatalystListProjectsOptions : AwsOptions
     /// <summary>
     /// Information about filters to apply to narrow the results returned in the list. (structure) nformation about the filter used to narrow the results returned in a list of projects. key -&gt; (string) [required] A key that can be used to sort results. Possible values: o hasAccessTo o name values -&gt; (list) [required] The values of the key. (string) comparisonOperator -&gt; (string) The operator used to compare the fields. Possible values: o EQ o GT o GE o LT o LE o BEGINS_WITH Shorthand Syntax: key=string,values=string,string,comparisonOperator=string ... JSON Syntax: [ { "key": "hasAccessTo"|"name", "values": ["string", ...], "comparisonOperator": "EQ"|"GT"|"GE"|"LT"|"LE"|"BEGINS_WITH" } ... ]
     /// </summary>
-    [CliOption("--filters")]
+    [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]

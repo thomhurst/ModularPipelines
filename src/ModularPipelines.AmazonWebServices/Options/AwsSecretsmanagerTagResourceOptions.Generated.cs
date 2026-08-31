@@ -26,7 +26,7 @@ public record AwsSecretsmanagerTagResourceOptions : AwsOptions
     [CliOption("--secret-id")]
     public string? SecretId { get; set; }
 
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

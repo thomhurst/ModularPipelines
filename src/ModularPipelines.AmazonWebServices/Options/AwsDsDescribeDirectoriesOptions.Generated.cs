@@ -25,7 +25,7 @@ public record AwsDsDescribeDirectoriesOptions : AwsOptions
     /// <summary>
     /// A list of identifiers of the directories for which to obtain the in- formation. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown. (string) Constraints: o pattern: ^d-[0-9a-f]{10}$ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--directory-ids")]
+    [CliOption("--directory-ids", GroupValues = true)]
     public IEnumerable<string>? DirectoryIds { get; set; }
 
     [CliOption("--cli-input-json")]

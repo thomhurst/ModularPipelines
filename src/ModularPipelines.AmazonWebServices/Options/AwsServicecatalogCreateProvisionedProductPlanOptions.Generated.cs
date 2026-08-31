@@ -37,7 +37,7 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
     /// <summary>
     /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--notification-arns")]
+    [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
     /// <summary>
     /// Parameters specified by the administrator that are required for pro- visioning the product. (structure) The parameter key-value pair used to update a provisioned prod- uct. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
     /// </summary>
-    [CliOption("--provisioning-parameters")]
+    [CliOption("--provisioning-parameters", GroupValues = true)]
     public IEnumerable<string>? ProvisioningParameters { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
     /// <summary>
     /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProd- uct set to ALLOWED to allow tag updates. Constraints: o max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     [CliOption("--cli-input-json")]

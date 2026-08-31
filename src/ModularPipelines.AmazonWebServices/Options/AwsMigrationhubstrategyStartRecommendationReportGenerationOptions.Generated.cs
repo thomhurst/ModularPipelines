@@ -25,7 +25,7 @@ public record AwsMigrationhubstrategyStartRecommendationReportGenerationOptions 
     /// <summary>
     /// Groups the resources in the recommendation report with a unique name. (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: o ExternalId o ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--group-id-filter")]
+    [CliOption("--group-id-filter", GroupValues = true)]
     public IEnumerable<string>? GroupIdFilter { get; set; }
 
     /// <summary>

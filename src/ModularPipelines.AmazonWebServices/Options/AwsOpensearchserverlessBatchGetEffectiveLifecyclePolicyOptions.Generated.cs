@@ -21,7 +21,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("opensearchserverless", "batch-get-effective-lifecycle-policy")]
 public record AwsOpensearchserverlessBatchGetEffectiveLifecyclePolicyOptions : AwsOptions
 {
-    [CliOption("--resource-identifiers")]
+    [CliOption("--resource-identifiers", GroupValues = true)]
     public IEnumerable<string>? ResourceIdentifiers { get; set; }
 
     [CliOption("--cli-input-json")]

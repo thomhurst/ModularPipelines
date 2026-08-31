@@ -25,7 +25,7 @@ public record AwsLicenseManagerLinuxSubscriptionsListRegisteredSubscriptionProvi
     /// <summary>
     /// To filter your results, specify which subscription providers to re- turn in the list. (string) Possible values: o RedHat Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--subscription-provider-sources")]
+    [CliOption("--subscription-provider-sources", GroupValues = true)]
     public IEnumerable<string>? SubscriptionProviderSources { get; set; }
 
     [CliOption("--cli-input-json")]

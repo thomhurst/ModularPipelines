@@ -28,7 +28,7 @@ public record AwsConnectListQueuesOptions : AwsOptions
     /// <summary>
     /// The type of queue. Constraints: o max: 2 (string) Possible values: o STANDARD o AGENT Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--queue-types")]
+    [CliOption("--queue-types", GroupValues = true)]
     public IEnumerable<string>? QueueTypes { get; set; }
 
     [CliOption("--cli-input-json")]

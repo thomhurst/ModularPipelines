@@ -48,7 +48,7 @@ public record AwsElasticacheModifyServerlessCacheOptions : AwsOptions
     /// <summary>
     /// The new list of VPC security groups to be associated with the serverless cache. Populating this list means the current VPC secu- rity groups will be removed. This security group is used to autho- rize traffic access for the VPC end-point (private-link). Default = NULL - the existing list of VPC security groups is not removed. (string) Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--security-group-ids")]
+    [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>

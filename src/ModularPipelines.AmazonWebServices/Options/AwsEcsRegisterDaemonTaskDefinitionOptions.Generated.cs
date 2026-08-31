@@ -37,7 +37,7 @@ public record AwsEcsRegisterDaemonTaskDefinitionOptions : AwsOptions
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CliOption("--container-definitions")]
+    [CliOption("--container-definitions", GroupValues = true)]
     public IEnumerable<string>? ContainerDefinitions { get; set; }
 
     /// <summary>
@@ -55,13 +55,13 @@ public record AwsEcsRegisterDaemonTaskDefinitionOptions : AwsOptions
     /// <summary>
     /// A list of volume definitions in JSON format that containers in your daemon task can use. (structure) A data volume definition for a daemon task. name -&gt; (string) The name of the volume. Up to 255 letters (uppercase and low- ercase), numbers, underscores, and hyphens are allowed. host -&gt; (structure) The contents of the host parameter determine whether your bind mount host volume persists on the host container in- stance and where it's stored. sourcePath -&gt; (string) When the host parameter is used, specify a sourcePath to declare the path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file loca- tion, then the data volume persists at the specified lo- cation on the host container instance until you delete it manually. If the sourcePath value doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you're using the Fargate launch type, the sourcePath parameter is not supported. Shorthand Syntax: name=string,host={sourcePath=string} ... JSON Syntax: [ { "name": "string", "host": { "sourcePath": "string" } } ... ]
     /// </summary>
-    [CliOption("--volumes")]
+    [CliOption("--volumes", GroupValues = true)]
     public IEnumerable<string>? Volumes { get; set; }
 
     /// <summary>
     /// The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8 o Maximum value length - 256 Unicode characters in UTF-8 o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. Constraints: o min: 0 o max: 50 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8 o Maximum value length - 256 Unicode characters in UTF-8 o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is re- served for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
-    [CliOption("--tags")]
+    [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

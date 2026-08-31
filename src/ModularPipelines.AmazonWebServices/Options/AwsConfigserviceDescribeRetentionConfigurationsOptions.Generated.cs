@@ -25,7 +25,7 @@ public record AwsConfigserviceDescribeRetentionConfigurationsOptions : AwsOption
     /// <summary>
     /// A list of names of retention configurations for which you want de- tails. If you do not specify a name, Config returns details for all the retention configurations for that account. NOTE: Currently, Config supports only one retention configuration per region in your account. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 256 o pattern: [\w\-]+ Syntax: "string" "string" ...
     /// </summary>
-    [CliOption("--retention-configuration-names")]
+    [CliOption("--retention-configuration-names", GroupValues = true)]
     public IEnumerable<string>? RetentionConfigurationNames { get; set; }
 
     [CliOption("--cli-input-json")]
