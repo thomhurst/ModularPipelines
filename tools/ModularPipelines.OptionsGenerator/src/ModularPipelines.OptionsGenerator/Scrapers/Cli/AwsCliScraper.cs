@@ -493,8 +493,19 @@ public partial class AwsCliScraper : CliScraperBase
         foreach (var line in helpText[sectionStart..sectionEnd].Split('\n'))
         {
             var candidate = line.Trim();
-            if (candidate.StartsWith("[", StringComparison.Ordinal)
-                || candidate.Contains(" | ", StringComparison.Ordinal))
+            if (candidate.StartsWith('['))
+            {
+                continue;
+            }
+
+            var booleanAlternativeMatch = AwsRequiredBooleanAlternativePattern().Match(candidate);
+            if (booleanAlternativeMatch.Success)
+            {
+                requiredOptions.Add(booleanAlternativeMatch.Groups["positive"].Value);
+                continue;
+            }
+
+            if (candidate.Contains(" | ", StringComparison.Ordinal))
             {
                 continue;
             }
@@ -743,6 +754,11 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^(?<long>--[\w-]+)(?:\s|$)")]
     private static partial Regex AwsSynopsisOptionPattern();
+
+    [GeneratedRegex(
+        @"^(?<positive>--(?<name>[\w-]+))\s+\|\s+--no-\k<name>(?:\s|$)",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex AwsRequiredBooleanAlternativePattern();
 
     #endregion
 }

@@ -290,6 +290,8 @@ public class AwsCliScraperTests
             command.FullCommand == "aws ec2 terminate-instances");
         var createKeyPair = commands.Single(command =>
             command.FullCommand == "aws ec2 create-key-pair");
+        var setInstanceProtection = commands.Single(command =>
+            command.FullCommand == "aws autoscaling set-instance-protection");
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
         var options = await new OptionsClassGenerator().GenerateAsync(tool);
         var services = await new SubDomainClassGenerator().GenerateAsync(tool);
@@ -299,6 +301,12 @@ public class AwsCliScraperTests
             file.RelativePath.EndsWith("AwsEc2CreateKeyPairOptions.Generated.cs", StringComparison.Ordinal));
         var ec2Interface = services.Single(file =>
             file.RelativePath.EndsWith("IAwsEc2.Generated.cs", StringComparison.Ordinal));
+        var autoscalingOptions = options.Single(file =>
+            file.RelativePath.EndsWith(
+                "AwsAutoscalingSetInstanceProtectionOptions.Generated.cs",
+                StringComparison.Ordinal));
+        var autoscalingInterface = services.Single(file =>
+            file.RelativePath.EndsWith("IAwsAutoscaling.Generated.cs", StringComparison.Ordinal));
 
         using (Assert.Multiple())
         {
@@ -310,6 +318,8 @@ public class AwsCliScraperTests
                 option.SwitchName == "--key-name").IsRequired).IsTrue();
             await Assert.That(createKeyPair.Options.Single(option =>
                 option.SwitchName == "--key-type").IsRequired).IsFalse();
+            await Assert.That(setInstanceProtection.Options.Single(option =>
+                option.SwitchName == "--protected-from-scale-in").IsRequired).IsTrue();
             await Assert.That(terminateOptions.Content)
                 .Contains("IEnumerable<string> InstanceIds");
             await Assert.That(createOptions.Content)
@@ -318,6 +328,10 @@ public class AwsCliScraperTests
                 .Contains("TerminateInstancesAsync(AwsEc2TerminateInstancesOptions options,");
             await Assert.That(ec2Interface.Content)
                 .Contains("CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options,");
+            await Assert.That(autoscalingOptions.Content)
+                .Contains("bool ProtectedFromScaleIn");
+            await Assert.That(autoscalingInterface.Content)
+                .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
         }
     }
 
@@ -866,7 +880,36 @@ public class AwsCliScraperTests
         {
             var output = arguments switch
             {
-                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "help" => "AVAILABLE SERVICES\n       o autoscaling\n       o ec2",
+                "autoscaling help" => "AVAILABLE COMMANDS\n       o set-instance-protection",
+                "autoscaling set-instance-protection help" => """
+                    DESCRIPTION
+                           Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Ama- zon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
+
+                    SYNOPSIS
+                           aws autoscaling set-instance-protection
+                           --instance-ids <value>
+                           --auto-scaling-group-name <value>
+                           --protected-from-scale-in | --no-protected-from-scale-in
+                           [--cli-input-json <value>]
+                           [--generate-cli-skeleton <value>]
+
+                    OPTIONS
+                           --instance-ids (list) [required]
+                            Instance identifiers.
+
+                           --auto-scaling-group-name (string) [required]
+                            The Auto Scaling group name.
+
+                           --protected-from-scale-in (boolean)
+                            Whether instances are protected from scale in.
+
+                           --cli-input-json (string)
+                            JSON input.
+
+                           --generate-cli-skeleton (string)
+                            Prints a skeleton.
+                    """,
                 "ec2 help" => "AVAILABLE COMMANDS\n       o create-key-pair\n       o terminate-instances",
                 "ec2 terminate-instances help" => """
                     SYNOPSIS

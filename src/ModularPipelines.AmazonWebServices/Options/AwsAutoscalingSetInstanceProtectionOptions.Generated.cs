@@ -19,20 +19,21 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "set-instance-protection")]
-public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions
+public record AwsAutoscalingSetInstanceProtectionOptions(
+    [property: CliOption("--instance-ids")] IEnumerable<string> InstanceIds,
+    [property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
+    [property: CliFlag("--protected-from-scale-in")] bool ProtectedFromScaleIn
+) : AwsOptions
 {
-    [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
-
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
-
-    [CliFlag("--protected-from-scale-in")]
-    public bool? ProtectedFromScaleIn { get; set; }
-
+    /// <summary>
+    /// JSON input.
+    /// </summary>
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
+    /// <summary>
+    /// Prints a skeleton.
+    /// </summary>
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 
