@@ -233,6 +233,9 @@ by a successful build remain owned by the resulting pipeline.
 `CommandLinePhase` is now the only ordering model for flags, options, and arguments.
 `ArgumentPlacement` has been removed. Migrate custom positional arguments as follows:
 
+`CommandLinePhase.EndOfOptions` has been removed. Use
+`CliArgumentAttribute.PrependOptionTerminator` instead.
+
 ```csharp
 // V3
 [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
