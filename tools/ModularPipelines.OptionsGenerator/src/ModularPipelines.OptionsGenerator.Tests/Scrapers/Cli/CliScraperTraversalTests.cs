@@ -924,6 +924,10 @@ public class CliScraperTraversalTests
                 Source options:
                       --path <PATH>  Filesystem path to local crate to add
                       --git <URI>    Git repository location
+                      --registry <REGISTRY>  Package registry to use
+
+                Package Selection:
+                      --workspace  Add dependencies to every workspace package
                 """,
         });
 
@@ -935,7 +939,17 @@ public class CliScraperTraversalTests
             await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
             await Assert.That(command.Options.Select(option => option.PropertyName))
                 .Contains("Path")
-                .And.Contains("Git");
+                .And.Contains("Git")
+                .And.Contains("Registry")
+                .And.Contains("Workspace");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Path").Description)
+                .IsEqualTo("Filesystem path to local crate to add");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Git").Description)
+                .IsEqualTo("Git repository location");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Registry").Description)
+                .IsEqualTo("Package registry to use");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Workspace").Description)
+                .IsEqualTo("Add dependencies to every workspace package");
             await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
                 .IsEquivalentTo(["DepId", "Path", "Git"]);
         }

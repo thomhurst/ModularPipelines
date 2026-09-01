@@ -130,7 +130,6 @@ public partial class CargoCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
-        AddRequiredAlternativeOptions(options, helpText, usage);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -194,33 +193,15 @@ public partial class CargoCliScraper : CliScraperBase
     /// Format: -V, --version    Print version info
     ///         --list           List installed commands
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var lines = helpText.Split('\n');
 
-        // Find "Options:" section
-        var optionsSectionMatch = OptionsSectionPattern().Match(helpText);
-        if (!optionsSectionMatch.Success)
+        for (var index = 0; index < lines.Length; index++)
         {
-            return options;
-        }
-
-        var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-        var sectionEnd = helpText.Length;
-
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
-        {
-            sectionEnd = nextSection.Index;
-        }
-
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-        var lines = section.Split('\n');
-
-        foreach (var line in lines)
-        {
-            var match = CargoOptionPattern().Match(line);
+            var match = CargoOptionDeclarationPattern().Match(lines[index]);
             if (!match.Success)
             {
                 continue;
@@ -229,7 +210,6 @@ public partial class CargoCliScraper : CliScraperBase
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(longForm) && string.IsNullOrEmpty(shortForm))
             {
@@ -238,12 +218,10 @@ public partial class CargoCliScraper : CliScraperBase
 
             var switchName = !string.IsNullOrEmpty(longForm) ? longForm : shortForm;
 
-            if (seenOptions.Contains(switchName))
+            if (!seenOptions.Add(switchName))
             {
                 continue;
             }
-
-            seenOptions.Add(switchName);
 
             var propertyName = NormalizePropertyName(switchName);
             if (propertyName is null)
@@ -266,7 +244,7 @@ public partial class CargoCliScraper : CliScraperBase
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
-                Description = description,
+                Description = GetOptionDescription(lines, index, match.Groups["desc"].Value),
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
@@ -281,78 +259,19 @@ public partial class CargoCliScraper : CliScraperBase
         return options;
     }
 
-    private void AddRequiredAlternativeOptions(
-        ICollection<CliOptionDefinition> options,
-        string helpText,
-        UsageSynopsisParseResult usage)
-    {
-        var requiredSwitches = usage.RequiredAlternativeGroups
-            .SelectMany(static group => group.Members)
-            .Select(static member => member.OptionSwitch)
-            .Where(static optionSwitch => optionSwitch is not null)
-            .Select(static optionSwitch => optionSwitch!)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        if (requiredSwitches.Length == 0)
-        {
-            return;
-        }
-
-        var lines = helpText.Split('\n');
-        foreach (var optionSwitch in requiredSwitches)
-        {
-            if (options.Any(option =>
-                    option.SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
-                    || option.ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true))
-            {
-                continue;
-            }
-
-            for (var index = 0; index < lines.Length; index++)
-            {
-                var match = CargoOptionDeclarationPattern().Match(lines[index]);
-                if (!match.Success)
-                {
-                    continue;
-                }
-
-                var shortForm = match.Groups["short"].Value.Trim();
-                var longForm = match.Groups["long"].Value.Trim();
-                if (!longForm.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
-                    && !shortForm.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                var switchName = string.IsNullOrEmpty(longForm) ? shortForm : longForm;
-                var propertyName = NormalizePropertyName(switchName)
-                                   ?? throw new InvalidOperationException(
-                                       $"Unable to normalize required Cargo alternative {switchName}.");
-                var valueHint = match.Groups["value"].Value.Trim();
-                var isFlag = string.IsNullOrEmpty(valueHint);
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = switchName,
-                    ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                    PropertyName = propertyName,
-                    CSharpType = isFlag ? "bool?" : "string?",
-                    Description = ExtractFollowingOptionDescription(lines, index),
-                    IsFlag = isFlag,
-                    ValueSeparator = " ",
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
-                });
-                break;
-            }
-        }
-    }
-
-    private static string ExtractFollowingOptionDescription(
-        IReadOnlyList<string> lines,
-        int declarationIndex)
+    private static string GetOptionDescription(
+        string[] lines,
+        int declarationIndex,
+        string inlineDescription)
     {
         var declarationIndentation = lines[declarationIndex].TakeWhile(char.IsWhiteSpace).Count();
         var description = new List<string>();
-        for (var index = declarationIndex + 1; index < lines.Count; index++)
+        if (!string.IsNullOrWhiteSpace(inlineDescription))
+        {
+            description.Add(inlineDescription.Trim());
+        }
+
+        for (var index = declarationIndex + 1; index < lines.Length; index++)
         {
             var line = lines[index];
             var trimmed = line.Trim();
@@ -389,12 +308,6 @@ public partial class CargoCliScraper : CliScraperBase
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
-    /// Matches "Options:" section.
-    /// </summary>
-    [GeneratedRegex(@"Options:\s*\n", RegexOptions.IgnoreCase)]
-    private static partial Regex OptionsSectionPattern();
-
-    /// <summary>
     /// Matches command lines: "  build, b    Compile..."
     /// </summary>
     [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)(?:,\s*\w)?\s{2,}", RegexOptions.Multiline)]
@@ -412,9 +325,6 @@ public partial class CargoCliScraper : CliScraperBase
     ///       --list                List installed commands
     ///   -p, --package <SPEC>      Package to build
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
-    private static partial Regex CargoOptionPattern();
-
     [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?(?:\s{2,}(?<desc>.*))?\s*$")]
     private static partial Regex CargoOptionDeclarationPattern();
 

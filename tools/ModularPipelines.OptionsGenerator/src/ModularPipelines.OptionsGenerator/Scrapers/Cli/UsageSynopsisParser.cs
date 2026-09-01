@@ -221,7 +221,7 @@ public static class UsageSynopsisParser
                 .Select(alternative => GetRequiredAlternativeMembers(
                     ParseOperandTokens(Tokenize(alternative), phase)))
                 .ToArray();
-            if (alternativeMembers.Any(static members => members.Count == 0))
+            if (alternativeMembers.Any(static members => members.Count != 1))
             {
                 continue;
             }
@@ -270,7 +270,7 @@ public static class UsageSynopsisParser
                 .Where(member => !commonKeys.Contains(GetAlternativeMemberKey(member)))
                 .ToArray())
             .ToArray();
-        if (branchMembers.Any(static members => members.Length == 0))
+        if (branchMembers.Any(static members => members.Length != 1))
         {
             return [];
         }

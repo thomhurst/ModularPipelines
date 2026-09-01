@@ -786,6 +786,20 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Flatten_Conjunctive_Alternative_Branches()
+    {
+        const string helpText = """
+            Usage:
+              tool copy <SOURCE> <DESTINATION>
+              tool copy --left <INPUT> --right <OUTPUT>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "copy"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Models_Required_Inline_Option_Operand_Alternatives()
     {
         var result = UsageSynopsisParser.Parse(
