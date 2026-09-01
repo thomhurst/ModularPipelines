@@ -1037,13 +1037,13 @@ internal sealed class CommandLineBuilder(
 
     private static int GetConfiguredManualOperandCount(OptionPart option)
     {
-        if (option.ManualOperandCount > 0)
+        if (option.ManualOperandCount >= 0)
         {
             return option.ManualOperandCount;
         }
 
         throw new InvalidOperationException(
-            $"Manual value count must be positive for {option.PropertyName}.");
+            $"Manual value count cannot be negative for {option.PropertyName}.");
     }
 
     private static bool IsRecognizedManualOptionToken(

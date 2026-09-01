@@ -1633,19 +1633,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var usedOptionsTypes = new HashSet<OptionsTypeIdentity>(optionsTypes);
         var referencedAssemblies = GetReferencedAssemblyClosure(
                 compilation.SourceModule.ReferencedAssemblySymbols)
+            .Select(assembly => GetExternalAssemblyMetadata(assembly, runtimeAssembly))
             .ToArray();
         var incompatibleAssemblies = referencedAssemblies
-            .Select(assembly => GetIncompatibleMetadataAssembly(assembly, runtimeAssembly))
+            .Select(GetIncompatibleMetadataAssembly)
             .OfType<IncompatibleMetadataAssembly>()
             .ToImmutableArray();
         var incompatibleAssemblyIdentities = new HashSet<string>(
             incompatibleAssemblies.Select(static assembly => assembly.AssemblyIdentity),
             StringComparer.Ordinal);
         var candidates = referencedAssemblies
-            .Where(assembly => !incompatibleAssemblyIdentities.Contains(assembly.Identity.ToString()))
+            .Where(assembly => !incompatibleAssemblyIdentities.Contains(assembly.Assembly.Identity.ToString()))
             .SelectMany(assembly => GetExternalTypeCandidates(
                 assembly,
-                runtimeAssembly,
                 compilation,
                 includeAllRuntimeMetadata,
                 usedOptionsTypes))
@@ -1653,33 +1653,41 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return new ExternalMetadataCandidates(candidates, incompatibleAssemblies);
     }
 
-    private static IncompatibleMetadataAssembly? GetIncompatibleMetadataAssembly(
+    private static ExternalAssemblyMetadata GetExternalAssemblyMetadata(
         IAssemblySymbol assembly,
         IAssemblySymbol runtimeAssembly)
     {
-        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
+        var requiresExternalMetadata = RequiresExternalMetadata(assembly, runtimeAssembly);
+        if (!requiresExternalMetadata)
         {
-            return null;
+            return new ExternalAssemblyMetadata(assembly, false, false, null, null);
         }
 
         var registration = assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName);
         if (registration is null)
         {
-            return null;
+            return new ExternalAssemblyMetadata(assembly, true, false, null, null);
         }
 
-        var runtimeSchemaVersion = GetRuntimeMetadataSchemaVersion(registration);
-        var commandSchemaVersion = GetRuntimeMetadataSchemaVersion(
-            registration,
-            "CommandSchemaVersion");
-        return runtimeSchemaVersion == RuntimeMetadataSchemaVersion
-               && commandSchemaVersion == CommandMetadataSchemaVersion
+        return new ExternalAssemblyMetadata(
+            assembly,
+            true,
+            true,
+            GetRuntimeMetadataSchemaVersion(registration),
+            GetRuntimeMetadataSchemaVersion(registration, "CommandSchemaVersion"));
+    }
+
+    private static IncompatibleMetadataAssembly? GetIncompatibleMetadataAssembly(
+        ExternalAssemblyMetadata assembly) =>
+        !assembly.RequiresExternalMetadata
+        || !assembly.HasRuntimeMetadataRegistration
+        || (assembly.RuntimeSchemaVersion == RuntimeMetadataSchemaVersion
+            && assembly.CommandSchemaVersion == CommandMetadataSchemaVersion)
             ? null
             : new IncompatibleMetadataAssembly(
-                assembly.Identity.ToString(),
-                runtimeSchemaVersion,
-                commandSchemaVersion);
-    }
+                assembly.Assembly.Identity.ToString(),
+                assembly.RuntimeSchemaVersion,
+                assembly.CommandSchemaVersion);
 
     private static void ReportIncompatibleRuntimeMetadata(
         SourceProductionContext context,
@@ -1740,32 +1748,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     }
 
     private static IEnumerable<TypeMetadataCandidate> GetExternalTypeCandidates(
-        IAssemblySymbol assembly,
-        IAssemblySymbol runtimeAssembly,
+        ExternalAssemblyMetadata assemblyMetadata,
         Compilation compilation,
         bool includeAllRuntimeMetadata,
         HashSet<OptionsTypeIdentity> usedOptionsTypes)
     {
-        if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly))
+        if (!assemblyMetadata.RequiresExternalMetadata)
         {
             return [];
         }
 
-        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
-        {
-            return [];
-        }
-
+        var assembly = assemblyMetadata.Assembly;
         var incompleteTypeNames = GetIncompleteTypeNames(assembly);
-        var runtimeMetadataRegistration = assembly.GetTypeByMetadataName(
-            RuntimeMetadataRegistrationFullName);
-        var runtimeMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
-            runtimeMetadataRegistration);
-        var commandMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
-            runtimeMetadataRegistration,
-            "CommandSchemaVersion");
-        var hasCurrentSecretMetadata = runtimeMetadataSchemaVersion == RuntimeMetadataSchemaVersion;
-        var hasCurrentCommandMetadata = commandMetadataSchemaVersion == CommandMetadataSchemaVersion;
+        var hasCurrentSecretMetadata =
+            assemblyMetadata.RuntimeSchemaVersion == RuntimeMetadataSchemaVersion;
+        var hasCurrentCommandMetadata =
+            assemblyMetadata.CommandSchemaVersion == CommandMetadataSchemaVersion;
         return GetTypes(assembly.GlobalNamespace)
             .Select(type => GetExternalTypeCandidate(
                 type,
@@ -2284,6 +2282,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record IncompatibleMetadataAssembly(
         string AssemblyIdentity,
+        int? RuntimeSchemaVersion,
+        int? CommandSchemaVersion);
+
+    private sealed record ExternalAssemblyMetadata(
+        IAssemblySymbol Assembly,
+        bool RequiresExternalMetadata,
+        bool HasRuntimeMetadataRegistration,
         int? RuntimeSchemaVersion,
         int? CommandSchemaVersion);
 

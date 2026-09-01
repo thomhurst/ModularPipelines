@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Secrets;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 using ModularPipelines.Generated;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Context;
 
@@ -1168,6 +1170,35 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Allows_Zero_Manual_Operands_From_Runtime_Metadata()
+    {
+        var modelProvider = new Mock<ICommandModelProvider>();
+        modelProvider
+            .Setup(x => x.GetCommandModel(typeof(TestZeroManualOperandOptions)))
+            .Returns(
+            [
+                new OptionPart(
+                    "Zero",
+                    static _ => null,
+                    new CliOptionAttribute("--zero"))
+                {
+                    ManualOperandCount = 0,
+                },
+            ]);
+        var (builder, _) = await GetService<ICommandLineBuilder>(services =>
+            services.AddSingleton(modelProvider.Object));
+
+        var result = builder.Build(new TestZeroManualOperandOptions
+        {
+            Arguments = ["--zero", "--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool --zero -- tail");
+    }
+
+    [Test]
     public async Task Build_Preserves_Command_Option_Operand_That_Matches_Global_Flag()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -2208,6 +2239,9 @@ public class CommandLineBuilderTests : TestBase
         [CliOption("--arg")]
         public T? Pair { get; init; }
     }
+
+    [CliTool("tool")]
+    private sealed record TestZeroManualOperandOptions : CommandLineToolOptions;
 
     [CliTool("jq")]
     private record TestManualTerminatorOptions : CommandLineToolOptions
