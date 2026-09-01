@@ -704,7 +704,7 @@ public abstract partial class CliScraperBase : ICliScraper
         string arguments,
         CancellationToken cancellationToken,
         string? workingDirectory = null,
-        bool preserveRawHelp = true)
+        bool preserveRawHelp = false)
     {
         var result = await Executor.ExecuteAsync(
             executablePath,

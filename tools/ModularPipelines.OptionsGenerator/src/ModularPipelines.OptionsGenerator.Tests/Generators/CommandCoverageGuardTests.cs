@@ -224,6 +224,9 @@ public class CommandCoverageGuardTests
                 ["aws", "apigateway"],
                 "apigateway help",
                 Result("RAW APIGATEWAY HELP: models omitted"));
+            provenance.PreserveGroupHelp(
+                ["aws", "apigateway"],
+                "RAW APIGATEWAY HELP: models omitted");
             provenance.Record(
                 ["aws", "ec2"],
                 "ec2 help",
@@ -250,6 +253,53 @@ public class CommandCoverageGuardTests
             await Assert.That(missingHelpPaths).Contains("aws apigateway models");
             await Assert.That(json).Contains("aws-cli/2.36.29");
             await Assert.That(json).Contains("aws-cli/2.36.35");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CoverageFailureDiagnostics_DiscardUnpreservedLeafRawHelp()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake group leaf nested")),
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake keep")),
+                outputDirectory,
+                approveShrinkage: false);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(["fake"], "--help", Result("RAW ROOT HELP"));
+            provenance.Record(
+                ["fake", "group"],
+                "group --help",
+                Result("RAW GROUP HELP"));
+            provenance.PreserveGroupHelp(["fake", "group"], "RAW GROUP HELP");
+            provenance.Record(
+                ["fake", "group", "leaf"],
+                "group leaf --help",
+                Result("RAW LEAF HELP"));
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            var json = await File.ReadAllTextAsync(path!);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(json).Contains("RAW ROOT HELP");
+                await Assert.That(json).Contains("RAW GROUP HELP");
+                await Assert.That(json).DoesNotContain("RAW LEAF HELP");
+            }
         }
         finally
         {

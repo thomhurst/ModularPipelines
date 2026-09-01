@@ -22,7 +22,7 @@ internal sealed class CliScrapeProvenance
         IReadOnlyList<string> commandPath,
         string arguments,
         CliCommandResult result,
-        bool preserveRawHelp = true)
+        bool preserveRawHelp = false)
     {
         var path = string.Join(' ', commandPath);
         _helpInvocations[path] = new CliHelpInvocation
@@ -33,7 +33,7 @@ internal sealed class CliScrapeProvenance
             StandardOutputLength = result.StandardOutput.Length,
             StandardErrorLength = result.StandardError.Length,
             OutputSha256 = Fingerprint(result.CombinedOutput),
-            RawHelp = preserveRawHelp || commandPath.Count == 1
+            RawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0
                 ? result.CombinedOutput
                 : null,
         };
