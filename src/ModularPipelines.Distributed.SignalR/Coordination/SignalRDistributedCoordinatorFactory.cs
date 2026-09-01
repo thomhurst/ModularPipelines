@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR.Configuration;
 using ModularPipelines.Distributed.SignalR.Discovery;
@@ -38,6 +39,9 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         var masterState = new SignalRMasterState
         {
             ReconnectGracePeriod = TimeSpan.FromSeconds(_options.ReconnectGraceSeconds),
+            WorkerTimeout = _serviceProvider
+                .GetRequiredService<IOptions<DistributedOptions>>()
+                .Value.WorkerTimeout,
         };
 
         // Start the SignalR server

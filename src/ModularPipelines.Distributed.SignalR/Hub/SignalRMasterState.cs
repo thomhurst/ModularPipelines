@@ -50,6 +50,11 @@ internal class SignalRMasterState
     public TimeSpan ReconnectGracePeriod { get; set; } = TimeSpan.FromSeconds(45);
 
     /// <summary>
+    /// How long a registration remains live without a heartbeat.
+    /// </summary>
+    public TimeSpan WorkerTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
     /// Volatile completion flag.
     /// </summary>
     public volatile bool IsCompleted;

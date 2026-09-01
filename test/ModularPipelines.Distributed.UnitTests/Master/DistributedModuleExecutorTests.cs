@@ -1117,6 +1117,8 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Boom"));
+        coordinator.Setup(c => c.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
@@ -1134,6 +1136,7 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
 
         // Assert — always signals completion, even on failure
+        coordinator.Verify(c => c.BroadcastCancellationAsync(CancellationToken.None), Times.Once());
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
     }
 
@@ -1319,6 +1322,8 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         var resultRegistry = new ModuleResultRegistry();
         var executor = CreateExecutor(
@@ -1364,6 +1369,8 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
         var resultRegistry = new ModuleResultRegistry();
@@ -1411,6 +1418,8 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         var resultRegistry = new ModuleResultRegistry();
         var executor = CreateExecutor(
@@ -1432,6 +1441,9 @@ public class DistributedModuleExecutorTests
             Times.Never());
         scheduler.Verify(
             s => s.MarkModuleCompleted(typeof(ShortTimeoutDistributedModule), false, null, null),
+            Times.Once());
+        coordinator.Verify(
+            c => c.BroadcastCancellationAsync(CancellationToken.None),
             Times.Once());
     }
 

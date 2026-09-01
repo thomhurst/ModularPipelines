@@ -118,10 +118,12 @@ internal class DistributedPipelineHub(
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             var workerIndex = workerState.Registration.WorkerIndex;
-            _masterState.Registrations.TryRemove(workerIndex, out _);
-            _masterState.Heartbeats.TryRemove(workerIndex, out _);
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
                 workerIndex, Context.ConnectionId);
+
+            // Retain the final registration and heartbeat for run-report collection.
+            // GetRegisteredWorkersAsync uses heartbeat age to exclude stale workers
+            // from liveness checks without erasing their last published metrics here.
 
             // Don't re-enqueue in-flight work immediately: the worker may just be blipping
             // and auto-reconnecting, and re-running a module (with side effects) is unsafe.

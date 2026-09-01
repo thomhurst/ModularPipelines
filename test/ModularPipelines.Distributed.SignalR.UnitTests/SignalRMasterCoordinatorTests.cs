@@ -154,6 +154,32 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task GetRegisteredWorkers_Uses_Heartbeats_For_Liveness_But_Retains_Completed()
+    {
+        var state = new SignalRMasterState
+        {
+            WorkerTimeout = TimeSpan.FromSeconds(1),
+        };
+        var coordinator = CreateCoordinator(state);
+        var recent = new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow);
+        var stale = new WorkerRegistration(2, new HashSet<string>(), DateTimeOffset.UtcNow);
+        var completed = new WorkerRegistration(3, new HashSet<string>(), DateTimeOffset.UtcNow)
+        {
+            UnattributedCommandCount = 1,
+        };
+        state.Registrations[recent.WorkerIndex] = recent;
+        state.Registrations[stale.WorkerIndex] = stale;
+        state.Registrations[completed.WorkerIndex] = completed;
+        state.Heartbeats[recent.WorkerIndex] = DateTimeOffset.UtcNow;
+        state.Heartbeats[stale.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
+        state.Heartbeats[completed.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
+
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers).IsEquivalentTo([recent, completed]);
+    }
+
+    [Test]
     public async Task SignalCompletion_Sets_Completed_Flag()
     {
         var state = new SignalRMasterState();

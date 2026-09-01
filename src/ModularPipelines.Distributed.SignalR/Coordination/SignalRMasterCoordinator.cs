@@ -165,7 +165,14 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
 
     public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        IReadOnlyList<WorkerRegistration> workers = _state.Registrations.Values.ToList().AsReadOnly();
+        var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _state.WorkerTimeout;
+        IReadOnlyList<WorkerRegistration> workers =
+        [
+            .. _state.Registrations.Values.Where(worker =>
+                worker.UnattributedCommandCount.HasValue
+                || (_state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                    && heartbeat >= oldestLiveHeartbeat)),
+        ];
         return Task.FromResult(workers);
     }
 

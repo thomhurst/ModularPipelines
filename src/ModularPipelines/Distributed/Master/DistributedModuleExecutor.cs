@@ -87,6 +87,9 @@ internal class DistributedModuleExecutor(
         await WaitForWorkersAsync(_lifetime.ApplicationStopping);
 
         IModuleScheduler? scheduler = null;
+        var failureCancellationRequested = 0;
+        Action requestFailureCancellation = () =>
+            Interlocked.Exchange(ref failureCancellationRequested, 1);
         try
         {
             scheduler = _schedulerFactory.Create();
@@ -125,7 +128,8 @@ internal class DistributedModuleExecutor(
                         moduleState.Module,
                         moduleType,
                         scheduler,
-                        cts);
+                        cts,
+                        requestFailureCancellation);
                     resultTasks.Add(collectTask);
                 }
             }
@@ -171,7 +175,8 @@ internal class DistributedModuleExecutor(
         {
             // Always signal workers to stop — whether the master succeeded or crashed.
             // Without this, workers hang forever waiting for work that will never come.
-            if (_lifetime.ApplicationStopping.IsCancellationRequested)
+            if (_lifetime.ApplicationStopping.IsCancellationRequested
+                || Volatile.Read(ref failureCancellationRequested) != 0)
             {
                 try
                 {
@@ -477,7 +482,8 @@ internal class DistributedModuleExecutor(
         IModule module,
         Type moduleType,
         IModuleScheduler scheduler,
-        CancellationTokenSource cts)
+        CancellationTokenSource cts,
+        Action requestFailureCancellation)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
         var lifecycleToken = timeoutCts?.Token ?? cts.Token;
@@ -486,7 +492,13 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
             await _publisher.PublishAsync(assignment, lifecycleToken);
-            await CollectResultAsync(module, moduleType, scheduler, cts, lifecycleToken);
+            await CollectResultAsync(
+                module,
+                moduleType,
+                scheduler,
+                cts,
+                requestFailureCancellation,
+                lifecycleToken);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
         {
@@ -499,6 +511,7 @@ internal class DistributedModuleExecutor(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
                 ModuleStatus.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
+            requestFailureCancellation();
             await cts.CancelAsync();
         }
         catch (OperationCanceledException exception)
@@ -511,6 +524,7 @@ internal class DistributedModuleExecutor(
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
             RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
+            requestFailureCancellation();
             await cts.CancelAsync();
         }
     }
@@ -538,6 +552,7 @@ internal class DistributedModuleExecutor(
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        Action requestFailureCancellation,
         CancellationToken cancellationToken)
     {
         var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
@@ -553,6 +568,7 @@ internal class DistributedModuleExecutor(
         if (!success)
         {
             _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
+            requestFailureCancellation();
             await pipelineCts.CancelAsync();
         }
     }
