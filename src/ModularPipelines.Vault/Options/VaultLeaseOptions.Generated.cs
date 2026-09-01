@@ -19,7 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease")]
-public record VaultLeaseOptions : VaultOptions
+public record VaultLeaseOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : VaultOptions
 {
     /// <summary>
     /// The args operand.
