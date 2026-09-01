@@ -71,29 +71,49 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var additionalHelp = new List<string>();
-        if (commandPath is [_, "test"])
-        {
-            var testFlagHelp = await GetRawHelpTextAsync([ToolName, "testflag"], cancellationToken);
-            if (GetTestFlagsHelp(testFlagHelp) is { } recognizedTestFlags)
-            {
-                additionalHelp.Add(recognizedTestFlags);
-            }
-        }
-
-        if (commandPath is not [_, "build"])
-        {
-            var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
-            if (!string.IsNullOrWhiteSpace(buildHelp)
-                && UsesSharedBuildFlags(commandPath, helpText, buildHelp)
-                && GetSharedBuildFlagsHelp(buildHelp) is { } sharedBuildFlags)
-            {
-                additionalHelp.Add(sharedBuildFlags);
-            }
-        }
+        await AddTestFlagsHelpAsync(commandPath, additionalHelp, cancellationToken);
+        await AddSharedBuildFlagsHelpAsync(commandPath, helpText, additionalHelp, cancellationToken);
 
         return additionalHelp.Count == 0
             ? helpText
             : string.Join("\n\n", additionalHelp.Prepend(helpText.TrimEnd()));
+    }
+
+    private async Task AddTestFlagsHelpAsync(
+        string[] commandPath,
+        List<string> additionalHelp,
+        CancellationToken cancellationToken)
+    {
+        if (commandPath is not [_, "test"])
+        {
+            return;
+        }
+
+        var testFlagHelp = await GetRawHelpTextAsync([ToolName, "testflag"], cancellationToken);
+        if (GetTestFlagsHelp(testFlagHelp) is { } recognizedTestFlags)
+        {
+            additionalHelp.Add(recognizedTestFlags);
+        }
+    }
+
+    private async Task AddSharedBuildFlagsHelpAsync(
+        string[] commandPath,
+        string helpText,
+        List<string> additionalHelp,
+        CancellationToken cancellationToken)
+    {
+        if (commandPath is [_, "build"])
+        {
+            return;
+        }
+
+        var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+        if (!string.IsNullOrWhiteSpace(buildHelp)
+            && UsesSharedBuildFlags(commandPath, helpText, buildHelp)
+            && GetSharedBuildFlagsHelp(buildHelp) is { } sharedBuildFlags)
+        {
+            additionalHelp.Add(sharedBuildFlags);
+        }
     }
 
     private static string? GetTestFlagsHelp(string? testFlagHelp)
@@ -417,30 +437,49 @@ public partial class GoCliScraper : CliScraperBase
         IReadOnlyList<string> commandParts,
         List<CliOptionDefinition> options)
     {
-        if (commandParts is not ["mod", "edit"])
+        if (commandParts is ["mod", "edit"])
+        {
+            ApplyValueOptionShape(options, "-module", "=");
+            ApplyValueOptionShape(options, "-C", " ");
+        }
+
+        if (commandParts is ["test"])
+        {
+            var argsIndex = options.FindIndex(option => option.SwitchName == "-args");
+            if (argsIndex >= 0)
+            {
+                options[argsIndex] = options[argsIndex] with
+                {
+                    Phase = CommandLinePhase.Terminal,
+                };
+            }
+        }
+    }
+
+    private static void ApplyValueOptionShape(
+        List<CliOptionDefinition> options,
+        string switchName,
+        string valueSeparator)
+    {
+        var optionIndex = options.FindIndex(option => option.SwitchName == switchName);
+        if (optionIndex < 0)
         {
             return;
         }
 
-        var moduleIndex = options.FindIndex(option => option.SwitchName == "-module");
-        if (moduleIndex < 0)
+        var option = options[optionIndex];
+        options[optionIndex] = option with
         {
-            return;
-        }
-
-        var module = options[moduleIndex];
-        options[moduleIndex] = module with
-        {
-            CSharpType = AsCSharpType("string?", module.AcceptsMultipleValues),
+            CSharpType = AsCSharpType("string?", option.AcceptsMultipleValues),
             IsFlag = false,
-            ValueSeparator = "=",
-            IsSecret = GeneratorUtils.IsSecretOption(module.PropertyName, isFlag: false),
+            ValueSeparator = valueSeparator,
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag: false),
         };
     }
 
     private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
     {
-        var repeatableOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var repeatableOptions = new HashSet<string>(StringComparer.Ordinal);
         foreach (var paragraph in paragraphs)
         {
             if (!DescriptionDeclaresRepeatableOption(paragraph))
@@ -511,7 +550,7 @@ public partial class GoCliScraper : CliScraperBase
                     : valueSeparator ?? " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            }, preferCandidateDescription: true);
         }
     }
 
@@ -555,8 +594,11 @@ public partial class GoCliScraper : CliScraperBase
                     continue;
                 }
 
-                foreach (Match match in GoOptionReferencePattern().Matches(
-                             declarationMatch.Groups["declarations"].Value))
+                var optionMatches = GoOptionReferencePattern().Matches(
+                        declarationMatch.Groups["declarations"].Value)
+                    .Cast<Match>()
+                    .ToArray();
+                foreach (var match in optionMatches)
                 {
                     var optionKey = match.Groups["flag"].Value;
 
@@ -581,7 +623,7 @@ public partial class GoCliScraper : CliScraperBase
                             ? "="
                             : detectedSeparator ?? " ",
                         IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
-                    });
+                    }, preferCandidateDescription: optionMatches.Length == 1);
                 }
             }
         }
@@ -623,26 +665,26 @@ public partial class GoCliScraper : CliScraperBase
     private static string? GetValueSeparator(string optionKey, string description)
     {
         var optionPattern = Regex.Escape(optionKey);
-        if (Regex.IsMatch(description, $@"(?<![\w-])-{optionPattern}=\S", RegexOptions.IgnoreCase))
+        if (Regex.IsMatch(description, $@"(?<![\w-])-{optionPattern}=\S"))
         {
             return "=";
         }
 
         return Regex.IsMatch(
             description,
-            $@"(?<![\w-])-{optionPattern}\s+(?!(?:flag|flags|option|options)\b)\S+\s+(?:flag|option)\b",
-            RegexOptions.IgnoreCase)
-            || description.Contains($"-{optionKey} flag's value", StringComparison.OrdinalIgnoreCase)
+            $@"(?<![\w-])-{optionPattern}\s+(?!(?:flag|flags|option|options)\b)\S+\s+(?:flag|option)\b")
+            || description.Contains($"-{optionKey} flag's value", StringComparison.Ordinal)
                 ? " "
                 : null;
     }
 
     private static void AddOrMergeOption(
         List<CliOptionDefinition> options,
-        CliOptionDefinition candidate)
+        CliOptionDefinition candidate,
+        bool preferCandidateDescription = false)
     {
         var existingIndex = options.FindIndex(option =>
-            option.SwitchName.Equals(candidate.SwitchName, StringComparison.OrdinalIgnoreCase));
+            option.SwitchName.Equals(candidate.SwitchName, StringComparison.Ordinal));
 
         if (existingIndex < 0)
         {
@@ -656,9 +698,7 @@ public partial class GoCliScraper : CliScraperBase
         options[existingIndex] = existing with
         {
             CSharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues),
-            Description = string.IsNullOrWhiteSpace(candidate.Description)
-                ? existing.Description
-                : candidate.Description,
+            Description = GetPreferredDescription(existing, candidate, preferCandidateDescription),
             IsFlag = isFlag,
             AcceptsMultipleValues = acceptsMultipleValues,
             ValueSeparator = existing.IsFlag && !candidate.IsFlag
@@ -668,12 +708,30 @@ public partial class GoCliScraper : CliScraperBase
         };
     }
 
+    private static string? GetPreferredDescription(
+        CliOptionDefinition existing,
+        CliOptionDefinition candidate,
+        bool preferCandidateDescription)
+    {
+        if (string.IsNullOrWhiteSpace(candidate.Description))
+        {
+            return existing.Description;
+        }
+
+        return preferCandidateDescription
+               || string.IsNullOrWhiteSpace(existing.Description)
+               || existing.Description == $"The {existing.SwitchName} option."
+            ? candidate.Description
+            : existing.Description;
+    }
+
     /// <summary>
     /// Accumulates multi-line descriptions.
     /// </summary>
     private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
     {
         var descriptionParts = new List<string>();
+        var declarationIndentation = lines[currentIndex].Length - lines[currentIndex].TrimStart().Length;
         if (!string.IsNullOrEmpty(description))
         {
             descriptionParts.Add(description);
@@ -700,8 +758,8 @@ public partial class GoCliScraper : CliScraperBase
                 break;
             }
 
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (!nextLine.StartsWith("\t\t", StringComparison.Ordinal) && leadingSpaces < 8)
+            var continuationIndentation = nextLine.Length - nextLine.TrimStart().Length;
+            if (continuationIndentation <= declarationIndentation)
             {
                 break;
             }

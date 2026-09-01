@@ -117,7 +117,7 @@ public record GoGetOptions : GoOptions
     public bool? X { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool asm invocation.
     /// </summary>
     [CliOption("-asmflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Asmflags { get; set; }
@@ -129,7 +129,7 @@ public record GoGetOptions : GoOptions
     public string? Buildmode { get; set; }
 
     /// <summary>
-    /// cannot be included due to a missing tool or ambiguous directory structure.
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or
     /// </summary>
     [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
     public string? Buildvcs { get; set; }
@@ -141,13 +141,13 @@ public record GoGetOptions : GoOptions
     public string? Compiler { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each gccgo compiler/linker invocation.
     /// </summary>
     [CliOption("-gccgoflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gccgoflags { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool compile invocation.
     /// </summary>
     [CliOption("-gcflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gcflags { get; set; }
@@ -165,7 +165,7 @@ public record GoGetOptions : GoOptions
     public bool? Json { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool link invocation.
     /// </summary>
     [CliOption("-ldflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ldflags { get; set; }
