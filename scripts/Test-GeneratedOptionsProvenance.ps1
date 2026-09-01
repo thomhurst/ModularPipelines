@@ -26,17 +26,22 @@ $changeManifest = "$tempRoot.manifest"
 try {
     . $provenanceFunctions
     $sourcePaths = @(Get-GeneratedOptionsSourcePath)
-    $centralBuildInputs = @('Directory.Build.props', 'Directory.Packages.props', 'global.json')
-    foreach ($centralBuildInput in $centralBuildInputs) {
-        if ($sourcePaths -notcontains $centralBuildInput) {
-            throw "Generated-options fingerprint omits central build input '$centralBuildInput'."
+    $buildInputs = @(
+        'Directory.Build.props',
+        'Directory.Packages.props',
+        'global.json',
+        'tools/Directory.Build.props'
+    )
+    foreach ($buildInput in $buildInputs) {
+        if ($sourcePaths -notcontains $buildInput) {
+            throw "Generated-options fingerprint omits build input '$buildInput'."
         }
     }
 
     $workflowContents = Get-Content -LiteralPath $generationWorkflow -Raw
-    foreach ($centralBuildInput in $centralBuildInputs) {
-        if (-not $workflowContents.Contains("- '$centralBuildInput'", [StringComparison]::Ordinal)) {
-            throw "Generator push trigger omits central build input '$centralBuildInput'."
+    foreach ($buildInput in $buildInputs) {
+        if (-not $workflowContents.Contains("- '$buildInput'", [StringComparison]::Ordinal)) {
+            throw "Generator push trigger omits build input '$buildInput'."
         }
     }
     $provenanceInputs = @(

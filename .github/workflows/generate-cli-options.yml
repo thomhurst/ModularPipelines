@@ -15,6 +15,7 @@ on:
       - 'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs'
       - 'src/ModularPipelines/Options/AdditionalCommandLineArgument.cs'
       - 'src/ModularPipelines/Options/CommandLineToolOptions.cs'
+      - 'tools/Directory.Build.props'
       - 'tools/ModularPipelines.OptionsGenerator/**'
   schedule:
     # Run every Sunday at 2:00 AM UTC

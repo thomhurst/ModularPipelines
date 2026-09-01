@@ -24,6 +24,7 @@ function Get-GeneratedOptionsSourcePath {
         'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs',
         'src/ModularPipelines/Options/AdditionalCommandLineArgument.cs',
         'src/ModularPipelines/Options/CommandLineToolOptions.cs',
+        'tools/Directory.Build.props',
         'tools/ModularPipelines.OptionsGenerator'
     )
 }
