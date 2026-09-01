@@ -925,6 +925,11 @@ public class CliScraperTraversalTests
                       --path <PATH>  Filesystem path to local crate to add
                       --git <URI>    Git repository location
                       --registry <REGISTRY>  Package registry to use
+                      --rename <NAME>
+                          Rename the dependency
+
+                          Example uses:
+                          - Depending on multiple versions of a crate
 
                 Package Selection:
                       --workspace  Add dependencies to every workspace package
@@ -948,6 +953,8 @@ public class CliScraperTraversalTests
                 .IsEqualTo("Git repository location");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Registry").Description)
                 .IsEqualTo("Package registry to use");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Rename").Description)
+                .IsEqualTo("Rename the dependency");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Workspace").Description)
                 .IsEqualTo("Add dependencies to every workspace package");
             await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)

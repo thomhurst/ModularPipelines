@@ -262,7 +262,7 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"!string.IsNullOrWhiteSpace({propertyName})";
         }
 
-        return csharpType.Contains("IEnumerable<", StringComparison.Ordinal)
+        return CliOptionDefinition.TryGetCollectionShape(csharpType, out var isCollection) && isCollection
             ? $"{propertyName}?.Any() == true"
             : $"{propertyName} is not null";
     }

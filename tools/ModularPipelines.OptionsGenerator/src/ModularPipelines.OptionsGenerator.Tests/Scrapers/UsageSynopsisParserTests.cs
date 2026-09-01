@@ -786,6 +786,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Models_Standalone_Switch_On_Separate_Synopsis_As_Required_Alternative()
+    {
+        const string helpText = """
+            Usage:
+              tool clean <TARGET>
+              tool clean --all
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "clean"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
     public async Task Does_Not_Flatten_Conjunctive_Alternative_Branches()
     {
         const string helpText = """
@@ -841,6 +857,29 @@ public class UsageSynopsisParserTests
             .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
 
         await Assert.That(requiredSources).IsEquivalentTo(["Formula", "--all"]);
+    }
+
+    [Test]
+    public async Task Models_Attached_Value_Option_As_Required_Alternative_Member()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool send (<FILE>|--data=<TEXT>)",
+            ["tool", "send"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["File", "--data"]);
+    }
+
+    [Test]
+    public async Task Splits_Parenthesized_Option_Aliases_Into_Real_Switches()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: git checkout (-p|--patch)",
+            ["git", "checkout"]);
+
+        await Assert.That(result.RequiredOptionSwitches).IsEquivalentTo(["-p", "--patch"]);
+        await Assert.That(result.RequiredOptionSwitches).DoesNotContain("-p|--patch");
     }
 
     [Test]

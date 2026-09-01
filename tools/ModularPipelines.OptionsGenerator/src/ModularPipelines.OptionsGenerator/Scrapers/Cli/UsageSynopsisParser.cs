@@ -296,12 +296,17 @@ public static class UsageSynopsisParser
     {
         foreach (var token in CollapseAlternatives(operandTokens))
         {
+            if (GetOptionSwitches(token).Count > 0)
+            {
+                return true;
+            }
+
             if (IsNonOperandSyntax(token))
             {
                 continue;
             }
 
-            return token.StartsWith('-') || IsPlaceholderToken(token);
+            return IsPlaceholderToken(token);
         }
 
         return false;
@@ -388,13 +393,16 @@ public static class UsageSynopsisParser
                 groupedBehindOptionTerminator,
                 ref associatedOptionSwitch);
 
-            if (TryGetOptionSwitch(operandToken, out var optionSwitch))
+            var optionSwitches = GetOptionSwitches(operandToken);
+            if (optionSwitches.Count > 0)
             {
                 var isRequiredOptionSwitch = IsRequiredUsageToken(operandToken);
-                associatedOptionSwitch = optionSwitch;
+                associatedOptionSwitch = HasInlineOptionValue(operandToken)
+                    ? null
+                    : SelectPreferredOptionSwitch(optionSwitches);
                 if (isRequiredOptionSwitch)
                 {
-                    requiredOptionSwitches.Add(optionSwitch);
+                    requiredOptionSwitches.AddRange(optionSwitches);
                 }
 
                 continue;
@@ -1198,26 +1206,53 @@ public static class UsageSynopsisParser
 
     private static bool TryGetOptionSwitch(string token, out string optionSwitch)
     {
+        var optionSwitches = GetOptionSwitches(token);
+        optionSwitch = SelectPreferredOptionSwitch(optionSwitches) ?? "";
+        return optionSwitch.Length > 0;
+    }
+
+    private static IReadOnlyList<string> GetOptionSwitches(string token)
+    {
         var content = TrimControlWrappers(token);
-        if (HasMixedOptionOperandAlternatives(content)
-            || HasLoneDashOperandAlternatives(content))
+        var alternatives = SplitTopLevelAlternatives(content);
+        if (alternatives.Count > 1
+            && alternatives.Any(IsOptionAlternative)
+            && alternatives.Any(IsOperandAlternative))
         {
-            optionSwitch = "";
-            return false;
+            return [];
         }
 
+        return alternatives
+            .Select(GetOptionSwitch)
+            .OfType<string>()
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    private static string? GetOptionSwitch(string alternative)
+    {
+        var content = TrimControlWrappers(alternative);
         var endIndex = content.IndexOfAny([' ', '\t', '=']);
-        optionSwitch = content.TrimEnd(',', ':');
+        var optionSwitch = (endIndex < 0 ? content : content[..endIndex])
+            .TrimEnd('[', ',', ':');
         if (optionSwitch.Length > 1
-            && endIndex < 0
             && optionSwitch.StartsWith('-')
             && optionSwitch != "--")
         {
-            return true;
+            return optionSwitch;
         }
 
-        optionSwitch = "";
-        return false;
+        return null;
+    }
+
+    private static string? SelectPreferredOptionSwitch(IReadOnlyList<string> optionSwitches) =>
+        optionSwitches.FirstOrDefault(static optionSwitch => optionSwitch.StartsWith("--", StringComparison.Ordinal))
+        ?? optionSwitches.FirstOrDefault();
+
+    private static bool HasInlineOptionValue(string token)
+    {
+        var content = TrimControlWrappers(token);
+        return content.IndexOfAny([' ', '\t', '=']) > 1;
     }
 
     private static bool HasMixedOptionOperandAlternatives(string content)

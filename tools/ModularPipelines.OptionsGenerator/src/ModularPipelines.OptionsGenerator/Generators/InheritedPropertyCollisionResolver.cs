@@ -137,9 +137,7 @@ internal static class InheritedPropertyCollisionResolver
             && member.PositionalArgumentPhase is null
             && member.PositionalArgumentPositionIndex is null)
         {
-            var optionIndex = Enumerable.Range(0, command.Options.Count).FirstOrDefault(index =>
-                command.Options[index].SwitchName.Equals(optionSwitch, StringComparison.Ordinal),
-                -1);
+            var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
             if (optionIndex < 0)
             {
                 throw InvalidAlternativeMember(command, member);

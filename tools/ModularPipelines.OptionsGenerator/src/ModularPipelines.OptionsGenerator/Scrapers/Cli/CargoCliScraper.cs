@@ -275,17 +275,14 @@ public partial class CargoCliScraper : CliScraperBase
         {
             var line = lines[index];
             var trimmed = line.Trim();
-            if (CargoOptionDeclarationPattern().IsMatch(line)
-                || (!string.IsNullOrEmpty(trimmed)
-                    && line.TakeWhile(char.IsWhiteSpace).Count() <= declarationIndentation))
+            if (string.IsNullOrEmpty(trimmed)
+                || CargoOptionDeclarationPattern().IsMatch(line)
+                || line.TakeWhile(char.IsWhiteSpace).Count() <= declarationIndentation)
             {
                 break;
             }
 
-            if (!string.IsNullOrEmpty(trimmed))
-            {
-                description.Add(trimmed);
-            }
+            description.Add(trimmed);
         }
 
         return string.Join(' ', description);

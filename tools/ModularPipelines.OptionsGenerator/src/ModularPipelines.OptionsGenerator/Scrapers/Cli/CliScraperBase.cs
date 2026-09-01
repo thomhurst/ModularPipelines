@@ -815,12 +815,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         if (member.OptionSwitch is { } optionSwitch)
         {
-            var optionIndex = Enumerable.Range(0, command.Options.Count).FirstOrDefault(index =>
-                command.Options[index].SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
-                || command.Options[index].ShortForm?.Equals(
-                    optionSwitch,
-                    StringComparison.OrdinalIgnoreCase) == true,
-                -1);
+            var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
             if (optionIndex < 0)
             {
                 throw new InvalidOperationException(

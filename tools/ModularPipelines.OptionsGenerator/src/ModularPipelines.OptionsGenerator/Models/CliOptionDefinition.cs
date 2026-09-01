@@ -79,6 +79,14 @@ public record CliOptionDefinition
         return resolution.IsResolved;
     }
 
+    internal static int FindIndexBySwitch(
+        IReadOnlyList<CliOptionDefinition> options,
+        string optionSwitch) =>
+        Enumerable.Range(0, options.Count).FirstOrDefault(index =>
+            options[index].SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
+            || options[index].ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true,
+            -1);
+
     private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
     {
         var source = $$"""

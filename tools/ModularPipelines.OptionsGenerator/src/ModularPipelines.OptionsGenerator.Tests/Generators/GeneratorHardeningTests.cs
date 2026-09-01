@@ -509,6 +509,44 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Required_Alternative_Group_Requires_NonEmpty_ReadOnly_Collection()
+    {
+        var command = Command("ToolImportOptions", "ToolOptions", ["import"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--entries",
+                    PropertyName = "Entries",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--file",
+                    PropertyName = "File",
+                    CSharpType = "string?",
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember { PropertyName = "Entries", OptionSwitch = "--entries" },
+                        new CliRequiredAlternativeMember { PropertyName = "File", OptionSwitch = "--file" },
+                    ],
+                },
+            ],
+        };
+
+        var options = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(options).Contains("Entries?.Any() == true");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Expose_Kubectl_ClusterInfo_Parent()
     {
         var tool = Tool(
