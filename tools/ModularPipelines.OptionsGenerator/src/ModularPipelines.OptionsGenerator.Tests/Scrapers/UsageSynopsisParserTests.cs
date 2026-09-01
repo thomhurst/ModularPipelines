@@ -137,6 +137,69 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Preserves_Placeholder_Notation_In_Operand_Documentation()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: choco uninstall <pkg> [<pkg2> <pkgN>] packages.config output=<path>",
+            ["choco", "uninstall"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments.Select(argument => argument.Description!))
+                .IsEquivalentTo(
+                [
+                    "The <pkg> operand.",
+                    "The <pkg2> <pkgN> operand.",
+                    "The packages.config operand.",
+                    "The output=<path> operand.",
+                ]);
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[0].Description))
+                .IsEqualTo("The &lt;pkg&gt; operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[1].Description))
+                .IsEqualTo("The &lt;pkg2&gt; &lt;pkgN&gt; operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[2].Description))
+                .IsEqualTo("The packages.config operand.");
+            await Assert.That(GeneratorUtils.EscapeXmlComment(result.PositionalArguments[3].Description))
+                .IsEqualTo("The output=&lt;path&gt; operand.");
+        }
+    }
+
+    [Test]
+    public async Task Documents_Only_The_Canonical_Placeholder()
+    {
+        var alternatives = UsageSynopsisParser.Parse(
+            "Usage: newman run [options] <collection|URL>",
+            ["newman", "run"]);
+        var optionalQualifiers = UsageSynopsisParser.Parse(
+            "Usage: pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [property-path]",
+            ["pulumi", "env", "get"]);
+        var compound = UsageSynopsisParser.Parse(
+            "Usage: pulumi env clone [<org-name>/]<src-project-name>/<src-environment-name> [<dest-project-name>/]<dest-environment-name>",
+            ["pulumi", "env", "clone"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(alternatives.PositionalArguments[0].Description)
+                .IsEqualTo("The collection operand.");
+            await Assert.That(optionalQualifiers.PositionalArguments[0].Description)
+                .IsEqualTo("The <environment-name> operand.");
+            await Assert.That(compound.PositionalArguments[0].Description)
+                .IsEqualTo("The <src-environment-name> operand.");
+        }
+    }
+
+    [Test]
+    public async Task Preserves_Variadic_Placeholder_In_Operand_Documentation()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool upload <FILES...>",
+            ["tool", "upload"]);
+
+        await Assert.That(result.PositionalArguments.Single().Description)
+            .IsEqualTo("The <FILES...> operand.");
+    }
+
+    [Test]
     public async Task Command_Group_Placeholders_Remain_Executable_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(

@@ -127,7 +127,7 @@ public record ChocoUninstallOptions(
     public string? Version { get; set; }
 
     /// <summary>
-    /// The pkg2 pkgN operand.
+    /// The &lt;pkg2&gt; &lt;pkgN&gt; operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Pkg2PkgN { get; set; }
