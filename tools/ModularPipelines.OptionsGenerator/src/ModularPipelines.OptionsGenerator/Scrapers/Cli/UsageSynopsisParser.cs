@@ -141,14 +141,24 @@ public static class UsageSynopsisParser
     internal static UsageSynopsisParseResult RemoveCommandGroupPlaceholders(
         UsageSynopsisParseResult result)
     {
+        var commandGroupPlaceholders = result.PositionalArguments
+            .Where(IsCommandGroupPlaceholder)
+            .Select(static argument => argument.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
         var positionalArguments = result.PositionalArguments
-            .Where(argument => !IsCommandGroupPlaceholder(argument))
+            .Where(argument => !commandGroupPlaceholders.Contains(argument.PropertyName))
             .ToList();
 
         return result with
         {
             HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
+            RequiredAlternativeGroups =
+            [
+                .. result.RequiredAlternativeGroups.Where(group => group.Members.All(member =>
+                    member.PositionalPropertyName is not { } propertyName
+                    || !commandGroupPlaceholders.Contains(propertyName))),
+            ],
         };
     }
 

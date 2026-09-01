@@ -24,7 +24,7 @@ public record CargoNewOptions(
 ) : CargoOptions
 {
     /// <summary>
-    /// Initialize a new repository for the given version control system,
+    /// Initialize a new repository for the given version control system, overriding a global configuration. [possible values: git, hg, pijul, fossil, none]
     /// </summary>
     [CliOption("--vcs")]
     public string? Vcs { get; set; }
@@ -42,7 +42,7 @@ public record CargoNewOptions(
     public bool? Lib { get; set; }
 
     /// <summary>
-    /// Edition to set for the crate generated [possible values: 2015,
+    /// Edition to set for the crate generated [possible values: 2015, 2018, 2021, 2024]
     /// </summary>
     [CliOption("--edition")]
     public string? Edition { get; set; }
@@ -82,5 +82,23 @@ public record CargoNewOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Rust.Options;
 public record CargoRunOptions : CargoOptions
 {
     /// <summary>
-    /// Error format [possible values: human, short, json,
+    /// Error format [possible values: human, short, json, json-diagnostic-short, json-diagnostic-rendered-ansi, json-render-diagnostics]
     /// </summary>
     [CliOption("--message-format")]
     public string? MessageFormat { get; set; }
@@ -50,6 +50,96 @@ public record CargoRunOptions : CargoOptions
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Space or comma separated list of features to activate
+    /// </summary>
+    [CliOption("--features", ShortForm = "-F")]
+    public IEnumerable<string>? Features { get; set; }
+
+    /// <summary>
+    /// Activate all available features
+    /// </summary>
+    [CliFlag("--all-features")]
+    public bool? AllFeatures { get; set; }
+
+    /// <summary>
+    /// Do not activate the `default` feature
+    /// </summary>
+    [CliFlag("--no-default-features")]
+    public bool? NoDefaultFeatures { get; set; }
+
+    /// <summary>
+    /// Number of parallel jobs, defaults to # of CPUs.
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j")]
+    public string? Jobs { get; set; }
+
+    /// <summary>
+    /// Do not abort the build as soon as there is an error
+    /// </summary>
+    [CliFlag("--keep-going")]
+    public bool? KeepGoing { get; set; }
+
+    /// <summary>
+    /// Build artifacts in release mode, with optimizations
+    /// </summary>
+    [CliFlag("--release", ShortForm = "-r")]
+    public bool? Release { get; set; }
+
+    /// <summary>
+    /// Build artifacts with the specified profile
+    /// </summary>
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
+
+    /// <summary>
+    /// Directory for all generated artifacts
+    /// </summary>
+    [CliOption("--target-dir")]
+    public string? TargetDir { get; set; }
+
+    /// <summary>
+    /// Output build graph in JSON (unstable)
+    /// </summary>
+    [CliFlag("--unit-graph")]
+    public bool? UnitGraph { get; set; }
+
+    /// <summary>
+    /// Output a build timing report at the end of the build
+    /// </summary>
+    [CliFlag("--timings")]
+    public bool? Timings { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Ignore `rust-version` specification in packages
+    /// </summary>
+    [CliFlag("--ignore-rust-version")]
+    public bool? IgnoreRustVersion { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
 
     /// <summary>
     /// The [ARGS] operand.

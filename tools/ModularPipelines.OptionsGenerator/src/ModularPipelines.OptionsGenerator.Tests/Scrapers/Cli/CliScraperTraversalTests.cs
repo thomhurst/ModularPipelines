@@ -62,6 +62,51 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task SharedTraversal_Discards_Required_Alternatives_With_Command_Placeholders()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake <command>
+
+                Available Commands:
+                  parent:  Manage parent resources
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent <command>
+                  fake parent --all
+
+                Available Commands:
+                  child:  Execute a child command
+
+                Flags:
+                  --all   Select all resources
+                """,
+            ["parent child --help"] = """
+                Execute a child command.
+
+                Usage:
+                  fake parent child [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var parent = commands.Single(command => command.FullCommand == "fake parent");
+
+        await Assert.That(parent.Options).Contains(option => option.SwitchName == "--all");
+        await Assert.That(parent.PositionalArguments).IsEmpty();
+        await Assert.That(parent.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake parent", "fake parent child"]);
+    }
+
+    [Test]
     public async Task SharedTraversal_Preserves_Command_Operand_When_Only_Skipped_Children_Are_Extracted()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

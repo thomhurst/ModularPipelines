@@ -57,4 +57,52 @@ public record CargoCleanOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// Clean artifacts of the workspace members
+    /// </summary>
+    [CliFlag("--workspace")]
+    public bool? Workspace { get; set; }
+
+    /// <summary>
+    /// Whether or not to clean release artifacts
+    /// </summary>
+    [CliFlag("--release", ShortForm = "-r")]
+    public bool? Release { get; set; }
+
+    /// <summary>
+    /// Clean artifacts of the specified profile
+    /// </summary>
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
+
+    /// <summary>
+    /// Directory for all generated artifacts
+    /// </summary>
+    [CliOption("--target-dir")]
+    public string? TargetDir { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
+
 }
