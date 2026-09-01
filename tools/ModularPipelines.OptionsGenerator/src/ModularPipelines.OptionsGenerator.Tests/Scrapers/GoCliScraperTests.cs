@@ -138,6 +138,11 @@ public class GoCliScraperTests
                     .Where(option => option.SwitchName is "-require" or "-droprequire" or "-replace" or "-dropreplace")
                     .All(option => option.AcceptsMultipleValues && option.CSharpType == "IEnumerable<string>?"))
                 .IsTrue();
+
+            var module = command.Options.Single(option => option.SwitchName == "-module");
+            await Assert.That(module.IsFlag).IsFalse();
+            await Assert.That(module.CSharpType).IsEqualTo("string?");
+            await Assert.That(module.ValueSeparator).IsEqualTo("=");
         }
     }
 
@@ -261,6 +266,89 @@ public class GoCliScraperTests
 
         await Assert.That(vet.Options.Any(option => option.SwitchName == "-race")).IsTrue();
         await Assert.That(vet.Options.Any(option => option.SwitchName == "-o")).IsFalse();
+    }
+
+    [Test]
+    public async Task Loads_Dedicated_Test_Flag_Help()
+    {
+        var scraper = CreateScraper(new Dictionary<string, string>
+        {
+            ["help"] = """
+                Usage:
+                    go <command> [arguments]
+
+                The commands are:
+                    build       compile packages
+                    test        test packages
+                """,
+            ["help build"] = """
+                usage: go build [build flags] [packages]
+
+                The build flags are shared by the build and test commands:
+
+                    -race
+                        enable data race detection.
+                """,
+            ["help test"] = """
+                usage: go test [build/test flags] [packages] [build/test flags & test binary flags]
+
+                See 'go help testflag' for details.
+                """,
+            ["help testflag"] = """
+                Profiling output can be inspected with pprof. The -sample_index=alloc_space
+                and -show_bytes options of pprof control presentation.
+
+                The following flags are recognized by the 'go test' command:
+
+                The test binary accepts the following flags:
+
+                    -run regexp
+                        Run only matching tests.
+                    -count n
+                        Run tests n times.
+                    -timeout d
+                        Panic after duration d.
+                    -bench regexp
+                        Run matching benchmarks.
+                    -coverprofile cover.out
+                        Write a coverage profile.
+                """,
+        });
+
+        var commands = await ScrapeAsync(scraper);
+        var test = commands.Single(command => command.FullCommand == "go test");
+        var requiredOptions = new[] { "-run", "-count", "-timeout", "-bench", "-coverprofile" };
+
+        await Assert.That(requiredOptions.All(switchName =>
+                test.Options.Any(option => option.SwitchName == switchName && !option.IsFlag)))
+            .IsTrue();
+        await Assert.That(test.Options.Any(option => option.SwitchName is "-sample_index" or "-show_bytes"))
+            .IsFalse();
+    }
+
+    [Test]
+    public async Task Prose_References_Do_Not_Consume_Operands_As_Option_Values()
+    {
+        var cases = new[]
+        {
+            (Path: new[] { "go", "work", "use" }, Help: "usage: go work use [-r] [moddirs]\n\nThe -r flag searches recursively. When -r is used, directories are inspected."),
+            (Path: new[] { "go", "version" }, Help: "usage: go version [-json] [file ...]\n\nThe -json flag prints JSON. When -json is used, output is structured."),
+            (Path: new[] { "go", "get" }, Help: "usage: go get [-tool] [packages]\n\nThe -tool flag selects tool mode. When -tool is used, packages are installed as tools."),
+        };
+
+        foreach (var testCase in cases)
+        {
+            var command = await CreateScraper(new Dictionary<string, string>())
+                .Parse(testCase.Path, testCase.Help);
+            var option = command!.Options.Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(option.IsFlag).IsTrue();
+                await Assert.That(option.CSharpType).IsEqualTo("bool?");
+                await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
+            }
+        }
     }
 
     [Test]

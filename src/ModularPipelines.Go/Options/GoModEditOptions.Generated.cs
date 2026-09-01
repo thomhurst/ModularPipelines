@@ -41,8 +41,8 @@ public record GoModEditOptions : GoOptions
     /// <summary>
     /// The -module flag changes the module's path (the go.mod file's module line).
     /// </summary>
-    [CliFlag("-module")]
-    public bool? Module { get; set; }
+    [CliOption("-module", Format = OptionFormat.EqualsSeparated)]
+    public string? Module { get; set; }
 
     /// <summary>
     /// The -godebug, -dropgodebug, -require, -droprequire, -exclude, -dropexclude, -replace, -dropreplace, -retract, -dropretract, -tool, -droptool, -ignore, and -dropignore editing flags may be repeated, and the changes are applied in the order given.
@@ -155,8 +155,8 @@ public record GoModEditOptions : GoOptions
     /// <summary>
     /// Edit also provides the -C, -n, and -x build flags.
     /// </summary>
-    [CliOption("-x")]
-    public string? X { get; set; }
+    [CliFlag("-x")]
+    public bool? X { get; set; }
 
     /// <summary>
     /// The go.mod operand.

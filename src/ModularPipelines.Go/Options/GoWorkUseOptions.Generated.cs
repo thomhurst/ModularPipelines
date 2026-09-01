@@ -23,7 +23,13 @@ public record GoWorkUseOptions : GoOptions
     /// <summary>
     /// The -r flag searches recursively for modules in the argument directories, and the use command operates as if each of the directories were specified as arguments. When -r is used, symlinks to directories within the argument tree are ignored.
     /// </summary>
-    [CliOption("-r")]
-    public string? R { get; set; }
+    [CliFlag("-r")]
+    public bool? R { get; set; }
+
+    /// <summary>
+    /// The moddirs operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Moddirs { get; set; }
 
 }
