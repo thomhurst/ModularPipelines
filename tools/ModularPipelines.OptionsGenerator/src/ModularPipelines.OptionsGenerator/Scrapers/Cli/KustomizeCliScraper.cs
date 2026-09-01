@@ -83,31 +83,30 @@ public partial class KustomizeCliScraper : CobraCliScraper
     /// Kustomize 5.8 registers create annotations and labels as scalar strings, then
     /// parses one comma-separated key:value value into a map.
     /// </summary>
-    protected override string? GetCollectionSeparator(
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
         string[] commandParts,
-        string switchName,
-        string typeHint,
-        string description) =>
-        IsCreateScalarMapOption(commandParts, switchName, typeHint)
-            ? ","
-            : base.GetCollectionSeparator(commandParts, switchName, typeHint, description);
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (commandParts is not ["create"])
+        {
+            return options;
+        }
 
-    protected override bool IsRepeatableOption(
-        string[] commandParts,
-        string switchName,
-        string typeHint,
-        string description,
-        string helpText) =>
-        IsCreateScalarMapOption(commandParts, switchName, typeHint)
-        || base.IsRepeatableOption(commandParts, switchName, typeHint, description, helpText);
-
-    private static bool IsCreateScalarMapOption(
-        IReadOnlyList<string> commandParts,
-        string switchName,
-        string typeHint) =>
-        commandParts is ["create"]
-        && switchName is "--annotations" or "--labels"
-        && typeHint.Equals("string", StringComparison.OrdinalIgnoreCase);
+        return options
+            .Select(option => option is
+            {
+                SwitchName: "--annotations" or "--labels",
+                CSharpType: "string?",
+            }
+                    ? option with
+                    {
+                        CSharpType = "IEnumerable<string>?",
+                        CollectionSeparator = ",",
+                        IsKeyValue = false,
+                    }
+                    : option)
+            .ToArray();
+    }
 
     /// <summary>
     /// Kustomize validates buildmetadata operands but omits them from Cobra's Use value.

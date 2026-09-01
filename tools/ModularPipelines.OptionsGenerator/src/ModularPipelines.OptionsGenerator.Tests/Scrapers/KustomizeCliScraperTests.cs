@@ -82,13 +82,14 @@ public class KustomizeCliScraperTests
     }
 
     [Test]
-    [Arguments("string", "", "IEnumerable<string>?", false, ",")]
-    [Arguments("stringToString", " (default [])", "IReadOnlyList<KeyValue>?", true, null)]
+    [Arguments("string", "", "IEnumerable<string>?", false, false, ",")]
+    [Arguments("stringToString", " (default [])", "IReadOnlyList<KeyValue>?", true, false, null)]
     public async Task Create_Map_Option_Rendering_Matches_Cobra_Type(
         string typeHint,
         string defaultDescription,
         string expectedType,
         bool expectedIsKeyValue,
+        bool expectedAcceptsMultipleValues,
         string? expectedCollectionSeparator)
     {
         var command = await new TestKustomizeCliScraper().Parse(
@@ -112,6 +113,9 @@ public class KustomizeCliScraperTests
             await Assert.That(options.Select(option => option.CSharpType))
                 .IsEquivalentTo([expectedType, expectedType]);
             await Assert.That(options.All(option => option.IsKeyValue == expectedIsKeyValue)).IsTrue();
+            await Assert.That(options.All(
+                    option => option.AcceptsMultipleValues == expectedAcceptsMultipleValues))
+                .IsTrue();
             await Assert.That(options.All(
                     option => option.CollectionSeparator == expectedCollectionSeparator))
                 .IsTrue();

@@ -411,9 +411,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsKeyValue = isKeyValue,
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
-                    CollectionSeparator = isArray
-                        ? GetCollectionSeparator(commandParts, longForm, actualType, description)
-                        : null,
                     ValueArity = hasOptionalValue
                         ? CliOptionValueArity.Optional
                         : CliOptionValueArity.Required,
@@ -498,15 +495,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
         string switchName,
         string typeHint,
         string description) => typeHint;
-
-    /// <summary>
-    /// Returns the separator used when a scalar CLI option accepts a collection in one value.
-    /// </summary>
-    protected virtual string? GetCollectionSeparator(
-        string[] commandParts,
-        string switchName,
-        string typeHint,
-        string description) => null;
 
     /// <summary>
     /// Applies tool-specific normalization before option descriptions are generated.
