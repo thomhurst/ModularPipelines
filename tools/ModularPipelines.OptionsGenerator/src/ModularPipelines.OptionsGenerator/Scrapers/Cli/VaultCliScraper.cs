@@ -47,6 +47,9 @@ public partial class VaultCliScraper : CliScraperBase
         "--help", "-h", "--version", "help", "version", "debug"
     };
 
+    /// <inheritdoc />
+    protected override bool PreserveCommandGroupPlaceholders => true;
+
     /// <summary>
     /// Extracts subcommand names from vault help text.
     /// </summary>

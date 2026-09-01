@@ -142,6 +142,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual bool GlobalOptionsBeforeSubcommands => true;
 
     /// <summary>
+    /// Gets whether generic command-group operands remain executable arguments after child discovery.
+    /// </summary>
+    protected virtual bool PreserveCommandGroupPlaceholders => false;
+
+    /// <summary>
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
@@ -474,7 +479,8 @@ public abstract partial class CliScraperBase : ICliScraper
         // select one of those children rather than representing an executable argument.
         // Handle this centrally so individual adapters cannot leave synthetic operands on
         // command groups such as docker compose, docker context, or minikube addons.
-        if (subcommands.Any(IsTraversableSubcommand))
+        if (!PreserveCommandGroupPlaceholders
+            && subcommands.Any(IsTraversableSubcommand))
         {
             usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
         }
