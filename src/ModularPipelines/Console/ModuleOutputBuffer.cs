@@ -586,7 +586,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         var count = _outputs.Count;
         while (count > 0
-               && _outputs[count - 1] is { IsRenderable: true, AppendNewLine: false })
+               && IsMaskableOutput(_outputs[count - 1])
+               && !_outputs[count - 1].AppendNewLine)
         {
             count--;
         }
@@ -779,6 +780,39 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return 1;
         }
 
+        if (_renderableSecretObfuscator is not null && IsMaskableOutput(output))
+        {
+            var lastMaskableIndex = index;
+            while (lastMaskableIndex + 1 < outputs.Count
+                   && !outputs[lastMaskableIndex].AppendNewLine
+                   && IsMaskableOutput(outputs[lastMaskableIndex + 1]))
+            {
+                lastMaskableIndex++;
+            }
+
+            var containsRenderable = outputs
+                .Skip(index)
+                .Take(lastMaskableIndex - index + 1)
+                .Any(static item => item.IsRenderable);
+            if (containsRenderable)
+            {
+                var combinedRenderable = lastMaskableIndex == index
+                    ? output.Renderable!
+                    : new ConcatenatedRenderable(
+                        [.. outputs
+                            .Skip(index)
+                            .Take(lastMaskableIndex - index + 1)
+                            .Select(GetMaskableRenderable)]);
+                WriteRenderableWithCurrentSecrets(directConsole, combinedRenderable);
+                if (outputs[lastMaskableIndex].AppendNewLine)
+                {
+                    directConsole.WriteLine();
+                }
+
+                return lastMaskableIndex - index + 1;
+            }
+        }
+
         if (output.IsString)
         {
             WriteDirect(directConsole, console, output.StringValue, output.AppendNewLine);
@@ -787,30 +821,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         if (output.Renderable is { } renderable)
         {
-            var lastRenderableIndex = index;
-            while (_renderableSecretObfuscator is not null
-                   && lastRenderableIndex + 1 < outputs.Count
-                   && !outputs[lastRenderableIndex].AppendNewLine
-                   && outputs[lastRenderableIndex + 1].IsRenderable)
-            {
-                lastRenderableIndex++;
-            }
-
-            var combinedRenderable = lastRenderableIndex == index
-                ? renderable
-                : new ConcatenatedRenderable(
-                    outputs
-                        .Skip(index)
-                        .Take(lastRenderableIndex - index + 1)
-                        .Select(static item => item.Renderable!)
-                        .ToArray());
-            WriteRenderableWithCurrentSecrets(directConsole, combinedRenderable);
-            if (outputs[lastRenderableIndex].AppendNewLine)
+            WriteRenderableWithCurrentSecrets(directConsole, renderable);
+            if (output.AppendNewLine)
             {
                 directConsole.WriteLine();
             }
 
-            return lastRenderableIndex - index + 1;
+            return 1;
         }
 
         if (output.LogEvent is not { } logEvent)
@@ -834,6 +851,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         logEvent.WriteTo(logger);
         return 1;
     }
+
+    private static bool IsMaskableOutput(BufferedOutput output) =>
+        output.IsRenderable || (output.IsString && !output.IsRawBuildSystemCommand);
+
+    private static IRenderable GetMaskableRenderable(BufferedOutput output) =>
+        output.Renderable
+        ?? (output.StringValue is { } value
+            ? new BufferedStringRenderable(value)
+            : throw new InvalidOperationException("Buffered output is not maskable."));
 
     private void WriteStructuredLogDirectly(
         TextWriter console,
@@ -1147,6 +1173,33 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
             renderables.SelectMany(renderable => renderable.Render(options, maxWidth));
+    }
+
+    private sealed class BufferedStringRenderable(string value) : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth)
+        {
+            try
+            {
+                return ((IRenderable) new Markup(value)).Measure(options, maxWidth);
+            }
+            catch (Exception)
+            {
+                return ((IRenderable) new Text(value)).Measure(options, maxWidth);
+            }
+        }
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            try
+            {
+                return [.. ((IRenderable) new Markup(value)).Render(options, maxWidth)];
+            }
+            catch (Exception)
+            {
+                return [.. ((IRenderable) new Text(value)).Render(options, maxWidth)];
+            }
+        }
     }
 }
 

@@ -136,22 +136,11 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_MasksSecretSplitAcrossAdjacentRenderables()
+    public async Task Flush_MasksSecretSplitAcrossRenderableAndString()
     {
-        var (buffer, writer, loggerControl, secretObfuscator) =
-            CreateSecretMaskingBuffer("token");
-        var consoleCoordinator = new Mock<IConsoleCoordinator>();
-        consoleCoordinator
-            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
-            .Returns(buffer);
-        var logger = new ModuleLogger<ModuleOutputBufferTests>(
-            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
-            secretObfuscator,
-            Mock.Of<IFormattedLogValuesObfuscator>(),
-            consoleCoordinator.Object,
-            Mock.Of<IOutputCoordinator>());
-        logger.Write(new Text("to"));
-        logger.WriteLine("ken");
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.WriteRenderable(new Text("to"), "to", appendNewLine: false);
+        buffer.WriteLine("ken");
 
         await buffer.FlushToAsync(
             writer,
@@ -168,10 +157,83 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_ModuleLoggerWriteLineAppliesCustomObfuscatorOnce()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input switch
+            {
+                "secret" => "masked",
+                "masked" => "masked-twice",
+                _ => input ?? string.Empty,
+            });
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: Mock.Of<ISecretProvider>());
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.WriteLine("secret");
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+        }
+    }
+
+    [Test]
     public async Task IncrementalFlush_RetainsSecretPrefixUntilRenderableLineCompletes()
     {
         var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
         buffer.WriteRenderable(new Text("to"), "to", appendNewLine: false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteRenderable(new Text("ken"), "ken", appendNewLine: true);
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task IncrementalFlush_RetainsStringPrefixUntilRenderableLineCompletes()
+    {
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.Write("to");
 
         await buffer.FlushToAsync(
             writer,
