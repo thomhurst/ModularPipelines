@@ -354,17 +354,18 @@ public class ArtifactContextApiTests
         var destinationDirectory = Directory.CreateTempSubdirectory(
             $"artifact-extraction-{iteration}-");
         await using var archiveStream = new MemoryStream(archiveBytes, writable: false);
-        await using var blockingStream = new BlockingReadStream(archiveStream);
+        await using var blockingStream = new SwitchableBlockingReadStream(archiveStream);
         using var archiveToExtract = new ZipArchive(
             blockingStream,
             ZipArchiveMode.Read,
             leaveOpen: true);
         using var cancellationTokenSource = new CancellationTokenSource();
-        blockingStream.BlockReads();
-        var extractionTask = ArtifactContextImpl.ExtractDirectoryArchiveAsync(
-            archiveToExtract,
-            destinationDirectory.FullName,
-            cancellationTokenSource.Token);
+        blockingStream.BlockReads(cancellationTokenSource.Token);
+        var extractionTask = Task.Run(() =>
+            ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                archiveToExtract,
+                destinationDirectory.FullName,
+                cancellationTokenSource.Token));
 
         try
         {
@@ -375,6 +376,7 @@ public class ArtifactContextApiTests
         }
         finally
         {
+            // Ensure cleanup also cancels when setup or an assertion fails before the explicit cancellation.
             await cancellationTokenSource.CancelAsync();
             blockingStream.ReleaseReads();
             await extractionTask.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
@@ -464,13 +466,14 @@ public class ArtifactContextApiTests
             => Task.FromResult(string.Empty);
     }
 
-    private sealed class BlockingReadStream(Stream inner) : Stream
+    private sealed class SwitchableBlockingReadStream(Stream inner) : Stream
     {
         private readonly TaskCompletionSource _readStarted = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly TaskCompletionSource _releaseReads = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        private bool _blockReads;
+        private volatile bool _blockReads;
+        private CancellationToken _blockingCancellationToken;
 
         public Task ReadStarted => _readStarted.Task;
 
@@ -488,14 +491,27 @@ public class ArtifactContextApiTests
             set => inner.Position = value;
         }
 
-        public void BlockReads() => _blockReads = true;
+        public void BlockReads(CancellationToken cancellationToken)
+        {
+            _blockingCancellationToken = cancellationToken;
+            _blockReads = true;
+        }
 
         public void ReleaseReads() => _releaseReads.TrySetResult();
 
         public override void Flush() => inner.Flush();
 
-        public override int Read(byte[] buffer, int offset, int count) =>
-            inner.Read(buffer, offset, count);
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            WaitForRelease();
+            return inner.Read(buffer, offset, count);
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            WaitForRelease();
+            return inner.Read(buffer);
+        }
 
         public override async Task<int> ReadAsync(
             byte[] buffer,
@@ -531,6 +547,17 @@ public class ArtifactContextApiTests
 
             _readStarted.TrySetResult();
             return _releaseReads.Task.WaitAsync(cancellationToken);
+        }
+
+        private void WaitForRelease()
+        {
+            if (!_blockReads)
+            {
+                return;
+            }
+
+            _readStarted.TrySetResult();
+            _releaseReads.Task.Wait(_blockingCancellationToken);
         }
     }
 
