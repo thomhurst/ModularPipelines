@@ -876,6 +876,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Does_Not_Match_Manual_Option_Across_Declared_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arg", "name", "--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- tail");
+    }
+
+    [Test]
     public async Task Build_Hoists_Manual_Option_Operands_Before_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

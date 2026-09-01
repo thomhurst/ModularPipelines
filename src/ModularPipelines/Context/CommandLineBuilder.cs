@@ -551,6 +551,11 @@ internal sealed class CommandLineBuilder(
                 flagsByName,
                 optionsByName,
                 options);
+            if (match is not null && index + match.Value.ArgumentCount > optionParsingCount)
+            {
+                match = null;
+            }
+
             if (match is null)
             {
                 remainingArguments.Add(manualArgs[index]);
@@ -625,10 +630,31 @@ internal sealed class CommandLineBuilder(
                 flagsByName,
                 optionsByName,
                 options);
-            index += match?.ArgumentCount ?? 1;
+            if (match is null)
+            {
+                index++;
+                continue;
+            }
+
+            if (GetConsumedTerminatorBoundary(manualArgs, index, match.Value) is { } boundary)
+            {
+                return boundary;
+            }
+
+            index += match.Value.ArgumentCount;
         }
 
         return manualArgs.Count;
+    }
+
+    private static int? GetConsumedTerminatorBoundary(
+        List<string> manualArgs,
+        int matchStart,
+        ManualOptionMatch match)
+    {
+        var boundary = manualArgs.IndexOf("--", matchStart, match.ArgumentCount);
+        var hasArgumentsAfterMatch = matchStart + match.ArgumentCount < manualArgs.Count;
+        return boundary >= 0 && hasArgumentsAfterMatch ? boundary : null;
     }
 
     private static void AppendOptionTerminatedArguments(
