@@ -9,6 +9,7 @@ using ModularPipelines.VisualBasic.TestFixtures;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.Loader;
 
 using ModularPipelines.Generated;
@@ -689,41 +690,107 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("CollectibleMetadata")]
     public async Task GeneratedMetadata_DoesNotRootCollectibleAssemblies()
     {
-        var (assemblyReference, typeReference) = RegisterCollectibleMetadata();
-
-        for (var attempt = 0; attempt < 10 && (assemblyReference.IsAlive || typeReference.IsAlive); attempt++)
+        for (var iteration = 0; iteration < 3; iteration++)
         {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-        }
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(assemblyReference.IsAlive).IsFalse();
-            await Assert.That(typeReference.IsAlive).IsFalse();
+            await AssertCollectibleMetadataReleasedAsync(
+                    RegisterCollectibleMetadataOnDedicatedThread(RegisterCollectibleMetadata))
+                .ConfigureAwait(false);
         }
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("CollectibleMetadata")]
     public async Task ExternalMetadata_DoesNotRootCollectibleConsumerAssembly()
     {
-        var (assemblyReference, typeReference) = RegisterCollectibleExternalMetadata();
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            await AssertCollectibleMetadataReleasedAsync(
+                    RegisterCollectibleMetadataOnDedicatedThread(
+                        RegisterCollectibleExternalMetadata))
+                .ConfigureAwait(false);
+        }
+    }
 
-        for (var attempt = 0; attempt < 10 && (assemblyReference.IsAlive || typeReference.IsAlive); attempt++)
+    [Test]
+    [TUnit.Core.NotInParallel("CollectibleMetadata")]
+    public async Task CollectionProbe_DetectsStrongRoot()
+    {
+        var strongRoot = new object();
+        var reference = new WeakReference(strongRoot);
+
+        var released = await WaitForReferencesToBeReleasedAsync(
+                (reference, reference),
+                maxAttempts: 2)
+            .ConfigureAwait(false);
+
+        await Assert.That(released).IsFalse();
+        GC.KeepAlive(strongRoot);
+    }
+
+    private static async Task AssertCollectibleMetadataReleasedAsync(
+        (WeakReference Assembly, WeakReference Type) references)
+    {
+        await WaitForReferencesToBeReleasedAsync(references).ConfigureAwait(false);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(references.Assembly.IsAlive).IsFalse();
+            await Assert.That(references.Type.IsAlive).IsFalse();
+        }
+    }
+
+    private static async Task<bool> WaitForReferencesToBeReleasedAsync(
+        (WeakReference Assembly, WeakReference Type) references,
+        int maxAttempts = 20)
+    {
+        for (var attempt = 0;
+             attempt < maxAttempts && (references.Assembly.IsAlive || references.Type.IsAlive);
+             attempt++)
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
+
+            if (attempt + 1 < maxAttempts
+                && (references.Assembly.IsAlive || references.Type.IsAlive))
+            {
+                await Task.Delay(10).ConfigureAwait(false);
+            }
         }
 
-        using (Assert.Multiple())
+        return !references.Assembly.IsAlive && !references.Type.IsAlive;
+    }
+
+    private static (WeakReference Assembly, WeakReference Type)
+        RegisterCollectibleMetadataOnDedicatedThread(
+            Func<(WeakReference Assembly, WeakReference Type)> register)
+    {
+        (WeakReference Assembly, WeakReference Type) references = default;
+        ExceptionDispatchInfo? exception = null;
+        var thread = new Thread(() =>
         {
-            await Assert.That(assemblyReference.IsAlive).IsFalse();
-            await Assert.That(typeReference.IsAlive).IsFalse();
-        }
+            try
+            {
+                references = register();
+            }
+            catch (Exception caughtException)
+            {
+                exception = ExceptionDispatchInfo.Capture(caughtException);
+            }
+        })
+        {
+            IsBackground = true,
+        };
+
+        thread.Start();
+        thread.Join();
+
+        exception?.Throw();
+
+        return references;
     }
 
     private static Type CreateDynamicType(string name)
