@@ -83,8 +83,8 @@ public record CliOptionDefinition
         IReadOnlyList<CliOptionDefinition> options,
         string optionSwitch) =>
         Enumerable.Range(0, options.Count).FirstOrDefault(index =>
-            options[index].SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
-            || options[index].ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true,
+            options[index].SwitchName.Equals(optionSwitch, StringComparison.Ordinal)
+            || options[index].ShortForm?.Equals(optionSwitch, StringComparison.Ordinal) == true,
             -1);
 
     private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)

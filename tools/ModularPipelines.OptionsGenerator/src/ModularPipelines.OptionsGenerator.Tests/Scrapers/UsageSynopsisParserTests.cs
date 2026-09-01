@@ -842,6 +842,16 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Treat_Conjunctive_Short_And_Long_Switches_As_Aliases()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(-f --all))",
+            ["tool", "clean"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Collapses_Inline_Option_Aliases_Before_Modeling_Alternatives()
     {
         var result = UsageSynopsisParser.Parse(
@@ -855,6 +865,40 @@ public class UsageSynopsisParserTests
             await Assert.That(members).IsEquivalentTo(["Target", "--all"]);
             await Assert.That(result.PositionalArguments.Single().IsRequired).IsFalse();
         }
+    }
+
+    [Test]
+    public async Task Collapses_Comma_Separated_Option_Aliases()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|-a, --all)",
+            ["tool", "clean"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(members).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
+    public async Task Preserves_Case_Distinct_Option_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool save (<TARGET>|-o|-O)",
+            ["tool", "save"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(members).IsEquivalentTo(["Target", "-o", "-O"]);
+    }
+
+    [Test]
+    public async Task Attached_Value_In_Nested_Group_Does_Not_Own_Following_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run <[--format=VALUE] file>",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments.Single().AssociatedOptionSwitch).IsNull();
     }
 
     [Test]

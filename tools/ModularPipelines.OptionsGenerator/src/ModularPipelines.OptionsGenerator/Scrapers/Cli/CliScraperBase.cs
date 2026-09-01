@@ -799,17 +799,36 @@ public abstract partial class CliScraperBase : ICliScraper
         return
         [
             .. command.RequiredAlternativeGroups,
-            .. usage.RequiredAlternativeGroups.Select(group => new CliRequiredAlternativeGroup
-            {
-                Members = group.Members
-                    .Select(member => ResolveRequiredAlternativeMember(command, member))
-                    .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.OrdinalIgnoreCase)
-                    .ToArray(),
-            }),
+            .. usage.RequiredAlternativeGroups
+                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                .OfType<CliRequiredAlternativeGroup>(),
         ];
     }
 
-    private static CliRequiredAlternativeMember ResolveRequiredAlternativeMember(
+    private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeGroup group)
+    {
+        var members = group.Members
+            .Select(member => TryResolveRequiredAlternativeMember(command, member))
+            .ToArray();
+        if (members.Any(static member => member is null))
+        {
+            // Synopsis inference can reference an inherited, global, or filtered switch.
+            // Discard that inferred constraint without dropping the command itself.
+            return null;
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            Members = members
+                .Select(static member => member!)
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
+                .ToArray(),
+        };
+    }
+
+    private static CliRequiredAlternativeMember? TryResolveRequiredAlternativeMember(
         CliCommandDefinition command,
         UsageRequiredAlternativeMember member)
     {
@@ -818,9 +837,7 @@ public abstract partial class CliScraperBase : ICliScraper
             var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
             if (optionIndex < 0)
             {
-                throw new InvalidOperationException(
-                    $"{command.FullCommand} declares required alternative {optionSwitch}, " +
-                    "but no matching CliOptionDefinition was generated.");
+                return null;
             }
 
             return new CliRequiredAlternativeMember
@@ -839,9 +856,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 -1);
             if (argumentIndex < 0)
             {
-                throw new InvalidOperationException(
-                    $"{command.FullCommand} declares required alternative {positionalPropertyName}, " +
-                    "but no matching CliPositionalArgument was generated.");
+                return null;
             }
 
             return new CliRequiredAlternativeMember
@@ -852,8 +867,7 @@ public abstract partial class CliScraperBase : ICliScraper
             };
         }
 
-        throw new InvalidOperationException(
-            $"{command.FullCommand} contains an unnamed required alternative member.");
+        return null;
     }
 
     private static string GetRequiredAlternativeIdentity(CliRequiredAlternativeMember member) =>

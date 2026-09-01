@@ -978,6 +978,9 @@ public class CliScraperTraversalTests
 
                 Package Selection:
                       --workspace  Add dependencies to every workspace package
+
+                Examples:
+                      --pretend <VALUE>  This is documentation, not an option
                 """,
         });
 
@@ -992,6 +995,8 @@ public class CliScraperTraversalTests
                 .And.Contains("Git")
                 .And.Contains("Registry")
                 .And.Contains("Workspace");
+            await Assert.That(command.Options.Select(option => option.PropertyName))
+                .DoesNotContain("Pretend");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Path").Description)
                 .IsEqualTo("Filesystem path to local crate to add");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Git").Description)
@@ -1005,6 +1010,34 @@ public class CliScraperTraversalTests
             await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
                 .IsEquivalentTo(["DepId", "Path", "Git"]);
         }
+    }
+
+    [Test]
+    public async Task Unresolved_Inferred_Alternative_Does_Not_Drop_Command()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: fake <command>
+
+                Available Commands:
+                  create  Create a target
+                """,
+            ["create --help"] = """
+                Usage: fake create (<TARGET>|--global)
+
+                Arguments:
+                  <TARGET>  Target name
+
+                Options:
+                  --known string  A command-local option
+                """,
+        });
+
+        var command = (await ScrapeAsync(new TestCobraScraper(executor))).Single();
+
+        await Assert.That(command.FullCommand).IsEqualTo("fake create");
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
     }
 
     [Test]

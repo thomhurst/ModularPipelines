@@ -99,6 +99,9 @@ public static class UsageSynopsisParser
             ? [.. sameCommandCandidates
                 .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
             : sameCommandCandidates;
+        var requirednessCandidateMemberKeys = requirednessCandidates
+            .Select(GetRequiredAlternativeMemberKeys)
+            .ToArray();
 
         return selected with
         {
@@ -113,8 +116,9 @@ public static class UsageSynopsisParser
             RequiredAlternativeGroups =
             [
                 .. selected.RequiredAlternativeGroups.Where(group =>
-                    requirednessCandidates.All(candidate =>
-                        CandidateSatisfiesRequiredAlternativeGroup(candidate, group))),
+                    requirednessCandidateMemberKeys.All(candidateMemberKeys =>
+                        group.Members.Any(member => candidateMemberKeys.Contains(
+                            GetAlternativeMemberKey(member))))),
                 .. GetCrossSynopsisRequiredAlternativeGroups(
                     requirednessCandidates,
                     selected.PositionalArguments),
@@ -231,10 +235,14 @@ public static class UsageSynopsisParser
             }
 
             var alternativeMembers = alternatives
-                .Select(alternative => CollapseOptionAliases(
-                    GetRequiredAlternativeMembers(
-                        ParseOperandTokens(Tokenize(alternative), phase)),
-                    alternative))
+                .Select(alternative =>
+                {
+                    var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
+                    return CollapseOptionAliases(
+                        GetRequiredAlternativeMembers(
+                            ParseOperandTokens(Tokenize(normalizedAlternative), phase)),
+                        alternative);
+                })
                 .ToArray();
             if (alternativeMembers.Any(static members => members.Count != 1))
             {
@@ -252,22 +260,16 @@ public static class UsageSynopsisParser
         return groups;
     }
 
-    private static bool CandidateSatisfiesRequiredAlternativeGroup(
-        UsageSynopsisParseResult candidate,
-        UsageRequiredAlternativeGroup group)
-    {
-        var candidateMemberKeys = GetRequiredAlternativeMembers(new ParsedOperands(
+    private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
+        UsageSynopsisParseResult candidate) =>
+        GetRequiredAlternativeMembers(new ParsedOperands(
                 candidate.PositionalArguments,
                 candidate.UnparsedOperandTokens,
                 candidate.RequiredOptionSwitches))
             .Concat(candidate.RequiredAlternativeGroups.SelectMany(static candidateGroup =>
                 candidateGroup.Members))
             .Select(GetAlternativeMemberKey)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-        return group.Members.Any(member =>
-            candidateMemberKeys.Contains(GetAlternativeMemberKey(member)));
-    }
+            .ToHashSet(StringComparer.Ordinal);
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
         IReadOnlyList<UsageSynopsisParseResult> candidates,
@@ -294,7 +296,7 @@ public static class UsageSynopsisParser
 
         var commonKeys = candidateMembers[0]
             .Select(GetAlternativeMemberKey)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .ToHashSet(StringComparer.Ordinal);
         foreach (var members in candidateMembers.Skip(1))
         {
             commonKeys.IntersectWith(members.Select(GetAlternativeMemberKey));
@@ -353,7 +355,7 @@ public static class UsageSynopsisParser
                 .Select(argument => argument.AssociatedOptionSwitch is { } optionSwitch
                                     && operands.RequiredOptionSwitches.Contains(
                                         optionSwitch,
-                                        StringComparer.OrdinalIgnoreCase)
+                                        StringComparer.Ordinal)
                     ? new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch }
                     : new UsageRequiredAlternativeMember { PositionalPropertyName = argument.PropertyName })
                 .Concat(operands.RequiredOptionSwitches.Select(static optionSwitch =>
@@ -362,18 +364,24 @@ public static class UsageSynopsisParser
     private static IReadOnlyList<UsageRequiredAlternativeMember> DistinctAlternativeMembers(
         IEnumerable<UsageRequiredAlternativeMember> members) =>
         members
-            .DistinctBy(GetAlternativeMemberKey, StringComparer.OrdinalIgnoreCase)
+            .DistinctBy(GetAlternativeMemberKey, StringComparer.Ordinal)
             .ToArray();
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> CollapseOptionAliases(
         IReadOnlyList<UsageRequiredAlternativeMember> members,
         string synopsis)
     {
+        var commaSeparatedAliases = synopsis.Contains(',')
+            ? [GetOptionSwitches(synopsis)]
+            : Array.Empty<IReadOnlyList<string>>();
         var aliasGroups = Tokenize(synopsis)
+            .Where(static token => token.Contains('|'))
             .Select(GetOptionSwitches)
+            .Concat(commaSeparatedAliases)
             .Where(static switches => switches.Count == 2
                                       && switches.Any(IsShortOptionSwitch)
                                       && switches.Any(IsLongOptionSwitch))
+            .DistinctBy(static switches => string.Join("\0", switches), StringComparer.Ordinal)
             .ToArray();
 
         return DistinctAlternativeMembers(members.Select(member =>
@@ -384,11 +392,26 @@ public static class UsageSynopsisParser
             }
 
             var aliases = aliasGroups.FirstOrDefault(group =>
-                group.Contains(optionSwitch, StringComparer.OrdinalIgnoreCase));
+                group.Contains(optionSwitch, StringComparer.Ordinal));
             return aliases is null
                 ? member
                 : member with { OptionSwitch = SelectPreferredOptionSwitch(aliases) };
         }));
+    }
+
+    private static string NormalizeCommaSeparatedOptionAliases(string alternative)
+    {
+        if (!alternative.Contains(','))
+        {
+            return alternative;
+        }
+
+        var optionSwitches = GetOptionSwitches(alternative);
+        return optionSwitches.Count == 2
+               && optionSwitches.Any(IsShortOptionSwitch)
+               && optionSwitches.Any(IsLongOptionSwitch)
+            ? string.Join('|', optionSwitches)
+            : alternative;
     }
 
     private static bool IsShortOptionSwitch(string optionSwitch) =>
@@ -400,7 +423,7 @@ public static class UsageSynopsisParser
     private static string GetAlternativeMemberKey(UsageRequiredAlternativeMember member) =>
         member.OptionSwitch is { } optionSwitch
             ? $"option:{optionSwitch}"
-            : $"operand:{member.PositionalPropertyName}";
+            : $"operand:{member.PositionalPropertyName?.ToUpperInvariant()}";
 
     private static IReadOnlyList<string> SplitTopLevelAlternatives(string content)
     {
@@ -1305,9 +1328,18 @@ public static class UsageSynopsisParser
 
     private static bool TryGetOptionSwitch(string token, out string optionSwitch)
     {
-        var optionSwitches = GetOptionSwitches(token);
-        optionSwitch = SelectPreferredOptionSwitch(optionSwitches) ?? "";
-        return optionSwitch.Length > 0;
+        var content = TrimControlWrappers(token).TrimEnd('[', ',', ':');
+        if (content.IndexOfAny([' ', '\t', '=']) >= 0
+            || content.Length <= 1
+            || !content.StartsWith('-')
+            || content == "--")
+        {
+            optionSwitch = "";
+            return false;
+        }
+
+        optionSwitch = content;
+        return true;
     }
 
     private static IReadOnlyList<string> GetOptionSwitches(string token)
@@ -1323,7 +1355,7 @@ public static class UsageSynopsisParser
 
         return alternatives
             .SelectMany(GetOptionSwitchesFromAlternative)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Distinct(StringComparer.Ordinal)
             .ToArray();
     }
 

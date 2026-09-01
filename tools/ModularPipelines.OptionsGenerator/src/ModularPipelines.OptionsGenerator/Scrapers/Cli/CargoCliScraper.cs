@@ -196,11 +196,23 @@ public partial class CargoCliScraper : CliScraperBase
     private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var seenOptions = new HashSet<string>(StringComparer.Ordinal);
         var lines = helpText.Split('\n');
+        var parsingOptionSection = false;
 
         for (var index = 0; index < lines.Length; index++)
         {
+            if (TryGetSectionHeading(lines[index], out var sectionHeading))
+            {
+                parsingOptionSection = IsOptionSectionHeading(sectionHeading);
+                continue;
+            }
+
+            if (!parsingOptionSection)
+            {
+                continue;
+            }
+
             var match = CargoOptionDeclarationPattern().Match(lines[index]);
             if (!match.Success)
             {
@@ -258,6 +270,17 @@ public partial class CargoCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static bool TryGetSectionHeading(string line, out string heading)
+    {
+        heading = line.Trim();
+        return line.Length == line.TrimStart().Length
+               && heading.EndsWith(':');
+    }
+
+    private static bool IsOptionSectionHeading(string heading) =>
+        heading.Contains("option", StringComparison.OrdinalIgnoreCase)
+        || heading.EndsWith("selection:", StringComparison.OrdinalIgnoreCase);
 
     private static string GetOptionDescription(
         string[] lines,
