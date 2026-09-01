@@ -55,6 +55,13 @@ public class CapabilityTests
     }
 
     [Test]
+    public async Task Default_Capability_Cannot_Be_Serialized()
+    {
+        await Assert.That(() => JsonSerializer.Serialize(default(Capability)))
+            .Throws<JsonException>();
+    }
+
+    [Test]
     public async Task Implicit_String_Conversions_Preserve_Custom_Names()
     {
         Capability capability = "high-memory";

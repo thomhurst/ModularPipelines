@@ -108,6 +108,13 @@ internal sealed class CapabilityJsonConverter : JsonConverter<Capability>
     public override void Write(
         Utf8JsonWriter writer,
         Capability value,
-        JsonSerializerOptions options) =>
+        JsonSerializerOptions options)
+    {
+        if (string.IsNullOrWhiteSpace(value.Name))
+        {
+            throw new JsonException("A capability name cannot be empty.");
+        }
+
         writer.WriteStringValue(value.Name);
+    }
 }
