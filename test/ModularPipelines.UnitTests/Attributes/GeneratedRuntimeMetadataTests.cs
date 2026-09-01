@@ -308,7 +308,10 @@ public class GeneratedRuntimeMetadataTests
             type,
             commandModel,
             RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
-        RuntimeMetadataRegistry.RegisterSecrets(type, secretAccessors);
+        RuntimeMetadataRegistry.RegisterSecrets(
+            type,
+            secretAccessors,
+            RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion);
 
         using (Assert.Multiple())
         {
@@ -376,9 +379,15 @@ public class GeneratedRuntimeMetadataTests
     [Test]
     public async Task DuplicateSecretMetadataRegistration_Throws()
     {
-        GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []);
+        GeneratedSecretMetadata.Register(
+            typeof(DuplicateSecretMetadataType),
+            [],
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
-        await Assert.That(() => GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []))
+        await Assert.That(() => GeneratedSecretMetadata.Register(
+                typeof(DuplicateSecretMetadataType),
+                [],
+                GeneratedSecretMetadata.CurrentSchemaVersion))
             .Throws<InvalidOperationException>();
     }
 
@@ -593,6 +602,20 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task SecretMetadataRejectsNonCurrentSchema()
+    {
+        var type = CreateDynamicType("StaleSecretMetadata");
+
+        var exception = await Assert.That(() => RuntimeMetadataRegistry.RegisterSecrets(
+                type,
+                [],
+                RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion - 1))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).Contains("Rebuild the assembly against ModularPipelines v4");
+    }
+
+    [Test]
     public async Task CurrentDirectMetadataRemainsAuthoritative()
     {
         var commandType = CreateDynamicType("CurrentDirectCommand");
@@ -606,7 +629,10 @@ public class GeneratedRuntimeMetadataTests
             commandType,
             currentCommandModel,
             GeneratedCommandMetadata.CurrentSchemaVersion);
-        GeneratedSecretMetadata.Register(secretType, currentSecretModel);
+        GeneratedSecretMetadata.Register(
+            secretType,
+            currentSecretModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
         GeneratedCommandMetadata.RegisterExternal(
             consumerAssembly,
             commandType,
@@ -755,7 +781,7 @@ public class GeneratedRuntimeMetadataTests
         GeneratedCommandMetadata.RegisterAssembly(assembly, requiresGeneratedMetadata: false);
         GeneratedCommandMetadata.Register(type, [], GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.RegisterAssembly(assembly, requiresGeneratedMetadata: false);
-        GeneratedSecretMetadata.Register(type, []);
+        GeneratedSecretMetadata.Register(type, [], GeneratedSecretMetadata.CurrentSchemaVersion);
 
         return (new WeakReference(assembly), new WeakReference(type));
     }

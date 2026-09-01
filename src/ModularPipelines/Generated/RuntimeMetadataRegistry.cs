@@ -43,12 +43,14 @@ public static class RuntimeMetadataRegistry
     /// </summary>
     /// <param name="objectType">The exact generated object type.</param>
     /// <param name="accessors">The generated secret-property accessors, or an empty list.</param>
+    /// <param name="schemaVersion">The metadata schema used to create <paramref name="accessors"/>.</param>
     public static void RegisterSecrets(
         Type objectType,
-        IReadOnlyList<SecretPropertyAccessor> accessors)
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        int schemaVersion)
     {
         ArgumentNullException.ThrowIfNull(objectType);
         ArgumentNullException.ThrowIfNull(accessors);
-        GeneratedSecretMetadata.Register(objectType, accessors);
+        GeneratedSecretMetadata.Register(objectType, accessors, schemaVersion);
     }
 }

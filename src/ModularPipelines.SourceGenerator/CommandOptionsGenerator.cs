@@ -1356,11 +1356,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendSchemaVersionDependencies(StringBuilder sb)
     {
+        sb.AppendLine("    #pragma warning disable CS0436 // This assembly's marker intentionally shadows referenced markers.");
         sb.AppendLine(
             "    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
             "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields | " +
             "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicFields, " +
             "typeof(RuntimeMetadataRegistration))]");
+        sb.AppendLine("    #pragma warning restore CS0436");
     }
 
     private static void AppendRuntimeTypeRegistrations(
@@ -1599,7 +1601,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({property.AccessorTypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
         }
 
-        sb.AppendLine("            });");
+        sb.Append("            }");
+        if (!item.IsExternal)
+        {
+            sb.AppendLine(",");
+            sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
+        }
+        else
+        {
+            sb.AppendLine(");");
+        }
     }
 
     private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
@@ -1653,8 +1664,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IAssemblySymbol assembly,
         IAssemblySymbol runtimeAssembly)
     {
-        if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
-            || !RequiresExternalMetadata(assembly, runtimeAssembly))
+        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
         {
             return null;
         }

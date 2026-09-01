@@ -591,9 +591,9 @@ public class CommandLineBuilderTests : TestBase
         var builder = await GetService<ICommandLineBuilder>();
 
         await Assert.That(() => builder.Build(new TestTwoRequiredOperandCompatibilityOptions
-            {
-                Arguments = ["address"],
-            }))
+        {
+            Arguments = ["address"],
+        }))
             .Throws<ArgumentException>()
             .And.HasMessageContaining("TestTwoRequiredOperandCompatibilityOptions.Id");
     }
@@ -2197,23 +2197,6 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--symbol-source", ShortForm = "-ss")]
         public string? SymbolSource { get; init; }
-    }
-
-    private sealed class LegacyMetadataMarker;
-
-    private sealed class LegacyNegatedFlagMarker;
-
-    [CliTool("tool")]
-    private sealed record LegacyNegatedFlagOptions<T> : CommandLineToolOptions
-    {
-        [CliFlag("--feature", NegatedName = "--no-feature")]
-        public bool? Feature { get; init; }
-    }
-
-    [CliTool("jq")]
-    private sealed record LegacyGeneratedMetadataOptions<T> : CommandLineToolOptions
-    {
-        public IReadOnlyList<CliValuePair>? Pairs { get; init; }
     }
 
     private sealed record DerivedCliValuePair(string First, string Second)

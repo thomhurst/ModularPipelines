@@ -1331,10 +1331,6 @@ public class CliAttributeTests
 
     private sealed class Schema1MetadataMarker;
 
-    private sealed class Schema2MetadataMarker;
-
-    private sealed class Schema2JitMetadataMarker;
-
     private sealed class Schema2CurrentOptionalMarker;
 
     private sealed class Schema1FlagMarker;

@@ -40,8 +40,11 @@ public static class GeneratedSecretMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors)
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        int schemaVersion)
     {
+        ValidateSchemaVersion(declaringType.Assembly, schemaVersion);
+
         try
         {
             Accessors.Add(declaringType, new SecretMetadata(accessors));
@@ -52,6 +55,19 @@ public static class GeneratedSecretMetadata
                 $"Secret metadata is already registered for {declaringType}.",
                 exception);
         }
+    }
+
+    private static void ValidateSchemaVersion(Assembly assembly, int schemaVersion)
+    {
+        if (schemaVersion == CurrentSchemaVersion)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Assembly '{assembly.GetName().Name}' registered secret metadata schema "
+            + $"{schemaVersion}, but this ModularPipelines runtime requires schema "
+            + $"{CurrentSchemaVersion}. Rebuild the assembly against ModularPipelines v4.");
     }
 
     /// <summary>

@@ -34,8 +34,9 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             public static class RuntimeMetadataRegistry
             {
                 public const int CurrentCommandMetadataSchemaVersion = 4;
+                public const int CurrentSecretMetadataSchemaVersion = 2;
                 public static void RegisterCommandOptions(System.Type type, object model, int schemaVersion) { }
-                public static void RegisterSecrets(System.Type type, object accessors) { }
+                public static void RegisterSecrets(System.Type type, object accessors, int schemaVersion) { }
             }
         }
         """;
@@ -132,7 +133,8 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                             RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
                         RuntimeMetadataRegistry.RegisterSecrets(
                             typeof(PeerCommandOptions),
-                            new object());
+                            new object(),
+                            RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion);
                     }
                 }
                 """),
@@ -169,7 +171,8 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                             new object());
                         RuntimeMetadataRegistry.RegisterSecrets(
                             typeof(LegacyPeerCommandOptions),
-                            new object());
+                            new object(),
+                            RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion);
                     }
                 }
                 """),
@@ -212,7 +215,8 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                             1);
                         RuntimeMetadataRegistry.RegisterSecrets(
                             typeof(StalePeerCommandOptions),
-                            new object());
+                            new object(),
+                            RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion);
                     }
                 }
                 """),
@@ -229,6 +233,50 @@ public class GeneratedOptionsRegistrationAnalyzerTests
         {
             await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
             await Assert.That(diagnostic.GetMessage()).Contains("StalePeerCommandOptions");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Stale_Peer_Secret_Metadata_Schema()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "StalePeerSecretOptions.cs",
+                """
+                using ModularPipelines.Generated;
+                using ModularPipelines.Options;
+
+                public sealed class StalePeerSecretOptions : CommandLineToolOptions;
+
+                public static class StalePeerRegistration
+                {
+                    public static void Add()
+                    {
+                        RuntimeMetadataRegistry.RegisterCommandOptions(
+                            typeof(StalePeerSecretOptions),
+                            new object(),
+                            RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
+                        RuntimeMetadataRegistry.RegisterSecrets(
+                            typeof(StalePeerSecretOptions),
+                            new object(),
+                            1);
+                    }
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
+            await Assert.That(diagnostic.GetMessage()).Contains("StalePeerSecretOptions");
         }
     }
 

@@ -271,19 +271,28 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
             "RegisterCommandOptions" when method.Parameters.Length == 3
                                           && method.Parameters[2].Type.SpecialType
                                           == SpecialType.System_Int32
-                                          && HasCurrentCommandMetadataSchemaVersion(
+                                          && HasCurrentMetadataSchemaVersion(
                                               context,
                                               invocation,
-                                              method) => MetadataCoverage.CommandOptions,
-            "RegisterSecrets" => MetadataCoverage.Secrets,
+                                              method,
+                                              "CurrentCommandMetadataSchemaVersion") => MetadataCoverage.CommandOptions,
+            "RegisterSecrets" when method.Parameters.Length == 3
+                                   && method.Parameters[2].Type.SpecialType
+                                   == SpecialType.System_Int32
+                                   && HasCurrentMetadataSchemaVersion(
+                                       context,
+                                       invocation,
+                                       method,
+                                       "CurrentSecretMetadataSchemaVersion") => MetadataCoverage.Secrets,
             _ => MetadataCoverage.None,
         };
     }
 
-    private static bool HasCurrentCommandMetadataSchemaVersion(
+    private static bool HasCurrentMetadataSchemaVersion(
         SyntaxNodeAnalysisContext context,
         InvocationExpressionSyntax invocation,
-        IMethodSymbol method)
+        IMethodSymbol method,
+        string schemaFieldName)
     {
         if (context.SemanticModel.GetOperation(invocation, context.CancellationToken)
                 is not IInvocationOperation invocationOperation
@@ -296,7 +305,7 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
         }
 
         return method.ContainingType
-                   .GetMembers("CurrentCommandMetadataSchemaVersion")
+                   .GetMembers(schemaFieldName)
                    .OfType<IFieldSymbol>()
                    .FirstOrDefault(static field => field.HasConstantValue)
                    ?.ConstantValue is int currentSchemaVersion
