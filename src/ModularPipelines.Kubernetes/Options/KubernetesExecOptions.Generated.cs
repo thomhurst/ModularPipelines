@@ -19,15 +19,10 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record KubernetesExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pod,
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pod,
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] string Command
 ) : KubernetesOptions
 {
-    public KubernetesExecOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>

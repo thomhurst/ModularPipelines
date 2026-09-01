@@ -49,8 +49,8 @@
         "reason": "Use server-side apply"
       },
       "--validate": {
-        "type": "bool",
-        "reason": "Validate input before sending"
+        "type": "string",
+        "reason": "Accepts 'strict', 'warn', 'ignore', 'true', or 'false'"
       },
       "--wait": {
         "type": "bool",

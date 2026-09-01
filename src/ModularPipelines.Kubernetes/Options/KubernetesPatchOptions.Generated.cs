@@ -31,7 +31,7 @@ public record KubernetesPatchOptions : KubernetesOptions
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesPatchDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.

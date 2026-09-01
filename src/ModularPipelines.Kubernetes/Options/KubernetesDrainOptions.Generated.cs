@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Kubernetes.Enums;
 
 namespace ModularPipelines.Kubernetes.Options;
 
@@ -22,11 +23,6 @@ public record KubernetesDrainOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
 ) : KubernetesOptions
 {
-    public KubernetesDrainOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Return large lists in chunks rather than all at once. Pass 0 to disable.
     /// </summary>
@@ -49,7 +45,7 @@ public record KubernetesDrainOptions(
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesDrainDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Continue even if there are pods that do not declare a controller.

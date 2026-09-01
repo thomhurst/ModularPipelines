@@ -19,15 +19,10 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debug")]
 public record KubernetesDebugOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pod,
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pod,
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)] string CommandArgs
 ) : KubernetesOptions
 {
-    public KubernetesDebugOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// If specified, everything after -- will be passed to the new container as Args instead of Command.
     /// </summary>

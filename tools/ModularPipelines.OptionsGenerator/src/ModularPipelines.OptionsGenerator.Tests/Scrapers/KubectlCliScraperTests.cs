@@ -205,7 +205,31 @@ public class KubectlCliScraperTests
     }
 
     [Test]
-    public async Task Label_Uses_One_Required_Variadic_Labels_Operand()
+    [Arguments("debug", "(POD | TYPE[[.VERSION].GROUP]/NAME)")]
+    [Arguments("exec", "POD -- COMMAND [args...]")]
+    public async Task Target_Commands_Allow_Filename_Without_Pod(
+        string commandName,
+        string usageOperand)
+    {
+        var helpText = $"""
+            Usage:
+              kubectl {commandName} {usageOperand} [options]
+
+            Options:
+              -f, --filename stringArray   File identifying the target resource.
+            """;
+
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", commandName],
+            helpText);
+
+        var pod = command!.PositionalArguments.Single(argument => argument.PropertyName == "Pod");
+        await Assert.That(pod.IsRequired).IsTrue();
+        await Assert.That(pod.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Label_Allows_List_Without_Labels()
     {
         const string helpText = """
             Usage:
@@ -224,12 +248,13 @@ public class KubectlCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(labels.IsRequired).IsTrue();
+            await Assert.That(labels.IsValidationRequired).IsFalse();
             await Assert.That(labels.IsVariadic).IsTrue();
             await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<string>");
             await Assert.That(trailingLabel.IsValidationRequired).IsFalse();
             await Assert.That(command.PositionalArguments.Count(argument =>
                 argument.IsValidationRequired ?? argument.IsRequired))
-                .IsEqualTo(1);
+                .IsEqualTo(0);
         }
     }
 

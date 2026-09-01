@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Kubernetes.Services;
 
 namespace ModularPipelines.Kubernetes.Extensions;
@@ -32,11 +31,12 @@ public static class KubernetesExtensions
         services.TryAddScoped<IKubernetesApply, KubernetesApply>();
         services.TryAddScoped<IKubernetesAuth, KubernetesAuth>();
         services.TryAddScoped<IKubernetesCertificate, KubernetesCertificate>();
-        services.TryAddScoped<IKubernetesClusterinfo, KubernetesClusterinfo>();
+        services.TryAddScoped<IKubernetesClusterInfo, KubernetesClusterInfo>();
         services.TryAddScoped<IKubernetesConfig, KubernetesConfig>();
         services.TryAddScoped<IKubernetesKuberc, KubernetesKuberc>();
         services.TryAddScoped<IKubernetesRollout, KubernetesRollout>();
         services.TryAddScoped<IKubernetesTop, KubernetesTop>();
         return services;
     }
+
 }

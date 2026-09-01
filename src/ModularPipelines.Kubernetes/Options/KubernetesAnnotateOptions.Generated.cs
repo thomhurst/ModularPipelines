@@ -23,11 +23,6 @@ public record KubernetesAnnotateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Annotations
 ) : KubernetesOptions
 {
-    public KubernetesAnnotateOptions()
-        : this(default(IEnumerable<string>)!)
-    {
-    }
-
     /// <summary>
     /// Select all resources in the namespace of the specified resource types
     /// </summary>
@@ -50,7 +45,7 @@ public record KubernetesAnnotateOptions(
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesAnnotateDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.

@@ -69,8 +69,11 @@ public class KubectlCliScraper : CobraCliScraper
                 "Annotations"),
             ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
             ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
-            ["debug"] => NormalizeDebugArguments(positionalArguments),
+            ["debug"] => AllowOmittedValue(
+                NormalizeDebugArguments(positionalArguments),
+                "Pod"),
             ["events"] => RemoveArgument(positionalArguments, "O"),
+            ["exec"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["label"] => NormalizeLabelArguments(positionalArguments),
             ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
@@ -124,6 +127,7 @@ public class KubectlCliScraper : CobraCliScraper
                     CSharpType = "IEnumerable<string>",
                     IsRequired = true,
                     IsVariadic = true,
+                    IsValidationRequired = false,
                 },
                 "KeyNValN" => argument with
                 {

@@ -23,11 +23,6 @@ public record KubernetesRolloutHistoryOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
 ) : KubernetesOptions
 {
-    public KubernetesRolloutHistoryOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>

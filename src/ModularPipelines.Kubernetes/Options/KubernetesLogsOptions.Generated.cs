@@ -22,11 +22,6 @@ public record KubernetesLogsOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
 ) : KubernetesOptions
 {
-    public KubernetesLogsOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Get all containers' logs in the pod(s).
     /// </summary>

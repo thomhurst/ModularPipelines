@@ -23,11 +23,6 @@ public record KubernetesRolloutUndoOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
 ) : KubernetesOptions
 {
-    public KubernetesRolloutUndoOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
@@ -38,7 +33,7 @@ public record KubernetesRolloutUndoOptions(
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesRolloutUndoDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to get from a server.

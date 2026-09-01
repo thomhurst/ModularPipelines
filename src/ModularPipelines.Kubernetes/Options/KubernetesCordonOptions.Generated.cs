@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Kubernetes.Enums;
 
 namespace ModularPipelines.Kubernetes.Options;
 
@@ -22,16 +23,11 @@ public record KubernetesCordonOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
 ) : KubernetesOptions
 {
-    public KubernetesCordonOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesCordonDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Selector (label query) to filter on, supports '=', '==', '!=', 'in', 'notin'.(e.g. -l key1=value1,key2=value2,key3 in (value3)). Matching objects must satisfy all of the specified label constraints.

@@ -37,13 +37,13 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController). Defaults to background.
     /// </summary>
     [CliOption("--cascade", Format = OptionFormat.EqualsSeparated)]
-    public string? Cascade { get; set; }
+    public KubernetesApplyCascade? Cascade { get; set; }
 
     /// <summary>
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    public KubernetesApplyDryRun? DryRun { get; set; }
 
     /// <summary>
     /// Name of the manager used to track field ownership.
@@ -156,7 +156,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// <summary>
     /// Must be one of: strict (or true), warn, ignore (or false). "true" or "strict" will use a schema to validate the input and fail the request if invalid. It will perform server side validation if ServerSideFieldValidation is enabled on the api-server, but will fall back to less reliable client-side validation if not. "warn" will warn about unknown or duplicate fields without blocking the request if server-side field validation is enabled on the API server, and behave as "ignore" otherwise. "false" or "ignore" will not perform any schema validation, silently dropping any unknown or duplicate fields.
     /// </summary>
-    [CliOption("--validate")]
+    [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
     public string? Validate { get; set; }
 
     /// <summary>

@@ -22,11 +22,6 @@ public record KubernetesAuthCanIOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Verb
 ) : KubernetesOptions
 {
-    public KubernetesAuthCanIOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// If true, check the specified action in all namespaces.
     /// </summary>

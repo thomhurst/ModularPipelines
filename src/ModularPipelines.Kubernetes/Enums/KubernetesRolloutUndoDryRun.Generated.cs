@@ -17,11 +17,11 @@ namespace ModularPipelines.Kubernetes.Enums;
 public enum KubernetesRolloutUndoDryRun
 {
     [EnumValue("none")]
-    None = 0,
+    None,
 
     [EnumValue("server")]
-    Server = 1,
+    Server,
 
     [EnumValue("client")]
-    Client = 2
+    Client
 }
