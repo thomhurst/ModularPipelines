@@ -106,11 +106,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> StageApproveAsync(
-        PnpmStageApproveOptions options,
+        PnpmStageApproveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmStageApproveOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
