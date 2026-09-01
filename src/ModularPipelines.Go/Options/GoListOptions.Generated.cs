@@ -263,8 +263,8 @@ public record GoListOptions : GoOptions
     /// <summary>
     /// The -u flag adds information about available upgrades. When the latest version of a given module is newer than the current one, list -u sets the Module's Update field to information about the newer module. list -u will also set the module's Retracted field if the current version is retracted. The Module's String method indicates an available upgrade by formatting the newer version in brackets after the current version. If a version is retracted, the string "(retracted)" will follow it. For example, 'go list -m -u all' might print:
     /// </summary>
-    [CliOption("-u")]
-    public string? U { get; set; }
+    [CliFlag("-u")]
+    public bool? U { get; set; }
 
     /// <summary>
     /// The -versions flag causes list to set the Module's Versions field to a list of all known versions of that module, ordered according to semantic versioning, earliest to latest. The flag also changes the default output format to display the module path followed by the space-separated version list.
@@ -275,8 +275,8 @@ public record GoListOptions : GoOptions
     /// <summary>
     /// The -retracted flag may be used with or without -m.
     /// </summary>
-    [CliOption("-retracted")]
-    public string? Retracted { get; set; }
+    [CliFlag("-retracted")]
+    public bool? Retracted { get; set; }
 
     /// <summary>
     /// The packages operand.

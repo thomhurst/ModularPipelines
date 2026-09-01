@@ -35,8 +35,8 @@ public record GoGetOptions : GoOptions
     /// <summary>
     /// The -tool flag instructs go to add a matching tool line to go.mod for each listed package. If -tool is used with @none, the line will be removed. See 'go help tool' for more information.
     /// </summary>
-    [CliOption("-tool")]
-    public string? CliTool { get; set; }
+    [CliFlag("-tool")]
+    public bool? CliTool { get; set; }
 
     /// <summary>
     /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
@@ -229,5 +229,11 @@ public record GoGetOptions : GoOptions
     /// </summary>
     [CliOption("-toolexec")]
     public string? Toolexec { get; set; }
+
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Packages { get; set; }
 
 }
