@@ -603,12 +603,36 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         var count = _outputs.Count;
         while (count > 0
                && IsMaskableOutput(_outputs[count - 1])
-               && !_outputs[count - 1].AppendNewLine)
+               && (!_outputs[count - 1].AppendNewLine
+                   || HasPotentialSecretAtIncrementalFlushBoundary(count)))
         {
             count--;
         }
 
         return count;
+    }
+
+    private bool HasPotentialSecretAtIncrementalFlushBoundary(int outputCount)
+    {
+        var firstMaskableIndex = outputCount - 1;
+        while (firstMaskableIndex > 0 && IsMaskableOutput(_outputs[firstMaskableIndex - 1]))
+        {
+            firstMaskableIndex--;
+        }
+
+        var source = new StringBuilder();
+        for (var index = firstMaskableIndex; index < outputCount; index++)
+        {
+            source.Append(GetMaskablePlainText(_outputs[index]));
+            if (_outputs[index].AppendNewLine)
+            {
+                source.Append(Environment.NewLine);
+            }
+        }
+
+        // RenderOutputGroup adds a blank separator after every visible incremental group.
+        source.Append(Environment.NewLine);
+        return GetPotentialSecretPrefixLength(source.ToString()) > 0;
     }
 
     private void RenderOutputs(

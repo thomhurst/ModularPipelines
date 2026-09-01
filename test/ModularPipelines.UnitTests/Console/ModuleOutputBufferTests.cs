@@ -329,6 +329,32 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task IncrementalFlush_RetainsMultilinePrefixAcrossGroupSeparator()
+    {
+        var secret = $"to{Environment.NewLine}{Environment.NewLine}ken";
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer(secret);
+        buffer.WriteLine("to");
+
+        await buffer.FlushToAsync(
+            writer,
+            new AppVeyorFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteLine("ken");
+        await buffer.FlushToAsync(
+            writer,
+            new AppVeyorFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).DoesNotContain(secret);
+    }
+
+    [Test]
     public async Task Flush_CustomObfuscatorRemasksLateSecretUnderEmissionGuard()
     {
         const string secret = "late-custom-secret";
