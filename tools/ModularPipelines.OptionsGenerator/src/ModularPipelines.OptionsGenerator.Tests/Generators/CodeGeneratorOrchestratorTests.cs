@@ -821,7 +821,9 @@ public class CodeGeneratorOrchestratorTests
 
             await Assert.That(baselineResult.HasErrors).IsFalse();
             await Assert.That(shrinkResult.HasErrors).IsTrue();
-            await Assert.That(shrinkResult.GetSummary()).Contains("Removed: fake deploy");
+            await Assert.That(shrinkResult.GetSummary())
+                .Contains("WARNING: COMMAND COVERAGE SHRINKAGE DETECTED")
+                .And.Contains("Removed: fake deploy");
             await Assert.That(File.Exists(deployFile)).IsTrue();
         }
         finally
@@ -860,7 +862,9 @@ public class CodeGeneratorOrchestratorTests
                     approveCommandCoverageShrinkage: true);
 
             await Assert.That(approved.HasErrors).IsFalse();
-            await Assert.That(approved.GetSummary()).Contains("Removed (approved): fake deploy");
+            await Assert.That(approved.GetSummary())
+                .Contains("WARNING: COMMAND COVERAGE SHRINKAGE DETECTED")
+                .And.Contains("Removed (approved): fake deploy");
 
             var manifest = await File.ReadAllTextAsync(Path.Combine(
                 outputRoot,

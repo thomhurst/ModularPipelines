@@ -1436,6 +1436,11 @@ public class GenerationResult
     {
         var lines = new List<string> { "Command coverage report:" };
 
+        if (CommandCoverage.Any(static coverage => coverage.RemovedCommands.Count > 0))
+        {
+            lines.Add("WARNING: COMMAND COVERAGE SHRINKAGE DETECTED");
+        }
+
         foreach (var coverage in CommandCoverage.OrderBy(item => item.Manifest.ToolName, StringComparer.OrdinalIgnoreCase))
         {
             var version = coverage.Manifest.ToolVersion ?? "unknown version";
