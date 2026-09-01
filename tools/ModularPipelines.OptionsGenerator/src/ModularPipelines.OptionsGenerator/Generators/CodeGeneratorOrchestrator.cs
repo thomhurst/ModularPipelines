@@ -568,7 +568,7 @@ public class CodeGeneratorOrchestrator
                 approveCommandCoverageShrinkage,
                 cancellationToken);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
             AddScrapingError(result, htmlScraper.ToolName, ex, cliOnly: false);
         }
@@ -630,7 +630,7 @@ public class CodeGeneratorOrchestrator
             _logger.LogInformation("Type enhancement complete for {Tool}", toolName);
             return enhanced;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
             _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", toolName);
             return toolDefinition;
@@ -767,20 +767,33 @@ public class CodeGeneratorOrchestrator
 
         _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
 
-        if (allCommands.Count == 0)
-        {
-            // The CLI is present (IsAvailableAsync passed), so "not installed" is not the
-            // problem - the scraper failed to parse anything out of the help output.
-            return $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
-                   "Check the scraper's help-text parsing against the currently installed CLI version.";
-        }
-
         var completeToolDefinition = toolDefinition with
         {
             Commands = allCommands,
             ToolVersion = toolVersion,
             Errors = [],
         };
+        if (allCommands.Count == 0)
+        {
+            // The CLI is present (IsAvailableAsync passed), so "not installed" is not the
+            // problem - the scraper failed to parse anything out of the help output.
+            var coverage = CommandCoverageGuard.Evaluate(
+                completeToolDefinition,
+                outputDirectory,
+                approveCommandCoverageShrinkage);
+            result.CommandCoverage.Add(coverage);
+            var diagnosticsPath = await TryWriteCoverageFailureDiagnosticsAsync(
+                cliScraper as CliScraperBase,
+                outputDirectory,
+                coverage,
+                cancellationToken);
+            var diagnosticsMessage = diagnosticsPath is null
+                ? string.Empty
+                : $" Raw help diagnostics: {diagnosticsPath}.";
+            return $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
+                   $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}";
+        }
+
         if (_typeEnhancer is not null)
         {
             completeToolDefinition = await _typeEnhancer

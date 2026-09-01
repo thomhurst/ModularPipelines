@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Base;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -90,7 +91,9 @@ public class CodeGeneratorOrchestratorTests
             => Task.FromResult(OnGenerate(tool));
     }
 
-    private sealed class DiagnosticCliScraper(ICliCommandExecutor executor)
+    private sealed class DiagnosticCliScraper(
+        ICliCommandExecutor executor,
+        bool produceCommand = true)
         : CliScraperBase(
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
@@ -123,7 +126,21 @@ public class CodeGeneratorOrchestratorTests
             string[] commandPath,
             string helpText,
             CancellationToken cancellationToken) =>
-            Task.FromResult<CliCommandDefinition?>(FakeCommand());
+            Task.FromResult<CliCommandDefinition?>(produceCommand ? FakeCommand() : null);
+    }
+
+    private sealed class CancelingHtmlScraper : ICliDocumentationScraper
+    {
+        public string ToolName => "fake";
+
+        public string NamespacePrefix => "Fake";
+
+        public string TargetNamespace => "ModularPipelines.Fake";
+
+        public string OutputDirectory => ToolOutputDirectory;
+
+        public Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default) =>
+            Task.FromCanceled<CliToolDefinition>(new CancellationToken(canceled: true));
     }
 
     private sealed class DiagnosticExecutor : ICliCommandExecutor
@@ -194,6 +211,50 @@ public class CodeGeneratorOrchestratorTests
         {
             Directory.Delete(outputRoot, recursive: true);
         }
+    }
+
+    [Test]
+    public async Task EmptyCliScrape_WritesRawHelpDiagnostics()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+        var diagnosticsPath = Path.Combine(
+            outputRoot,
+            "artifacts",
+            "options-generator-diagnostics",
+            "fake",
+            "command-coverage-failure.json");
+
+        try
+        {
+            var scraper = new DiagnosticCliScraper(new DiagnosticExecutor(), produceCommand: false);
+
+            var result = await Orchestrator(scraper, new FakeGenerator())
+                .GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.Errors[0].Message).Contains("Raw help diagnostics");
+            await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath);
+            await Assert.That(diagnostics).Contains("RAW ROOT HELP: fake run only");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task HtmlScraperCancellation_Propagates()
+    {
+        var orchestrator = new CodeGeneratorOrchestrator(
+            cliScrapers: [],
+            htmlScrapers: [new CancelingHtmlScraper()],
+            generators: [new FakeGenerator()],
+            NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+        await Assert.That(async () => await orchestrator.GenerateAsync("fake", Path.GetTempPath()))
+            .Throws<OperationCanceledException>();
     }
 
     [Test]
