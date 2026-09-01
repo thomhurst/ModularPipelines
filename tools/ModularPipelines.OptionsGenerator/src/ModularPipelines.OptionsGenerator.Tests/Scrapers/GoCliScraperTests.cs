@@ -83,27 +83,36 @@ public class GoCliScraperTests
                     build       compile packages and dependencies
                     clean       remove object files
                     fix         apply fixes
+                    generate    generate Go files
+                    vet         report suspicious constructs
 
                 Use "go help <command>" for more information about a command.
                 """,
             ["help build"] = buildHelp,
             ["help clean"] = "usage: go clean [-cache]\n\nClean removes cached files.",
             ["help fix"] = "usage: go fix [build flags] [-fixtool prog] [packages]\n\nFix applies fixes.",
+            ["help generate"] = "usage: go generate [build flags] [-run regexp] [file.go ...]\n\nGenerate runs generators.",
+            ["help vet"] = "usage: go vet [build flags] [-vettool prog] [packages]\n\nVet reports suspicious constructs.",
         });
         var commands = await ScrapeAsync(scraper);
-        var fix = commands.Single(command => command.FullCommand == "go fix");
         var clean = commands.Single(command => command.FullCommand == "go clean");
 
         using (Assert.Multiple())
         {
-            var switchNames = fix.Options.Select(option => option.SwitchName).ToHashSet();
-            await Assert.That(new[] { "-race", "-tags", "-ldflags", "-mod", "-trimpath" }
-                    .All(switchNames.Contains))
-                .IsTrue();
-            await Assert.That(fix.Options.Single(option => option.SwitchName == "-race").IsFlag)
-                .IsTrue();
-            await Assert.That(fix.Options.Single(option => option.SwitchName == "-tags").CSharpType)
-                .IsEqualTo("string?");
+            foreach (var (commandName, commandOption) in new[]
+                     {
+                         ("fix", "-fixtool"),
+                         ("generate", "-run"),
+                         ("vet", "-vettool"),
+                     })
+            {
+                var command = commands.Single(item => item.FullCommand == $"go {commandName}");
+                await Assert.That(command.Options.Any(option => option.SwitchName == "-race"))
+                    .IsFalse();
+                await Assert.That(command.Options.Any(option => option.SwitchName == commandOption))
+                    .IsTrue();
+            }
+
             await Assert.That(clean.Options.Any(option => option.SwitchName == "-race"))
                 .IsTrue();
         }
@@ -150,7 +159,29 @@ public class GoCliScraperTests
             await Assert.That(workingDirectory.IsFlag).IsFalse();
             await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
             await Assert.That(workingDirectory.ValueSeparator).IsEqualTo(" ");
+
+            var orderedEdits = command.PositionalArguments.Single(argument =>
+                argument.PropertyName == "OrderedEdits");
+            await Assert.That(orderedEdits.CSharpType)
+                .IsEqualTo("IEnumerable<GoEditOperation>?");
+            await Assert.That(orderedEdits.Phase).IsEqualTo(CommandLinePhase.Normal);
+            await Assert.That(orderedEdits.IsVariadic).IsTrue();
         }
+    }
+
+    [Test]
+    public async Task Adds_Ordered_Edit_Operations_To_Work_Edit()
+    {
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(
+                ["go", "work", "edit"],
+                "usage: go work edit [-use=path] [-dropuse=path] [go.work]");
+
+        var orderedEdits = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "OrderedEdits");
+        await Assert.That(orderedEdits.CSharpType)
+            .IsEqualTo("IEnumerable<GoEditOperation>?");
+        await Assert.That(orderedEdits.Phase).IsEqualTo(CommandLinePhase.Normal);
     }
 
     [Test]

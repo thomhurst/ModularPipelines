@@ -112,7 +112,7 @@ public partial class GoCliScraper : CliScraperBase
 
         var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
         if (!string.IsNullOrWhiteSpace(buildHelp)
-            && UsesSharedBuildFlags(commandPath, helpText, buildHelp)
+            && UsesSharedBuildFlags(commandPath, buildHelp)
             && GetSharedBuildFlagsHelp(buildHelp) is { } sharedBuildFlags)
         {
             additionalHelp.Add(sharedBuildFlags);
@@ -166,14 +166,8 @@ public partial class GoCliScraper : CliScraperBase
 
     private static bool UsesSharedBuildFlags(
         IReadOnlyList<string> commandPath,
-        string helpText,
         string buildHelp)
     {
-        if (BuildFlagsUsagePattern().IsMatch(helpText))
-        {
-            return true;
-        }
-
         if (commandPath.Count != 2)
         {
             return false;
@@ -284,9 +278,11 @@ public partial class GoCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-        var positionalArguments = NormalizePositionalArguments(
+        var positionalArguments = AddOrderedEditOperations(
             commandParts,
-            GetPositionalArguments(usage, options));
+            NormalizePositionalArguments(
+                commandParts,
+                GetPositionalArguments(usage, options)));
 
         var className = GenerateClassName(commandPath);
 
@@ -318,6 +314,30 @@ public partial class GoCliScraper : CliScraperBase
             Phase = CommandLinePhase.Passthrough,
         })
             .ToArray();
+
+    private static IReadOnlyList<CliPositionalArgument> AddOrderedEditOperations(
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        if (commandParts is not (["mod", "edit"] or ["work", "edit"]))
+        {
+            return arguments;
+        }
+
+        return
+        [
+            new CliPositionalArgument
+            {
+                PropertyName = "OrderedEdits",
+                CSharpType = "IEnumerable<GoEditOperation>?",
+                Description = "Editing operations rendered in the order supplied. Use this sequence when order across different edit switches matters.",
+                Phase = CommandLinePhase.Normal,
+                PositionIndex = 0,
+                IsVariadic = true,
+            },
+            .. arguments,
+        ];
+    }
 
     private static CliPositionalArgument NormalizePositionalArgument(
         IReadOnlyList<string> commandParts,
@@ -889,9 +909,6 @@ public partial class GoCliScraper : CliScraperBase
 
     [GeneratedRegex(@"(?:\r?\n){2,}")]
     private static partial Regex ParagraphSeparatorPattern();
-
-    [GeneratedRegex(@"\[(?:build|build/test) flags(?:[^\]]*)\]", RegexOptions.IgnoreCase)]
-    private static partial Regex BuildFlagsUsagePattern();
 
     [GeneratedRegex(@"The build flags are shared by the (?<commands>.+?) commands:", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex SharedBuildCommandsPattern();

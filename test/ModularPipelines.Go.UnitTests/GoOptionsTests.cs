@@ -72,4 +72,40 @@ public class GoOptionsTests : TestBase
 
         await Assert.That(commandLine.ToString()).IsEqualTo("go list -json=ImportPath,Name");
     }
+
+    [Test]
+    public async Task Mod_Edit_Preserves_Cross_Option_Order()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new GoModEditOptions
+        {
+            OrderedEdits =
+            [
+                new GoEditOperation("-droprequire", "example.com/module"),
+                new GoEditOperation("-require", "example.com/module@v1.0.0"),
+            ],
+        });
+
+        await Assert.That(commandLine.ToString()).IsEqualTo(
+            "go mod edit -droprequire=example.com/module -require=example.com/module@v1.0.0");
+    }
+
+    [Test]
+    public async Task Work_Edit_Preserves_Cross_Option_Order()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new GoWorkEditOptions
+        {
+            OrderedEdits =
+            [
+                new GoEditOperation("-dropuse", "./module"),
+                new GoEditOperation("-use", "./module"),
+            ],
+        });
+
+        await Assert.That(commandLine.ToString()).IsEqualTo(
+            "go work edit -dropuse=./module -use=./module");
+    }
 }
