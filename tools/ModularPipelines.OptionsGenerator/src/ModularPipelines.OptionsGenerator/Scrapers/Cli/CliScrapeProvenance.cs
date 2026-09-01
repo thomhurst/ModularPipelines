@@ -33,9 +33,8 @@ internal sealed class CliScrapeProvenance
             StandardOutputLength = result.StandardOutput.Length,
             StandardErrorLength = result.StandardError.Length,
             OutputSha256 = Fingerprint(result.CombinedOutput),
-            RawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0
-                ? result.CombinedOutput
-                : null,
+            RawHelp = result.CombinedOutput,
+            PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
         };
     }
 
@@ -44,7 +43,21 @@ internal sealed class CliScrapeProvenance
         var path = string.Join(' ', commandPath);
         if (_helpInvocations.TryGetValue(path, out var invocation))
         {
-            _helpInvocations[path] = invocation with { RawHelp = helpText };
+            _helpInvocations[path] = invocation with
+            {
+                RawHelp = helpText,
+                PreserveRawHelp = true,
+            };
+        }
+    }
+
+    public void DiscardLeafHelp(IReadOnlyList<string> commandPath)
+    {
+        var path = string.Join(' ', commandPath);
+        if (_helpInvocations.TryGetValue(path, out var invocation)
+            && !invocation.PreserveRawHelp)
+        {
+            _helpInvocations[path] = invocation with { RawHelp = null };
         }
     }
 
@@ -135,6 +148,8 @@ internal sealed record CliHelpInvocation
     public required string OutputSha256 { get; init; }
 
     public string? RawHelp { get; init; }
+
+    internal bool PreserveRawHelp { get; init; }
 }
 
 internal sealed record CliCoverageFailureDiagnostics

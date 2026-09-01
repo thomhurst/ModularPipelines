@@ -392,6 +392,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (ShouldSkipPath(path, helpText))
         {
+            _scrapeProvenance.DiscardLeafHelp(path);
             return;
         }
 
@@ -404,7 +405,8 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
-        if (subcommands.Count > 0 || HelpDeclaresCommandGroup(helpText))
+        var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
+        if (subcommands.Count > 0 || declaresCommandGroup)
         {
             _scrapeProvenance.PreserveGroupHelp(path, helpText);
         }
@@ -420,6 +422,11 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
+        if (subcommands.Count == 0 && !declaresCommandGroup)
+        {
+            _scrapeProvenance.DiscardLeafHelp(path);
+        }
+
         await EnqueueSubcommandsAsync(
             path,
             subcommands,

@@ -247,6 +247,49 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task SharedTraversal_Preserves_Mismatched_Parent_Help_For_Diagnostics()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake <command>
+
+                Available Commands:
+                  parent: Manage parent resources
+                """,
+            ["parent --help"] = """
+                MISMATCHED PARENT RESPONSE
+
+                Usage:
+                  fake sibling [flags]
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        _ = await ScrapeAsync(scraper);
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+
+            await Assert.That(diagnostics).Contains("MISMATCHED PARENT RESPONSE");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task SharedTraversal_Detects_Command_On_Second_Usage_Line()
     {
         const string helpText = """

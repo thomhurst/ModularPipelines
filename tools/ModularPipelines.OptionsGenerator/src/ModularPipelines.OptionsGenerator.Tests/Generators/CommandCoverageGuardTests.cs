@@ -287,6 +287,7 @@ public class CommandCoverageGuardTests
                 ["fake", "group", "leaf"],
                 "group leaf --help",
                 Result("RAW LEAF HELP"));
+            provenance.DiscardLeafHelp(["fake", "group", "leaf"]);
 
             var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
                 outputDirectory,
