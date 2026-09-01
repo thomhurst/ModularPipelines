@@ -189,6 +189,17 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Preserves_Variadic_Placeholder_In_Operand_Documentation()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool upload <FILES...>",
+            ["tool", "upload"]);
+
+        await Assert.That(result.PositionalArguments.Single().Description)
+            .IsEqualTo("The <FILES...> operand.");
+    }
+
+    [Test]
     public async Task Command_Group_Placeholders_Remain_Executable_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(
