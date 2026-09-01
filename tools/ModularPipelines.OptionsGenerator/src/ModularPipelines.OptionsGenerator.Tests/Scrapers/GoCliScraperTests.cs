@@ -466,6 +466,41 @@ public class GoCliScraperTests
     }
 
     [Test]
+    public async Task List_Json_Accepts_Bare_And_Field_Values()
+    {
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(
+                ["go", "list"],
+                "usage: go list [-json] [packages]\n\nThe -json flag can optionally be provided with comma-separated field names.");
+
+        var json = command!.Options.Single(option => option.SwitchName == "-json");
+        using (Assert.Multiple())
+        {
+            await Assert.That(json.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(json.PropertyType).IsEqualTo("CliOptionValue?");
+            await Assert.That(json.IsFlag).IsFalse();
+            await Assert.That(json.ValueSeparator).IsEqualTo("=");
+        }
+    }
+
+    [Test]
+    public async Task Parses_Conditional_Prose_Option_Declarations()
+    {
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(
+                ["go", "list"],
+                "usage: go list [packages]\n\nWhen using -m, the -reuse=old.json flag accepts the result of a previous go list -m -json invocation.");
+
+        var reuse = command!.Options.Single(option => option.SwitchName == "-reuse");
+        using (Assert.Multiple())
+        {
+            await Assert.That(reuse.IsFlag).IsFalse();
+            await Assert.That(reuse.ValueSeparator).IsEqualTo("=");
+            await Assert.That(reuse.Description).Contains("result of a previous go list");
+        }
+    }
+
+    [Test]
     public async Task Prose_References_Do_Not_Consume_Operands_As_Option_Values()
     {
         var cases = new[]

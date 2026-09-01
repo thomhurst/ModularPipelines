@@ -35,6 +35,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GoCliScraper : CliScraperBase
 {
+    private const string ProseOptionLeadInPattern =
+        @"(?:The|[A-Z][\w-]* also provides the|When using -[A-Za-z][\w-]*,\s+the)";
+
     public GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -467,17 +470,12 @@ public partial class GoCliScraper : CliScraperBase
 
         if (commandParts is ["get"])
         {
-            var updateIndex = options.FindIndex(option => option.SwitchName == "-u");
-            if (updateIndex >= 0)
-            {
-                options[updateIndex] = options[updateIndex] with
-                {
-                    CSharpType = "string?",
-                    IsFlag = false,
-                    ValueArity = CliOptionValueArity.Optional,
-                    ValueSeparator = "=",
-                };
-            }
+            ApplyOptionalValueOptionShape(options, "-u", "=");
+        }
+
+        if (commandParts is ["list"])
+        {
+            ApplyOptionalValueOptionShape(options, "-json", "=");
         }
 
         ApplyOptionPhase(options, "-C", CommandLinePhase.EarlyOperand);
@@ -499,6 +497,28 @@ public partial class GoCliScraper : CliScraperBase
         {
             CSharpType = AsCSharpType("string?", option.AcceptsMultipleValues),
             IsFlag = false,
+            ValueSeparator = valueSeparator,
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag: false),
+        };
+    }
+
+    private static void ApplyOptionalValueOptionShape(
+        List<CliOptionDefinition> options,
+        string switchName,
+        string valueSeparator)
+    {
+        var optionIndex = options.FindIndex(option => option.SwitchName == switchName);
+        if (optionIndex < 0)
+        {
+            return;
+        }
+
+        var option = options[optionIndex];
+        options[optionIndex] = option with
+        {
+            CSharpType = "string?",
+            IsFlag = false,
+            ValueArity = CliOptionValueArity.Optional,
             ValueSeparator = valueSeparator,
             IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag: false),
         };
@@ -861,10 +881,10 @@ public partial class GoCliScraper : CliScraperBase
     [GeneratedRegex(@"(?<![\w-])-(?<flag>[A-Za-z][\w-]*)(?:(?<separator>=)(?<value>[^\s,]+))?")]
     private static partial Regex GoOptionReferencePattern();
 
-    [GeneratedRegex(@"^(?:The|[A-Z][\w-]* also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag|options|option)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex("^" + ProseOptionLeadInPattern + @"\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag|options|option)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex ProseOptionParagraphPattern();
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?<sentence>(?:The|[A-Z][\w-]* also provides the)\s+-.+?(?=(?:[.!?]\s+(?:The|[A-Z][\w-]* also provides the)\s+-)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?<sentence>" + ProseOptionLeadInPattern + @"\s+-.+?(?=(?:[.!?]\s+" + ProseOptionLeadInPattern + @"\s+-)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex ProseOptionSentencePattern();
 
     [GeneratedRegex(@"(?:\r?\n){2,}")]
