@@ -195,6 +195,34 @@ public class GoCliScraperTests
             await Assert.That(workingDirectory.IsFlag).IsFalse();
             await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
             await Assert.That(workingDirectory.Description).Contains("Change to dir");
+            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+        }
+    }
+
+    [Test]
+    public async Task Parses_Tool_Shared_Build_Flag_Declaration()
+    {
+        const string helpText = """
+            usage: go tool [-n] command [args...]
+
+            Tool also provides the -C, -overlay, and -modcacherw build flags.
+            """;
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(["go", "tool"], helpText);
+
+        using (Assert.Multiple())
+        {
+            var workingDirectory = command!.Options.Single(option => option.SwitchName == "-C");
+            await Assert.That(workingDirectory.IsFlag).IsFalse();
+            await Assert.That(workingDirectory.ValueSeparator).IsEqualTo(" ");
+            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+
+            var overlay = command.Options.Single(option => option.SwitchName == "-overlay");
+            await Assert.That(overlay.IsFlag).IsFalse();
+            await Assert.That(overlay.ValueSeparator).IsEqualTo(" ");
+
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-modcacherw").IsFlag)
+                .IsTrue();
         }
     }
 
