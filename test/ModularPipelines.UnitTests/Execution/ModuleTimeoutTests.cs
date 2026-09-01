@@ -202,10 +202,15 @@ public class ModuleTimeoutTests : TestBase
         for (var iteration = 0; iteration < 25; iteration++)
         {
             var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-                cancellationToken =>
+                async cancellationToken =>
                 {
-                    cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
-                    return Task.FromException<bool>(new TimeoutException("Inner operation timed out."));
+                    var completion = new TaskCompletionSource<bool>(
+                        TaskCreationOptions.RunContinuationsAsynchronously);
+                    using var registration = cancellationToken.Register(
+                        static state => ((TaskCompletionSource<bool>) state!).TrySetException(
+                            new TimeoutException("Inner operation timed out.")),
+                        completion);
+                    return await completion.Task.ConfigureAwait(false);
                 },
                 TimeSpan.FromMilliseconds(10),
                 CancellationToken.None);
