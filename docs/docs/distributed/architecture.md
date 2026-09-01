@@ -99,6 +99,11 @@ Workers loop until `DequeueModuleAsync` returns `null`. Coordinators return `nul
 the master calls `SignalCompletionAsync`, or when that worker's local cancellation token
 is canceled.
 
+Capability-mismatch handling is transport-specific. The in-memory and Redis coordinators
+scan their lists and leave incompatible assignments in place. The queue-backed SignalR
+master coordinator dequeues each candidate, re-enqueues an incompatible assignment, and
+continues scanning for work that the current worker can execute.
+
 ## Coordinator Interface
 
 The shipped `IDistributedCoordinator` interface defines seven methods across four concerns:
@@ -137,12 +142,12 @@ The `RedisDistributedCoordinator` maps each method to Redis operations:
 | Method | Redis Operations |
 |--------|-----------------|
 | `EnqueueModuleAsync` | `LPUSH` to the work queue + `EXPIRE` + `PUBLISH` on the work-available channel |
-| `DequeueModuleAsync` | Subscribe to work/completion channels; atomically scan `LRANGE` and claim a capability-compatible item with `LREM` |
+| `DequeueModuleAsync` | `GET` completion flag (check first), `SUBSCRIBE` to work/completion channels, atomically scan `LRANGE` and claim a capability-compatible item with `LREM`, then `GET` completion again (close race window) |
 | `PublishResultAsync` | `HSET` on results hash + `EXPIRE` + `PUBLISH` on the module result channel |
 | `WaitForResultAsync` | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message |
 | `RegisterWorkerAsync` | `HSET` on workers hash + `EXPIRE` |
 | `GetRegisteredWorkersAsync` | `HGETALL` on workers hash |
-| `SignalCompletionAsync` | `SET` completion key with TTL + `PUBLISH` completion channel |
+| `SignalCompletionAsync` | `SET` completion key, separate `EXPIRE`, then `PUBLISH` completion channel |
 
 ### WaitForResultAsync Race Condition Handling
 
