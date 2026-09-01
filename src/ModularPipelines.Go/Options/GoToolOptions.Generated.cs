@@ -35,6 +35,24 @@ public record GoToolOptions(
     public string? Modfile { get; set; }
 
     /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
+    public string? C { get; set; }
+
+    /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliOption("-overlay")]
+    public string? Overlay { get; set; }
+
+    /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliFlag("-modcacherw")]
+    public bool? Modcacherw { get; set; }
+
+    /// <summary>
     /// The args operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
