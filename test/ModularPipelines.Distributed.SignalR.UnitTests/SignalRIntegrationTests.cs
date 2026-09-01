@@ -70,6 +70,46 @@ public class SignalRIntegrationTests
     }
 
     [Test]
+    public async Task RegisterWorker_Replays_Pending_Cancellation()
+    {
+        var options = new SignalRDistributedOptions
+        {
+            MasterUrl = "http://127.0.0.1:0",
+        };
+        var masterState = new SignalRMasterState();
+        masterState.CancellationRequested.SetResult();
+        var serverHost = new MasterServerHost();
+
+        try
+        {
+            await serverHost.StartAsync(
+                options,
+                masterState,
+                NullLoggerFactory.Instance,
+                CancellationToken.None);
+
+            var cancellationReceived = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            await using var connection = BuildClient(serverHost.AdvertisedUrl, options.HubPath);
+            connection.On(
+                HubMethodNames.BroadcastCancellation,
+                () => cancellationReceived.TrySetResult());
+            await connection.StartAsync();
+
+            await connection.InvokeAsync(
+                HubMethodNames.RegisterWorker,
+                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                null);
+
+            await cancellationReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            await serverHost.DisposeAsync();
+        }
+    }
+
+    [Test]
     public async Task PublishResult_RoundTrip_Succeeds()
     {
         var options = new SignalRDistributedOptions

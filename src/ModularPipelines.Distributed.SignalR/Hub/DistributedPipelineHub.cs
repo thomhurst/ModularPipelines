@@ -49,6 +49,15 @@ internal class DistributedPipelineHub(
         state.Registrations[registration.WorkerIndex] = registration;
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
+        // Cancellation is durable master state. A worker that was disconnected
+        // during the original broadcast must receive it before registration returns.
+        if (state.CancellationRequested.Task.IsCompletedSuccessfully)
+        {
+            await Clients.Caller.SendAsync(
+                HubMethodNames.BroadcastCancellation,
+                Context.ConnectionAborted);
+        }
+
         _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
             registration.WorkerIndex, connectionId, string.Join(", ", registration.Capabilities));
     }

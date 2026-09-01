@@ -3030,9 +3030,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -3235,10 +3236,11 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
-                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -3315,10 +3317,11 @@ public class RunReportTests
                     OptionsFactory.Create(new PipelineOptions()),
                     distributedOptions,
                     new RoleDetector(distributedOptions),
-                    coordinator.Object,
+                    Mock.Of<IDistributedWorkerCoordinator>(),
                     commandExecutionCounter,
                     NullLogger<RunReportService>.Instance,
-                    workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                    workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                    masterCoordinator: coordinator.Object);
 
                 var report = await service.CompleteAsync(new PipelineSummary(
                     [firstModule, secondModule],
@@ -3389,9 +3392,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(10));
@@ -3440,10 +3444,11 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
-                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary())
                 .WaitAsync(TimeSpan.FromSeconds(2));
@@ -3493,9 +3498,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(2));
@@ -3553,9 +3559,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(2));
