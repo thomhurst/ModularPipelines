@@ -65,23 +65,42 @@ public partial class GoCliScraper : CliScraperBase
     {
         var helpText = await GetRawHelpTextAsync(commandPath, cancellationToken);
         if (string.IsNullOrWhiteSpace(helpText)
-            || commandPath is [_, "build"]
             || commandPath.Length != 2)
         {
             return helpText;
         }
 
-        var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
-        if (string.IsNullOrWhiteSpace(buildHelp)
-            || !UsesSharedBuildFlags(commandPath, helpText, buildHelp))
+        var additionalHelp = new List<string>();
+        if (commandPath is [_, "test"])
         {
-            return helpText;
+            var testFlagHelp = await GetRawHelpTextAsync([ToolName, "testflag"], cancellationToken);
+            if (GetTestFlagsHelp(testFlagHelp) is { } recognizedTestFlags)
+            {
+                additionalHelp.Add(recognizedTestFlags);
+            }
         }
 
-        var sharedBuildFlags = GetSharedBuildFlagsHelp(buildHelp);
-        return string.IsNullOrWhiteSpace(sharedBuildFlags)
+        if (commandPath is not [_, "build"])
+        {
+            var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+            if (!string.IsNullOrWhiteSpace(buildHelp)
+                && UsesSharedBuildFlags(commandPath, helpText, buildHelp)
+                && GetSharedBuildFlagsHelp(buildHelp) is { } sharedBuildFlags)
+            {
+                additionalHelp.Add(sharedBuildFlags);
+            }
+        }
+
+        return additionalHelp.Count == 0
             ? helpText
-            : $"{helpText.TrimEnd()}\n\n{sharedBuildFlags}";
+            : string.Join("\n\n", additionalHelp.Prepend(helpText.TrimEnd()));
+    }
+
+    private static string? GetTestFlagsHelp(string? testFlagHelp)
+    {
+        const string marker = "The following flags are recognized by";
+        var markerIndex = testFlagHelp?.IndexOf(marker, StringComparison.OrdinalIgnoreCase) ?? -1;
+        return markerIndex < 0 ? null : testFlagHelp![markerIndex..].Trim();
     }
 
     private static string? GetSharedBuildFlagsHelp(string buildHelp)
@@ -237,7 +256,7 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, usage.Synopsis);
+        var options = ParseOptions(commandParts, helpText, usage.Synopsis);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -378,7 +397,10 @@ public partial class GoCliScraper : CliScraperBase
     /// Format: -flag    description
     ///         -flag value    description
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText, string? usageSynopsis)
+    private static List<CliOptionDefinition> ParseOptions(
+        IReadOnlyList<string> commandParts,
+        string helpText,
+        string? usageSynopsis)
     {
         var options = new List<CliOptionDefinition>();
         var normalizedHelpText = helpText.ReplaceLineEndings("\n");
@@ -387,7 +409,33 @@ public partial class GoCliScraper : CliScraperBase
         AddUsageOptions(usageSynopsis ?? string.Empty, options, repeatableOptions);
         AddDocumentedOptions(normalizedHelpText.Split('\n'), options, repeatableOptions);
         AddProseOptions(paragraphs, options, repeatableOptions);
+        ApplyCommandSpecificOptionShapes(commandParts, options);
         return options;
+    }
+
+    private static void ApplyCommandSpecificOptionShapes(
+        IReadOnlyList<string> commandParts,
+        List<CliOptionDefinition> options)
+    {
+        if (commandParts is not ["mod", "edit"])
+        {
+            return;
+        }
+
+        var moduleIndex = options.FindIndex(option => option.SwitchName == "-module");
+        if (moduleIndex < 0)
+        {
+            return;
+        }
+
+        var module = options[moduleIndex];
+        options[moduleIndex] = module with
+        {
+            CSharpType = AsCSharpType("string?", module.AcceptsMultipleValues),
+            IsFlag = false,
+            ValueSeparator = "=",
+            IsSecret = GeneratorUtils.IsSecretOption(module.PropertyName, isFlag: false),
+        };
     }
 
     private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
@@ -582,7 +630,7 @@ public partial class GoCliScraper : CliScraperBase
 
         return Regex.IsMatch(
             description,
-            $@"(?<![\w-])-{optionPattern}\s+(?!(?:flag|flags|option|options)\b)\S+",
+            $@"(?<![\w-])-{optionPattern}\s+(?!(?:flag|flags|option|options)\b)\S+\s+(?:flag|option)\b",
             RegexOptions.IgnoreCase)
             || description.Contains($"-{optionKey} flag's value", StringComparison.OrdinalIgnoreCase)
                 ? " "

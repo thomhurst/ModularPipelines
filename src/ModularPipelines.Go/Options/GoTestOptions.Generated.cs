@@ -41,6 +41,120 @@ public record GoTestOptions : GoOptions
     [CliOption("-o")]
     public string? O { get; set; }
 
+    [CliFlag("-artifacts")]
+    public bool? Artifacts { get; set; }
+
+    [CliOption("-bench")]
+    public string? Bench { get; set; }
+
+    [CliOption("-benchtime")]
+    public string? Benchtime { get; set; }
+
+    [CliOption("-count")]
+    public string? Count { get; set; }
+
+    /// <summary>
+    /// enable code coverage instrumentation.
+    /// </summary>
+    [CliFlag("-cover")]
+    public bool? Cover { get; set; }
+
+    /// <summary>
+    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
+    /// </summary>
+    [CliOption("-covermode")]
+    public string? Covermode { get; set; }
+
+    /// <summary>
+    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
+    /// </summary>
+    [CliOption("-coverpkg")]
+    public string? Coverpkg { get; set; }
+
+    [CliOption("-cpu")]
+    public string? Cpu { get; set; }
+
+    [CliFlag("-failfast")]
+    public bool? Failfast { get; set; }
+
+    [CliFlag("-fullpath")]
+    public bool? Fullpath { get; set; }
+
+    [CliOption("-fuzz")]
+    public string? Fuzz { get; set; }
+
+    [CliOption("-fuzztime")]
+    public string? Fuzztime { get; set; }
+
+    /// <summary>
+    /// The default is 60s.
+    /// </summary>
+    [CliOption("-fuzzminimizetime")]
+    public string? Fuzzminimizetime { get; set; }
+
+    [CliOption("-list")]
+    public string? List { get; set; }
+
+    [CliOption("-outputdir")]
+    public string? Outputdir { get; set; }
+
+    [CliOption("-parallel")]
+    public string? Parallel { get; set; }
+
+    [CliOption("-run")]
+    public string? Run { get; set; }
+
+    [CliFlag("-short")]
+    public bool? Short { get; set; }
+
+    [CliOption("-shuffle")]
+    public string? Shuffle { get; set; }
+
+    [CliOption("-skip")]
+    public string? Skip { get; set; }
+
+    [CliOption("-timeout")]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// print the names of packages as they are compiled.
+    /// </summary>
+    [CliFlag("-v")]
+    public bool? V { get; set; }
+
+    [CliOption("-vet")]
+    public string? Vet { get; set; }
+
+    [CliFlag("-benchmem")]
+    public bool? Benchmem { get; set; }
+
+    [CliOption("-blockprofile")]
+    public string? Blockprofile { get; set; }
+
+    [CliOption("-blockprofilerate")]
+    public string? Blockprofilerate { get; set; }
+
+    [CliOption("-coverprofile")]
+    public string? Coverprofile { get; set; }
+
+    [CliOption("-cpuprofile")]
+    public string? Cpuprofile { get; set; }
+
+    [CliOption("-memprofile")]
+    public string? Memprofile { get; set; }
+
+    [CliOption("-memprofilerate")]
+    public string? Memprofilerate { get; set; }
+
+    [CliOption("-mutexprofile")]
+    public string? Mutexprofile { get; set; }
+
+    [CliOption("-mutexprofilefraction")]
+    public string? Mutexprofilefraction { get; set; }
+
+    [CliOption("-trace")]
+    public string? Trace { get; set; }
+
     /// <summary>
     /// force rebuilding of packages that are already up-to-date.
     /// </summary>
@@ -76,30 +190,6 @@ public record GoTestOptions : GoOptions
     /// </summary>
     [CliFlag("-asan")]
     public bool? Asan { get; set; }
-
-    /// <summary>
-    /// enable code coverage instrumentation.
-    /// </summary>
-    [CliFlag("-cover")]
-    public bool? Cover { get; set; }
-
-    /// <summary>
-    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
-    /// </summary>
-    [CliOption("-covermode")]
-    public string? Covermode { get; set; }
-
-    /// <summary>
-    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
-    /// </summary>
-    [CliOption("-coverpkg")]
-    public string? Coverpkg { get; set; }
-
-    /// <summary>
-    /// print the names of packages as they are compiled.
-    /// </summary>
-    [CliFlag("-v")]
-    public bool? V { get; set; }
 
     /// <summary>
     /// print the name of the temporary work directory and do not delete it when exiting.

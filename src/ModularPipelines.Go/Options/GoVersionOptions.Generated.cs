@@ -35,7 +35,13 @@ public record GoVersionOptions : GoOptions
     /// <summary>
     /// The -json flag is similar to -m but outputs the runtime/debug.BuildInfo in JSON format. If flag -json is specified without -m, go version reports an error.
     /// </summary>
-    [CliOption("-json")]
-    public string? Json { get; set; }
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// The file operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? File { get; set; }
 
 }
