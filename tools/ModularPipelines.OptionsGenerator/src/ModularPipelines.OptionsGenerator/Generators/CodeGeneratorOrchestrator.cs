@@ -706,7 +706,7 @@ public class CodeGeneratorOrchestrator
                     $"{failureReason} This is a CLI-only tool with no HTML fallback.");
             }
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
             AddScrapingError(result, cliScraper.ToolName, ex, cliOnly: true);
         }
@@ -984,7 +984,7 @@ public class CodeGeneratorOrchestrator
                 coverage,
                 cancellationToken);
         }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception ex) when (ex is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(
                 ex,

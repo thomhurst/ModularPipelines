@@ -22,7 +22,7 @@ internal sealed class CliScrapeProvenance
         IReadOnlyList<string> commandPath,
         string arguments,
         CliCommandResult result,
-        bool preserveRawHelp = false)
+        bool preserveRawHelp = true)
     {
         var path = string.Join(' ', commandPath);
         _helpInvocations[path] = new CliHelpInvocation
@@ -55,7 +55,7 @@ internal sealed class CliScrapeProvenance
     {
         var toolName = coverage.Manifest.ToolName;
         var requestedHelpPaths = coverage.RemovedCommands
-            .Select(GetParentCommand)
+            .SelectMany(GetAncestorCommands)
             .Append(toolName)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -95,10 +95,15 @@ internal sealed class CliScrapeProvenance
         return diagnosticsPath;
     }
 
-    private static string GetParentCommand(string command)
+    private static IEnumerable<string> GetAncestorCommands(string command)
     {
         var separator = command.LastIndexOf(' ');
-        return separator > 0 ? command[..separator] : command;
+        while (separator > 0)
+        {
+            command = command[..separator];
+            yield return command;
+            separator = command.LastIndexOf(' ');
+        }
     }
 
     private static string GetSafeToolDirectoryName(string toolName)

@@ -23,7 +23,7 @@ on:
         default: true
         type: boolean
       approve-command-coverage-shrinkage:
-        description: 'Approve same-version additions and at most five undocumented removals for this run'
+        description: 'Approve same-version changes and at most five undocumented removals; larger removals need reasoned exclusions, and minimum/sentinel checks remain enforced'
         required: false
         default: false
         type: boolean

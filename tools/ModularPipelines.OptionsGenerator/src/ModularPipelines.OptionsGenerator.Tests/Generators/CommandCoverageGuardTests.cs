@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -192,7 +193,7 @@ public class CommandCoverageGuardTests
         {
             var baseline = CommandCoverageGuard.Evaluate(
                 Tool(
-                    Command("aws apigateway get-model"),
+                    Command("aws apigateway models get-model"),
                     Command("aws ec2 describe-instances"),
                     Command("aws ec2 modify-vpc-attribute"),
                     Command("aws efs create-file-system"),
@@ -220,6 +221,10 @@ public class CommandCoverageGuardTests
                 "help",
                 Result("RAW ROOT HELP: ec2 only"));
             provenance.Record(
+                ["aws", "apigateway"],
+                "apigateway help",
+                Result("RAW APIGATEWAY HELP: models omitted"));
+            provenance.Record(
                 ["aws", "ec2"],
                 "ec2 help",
                 Result("RAW EC2 HELP: describe-instances only"));
@@ -232,10 +237,17 @@ public class CommandCoverageGuardTests
                 current,
                 CancellationToken.None);
             var json = await File.ReadAllTextAsync(path!);
+            using var diagnostics = JsonDocument.Parse(json);
+            var missingHelpPaths = diagnostics.RootElement
+                .GetProperty("missingHelpPaths")
+                .EnumerateArray()
+                .Select(static element => element.GetString())
+                .ToArray();
 
             await Assert.That(json).Contains("RAW ROOT HELP: ec2 only");
+            await Assert.That(json).Contains("RAW APIGATEWAY HELP: models omitted");
             await Assert.That(json).Contains("RAW EC2 HELP: describe-instances only");
-            await Assert.That(json).Contains("aws apigateway");
+            await Assert.That(missingHelpPaths).Contains("aws apigateway models");
             await Assert.That(json).Contains("aws-cli/2.36.29");
             await Assert.That(json).Contains("aws-cli/2.36.35");
         }

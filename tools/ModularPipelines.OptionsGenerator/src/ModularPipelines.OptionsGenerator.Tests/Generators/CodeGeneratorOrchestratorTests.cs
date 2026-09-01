@@ -197,6 +197,28 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
+    public async Task CliCoverageDiagnosticCancellation_Propagates()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            var scraper = new DiagnosticCliScraper(new DiagnosticExecutor());
+
+            await Assert.That(async () => await Orchestrator(scraper, new FakeGenerator())
+                    .GenerateAsync("fake", outputRoot, cancellationToken: cancellationTokenSource.Token))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Cli_Metadata_Is_Preserved_For_Generators()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));

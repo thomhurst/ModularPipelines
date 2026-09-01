@@ -176,8 +176,9 @@ When command coverage changes:
 3. If a same-version addition or at most five upstream removals are expected, run once with
    `--approve-command-coverage-shrinkage` and review the generated API, baseline-version
    comparison, and coverage diff.
-4. For larger removals, add a documented exclusion with a reviewed reason for every removed
-   command. Blanket approval deliberately has no mass-removal escape hatch.
+4. For larger removals, add a documented exclusion with a reviewed reason for each removal
+   beyond the five-command allowance. Blanket approval alone deliberately has no mass-removal
+   escape hatch.
 
 Approval permits same-version additions, up to five undocumented removals, and groups losing
 all children. Minimum counts, sentinel requirements, and the removal blast-radius ceiling
