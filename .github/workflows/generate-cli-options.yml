@@ -48,8 +48,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-generated-refresh-${{ github.event_name == 'workflow_dispatch' && inputs.tools != '' && 'filtered' || 'full' }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-generated-refresh
+  cancel-in-progress: false
 
 jobs:
   validate-generation-safety:
@@ -159,6 +159,19 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
+        run: |
+          pr_number="$(gh pr list --state open --head "automated/update-cli-options-${{ matrix.tool }}" --json number --jq '.[0].number // empty')"
+          if [ -n "$pr_number" ]; then
+            auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
+            if [ "$auto_merge_enabled" = "true" ]; then
+              gh pr merge "$pr_number" --disable-auto
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -737,17 +750,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
-      - name: Disable inherited auto-merge for push refreshes
-        if: steps.create-pr.outputs.pull-request-number && github.event_name == 'push'
-        run: |
-          pr_number=${{ steps.create-pr.outputs.pull-request-number }}
-          auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
-          if [ "$auto_merge_enabled" = "true" ]; then
-            gh pr merge "$pr_number" --disable-auto
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-
   # Generate options for Windows-only tools
   generate-windows:
     needs:
@@ -776,6 +778,30 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
+        shell: pwsh
+        run: |
+          $prNumber = gh pr list `
+            --state open `
+            --head "automated/update-cli-options-${{ matrix.tool }}" `
+            --json number `
+            --jq '.[0].number // empty'
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+          if (-not [string]::IsNullOrWhiteSpace($prNumber)) {
+            $autoMergeEnabled = gh pr view $prNumber --json autoMergeRequest --jq '.autoMergeRequest != null'
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            if ($autoMergeEnabled -eq 'true') {
+              gh pr merge $prNumber --disable-auto
+            }
+          }
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -1023,21 +1049,6 @@ jobs:
         if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
-        env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-
-      - name: Disable inherited auto-merge for push refreshes
-        if: steps.create-pr.outputs.pull-request-number && github.event_name == 'push'
-        shell: pwsh
-        run: |
-          $prNumber = '${{ steps.create-pr.outputs.pull-request-number }}'
-          $autoMergeEnabled = gh pr view $prNumber --json autoMergeRequest --jq '.autoMergeRequest != null'
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-          if ($autoMergeEnabled -eq 'true') {
-            gh pr merge $prNumber --disable-auto
-          }
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 

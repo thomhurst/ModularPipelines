@@ -39,6 +39,7 @@ try {
     }
 
     $workflowContents = Get-Content -LiteralPath $generationWorkflow -Raw
+    $normalizedWorkflowContents = $workflowContents.ReplaceLineEndings("`n")
     foreach ($buildInput in $buildInputs) {
         if (-not $workflowContents.Contains("- '$buildInput'", [StringComparison]::Ordinal)) {
             throw "Generator push trigger omits build input '$buildInput'."
@@ -60,19 +61,49 @@ try {
     $guardedAutoMergeDisableSteps = [regex]::Matches(
         $workflowContents,
         "(?ms)^      - name: Disable inherited auto-merge for push refreshes`r?`n" +
+        "(?:(?!^      - name:).)*?gh pr list" +
         "(?:(?!^      - name:).)*?--json autoMergeRequest" +
         "(?:(?!^      - name:).)*?\.autoMergeRequest != null" +
         "(?:(?!^      - name:).)*?--disable-auto")
     if ($guardedAutoMergeDisableSteps.Count -ne 2) {
         throw 'Linux and Windows generation jobs must each guard auto-merge disabling on the current PR state.'
     }
-    $expectedConcurrencyGroup =
-        "group: `${{ github.workflow }}-generated-refresh-`${{ github.event_name == 'workflow_dispatch' && inputs.tools != '' && 'filtered' || 'full' }}"
-    if (-not $workflowContents.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal)) {
-        throw 'Filtered manual refreshes must not cancel full push or scheduled refreshes.'
+    $linuxJobStart = $normalizedWorkflowContents.IndexOf("  generate:`n", [StringComparison]::Ordinal)
+    $windowsJobStart = $normalizedWorkflowContents.IndexOf(
+        "  generate-windows:`n",
+        [StringComparison]::Ordinal)
+    $reportJobStart = $normalizedWorkflowContents.IndexOf(
+        "  report-scheduled-failure:`n",
+        [StringComparison]::Ordinal)
+    if ($linuxJobStart -lt 0 -or $windowsJobStart -le $linuxJobStart -or
+        $reportJobStart -le $windowsJobStart) {
+        throw 'Could not resolve generation job boundaries.'
     }
-    if (-not $workflowContents.Contains('cancel-in-progress: true', [StringComparison]::Ordinal)) {
-        throw 'A newer generator refresh must cancel an older in-progress run.'
+
+    $linuxJob = $normalizedWorkflowContents.Substring(
+        $linuxJobStart,
+        $windowsJobStart - $linuxJobStart)
+    $windowsJob = $normalizedWorkflowContents.Substring(
+        $windowsJobStart,
+        $reportJobStart - $windowsJobStart)
+    foreach ($job in @($linuxJob, $windowsJob)) {
+        $disableIndex = $job.IndexOf(
+            '- name: Disable inherited auto-merge for push refreshes',
+            [StringComparison]::Ordinal)
+        $buildIndex = $job.IndexOf('- name: Build Generator', [StringComparison]::Ordinal)
+        if ($disableIndex -lt 0 -or $buildIndex -lt 0 -or $disableIndex -gt $buildIndex) {
+            throw 'Push refreshes must disable inherited auto-merge before generator work begins.'
+        }
+    }
+    $expectedConcurrencyGroup = "group: `${{ github.workflow }}-generated-refresh"
+    if (-not $workflowContents.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal)) {
+        throw 'All generated refreshes must share one concurrency group.'
+    }
+    if ($workflowContents.Contains('generated-refresh-', [StringComparison]::Ordinal)) {
+        throw 'Generated refreshes must not split into overlapping concurrency groups.'
+    }
+    if (-not $workflowContents.Contains('cancel-in-progress: false', [StringComparison]::Ordinal)) {
+        throw 'Generated refreshes must queue instead of cancelling overlapping tool updates.'
     }
 
     New-Item -ItemType Directory -Path $tempRoot | Out-Null
