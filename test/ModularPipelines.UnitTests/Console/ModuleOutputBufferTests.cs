@@ -136,6 +136,118 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_CustomObfuscatorRemasksLateSecretUnderEmissionGuard()
+    {
+        const string secret = "late-custom-secret";
+        var redactSecret = false;
+        var guardedObfuscations = new List<bool>();
+        var secretProvider = new TrackingSecretProvider();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) =>
+            {
+                if (redactSecret)
+                {
+                    guardedObfuscations.Add(secretProvider.IsExecuting);
+                }
+
+                return redactSecret
+                    ? value?.Replace(secret, "***", StringComparison.Ordinal) ?? string.Empty
+                    : value ?? string.Empty;
+            });
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider);
+        buffer.WriteRenderable(new Text(secret), secret, appendNewLine: false);
+
+        redactSecret = true;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("***");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+            await Assert.That(secretProvider.ExecutionCount).IsGreaterThan(0);
+            await Assert.That(guardedObfuscations).IsNotEmpty();
+            await Assert.That(guardedObfuscations.All(static guarded => guarded)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Flush_MasksLateMarkupSecretBeforeNarrowLayout()
+    {
+        const string secret = "alpha-bravo-charlie";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        using var profileWriter = new StringWriter();
+        var narrowConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        narrowConsole.Profile.Width = 8;
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            outputExcerptMaximumBytes: 1024,
+            outputExcerptSecretObfuscator: secretObfuscator,
+            outputExcerptSecretProvider: secretProvider.Object,
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object,
+            renderableConsole: narrowConsole);
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>(),
+            narrowConsole);
+        logger.WriteMarkupLine($"[green]{secret}[/]");
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        var excerpt = buffer.GetOutputExcerpt();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("********");
+            await Assert.That(output).DoesNotContain("alpha");
+            await Assert.That(excerpt).IsNotNull();
+            await Assert.That(excerpt!.StdoutTail).DoesNotContain("alpha");
+        }
+    }
+
+    [Test]
     public async Task Flush_MasksLeafSourcesBeforeOverflow()
     {
         var secret = string.Concat(Enumerable.Repeat("late-registered-secret-", 8));
@@ -1663,6 +1775,43 @@ public class ModuleOutputBufferTests
     private sealed class PassthroughSecretObfuscator : ISecretObfuscator
     {
         public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
+    }
+
+    private sealed class TrackingSecretProvider : ISecretProvider, ISecretEmissionGuard
+    {
+        private int _executionDepth;
+
+        public int ExecutionCount { get; private set; }
+
+        public bool IsExecuting => _executionDepth > 0;
+
+        public long Version => 0;
+
+        public IEnumerable<string> Secrets => [];
+
+        public SecretSnapshot GetSnapshot() => new(0, []);
+
+        public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
+        {
+            action();
+            return true;
+        }
+
+        public IEnumerable<string> GetSecretsInObject(object? value) => [];
+
+        public void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
+        {
+            ExecutionCount++;
+            _executionDepth++;
+            try
+            {
+                processOutput(state);
+            }
+            finally
+            {
+                _executionDepth--;
+            }
+        }
     }
 
     private sealed class RedactingSecretObfuscator : ISecretObfuscator

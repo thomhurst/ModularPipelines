@@ -279,10 +279,12 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void WriteMarkupLine(string value)
     {
-        SecretObfuscatedRenderable markup;
+        Markup markup;
+        string plainText;
         try
         {
-            markup = ObfuscatedMarkup.Create(value, _secretObfuscator);
+            markup = new Markup(value);
+            plainText = Markup.Remove(value);
         }
         catch (InvalidOperationException)
         {
@@ -290,7 +292,10 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             return;
         }
 
-        WriteRenderable(markup, appendNewLine: true);
+        WriteRenderable(
+            new SecretObfuscatedRenderable(markup, _secretObfuscator),
+            appendNewLine: true,
+            plainText: plainText);
     }
 
     public override void Write(IRenderable renderable)
@@ -298,7 +303,10 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         WriteRenderable(renderable, appendNewLine: false);
     }
 
-    private void WriteRenderable(IRenderable renderable, bool appendNewLine)
+    private void WriteRenderable(
+        IRenderable renderable,
+        bool appendNewLine,
+        string? plainText = null)
     {
         var obfuscatedRenderable = renderable as SecretObfuscatedRenderable
                                    ?? new SecretObfuscatedRenderable(
@@ -317,6 +325,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             rendered = _renderWriter.ToString();
         }
 
-        _buffer.WriteRenderable(obfuscatedRenderable, rendered, appendNewLine);
+        _buffer.WriteRenderable(obfuscatedRenderable, plainText ?? rendered, appendNewLine);
     }
 }

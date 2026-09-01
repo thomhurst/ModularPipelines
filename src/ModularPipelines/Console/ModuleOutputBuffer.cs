@@ -824,7 +824,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IAnsiConsole directConsole,
         IRenderable renderable)
     {
-        if (_renderableSecretObfuscator is not SecretObfuscator concreteObfuscator)
+        if (_renderableSecretObfuscator is null)
         {
             directConsole.Write(renderable);
             return;
@@ -835,7 +835,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             RequiresPostRenderObfuscation: false,
         }
             ? renderable
-            : new SecretObfuscatedRenderable(renderable, concreteObfuscator);
+            : new SecretObfuscatedRenderable(renderable, _renderableSecretObfuscator);
         if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
         {
             emissionGuard.ExecuteWithStableSecrets(
