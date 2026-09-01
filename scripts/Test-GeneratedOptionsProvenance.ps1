@@ -66,10 +66,10 @@ try {
     if ($guardedAutoMergeDisableSteps.Count -ne 2) {
         throw 'Linux and Windows generation jobs must each guard auto-merge disabling on the current PR state.'
     }
-    if (-not $workflowContents.Contains(
-            'group: ${{ github.workflow }}-generated-refresh',
-            [StringComparison]::Ordinal)) {
-        throw 'Generator refreshes must share one concurrency group across event types.'
+    $expectedConcurrencyGroup =
+        "group: `${{ github.workflow }}-generated-refresh-`${{ github.event_name == 'workflow_dispatch' && inputs.tools != '' && 'filtered' || 'full' }}"
+    if (-not $workflowContents.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal)) {
+        throw 'Filtered manual refreshes must not cancel full push or scheduled refreshes.'
     }
     if (-not $workflowContents.Contains('cancel-in-progress: true', [StringComparison]::Ordinal)) {
         throw 'A newer generator refresh must cancel an older in-progress run.'
@@ -220,6 +220,29 @@ try {
         throw "Provenance writer change did not invalidate generated options: $provenanceWriterError"
     }
 
+    $coveragePath = Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated/Fake.CommandCoverage.json'
+    $validCoverage = Get-Content -LiteralPath $coveragePath -Raw
+    $invalidCoverage = $validCoverage | ConvertFrom-Json
+    $invalidCoverage.toolVersion = $null
+    $invalidCoverage | ConvertTo-Json | Set-Content -LiteralPath $coveragePath
+    $missingCommandMetadataError = $null
+    try {
+        & $writeScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -PackageDirectory src/ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -ChangeManifest $changeManifest
+    }
+    catch {
+        $missingCommandMetadataError = $_.Exception.Message
+    }
+    Set-Content -LiteralPath $coveragePath -Value $validCoverage
+    if ([string]::IsNullOrWhiteSpace($missingCommandMetadataError) -or
+        -not $missingCommandMetadataError.Contains('incomplete command metadata', [StringComparison]::Ordinal)) {
+        throw "Missing coverage metadata was accepted by the provenance writer: $missingCommandMetadataError"
+    }
+
     & $writeScript `
         -RepositoryRoot $tempRoot `
         -Tool fake `
@@ -228,6 +251,50 @@ try {
         -ChangeManifest $changeManifest
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'refresh after provenance writer update'
+
+    $provenancePath = Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated/Fake.Generation.json'
+    $validProvenance = Get-Content -LiteralPath $provenancePath -Raw
+    $invalidProvenance = $validProvenance | ConvertFrom-Json
+    $invalidProvenance.commandTreeSha256 = $null
+    $invalidProvenance | ConvertTo-Json | Set-Content -LiteralPath $provenancePath
+    $invalidProvenanceError = $null
+    try {
+        & $assertScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -Package ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -CurrentBase HEAD
+    }
+    catch {
+        $invalidProvenanceError = $_.Exception.Message
+    }
+    Set-Content -LiteralPath $provenancePath -Value $validProvenance
+    if ([string]::IsNullOrWhiteSpace($invalidProvenanceError) -or
+        -not $invalidProvenanceError.Contains('incomplete command metadata', [StringComparison]::Ordinal)) {
+        throw "Incomplete provenance metadata passed freshness validation: $invalidProvenanceError"
+    }
+
+    $invalidCoverage = $validCoverage | ConvertFrom-Json
+    $invalidCoverage.commandTreeSha256 = ''
+    $invalidCoverage | ConvertTo-Json | Set-Content -LiteralPath $coveragePath
+    $invalidCoverageError = $null
+    try {
+        & $assertScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -Package ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -CurrentBase HEAD
+    }
+    catch {
+        $invalidCoverageError = $_.Exception.Message
+    }
+    Set-Content -LiteralPath $coveragePath -Value $validCoverage
+    if ([string]::IsNullOrWhiteSpace($invalidCoverageError) -or
+        -not $invalidCoverageError.Contains('incomplete command metadata', [StringComparison]::Ordinal)) {
+        throw "Incomplete coverage metadata passed freshness validation: $invalidCoverageError"
+    }
 
     Set-Content `
         -LiteralPath (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/Emitter.cs') `

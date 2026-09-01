@@ -49,6 +49,40 @@ if ($aws.Solution -match 'Azure|Google') {
     throw "AWS validation selected an unrelated integration: $($aws.Solution)."
 }
 
+$unrelatedManifest = Resolve-GeneratedIntegrationValidation `
+    -HeadRef 'automated/update-cli-options-aws' `
+    -HeadRepository $repository `
+    -PullRequestAuthor $automationAuthor `
+    -Repository $repository `
+    -ChangedPath @(
+        'src/ModularPipelines.AmazonWebServices/Generated/Other.Generation.json',
+        'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs'
+    ) `
+    -RepositoryRoot $repositoryRoot
+Assert-Equal `
+    $unrelatedManifest.IsGeneratedIntegration `
+    $false `
+    'Unrelated generation manifests must retain full validation.'
+
+$missingManifestRoot = Join-Path ([IO.Path]::GetTempPath()) "missing-generated-manifest-$([Guid]::NewGuid().ToString('N'))"
+try {
+    New-Item -ItemType Directory -Path $missingManifestRoot | Out-Null
+    $missingManifest = Resolve-GeneratedIntegrationValidation `
+        -HeadRef 'automated/update-cli-options-missing' `
+        -HeadRepository $repository `
+        -PullRequestAuthor $automationAuthor `
+        -Repository $repository `
+        -ChangedPath @('src/ModularPipelines.Missing/Options/MissingRunOptions.Generated.cs') `
+        -RepositoryRoot $missingManifestRoot
+    Assert-Equal `
+        $missingManifest.IsGeneratedIntegration `
+        $false `
+        'Missing manifest directories must retain full validation.'
+}
+finally {
+    Remove-Item -LiteralPath $missingManifestRoot -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 $nonPullRequest = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'not-a-generated-pull-request' `
     -HeadRepository '' `

@@ -11,6 +11,19 @@ function Assert-GeneratedOptionsToken {
     }
 }
 
+function Assert-GeneratedOptionsCommandMetadata {
+    param(
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][AllowEmptyString()][string]$ToolVersion,
+        [Parameter(Mandatory)][AllowEmptyString()][string]$CommandTreeSha256
+    )
+
+    if ([string]::IsNullOrWhiteSpace($ToolVersion) -or
+        [string]::IsNullOrWhiteSpace($CommandTreeSha256)) {
+        throw "$Name contains incomplete command metadata."
+    }
+}
+
 function Get-GeneratedOptionsSourcePath {
     return @(
         '.github/workflows/generate-cli-options.yml',

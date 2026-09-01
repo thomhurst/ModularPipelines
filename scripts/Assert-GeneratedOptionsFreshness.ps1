@@ -19,6 +19,10 @@ if (-not (Test-Path -LiteralPath $provenancePath -PathType Leaf)) {
 }
 
 $provenance = Get-Content -LiteralPath $provenancePath -Raw | ConvertFrom-Json
+Assert-GeneratedOptionsCommandMetadata `
+    -Name 'Generated provenance' `
+    -ToolVersion ([string]$provenance.toolVersion) `
+    -CommandTreeSha256 ([string]$provenance.commandTreeSha256)
 if ($provenance.formatVersion -ne 1 -or
     -not [string]::Equals(
         [string]$provenance.toolName,
@@ -34,6 +38,10 @@ if (-not (Test-Path -LiteralPath $coveragePath -PathType Leaf)) {
 }
 
 $coverage = Get-Content -LiteralPath $coveragePath -Raw | ConvertFrom-Json
+Assert-GeneratedOptionsCommandMetadata `
+    -Name 'Command coverage manifest' `
+    -ToolVersion ([string]$coverage.toolVersion) `
+    -CommandTreeSha256 ([string]$coverage.commandTreeSha256)
 if ($provenance.toolVersion -ne $coverage.toolVersion -or
     $provenance.commandTreeSha256 -ne $coverage.commandTreeSha256) {
     throw "Generated snapshots for '$Tool' do not match their command coverage manifest. Rerun Generate CLI Options."

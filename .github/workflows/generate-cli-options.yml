@@ -48,7 +48,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-generated-refresh
+  group: ${{ github.workflow }}-generated-refresh-${{ github.event_name == 'workflow_dispatch' && inputs.tools != '' && 'filtered' || 'full' }}
   cancel-in-progress: true
 
 jobs:

@@ -37,6 +37,7 @@ function Test-GeneratedIntegrationPath {
     param(
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string]$PackagePrefix,
+        [Parameter(Mandatory)][string]$NamespacePrefix,
         [Parameter(Mandatory)][string]$DocumentationPath,
         [Parameter(Mandatory)][string]$RepositoryRoot
     )
@@ -51,7 +52,12 @@ function Test-GeneratedIntegrationPath {
 
     $packagePath = $Path.Substring($PackagePrefix.Length)
     if ($packagePath.Equals('PublicAPI.Unshipped.txt', [StringComparison]::OrdinalIgnoreCase) -or
-        $packagePath -match '^Generated/[^/]+\.(CommandCoverage|Generation)\.json$') {
+        $packagePath.Equals(
+            "Generated/$NamespacePrefix.CommandCoverage.json",
+            [StringComparison]::OrdinalIgnoreCase) -or
+        $packagePath.Equals(
+            "Generated/$NamespacePrefix.Generation.json",
+            [StringComparison]::OrdinalIgnoreCase)) {
         return $true
     }
 
@@ -155,7 +161,7 @@ function Resolve-GeneratedIntegrationValidation {
         -Tool $tool `
         -Package $package `
         -RepositoryRoot $RepositoryRoot
-    if ($null -eq $coverageManifest) {
+    if (-not $coverageManifest) {
         return New-GeneratedIntegrationValidationResult `
             -IsGeneratedIntegration $false `
             -Reason "Tool '$tool' does not generate package '$package'."
@@ -171,6 +177,7 @@ function Resolve-GeneratedIntegrationValidation {
         -not (Test-GeneratedIntegrationPath `
                 -Path $_ `
                 -PackagePrefix $packagePrefix `
+                -NamespacePrefix $namespacePrefix `
                 -DocumentationPath $documentationPath `
                 -RepositoryRoot $RepositoryRoot)
     })

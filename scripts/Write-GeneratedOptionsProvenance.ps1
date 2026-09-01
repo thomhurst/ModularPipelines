@@ -31,6 +31,10 @@ if (-not [string]::Equals(
         [StringComparison]::OrdinalIgnoreCase)) {
     throw "Command coverage manifest belongs to '$($coverage.toolName)', not '$Tool'."
 }
+Assert-GeneratedOptionsCommandMetadata `
+    -Name 'Command coverage manifest' `
+    -ToolVersion ([string]$coverage.toolVersion) `
+    -CommandTreeSha256 ([string]$coverage.commandTreeSha256)
 
 $provenance = [ordered]@{
     formatVersion = 1
