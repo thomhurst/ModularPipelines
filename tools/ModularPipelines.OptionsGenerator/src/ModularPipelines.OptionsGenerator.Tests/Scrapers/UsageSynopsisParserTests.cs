@@ -690,12 +690,12 @@ public class UsageSynopsisParserTests
     public async Task Nested_Operand_Group_Preserves_Option_Terminator()
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: tool run [-- [<command> [<arg>...]]]",
+            "Usage: tool run [-- [<left>] [<right>]]",
             ["tool", "run"]);
 
         await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
         await Assert.That(result.PositionalArguments[0].PrependOptionTerminator).IsTrue();
-        await Assert.That(result.PositionalArguments[1].PrependOptionTerminator).IsFalse();
+        await Assert.That(result.PositionalArguments[1].PrependOptionTerminator).IsTrue();
     }
 
     [Test]

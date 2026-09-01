@@ -278,11 +278,9 @@ public static class UsageSynopsisParser
             return arguments;
         }
 
-        return
-        [
-            arguments[0] with { PrependOptionTerminator = true },
-            .. arguments.Skip(1),
-        ];
+        return arguments
+            .Select(static argument => argument with { PrependOptionTerminator = true })
+            .ToArray();
     }
 
     private static void ClearAssociatedOptionSwitch(
