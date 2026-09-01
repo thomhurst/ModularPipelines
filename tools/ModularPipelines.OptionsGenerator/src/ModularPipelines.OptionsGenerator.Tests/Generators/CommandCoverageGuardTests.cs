@@ -56,7 +56,79 @@ public class CommandCoverageGuardTests
 
             await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.RemovedCommands).IsEquivalentTo(["fake two"]);
-            await Assert.That(current.ShrinkageApproved).IsTrue();
+            await Assert.That(current.ChangesApproved).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task SameVersionCommandSubstitution_FailsWithoutApprovalAndReportsBothSides()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake list-engines")) with { ToolVersion = "10.20.1" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            var currentTool = Tool(Command("fake init")) with
+            {
+                ToolVersion = "10.20.1",
+                CommandCoverage = new CliCommandCoveragePolicy
+                {
+                    ConditionallyAvailableCommands =
+                    [
+                        new CliConditionallyAvailableCommand
+                        {
+                            Command = "fake list-engines",
+                            Reason = "Visibility depends on the help context.",
+                        },
+                    ],
+                },
+            };
+            var current = CommandCoverageGuard.Evaluate(
+                currentTool,
+                outputDirectory,
+                approveShrinkage: false);
+
+            await Assert.That(current.Violations).Contains(
+                violation => violation.Contains("version remained '10.20.1'", StringComparison.Ordinal)
+                             && violation.Contains("Added: fake init", StringComparison.Ordinal)
+                             && violation.Contains("Removed: fake list-engines", StringComparison.Ordinal));
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task SameVersionCommandSubstitution_ExplicitApprovalAllowsBothSides()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake list-engines")) with { ToolVersion = "10.20.1" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake init")) with { ToolVersion = "10.20.1" },
+                outputDirectory,
+                approveShrinkage: true);
+
+            await Assert.That(current.Violations).IsEmpty();
+            await Assert.That(current.AddedCommands).IsEquivalentTo(["fake init"]);
+            await Assert.That(current.RemovedCommands).IsEquivalentTo(["fake list-engines"]);
         }
         finally
         {

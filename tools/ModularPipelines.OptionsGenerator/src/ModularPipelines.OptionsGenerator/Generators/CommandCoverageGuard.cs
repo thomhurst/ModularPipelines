@@ -71,12 +71,19 @@ internal static class CommandCoverageGuard
             commands,
             allowedMissingCommands);
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
+        var hasSameVersionCommandSetDrift = previous is not null
+            && HasSameResolvedVersion(previous.ToolVersion, tool.ToolVersion)
+            && (addedCommands.Length > 0 || removedCommands.Length > 0);
         var violations = GetViolations(
             tool.CommandCoverage,
             commands.Count,
             missingSentinels,
+            addedCommands,
+            removedCommands,
             unapprovedRemovedCommands,
             knownGroupsWithoutChildren,
+            hasSameVersionCommandSetDrift,
+            tool.ToolVersion,
             approveShrinkage);
 
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
@@ -90,7 +97,7 @@ internal static class CommandCoverageGuard
             RemovedCommands = removedCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
             Violations = violations,
-            ShrinkageApproved = approveShrinkage,
+            ChangesApproved = approveShrinkage,
         };
     }
 
@@ -155,8 +162,12 @@ internal static class CommandCoverageGuard
         CliCommandCoveragePolicy policy,
         int commandCount,
         IReadOnlyList<string> missingSentinels,
+        IReadOnlyList<string> addedCommands,
         IReadOnlyList<string> removedCommands,
+        IReadOnlyList<string> unapprovedRemovedCommands,
         IReadOnlyList<string> groupsWithoutChildren,
+        bool hasSameVersionCommandSetDrift,
+        string? toolVersion,
         bool approveShrinkage)
     {
         var violations = new List<string>();
@@ -173,12 +184,38 @@ internal static class CommandCoverageGuard
         AddViolation(violations, "Missing sentinel commands", missingSentinels);
         if (!approveShrinkage)
         {
-            AddViolation(violations, "Removed commands require explicit approval", removedCommands);
+            if (hasSameVersionCommandSetDrift)
+            {
+                violations.Add(
+                    $"Command set changed while the resolved tool version remained '{toolVersion}'; "
+                    + "explicit approval is required. "
+                    + FormatCommandDiff("Added", addedCommands)
+                    + " "
+                    + FormatCommandDiff("Removed", removedCommands));
+            }
+            else
+            {
+                AddViolation(
+                    violations,
+                    "Removed commands require explicit approval",
+                    unapprovedRemovedCommands);
+            }
+
             AddViolation(violations, "Known command groups lost all children", groupsWithoutChildren);
         }
 
         return violations;
     }
+
+    private static bool HasSameResolvedVersion(string? previousVersion, string? currentVersion) =>
+        !string.IsNullOrWhiteSpace(previousVersion)
+        && !string.IsNullOrWhiteSpace(currentVersion)
+        && string.Equals(previousVersion, currentVersion, StringComparison.OrdinalIgnoreCase);
+
+    private static string FormatCommandDiff(string label, IReadOnlyCollection<string> commands) =>
+        commands.Count == 0
+            ? $"{label}: none."
+            : $"{label}: {string.Join(", ", commands)}.";
 
     private static void AddViolation(
         ICollection<string> violations,
@@ -448,5 +485,5 @@ internal sealed record CommandCoverageEvaluation
 
     public required IReadOnlyList<string> Violations { get; init; }
 
-    public required bool ShrinkageApproved { get; init; }
+    public required bool ChangesApproved { get; init; }
 }
