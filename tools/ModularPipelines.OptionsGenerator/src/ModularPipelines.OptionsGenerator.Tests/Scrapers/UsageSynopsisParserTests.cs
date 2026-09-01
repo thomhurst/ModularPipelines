@@ -800,6 +800,20 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Infer_Optional_Switches_As_Required_Alternatives()
+    {
+        const string helpText = """
+            Usage:
+              tool run [--json] <FILE>
+              tool run [--yaml] <FILE>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Models_Required_Inline_Option_Operand_Alternatives()
     {
         var result = UsageSynopsisParser.Parse(

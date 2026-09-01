@@ -188,7 +188,7 @@ public static class UsageSynopsisParser
                                || parsedOperands.UnparsedTokens.Count > 0,
             PositionalArguments = CliPositionalArgument.MergeDuplicates(parsedOperands.Arguments),
             UnparsedOperandTokens = parsedOperands.UnparsedTokens,
-            OptionSwitches = parsedOperands.OptionSwitches,
+            RequiredOptionSwitches = parsedOperands.RequiredOptionSwitches,
             SupportsRequiredAlternativeInference = SupportsRequiredAlternativeInference(
                 materializedOperandTokens),
             RequiredAlternativeGroups = ParseInlineRequiredAlternativeGroups(
@@ -252,7 +252,7 @@ public static class UsageSynopsisParser
             .Select(candidate => GetRequiredAlternativeMembers(new ParsedOperands(
                 candidate.PositionalArguments,
                 candidate.UnparsedOperandTokens,
-                candidate.OptionSwitches)))
+                candidate.RequiredOptionSwitches)))
             .ToArray();
         if (candidateMembers.Any(static members => members.Count == 0))
         {
@@ -312,10 +312,13 @@ public static class UsageSynopsisParser
         DistinctAlternativeMembers(
             operands.Arguments
                 .Where(static argument => argument.IsRequired)
-                .Select(static argument => argument.AssociatedOptionSwitch is { } optionSwitch
+                .Select(argument => argument.AssociatedOptionSwitch is { } optionSwitch
+                                    && operands.RequiredOptionSwitches.Contains(
+                                        optionSwitch,
+                                        StringComparer.OrdinalIgnoreCase)
                     ? new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch }
                     : new UsageRequiredAlternativeMember { PositionalPropertyName = argument.PropertyName })
-                .Concat(operands.OptionSwitches.Select(static optionSwitch =>
+                .Concat(operands.RequiredOptionSwitches.Select(static optionSwitch =>
                     new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch })));
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> DistinctAlternativeMembers(
@@ -363,7 +366,7 @@ public static class UsageSynopsisParser
     {
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
-        var optionSwitches = new List<string>();
+        var requiredOptionSwitches = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
         string? associatedOptionSwitch = null;
 
@@ -387,8 +390,13 @@ public static class UsageSynopsisParser
 
             if (TryGetOptionSwitch(operandToken, out var optionSwitch))
             {
+                var isRequiredOptionSwitch = IsRequiredUsageToken(operandToken);
                 associatedOptionSwitch = optionSwitch;
-                optionSwitches.Add(optionSwitch);
+                if (isRequiredOptionSwitch)
+                {
+                    requiredOptionSwitches.Add(optionSwitch);
+                }
+
                 continue;
             }
 
@@ -442,7 +450,10 @@ public static class UsageSynopsisParser
             AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
         }
 
-        return new ParsedOperands(arguments, unparsedTokens, optionSwitches);
+        return new ParsedOperands(
+            arguments,
+            unparsedTokens,
+            requiredOptionSwitches);
     }
 
     private static IReadOnlyList<CliPositionalArgument> PreserveOptionTerminatorOnNestedGroup(
@@ -501,7 +512,7 @@ public static class UsageSynopsisParser
     private readonly record struct ParsedOperands(
         IReadOnlyList<CliPositionalArgument> Arguments,
         IReadOnlyList<string> UnparsedTokens,
-        IReadOnlyList<string> OptionSwitches);
+        IReadOnlyList<string> RequiredOptionSwitches);
 
     private static IEnumerable<string> SkipCommandAliases(IEnumerable<string> operandTokens)
     {
@@ -802,8 +813,7 @@ public static class UsageSynopsisParser
         CommandLinePhase phase)
     {
         var trimmed = TrimTrailingOperandPunctuation(token);
-        var isRequired = !trimmed.StartsWith('[')
-                         || HasRequiredSuffixOutsideOptionalPrefix(trimmed);
+        var isRequired = IsRequiredUsageToken(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
         if (HasMixedOptionOperandAlternatives(content))
@@ -864,6 +874,10 @@ public static class UsageSynopsisParser
             ? variadicPlaceholder
             : canonicalName;
     }
+
+    private static bool IsRequiredUsageToken(string token) =>
+        !token.StartsWith('[')
+        || HasRequiredSuffixOutsideOptionalPrefix(token);
 
     private static bool IsForwardedOptionTail(string token, string content) =>
         token.StartsWith('[')
@@ -1418,7 +1432,7 @@ public sealed record UsageSynopsisParseResult
 
     internal bool SupportsRequiredAlternativeInference { get; init; }
 
-    internal IReadOnlyList<string> OptionSwitches { get; init; } = [];
+    internal IReadOnlyList<string> RequiredOptionSwitches { get; init; } = [];
 
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
 
