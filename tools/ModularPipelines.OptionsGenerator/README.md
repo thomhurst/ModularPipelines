@@ -83,7 +83,7 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 | `--use-cli-first <true\|false>` | Prefer installed CLI help over HTML documentation. Defaults to `true`. |
 | `--enhance-types <true\|false>` | Run type detection after HTML scraping. Defaults to `true`. |
 | `--change-manifest <path>` | Record every repository-relative generated or deleted path for safe automation. |
-| `--approve-command-coverage-shrinkage` | Acknowledge reviewed command removals for this run. It does not bypass minimum counts or sentinel commands. |
+| `--approve-command-coverage-shrinkage` | Acknowledge reviewed command-set changes for this run, including same-version additions or removals. It does not bypass minimum counts or sentinel commands. |
 | `--input <path>` | Generate an external integration from JSON. This cannot be combined with `--tools`. |
 
 For reproducible CI scraping, set `MODULARPIPELINES_CLI_EXECUTABLE` to the verified absolute
@@ -156,6 +156,7 @@ Generation fails when:
 - a generated integration has lost its committed coverage manifest;
 - the current command count is below `MinimumCommandCount`;
 - a configured sentinel command disappeared;
+- the command set changed while the resolved tool version stayed the same, without explicit approval;
 - a previously generated command disappeared without explicit approval;
 - a known command group lost all children without explicit approval; or
 - an exclusion lacks a full command and non-empty reason.
@@ -165,18 +166,19 @@ stable commands from important branches of the CLI. Set a conservative minimum t
 truncated or empty scraping without failing on normal upstream evolution. Every intentional
 exclusion needs a durable explanation.
 
-When commands disappear:
+When command coverage changes:
 
 1. Inspect the installed tool version and raw help output. A parser regression, missing
    plugin, authentication prompt, preview flag, or wrong executable must not be approved as
    upstream shrinkage.
 2. Fix the scraper when the commands still exist, then regenerate.
-3. If upstream intentionally removed commands, run once with
+3. If the change is expected, run once with
    `--approve-command-coverage-shrinkage` and review the generated API and coverage diff.
 4. Add a documented exclusion instead when a command intentionally remains unsupported.
 
-Shrinkage approval only permits removed commands and groups losing all children. Minimum
-counts and sentinel requirements always remain enforced. Additions need no approval.
+Approval permits same-version command-set changes, removed commands, and groups losing all
+children. Minimum counts and sentinel requirements always remain enforced. Additions after
+an intentional tool-version change need no approval.
 
 ## Validate a change
 
