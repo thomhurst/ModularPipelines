@@ -80,6 +80,35 @@ public partial class KustomizeCliScraper : CobraCliScraper
     }
 
     /// <summary>
+    /// Kustomize 5.8 registers create annotations and labels as scalar strings, then
+    /// parses one comma-separated key:value value into a map.
+    /// </summary>
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (commandParts is not ["create"])
+        {
+            return options;
+        }
+
+        return options
+            .Select(option => option is
+            {
+                SwitchName: "--annotations" or "--labels",
+                CSharpType: "string?",
+            }
+                    ? option with
+                    {
+                        CSharpType = "IEnumerable<string>?",
+                        CollectionSeparator = ",",
+                        IsKeyValue = false,
+                    }
+                    : option)
+            .ToArray();
+    }
+
+    /// <summary>
     /// Kustomize validates buildmetadata operands but omits them from Cobra's Use value.
     /// </summary>
     protected override IEnumerable<string> GetAdditionalUsageSynopses(

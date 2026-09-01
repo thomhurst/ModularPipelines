@@ -81,6 +81,47 @@ public class KustomizeCliScraperTests
         }
     }
 
+    [Test]
+    [Arguments("string", "", "IEnumerable<string>?", false, false, ",")]
+    [Arguments("stringToString", " (default [])", "IReadOnlyList<KeyValue>?", true, false, null)]
+    public async Task Create_Map_Option_Rendering_Matches_Cobra_Type(
+        string typeHint,
+        string defaultDescription,
+        string expectedType,
+        bool expectedIsKeyValue,
+        bool expectedAcceptsMultipleValues,
+        string? expectedCollectionSeparator)
+    {
+        var command = await new TestKustomizeCliScraper().Parse(
+            ["kustomize", "create"],
+            $$"""
+              Usage:
+                kustomize create [flags]
+
+              Flags:
+                    --annotations {{typeHint}}   Add one or more common annotations.{{defaultDescription}}
+                    --labels {{typeHint}}        Add one or more common labels.{{defaultDescription}}
+              """);
+
+        var options = command!.Options
+            .Where(option => option.SwitchName is "--annotations" or "--labels")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options).Count().IsEqualTo(2);
+            await Assert.That(options.Select(option => option.CSharpType))
+                .IsEquivalentTo([expectedType, expectedType]);
+            await Assert.That(options.All(option => option.IsKeyValue == expectedIsKeyValue)).IsTrue();
+            await Assert.That(options.All(
+                    option => option.AcceptsMultipleValues == expectedAcceptsMultipleValues))
+                .IsTrue();
+            await Assert.That(options.All(
+                    option => option.CollectionSeparator == expectedCollectionSeparator))
+                .IsTrue();
+        }
+    }
+
     private sealed class TestKustomizeCliScraper(ICliCommandExecutor? executor = null)
         : KustomizeCliScraper(
             executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

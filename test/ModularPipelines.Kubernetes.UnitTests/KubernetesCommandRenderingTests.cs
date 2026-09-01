@@ -1,7 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Kubernetes.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
@@ -19,6 +18,28 @@ public class KubernetesCommandRenderingTests : TestBase
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl apply --validate=warn");
+    }
+
+    [Test]
+    public async Task Kustomize_Create_Joins_Scalar_Map_Entries()
+    {
+        var result = await GetResult(new KustomizeCreateOptions
+        {
+            Annotations =
+            [
+                "owners:alice",
+                "tier:backend",
+            ],
+            Labels =
+            [
+                "app:web",
+                "environment:test",
+            ],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "kustomize create --annotations=owners:alice,tier:backend "
+            + "--labels=app:web,environment:test");
     }
 
     [Test]
