@@ -900,7 +900,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         if (!maskableOutputs.Any(static output => output.IsRenderable)
             && maskableOutputs.All(static output => output.IsPreObfuscated))
         {
-            return 0;
+            WritePreObfuscatedStringsWithCurrentSecrets(
+                directConsole,
+                maskableOutputs);
+            return maskableOutputs.Length;
         }
 
         if (!maskableOutputs.Any(static output => output.IsRenderable)
@@ -925,7 +928,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         WriteRenderableWithCurrentSecrets(
             directConsole,
             renderable,
-            GetMixedOutputObfuscator(maskableOutputs));
+            GetCombinedOutputObfuscator(maskableOutputs));
         if (maskableOutputs[^1].AppendNewLine)
         {
             directConsole.WriteLine();
@@ -998,29 +1001,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         return GetPotentialSecretPrefixLength(source.ToString()) > 0;
     }
 
-    private ISecretObfuscator? GetMixedOutputObfuscator(
+    private ISecretObfuscator? GetCombinedOutputObfuscator(
         BufferedOutput[] outputs)
     {
         if (_renderableSecretObfuscator is null
             || _renderableSecretObfuscator is SecretObfuscator
-            || outputs[0] is not { IsPreObfuscated: true, StringValue: { } value })
+            || _renderableSecretProvider is null
+            || outputs.Length == 1)
         {
             return _renderableSecretObfuscator;
         }
 
-        var boundarySource = value + (outputs[0].AppendNewLine && outputs.Length > 1
-            ? Environment.NewLine
-            : string.Empty);
-        var retainedLength = GetPotentialSecretPrefixLength(boundarySource);
-        var protectedLength = Math.Clamp(
-            boundarySource.Length - retainedLength,
-            0,
-            value.Length);
-        return protectedLength == 0
-            ? _renderableSecretObfuscator
-            : new PrefixPreservingSecretObfuscator(
-                _renderableSecretObfuscator,
-                value[..protectedLength]);
+        return new RegisteredSecretsOnlyObfuscator(
+            _renderableSecretObfuscator,
+            _renderableSecretProvider);
     }
 
     private int GetPotentialSecretPrefixLength(string value)
@@ -1130,6 +1124,91 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
 
         directConsole.Write(ObfuscatedMarkup.Create(source, _renderableSecretObfuscator));
+    }
+
+    private void WritePreObfuscatedStringsWithCurrentSecrets(
+        IAnsiConsole directConsole,
+        BufferedOutput[] outputs)
+    {
+        if (_renderableSecretObfuscator is null || _renderableSecretProvider is null)
+        {
+            WritePreObfuscatedStrings(directConsole, outputs);
+            return;
+        }
+
+        if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
+        {
+            emissionGuard.ExecuteWithStableSecrets(
+                (Buffer: this, Console: directConsole, Outputs: outputs),
+                static state => state.Buffer.WritePreObfuscatedStrings(
+                    state.Console,
+                    state.Outputs));
+            return;
+        }
+
+        WritePreObfuscatedStrings(directConsole, outputs);
+    }
+
+    private void WritePreObfuscatedStrings(
+        IAnsiConsole directConsole,
+        BufferedOutput[] outputs)
+    {
+        var source = GetMaskableSource(outputs);
+        directConsole.Write(new Text(RemaskCurrentSecrets(
+            source,
+            _renderableSecretObfuscator,
+            _renderableSecretProvider)));
+        if (outputs[^1].AppendNewLine)
+        {
+            directConsole.WriteLine();
+        }
+    }
+
+    private static string RemaskCurrentSecrets(
+        string source,
+        ISecretObfuscator? secretObfuscator,
+        ISecretProvider? secretProvider)
+    {
+        if (secretObfuscator is null || secretProvider is null)
+        {
+            return source;
+        }
+
+        var comparison = secretObfuscator is ITrackedSecretObfuscator tracked
+            ? tracked.PatternComparison
+            : StringComparison.OrdinalIgnoreCase;
+        var comparer = comparison == StringComparison.Ordinal
+            ? StringComparer.Ordinal
+            : StringComparer.OrdinalIgnoreCase;
+        var secrets = (secretProvider.GetSnapshot().Secrets ?? [])
+            .Where(static secret => !string.IsNullOrEmpty(secret))
+            .Distinct(comparer)
+            .OrderByDescending(static secret => secret.Length)
+            .ToArray();
+        if (secrets.Length == 0)
+        {
+            return source;
+        }
+
+        var output = new StringBuilder(source.Length);
+        for (var offset = 0; offset < source.Length;)
+        {
+            var matchedSecret = secrets.FirstOrDefault(secret =>
+                source.AsSpan(offset).StartsWith(secret.AsSpan(), comparison));
+            if (matchedSecret is null)
+            {
+                output.Append(source[offset]);
+                offset++;
+                continue;
+            }
+
+            output.Append(secretObfuscator.Obfuscate(
+                source.Substring(offset, matchedSecret.Length),
+                null));
+            offset += matchedSecret.Length;
+        }
+
+        return output.ToString();
     }
 
     private void RecordRenderedOutput(OutputFlushKind flushKind, bool renderedConsoleOutput)
@@ -1419,20 +1498,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
     }
 
-    private sealed class PrefixPreservingSecretObfuscator(
+    private sealed class RegisteredSecretsOnlyObfuscator(
         ISecretObfuscator inner,
-        string protectedPrefix) : ISecretObfuscator
+        ISecretProvider secretProvider) : ISecretObfuscator
     {
         public bool HasSecrets => inner.HasSecrets;
 
-        public string Obfuscate(string? input, object? optionsObject)
-        {
-            var output = inner.Obfuscate(input, optionsObject);
-            var obfuscatedPrefix = inner.Obfuscate(protectedPrefix, optionsObject);
-            return output.StartsWith(obfuscatedPrefix, StringComparison.Ordinal)
-                ? protectedPrefix + output[obfuscatedPrefix.Length..]
-                : output;
-        }
+        public string Obfuscate(string? input, object? optionsObject) =>
+            RemaskCurrentSecrets(input ?? string.Empty, inner, secretProvider);
     }
 }
 

@@ -271,6 +271,99 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_RemasksLateInterceptedSecretWithoutReobfuscatingSafeText()
+    {
+        const string secret = "secret";
+        var redactSecret = false;
+        var secretProvider = new TrackingSecretProvider();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => redactSecret
+                ? (input ?? string.Empty)
+                    .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                    .Replace(secret, "masked", StringComparison.Ordinal)
+                : input ?? string.Empty);
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider);
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(buffer);
+        using var coordinatedWriter = new CoordinatedTextWriter(
+            coordinator.Object,
+            writer,
+            () => true,
+            secretObfuscator.Object,
+            secretProvider);
+        coordinatedWriter.Write("masked secret");
+        coordinatedWriter.Flush();
+
+        secretProvider.RegisteredSecrets = [secret];
+        redactSecret = true;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Flush_AdjacentRichWritesApplyCustomObfuscatorOnce()
+    {
+        const string secret = "secret";
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => (input ?? string.Empty)
+                .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                .Replace(secret, "masked", StringComparison.Ordinal));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: Mock.Of<ISecretProvider>());
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        logger.Write(new Text(secret));
+        logger.Write(new Text(secret));
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("maskedmasked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
     public async Task IncrementalFlush_RetainsSecretPrefixUntilRenderableLineCompletes()
     {
         var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
@@ -2029,11 +2122,13 @@ public class ModuleOutputBufferTests
 
         public bool IsExecuting => _executionDepth > 0;
 
+        public IReadOnlyList<string> RegisteredSecrets { get; set; } = [];
+
         public long Version => 0;
 
-        public IEnumerable<string> Secrets => [];
+        public IEnumerable<string> Secrets => RegisteredSecrets;
 
-        public SecretSnapshot GetSnapshot() => new(0, []);
+        public SecretSnapshot GetSnapshot() => new(0, RegisteredSecrets);
 
         public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
         {
