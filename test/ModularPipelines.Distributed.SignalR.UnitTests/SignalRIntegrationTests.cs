@@ -47,10 +47,10 @@ public class SignalRIntegrationTests
             var connection = BuildClient(serverHost.AdvertisedUrl, options.HubPath);
             await connection.StartAsync();
 
-            // Act — invoke RegisterWorker with a WorkerRegistration containing HashSet<string>
+            // Act — invoke RegisterWorker with a WorkerRegistration containing HashSet<Capability>
             var registration = new WorkerRegistration(
                 WorkerIndex: 1,
-                Capabilities: new HashSet<string> { "linux", "x64" },
+                Capabilities: new HashSet<Capability> { "linux", "x64" },
                 RegisteredAt: DateTimeOffset.UtcNow);
 
             await connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, null);
@@ -88,7 +88,7 @@ public class SignalRIntegrationTests
 
             // Register first (required by hub)
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
                 null);
 
             // Pre-create a result waiter
@@ -149,14 +149,14 @@ public class SignalRIntegrationTests
 
             // Register as idle worker
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow),
                 null);
 
             // Enqueue work via master state (simulating master coordinator)
             var moduleAssignment = new ModuleAssignment(
                 ModuleTypeName: "MyModule",
                 ResultTypeName: "System.Int32",
-                RequiredCapabilities: new HashSet<string>(),
+                RequiredCapabilities: new HashSet<Capability>(),
                 AssignedAt: DateTimeOffset.UtcNow,
                 Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -164,7 +164,7 @@ public class SignalRIntegrationTests
 
             // Request work — triggers server to dequeue and push assignment
             await connection.InvokeAsync(HubMethodNames.RequestWork,
-                new HashSet<string> { "linux" });
+                new HashSet<Capability> { "linux" });
 
             // Wait for assignment to arrive
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -233,31 +233,31 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync(), worker3.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string> { "linux" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow),
                 null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<string> { "windows" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(2, new HashSet<Capability> { "windows" }, DateTimeOffset.UtcNow),
                 null);
             await worker3.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(3, new HashSet<string> { "linux", "docker" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(3, new HashSet<Capability> { "linux", "docker" }, DateTimeOffset.UtcNow),
                 null);
 
             // Enqueue 3 modules with different capability requirements
             var windowsModule = new ModuleAssignment(
                 "WindowsBuildModule", "System.String",
-                new HashSet<string> { "windows" },
+                new HashSet<Capability> { "windows" },
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule", "System.String",
-                new HashSet<string> { "linux", "docker" },
+                new HashSet<Capability> { "linux", "docker" },
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule", "System.String",
-                new HashSet<string>(),
+                new HashSet<Capability>(),
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -266,9 +266,9 @@ public class SignalRIntegrationTests
             masterState.PendingAssignments.Enqueue(genericModule);
 
             // All workers request work
-            await worker1.InvokeAsync(HubMethodNames.RequestWork, new HashSet<string> { "linux" });
-            await worker2.InvokeAsync(HubMethodNames.RequestWork, new HashSet<string> { "windows" });
-            await worker3.InvokeAsync(HubMethodNames.RequestWork, new HashSet<string> { "linux", "docker" });
+            await worker1.InvokeAsync(HubMethodNames.RequestWork, new HashSet<Capability> { "linux" });
+            await worker2.InvokeAsync(HubMethodNames.RequestWork, new HashSet<Capability> { "windows" });
+            await worker3.InvokeAsync(HubMethodNames.RequestWork, new HashSet<Capability> { "linux", "docker" });
 
             // Wait for all assignments to be distributed
             allAssigned.Wait(TimeSpan.FromSeconds(5));
@@ -323,10 +323,10 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
                 null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<string>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow),
                 null);
 
             // Pre-create result waiter for the master side
@@ -394,7 +394,7 @@ public class SignalRIntegrationTests
 
             await worker.StartAsync();
             await worker.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
                 null);
 
             // Set up result waiters and enqueue 3 modules
@@ -408,12 +408,12 @@ public class SignalRIntegrationTests
                 resultTasks[moduleName] = tcs;
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
-                    moduleName, "System.String", new HashSet<string>(),
+                    moduleName, "System.String", new HashSet<Capability>(),
                     DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
             }
 
             // Worker requests work — will get first assignment, then re-request after each publish
-            await worker.InvokeAsync(HubMethodNames.RequestWork, new HashSet<string>());
+            await worker.InvokeAsync(HubMethodNames.RequestWork, new HashSet<Capability>());
 
             // Wait for all results
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));

@@ -262,7 +262,7 @@ internal class DistributedModuleExecutor(
     {
         // Build master's capabilities (same logic as WorkerModuleExecutor)
         var options = _options.Value;
-        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        var capabilities = new HashSet<Capability>(options.Capabilities);
         if (options.AutoDetectOsCapability)
         {
             capabilities.UnionWith(OsCapabilityDetector.Detect());

@@ -105,9 +105,9 @@ internal class WorkerModuleExecutor(
         return executedModules;
     }
 
-    private static HashSet<string> BuildCapabilities(DistributedOptions options)
+    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
     {
-        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        var capabilities = new HashSet<Capability>(options.Capabilities);
         if (options.AutoDetectOsCapability)
         {
             capabilities.UnionWith(OsCapabilityDetector.Detect());
@@ -116,7 +116,7 @@ internal class WorkerModuleExecutor(
         return capabilities;
     }
 
-    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<string> capabilities, CancellationToken cancellationToken)
+    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<Capability> capabilities, CancellationToken cancellationToken)
     {
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,

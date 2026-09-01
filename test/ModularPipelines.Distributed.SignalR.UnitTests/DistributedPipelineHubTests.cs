@@ -15,7 +15,7 @@ public class DistributedPipelineHubTests
         var worker = new WorkerState
         {
             ConnectionId = "connection-1",
-            Registration = new WorkerRegistration(1, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
         };
         worker.TryAssign(CreateAssignment("CurrentModule"));
         state.Workers[worker.ConnectionId] = worker;
@@ -54,7 +54,7 @@ public class DistributedPipelineHubTests
         return new ModuleAssignment(
             moduleTypeName,
             "System.String",
-            FrozenSet<string>.Empty,
+            FrozenSet<Capability>.Empty,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfiguration(null, 0, false));
     }

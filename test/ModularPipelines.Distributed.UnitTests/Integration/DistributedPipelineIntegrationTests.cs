@@ -63,7 +63,7 @@ public class DistributedPipelineIntegrationTests
 
         // Simulate worker: dequeue the assignment
         var workerAssignment = await coordinator.DequeueModuleAsync(
-            new HashSet<string>(), CancellationToken.None);
+            new HashSet<Capability>(), CancellationToken.None);
         await Assert.That(workerAssignment).IsNotNull();
 
         // Simulate worker producing a serialized result

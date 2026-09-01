@@ -9,7 +9,7 @@ public static class DistributedCoordinatorContract
         Task? waitUntilReady = null)
     {
         var assignment = CreateAssignment("Contract.EnqueueDequeue");
-        var dequeueTask = coordinator.DequeueModuleAsync(new HashSet<string>(), CancellationToken.None);
+        var dequeueTask = coordinator.DequeueModuleAsync(new HashSet<Capability>(), CancellationToken.None);
 
         await WaitUntilReadyAsync(waitUntilReady);
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
@@ -39,7 +39,7 @@ public static class DistributedCoordinatorContract
         IDistributedCoordinator coordinator,
         Task? waitUntilReady = null)
     {
-        var dequeueTask = coordinator.DequeueModuleAsync(new HashSet<string>(), CancellationToken.None);
+        var dequeueTask = coordinator.DequeueModuleAsync(new HashSet<Capability>(), CancellationToken.None);
 
         await WaitUntilReadyAsync(waitUntilReady);
         await coordinator.SignalCompletionAsync(CancellationToken.None);
@@ -61,7 +61,7 @@ public static class DistributedCoordinatorContract
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
     }

@@ -86,7 +86,7 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Called by workers to request work when idle.
     /// </summary>
-    public async Task RequestWork(HashSet<string> capabilities)
+    public async Task RequestWork(HashSet<Capability> capabilities)
     {
         var state = _masterState;
 

@@ -178,7 +178,7 @@ public class RestoreModule : Module<string>
     }
 }
 
-[RequiresCapability("linux")]
+[RequiresCapability(Capability.Names.Linux)]
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string>
 {
@@ -191,7 +191,7 @@ public class LinuxBuildModule : Module<string>
     }
 }
 
-[RequiresCapability("windows")]
+[RequiresCapability(Capability.Names.Windows)]
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string>
 {
@@ -204,7 +204,7 @@ public class WindowsBuildModule : Module<string>
     }
 }
 
-[RequiresCapability("macos")]
+[RequiresCapability(Capability.Names.MacOS)]
 [DependsOn<RestoreModule>]
 public class MacBuildModule : Module<string>
 {

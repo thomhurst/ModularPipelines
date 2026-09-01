@@ -362,7 +362,7 @@ internal sealed class RunReportService(
     private async Task PublishWorkerMetricsAsync(CancellationToken cancellationToken)
     {
         var options = distributedOptions.Value;
-        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        var capabilities = new HashSet<Capability>(options.Capabilities);
         if (options.AutoDetectOsCapability)
         {
             capabilities.UnionWith(OsCapabilityDetector.Detect());

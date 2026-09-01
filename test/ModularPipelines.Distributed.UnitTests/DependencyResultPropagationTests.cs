@@ -74,7 +74,7 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(ConsumerModule).FullName!,
             ResultTypeName: typeof(string).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false),
             DependencyResults: [serializedDep]);
@@ -118,7 +118,7 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(IndependentModule).FullName!,
             ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false),
             DependencyResults: null);
@@ -134,7 +134,7 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(IndependentModule).FullName!,
             ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false),
             DependencyResults: []);

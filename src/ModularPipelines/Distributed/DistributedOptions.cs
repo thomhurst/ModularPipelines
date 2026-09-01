@@ -14,7 +14,7 @@ public class DistributedOptions
     /// </summary>
     public string? RunIdentifier { get; set; }
 
-    public IReadOnlyList<string> Capabilities { get; set; } = [];
+    public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 
     public TimeSpan CapabilityTimeout { get; set; } = TimeSpan.FromMinutes(5);
 

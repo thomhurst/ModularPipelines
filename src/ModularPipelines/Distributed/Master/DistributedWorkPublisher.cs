@@ -49,8 +49,9 @@ internal class DistributedWorkPublisher(
         var requiredCapabilities = moduleType
             .GetCustomAttributes(typeof(RequiresCapabilityAttribute), true)
             .Cast<RequiresCapabilityAttribute>()
-            .Select(a => a.Capability)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .SelectMany(static attribute => attribute.Capabilities)
+            .Select(static name => new Capability(name))
+            .ToHashSet();
 
         var conditionAttributes = moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().ToArray();
         var operatingSystemRoutes = GetOperatingSystemRoutes(module, conditionAttributes);
@@ -136,7 +137,7 @@ internal class DistributedWorkPublisher(
     }
 
     private static void AddExplicitOperatingSystemRoutes(
-        ISet<string> requiredCapabilities,
+        ISet<Capability> requiredCapabilities,
         ICollection<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
         foreach (var capability in requiredCapabilities.ToArray())
@@ -152,7 +153,7 @@ internal class DistributedWorkPublisher(
     }
 
     private static void AddOperatingSystemCapabilities(
-        ISet<string> requiredCapabilities,
+        ISet<Capability> requiredCapabilities,
         IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
         var effectiveOperatingSystems = IntersectRoutes(routes);

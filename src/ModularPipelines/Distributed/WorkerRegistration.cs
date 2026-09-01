@@ -6,7 +6,7 @@ namespace ModularPipelines.Distributed;
 public record WorkerRegistration(
     int WorkerIndex,
     [property: JsonConverter(typeof(ReadOnlySetJsonConverter))]
-    IReadOnlySet<string> Capabilities,
+    IReadOnlySet<Capability> Capabilities,
     DateTimeOffset RegisteredAt)
 {
     /// <summary>

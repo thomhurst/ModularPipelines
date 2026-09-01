@@ -155,6 +155,14 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
+    private sealed class MultipleCapabilitiesModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     [RunIfAny<OnLinux, FalseCondition>]
     [RunIf<OnWindows>]
     private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
@@ -408,6 +416,26 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
 
         await Assert.That(assignment.RequiredCapabilities).IsEmpty();
+    }
+
+    [Test]
+    public async Task CreateAssignment_Flattens_Multiple_Capabilities_From_One_Attribute()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MultipleCapabilitiesModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MultipleCapabilitiesModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEquivalentTo([Capability.Linux, Capability.Docker]);
     }
 
     [Test]

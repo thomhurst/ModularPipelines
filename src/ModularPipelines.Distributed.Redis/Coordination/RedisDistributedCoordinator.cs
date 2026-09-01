@@ -48,7 +48,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         await _subscriber.PublishAsync(RedisChannel.Literal(_keys.WorkAvailableChannel), "1");
     }
 
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
         // Check if completion was already signalled before subscribing
         var completionFlag = await _database.StringGetAsync(_keys.CompletionFlag);
@@ -235,7 +235,7 @@ for i, item in ipairs(items) do
 end
 return nil";
 
-    private async Task<ModuleAssignment?> TryScanAndClaimAsync(IReadOnlySet<string> workerCapabilities)
+    private async Task<ModuleAssignment?> TryScanAndClaimAsync(IReadOnlySet<Capability> workerCapabilities)
     {
         var capsJson = JsonSerializer.Serialize(workerCapabilities.ToArray());
         var result = await _database.ScriptEvaluateAsync(

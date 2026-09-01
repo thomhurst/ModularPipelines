@@ -191,7 +191,7 @@ public class DistributedModuleExecutorTests
         public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
             => inner.EnqueueModuleAsync(assignment, cancellationToken);
 
-        public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+        public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
             => Task.FromResult<ModuleAssignment?>(null);
 
         public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
@@ -1277,7 +1277,7 @@ public class DistributedModuleExecutorTests
             .Returns<string, CancellationToken>((_, token) =>
                 Task.FromCanceled<SerializedModuleResult>(token));
         coordinator.Setup(c => c.DequeueModuleAsync(
-                It.IsAny<IReadOnlySet<string>>(),
+                It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
@@ -1323,7 +1323,7 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(publishException);
         coordinator.Setup(c => c.DequeueModuleAsync(
-                It.IsAny<IReadOnlySet<string>>(),
+                It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
@@ -1369,7 +1369,7 @@ public class DistributedModuleExecutorTests
             .Returns<ModuleAssignment, CancellationToken>(
                 (_, token) => Task.Delay(Timeout.InfiniteTimeSpan, token));
         coordinator.Setup(c => c.DequeueModuleAsync(
-                It.IsAny<IReadOnlySet<string>>(),
+                It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
@@ -1527,7 +1527,7 @@ public class DistributedModuleExecutorTests
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.WorkerQueryStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
             CancellationToken.None);
         noDequeue.ReleaseWorkerQuery();
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
@@ -1577,7 +1577,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedCoordinator>();
         var registeredWorkers = new List<WorkerRegistration>
         {
-            new(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+            new(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
         };
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => registeredWorkers.AsReadOnly());

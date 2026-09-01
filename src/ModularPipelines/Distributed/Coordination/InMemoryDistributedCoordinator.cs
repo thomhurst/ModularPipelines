@@ -27,7 +27,7 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
         return Task.CompletedTask;
     }
 
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
         try
         {

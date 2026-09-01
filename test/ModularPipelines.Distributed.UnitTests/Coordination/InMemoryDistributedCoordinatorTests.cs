@@ -26,7 +26,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -52,7 +52,7 @@ public class InMemoryDistributedCoordinatorTests
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
@@ -61,7 +61,7 @@ public class InMemoryDistributedCoordinatorTests
         // Worker without docker capability should not get the assignment
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
         var result = await coordinator.DequeueModuleAsync(
-            new HashSet<string> { "linux" }, cts.Token);
+            new HashSet<Capability> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
     }

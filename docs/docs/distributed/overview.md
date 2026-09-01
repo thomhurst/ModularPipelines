@@ -33,9 +33,9 @@ The coordinator is the shared communication layer between master and workers. It
 
 ### Capabilities
 
-Workers advertise what they can do (e.g. `"linux"`, `"docker"`, `"gpu"`). Modules declare what they need via `[RequiresCapability]` attributes. The coordinator only assigns a module to a worker that has all required capabilities.
+Workers advertise what they can do through typed values such as `Capability.Linux`, `Capability.Docker`, and `Capability.Gpu`. Modules declare what they need via `[RequiresCapability]` attributes using compile-time `Capability.Names` constants. The coordinator only assigns a module to a worker that has all required capabilities.
 
-If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system (`"windows"`, `"linux"`, or `"macos"`).
+If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system through the matching well-known capability.
 
 ## Architecture Diagram
 
