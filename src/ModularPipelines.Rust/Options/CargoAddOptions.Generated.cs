@@ -22,7 +22,7 @@ namespace ModularPipelines.Rust.Options;
 public record CargoAddOptions : CargoOptions
 {
     /// <summary>
-    /// The DEP operand.
+    /// The &lt;DEP&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Dep { get; set; }
