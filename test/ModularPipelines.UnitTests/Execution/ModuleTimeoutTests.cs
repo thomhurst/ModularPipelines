@@ -199,20 +199,49 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Timeout_Fault_During_Grace_Period_Counts_As_Response()
     {
-        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            cancellationToken =>
-            {
-                cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
-                return Task.FromException<bool>(new TimeoutException("Inner operation timed out."));
-            },
-            TimeSpan.FromMilliseconds(10),
-            CancellationToken.None);
-
-        using (Assert.Multiple())
+        for (var iteration = 0; iteration < 25; iteration++)
         {
-            await Assert.That(result.TimedOut).IsTrue();
-            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+            var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                cancellationToken =>
+                {
+                    cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                    return Task.FromException<bool>(new TimeoutException("Inner operation timed out."));
+                },
+                TimeSpan.FromMilliseconds(10),
+                CancellationToken.None);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.TimedOut).IsTrue();
+                await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+            }
         }
+    }
+
+    [Test]
+    public async Task Completed_Factory_Task_Wins_Before_Async_Wrapper_Continuation()
+    {
+        using var externalCancellation = new CancellationTokenSource();
+        var factoryStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var operation = new TaskCompletionSource<bool>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            _ =>
+            {
+                factoryStarted.SetResult();
+                return operation.Task;
+            },
+            TimeSpan.FromSeconds(10),
+            externalCancellation.Token);
+        await factoryStarted.Task;
+
+        operation.SetResult(true);
+        externalCancellation.Cancel();
+
+        var result = await execution;
+        await Assert.That(result.Value).IsTrue();
+        await Assert.That(result.TimedOut).IsFalse();
     }
 
     [Test]

@@ -110,11 +110,18 @@ internal static class TimeoutHelper
 
         // Publish the execution before starting the factory so even an immediate
         // deadline can attribute work completed in response to cancellation.
+        // Keep default synchronous continuations: SetResult must enter the factory
+        // before a freshly armed deadline can race ahead of execution startup.
         var executionStart = new TaskCompletionSource();
         var executionTask = ExecuteAfterPublicationAsync(
             executionStart.Task,
             taskFactory,
-            attemptCts.Token);
+            attemptCts.Token,
+            actualTask =>
+            {
+                deadlineState.PublishExecutionTask(actualTask);
+                externalCancellationState.PublishExecutionTask(actualTask);
+            });
         deadlineState.PublishExecutionTask(executionTask);
         externalCancellationState.PublishExecutionTask(executionTask);
 
@@ -150,10 +157,13 @@ internal static class TimeoutHelper
     private static async Task<T> ExecuteAfterPublicationAsync<T>(
         Task executionStart,
         Func<CancellationToken, Task<T>> taskFactory,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Action<Task<T>> publishActualTask)
     {
         await executionStart.ConfigureAwait(false);
-        return await taskFactory(cancellationToken).ConfigureAwait(false);
+        var actualTask = taskFactory(cancellationToken);
+        publishActualTask(actualTask);
+        return await actualTask.ConfigureAwait(false);
     }
 
     private static async Task<TimeoutExecutionResult<T>> ExecuteWithoutTimeoutAsync<T>(
