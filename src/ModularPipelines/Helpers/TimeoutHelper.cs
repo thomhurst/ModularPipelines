@@ -109,22 +109,28 @@ internal static class TimeoutHelper
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             externalCancellationState);
 
-        // Publish the execution before starting the factory so even an immediate
-        // deadline can attribute work completed in response to cancellation.
-        // Keep default synchronous continuations: SetResult must enter the factory
-        // before a freshly armed deadline can race ahead of execution startup.
-        var executionStart = new TaskCompletionSource();
-        var executionTask = ExecuteAfterPublicationAsync(
-            executionStart.Task,
-            taskFactory,
-            attemptCts.Token,
-            cancellationSignals.PublishExecutionTask);
-        cancellationSignals.PublishExecutionTask(executionTask);
-
-        // Now schedule the timeout - registration and execution publication are
-        // guaranteed to catch it before the factory can observe cancellation.
+        // Arm the timeout before starting the factory. If cancellation occurs while
+        // the factory is returning its task, signal resolution waits for publication
+        // of that real task instead of making a decision from a provisional wrapper.
         deadlineCts.CancelAfter(timeout.Value);
-        executionStart.SetResult();
+
+        Task<T> executionTask;
+        try
+        {
+            executionTask = taskFactory(attemptCts.Token);
+        }
+        catch (OperationCanceledException exception)
+        {
+            var cancellationTaskSource = new TaskCompletionSource<T>();
+            cancellationTaskSource.SetCanceled(exception.CancellationToken);
+            executionTask = cancellationTaskSource.Task;
+        }
+        catch (Exception exception)
+        {
+            executionTask = Task.FromException<T>(exception);
+        }
+
+        cancellationSignals.PublishExecutionTask(executionTask);
 
         await Task.WhenAny(
                 executionTask,
@@ -148,18 +154,6 @@ internal static class TimeoutHelper
 
         var value = await executionTask.ConfigureAwait(false);
         return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
-    }
-
-    private static async Task<T> ExecuteAfterPublicationAsync<T>(
-        Task executionStart,
-        Func<CancellationToken, Task<T>> taskFactory,
-        CancellationToken cancellationToken,
-        Action<Task<T>> publishActualTask)
-    {
-        await executionStart.ConfigureAwait(false);
-        var actualTask = taskFactory(cancellationToken);
-        publishActualTask(actualTask);
-        return await actualTask.ConfigureAwait(false);
     }
 
     private static async Task<TimeoutExecutionResult<T>> ExecuteWithoutTimeoutAsync<T>(

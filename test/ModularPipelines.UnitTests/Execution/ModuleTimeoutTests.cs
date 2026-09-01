@@ -224,27 +224,18 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Completed_Factory_Task_Wins_Before_Async_Wrapper_Continuation()
+    public async Task Completed_Factory_Task_Wins_When_Factory_Raises_External_Cancellation()
     {
         using var externalCancellation = new CancellationTokenSource();
-        var factoryStarted = new TaskCompletionSource(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var operation = new TaskCompletionSource<bool>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             _ =>
             {
-                factoryStarted.SetResult();
-                return operation.Task;
+                externalCancellation.Cancel();
+                return Task.FromResult(true);
             },
             TimeSpan.FromSeconds(10),
             externalCancellation.Token);
-        await factoryStarted.Task;
 
-        operation.SetResult(true);
-        externalCancellation.Cancel();
-
-        var result = await execution;
         await Assert.That(result.Value).IsTrue();
         await Assert.That(result.TimedOut).IsFalse();
     }
@@ -353,12 +344,10 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Actual_Execution_Publication_Is_Shared_By_Both_Cancellation_Signals()
+    public async Task Execution_Publication_Is_Shared_By_Both_Cancellation_Signals()
     {
         using var attemptCancellation = new CancellationTokenSource();
         var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
-        var provisionalExecution = new TaskCompletionSource<bool>();
-        cancellationSignals.PublishExecutionTask(provisionalExecution.Task);
 
         cancellationSignals.PublishExecutionTask(Task.FromResult(true));
         cancellationSignals.Deadline.SignalCancellation();
