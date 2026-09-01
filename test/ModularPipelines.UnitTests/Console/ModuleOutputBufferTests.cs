@@ -157,6 +157,76 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_MasksSecretSplitAcrossLineTerminators()
+    {
+        var secret = $"to{Environment.NewLine}ken";
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer(secret);
+        buffer.WriteLine("to");
+        buffer.WriteLine("ken");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Flush_PreservesPreObfuscatedPrefixWhileMaskingMixedBoundarySecret()
+    {
+        const string secret = "secret";
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(0);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(0, [secret]));
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(obfuscator => obfuscator.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => (input ?? string.Empty)
+                .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                .Replace(secret, "masked", StringComparison.Ordinal));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider.Object);
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(buffer);
+        using var coordinatedWriter = new CoordinatedTextWriter(
+            coordinator.Object,
+            writer,
+            () => true,
+            secretObfuscator.Object,
+            secretProvider.Object);
+        coordinatedWriter.Write("secret se");
+        coordinatedWriter.Flush();
+        buffer.WriteRenderable(new Text("cret"), "cret", appendNewLine: true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
     public async Task Flush_ModuleLoggerWriteLineAppliesCustomObfuscatorOnce()
     {
         var secretObfuscator = new Mock<ISecretObfuscator>();

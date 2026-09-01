@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Text;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
@@ -29,7 +30,7 @@ namespace ModularPipelines.Console;
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
-internal class ModuleOutputBuffer : IModuleOutputBuffer
+internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOutputBuffer
 {
     private static readonly TimeSpan DefaultRenderGateTimeout = TimeSpan.FromSeconds(1);
     private readonly List<BufferedOutput> _outputs = [];
@@ -212,6 +213,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 message,
                 ModuleOutputStream.StandardError,
                 appendNewLine: false),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
+    public void WritePreObfuscated(
+        string message,
+        ModuleOutputStream stream,
+        bool appendNewLine)
+    {
+        AddOutput(
+            BufferedOutput.FromString(
+                message,
+                stream,
+                appendNewLine,
+                isPreObfuscated: true),
             allowAfterCompletion: true);
     }
 
@@ -840,9 +856,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         var lastMaskableIndex = index;
         while (lastMaskableIndex + 1 < outputs.Count
-               && !outputs[lastMaskableIndex].AppendNewLine
                && IsMaskableOutput(outputs[lastMaskableIndex + 1]))
         {
+            if (outputs[lastMaskableIndex].AppendNewLine
+                && !HasPotentialSecretAcrossLineBoundary(outputs, index, lastMaskableIndex))
+            {
+                break;
+            }
+
             lastMaskableIndex++;
         }
 
@@ -852,16 +873,35 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 .Skip(index)
                 .Take(lastMaskableIndex - index + 1),
         ];
-        if (!maskableOutputs.Any(static output => output.IsRenderable))
+        if (!maskableOutputs.Any(static output => output.IsRenderable)
+            && maskableOutputs.All(static output => output.IsPreObfuscated))
         {
             return 0;
         }
 
-        var renderable = maskableOutputs.Length == 1
-            ? maskableOutputs[0].Renderable!
+        if (!maskableOutputs.Any(static output => output.IsRenderable)
+            && !maskableOutputs.Any(static output => output.IsPreObfuscated))
+        {
+            WriteRawStringsWithCurrentSecrets(
+                directConsole,
+                GetMaskableSource(maskableOutputs));
+            if (maskableOutputs[^1].AppendNewLine)
+            {
+                directConsole.WriteLine();
+            }
+
+            return maskableOutputs.Length;
+        }
+
+        var maskableRenderables = GetMaskableRenderables(maskableOutputs);
+        var renderable = maskableRenderables.Count == 1
+            ? maskableRenderables[0]
             : new ConcatenatedRenderable(
-                [.. maskableOutputs.Select(GetMaskableRenderable)]);
-        WriteRenderableWithCurrentSecrets(directConsole, renderable);
+                maskableRenderables);
+        WriteRenderableWithCurrentSecrets(
+            directConsole,
+            renderable,
+            GetMixedOutputObfuscator(maskableOutputs));
         if (maskableOutputs[^1].AppendNewLine)
         {
             directConsole.WriteLine();
@@ -878,6 +918,117 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ?? (output.StringValue is { } value
             ? new BufferedStringRenderable(value)
             : throw new InvalidOperationException("Buffered output is not maskable."));
+
+    private static List<IRenderable> GetMaskableRenderables(
+        BufferedOutput[] outputs)
+    {
+        var renderables = new List<IRenderable>((outputs.Length * 2) - 1);
+        for (var index = 0; index < outputs.Length; index++)
+        {
+            var output = outputs[index];
+            renderables.Add(GetMaskableRenderable(output));
+            if (output.AppendNewLine && index < outputs.Length - 1)
+            {
+                renderables.Add(new Text(Environment.NewLine));
+            }
+        }
+
+        return renderables;
+    }
+
+    private static string GetMaskableSource(BufferedOutput[] outputs)
+    {
+        var source = new StringBuilder();
+        for (var index = 0; index < outputs.Length; index++)
+        {
+            source.Append(GetMaskablePlainText(outputs[index]));
+            if (outputs[index].AppendNewLine && index < outputs.Length - 1)
+            {
+                source.Append(Environment.NewLine);
+            }
+        }
+
+        return source.ToString();
+    }
+
+    private bool HasPotentialSecretAcrossLineBoundary(
+        IReadOnlyList<BufferedOutput> outputs,
+        int firstIndex,
+        int lastIndex)
+    {
+        if (_renderableSecretProvider is null)
+        {
+            return false;
+        }
+
+        var source = new StringBuilder();
+        for (var index = firstIndex; index <= lastIndex; index++)
+        {
+            source.Append(GetMaskablePlainText(outputs[index]));
+            if (outputs[index].AppendNewLine)
+            {
+                source.Append(Environment.NewLine);
+            }
+        }
+
+        return GetPotentialSecretPrefixLength(source.ToString()) > 0;
+    }
+
+    private ISecretObfuscator? GetMixedOutputObfuscator(
+        BufferedOutput[] outputs)
+    {
+        if (_renderableSecretObfuscator is null
+            || _renderableSecretObfuscator is SecretObfuscator
+            || outputs[0] is not { IsPreObfuscated: true, StringValue: { } value })
+        {
+            return _renderableSecretObfuscator;
+        }
+
+        var boundarySource = value + (outputs[0].AppendNewLine && outputs.Length > 1
+            ? Environment.NewLine
+            : string.Empty);
+        var retainedLength = GetPotentialSecretPrefixLength(boundarySource);
+        var protectedLength = Math.Clamp(
+            boundarySource.Length - retainedLength,
+            0,
+            value.Length);
+        return protectedLength == 0
+            ? _renderableSecretObfuscator
+            : new PrefixPreservingSecretObfuscator(
+                _renderableSecretObfuscator,
+                value[..protectedLength]);
+    }
+
+    private int GetPotentialSecretPrefixLength(string value)
+    {
+        if (_renderableSecretProvider is null || value.Length == 0)
+        {
+            return 0;
+        }
+
+        var comparison = _renderableSecretObfuscator is ITrackedSecretObfuscator tracked
+            ? tracked.PatternComparison
+            : StringComparison.OrdinalIgnoreCase;
+        var retainedLength = 0;
+        var secrets = _renderableSecretProvider.GetSnapshot().Secrets ?? [];
+        foreach (var secret in secrets.Where(static secret => !string.IsNullOrEmpty(secret)))
+        {
+            var maximumLength = Math.Min(value.Length, secret.Length - 1);
+            for (var length = maximumLength; length > 0; length--)
+            {
+                if (secret.AsSpan().StartsWith(value.AsSpan(value.Length - length), comparison))
+                {
+                    retainedLength = Math.Max(retainedLength, length);
+                    break;
+                }
+            }
+        }
+
+        return retainedLength;
+    }
+
+    private static string GetMaskablePlainText(BufferedOutput output) =>
+        output.StringValue ?? output.RenderablePlainText ?? string.Empty;
 
     private void WriteStructuredLogDirectly(
         TextWriter console,
@@ -908,9 +1059,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private void WriteRenderableWithCurrentSecrets(
         IAnsiConsole directConsole,
-        IRenderable renderable)
+        IRenderable renderable,
+        ISecretObfuscator? secretObfuscator = null)
     {
-        if (_renderableSecretObfuscator is null)
+        secretObfuscator ??= _renderableSecretObfuscator;
+        if (secretObfuscator is null)
         {
             directConsole.Write(renderable);
             return;
@@ -921,7 +1074,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             RequiresPostRenderObfuscation: false,
         }
             ? renderable
-            : new SecretObfuscatedRenderable(renderable, _renderableSecretObfuscator);
+            : new SecretObfuscatedRenderable(renderable, secretObfuscator);
         if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
         {
             emissionGuard.ExecuteWithStableSecrets(
@@ -931,6 +1084,28 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         directConsole.Write(remasked);
+    }
+
+    private void WriteRawStringsWithCurrentSecrets(
+        IAnsiConsole directConsole,
+        string source)
+    {
+        if (_renderableSecretObfuscator is null)
+        {
+            directConsole.Markup(source);
+            return;
+        }
+
+        if (_renderableSecretProvider is ISecretEmissionGuard emissionGuard)
+        {
+            emissionGuard.ExecuteWithStableSecrets(
+                (Console: directConsole, Source: source, Obfuscator: _renderableSecretObfuscator),
+                static state => state.Console.Write(
+                    ObfuscatedMarkup.Create(state.Source, state.Obfuscator)));
+            return;
+        }
+
+        directConsole.Write(ObfuscatedMarkup.Create(source, _renderableSecretObfuscator));
     }
 
     private void RecordRenderedOutput(OutputFlushKind flushKind, bool renderedConsoleOutput)
@@ -1219,6 +1394,22 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
         }
     }
+
+    private sealed class PrefixPreservingSecretObfuscator(
+        ISecretObfuscator inner,
+        string protectedPrefix) : ISecretObfuscator
+    {
+        public bool HasSecrets => inner.HasSecrets;
+
+        public string Obfuscate(string? input, object? optionsObject)
+        {
+            var output = inner.Obfuscate(input, optionsObject);
+            var obfuscatedPrefix = inner.Obfuscate(protectedPrefix, optionsObject);
+            return output.StartsWith(obfuscatedPrefix, StringComparison.Ordinal)
+                ? protectedPrefix + output[obfuscatedPrefix.Length..]
+                : output;
+        }
+    }
 }
 
 /// <summary>
@@ -1262,6 +1453,11 @@ internal readonly struct BufferedOutput
     public bool IsRawBuildSystemCommand { get; private init; }
 
     /// <summary>
+    /// Gets a value indicating whether console interception already obfuscated this string.
+    /// </summary>
+    public bool IsPreObfuscated { get; private init; }
+
+    /// <summary>
     /// Gets the output stream represented by this item.
     /// </summary>
     public ModuleOutputStream Stream { get; private init; }
@@ -1277,8 +1473,15 @@ internal readonly struct BufferedOutput
     public static BufferedOutput FromString(
         string value,
         ModuleOutputStream stream = ModuleOutputStream.StandardOutput,
-        bool appendNewLine = true) =>
-        new() { StringValue = value, Stream = stream, AppendNewLine = appendNewLine };
+        bool appendNewLine = true,
+        bool isPreObfuscated = false) =>
+        new()
+        {
+            StringValue = value,
+            Stream = stream,
+            AppendNewLine = appendNewLine,
+            IsPreObfuscated = isPreObfuscated,
+        };
 
     /// <summary>
     /// Creates a buffered output from a raw build-system command.

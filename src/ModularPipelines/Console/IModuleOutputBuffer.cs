@@ -171,3 +171,17 @@ internal interface IModuleOutputBuffer
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default);
 }
+
+/// <summary>
+/// Accepts output already processed by the console interception obfuscator.
+/// </summary>
+internal interface IPreObfuscatedModuleOutputBuffer
+{
+    /// <summary>
+    /// Buffers processed output without losing its masking provenance.
+    /// </summary>
+    void WritePreObfuscated(
+        string message,
+        ModuleOutputStream stream,
+        bool appendNewLine);
+}
