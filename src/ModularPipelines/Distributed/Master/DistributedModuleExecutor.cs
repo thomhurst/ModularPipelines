@@ -171,6 +171,11 @@ internal class DistributedModuleExecutor(
                 // Expected
             }
         }
+        catch
+        {
+            requestFailureCancellation();
+            throw;
+        }
         finally
         {
             // Always signal workers to stop — whether the master succeeded or crashed.

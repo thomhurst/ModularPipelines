@@ -295,7 +295,8 @@ public class DistributedModuleExecutorTests
         DistributedOptions? distributedOptions = null,
         CancellationToken applicationStopping = default,
         IInternalModuleLogger? moduleLogger = null,
-        ILogger<DistributedModuleExecutor>? executorLogger = null)
+        ILogger<DistributedModuleExecutor>? executorLogger = null,
+        IModuleConditionHandler? conditionHandler = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -311,7 +312,12 @@ public class DistributedModuleExecutorTests
         var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
         resultRegistry ??= new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry,
+            conditionHandler: conditionHandler);
         resultCollector ??= new DistributedResultCollector(coordinator, serializer);
         moduleRunner ??= new Mock<IModuleRunner>();
 
@@ -1138,6 +1144,38 @@ public class DistributedModuleExecutorTests
         // Assert — always signals completion, even on failure
         coordinator.Verify(c => c.BroadcastCancellationAsync(CancellationToken.None), Times.Once());
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
+    }
+
+    [Test]
+    public async Task Executor_Broadcasts_Cancellation_When_Assignment_Creation_Fails()
+    {
+        var failure = new InvalidOperationException("Routing failed");
+        var conditionHandler = new Mock<IModuleConditionHandler>();
+        conditionHandler.Setup(handler => handler.PrepareDistributedRoutingAsync(
+                It.IsAny<IModule>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(failure);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var module = new DistributedModule();
+        var executor = CreateExecutor(
+            CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
+            coordinator: coordinator.Object,
+            conditionHandler: conditionHandler.Object);
+
+        var exception = await Assert.That(async () => await executor.ExecuteAsync([module]))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        coordinator.Verify(
+            instance => instance.BroadcastCancellationAsync(CancellationToken.None),
+            Times.Once());
+        coordinator.Verify(
+            instance => instance.SignalCompletionAsync(CancellationToken.None),
+            Times.Once());
     }
 
     [Test]

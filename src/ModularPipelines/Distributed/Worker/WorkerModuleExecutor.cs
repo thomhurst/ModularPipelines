@@ -72,7 +72,9 @@ internal class WorkerModuleExecutor(
             options.InstanceIndex,
             options.WorkerHeartbeatInterval,
             cancellationToken);
-        var cancellationTask = ObserveDistributedCancellationAsync(executionCts);
+        var cancellationTask = ObserveDistributedCancellationAsync(
+            executionCts,
+            options.WorkerHeartbeatInterval);
 
         var executedModules = new List<IModule>();
         using var workerScheduler = new WorkerModuleScheduler();
@@ -143,23 +145,40 @@ internal class WorkerModuleExecutor(
         }
     }
 
-    private async Task ObserveDistributedCancellationAsync(CancellationTokenSource executionCts)
+    private async Task ObserveDistributedCancellationAsync(
+        CancellationTokenSource executionCts,
+        TimeSpan retryInterval)
     {
-        try
+        while (!executionCts.IsCancellationRequested)
         {
-            await _coordinator.WaitForCancellationAsync(executionCts.Token);
-            if (!executionCts.IsCancellationRequested)
+            try
             {
-                _logger.LogInformation("Master requested distributed cancellation");
-                await executionCts.CancelAsync();
+                await _coordinator.WaitForCancellationAsync(executionCts.Token);
+                if (!executionCts.IsCancellationRequested)
+                {
+                    _logger.LogInformation("Master requested distributed cancellation");
+                    await executionCts.CancelAsync();
+                }
+
+                return;
             }
-        }
-        catch (OperationCanceledException) when (executionCts.IsCancellationRequested)
-        {
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Worker cancellation observer failed");
+            catch (OperationCanceledException) when (executionCts.IsCancellationRequested)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Worker cancellation observer failed; retrying");
+            }
+
+            try
+            {
+                await Task.Delay(retryInterval, executionCts.Token);
+            }
+            catch (OperationCanceledException) when (executionCts.IsCancellationRequested)
+            {
+                return;
+            }
         }
     }
 
