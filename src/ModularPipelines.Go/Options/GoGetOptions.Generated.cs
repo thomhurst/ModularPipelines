@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Go.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Go.Options;
 
@@ -29,8 +30,8 @@ public record GoGetOptions : GoOptions
     /// <summary>
     /// The -u=patch flag (not -u patch) also instructs get to update dependencies, but changes the default to select patch releases.
     /// </summary>
-    [CliOption("-u", Format = OptionFormat.EqualsSeparated)]
-    public string? U { get; set; }
+    [CliOption("-u", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? U { get; set; }
 
     /// <summary>
     /// The -tool flag instructs go to add a matching tool line to go.mod for each listed package. If -tool is used with @none, the line will be removed. See 'go help tool' for more information.
