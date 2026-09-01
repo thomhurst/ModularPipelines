@@ -112,7 +112,9 @@ public static class UsageSynopsisParser
                 requirednessCandidates),
             RequiredAlternativeGroups =
             [
-                .. selected.RequiredAlternativeGroups,
+                .. selected.RequiredAlternativeGroups.Where(group =>
+                    requirednessCandidates.All(candidate =>
+                        CandidateSatisfiesRequiredAlternativeGroup(candidate, group))),
                 .. GetCrossSynopsisRequiredAlternativeGroups(
                     requirednessCandidates,
                     selected.PositionalArguments),
@@ -246,6 +248,23 @@ public static class UsageSynopsisParser
         }
 
         return groups;
+    }
+
+    private static bool CandidateSatisfiesRequiredAlternativeGroup(
+        UsageSynopsisParseResult candidate,
+        UsageRequiredAlternativeGroup group)
+    {
+        var candidateMemberKeys = GetRequiredAlternativeMembers(new ParsedOperands(
+                candidate.PositionalArguments,
+                candidate.UnparsedOperandTokens,
+                candidate.RequiredOptionSwitches))
+            .Concat(candidate.RequiredAlternativeGroups.SelectMany(static candidateGroup =>
+                candidateGroup.Members))
+            .Select(GetAlternativeMemberKey)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        return group.Members.Any(member =>
+            candidateMemberKeys.Contains(GetAlternativeMemberKey(member)));
     }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
@@ -1301,10 +1320,26 @@ public static class UsageSynopsisParser
         }
 
         return alternatives
-            .Select(GetOptionSwitch)
-            .OfType<string>()
+            .SelectMany(GetOptionSwitchesFromAlternative)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
+    }
+
+    private static IReadOnlyList<string> GetOptionSwitchesFromAlternative(string alternative)
+    {
+        var tokens = Tokenize(alternative);
+        var nestedSwitches = tokens
+            .Select(GetOptionSwitch)
+            .OfType<string>()
+            .ToArray();
+        if (nestedSwitches.Length > 1 && nestedSwitches.Length == tokens.Count)
+        {
+            return nestedSwitches;
+        }
+
+        return GetOptionSwitch(alternative) is { } optionSwitch
+            ? [optionSwitch]
+            : [];
     }
 
     private static string? GetOptionSwitch(string alternative)

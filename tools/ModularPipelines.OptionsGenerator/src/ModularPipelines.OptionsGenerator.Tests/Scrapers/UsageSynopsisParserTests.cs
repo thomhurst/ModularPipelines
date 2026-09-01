@@ -832,6 +832,16 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Flatten_Parenthesized_Conjunctive_Alternative_Branches()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(--force --all))",
+            ["tool", "clean"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Does_Not_Infer_Optional_Switches_As_Required_Alternatives()
     {
         const string helpText = """
@@ -861,6 +871,20 @@ public class UsageSynopsisParserTests
             await Assert.That(dependency.IsRequired).IsFalse();
             await Assert.That(requiredSources).IsEquivalentTo(["DepId", "--path", "--git"]);
         }
+    }
+
+    [Test]
+    public async Task Does_Not_Enforce_Inline_Group_Bypassed_By_Alternate_Synopsis()
+    {
+        const string helpText = """
+            Usage:
+              tool import (<FILE>|--url <URL>)
+              tool import --stdin
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "import"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
     }
 
     [Test]
