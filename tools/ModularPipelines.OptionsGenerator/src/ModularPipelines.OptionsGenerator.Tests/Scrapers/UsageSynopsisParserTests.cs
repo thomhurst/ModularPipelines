@@ -842,6 +842,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Collapses_Inline_Option_Aliases_Before_Modeling_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(-a|--all))",
+            ["tool", "clean"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(members).IsEquivalentTo(["Target", "--all"]);
+            await Assert.That(result.PositionalArguments.Single().IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Does_Not_Infer_Optional_Switches_As_Required_Alternatives()
     {
         const string helpText = """

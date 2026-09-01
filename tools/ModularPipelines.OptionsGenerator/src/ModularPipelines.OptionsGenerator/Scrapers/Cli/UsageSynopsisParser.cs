@@ -231,8 +231,10 @@ public static class UsageSynopsisParser
             }
 
             var alternativeMembers = alternatives
-                .Select(alternative => GetRequiredAlternativeMembers(
-                    ParseOperandTokens(Tokenize(alternative), phase)))
+                .Select(alternative => CollapseOptionAliases(
+                    GetRequiredAlternativeMembers(
+                        ParseOperandTokens(Tokenize(alternative), phase)),
+                    alternative))
                 .ToArray();
             if (alternativeMembers.Any(static members => members.Count != 1))
             {
