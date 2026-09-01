@@ -9,6 +9,7 @@ using ModularPipelines.VisualBasic.TestFixtures;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.Loader;
 
 using ModularPipelines.Generated;
@@ -694,7 +695,8 @@ public class GeneratedRuntimeMetadataTests
     {
         for (var iteration = 0; iteration < 3; iteration++)
         {
-            await AssertCollectibleMetadataReleasedAsync(RegisterCollectibleMetadata())
+            await AssertCollectibleMetadataReleasedAsync(
+                    RegisterCollectibleMetadataOnDedicatedThread(RegisterCollectibleMetadata))
                 .ConfigureAwait(false);
         }
     }
@@ -705,7 +707,9 @@ public class GeneratedRuntimeMetadataTests
     {
         for (var iteration = 0; iteration < 3; iteration++)
         {
-            await AssertCollectibleMetadataReleasedAsync(RegisterCollectibleExternalMetadata())
+            await AssertCollectibleMetadataReleasedAsync(
+                    RegisterCollectibleMetadataOnDedicatedThread(
+                        RegisterCollectibleExternalMetadata))
                 .ConfigureAwait(false);
         }
     }
@@ -758,6 +762,35 @@ public class GeneratedRuntimeMetadataTests
         }
 
         return !references.Assembly.IsAlive && !references.Type.IsAlive;
+    }
+
+    private static (WeakReference Assembly, WeakReference Type)
+        RegisterCollectibleMetadataOnDedicatedThread(
+            Func<(WeakReference Assembly, WeakReference Type)> register)
+    {
+        (WeakReference Assembly, WeakReference Type) references = default;
+        ExceptionDispatchInfo? exception = null;
+        var thread = new Thread(() =>
+        {
+            try
+            {
+                references = register();
+            }
+            catch (Exception caughtException)
+            {
+                exception = ExceptionDispatchInfo.Capture(caughtException);
+            }
+        })
+        {
+            IsBackground = true,
+        };
+
+        thread.Start();
+        thread.Join();
+
+        exception?.Throw();
+
+        return references;
     }
 
     private static Type CreateDynamicType(string name)
