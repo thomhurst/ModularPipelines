@@ -273,7 +273,7 @@ public record PipDownloadOptions : PipOptions
     public string? UseDeprecated { get; set; }
 
     /// <summary>
-    /// The requirement specifier operand.
+    /// The &lt;requirement specifier&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }

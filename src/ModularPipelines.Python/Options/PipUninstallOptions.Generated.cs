@@ -171,7 +171,7 @@ public record PipUninstallOptions : PipOptions
     public string? UseDeprecated { get; set; }
 
     /// <summary>
-    /// The package operand.
+    /// The &lt;package&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Package { get; set; }
