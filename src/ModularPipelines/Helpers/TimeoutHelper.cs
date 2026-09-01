@@ -99,8 +99,9 @@ internal static class TimeoutHelper
         using var deadlineCts = new CancellationTokenSource();
         using var attemptCts = new CancellationTokenSource();
 
-        var deadlineState = new CancellationSignalState<T>(attemptCts);
-        var externalCancellationState = new CancellationSignalState<T>(attemptCts);
+        var cancellationSignals = new CancellationSignals<T>(attemptCts);
+        var deadlineState = cancellationSignals.Deadline;
+        var externalCancellationState = cancellationSignals.ExternalCancellation;
         using var deadlineRegistration = deadlineCts.Token.Register(
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             deadlineState);
@@ -117,13 +118,8 @@ internal static class TimeoutHelper
             executionStart.Task,
             taskFactory,
             attemptCts.Token,
-            actualTask =>
-            {
-                deadlineState.PublishExecutionTask(actualTask);
-                externalCancellationState.PublishExecutionTask(actualTask);
-            });
-        deadlineState.PublishExecutionTask(executionTask);
-        externalCancellationState.PublishExecutionTask(executionTask);
+            cancellationSignals.PublishExecutionTask);
+        cancellationSignals.PublishExecutionTask(executionTask);
 
         // Now schedule the timeout - registration and execution publication are
         // guaranteed to catch it before the factory can observe cancellation.
@@ -242,26 +238,53 @@ internal static class TimeoutHelper
         }
     }
 
-    internal sealed class CancellationSignalState<T>(CancellationTokenSource attemptCts)
+    internal sealed class CancellationSignals<T>
+    {
+        private Task<T>? _executionTask;
+
+        public CancellationSignals(CancellationTokenSource attemptCts)
+        {
+            Deadline = new CancellationSignalState<T>(attemptCts, this);
+            ExternalCancellation = new CancellationSignalState<T>(attemptCts, this);
+        }
+
+        public CancellationSignalState<T> Deadline { get; }
+
+        public CancellationSignalState<T> ExternalCancellation { get; }
+
+        internal Task<T>? ExecutionTask => Volatile.Read(ref _executionTask);
+
+        public void PublishExecutionTask(Task<T> executionTask)
+        {
+            // Both signals read one atomic task reference, so neither can observe
+            // a provisional wrapper after the actual factory task is available.
+            Volatile.Write(ref _executionTask, executionTask);
+            Deadline.ExecutionTaskPublished();
+            ExternalCancellation.ExecutionTaskPublished();
+        }
+    }
+
+    internal sealed class CancellationSignalState<T>(
+        CancellationTokenSource attemptCts,
+        CancellationSignals<T> cancellationSignals)
     {
         private readonly Lock _lock = new();
-        private Task<T>? _executionTask;
         private bool _cancellationSignaled;
 
         public TaskCompletionSource<bool> Signal { get; } = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public void PublishExecutionTask(Task<T> executionTask)
+        internal void ExecutionTaskPublished()
         {
             bool cancellationSignaled;
             lock (_lock)
             {
-                _executionTask = executionTask;
                 cancellationSignaled = _cancellationSignaled;
             }
 
             if (cancellationSignaled)
             {
+                var executionTask = cancellationSignals.ExecutionTask!;
                 // A completed value or fault existed by the time publication caught up
                 // with the signal. A cancelled task still belongs to the signal that
                 // cancelled the attempt token.
@@ -275,7 +298,7 @@ internal static class TimeoutHelper
             lock (_lock)
             {
                 _cancellationSignaled = true;
-                executionTask = _executionTask;
+                executionTask = cancellationSignals.ExecutionTask;
             }
 
             if (executionTask is not null)

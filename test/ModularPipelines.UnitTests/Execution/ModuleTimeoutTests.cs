@@ -321,10 +321,11 @@ public class ModuleTimeoutTests : TestBase
     public async Task Completed_Execution_Published_After_Deadline_Signal_Wins()
     {
         using var attemptCancellation = new CancellationTokenSource();
-        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.Deadline;
 
         signalState.SignalCancellation();
-        signalState.PublishExecutionTask(Task.FromResult(true));
+        cancellationSignals.PublishExecutionTask(Task.FromResult(true));
 
         using (Assert.Multiple())
         {
@@ -337,12 +338,32 @@ public class ModuleTimeoutTests : TestBase
     public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
     {
         using var attemptCancellation = new CancellationTokenSource();
-        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.Deadline;
 
         signalState.SignalCancellation();
-        signalState.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
+        cancellationSignals.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
 
         await Assert.That(await signalState.Signal.Task).IsFalse();
+    }
+
+    [Test]
+    public async Task Actual_Execution_Publication_Is_Shared_By_Both_Cancellation_Signals()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var provisionalExecution = new TaskCompletionSource<bool>();
+        cancellationSignals.PublishExecutionTask(provisionalExecution.Task);
+
+        cancellationSignals.PublishExecutionTask(Task.FromResult(true));
+        cancellationSignals.Deadline.SignalCancellation();
+        cancellationSignals.ExternalCancellation.SignalCancellation();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await cancellationSignals.Deadline.Signal.Task).IsTrue();
+            await Assert.That(await cancellationSignals.ExternalCancellation.Signal.Task).IsTrue();
+        }
     }
 
     [Test]
