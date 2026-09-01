@@ -443,6 +443,12 @@ public partial class GoCliScraper : CliScraperBase
             ApplyValueOptionShape(options, "-C", " ");
         }
 
+        if (commandParts is ["tool"])
+        {
+            ApplyValueOptionShape(options, "-C", " ");
+            ApplyValueOptionShape(options, "-overlay", " ");
+        }
+
         if (commandParts is ["test"])
         {
             var argsIndex = options.FindIndex(option => option.SwitchName == "-args");
@@ -454,6 +460,8 @@ public partial class GoCliScraper : CliScraperBase
                 };
             }
         }
+
+        ApplyOptionPhase(options, "-C", CommandLinePhase.EarlyOperand);
     }
 
     private static void ApplyValueOptionShape(
@@ -475,6 +483,18 @@ public partial class GoCliScraper : CliScraperBase
             ValueSeparator = valueSeparator,
             IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag: false),
         };
+    }
+
+    private static void ApplyOptionPhase(
+        List<CliOptionDefinition> options,
+        string switchName,
+        CommandLinePhase phase)
+    {
+        var optionIndex = options.FindIndex(option => option.SwitchName == switchName);
+        if (optionIndex >= 0)
+        {
+            options[optionIndex] = options[optionIndex] with { Phase = phase };
+        }
     }
 
     private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
@@ -822,10 +842,10 @@ public partial class GoCliScraper : CliScraperBase
     [GeneratedRegex(@"(?<![\w-])-(?<flag>[A-Za-z][\w-]*)(?:(?<separator>=)(?<value>[^\s,]+))?")]
     private static partial Regex GoOptionReferencePattern();
 
-    [GeneratedRegex(@"^(?:The|Edit also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag|options|option)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex(@"^(?:The|[A-Z][\w-]* also provides the)\s+(?<declarations>-.+?)\s+(?:editing flags|build flags|flag's|flags|flag|options|option)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex ProseOptionParagraphPattern();
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?<sentence>(?:The|Edit also provides the)\s+-.+?(?=(?:[.!?]\s+(?:The|Edit also provides the)\s+-)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?<sentence>(?:The|[A-Z][\w-]* also provides the)\s+-.+?(?=(?:[.!?]\s+(?:The|[A-Z][\w-]* also provides the)\s+-)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex ProseOptionSentencePattern();
 
     [GeneratedRegex(@"(?:\r?\n){2,}")]
