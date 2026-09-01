@@ -259,10 +259,12 @@ public static class UsageSynopsisParser
         }
 
         var candidateMembers = candidates
-            .Select(candidate => GetRequiredAlternativeMembers(new ParsedOperands(
-                candidate.PositionalArguments,
-                candidate.UnparsedOperandTokens,
-                candidate.RequiredOptionSwitches)))
+            .Select(candidate => CollapseOptionAliases(
+                GetRequiredAlternativeMembers(new ParsedOperands(
+                    candidate.PositionalArguments,
+                    candidate.UnparsedOperandTokens,
+                    candidate.RequiredOptionSwitches)),
+                candidate.Synopsis ?? ""))
             .ToArray();
         if (candidateMembers.Any(static members => members.Count == 0))
         {
@@ -341,6 +343,38 @@ public static class UsageSynopsisParser
         members
             .DistinctBy(GetAlternativeMemberKey, StringComparer.OrdinalIgnoreCase)
             .ToArray();
+
+    private static IReadOnlyList<UsageRequiredAlternativeMember> CollapseOptionAliases(
+        IReadOnlyList<UsageRequiredAlternativeMember> members,
+        string synopsis)
+    {
+        var aliasGroups = Tokenize(synopsis)
+            .Select(GetOptionSwitches)
+            .Where(static switches => switches.Count == 2
+                                      && switches.Any(IsShortOptionSwitch)
+                                      && switches.Any(IsLongOptionSwitch))
+            .ToArray();
+
+        return DistinctAlternativeMembers(members.Select(member =>
+        {
+            if (member.OptionSwitch is not { } optionSwitch)
+            {
+                return member;
+            }
+
+            var aliases = aliasGroups.FirstOrDefault(group =>
+                group.Contains(optionSwitch, StringComparer.OrdinalIgnoreCase));
+            return aliases is null
+                ? member
+                : member with { OptionSwitch = SelectPreferredOptionSwitch(aliases) };
+        }));
+    }
+
+    private static bool IsShortOptionSwitch(string optionSwitch) =>
+        optionSwitch.Length > 1 && optionSwitch[0] == '-' && optionSwitch[1] != '-';
+
+    private static bool IsLongOptionSwitch(string optionSwitch) =>
+        optionSwitch.StartsWith("--", StringComparison.Ordinal);
 
     private static string GetAlternativeMemberKey(UsageRequiredAlternativeMember member) =>
         member.OptionSwitch is { } optionSwitch

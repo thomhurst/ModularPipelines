@@ -802,6 +802,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Collapses_Option_Aliases_Before_Counting_Alternative_Branches()
+    {
+        const string helpText = """
+            Usage:
+              tool clean <TARGET>
+              tool clean (-a|--all)
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "clean"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
     public async Task Does_Not_Flatten_Conjunctive_Alternative_Branches()
     {
         const string helpText = """
