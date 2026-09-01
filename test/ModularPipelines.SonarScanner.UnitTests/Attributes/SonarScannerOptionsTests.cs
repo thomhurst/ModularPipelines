@@ -28,7 +28,7 @@ public class SonarScannerOptionsTests
             Token = "token-value",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--define",
             "sonar.branch.name=main",

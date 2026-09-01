@@ -47,11 +47,11 @@ public class GcloudProjectSelectorTests
 
         foreach (var option in options)
         {
-            await Assert.That(BuildArguments(option)).IsEquivalentTo(
+            await AssertArguments(BuildArguments(option),
             [
                 module,
-                $"--project={project}",
                 $"--parent={parent}",
+                $"--project={project}",
             ]);
         }
     }

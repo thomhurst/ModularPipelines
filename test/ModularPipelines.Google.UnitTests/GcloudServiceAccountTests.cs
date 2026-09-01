@@ -15,7 +15,7 @@ public class GcloudServiceAccountTests
                 "projects/project/serviceAccounts/build@project.iam.gserviceaccount.com",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--service-account=runtime@project.iam.gserviceaccount.com",
             "--build-service-account="

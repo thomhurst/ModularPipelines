@@ -16,7 +16,7 @@ public class NbgvOptionsTests
             PublicRelease = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "HEAD~1",
             "--project", "src/App",
@@ -35,7 +35,7 @@ public class NbgvOptionsTests
             Define = ["Name=Value", "Channel=stable"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--all-vars",
             "--skip-cloud-build-number",
@@ -55,7 +55,7 @@ public class NbgvOptionsTests
             WhatIf = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "v2.0",
             "--nextVersion", "2.1",

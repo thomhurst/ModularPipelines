@@ -14,7 +14,7 @@ public class YarnOptionsTests
             Quiet = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--package", "typescript",
             "--quiet",

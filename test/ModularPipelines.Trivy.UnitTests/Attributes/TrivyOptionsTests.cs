@@ -20,14 +20,14 @@ public class TrivyOptionsTests
             Password = ["registry-secret"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
-            "alpine:3.20",
+            "--password=registry-secret",
             "--format=json",
             "--severity=HIGH",
             "--severity=CRITICAL",
             "--timeout=2m",
-            "--password=registry-secret",
+            "alpine:3.20",
         ]);
     }
 
@@ -39,16 +39,18 @@ public class TrivyOptionsTests
             Input = "ruby-3.1.tar",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--input=ruby-3.1.tar"]);
+        await AssertArguments(arguments, ["--input=ruby-3.1.tar"]);
     }
 
     [Test]
     public async Task Nested_Commands_Render_Required_Operands()
     {
-        await Assert.That(BuildArguments(new TrivyPluginInstallOptions("aquasecurity/trivy-plugin")))
-            .IsEquivalentTo(["aquasecurity/trivy-plugin"]);
-        await Assert.That(BuildArguments(new TrivyRegistryLoginOptions("registry.example.com")))
-            .IsEquivalentTo(["registry.example.com"]);
+        await AssertArguments(
+            BuildArguments(new TrivyPluginInstallOptions("aquasecurity/trivy-plugin")),
+            ["aquasecurity/trivy-plugin"]);
+        await AssertArguments(
+            BuildArguments(new TrivyRegistryLoginOptions("registry.example.com")),
+            ["registry.example.com"]);
     }
 
     [Test]
@@ -59,7 +61,7 @@ public class TrivyOptionsTests
             PluginNames = ["first", "second"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["first", "second"]);
+        await AssertArguments(arguments, ["first", "second"]);
     }
 
     [Test]
@@ -71,7 +73,7 @@ public class TrivyOptionsTests
             VulnDb = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--scan-cache", "--vuln-db"]);
+        await AssertArguments(arguments, ["--scan-cache", "--vuln-db"]);
     }
 
     [Test]
@@ -84,7 +86,7 @@ public class TrivyOptionsTests
         });
         var argumentList = arguments.ToList();
 
-        await Assert.That(argumentList).IsEquivalentTo(
+        await AssertArguments(argumentList,
         [
             "kubectl",
             "--quiet",
@@ -105,7 +107,7 @@ public class TrivyOptionsTests
             RepoNames = ["first", "second"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["first", "second"]);
+        await AssertArguments(arguments, ["first", "second"]);
     }
 
     [Test]

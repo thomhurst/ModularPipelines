@@ -18,7 +18,7 @@ public class AwsAmplifyCreateAppOptionsTests
             ],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--environment-variables",
             "FIRST=one,SECOND=two",

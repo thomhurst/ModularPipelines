@@ -25,7 +25,7 @@ public class JqOptionsTests : TestBase
             InputFiles = ["input.json"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--null-input",
             "--raw-output",
@@ -48,7 +48,7 @@ public class JqOptionsTests : TestBase
             InputFiles = ["input.json"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--from-file", "filter.jq",
             "--slurpfile", "documents", "documents.json",
@@ -69,7 +69,7 @@ public class JqOptionsTests : TestBase
             ],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--arg", "empty", "",
             "--arg", "whitespace", "  ",
@@ -87,14 +87,13 @@ public class JqOptionsTests : TestBase
             Filter = ".",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "-L", "modules",
             "-b",
             ".",
             "--run-tests", "tests.jq",
-        ],
-        TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        ]);
     }
 
     [Test]
@@ -106,9 +105,8 @@ public class JqOptionsTests : TestBase
             InputFiles = ["-input.json"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
-            [".", "--", "-input.json"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments,
+            [".", "--", "-input.json"]);
     }
 
     [Test]
@@ -284,9 +282,8 @@ public class JqOptionsTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
-            ["--", "-1"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await AssertArguments(arguments,
+            ["--", "-1"]);
     }
 
     [Test]
@@ -294,6 +291,6 @@ public class JqOptionsTests : TestBase
     {
         var arguments = BuildArguments(new JqExecuteOptions { RunTests = CliOptionValue.Bare });
 
-        await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
+        await AssertArguments(arguments, ["--run-tests"]);
     }
 }

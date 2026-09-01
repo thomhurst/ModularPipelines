@@ -14,7 +14,7 @@ public class ChocolateyOptionsTests : TestBase
             Pkg2PkgN = ["second", "third"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["first", "second", "third"]);
+        await AssertArguments(arguments, ["first", "second", "third"]);
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class ChocolateyOptionsTests : TestBase
             PropertyValuePropertyNValueN = ["Owner=team", "Port=443"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["sample", "Owner=team", "Port=443"]);
+        await AssertArguments(arguments, ["sample", "Owner=team", "Port=443"]);
     }
 
     [Test]
@@ -37,6 +37,6 @@ public class ChocolateyOptionsTests : TestBase
             PropertyValue = "Version=1",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["sample.nuspec", "Version=1"]);
+        await AssertArguments(arguments, ["sample.nuspec", "Version=1"]);
     }
 }

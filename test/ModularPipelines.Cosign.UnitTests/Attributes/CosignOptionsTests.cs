@@ -18,7 +18,7 @@ public class CosignOptionsTests
             Upload = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "registry.example/app:v1",
             "registry.example/app:v2",
@@ -38,7 +38,7 @@ public class CosignOptionsTests
             UseSigningConfig = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "registry.example/app:v1",
             "--upload=false",
@@ -55,7 +55,7 @@ public class CosignOptionsTests
             CheckClaims = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "registry.example/app:v1",
             "--check-claims=false",
@@ -73,7 +73,7 @@ public class CosignOptionsTests
             Username = "pipeline-user",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "registry.example",
             "--password=password-value",

@@ -18,7 +18,7 @@ public class JavaOptionsTests
             GoalsAndPhases = ["clean", "verify"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--batch-mode",
             "--color", "never",
@@ -40,7 +40,7 @@ public class JavaOptionsTests
             Tasks = ["clean", "build"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--console", "plain",
             "--project-prop", "environment=ci",

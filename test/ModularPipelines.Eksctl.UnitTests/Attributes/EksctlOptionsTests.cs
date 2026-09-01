@@ -20,7 +20,7 @@ public class EksctlOptionsTests
             Managed = true,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--name=production",
             "--region=eu-west-2",
@@ -39,7 +39,7 @@ public class EksctlOptionsTests
             Managed = false,
         });
 
-        await Assert.That(arguments).IsEquivalentTo(["--managed=false"]);
+        await AssertArguments(arguments, ["--managed=false"]);
     }
 
     [Test]
@@ -52,7 +52,7 @@ public class EksctlOptionsTests
             Cluster = "production",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--name=gitops",
             "--type=ARGOCD",
@@ -68,7 +68,7 @@ public class EksctlOptionsTests
             WellKnownPolicies = "autoScaler,externalDNS",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
             ["--well-known-policies=autoScaler,externalDNS"]);
     }
 
@@ -86,7 +86,7 @@ public class EksctlOptionsTests
             ],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--cluster=production",
             "--approve",
@@ -105,7 +105,7 @@ public class EksctlOptionsTests
         var property = typeof(EksctlUtilsEnableSecretsEncryptionOptions)
             .GetProperty(nameof(EksctlUtilsEnableSecretsEncryptionOptions.EncryptExistingSecrets));
 
-        await Assert.That(arguments).IsEquivalentTo(["--encrypt-existing-secrets=false"]);
+        await AssertArguments(arguments, ["--encrypt-existing-secrets=false"]);
         await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsFalse();
     }
 }

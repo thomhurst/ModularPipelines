@@ -15,7 +15,7 @@ public class DotNetFormatOptionsTests
 
         var args = BuildArguments(options);
 
-        await Assert.That(args).IsEquivalentTo(new[]
+        await AssertArguments(args, new[]
         {
             "--exclude-diagnostics", "CS0246",
             "--exclude-diagnostics", "CS1503",

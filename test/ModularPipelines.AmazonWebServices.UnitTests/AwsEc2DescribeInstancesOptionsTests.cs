@@ -13,7 +13,7 @@ public class AwsEc2DescribeInstancesOptionsTests
             InstanceIds = ["i-0123456789abcdef0", "i-0fedcba9876543210"],
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await AssertArguments(arguments,
         [
             "--instance-ids",
             "i-0123456789abcdef0",
