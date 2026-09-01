@@ -108,7 +108,10 @@ internal sealed class CapabilityJsonConverter : JsonConverter<Capability>
     public override void Write(
         Utf8JsonWriter writer,
         Capability value,
-        JsonSerializerOptions options)
+        JsonSerializerOptions options) =>
+        WriteValue(writer, value);
+
+    internal static void WriteValue(Utf8JsonWriter writer, Capability value)
     {
         if (string.IsNullOrWhiteSpace(value.Name))
         {

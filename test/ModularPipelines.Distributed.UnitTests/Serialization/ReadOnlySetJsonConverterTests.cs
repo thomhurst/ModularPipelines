@@ -63,4 +63,16 @@ public class ReadOnlySetJsonConverterTests
         await Assert.That(actual!.Capabilities.Contains("docker")).IsTrue();
         await Assert.That(actual.UnattributedCommandCount).IsEqualTo(3);
     }
+
+    [Test]
+    public async Task WorkerRegistration_Rejects_Default_Capabilities()
+    {
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<Capability> { default },
+            DateTimeOffset.UtcNow);
+
+        await Assert.That(() => JsonSerializer.Serialize(registration))
+            .Throws<JsonException>();
+    }
 }

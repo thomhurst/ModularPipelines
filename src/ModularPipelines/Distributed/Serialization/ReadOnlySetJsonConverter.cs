@@ -48,7 +48,7 @@ public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<Capabi
         writer.WriteStartArray();
         foreach (var item in value)
         {
-            writer.WriteStringValue(item.Name);
+            CapabilityJsonConverter.WriteValue(writer, item);
         }
 
         writer.WriteEndArray();
