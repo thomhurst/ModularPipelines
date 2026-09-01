@@ -424,11 +424,16 @@ public class GeneratedRuntimeMetadataTests
         var firstModel = new List<SecretPropertyAccessor>();
 
         var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedSecretMetadata.RegisterExternal(consumerAssembly, type, firstModel);
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             type,
-            new List<SecretPropertyAccessor>());
+            firstModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
+        GeneratedSecretMetadata.RegisterExternal(
+            consumerAssembly,
+            type,
+            new List<SecretPropertyAccessor>(),
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
         var found = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
         using (Assert.Multiple())
@@ -616,6 +621,21 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task ExternalSecretMetadataRejectsNonCurrentSchema()
+    {
+        var type = CreateDynamicType("StaleExternalSecretMetadata");
+
+        var exception = await Assert.That(() => GeneratedSecretMetadata.RegisterExternal(
+                typeof(GeneratedRuntimeMetadataTests).Assembly,
+                type,
+                [],
+                GeneratedSecretMetadata.CurrentSchemaVersion - 1))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).Contains("Rebuild the assembly against ModularPipelines v4");
+    }
+
+    [Test]
     public async Task CurrentDirectMetadataRemainsAuthoritative()
     {
         var commandType = CreateDynamicType("CurrentDirectCommand");
@@ -641,7 +661,8 @@ public class GeneratedRuntimeMetadataTests
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             secretType,
-            rescannedSecretModel);
+            rescannedSecretModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
         _ = GeneratedCommandMetadata.TryGet(commandType, out var commandModel);
         _ = GeneratedSecretMetadata.TryGetAccessors(secretType, out var secretModel);
@@ -816,7 +837,8 @@ public class GeneratedRuntimeMetadataTests
         GeneratedSecretMetadata.RegisterExternal(
             assembly,
             sharedOptionsType,
-            [new SecretPropertyAccessor("Value", getter)]);
+            [new SecretPropertyAccessor("Value", getter)],
+            GeneratedSecretMetadata.CurrentSchemaVersion);
         if (!GeneratedCommandMetadata.TryGet(sharedOptionsType, out _)
             || !GeneratedSecretMetadata.TryGetAccessors(sharedOptionsType, out _))
         {

@@ -104,8 +104,10 @@ public static class GeneratedSecretMetadata
     public static void RegisterExternal(
         Assembly consumerAssembly,
         Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors)
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        int schemaVersion)
     {
+        ValidateSchemaVersion(consumerAssembly, schemaVersion);
         var registrations = ExternalAccessors.GetValue(
             consumerAssembly,
             static _ => new ExternalSecretMetadata());

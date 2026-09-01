@@ -571,6 +571,15 @@ public class IncompleteMetadataDiagnosticTests
             });
 
         var generatedSource = result.GeneratedTrees.Single().ToString();
+        var externalSecretRegistrationStart = generatedSource.IndexOf(
+            "GeneratedSecretMetadata.RegisterExternal(",
+            StringComparison.Ordinal);
+        var externalSecretRegistrationEnd = generatedSource.IndexOf(
+            ");",
+            externalSecretRegistrationStart,
+            StringComparison.Ordinal) + 2;
+        var externalSecretRegistration = generatedSource[
+            externalSecretRegistrationStart..externalSecretRegistrationEnd];
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
@@ -586,6 +595,7 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
+            await Assert.That(externalSecretRegistration).EndsWith("            2);");
             await Assert.That(generatedSource).Contains(
                 "RegisterAssembly(assembly, requiresGeneratedMetadata: true)");
             await Assert.That(generatedSource).Contains(
@@ -1137,7 +1147,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainStruct), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainStruct), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>(), 2);");
         }
     }
 
@@ -2663,7 +2673,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainOptions), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainOptions), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>(), 2);");
         }
     }
 

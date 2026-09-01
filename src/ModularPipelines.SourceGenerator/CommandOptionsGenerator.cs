@@ -1579,7 +1579,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             if (item.UseTypeForEmptySecretCoverage)
             {
-                sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>());");
+                sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}), global::System.Array.Empty<global::ModularPipelines.Generated.SecretPropertyAccessor>(), {RuntimeMetadataSchemaVersion});");
             }
 
             return;
@@ -1602,15 +1602,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         sb.Append("            }");
-        if (!item.IsExternal)
-        {
-            sb.AppendLine(",");
-            sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
-        }
-        else
-        {
-            sb.AppendLine(");");
-        }
+        sb.AppendLine(",");
+        sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
     }
 
     private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
