@@ -94,7 +94,8 @@ internal sealed class CommandLineBuilder(
             manualRequiredOperands: null,
             requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
-            out var globalOptionTerminatorIndex);
+            out var globalOptionTerminatorIndex,
+            out _);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = BuildNonTerminalArguments(
             commandSpecificModel,
@@ -104,7 +105,8 @@ internal sealed class CommandLineBuilder(
             requiredOperandMatch.ManualValues,
             requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
-            out var commandOptionTerminatorIndex);
+            out var commandOptionTerminatorIndex,
+            out var commandLateOperandIndex);
         ValidateManualOptionsAfterGlobalTerminator(
             options,
             manualArgs,
@@ -157,6 +159,7 @@ internal sealed class CommandLineBuilder(
             propertyArgs,
             commandSpecificModel,
             options);
+        var propertyArgumentCountBeforeManualOptions = propertyArgs.Count;
         InsertManualOptions(
             globalArgs,
             propertyArgs,
@@ -164,6 +167,12 @@ internal sealed class CommandLineBuilder(
             globalOptionTerminatorIndex,
             commandOptionTerminatorIndex,
             hasRenderedCommandOptions);
+        InsertManualArgumentsBeforeLateOperands(
+            propertyArgs,
+            manualArgs,
+            manualOptionTerminatorRemains,
+            commandLateOperandIndex,
+            propertyArgs.Count - propertyArgumentCountBeforeManualOptions);
 
         emittedOptionTerminator = pendingTerminatorState;
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
@@ -254,10 +263,12 @@ internal sealed class CommandLineBuilder(
         IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands,
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> materializedRequiredOperands,
         ref bool emittedOptionTerminator,
-        out int? emittedOptionTerminatorIndex)
+        out int? emittedOptionTerminatorIndex,
+        out int? lateOperandIndex)
     {
         var result = new List<string>();
         emittedOptionTerminatorIndex = null;
+        lateOperandIndex = null;
 
         foreach (var phase in Enum.GetValues<CommandLinePhase>()
                      .Where(static phase => phase != CommandLinePhase.Terminal))
@@ -267,9 +278,14 @@ internal sealed class CommandLineBuilder(
                     phase,
                     isGlobalOption)
                 .ToList();
-            result.AddRange(phaseAdditionalArguments);
-
             var phaseModel = commandModel.Where(part => part.Phase == phase).ToList();
+            if (phase == CommandLinePhase.LateOperand
+                && (phaseAdditionalArguments.Count > 0 || phaseModel.Count > 0))
+            {
+                lateOperandIndex = result.Count;
+            }
+
+            result.AddRange(phaseAdditionalArguments);
             var phaseArguments = _commandArgumentBuilder.BuildArguments(
                 phaseModel,
                 options,
@@ -287,6 +303,24 @@ internal sealed class CommandLineBuilder(
         }
 
         return result;
+    }
+
+    private static void InsertManualArgumentsBeforeLateOperands(
+        List<string> propertyArgs,
+        List<string> manualArgs,
+        bool manualOptionTerminatorRemains,
+        int? lateOperandIndex,
+        int insertedManualOptionCount)
+    {
+        if (!manualOptionTerminatorRemains
+            || lateOperandIndex is not { } insertionIndex
+            || manualArgs.Count == 0)
+        {
+            return;
+        }
+
+        propertyArgs.InsertRange(insertionIndex + insertedManualOptionCount, manualArgs);
+        manualArgs.Clear();
     }
 
     private static IEnumerable<string> GetAdditionalArguments(
@@ -478,13 +512,15 @@ internal sealed class CommandLineBuilder(
         }
 
         var matchedOperandCount = Math.Min(missingRequiredOperands.Count, operandIndices.Count);
+        var matchedRequiredOperands = missingRequiredOperands.Take(matchedOperandCount).ToList();
+        var matchedOperandIndices = SelectRequiredOperandIndices(matchedRequiredOperands, operandIndices);
         var result = new Dictionary<ArgumentPart, string>(matchedOperandCount);
         var indicesToRemove = new HashSet<int>();
         var consumedOptionTerminator = false;
         for (var index = 0; index < matchedOperandCount; index++)
         {
-            var operandIndex = operandIndices[index];
-            var requiredOperand = missingRequiredOperands[index];
+            var operandIndex = matchedOperandIndices[index];
+            var requiredOperand = matchedRequiredOperands[index];
             result.Add(requiredOperand, manualArgs[operandIndex]);
             indicesToRemove.Add(operandIndex);
             if (requiredOperand.Attribute.PrependOptionTerminator
@@ -502,6 +538,21 @@ internal sealed class CommandLineBuilder(
         }
 
         return new RequiredOperandMatch(result, materializedValues, consumedOptionTerminator);
+    }
+
+    private static IReadOnlyList<int> SelectRequiredOperandIndices(
+        IReadOnlyList<ArgumentPart> requiredOperands,
+        IReadOnlyList<int> candidateIndices)
+    {
+        var lateOperandOrder = CommandLinePhaseOrder.GetRenderOrder(CommandLinePhase.LateOperand);
+        var trailingOperandCount = requiredOperands.Count(part =>
+            CommandLinePhaseOrder.GetRenderOrder(part.Phase) >= lateOperandOrder);
+        var leadingOperandCount = requiredOperands.Count - trailingOperandCount;
+        return
+        [
+            .. candidateIndices.Take(leadingOperandCount),
+            .. candidateIndices.TakeLast(trailingOperandCount),
+        ];
     }
 
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(

@@ -199,6 +199,7 @@ public static class UsageSynopsisParser
             if (IsStandaloneOptionTerminator(token))
             {
                 prependOptionTerminatorToNextOperand = true;
+                associatedOptionSwitch = null;
                 continue;
             }
 
@@ -231,6 +232,9 @@ public static class UsageSynopsisParser
                     operandPhase,
                     out var nestedArguments))
             {
+                nestedArguments = PreserveOptionTerminatorOnNestedGroup(
+                    nestedArguments,
+                    groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand);
                 arguments.AddRange(nestedArguments);
                 prependOptionTerminatorToNextOperand = false;
                 AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
@@ -263,6 +267,22 @@ public static class UsageSynopsisParser
         }
 
         return new ParsedOperands(arguments, unparsedTokens);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> PreserveOptionTerminatorOnNestedGroup(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        bool prependOptionTerminator)
+    {
+        if (!prependOptionTerminator || arguments.Count == 0)
+        {
+            return arguments;
+        }
+
+        return
+        [
+            arguments[0] with { PrependOptionTerminator = true },
+            .. arguments.Skip(1),
+        ];
     }
 
     private static void ClearAssociatedOptionSwitch(

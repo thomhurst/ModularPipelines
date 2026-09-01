@@ -675,6 +675,30 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Standalone_Option_Terminator_Clears_Prior_Option_Association()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run [--verbose] -- <args>",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        await Assert.That(argument.PrependOptionTerminator).IsTrue();
+        await Assert.That(argument.AssociatedOptionSwitch).IsNull();
+    }
+
+    [Test]
+    public async Task Nested_Operand_Group_Preserves_Option_Terminator()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run [-- [<command> [<arg>...]]]",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+        await Assert.That(result.PositionalArguments[0].PrependOptionTerminator).IsTrue();
+        await Assert.That(result.PositionalArguments[1].PrependOptionTerminator).IsFalse();
+    }
+
+    [Test]
     public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
     {
         const string helpText = """

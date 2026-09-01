@@ -514,6 +514,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Reserves_Trailing_Manual_Values_For_Late_Operands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminatedPassthroughOptions(default!, default!)
+        {
+            Arguments = ["--", "--force", "source", "destination"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("tool copy -- --force source destination");
+    }
+
+    [Test]
     public async Task Build_Allows_Manual_Arguments_To_Supply_New_Required_Operand()
     {
         var builder = await GetService<ICommandLineBuilder>();
