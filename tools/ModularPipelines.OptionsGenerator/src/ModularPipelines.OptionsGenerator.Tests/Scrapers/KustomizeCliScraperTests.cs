@@ -109,7 +109,7 @@ public class KustomizeCliScraperTests
             await Assert.That(options.Select(option => option.CSharpType))
                 .IsEquivalentTo(["IReadOnlyList<KeyValue>?", "IReadOnlyList<KeyValue>?"]);
             await Assert.That(options.All(option => option.IsKeyValue)).IsTrue();
-            await Assert.That(options.All(option => option.CollectionSeparator == ",")).IsTrue();
+            await Assert.That(options.All(option => option.CollectionSeparator is null)).IsTrue();
         }
     }
 

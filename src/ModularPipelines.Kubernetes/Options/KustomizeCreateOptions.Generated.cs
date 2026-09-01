@@ -24,7 +24,7 @@ public record KustomizeCreateOptions : KustomizeOptions
     /// <summary>
     /// Add one or more common annotations.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record KustomizeCreateOptions : KustomizeOptions
     /// <summary>
     /// Add one or more common labels.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>

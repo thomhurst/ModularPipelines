@@ -22,13 +22,13 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
-    public async Task Kustomize_Create_Joins_Map_Entries()
+    public async Task Kustomize_Create_Renders_Map_Entries_Independently()
     {
         var result = await GetResult(new KustomizeCreateOptions
         {
             Annotations =
             [
-                new KeyValue("owner", "platform"),
+                new KeyValue("owners", "alice,bob"),
                 new KeyValue("tier", "backend"),
             ],
             Labels =
@@ -39,7 +39,8 @@ public class KubernetesCommandRenderingTests : TestBase
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "kustomize create --annotations=owner=platform,tier=backend --labels=app=web,environment=test");
+            "kustomize create --annotations=owners=alice,bob --annotations=tier=backend "
+            + "--labels=app=web --labels=environment=test");
     }
 
     [Test]
