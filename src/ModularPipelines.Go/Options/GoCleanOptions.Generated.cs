@@ -99,24 +99,6 @@ public record GoCleanOptions : GoOptions
     public bool? Asan { get; set; }
 
     /// <summary>
-    /// enable code coverage instrumentation.
-    /// </summary>
-    [CliFlag("-cover")]
-    public bool? Cover { get; set; }
-
-    /// <summary>
-    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
-    /// </summary>
-    [CliOption("-covermode")]
-    public string? Covermode { get; set; }
-
-    /// <summary>
-    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
-    /// </summary>
-    [CliOption("-coverpkg")]
-    public string? Coverpkg { get; set; }
-
-    /// <summary>
     /// print the names of packages as they are compiled.
     /// </summary>
     [CliFlag("-v")]
@@ -175,12 +157,6 @@ public record GoCleanOptions : GoOptions
     /// </summary>
     [CliOption("-installsuffix")]
     public string? Installsuffix { get; set; }
-
-    /// <summary>
-    /// Emit build output in JSON suitable for automated processing. See 'go help buildjson' for the encoding details.
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
 
     /// <summary>
     /// arguments to pass on each go tool link invocation.

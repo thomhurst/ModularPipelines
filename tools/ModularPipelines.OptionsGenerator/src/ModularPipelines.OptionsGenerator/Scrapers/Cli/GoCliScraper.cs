@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -35,8 +36,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GoCliScraper : CliScraperBase
 {
+    private const string FlagProbeValue = "__modularpipelines_probe__";
+
     private const string ProseOptionLeadInPattern =
         @"(?:The|[A-Z][\w-]* also provides the|When using -[A-Za-z][\w-]*,\s+the)";
+
+    private readonly ConcurrentDictionary<string, IReadOnlySet<string>> _unsupportedSharedBuildFlags =
+        new(StringComparer.Ordinal);
 
     public GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger)
         : base(executor, helpCache, logger)
@@ -75,11 +81,29 @@ public partial class GoCliScraper : CliScraperBase
 
         var additionalHelp = new List<string>();
         await AddTestFlagsHelpAsync(commandPath, additionalHelp, cancellationToken);
+        await AddDocFlagsHelpAsync(commandPath, additionalHelp, cancellationToken);
         await AddSharedBuildFlagsHelpAsync(commandPath, helpText, additionalHelp, cancellationToken);
 
         return additionalHelp.Count == 0
             ? helpText
             : string.Join("\n\n", additionalHelp.Prepend(helpText.TrimEnd()));
+    }
+
+    private async Task AddDocFlagsHelpAsync(
+        string[] commandPath,
+        List<string> additionalHelp,
+        CancellationToken cancellationToken)
+    {
+        if (commandPath is not [_, "doc"])
+        {
+            return;
+        }
+
+        var directHelp = await GetDirectHelpTextAsync("doc -h", cancellationToken);
+        if (FlagLinePattern().IsMatch(directHelp ?? string.Empty))
+        {
+            additionalHelp.Add(directHelp!);
+        }
     }
 
     private async Task AddTestFlagsHelpAsync(
@@ -111,13 +135,59 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
-        if (!string.IsNullOrWhiteSpace(buildHelp)
-            && UsesSharedBuildFlags(commandPath, buildHelp)
-            && GetSharedBuildFlagsHelp(buildHelp) is { } sharedBuildFlags)
+        if (string.IsNullOrWhiteSpace(buildHelp)
+            || GetSharedBuildFlagsHelp(buildHelp) is not { } sharedBuildFlags)
         {
-            additionalHelp.Add(sharedBuildFlags);
+            return;
         }
+
+        var isDocWithoutDirectFlags = commandPath is [_, "doc"]
+                                      && !additionalHelp.Any(text => ContainsOption(text, "-C"));
+        if (!UsesSharedBuildFlags(commandPath, buildHelp)
+            && !BuildFlagsUsagePattern().IsMatch(helpText)
+            && !isDocWithoutDirectFlags)
+        {
+            return;
+        }
+
+        var sharedOptions = ParseOptions(["build"], sharedBuildFlags, usageSynopsis: null);
+        var candidates = isDocWithoutDirectFlags
+            ? sharedOptions.Where(option => option.SwitchName == "-C").ToArray()
+            : sharedOptions.ToArray();
+        var supportedFlags = await GetSupportedFlagsAsync(commandPath, candidates, cancellationToken);
+        var unsupportedFlags = sharedOptions
+            .Select(option => option.SwitchName)
+            .Except(supportedFlags, StringComparer.Ordinal)
+            .ToHashSet(StringComparer.Ordinal);
+
+        _unsupportedSharedBuildFlags[string.Join(" ", commandPath)] = unsupportedFlags;
+        additionalHelp.Add(sharedBuildFlags);
     }
+
+    private async Task<IReadOnlySet<string>> GetSupportedFlagsAsync(
+        IReadOnlyList<string> commandPath,
+        IReadOnlyList<CliOptionDefinition> candidates,
+        CancellationToken cancellationToken)
+    {
+        var supportedFlags = new HashSet<string>(StringComparer.Ordinal);
+        var command = string.Join(" ", commandPath.Skip(1));
+
+        foreach (var candidate in candidates)
+        {
+            var arguments = $"{command} {candidate.SwitchName}={FlagProbeValue} -h";
+            var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken);
+            if (!UnknownFlagPattern().IsMatch(result.CombinedOutput))
+            {
+                supportedFlags.Add(candidate.SwitchName);
+            }
+        }
+
+        return supportedFlags;
+    }
+
+    private static bool ContainsOption(string helpText, string switchName) =>
+        GoOptionLinePattern().Matches(helpText)
+            .Any(match => match.Groups["flag"].Value == switchName);
 
     private static string? GetTestFlagsHelp(string? testFlagHelp)
     {
@@ -161,6 +231,30 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        return null;
+    }
+
+    private async Task<string?> GetDirectHelpTextAsync(
+        string arguments,
+        CancellationToken cancellationToken)
+    {
+        var cacheKey = $"direct:{arguments}";
+        if (HelpCache.TryGet(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken);
+        var helpText = !string.IsNullOrEmpty(result.StandardOutput)
+            ? result.StandardOutput
+            : result.StandardError;
+
+        if (!string.IsNullOrWhiteSpace(helpText))
+        {
+            HelpCache.Set(cacheKey, helpText);
+            return helpText;
+        }
+
         return null;
     }
 
@@ -274,6 +368,11 @@ public partial class GoCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(commandParts, helpText, usage.Synopsis);
+        if (_unsupportedSharedBuildFlags.TryGetValue(string.Join(" ", commandPath), out var unsupportedFlags))
+        {
+            options.RemoveAll(option => unsupportedFlags.Contains(option.SwitchName));
+        }
+
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -912,6 +1011,12 @@ public partial class GoCliScraper : CliScraperBase
 
     [GeneratedRegex(@"The build flags are shared by the (?<commands>.+?) commands:", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex SharedBuildCommandsPattern();
+
+    [GeneratedRegex(@"\[build flags\]", RegexOptions.IgnoreCase)]
+    private static partial Regex BuildFlagsUsagePattern();
+
+    [GeneratedRegex(@"flag provided but not defined|unknown flag|unrecognized option", RegexOptions.IgnoreCase)]
+    private static partial Regex UnknownFlagPattern();
 
     [GeneratedRegex(@"[a-z][a-z0-9-]*", RegexOptions.IgnoreCase)]
     private static partial Regex CommandNamePattern();

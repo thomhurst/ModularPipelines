@@ -64,6 +64,10 @@ public class GoCliScraperTests
 
                 -race
                     enable data race detection.
+                -cover
+                    enable code coverage instrumentation.
+                -json
+                    emit build output as JSON.
                 -tags tag,list
                     a comma-separated list of build tags.
                 -ldflags '[pattern=]arg list'
@@ -93,6 +97,12 @@ public class GoCliScraperTests
             ["help fix"] = "usage: go fix [build flags] [-fixtool prog] [packages]\n\nFix applies fixes.",
             ["help generate"] = "usage: go generate [build flags] [-run regexp] [file.go ...]\n\nGenerate runs generators.",
             ["help vet"] = "usage: go vet [build flags] [-vettool prog] [packages]\n\nVet reports suspicious constructs.",
+        }, new HashSet<string>(StringComparer.Ordinal)
+        {
+            "clean -race", "clean -tags", "clean -ldflags", "clean -mod", "clean -trimpath",
+            "fix -tags", "fix -mod",
+            "generate -race", "generate -tags", "generate -ldflags", "generate -mod", "generate -trimpath",
+            "vet -tags", "vet -ldflags", "vet -mod",
         });
         var commands = await ScrapeAsync(scraper);
         var clean = commands.Single(command => command.FullCommand == "go clean");
@@ -107,14 +117,76 @@ public class GoCliScraperTests
                      })
             {
                 var command = commands.Single(item => item.FullCommand == $"go {commandName}");
-                await Assert.That(command.Options.Any(option => option.SwitchName == "-race"))
-                    .IsFalse();
                 await Assert.That(command.Options.Any(option => option.SwitchName == commandOption))
                     .IsTrue();
             }
 
             await Assert.That(clean.Options.Any(option => option.SwitchName == "-race"))
                 .IsTrue();
+            await Assert.That(commands.Single(command => command.FullCommand == "go fix").Options
+                    .Any(option => option.SwitchName == "-tags"))
+                .IsTrue();
+            await Assert.That(commands.Single(command => command.FullCommand == "go fix").Options
+                    .Any(option => option.SwitchName == "-race"))
+                .IsFalse();
+            await Assert.That(commands.Single(command => command.FullCommand == "go generate").Options
+                    .Any(option => option.SwitchName == "-race"))
+                .IsTrue();
+            await Assert.That(commands.Single(command => command.FullCommand == "go vet").Options
+                    .Any(option => option.SwitchName == "-trimpath"))
+                .IsFalse();
+            await Assert.That(commands
+                    .Where(command => command.FullCommand is "go fix" or "go generate" or "go vet")
+                    .All(command => command.Options.All(option => option.SwitchName != "-cover")))
+                .IsTrue();
+            await Assert.That(commands.Single(command => command.FullCommand == "go generate").Options
+                    .Any(option => option.SwitchName == "-json"))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Loads_Direct_Doc_Flags()
+    {
+        var scraper = CreateScraper(new Dictionary<string, string>
+        {
+            ["help"] = """
+                Usage:
+                    go <command> [arguments]
+
+                The commands are:
+                    build       compile packages
+                    doc         show documentation
+                """,
+            ["help build"] = """
+                usage: go build [build flags]
+
+                The build flags are shared by the build command:
+
+                    -C dir
+                        Change to dir before running the command.
+                    -race
+                        enable data race detection.
+                """,
+            ["help doc"] = "usage: go doc [doc flags] [doc]\n\nDoc shows documentation.",
+            ["doc -h"] = """
+                Usage of go doc:
+                    -C dir
+                        change to dir before running command
+                    -c
+                        respect case when matching symbols
+                """,
+        });
+
+        var doc = (await ScrapeAsync(scraper)).Single(command => command.FullCommand == "go doc");
+        var workingDirectory = doc.Options.Single(option => option.SwitchName == "-C");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(workingDirectory.IsFlag).IsFalse();
+            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(doc.Options.Any(option => option.SwitchName == "-c")).IsTrue();
+            await Assert.That(doc.Options.Any(option => option.SwitchName == "-race")).IsFalse();
         }
     }
 
@@ -212,7 +284,7 @@ public class GoCliScraperTests
                         Compile the test binary but do not run it.
                 """,
             ["help testflag"] = "The following flags are recognized by the 'go test' command:",
-        });
+        }, new HashSet<string>(StringComparer.Ordinal) { "test -C" });
 
         var commands = await ScrapeAsync(scraper);
         var test = commands.Single(command => command.FullCommand == "go test");
@@ -388,7 +460,7 @@ public class GoCliScraperTests
                 """,
             ["help build"] = buildHelp,
             ["help vet"] = "usage: go vet [packages]\n\nVet reports suspicious constructs.",
-        });
+        }, new HashSet<string>(StringComparer.Ordinal) { "vet -race" });
 
         var commands = await ScrapeAsync(scraper);
         var vet = commands.Single(command => command.FullCommand == "go vet");
@@ -571,8 +643,10 @@ public class GoCliScraperTests
         }
     }
 
-    private static TestGoCliScraper CreateScraper(IReadOnlyDictionary<string, string> helpByArguments) =>
-        new(new StubExecutor(helpByArguments));
+    private static TestGoCliScraper CreateScraper(
+        IReadOnlyDictionary<string, string> helpByArguments,
+        IReadOnlySet<string>? supportedFlagProbes = null) =>
+        new(new StubExecutor(helpByArguments, supportedFlagProbes ?? new HashSet<string>()));
 
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
@@ -599,15 +673,31 @@ public class GoCliScraperTests
                 CancellationToken.None);
     }
 
-    private sealed class StubExecutor(IReadOnlyDictionary<string, string> helpByArguments)
+    private sealed class StubExecutor(
+        IReadOnlyDictionary<string, string> helpByArguments,
+        IReadOnlySet<string> supportedFlagProbes)
         : ICliCommandExecutor
     {
+        private const string ProbeValue = "__modularpipelines_probe__";
+
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
             CancellationToken cancellationToken = default,
             string? workingDirectory = null)
         {
+            if (arguments.Contains(ProbeValue, StringComparison.Ordinal))
+            {
+                var probe = arguments.Replace($"={ProbeValue} -h", string.Empty, StringComparison.Ordinal);
+                var supported = supportedFlagProbes.Contains(probe);
+                return Task.FromResult(new CliCommandResult
+                {
+                    ExitCode = 2,
+                    StandardOutput = string.Empty,
+                    StandardError = supported ? "usage" : "flag provided but not defined",
+                });
+            }
+
             if (!helpByArguments.TryGetValue(arguments, out var helpText))
             {
                 throw new InvalidOperationException($"Unexpected arguments: {arguments}");

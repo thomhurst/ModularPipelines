@@ -82,24 +82,6 @@ public record GoGetOptions : GoOptions
     public bool? Asan { get; set; }
 
     /// <summary>
-    /// enable code coverage instrumentation.
-    /// </summary>
-    [CliFlag("-cover")]
-    public bool? Cover { get; set; }
-
-    /// <summary>
-    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
-    /// </summary>
-    [CliOption("-covermode")]
-    public string? Covermode { get; set; }
-
-    /// <summary>
-    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
-    /// </summary>
-    [CliOption("-coverpkg")]
-    public string? Coverpkg { get; set; }
-
-    /// <summary>
     /// print the names of packages as they are compiled.
     /// </summary>
     [CliFlag("-v")]
@@ -176,12 +158,6 @@ public record GoGetOptions : GoOptions
     /// </summary>
     [CliFlag("-linkshared")]
     public bool? Linkshared { get; set; }
-
-    /// <summary>
-    /// module download mode to use: readonly, vendor, or mod. By default, if a vendor directory is present and the go version in go.mod is 1.14 or higher, the go command acts as if -mod=vendor were set. Otherwise, the go command acts as if -mod=readonly were set. See https://go.dev/ref/mod#build-commands for details.
-    /// </summary>
-    [CliOption("-mod", Format = OptionFormat.EqualsSeparated)]
-    public string? Mod { get; set; }
 
     /// <summary>
     /// leave newly-created directories in the module cache read-write instead of making them read-only.
