@@ -115,6 +115,25 @@ public class FileSystemModuleEstimatedTimeProviderTests
     }
 
     [Test]
+    public async Task SaveSubModuleTime_ReplacesLegacyFileForSameName()
+    {
+        await RunWithTemporaryDirectoryAsync(async directory =>
+        {
+            WriteEstimation(directory, typeof(PrefixModule), "legacy", TimeSpan.FromSeconds(1));
+            var provider = CreateProvider(directory);
+
+            await provider.SaveSubModuleTimeAsync(
+                typeof(PrefixModule),
+                new SubModuleEstimation("legacy", TimeSpan.FromSeconds(2)));
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+
+            await Assert.That(Directory.GetFiles(directory)).HasSingleItem();
+            await Assert.That(estimations).HasSingleItem();
+            await Assert.That(estimations[0].EstimatedDuration).IsEqualTo(TimeSpan.FromSeconds(2));
+        });
+    }
+
+    [Test]
     public async Task GetSubModuleEstimatedTimes_RefreshesExpiredDirectoryIndex()
     {
         await RunWithTemporaryDirectoryAsync(async directory =>

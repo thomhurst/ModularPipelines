@@ -89,6 +89,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         var fileName = $"Mod-{moduleName}-Sub-{encodedSubModuleName}.txt";
 
         await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName).ConfigureAwait(false);
+        DeleteLegacySubModuleFile(moduleName, subModuleEstimation.SubModuleName, fileName);
 
         lock (_subModuleIndexLock)
         {
@@ -206,6 +207,20 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         {
             return name;
         }
+    }
+
+    private void DeleteLegacySubModuleFile(string moduleName, string subModuleName, string encodedFileName)
+    {
+        var legacyFileName = $"Mod-{moduleName}-Sub-{subModuleName}.txt";
+        if (legacyFileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
+            || legacyFileName.Contains('/')
+            || legacyFileName.Contains('\\')
+            || string.Equals(legacyFileName, encodedFileName, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        TryDelete(new FileInfo(Path.Combine(_directory, legacyFileName)));
     }
 
     private static void TryDelete(FileInfo file)
