@@ -23,8 +23,8 @@ public record GoTestOptions : GoOptions
     /// <summary>
     /// Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged. Because this flag consumes the remainder of the command line, the package list (if present) must appear before this flag.
     /// </summary>
-    [CliFlag("-args", Phase = CommandLinePhase.Terminal)]
-    public bool? Args { get; set; }
+    [CliOption("-args", GroupValues = true, Phase = CommandLinePhase.Terminal)]
+    public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
     /// Compile the test binary to pkg.test in the current directory but do not run it (where pkg is the last element of the package's import path). The file name or target directory can be changed with the -o flag.
