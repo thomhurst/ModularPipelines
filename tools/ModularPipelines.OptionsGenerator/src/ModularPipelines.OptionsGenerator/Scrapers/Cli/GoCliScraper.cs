@@ -456,7 +456,26 @@ public partial class GoCliScraper : CliScraperBase
             {
                 options[argsIndex] = options[argsIndex] with
                 {
+                    CSharpType = "IEnumerable<string>?",
+                    IsFlag = false,
+                    GroupValues = true,
+                    ValueSeparator = " ",
                     Phase = CommandLinePhase.Terminal,
+                };
+            }
+        }
+
+        if (commandParts is ["get"])
+        {
+            var updateIndex = options.FindIndex(option => option.SwitchName == "-u");
+            if (updateIndex >= 0)
+            {
+                options[updateIndex] = options[updateIndex] with
+                {
+                    CSharpType = "string?",
+                    IsFlag = false,
+                    ValueArity = CliOptionValueArity.Optional,
+                    ValueSeparator = "=",
                 };
             }
         }

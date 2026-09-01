@@ -437,7 +437,32 @@ public class GoCliScraperTests
                 "usage: go test [-args] [packages]\n\nThe -args flag passes the remainder to the test binary.");
 
         var args = command!.Options.Single(option => option.SwitchName == "-args");
-        await Assert.That(args.Phase).IsEqualTo(CommandLinePhase.Terminal);
+        using (Assert.Multiple())
+        {
+            await Assert.That(args.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(args.IsFlag).IsFalse();
+            await Assert.That(args.GroupValues).IsTrue();
+            await Assert.That(args.AcceptsMultipleValues).IsFalse();
+            await Assert.That(args.Phase).IsEqualTo(CommandLinePhase.Terminal);
+        }
+    }
+
+    [Test]
+    public async Task Get_U_Accepts_Bare_And_Patch_Values()
+    {
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(
+                ["go", "get"],
+                "usage: go get [-u] [-u=patch] [packages]\n\nThe -u flag updates dependencies. Use -u=patch to update patch releases.");
+
+        var update = command!.Options.Single(option => option.SwitchName == "-u");
+        using (Assert.Multiple())
+        {
+            await Assert.That(update.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(update.PropertyType).IsEqualTo("CliOptionValue?");
+            await Assert.That(update.IsFlag).IsFalse();
+            await Assert.That(update.ValueSeparator).IsEqualTo("=");
+        }
     }
 
     [Test]
