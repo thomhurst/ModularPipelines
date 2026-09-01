@@ -44,7 +44,7 @@ internal sealed class CliScrapeProvenance
         var path = string.Join(' ', commandPath);
         if (_helpInvocations.TryGetValue(path, out var invocation))
         {
-            _helpInvocations[path] = invocation with { RawHelp = invocation.RawHelp ?? helpText };
+            _helpInvocations[path] = invocation with { RawHelp = helpText };
         }
     }
 

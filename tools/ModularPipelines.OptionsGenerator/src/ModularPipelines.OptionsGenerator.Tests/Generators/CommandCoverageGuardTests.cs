@@ -285,6 +285,40 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task PreservedGroupHelp_ReplacesEarlierRawInvocationOutput()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake run")),
+                outputDirectory,
+                approveShrinkage: false);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(
+                ["fake"],
+                "--help",
+                Result("RAW ROOT HELP"));
+            provenance.PreserveGroupHelp(
+                ["fake"],
+                "RAW ROOT HELP\n\nCommands:\n  run  Discovered by supplemental inventory.");
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            var json = await File.ReadAllTextAsync(path!);
+
+            await Assert.That(json).Contains("Discovered by supplemental inventory");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DocumentedExclusions_AllowMassRemovalWithoutBlanketApproval()
     {
         var outputDirectory = CreateOutputDirectory();
