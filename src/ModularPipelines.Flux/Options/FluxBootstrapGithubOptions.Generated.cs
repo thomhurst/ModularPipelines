@@ -310,7 +310,6 @@ public record FluxBootstrapGithubOptions : FluxOptions
     /// <summary>
     /// name of the secret the sync credentials can be found in or stored to (default "flux-system")
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-name", Format = OptionFormat.EqualsSeparated)]
     public string? SecretName { get; set; }
 
