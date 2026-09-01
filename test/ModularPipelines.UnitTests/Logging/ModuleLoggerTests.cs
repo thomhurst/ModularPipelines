@@ -460,14 +460,19 @@ public class ModuleLoggerTests
     [Test]
     public async Task WriteMarkupLine_DoesNotApplyCustomObfuscatorTwice()
     {
-        string? renderedOutput = null;
+        IRenderable? bufferedRenderable = null;
+        string? bufferedPlainText = null;
         var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
         moduleOutputBuffer
             .Setup(x => x.WriteRenderable(
                 It.IsAny<IRenderable>(),
                 It.IsAny<string>(),
                 It.IsAny<bool>()))
-            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedOutput = rendered);
+            .Callback<IRenderable, string, bool>((renderable, plainText, _) =>
+            {
+                bufferedRenderable = renderable;
+                bufferedPlainText = plainText;
+            });
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
@@ -486,8 +491,20 @@ public class ModuleLoggerTests
 
         logger.WriteMarkupLine("[green]secret[/]");
 
-        await Assert.That(renderedOutput).Contains("masked");
-        await Assert.That(renderedOutput).DoesNotContain("masked-twice");
+        using var writer = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+            Ansi = AnsiSupport.No,
+        });
+        console.Write(bufferedRenderable!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(bufferedPlainText).IsEqualTo("secret");
+            await Assert.That(writer.ToString()).Contains("masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+        }
     }
 
     [Test]
