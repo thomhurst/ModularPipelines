@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -460,7 +461,7 @@ public abstract record ModuleResult<T> : ModuleResult
 
 /// <summary>
 /// JSON converter for Exception objects. Serializes essential exception data
-/// and deserializes to a wrapper exception preserving the message.
+/// and deserializes unknown types to a wrapper preserving their diagnostics.
 /// </summary>
 /// <remarks>
 /// <para><strong>Security Considerations:</strong></para>
@@ -485,7 +486,8 @@ public abstract record ModuleResult<T> : ModuleResult
 /// </list>
 /// <para>
 /// On deserialization, only well-known exception types from the System namespace are
-/// reconstructed. Unknown types fall back to a generic Exception to prevent type injection.
+/// reconstructed. Unknown types become <see cref="RemoteModuleException"/> instances to
+/// prevent type injection while retaining their original diagnostics.
 /// </para>
 /// </remarks>
 internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
@@ -500,6 +502,7 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 
         string? typeName = null;
         string? message = null;
+        string? stackTrace = null;
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject)
@@ -521,6 +524,9 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
                         message = reader.GetString();
                         break;
                     case "StackTrace":
+                        stackTrace = reader.TokenType == JsonTokenType.Null
+                            ? null
+                            : reader.GetString();
                         break;
                 }
             }
@@ -549,11 +555,12 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             }
         }
 
-        // NOTE: StackTrace is intentionally not restored during deserialization.
-        // Setting the StackTrace property via reflection is fragile and can cause issues.
-        // The original stack trace is preserved in the JSON for diagnostic purposes,
-        // but deserialized exceptions will have a new stack trace from deserialization.
-        return new Exception(message ?? "Deserialized exception");
+        return typeName is null
+            ? new Exception(message ?? "Deserialized exception")
+            : new RemoteModuleException(
+                typeName,
+                message ?? "Deserialized exception",
+                stackTrace);
     }
 
     public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
@@ -562,9 +569,15 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 
         // Security: Use FullName instead of AssemblyQualifiedName to avoid leaking
         // assembly version, culture, and public key token information
-        writer.WriteString("Type", value.GetType().FullName);
-        writer.WriteString("Message", value.Message);
-        writer.WriteString("StackTrace", value.StackTrace);
+        var remoteException = value as RemoteModuleException;
+        var typeName = remoteException?.OriginalExceptionType ?? value.GetType().FullName;
+        var message = remoteException?.OriginalMessage ?? value.Message;
+        var stackTrace = remoteException?.RemoteStackTrace ?? value.StackTrace;
+
+        writer.WriteString("Type", typeName);
+        writer.WriteString("Message", message);
+        writer.WriteString("StackTrace", stackTrace);
+
         writer.WriteEndObject();
     }
 }

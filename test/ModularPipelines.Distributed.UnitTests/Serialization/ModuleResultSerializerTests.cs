@@ -8,6 +8,8 @@ namespace ModularPipelines.Distributed.UnitTests.Serialization;
 
 public class ModuleResultSerializerTests
 {
+    private sealed class WorkerException(string message) : Exception(message);
+
     private class SimpleResult
     {
         public string Name { get; set; } = string.Empty;
@@ -73,6 +75,79 @@ public class ModuleResultSerializerTests
     }
 
     [Test]
+    public async Task Deserialize_Custom_Exception_Preserves_Remote_Diagnostics()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(SimpleModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var originalException = CaptureWorkerException();
+        ModuleResult<SimpleResult> result = new ModuleResult<SimpleResult>.Failure(originalException)
+        {
+            Name = nameof(SimpleModule),
+            TypeName = typeof(SimpleModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
+            Status = ModuleStatus.Failed,
+        };
+
+        var serialized = serializer.Serialize(
+            result,
+            typeof(SimpleModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 7);
+
+        var deserialized = serializer.Deserialize(serialized);
+        var remoteException = deserialized!.ExceptionOrDefault as RemoteModuleException;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(remoteException).IsNotNull();
+            await Assert.That(remoteException!.OriginalExceptionType)
+                .IsEqualTo(typeof(WorkerException).FullName);
+            await Assert.That(remoteException.OriginalMessage).IsEqualTo("worker failed");
+            await Assert.That(remoteException.WorkerIndex).IsEqualTo(7);
+            await Assert.That(remoteException.RemoteStackTrace)
+                .Contains(nameof(CaptureWorkerException));
+            await Assert.That(remoteException.StackTrace)
+                .IsEqualTo(remoteException.RemoteStackTrace);
+            await Assert.That(remoteException.Message)
+                .IsEqualTo($"Remote worker 7 threw {typeof(WorkerException).FullName}: worker failed");
+        }
+    }
+
+    [Test]
+    public async Task Deserialize_System_Exception_Preserves_Exception_Type()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(SimpleModule));
+        var serializer = new ModuleResultSerializer(registry);
+        ModuleResult<SimpleResult> result = new ModuleResult<SimpleResult>.Failure(
+            new InvalidOperationException("worker failed"))
+        {
+            Name = nameof(SimpleModule),
+            TypeName = typeof(SimpleModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
+            Status = ModuleStatus.Failed,
+        };
+
+        var serialized = serializer.Serialize(
+            result,
+            typeof(SimpleModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 7);
+
+        var deserialized = serializer.Deserialize(serialized);
+
+        await Assert.That(deserialized!.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
+        await Assert.That(deserialized.ExceptionOrDefault!.Message)
+            .IsEqualTo("worker failed");
+    }
+
+    [Test]
     public async Task Serialized_Result_Preserves_Six_Parameter_Constructor()
     {
         var constructor = typeof(SerializedModuleResult).GetConstructor(
@@ -86,5 +161,17 @@ public class ModuleResultSerializerTests
         ]);
 
         await Assert.That(constructor).IsNotNull();
+    }
+
+    private static WorkerException CaptureWorkerException()
+    {
+        try
+        {
+            throw new WorkerException("worker failed");
+        }
+        catch (WorkerException exception)
+        {
+            return exception;
+        }
     }
 }
