@@ -114,16 +114,7 @@ internal static class TimeoutHelper
         // of that real task instead of making a decision from a provisional wrapper.
         deadlineCts.CancelAfter(timeout.Value);
 
-        Task<T> executionTask;
-        try
-        {
-            executionTask = taskFactory(attemptCts.Token);
-        }
-        catch (Exception exception)
-        {
-            executionTask = Task.FromException<T>(exception);
-        }
-
+        var executionTask = taskFactory(attemptCts.Token);
         cancellationSignals.PublishExecutionTask(executionTask);
 
         await Task.WhenAny(
