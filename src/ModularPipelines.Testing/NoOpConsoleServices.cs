@@ -40,7 +40,7 @@ internal sealed class NoOpConsoleServices :
     public Task FlushInProgressModuleOutputAsync(CancellationToken cancellationToken = default) =>
         Task.CompletedTask;
 
-    public Task FlushModuleOutputAsync() => Task.CompletedTask;
+    public Task FlushUnattributedOutputAsync() => Task.CompletedTask;
 
     public void WriteResults(PipelineSummary summary)
     {

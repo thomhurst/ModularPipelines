@@ -29,7 +29,7 @@ namespace ModularPipelines.Console;
 /// concurrently from multiple threads.
 /// </para>
 /// <para>
-/// <b>IProgressDisplay:</b> Implements IProgressDisplay to integrate with existing notification
+/// <b>IProgressDisplay:</b> Implements IProgressDisplay to integrate with the notification
 /// system. The ProgressPrinter forwards notifications here, which are delegated to the active session.
 /// </para>
 /// </remarks>
@@ -370,19 +370,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     }
 
     /// <inheritdoc />
-    public async Task FlushModuleOutputAsync()
+    public async Task FlushUnattributedOutputAsync()
     {
-        // Output is now flushed immediately when modules complete.
-        // This method remains for API compatibility but only flushes
-        // unattributed output (pipeline-level logs).
         if (_originalConsoleOut == null)
         {
-            return; // Not installed, nothing to flush
+            return;
         }
 
         var formatter = _formatterProvider.GetFormatter();
 
-        // Flush unattributed output (if any)
         if (_unattributedBuffer.HasOutput)
         {
             var unattributedLogger = _outputLogger
@@ -463,18 +459,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        // Flush any buffered module output before uninstalling
-        // This ensures logs are written even when pipeline isn't executed (e.g., in tests)
         if (_isInstalled)
         {
-            try
-            {
-                await FlushModuleOutputAsync().ConfigureAwait(false);
-            }
-            catch (InvalidOperationException)
-            {
-                // Ignore if not installed - FlushModuleOutputAsync requires installation
-            }
+            await FlushUnattributedOutputAsync().ConfigureAwait(false);
         }
 
         Uninstall();
@@ -484,17 +471,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     #region IProgressDisplay Implementation
 
     /// <summary>
-    /// Implements IProgressDisplay.RunAsync for integration with existing notification system.
-    /// This is called by ProgressPrinter when the old code path is used.
+    /// Runs the progress session started by <see cref="ModularPipelines.Engine.Executors.PipelineOutputCoordinator"/>,
+    /// which installs console interception before invoking the progress display.
     /// </summary>
     async Task IProgressDisplay.RunAsync(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        // Install if not already installed (for backward compatibility)
-        if (!_isInstalled)
-        {
-            Install();
-        }
-
         await using var session = await BeginProgressAsync(organizedModules, cancellationToken).ConfigureAwait(false);
 
         // Wait for cancellation - the session runs until disposed
