@@ -537,12 +537,51 @@ internal sealed class CommandLineBuilder(
         var globalOptions = new List<string>();
         var commandOptions = new List<string>();
         var remainingArguments = new List<string>();
-        var hasTerminalOptions = false;
         var optionParsingCount = GetOptionParsingCount(
             manualArgs,
             flagsByName,
             optionsByName,
             options);
+        var hasTerminalOptions = ClassifyManualOptions(
+            manualArgs,
+            optionParsingCount,
+            flagsByName,
+            optionsByName,
+            options,
+            preserveTerminalOptions,
+            globalOptions,
+            commandOptions,
+            remainingArguments,
+            positionalArgumentIndices);
+
+        if (globalOptions.Count == 0
+            && commandOptions.Count == 0
+            && !hasTerminalOptions)
+        {
+            return ExtractedManualOptions.Empty;
+        }
+
+        manualArgs.Clear();
+        manualArgs.AddRange(remainingArguments);
+        return new ExtractedManualOptions(
+            globalOptions,
+            commandOptions,
+            hasTerminalOptions);
+    }
+
+    private static bool ClassifyManualOptions(
+        List<string> manualArgs,
+        int optionParsingCount,
+        IReadOnlyDictionary<string, FlagPart> flagsByName,
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options,
+        bool preserveTerminalOptions,
+        List<string> globalOptions,
+        List<string> commandOptions,
+        List<string> remainingArguments,
+        ICollection<int>? positionalArgumentIndices)
+    {
+        var hasTerminalOptions = false;
         for (var index = 0; index < optionParsingCount;)
         {
             var match = TryMatchManualOption(
@@ -591,19 +630,7 @@ internal sealed class CommandLineBuilder(
             remainingArguments,
             positionalArgumentIndices);
 
-        if (globalOptions.Count == 0
-            && commandOptions.Count == 0
-            && !hasTerminalOptions)
-        {
-            return ExtractedManualOptions.Empty;
-        }
-
-        manualArgs.Clear();
-        manualArgs.AddRange(remainingArguments);
-        return new ExtractedManualOptions(
-            globalOptions,
-            commandOptions,
-            hasTerminalOptions);
+        return hasTerminalOptions;
     }
 
     private static int GetOptionParsingCount(
