@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Go.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Go.Options;
 
@@ -29,8 +30,8 @@ public record GoListOptions : GoOptions
     /// <summary>
     /// The -json flag causes the package data to be printed in JSON format instead of using the template format. The JSON flag can optionally be provided with a set of comma-separated required field names to be output. If so, those required fields will always appear in JSON output, but others may be omitted to save work in computing the JSON struct.
     /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
+    [CliOption("-json", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Json { get; set; }
 
     /// <summary>
     /// The -m flag causes list to list modules instead of packages.
@@ -277,6 +278,12 @@ public record GoListOptions : GoOptions
     /// </summary>
     [CliFlag("-retracted")]
     public bool? Retracted { get; set; }
+
+    /// <summary>
+    /// When using -m, the -reuse=old.json flag accepts the name of file containing the JSON output of a previous 'go list -m -json' invocation with the same set of modifier flags (such as -u, -retracted, and -versions). The go command may use this file to determine that a module is unchanged since the previous invocation and avoid redownloading information about it. Modules that are not redownloaded will be marked in the new output by setting the Reuse field to true. Normally the module cache provides this kind of reuse automatically; the -reuse flag can be useful on systems that do not preserve the module cache.
+    /// </summary>
+    [CliOption("-reuse", Format = OptionFormat.EqualsSeparated)]
+    public string? Reuse { get; set; }
 
     /// <summary>
     /// The packages operand.
