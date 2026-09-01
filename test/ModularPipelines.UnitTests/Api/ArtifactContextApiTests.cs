@@ -371,7 +371,7 @@ public class ArtifactContextApiTests
             await blockingStream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(5));
             cancellationTokenSource.Cancel();
             await Assert.ThrowsAsync<OperationCanceledException>(() =>
-                extractionTask);
+                extractionTask.WaitAsync(TimeSpan.FromSeconds(5)));
         }
         finally
         {
