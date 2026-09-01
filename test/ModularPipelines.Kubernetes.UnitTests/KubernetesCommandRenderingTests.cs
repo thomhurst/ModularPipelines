@@ -1,7 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Kubernetes.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
@@ -22,25 +21,25 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
-    public async Task Kustomize_Create_Renders_Map_Entries_Independently()
+    public async Task Kustomize_Create_Joins_Scalar_Map_Entries()
     {
         var result = await GetResult(new KustomizeCreateOptions
         {
             Annotations =
             [
-                new KeyValue("owners", "alice,bob"),
-                new KeyValue("tier", "backend"),
+                "owners:alice",
+                "tier:backend",
             ],
             Labels =
             [
-                new KeyValue("app", "web"),
-                new KeyValue("environment", "test"),
+                "app:web",
+                "environment:test",
             ],
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "kustomize create --annotations=owners=alice,bob --annotations=tier=backend "
-            + "--labels=app=web --labels=environment=test");
+            "kustomize create --annotations=owners:alice,tier:backend "
+            + "--labels=app:web,environment:test");
     }
 
     [Test]

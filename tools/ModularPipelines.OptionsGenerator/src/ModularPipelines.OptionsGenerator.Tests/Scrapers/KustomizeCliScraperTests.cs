@@ -82,11 +82,14 @@ public class KustomizeCliScraperTests
     }
 
     [Test]
-    [Arguments("string", "")]
-    [Arguments("stringToString", " (default [])")]
-    public async Task Create_Map_Options_Preserve_Structured_Values(
+    [Arguments("string", "", "IEnumerable<string>?", false, ",")]
+    [Arguments("stringToString", " (default [])", "IReadOnlyList<KeyValue>?", true, null)]
+    public async Task Create_Map_Option_Rendering_Matches_Cobra_Type(
         string typeHint,
-        string defaultDescription)
+        string defaultDescription,
+        string expectedType,
+        bool expectedIsKeyValue,
+        string? expectedCollectionSeparator)
     {
         var command = await new TestKustomizeCliScraper().Parse(
             ["kustomize", "create"],
@@ -107,9 +110,11 @@ public class KustomizeCliScraperTests
         {
             await Assert.That(options).Count().IsEqualTo(2);
             await Assert.That(options.Select(option => option.CSharpType))
-                .IsEquivalentTo(["IReadOnlyList<KeyValue>?", "IReadOnlyList<KeyValue>?"]);
-            await Assert.That(options.All(option => option.IsKeyValue)).IsTrue();
-            await Assert.That(options.All(option => option.CollectionSeparator is null)).IsTrue();
+                .IsEquivalentTo([expectedType, expectedType]);
+            await Assert.That(options.All(option => option.IsKeyValue == expectedIsKeyValue)).IsTrue();
+            await Assert.That(options.All(
+                    option => option.CollectionSeparator == expectedCollectionSeparator))
+                .IsTrue();
         }
     }
 
