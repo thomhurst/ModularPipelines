@@ -71,7 +71,12 @@ public partial class YarnCliScraper : CliScraperBase
             : "--help";
 
         // Execute yarn from the project context directory
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken, _yarnProjectDir);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken,
+            _yarnProjectDir);
 
         // Many CLIs output help to stderr when using --help
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)

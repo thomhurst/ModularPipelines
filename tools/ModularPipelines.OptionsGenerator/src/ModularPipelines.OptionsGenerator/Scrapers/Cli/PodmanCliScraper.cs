@@ -62,7 +62,8 @@ public partial class PodmanCliScraper : CobraCliScraper
         var arguments = commandPath.Length > 2
             ? string.Join(" ", commandPath.Skip(2)) + " --help"
             : "--help";
-        var result = await Executor.ExecuteAsync(
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
             composeProvider,
             arguments,
             cancellationToken);

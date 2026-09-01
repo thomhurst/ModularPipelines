@@ -114,7 +114,11 @@ public partial class ChocolateyCliScraper : CliScraperBase
             ? string.Join(" ", commandPath.Skip(1)) + " -?"
             : "-?";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         // Chocolatey outputs help to stdout
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)

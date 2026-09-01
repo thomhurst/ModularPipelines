@@ -246,6 +246,45 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task CoverageFailureDiagnostics_AreWrittenWithoutRemovedCommands()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake run")) with
+                {
+                    CommandCoverage = new CliCommandCoveragePolicy
+                    {
+                        MinimumCommandCount = 2,
+                    },
+                },
+                outputDirectory,
+                approveShrinkage: false);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(
+                ["fake"],
+                "--help",
+                Result("RAW ROOT HELP: run only"));
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            var json = await File.ReadAllTextAsync(path!);
+
+            await Assert.That(path).IsNotNull();
+            await Assert.That(json).Contains("RAW ROOT HELP: run only");
+            await Assert.That(json).Contains("\"removedCommands\": []");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DocumentedExclusions_AllowMassRemovalWithoutBlanketApproval()
     {
         var outputDirectory = CreateOutputDirectory();

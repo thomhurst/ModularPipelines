@@ -76,7 +76,11 @@ public partial class JqCliScraper : CliScraperBase
         }
 
         // jq uses -h instead of --help
-        var result = await Executor.ExecuteAsync(ToolName, "-h", cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ToolName,
+            "-h",
+            cancellationToken);
 
         // jq outputs help to stderr
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)

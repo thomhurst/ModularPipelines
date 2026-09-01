@@ -225,6 +225,25 @@ public class CliScraperTraversalTests
         await Assert.That(logger.Warnings).Contains(warning =>
             warning.Exception is InvalidOperationException
             && warning.Message.Contains("Failed to validate subcommand discovery: fake parent"));
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+
+            await Assert.That(diagnostics).Contains("Manage parent resources.");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
     }
 
     [Test]
@@ -1086,6 +1105,30 @@ public class CliScraperTraversalTests
 
         return commands;
     }
+
+    private static CommandCoverageEvaluation CoverageFailure(string removedCommand) => new()
+    {
+        ManifestPath = "unused",
+        Manifest = new CommandCoverageManifest
+        {
+            FormatVersion = 1,
+            ToolName = "fake",
+            ToolVersion = "2.0",
+            CommandCount = 1,
+            CommandTreeSha256 = "unused",
+            Commands = ["fake sibling"],
+            CommandGroups = ["fake"],
+            Exclusions = [],
+        },
+        HasPreviousBaseline = true,
+        PreviousCommandCount = 2,
+        PreviousToolVersion = "1.0",
+        AddedCommands = [],
+        RemovedCommands = [removedCommand],
+        KnownGroupsWithoutChildren = ["fake parent"],
+        Violations = ["Known command groups lost all children: fake parent."],
+        ShrinkageApproved = false,
+    };
 
     private sealed class TestCobraScraper : CobraCliScraper
     {

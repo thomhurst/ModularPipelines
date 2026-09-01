@@ -404,6 +404,11 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
+        if (subcommands.Count > 0 || HelpDeclaresCommandGroup(helpText))
+        {
+            _scrapeProvenance.PreserveGroupHelp(path, helpText);
+        }
+
         try
         {
             ValidateSubcommandDiscovery(path, helpText, subcommands);
@@ -412,11 +417,6 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
             return;
-        }
-
-        if (subcommands.Count > 0)
-        {
-            _scrapeProvenance.PreserveGroupHelp(path, helpText);
         }
 
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
@@ -668,8 +668,11 @@ public abstract partial class CliScraperBase : ICliScraper
             ? string.Join(" ", commandPath.Skip(1)) + " --help"
             : "--help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
-        RecordHelpInvocation(commandPath, args, result);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
@@ -695,16 +698,22 @@ public abstract partial class CliScraperBase : ICliScraper
         return null;
     }
 
-    /// <summary>
-    /// Retains raw help and execution provenance until coverage validation completes.
-    /// Failure diagnostics persist only the root and parent help relevant to removals.
-    /// </summary>
-    private protected void RecordHelpInvocation(
+    private protected async Task<CliCommandResult> ExecuteAndRecordHelpCommandAsync(
         IReadOnlyList<string> commandPath,
+        string executablePath,
         string arguments,
-        CliCommandResult result,
-        bool preserveRawHelp = false) =>
+        CancellationToken cancellationToken,
+        string? workingDirectory = null,
+        bool preserveRawHelp = false)
+    {
+        var result = await Executor.ExecuteAsync(
+            executablePath,
+            arguments,
+            cancellationToken,
+            workingDirectory);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+        return result;
+    }
 
     internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
         string outputDirectory,

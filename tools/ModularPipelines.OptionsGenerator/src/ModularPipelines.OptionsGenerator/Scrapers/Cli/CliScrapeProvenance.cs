@@ -53,11 +53,6 @@ internal sealed class CliScrapeProvenance
         CommandCoverageEvaluation coverage,
         CancellationToken cancellationToken)
     {
-        if (coverage.RemovedCommands.Count == 0)
-        {
-            return null;
-        }
-
         var toolName = coverage.Manifest.ToolName;
         var requestedHelpPaths = coverage.RemovedCommands
             .Select(GetParentCommand)
