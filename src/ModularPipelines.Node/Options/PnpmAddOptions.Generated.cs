@@ -201,7 +201,7 @@ public record PnpmAddOptions : PnpmOptions
     public string? TestPattern { get; set; }
 
     /// <summary>
-    /// The name operand.
+    /// The &lt;name&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
