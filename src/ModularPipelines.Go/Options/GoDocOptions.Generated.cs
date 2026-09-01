@@ -44,9 +44,6 @@ public record GoDocOptions : GoOptions
     [CliFlag("-ex")]
     public bool? Ex { get; set; }
 
-    /// <summary>
-    /// Serve HTML docs over HTTP.
-    /// </summary>
     [CliFlag("-http")]
     public bool? Http { get; set; }
 
