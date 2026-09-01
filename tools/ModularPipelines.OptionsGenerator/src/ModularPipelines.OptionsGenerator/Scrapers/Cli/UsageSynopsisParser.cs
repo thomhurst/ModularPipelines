@@ -629,20 +629,10 @@ public static class UsageSynopsisParser
         };
     }
 
-    private static string GetOperandDocumentationName(string token, string canonicalName)
-    {
-        var sourceName = token.Trim();
-        if (sourceName.StartsWith('[') && sourceName.EndsWith(']'))
-        {
-            sourceName = sourceName[1..^1].Trim();
-        }
-
-        sourceName = sourceName.TrimEnd('.', '…').Trim();
-        var placeholderStart = sourceName.IndexOf('<');
-        return placeholderStart >= 0 && sourceName.IndexOf('>', placeholderStart + 1) > placeholderStart + 1
-            ? sourceName
+    private static string GetOperandDocumentationName(string token, string canonicalName) =>
+        token.Contains($"<{canonicalName}>", StringComparison.Ordinal)
+            ? $"<{canonicalName}>"
             : canonicalName;
-    }
 
     private static bool IsForwardedOptionTail(string token, string content) =>
         token.StartsWith('[')

@@ -165,6 +165,30 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Documents_Only_The_Canonical_Placeholder()
+    {
+        var alternatives = UsageSynopsisParser.Parse(
+            "Usage: newman run [options] <collection|URL>",
+            ["newman", "run"]);
+        var optionalQualifiers = UsageSynopsisParser.Parse(
+            "Usage: pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [property-path]",
+            ["pulumi", "env", "get"]);
+        var compound = UsageSynopsisParser.Parse(
+            "Usage: pulumi env clone [<org-name>/]<src-project-name>/<src-environment-name> [<dest-project-name>/]<dest-environment-name>",
+            ["pulumi", "env", "clone"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(alternatives.PositionalArguments[0].Description)
+                .IsEqualTo("The collection operand.");
+            await Assert.That(optionalQualifiers.PositionalArguments[0].Description)
+                .IsEqualTo("The <environment-name> operand.");
+            await Assert.That(compound.PositionalArguments[0].Description)
+                .IsEqualTo("The <src-environment-name> operand.");
+        }
+    }
+
+    [Test]
     public async Task Command_Group_Placeholders_Remain_Executable_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(
