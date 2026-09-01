@@ -504,6 +504,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Places_Manual_Options_Before_Terminated_Passthrough()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminatedPassthroughOptions("source", "destination")
+        {
+            Arguments = ["--force", "--", "-F", "config"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("tool copy --force -- -F config source destination");
+    }
+
+    [Test]
     public async Task Build_Omits_Terminator_When_Terminated_Passthrough_Is_Absent()
     {
         var builder = await GetService<ICommandLineBuilder>();

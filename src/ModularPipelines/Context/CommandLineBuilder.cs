@@ -166,6 +166,7 @@ internal sealed class CommandLineBuilder(
             extractedManualOptions,
             globalOptionTerminatorIndex,
             commandOptionTerminatorIndex,
+            commandLateOperandIndex,
             hasRenderedCommandOptions);
         InsertManualArgumentsBeforeLateOperands(
             propertyArgs,
@@ -415,6 +416,7 @@ internal sealed class CommandLineBuilder(
         ExtractedManualOptions extractedManualOptions,
         int? globalOptionTerminatorIndex,
         int? commandOptionTerminatorIndex,
+        int? commandLateOperandIndex,
         bool hasRenderedCommandOptions)
     {
         globalArgs.InsertRange(
@@ -428,7 +430,9 @@ internal sealed class CommandLineBuilder(
         }
         else
         {
-            propertyArgs.AddRange(extractedManualOptions.Command);
+            propertyArgs.InsertRange(
+                commandLateOperandIndex ?? propertyArgs.Count,
+                extractedManualOptions.Command);
         }
     }
 
