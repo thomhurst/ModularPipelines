@@ -8,6 +8,8 @@ on:
       - 'Directory.Build.props'
       - 'Directory.Packages.props'
       - 'global.json'
+      - 'scripts/GeneratedOptionsProvenance.ps1'
+      - 'scripts/Write-GeneratedOptionsProvenance.ps1'
       - 'src/ModularPipelines/Attributes/CliOptionValueArity.cs'
       - 'src/ModularPipelines/Attributes/CommandLinePhase.cs'
       - 'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs'
@@ -45,8 +47,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'push' && 'push-refresh' || github.run_id }}
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  group: ${{ github.workflow }}-generated-refresh
+  cancel-in-progress: true
 
 jobs:
   validate-generation-safety:

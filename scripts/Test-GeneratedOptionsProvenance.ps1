@@ -39,13 +39,29 @@ try {
             throw "Generator push trigger omits central build input '$centralBuildInput'."
         }
     }
+    $provenanceInputs = @(
+        'scripts/GeneratedOptionsProvenance.ps1',
+        'scripts/Write-GeneratedOptionsProvenance.ps1'
+    )
+    foreach ($provenanceInput in $provenanceInputs) {
+        if ($sourcePaths -notcontains $provenanceInput) {
+            throw "Generated-options fingerprint omits provenance input '$provenanceInput'."
+        }
+
+        if (-not $workflowContents.Contains("- '$provenanceInput'", [StringComparison]::Ordinal)) {
+            throw "Generator push trigger omits provenance input '$provenanceInput'."
+        }
+    }
     if ([regex]::Matches($workflowContents, '--disable-auto').Count -ne 2) {
         throw 'Linux and Windows generation jobs must both disable inherited auto-merge.'
     }
     if (-not $workflowContents.Contains(
-            "cancel-in-progress: `${{ github.event_name == 'push' }}",
+            'group: ${{ github.workflow }}-generated-refresh',
             [StringComparison]::Ordinal)) {
-        throw 'Push-triggered generator refreshes must cancel older in-progress runs.'
+        throw 'Generator refreshes must share one concurrency group across event types.'
+    }
+    if (-not $workflowContents.Contains('cancel-in-progress: true', [StringComparison]::Ordinal)) {
+        throw 'A newer generator refresh must cancel an older in-progress run.'
     }
 
     New-Item -ItemType Directory -Path $tempRoot | Out-Null
@@ -168,6 +184,39 @@ try {
         -ChangeManifest $changeManifest
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'refresh after central package update'
+
+    Set-Content `
+        -LiteralPath (Join-Path $tempRoot 'scripts/Write-GeneratedOptionsProvenance.ps1') `
+        -Value '# updated provenance writer'
+    Invoke-Git $tempRoot add scripts/Write-GeneratedOptionsProvenance.ps1
+    Invoke-Git $tempRoot commit -m 'update provenance writer'
+
+    $provenanceWriterError = $null
+    try {
+        & $assertScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -Package ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -CurrentBase HEAD
+    }
+    catch {
+        $provenanceWriterError = $_.Exception.Message
+    }
+
+    if ([string]::IsNullOrWhiteSpace($provenanceWriterError) -or
+        -not $provenanceWriterError.Contains('are stale', [StringComparison]::Ordinal)) {
+        throw "Provenance writer change did not invalidate generated options: $provenanceWriterError"
+    }
+
+    & $writeScript `
+        -RepositoryRoot $tempRoot `
+        -Tool fake `
+        -PackageDirectory src/ModularPipelines.Fake `
+        -NamespacePrefix Fake `
+        -ChangeManifest $changeManifest
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'refresh after provenance writer update'
 
     Set-Content `
         -LiteralPath (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/Emitter.cs') `

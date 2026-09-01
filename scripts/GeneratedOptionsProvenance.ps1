@@ -17,6 +17,8 @@ function Get-GeneratedOptionsSourcePath {
         'Directory.Build.props',
         'Directory.Packages.props',
         'global.json',
+        'scripts/GeneratedOptionsProvenance.ps1',
+        'scripts/Write-GeneratedOptionsProvenance.ps1',
         'src/ModularPipelines/Attributes/CliOptionValueArity.cs',
         'src/ModularPipelines/Attributes/CommandLinePhase.cs',
         'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs',
