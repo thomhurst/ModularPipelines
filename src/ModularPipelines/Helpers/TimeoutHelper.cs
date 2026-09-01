@@ -108,12 +108,20 @@ internal static class TimeoutHelper
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             externalCancellationState);
 
-        // Now schedule the timeout - registration is guaranteed to catch it
-        deadlineCts.CancelAfter(timeout.Value);
-
-        var executionTask = taskFactory(attemptCts.Token);
+        // Publish the execution before starting the factory so even an immediate
+        // deadline can attribute work completed in response to cancellation.
+        var executionStart = new TaskCompletionSource();
+        var executionTask = ExecuteAfterPublicationAsync(
+            executionStart.Task,
+            taskFactory,
+            attemptCts.Token);
         deadlineState.PublishExecutionTask(executionTask);
         externalCancellationState.PublishExecutionTask(executionTask);
+
+        // Now schedule the timeout - registration and execution publication are
+        // guaranteed to catch it before the factory can observe cancellation.
+        deadlineCts.CancelAfter(timeout.Value);
+        executionStart.SetResult();
 
         await Task.WhenAny(
                 executionTask,
@@ -137,6 +145,15 @@ internal static class TimeoutHelper
 
         var value = await executionTask.ConfigureAwait(false);
         return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
+    }
+
+    private static async Task<T> ExecuteAfterPublicationAsync<T>(
+        Task executionStart,
+        Func<CancellationToken, Task<T>> taskFactory,
+        CancellationToken cancellationToken)
+    {
+        await executionStart.ConfigureAwait(false);
+        return await taskFactory(cancellationToken).ConfigureAwait(false);
     }
 
     private static async Task<TimeoutExecutionResult<T>> ExecuteWithoutTimeoutAsync<T>(

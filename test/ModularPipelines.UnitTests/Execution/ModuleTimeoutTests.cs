@@ -200,18 +200,10 @@ public class ModuleTimeoutTests : TestBase
     public async Task Timeout_Fault_During_Grace_Period_Counts_As_Response()
     {
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            async cancellationToken =>
+            cancellationToken =>
             {
-                try
-                {
-                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new TimeoutException("Inner operation timed out.");
-                }
-
-                return true;
+                cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                return Task.FromException<bool>(new TimeoutException("Inner operation timed out."));
             },
             TimeSpan.FromMilliseconds(10),
             CancellationToken.None);
