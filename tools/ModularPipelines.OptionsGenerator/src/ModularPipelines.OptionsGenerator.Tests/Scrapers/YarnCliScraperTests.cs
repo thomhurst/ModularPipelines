@@ -163,7 +163,7 @@ public class YarnCliScraperTests
             """;
 
         var command = await new TestYarnCliScraper().Parse(
-            ["yarn", "version", "apply"],
+            ["yarn", "version apply"],
             helpText);
         var prerelease = command!.Options.Single();
 

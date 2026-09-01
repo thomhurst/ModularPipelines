@@ -26,4 +26,22 @@ public enum CommandLinePhase
     /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
     Passthrough = 3,
+
+    /// <summary>
+    /// A positional operand rendered after pass-through values and before terminal options.
+    /// </summary>
+    LateOperand = 5,
+}
+
+internal static class CommandLinePhaseOrder
+{
+    internal static int GetRenderOrder(CommandLinePhase phase) => phase switch
+    {
+        CommandLinePhase.EarlyOperand => 0,
+        CommandLinePhase.Normal => 1,
+        CommandLinePhase.Passthrough => 3,
+        CommandLinePhase.LateOperand => 4,
+        CommandLinePhase.Terminal => 5,
+        _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
+    };
 }

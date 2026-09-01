@@ -138,6 +138,7 @@ public class CliAttributeTests
         await Assert.That(ordinals[CommandLinePhase.Normal]).IsEqualTo(1);
         await Assert.That(ordinals[CommandLinePhase.Passthrough]).IsEqualTo(3);
         await Assert.That(ordinals[CommandLinePhase.Terminal]).IsEqualTo(4);
+        await Assert.That(ordinals[CommandLinePhase.LateOperand]).IsEqualTo(5);
         await Assert.That(ordinals.Values).DoesNotContain(2);
     }
 

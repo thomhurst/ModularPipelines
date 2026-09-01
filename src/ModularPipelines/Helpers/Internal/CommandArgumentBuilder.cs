@@ -80,7 +80,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         var rendered = new List<string>();
         emittedOptionTerminatorIndex = null;
-        foreach (var phase in renderedPhases.OrderBy(pair => GetRenderOrder(pair.Key)))
+        foreach (var phase in renderedPhases.OrderBy(pair =>
+                     CommandLinePhaseOrder.GetRenderOrder(pair.Key)))
         {
             if (emittedOptionTerminatorIndex is null
                 && phase.Value.OptionTerminatorIndex is { } phaseIndex)
@@ -93,15 +94,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         return rendered;
     }
-
-    private static int GetRenderOrder(CommandLinePhase phase) => phase switch
-    {
-        CommandLinePhase.EarlyOperand => 0,
-        CommandLinePhase.Normal => 1,
-        CommandLinePhase.Passthrough => 3,
-        CommandLinePhase.Terminal => 4,
-        _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
-    };
 
     private static RenderedPhase RenderPhase(
         CommandLinePhase phase,
@@ -264,8 +256,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         PropertyCommandLinePart option,
         ArgumentPart argument)
     {
-        var optionOrder = GetRenderOrder(option.Phase);
-        var argumentOrder = GetRenderOrder(argument.Phase);
+        var optionOrder = CommandLinePhaseOrder.GetRenderOrder(option.Phase);
+        var argumentOrder = CommandLinePhaseOrder.GetRenderOrder(argument.Phase);
         return optionOrder > argumentOrder
                || (optionOrder == argumentOrder
                    && argument.Phase == CommandLinePhase.Terminal);

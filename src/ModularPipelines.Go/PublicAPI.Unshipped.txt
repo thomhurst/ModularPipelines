@@ -95,7 +95,7 @@ ModularPipelines.Go.Options.GoGetOptions.Packages.get -> System.Collections.Gene
 ModularPipelines.Go.Options.GoGetOptions.Packages.set -> void
 ModularPipelines.Go.Options.GoGetOptions.T.get -> bool?
 ModularPipelines.Go.Options.GoGetOptions.T.set -> void
-ModularPipelines.Go.Options.GoGetOptions.U.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.U.get -> ModularPipelines.Models.CliOptionValue?
 ModularPipelines.Go.Options.GoGetOptions.U.set -> void
 ModularPipelines.Go.Options.GoInstallOptions
 ModularPipelines.Go.Options.GoInstallOptions.GoInstallOptions() -> void
@@ -107,7 +107,7 @@ ModularPipelines.Go.Options.GoListOptions.F.get -> string?
 ModularPipelines.Go.Options.GoListOptions.F.set -> void
 ModularPipelines.Go.Options.GoListOptions.GoListOptions() -> void
 ModularPipelines.Go.Options.GoListOptions.GoListOptions(ModularPipelines.Go.Options.GoListOptions! original) -> void
-ModularPipelines.Go.Options.GoListOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Json.get -> ModularPipelines.Models.CliOptionValue?
 ModularPipelines.Go.Options.GoListOptions.Json.set -> void
 ModularPipelines.Go.Options.GoListOptions.M.get -> bool?
 ModularPipelines.Go.Options.GoListOptions.M.set -> void

@@ -89,7 +89,7 @@ public record GhCodespaceSshOptions : GhOptions
     /// <summary>
     /// The &lt;command&gt; operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    [CliArgument(0, Phase = CommandLinePhase.LateOperand)]
     public string? Command { get; set; }
 
 }
