@@ -393,18 +393,11 @@ public static class UsageSynopsisParser
                 groupedBehindOptionTerminator,
                 ref associatedOptionSwitch);
 
-            var optionSwitches = GetOptionSwitches(operandToken);
-            if (optionSwitches.Count > 0)
+            if (TryHandleOptionToken(
+                    operandToken,
+                    requiredOptionSwitches,
+                    ref associatedOptionSwitch))
             {
-                var isRequiredOptionSwitch = IsRequiredUsageToken(operandToken);
-                associatedOptionSwitch = HasInlineOptionValue(operandToken)
-                    ? null
-                    : SelectPreferredOptionSwitch(optionSwitches);
-                if (isRequiredOptionSwitch)
-                {
-                    requiredOptionSwitches.AddRange(optionSwitches);
-                }
-
                 continue;
             }
 
@@ -434,27 +427,14 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            var argument = ParseOperand(operandToken, arguments.Count, operandPhase);
-            if (argument is null)
-            {
-                unparsedTokens.Add(operandToken);
-                associatedOptionSwitch = null;
-                continue;
-            }
-
-            if (associatedOptionSwitch is not null)
-            {
-                argument = argument with { AssociatedOptionSwitch = associatedOptionSwitch };
-            }
-
-            if (groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand)
-            {
-                argument = argument with { PrependOptionTerminator = true };
-            }
-
-            arguments.Add(argument);
-            prependOptionTerminatorToNextOperand = false;
-            associatedOptionSwitch = null;
+            ParseAndAddOperand(
+                operandToken,
+                operandPhase,
+                groupedBehindOptionTerminator,
+                arguments,
+                unparsedTokens,
+                ref prependOptionTerminatorToNextOperand,
+                ref associatedOptionSwitch);
             AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
         }
 
@@ -496,6 +476,60 @@ public static class UsageSynopsisParser
         {
             phase = CommandLinePhase.LateOperand;
         }
+    }
+
+    private static bool TryHandleOptionToken(
+        string operandToken,
+        List<string> requiredOptionSwitches,
+        ref string? associatedOptionSwitch)
+    {
+        var optionSwitches = GetOptionSwitches(operandToken);
+        if (optionSwitches.Count == 0)
+        {
+            return false;
+        }
+
+        associatedOptionSwitch = HasInlineOptionValue(operandToken)
+            ? null
+            : SelectPreferredOptionSwitch(optionSwitches);
+        if (IsRequiredUsageToken(operandToken))
+        {
+            requiredOptionSwitches.AddRange(optionSwitches);
+        }
+
+        return true;
+    }
+
+    private static void ParseAndAddOperand(
+        string operandToken,
+        CommandLinePhase operandPhase,
+        bool groupedBehindOptionTerminator,
+        List<CliPositionalArgument> arguments,
+        List<string> unparsedTokens,
+        ref bool prependOptionTerminatorToNextOperand,
+        ref string? associatedOptionSwitch)
+    {
+        var argument = ParseOperand(operandToken, arguments.Count, operandPhase);
+        if (argument is null)
+        {
+            unparsedTokens.Add(operandToken);
+            associatedOptionSwitch = null;
+            return;
+        }
+
+        if (associatedOptionSwitch is not null)
+        {
+            argument = argument with { AssociatedOptionSwitch = associatedOptionSwitch };
+        }
+
+        if (groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand)
+        {
+            argument = argument with { PrependOptionTerminator = true };
+        }
+
+        arguments.Add(argument);
+        prependOptionTerminatorToNextOperand = false;
+        associatedOptionSwitch = null;
     }
 
     private static CommandLinePhase TransitionPhase(
@@ -1247,7 +1281,7 @@ public static class UsageSynopsisParser
 
     private static string? SelectPreferredOptionSwitch(IReadOnlyList<string> optionSwitches) =>
         optionSwitches.FirstOrDefault(static optionSwitch => optionSwitch.StartsWith("--", StringComparison.Ordinal))
-        ?? optionSwitches.FirstOrDefault();
+        ?? (optionSwitches.Count > 0 ? optionSwitches[0] : null);
 
     private static bool HasInlineOptionValue(string token)
     {
