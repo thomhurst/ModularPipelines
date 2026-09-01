@@ -18,7 +18,8 @@ This page describes the internal architecture of distributed mode for contributo
    of `0` selects the master even when `DistributedOptions.InstanceIndex` is non-zero;
    any other valid integer selects a worker. When the variable is absent or invalid,
    `InstanceIndex == 0` selects the master. The master replaces the default
-   `IModuleExecutor` with `DistributedModuleExecutor`.
+   `IModuleExecutor` with `DistributedModuleExecutor`. The environment variable affects
+   role selection only; it does not change `DistributedOptions.InstanceIndex`.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
    so its `CreateAsync` method runs when the coordinator is first used. A directly
    registered `IDistributedCoordinator` is used as-is.
@@ -31,7 +32,9 @@ This page describes the internal architecture of distributed mode for contributo
    `DistributedOptions.InstanceIndex`. A valid non-zero environment value selects a
    worker, while `0` selects the master even when `InstanceIndex` is non-zero. Without
    a valid override, every non-zero `InstanceIndex` is a worker. Workers replace the
-   default `IModuleExecutor` with `WorkerModuleExecutor`.
+   default `IModuleExecutor` with `WorkerModuleExecutor`. Registration and run-report
+   metrics still use `DistributedOptions.InstanceIndex`, so every worker must configure
+   a distinct non-zero index even when the environment variable selects its role.
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default,
    the auto-detected operating-system capability.
