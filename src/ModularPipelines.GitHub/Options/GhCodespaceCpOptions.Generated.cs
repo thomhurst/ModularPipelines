@@ -19,8 +19,8 @@ namespace ModularPipelines.GitHub.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "cp")]
 public record GhCodespaceCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Sources,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Dest
+    [property: CliArgument(0, Phase = CommandLinePhase.LateOperand, Required = true)] IEnumerable<string> Sources,
+    [property: CliArgument(1, Phase = CommandLinePhase.LateOperand, Required = true)] string Dest
 ) : GhOptions
 {
     /// <summary>
@@ -64,5 +64,11 @@ public record GhCodespaceCpOptions(
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;scp flags&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? ScpFlags { get; set; }
 
 }
