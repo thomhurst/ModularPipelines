@@ -1127,7 +1127,7 @@ public class CliScraperTraversalTests
         RemovedCommands = [removedCommand],
         KnownGroupsWithoutChildren = ["fake parent"],
         Violations = ["Known command groups lost all children: fake parent."],
-        ShrinkageApproved = false,
+        ChangesApproved = false,
     };
 
     private sealed class TestCobraScraper : CobraCliScraper

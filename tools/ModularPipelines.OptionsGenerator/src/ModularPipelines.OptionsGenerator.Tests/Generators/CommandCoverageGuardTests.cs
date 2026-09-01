@@ -175,7 +175,7 @@ public class CommandCoverageGuardTests
                              && violation.Contains("explicit command coverage exclusions", StringComparison.Ordinal));
             await Assert.That(current.PreviousCommandCount).IsEqualTo(8);
             await Assert.That(current.PreviousToolVersion).IsEqualTo("aws-cli/2.36.29");
-            await Assert.That(current.ShrinkageApproved).IsFalse();
+            await Assert.That(current.ChangesApproved).IsFalse();
         }
         finally
         {
