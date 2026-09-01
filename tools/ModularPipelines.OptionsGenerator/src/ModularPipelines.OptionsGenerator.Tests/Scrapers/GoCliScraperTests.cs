@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -115,6 +116,7 @@ public class GoCliScraperTests
             usage: go mod edit [editing flags] [-fmt|-print|-json] [go.mod]
 
             The -module flag changes the module path.
+            The -C flag changes to the named directory before running the command.
 
             The -require=path@version and -droprequire=path flags
             add and drop a requirement.
@@ -143,6 +145,56 @@ public class GoCliScraperTests
             await Assert.That(module.IsFlag).IsFalse();
             await Assert.That(module.CSharpType).IsEqualTo("string?");
             await Assert.That(module.ValueSeparator).IsEqualTo("=");
+
+            var workingDirectory = command.Options.Single(option => option.SwitchName == "-C");
+            await Assert.That(workingDirectory.IsFlag).IsFalse();
+            await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
+            await Assert.That(workingDirectory.ValueSeparator).IsEqualTo(" ");
+        }
+    }
+
+    [Test]
+    public async Task Preserves_Case_Sensitive_Go_Flags()
+    {
+        var scraper = CreateScraper(new Dictionary<string, string>
+        {
+            ["help"] = """
+                Usage:
+                    go <command> [arguments]
+
+                The commands are:
+                    build       compile packages
+                    test        test packages
+                """,
+            ["help build"] = """
+                usage: go build [build flags] [packages]
+
+                The build flags are shared by the build and test commands:
+
+                    -C dir
+                        Change to dir before running the command.
+                """,
+            ["help test"] = """
+                usage: go test [-c] [build/test flags] [packages]
+
+                    -c
+                        Compile the test binary but do not run it.
+                """,
+            ["help testflag"] = "The following flags are recognized by the 'go test' command:",
+        });
+
+        var commands = await ScrapeAsync(scraper);
+        var test = commands.Single(command => command.FullCommand == "go test");
+        var compileOnly = test.Options.Single(option => option.SwitchName == "-c");
+        var workingDirectory = test.Options.Single(option => option.SwitchName == "-C");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(compileOnly.IsFlag).IsTrue();
+            await Assert.That(compileOnly.CSharpType).IsEqualTo("bool?");
+            await Assert.That(workingDirectory.IsFlag).IsFalse();
+            await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
+            await Assert.That(workingDirectory.Description).Contains("Change to dir");
         }
     }
 
@@ -234,6 +286,24 @@ public class GoCliScraperTests
     }
 
     [Test]
+    public async Task Structured_Descriptions_Win_Over_Later_Prose()
+    {
+        const string helpText = """
+            usage: go build [-asmflags value]
+
+                -asmflags value
+                    Pass arguments to the assembler.
+
+            The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments.
+            """;
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(["go", "build"], helpText);
+
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "-asmflags").Description)
+            .IsEqualTo("Pass arguments to the assembler.");
+    }
+
+    [Test]
     public async Task Loads_Only_Dynamically_Shared_Build_Flags()
     {
         const string buildHelp = """
@@ -294,25 +364,26 @@ public class GoCliScraperTests
 
                 See 'go help testflag' for details.
                 """,
-            ["help testflag"] = """
-                Profiling output can be inspected with pprof. The -sample_index=alloc_space
-                and -show_bytes options of pprof control presentation.
-
-                The following flags are recognized by the 'go test' command:
-
-                The test binary accepts the following flags:
-
-                    -run regexp
-                        Run only matching tests.
-                    -count n
-                        Run tests n times.
-                    -timeout d
-                        Panic after duration d.
-                    -bench regexp
-                        Run matching benchmarks.
-                    -coverprofile cover.out
-                        Write a coverage profile.
-                """,
+            ["help testflag"] = string.Join('\n',
+            [
+                "Profiling output can be inspected with pprof. The -sample_index=alloc_space",
+                "and -show_bytes options of pprof control presentation.",
+                string.Empty,
+                "The following flags are recognized by the 'go test' command:",
+                string.Empty,
+                "The test binary accepts the following flags:",
+                string.Empty,
+                "\t-run regexp",
+                "\t    Run only matching tests.",
+                "\t-count n",
+                "\t    Run tests n times.",
+                "\t-timeout d",
+                "\t    Panic after duration d.",
+                "\t-bench regexp",
+                "\t    Run matching benchmarks.",
+                "\t-coverprofile cover.out",
+                "\t    Write a coverage profile.",
+            ]),
         });
 
         var commands = await ScrapeAsync(scraper);
@@ -322,8 +393,23 @@ public class GoCliScraperTests
         await Assert.That(requiredOptions.All(switchName =>
                 test.Options.Any(option => option.SwitchName == switchName && !option.IsFlag)))
             .IsTrue();
+        await Assert.That(requiredOptions.All(switchName =>
+                !string.IsNullOrWhiteSpace(test.Options.Single(option => option.SwitchName == switchName).Description)))
+            .IsTrue();
         await Assert.That(test.Options.Any(option => option.SwitchName is "-sample_index" or "-show_bytes"))
             .IsFalse();
+    }
+
+    [Test]
+    public async Task Test_Args_Renders_After_Package_Operands()
+    {
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(
+                ["go", "test"],
+                "usage: go test [-args] [packages]\n\nThe -args flag passes the remainder to the test binary.");
+
+        var args = command!.Options.Single(option => option.SwitchName == "-args");
+        await Assert.That(args.Phase).IsEqualTo(CommandLinePhase.Terminal);
     }
 
     [Test]

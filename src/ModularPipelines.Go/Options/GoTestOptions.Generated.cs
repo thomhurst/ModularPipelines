@@ -20,15 +20,21 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("test")]
 public record GoTestOptions : GoOptions
 {
-    [CliFlag("-args")]
+    /// <summary>
+    /// Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged. Because this flag consumes the remainder of the command line, the package list (if present) must appear before this flag.
+    /// </summary>
+    [CliFlag("-args", Phase = CommandLinePhase.Terminal)]
     public bool? Args { get; set; }
 
     /// <summary>
-    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
+    /// Compile the test binary to pkg.test in the current directory but do not run it (where pkg is the last element of the package's import path). The file name or target directory can be changed with the -o flag.
     /// </summary>
-    [CliOption("-c")]
-    public string? C { get; set; }
+    [CliFlag("-c")]
+    public bool? C { get; set; }
 
+    /// <summary>
+    /// Run the test binary using xprog. The behavior is the same as in 'go run'. See 'go help run' for details.
+    /// </summary>
     [CliOption("-exec")]
     public string? Exec { get; set; }
 
@@ -38,18 +44,33 @@ public record GoTestOptions : GoOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
+    /// <summary>
+    /// Save a copy of the test binary to the named file. The test still runs (unless -c is specified). If file ends in a slash or names an existing directory, the test is written to pkg.test in that directory.
+    /// </summary>
     [CliOption("-o")]
     public string? O { get; set; }
 
+    /// <summary>
+    /// Save test artifacts in the directory specified by -outputdir. See 'go doc testing.T.ArtifactDir'.
+    /// </summary>
     [CliFlag("-artifacts")]
     public bool? Artifacts { get; set; }
 
-    [CliOption("-bench")]
+    /// <summary>
+    /// Run only those benchmarks matching a regular expression. By default, no benchmarks are run. To run all benchmarks, use '-bench .' or '-bench=.'. The regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a benchmark's identifier must match the corresponding element in the sequence, if any. Possible parents of matches are run with b.N=1 to identify sub-benchmarks. For example, given -bench=X/Y, top-level benchmarks matching X are run with b.N=1 to find any sub-benchmarks matching Y, which are then run in full.
+    /// </summary>
+    [CliOption("-bench", Format = OptionFormat.EqualsSeparated)]
     public string? Bench { get; set; }
 
+    /// <summary>
+    /// Run enough iterations of each benchmark to take t, specified as a time.Duration (for example, -benchtime 1h30s). The default is 1 second (1s). The special syntax Nx means to run the benchmark N times (for example, -benchtime 100x).
+    /// </summary>
     [CliOption("-benchtime")]
     public string? Benchtime { get; set; }
 
+    /// <summary>
+    /// Run each test, benchmark, and fuzz seed n times (default 1). If -cpu is set, run n times for each GOMAXPROCS value. Examples are always run once. -count does not apply to fuzz tests matched by -fuzz.
+    /// </summary>
     [CliOption("-count")]
     public string? Count { get; set; }
 
@@ -71,48 +92,87 @@ public record GoTestOptions : GoOptions
     [CliOption("-coverpkg")]
     public string? Coverpkg { get; set; }
 
+    /// <summary>
+    /// Specify a list of GOMAXPROCS values for which the tests, benchmarks or fuzz tests should be executed. The default is the current value of GOMAXPROCS. -cpu does not apply to fuzz tests matched by -fuzz.
+    /// </summary>
     [CliOption("-cpu")]
     public string? Cpu { get; set; }
 
+    /// <summary>
+    /// Do not start new tests after the first test failure.
+    /// </summary>
     [CliFlag("-failfast")]
     public bool? Failfast { get; set; }
 
+    /// <summary>
+    /// Show full file names in the error messages.
+    /// </summary>
     [CliFlag("-fullpath")]
     public bool? Fullpath { get; set; }
 
+    /// <summary>
+    /// Run the fuzz test matching the regular expression. When specified, the command line argument must match exactly one package within the main module, and regexp must match exactly one fuzz test within that package. Fuzzing will occur after tests, benchmarks, seed corpora of other fuzz tests, and examples have completed. See the Fuzzing section of the testing package documentation for details.
+    /// </summary>
     [CliOption("-fuzz")]
     public string? Fuzz { get; set; }
 
+    /// <summary>
+    /// Run enough iterations of the fuzz target during fuzzing to take t, specified as a time.Duration (for example, -fuzztime 1h30s). The default is to run forever. The special syntax Nx means to run the fuzz target N times (for example, -fuzztime 1000x).
+    /// </summary>
     [CliOption("-fuzztime")]
     public string? Fuzztime { get; set; }
 
     /// <summary>
-    /// The default is 60s.
+    /// Run enough iterations of the fuzz target during each minimization attempt to take t, as specified as a time.Duration (for example,
     /// </summary>
     [CliOption("-fuzzminimizetime")]
     public string? Fuzzminimizetime { get; set; }
 
+    /// <summary>
+    /// List tests, benchmarks, fuzz tests, or examples matching the regular expression. No tests, benchmarks, fuzz tests, or examples will be run. This will only list top-level tests. No subtest or subbenchmarks will be shown.
+    /// </summary>
     [CliOption("-list")]
     public string? List { get; set; }
 
+    /// <summary>
+    /// Place output files from profiling and test artifacts in the specified directory, by default the directory in which "go test" is running.
+    /// </summary>
     [CliOption("-outputdir")]
     public string? Outputdir { get; set; }
 
+    /// <summary>
+    /// Allow parallel execution of test functions that call t.Parallel, and fuzz targets that call t.Parallel when running the seed corpus. The value of this flag is the maximum number of tests to run simultaneously. While fuzzing, the value of this flag is the maximum number of subprocesses that may call the fuzz function simultaneously, regardless of whether T.Parallel is called. By default, -parallel is set to the value of GOMAXPROCS. Setting -parallel to values higher than GOMAXPROCS may cause degraded performance due to CPU contention, especially when fuzzing. Note that -parallel only applies within a single test binary. The 'go test' command may run tests for different packages in parallel as well, according to the setting of the -p flag (see 'go help build').
+    /// </summary>
     [CliOption("-parallel")]
     public string? Parallel { get; set; }
 
-    [CliOption("-run")]
+    /// <summary>
+    /// Run only those tests, examples, and fuzz tests matching the regular expression. For tests, the regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a test's identifier must match the corresponding element in the sequence, if any. Note that possible parents of matches are run too, so that -run=X/Y matches and runs and reports the result of all tests matching X, even those without sub-tests matching Y, because it must run them to look for those sub-tests. See also -skip.
+    /// </summary>
+    [CliOption("-run", Format = OptionFormat.EqualsSeparated)]
     public string? Run { get; set; }
 
+    /// <summary>
+    /// Tell long-running tests to shorten their run time. It is off by default but set during all.bash so that installing the Go tree can run a sanity check but not spend time running exhaustive tests.
+    /// </summary>
     [CliFlag("-short")]
     public bool? Short { get; set; }
 
+    /// <summary>
+    /// Randomize the execution order of tests and benchmarks. It is off by default. If -shuffle is set to on, then it will seed the randomizer using the system clock. If -shuffle is set to an integer N, then N will be used as the seed value. In both cases, the seed will be reported for reproducibility.
+    /// </summary>
     [CliOption("-shuffle")]
     public string? Shuffle { get; set; }
 
+    /// <summary>
+    /// Run only those tests, examples, fuzz tests, and benchmarks that do not match the regular expression. Like for -run and -bench, for tests and benchmarks, the regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a test's identifier must match the corresponding element in the sequence, if any.
+    /// </summary>
     [CliOption("-skip")]
     public string? Skip { get; set; }
 
+    /// <summary>
+    /// If a test binary runs longer than duration d, panic. If d is 0, the timeout is disabled. The default is 10 minutes (10m).
+    /// </summary>
     [CliOption("-timeout")]
     public string? Timeout { get; set; }
 
@@ -122,38 +182,77 @@ public record GoTestOptions : GoOptions
     [CliFlag("-v")]
     public bool? V { get; set; }
 
+    /// <summary>
+    /// Configure the invocation of "go vet" during "go test" to use the comma-separated list of vet checks. If list is empty, "go test" runs "go vet" with a curated list of checks believed to be always worth addressing. If list is "off", "go test" does not run "go vet" at all.
+    /// </summary>
     [CliOption("-vet")]
     public string? Vet { get; set; }
 
+    /// <summary>
+    /// Print memory allocation statistics for benchmarks. Allocations made in C or using C.malloc are not counted.
+    /// </summary>
     [CliFlag("-benchmem")]
     public bool? Benchmem { get; set; }
 
+    /// <summary>
+    /// Write a goroutine blocking profile to the specified file when all tests are complete. Writes test binary as -c would.
+    /// </summary>
     [CliOption("-blockprofile")]
     public string? Blockprofile { get; set; }
 
+    /// <summary>
+    /// Control the detail provided in goroutine blocking profiles by calling runtime.SetBlockProfileRate with n. See 'go doc runtime.SetBlockProfileRate'. The profiler aims to sample, on average, one blocking event every n nanoseconds the program spends blocked. By default, if -test.blockprofile is set without this flag, all blocking events are recorded, equivalent to -test.blockprofilerate=1.
+    /// </summary>
     [CliOption("-blockprofilerate")]
     public string? Blockprofilerate { get; set; }
 
+    /// <summary>
+    /// Write a coverage profile to the file after all tests have passed. Sets -cover.
+    /// </summary>
     [CliOption("-coverprofile")]
     public string? Coverprofile { get; set; }
 
+    /// <summary>
+    /// Write a CPU profile to the specified file before exiting. Writes test binary as -c would.
+    /// </summary>
     [CliOption("-cpuprofile")]
     public string? Cpuprofile { get; set; }
 
+    /// <summary>
+    /// Write an allocation profile to the file after all tests have passed. Writes test binary as -c would.
+    /// </summary>
     [CliOption("-memprofile")]
     public string? Memprofile { get; set; }
 
+    /// <summary>
+    /// Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate. See 'go doc runtime.MemProfileRate'. To profile all memory allocations, use -test.memprofilerate=1.
+    /// </summary>
     [CliOption("-memprofilerate")]
     public string? Memprofilerate { get; set; }
 
+    /// <summary>
+    /// Write a mutex contention profile to the specified file when all tests are complete. Writes test binary as -c would.
+    /// </summary>
     [CliOption("-mutexprofile")]
     public string? Mutexprofile { get; set; }
 
+    /// <summary>
+    /// Sample 1 in n stack traces of goroutines holding a contended mutex.
+    /// </summary>
     [CliOption("-mutexprofilefraction")]
     public string? Mutexprofilefraction { get; set; }
 
+    /// <summary>
+    /// Write an execution trace to the specified file before exiting.
+    /// </summary>
     [CliOption("-trace")]
     public string? Trace { get; set; }
+
+    /// <summary>
+    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
+    /// </summary>
+    [CliOption("-C")]
+    public string? COption { get; set; }
 
     /// <summary>
     /// force rebuilding of packages that are already up-to-date.
@@ -204,7 +303,7 @@ public record GoTestOptions : GoOptions
     public bool? X { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool asm invocation.
     /// </summary>
     [CliOption("-asmflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Asmflags { get; set; }
@@ -216,7 +315,7 @@ public record GoTestOptions : GoOptions
     public string? Buildmode { get; set; }
 
     /// <summary>
-    /// cannot be included due to a missing tool or ambiguous directory structure.
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or
     /// </summary>
     [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
     public string? Buildvcs { get; set; }
@@ -228,13 +327,13 @@ public record GoTestOptions : GoOptions
     public string? Compiler { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each gccgo compiler/linker invocation.
     /// </summary>
     [CliOption("-gccgoflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gccgoflags { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool compile invocation.
     /// </summary>
     [CliOption("-gcflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gcflags { get; set; }
@@ -246,7 +345,7 @@ public record GoTestOptions : GoOptions
     public string? Installsuffix { get; set; }
 
     /// <summary>
-    /// The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a space-separated list of arguments to pass to an underlying tool during the build. To embed spaces in an element in the list, surround it with either single or double quotes. The argument list may be preceded by a package pattern and an equal sign, which restricts the use of that argument list to the building of packages matching that pattern (see 'go help packages' for a description of package patterns). Without a pattern, the argument list applies only to the packages named on the command line. The flags may be repeated with different patterns in order to specify different arguments for different sets of packages. If a package matches patterns given in multiple flags, the latest match on the command line wins. For example, 'go build -gcflags=-S fmt' prints the disassembly only for package fmt, while 'go build -gcflags=all=-S fmt' prints the disassembly for fmt and all its dependencies.
+    /// arguments to pass on each go tool link invocation.
     /// </summary>
     [CliOption("-ldflags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ldflags { get; set; }
