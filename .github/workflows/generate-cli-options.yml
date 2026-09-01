@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/generate-cli-options.yml'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
       - 'src/ModularPipelines/Attributes/CliOptionValueArity.cs'
       - 'src/ModularPipelines/Attributes/CommandLinePhase.cs'
       - 'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs'
@@ -40,6 +43,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'push' && 'push-refresh' || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   validate-generation-safety:
@@ -727,6 +734,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.create-pr.outputs.pull-request-number && github.event_name == 'push'
+        run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --disable-auto
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+
   # Generate options for Windows-only tools
   generate-windows:
     needs:
@@ -1002,6 +1015,13 @@ jobs:
         if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.create-pr.outputs.pull-request-number && github.event_name == 'push'
+        shell: pwsh
+        run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --disable-auto
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 

@@ -17,6 +17,7 @@ $tempRoot = Join-Path ([IO.Path]::GetTempPath()) "generated-options-provenance-$
 $writeScript = Join-Path $PSScriptRoot 'Write-GeneratedOptionsProvenance.ps1'
 $assertScript = Join-Path $PSScriptRoot 'Assert-GeneratedOptionsFreshness.ps1'
 $provenanceFunctions = Join-Path $PSScriptRoot 'GeneratedOptionsProvenance.ps1'
+$generationWorkflow = Join-Path $repositoryRoot '.github/workflows/generate-cli-options.yml'
 $stageScript = Join-Path `
     $repositoryRoot `
     'tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1'
@@ -24,6 +25,29 @@ $changeManifest = "$tempRoot.manifest"
 
 try {
     . $provenanceFunctions
+    $sourcePaths = @(Get-GeneratedOptionsSourcePath)
+    $centralBuildInputs = @('Directory.Build.props', 'Directory.Packages.props', 'global.json')
+    foreach ($centralBuildInput in $centralBuildInputs) {
+        if ($sourcePaths -notcontains $centralBuildInput) {
+            throw "Generated-options fingerprint omits central build input '$centralBuildInput'."
+        }
+    }
+
+    $workflowContents = Get-Content -LiteralPath $generationWorkflow -Raw
+    foreach ($centralBuildInput in $centralBuildInputs) {
+        if (-not $workflowContents.Contains("- '$centralBuildInput'", [StringComparison]::Ordinal)) {
+            throw "Generator push trigger omits central build input '$centralBuildInput'."
+        }
+    }
+    if ([regex]::Matches($workflowContents, '--disable-auto').Count -ne 2) {
+        throw 'Linux and Windows generation jobs must both disable inherited auto-merge.'
+    }
+    if (-not $workflowContents.Contains(
+            "cancel-in-progress: `${{ github.event_name == 'push' }}",
+            [StringComparison]::Ordinal)) {
+        throw 'Push-triggered generator refreshes must cancel older in-progress runs.'
+    }
+
     New-Item -ItemType Directory -Path $tempRoot | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $tempRoot '.github/workflows') | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator') | Out-Null
@@ -111,6 +135,39 @@ try {
         -Package ModularPipelines.Fake `
         -NamespacePrefix Fake `
         -CurrentBase HEAD
+
+    Set-Content `
+        -LiteralPath (Join-Path $tempRoot 'Directory.Packages.props') `
+        -Value '<Project><ItemGroup><PackageVersion Include="AngleSharp" Version="2.0.0" /></ItemGroup></Project>'
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'update central package version'
+
+    $centralPackageError = $null
+    try {
+        & $assertScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -Package ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -CurrentBase HEAD
+    }
+    catch {
+        $centralPackageError = $_.Exception.Message
+    }
+
+    if ([string]::IsNullOrWhiteSpace($centralPackageError) -or
+        -not $centralPackageError.Contains('are stale', [StringComparison]::Ordinal)) {
+        throw "Central package change did not invalidate generated options: $centralPackageError"
+    }
+
+    & $writeScript `
+        -RepositoryRoot $tempRoot `
+        -Tool fake `
+        -PackageDirectory src/ModularPipelines.Fake `
+        -NamespacePrefix Fake `
+        -ChangeManifest $changeManifest
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'refresh after central package update'
 
     Set-Content `
         -LiteralPath (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/Emitter.cs') `

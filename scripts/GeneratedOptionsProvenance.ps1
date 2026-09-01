@@ -14,6 +14,9 @@ function Assert-GeneratedOptionsToken {
 function Get-GeneratedOptionsSourcePath {
     return @(
         '.github/workflows/generate-cli-options.yml',
+        'Directory.Build.props',
+        'Directory.Packages.props',
+        'global.json',
         'src/ModularPipelines/Attributes/CliOptionValueArity.cs',
         'src/ModularPipelines/Attributes/CommandLinePhase.cs',
         'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs',
