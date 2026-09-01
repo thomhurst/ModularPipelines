@@ -1,16 +1,21 @@
 using System.Collections.Concurrent;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Capabilities;
 
 namespace ModularPipelines.Distributed.Coordination;
 
-internal class InMemoryDistributedCoordinator : IDistributedCoordinator
+internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? options = null) : IDistributedMasterCoordinator
 {
     private readonly List<ModuleAssignment> _workQueue = [];
     private readonly SemaphoreSlim _workAvailable = new(0);
     private readonly Lock _queueLock = new();
     private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
     private readonly ConcurrentDictionary<int, WorkerRegistration> _workers = new();
+    private readonly ConcurrentDictionary<int, DateTimeOffset> _heartbeats = new();
+    private readonly TaskCompletionSource _cancellationRequested = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly TimeSpan _workerTimeout = options?.Value.WorkerTimeout ?? TimeSpan.FromSeconds(30);
     private volatile bool _completed;
 
     public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
@@ -90,12 +95,29 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
     public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         _workers[registration.WorkerIndex] = registration;
+        _heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+        return Task.CompletedTask;
+    }
+
+    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    {
+        if (_workers.ContainsKey(workerIndex))
+        {
+            _heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+        }
+
         return Task.CompletedTask;
     }
 
     public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        IReadOnlyList<WorkerRegistration> result = [.. _workers.Values];
+        var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _workerTimeout;
+        IReadOnlyList<WorkerRegistration> result =
+        [
+            .. _workers.Values.Where(worker =>
+                _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                && heartbeat >= oldestLiveHeartbeat),
+        ];
         return Task.FromResult(result);
     }
 
@@ -105,4 +127,13 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
         _workAvailable.Release();
         return Task.CompletedTask;
     }
+
+    public Task BroadcastCancellationAsync(CancellationToken cancellationToken)
+    {
+        _cancellationRequested.TrySetResult();
+        return Task.CompletedTask;
+    }
+
+    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        _cancellationRequested.Task.WaitAsync(cancellationToken);
 }

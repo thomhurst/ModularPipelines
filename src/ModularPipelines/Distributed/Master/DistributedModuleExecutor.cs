@@ -21,7 +21,8 @@ internal class DistributedModuleExecutor(
     IModuleSchedulerFactory schedulerFactory,
     IModuleRunner moduleRunner,
     IRegistrationEventExecutor registrationEventExecutor,
-    IDistributedCoordinator coordinator,
+    IDistributedMasterCoordinator masterCoordinator,
+    IDistributedWorkerCoordinator workerCoordinator,
     DistributedWorkPublisher publisher,
     DistributedResultCollector resultCollector,
     ModuleTypeRegistry typeRegistry,
@@ -39,7 +40,8 @@ internal class DistributedModuleExecutor(
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedMasterCoordinator _masterCoordinator = masterCoordinator;
+    private readonly IDistributedWorkerCoordinator _workerCoordinator = workerCoordinator;
     private readonly DistributedWorkPublisher _publisher = publisher;
     private readonly DistributedResultCollector _resultCollector = resultCollector;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -169,9 +171,22 @@ internal class DistributedModuleExecutor(
         {
             // Always signal workers to stop — whether the master succeeded or crashed.
             // Without this, workers hang forever waiting for work that will never come.
+            if (_lifetime.ApplicationStopping.IsCancellationRequested)
+            {
+                try
+                {
+                    await _masterCoordinator.BroadcastCancellationAsync(CancellationToken.None)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to broadcast cancellation to workers during shutdown");
+                }
+            }
+
             try
             {
-                await _coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+                await _masterCoordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -232,7 +247,7 @@ internal class DistributedModuleExecutor(
         {
             try
             {
-                var workers = await _coordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
+                var workers = await _masterCoordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
                 if (workers.Count != lastCount)
                 {
                     lastCount = workers.Count;
@@ -277,7 +292,7 @@ internal class DistributedModuleExecutor(
         {
             try
             {
-                var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
+                var assignment = await _workerCoordinator.DequeueModuleAsync(capabilities, cancellationToken);
                 if (assignment is null)
                 {
                     break;
@@ -310,14 +325,14 @@ internal class DistributedModuleExecutor(
         if (resolved is null)
         {
             _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, cancellationToken);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
         {
             _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, cancellationToken);
             return;
         }
 
@@ -399,7 +414,7 @@ internal class DistributedModuleExecutor(
                 serialized = serialized with { Artifacts = artifactReferences };
             }
 
-            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            await _workerCoordinator.PublishResultAsync(serialized, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -449,7 +464,7 @@ internal class DistributedModuleExecutor(
                 assignment.ModuleTypeName,
                 assignment.ResultTypeName,
                 _options.Value.InstanceIndex);
-            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            await _workerCoordinator.PublishResultAsync(serialized, cancellationToken);
         }
         catch (Exception publishException)
         {

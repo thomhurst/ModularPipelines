@@ -5,7 +5,7 @@ namespace ModularPipelines.TestHelpers.Distributed;
 public static class DistributedCoordinatorContract
 {
     public static async Task EnqueueAndDequeueRoundTripsAsync(
-        IDistributedCoordinator coordinator,
+        IDistributedMasterCoordinator coordinator,
         Task? waitUntilReady = null)
     {
         var assignment = CreateAssignment("Contract.EnqueueDequeue");
@@ -22,7 +22,7 @@ public static class DistributedCoordinatorContract
     }
 
     public static async Task ResultRoundTripsAfterWaitStartsAsync(
-        IDistributedCoordinator coordinator,
+        IDistributedMasterCoordinator coordinator,
         Task? waitUntilReady = null)
     {
         var result = CreateResult("Contract.ResultRoundTrip");
@@ -36,7 +36,7 @@ public static class DistributedCoordinatorContract
     }
 
     public static async Task CompletionUnblocksPendingDequeueAsync(
-        IDistributedCoordinator coordinator,
+        IDistributedMasterCoordinator coordinator,
         Task? waitUntilReady = null)
     {
         var dequeueTask = coordinator.DequeueModuleAsync(new HashSet<Capability>(), CancellationToken.None);
@@ -46,6 +46,32 @@ public static class DistributedCoordinatorContract
         var result = await dequeueTask.WaitAsync(TimeSpan.FromSeconds(5));
 
         await Assert.That(result).IsNull();
+    }
+
+    public static async Task CancellationUnblocksWorkerObserverAsync(
+        IDistributedMasterCoordinator coordinator,
+        Task? waitUntilReady = null)
+    {
+        var cancellationTask = coordinator.WaitForCancellationAsync(CancellationToken.None);
+
+        await WaitUntilReadyAsync(waitUntilReady);
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+        await cancellationTask.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    public static async Task WorkerHeartbeatKeepsRegistrationLiveAsync(
+        IDistributedMasterCoordinator coordinator)
+    {
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "dotnet" },
+            DateTimeOffset.UtcNow);
+
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers).Contains(registration);
     }
 
     private static async Task WaitUntilReadyAsync(Task? waitUntilReady)

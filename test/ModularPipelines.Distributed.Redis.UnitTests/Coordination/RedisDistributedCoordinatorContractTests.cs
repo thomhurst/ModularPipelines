@@ -28,7 +28,20 @@ public class RedisDistributedCoordinatorContractTests
         return RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
     }
 
-    private static async Task RunContractAsync(Func<IDistributedCoordinator, Task, Task> contract)
+    [Test]
+    public Task Cancellation_Signal_Unblocks_Worker_Observer()
+    {
+        return RunContractAsync(DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync);
+    }
+
+    [Test]
+    public Task Heartbeat_Keeps_Worker_Registration_Live()
+    {
+        return RunContractAsync((coordinator, _) =>
+            DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator));
+    }
+
+    private static async Task RunContractAsync(Func<IDistributedMasterCoordinator, Task, Task> contract)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))

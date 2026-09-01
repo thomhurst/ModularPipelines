@@ -8,6 +8,7 @@ internal static class HubMethodNames
 {
     // Worker -> Master (hub methods)
     public const string RegisterWorker = "RegisterWorker";
+    public const string Heartbeat = "Heartbeat";
     public const string PublishResult = "PublishResult";
     public const string RequestWork = "RequestWork";
 
@@ -15,4 +16,5 @@ internal static class HubMethodNames
     public const string ReceiveAssignment = "ReceiveAssignment";
     public const string ReceiveDependencyResult = "ReceiveDependencyResult";
     public const string SignalCompletion = "SignalCompletion";
+    public const string BroadcastCancellation = "BroadcastCancellation";
 }

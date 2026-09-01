@@ -165,6 +165,35 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task BroadcastCancellation_Unblocks_Worker_Observer()
+    {
+        var coordinator = CreateCoordinator();
+        var observer = coordinator.WaitForCancellationAsync(CancellationToken.None);
+
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+
+        await observer.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+
+    [Test]
+    public async Task Heartbeat_Refreshes_Registered_Worker()
+    {
+        var state = new SignalRMasterState();
+        var coordinator = CreateCoordinator(state);
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<string>(),
+            DateTimeOffset.UtcNow);
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        var original = state.Heartbeats[registration.WorkerIndex];
+
+        await Task.Delay(10);
+        await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
+
+        await Assert.That(state.Heartbeats[registration.WorkerIndex]).IsGreaterThan(original);
+    }
+
+    [Test]
     public async Task SignalCompletion_Cancels_Pending_Waiters()
     {
         var state = new SignalRMasterState();

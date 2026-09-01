@@ -45,6 +45,38 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Cancellation_Unblocks_Worker_Observer()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync(coordinator);
+    }
+
+    [Test]
+    public async Task Heartbeat_Keeps_Worker_Registration_Live()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator);
+    }
+
+    [Test]
+    public async Task Stale_Worker_Is_Excluded_From_Live_Registrations()
+    {
+        var coordinator = new InMemoryDistributedCoordinator(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                WorkerTimeout = TimeSpan.FromMilliseconds(10),
+            }));
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+            CancellationToken.None);
+
+        await Task.Delay(30);
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers).IsEmpty();
+    }
+
+    [Test]
     public async Task Dequeue_With_Capability_Filtering()
     {
         var coordinator = new InMemoryDistributedCoordinator();

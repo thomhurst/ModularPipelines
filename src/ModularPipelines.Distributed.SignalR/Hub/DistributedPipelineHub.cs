@@ -47,9 +47,24 @@ internal class DistributedPipelineHub(
 
         state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
+        state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
         _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
             registration.WorkerIndex, connectionId, string.Join(", ", registration.Capabilities));
+    }
+
+    /// <summary>
+    /// Records liveness for a connected worker.
+    /// </summary>
+    public Task Heartbeat(int workerIndex)
+    {
+        if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
+            && worker.Registration.WorkerIndex == workerIndex)
+        {
+            _masterState.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+        }
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -103,6 +118,8 @@ internal class DistributedPipelineHub(
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             var workerIndex = workerState.Registration.WorkerIndex;
+            _masterState.Registrations.TryRemove(workerIndex, out _);
+            _masterState.Heartbeats.TryRemove(workerIndex, out _);
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
                 workerIndex, Context.ConnectionId);
 

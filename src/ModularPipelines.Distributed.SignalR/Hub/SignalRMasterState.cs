@@ -23,6 +23,17 @@ internal class SignalRMasterState
     public ConcurrentDictionary<int, WorkerRegistration> Registrations { get; } = new();
 
     /// <summary>
+    /// Latest heartbeat for each registered worker.
+    /// </summary>
+    public ConcurrentDictionary<int, DateTimeOffset> Heartbeats { get; } = new();
+
+    /// <summary>
+    /// Completes when distributed cancellation is requested.
+    /// </summary>
+    public TaskCompletionSource CancellationRequested { get; } = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
+
+    /// <summary>
     /// Pending work assignments waiting for an idle worker.
     /// </summary>
     public ConcurrentQueue<ModuleAssignment> PendingAssignments { get; } = new();
