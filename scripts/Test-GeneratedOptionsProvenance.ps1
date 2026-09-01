@@ -52,8 +52,14 @@ try {
             throw "Generator push trigger omits provenance input '$provenanceInput'."
         }
     }
-    if ([regex]::Matches($workflowContents, '--disable-auto').Count -ne 2) {
-        throw 'Linux and Windows generation jobs must both disable inherited auto-merge.'
+    $guardedAutoMergeDisableSteps = [regex]::Matches(
+        $workflowContents,
+        "(?ms)^      - name: Disable inherited auto-merge for push refreshes`r?`n" +
+        "(?:(?!^      - name:).)*?--json autoMergeRequest" +
+        "(?:(?!^      - name:).)*?\.autoMergeRequest != null" +
+        "(?:(?!^      - name:).)*?--disable-auto")
+    if ($guardedAutoMergeDisableSteps.Count -ne 2) {
+        throw 'Linux and Windows generation jobs must each guard auto-merge disabling on the current PR state.'
     }
     if (-not $workflowContents.Contains(
             'group: ${{ github.workflow }}-generated-refresh',
