@@ -475,7 +475,17 @@ public class GeneratorHardeningTests
             [
                 new CliRequiredAlternativeGroup
                 {
-                    PropertyNames = ["DepId", "Path", "Git"],
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "DepId",
+                            PositionalArgumentPhase = CommandLinePhase.EarlyOperand,
+                            PositionalArgumentPositionIndex = 0,
+                        },
+                        new CliRequiredAlternativeMember { PropertyName = "Path", OptionSwitch = "--path" },
+                        new CliRequiredAlternativeMember { PropertyName = "Git", OptionSwitch = "--git" },
+                    ],
                 },
             ],
         };
@@ -834,6 +844,61 @@ public class GeneratorHardeningTests
                 .IsEqualTo("Filename");
             await Assert.That(resolvedCommand.PositionalArguments.Single().PropertyName)
                 .IsEqualTo("FilenameArgument");
+        }
+    }
+
+    [Test]
+    public async Task Required_Alternatives_Preserve_Option_And_Argument_Identity_After_Collision()
+    {
+        var command = Command("ToolCreateOptions", "ToolOptions", ["create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--filename",
+                    PropertyName = "Filename",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Filename",
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 0,
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "Filename",
+                            OptionSwitch = "--filename",
+                        },
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "Filename",
+                            PositionalArgumentPhase = CommandLinePhase.EarlyOperand,
+                            PositionalArgumentPositionIndex = 0,
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("!string.IsNullOrWhiteSpace(Filename)");
+            await Assert.That(generated).Contains("FilenameArgument?.Any() == true");
+            await Assert.That(generated).Contains("nameof(Filename), nameof(FilenameArgument)");
         }
     }
 

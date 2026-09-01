@@ -955,6 +955,42 @@ public class CliScraperTraversalTests
         }
     }
 
+    [Test]
+    public async Task Required_Alternatives_Keep_Colliding_Option_And_Operand_Members()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: fake <command>
+
+                Available Commands:
+                  create  Create a file
+                """,
+            ["create --help"] = """
+                Usage: fake create (<FILENAME>|--filename <FILENAME>)
+
+                Arguments:
+                  <FILENAME>  Input file
+
+                Options:
+                  --filename string  Input file option
+                """,
+        });
+        var command = (await ScrapeAsync(new TestCobraScraper(executor))).Single();
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [command],
+        }).Commands.Single();
+
+        await Assert.That(resolved.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Filename", "FilenameArgument"]);
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();

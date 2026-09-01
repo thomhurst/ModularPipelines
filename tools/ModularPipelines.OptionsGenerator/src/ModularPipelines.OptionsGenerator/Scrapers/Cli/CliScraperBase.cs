@@ -801,42 +801,70 @@ public abstract partial class CliScraperBase : ICliScraper
             .. command.RequiredAlternativeGroups,
             .. usage.RequiredAlternativeGroups.Select(group => new CliRequiredAlternativeGroup
             {
-                PropertyNames = group.Members
-                    .Select(member => ResolveRequiredAlternativeProperty(command, member))
-                    .Distinct(StringComparer.Ordinal)
+                Members = group.Members
+                    .Select(member => ResolveRequiredAlternativeMember(command, member))
+                    .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.OrdinalIgnoreCase)
                     .ToArray(),
             }),
         ];
     }
 
-    private static string ResolveRequiredAlternativeProperty(
+    private static CliRequiredAlternativeMember ResolveRequiredAlternativeMember(
         CliCommandDefinition command,
         UsageRequiredAlternativeMember member)
     {
         if (member.OptionSwitch is { } optionSwitch)
         {
-            return command.Options.FirstOrDefault(option =>
-                       option.SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
-                       || option.ShortForm?.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase) == true)
-                   ?.PropertyName
-                   ?? throw new InvalidOperationException(
-                       $"{command.FullCommand} declares required alternative {optionSwitch}, " +
-                       "but no matching CliOptionDefinition was generated.");
+            var optionIndex = Enumerable.Range(0, command.Options.Count).FirstOrDefault(index =>
+                command.Options[index].SwitchName.Equals(optionSwitch, StringComparison.OrdinalIgnoreCase)
+                || command.Options[index].ShortForm?.Equals(
+                    optionSwitch,
+                    StringComparison.OrdinalIgnoreCase) == true,
+                -1);
+            if (optionIndex < 0)
+            {
+                throw new InvalidOperationException(
+                    $"{command.FullCommand} declares required alternative {optionSwitch}, " +
+                    "but no matching CliOptionDefinition was generated.");
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.Options[optionIndex].PropertyName,
+                OptionSwitch = command.Options[optionIndex].SwitchName,
+            };
         }
 
         if (member.PositionalPropertyName is { } positionalPropertyName)
         {
-            return command.PositionalArguments.FirstOrDefault(argument =>
-                       argument.PropertyName.Equals(positionalPropertyName, StringComparison.OrdinalIgnoreCase))
-                   ?.PropertyName
-                   ?? throw new InvalidOperationException(
-                       $"{command.FullCommand} declares required alternative {positionalPropertyName}, " +
-                       "but no matching CliPositionalArgument was generated.");
+            var argumentIndex = Enumerable.Range(0, command.PositionalArguments.Count).FirstOrDefault(index =>
+                command.PositionalArguments[index].PropertyName.Equals(
+                    positionalPropertyName,
+                    StringComparison.OrdinalIgnoreCase),
+                -1);
+            if (argumentIndex < 0)
+            {
+                throw new InvalidOperationException(
+                    $"{command.FullCommand} declares required alternative {positionalPropertyName}, " +
+                    "but no matching CliPositionalArgument was generated.");
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
+                PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
+                PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+            };
         }
 
         throw new InvalidOperationException(
             $"{command.FullCommand} contains an unnamed required alternative member.");
     }
+
+    private static string GetRequiredAlternativeIdentity(CliRequiredAlternativeMember member) =>
+        member.OptionSwitch is { } optionSwitch
+            ? $"option:{optionSwitch}"
+            : $"operand:{member.PositionalArgumentPhase}:{member.PositionalArgumentPositionIndex}";
 
     /// <summary>
     /// Returns true positional operands, excluding values syntactically owned by an option switch.

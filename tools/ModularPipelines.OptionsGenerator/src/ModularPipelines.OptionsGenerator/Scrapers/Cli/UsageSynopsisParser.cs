@@ -188,6 +188,7 @@ public static class UsageSynopsisParser
                                || parsedOperands.UnparsedTokens.Count > 0,
             PositionalArguments = CliPositionalArgument.MergeDuplicates(parsedOperands.Arguments),
             UnparsedOperandTokens = parsedOperands.UnparsedTokens,
+            OptionSwitches = parsedOperands.OptionSwitches,
             SupportsRequiredAlternativeInference = SupportsRequiredAlternativeInference(
                 materializedOperandTokens),
             RequiredAlternativeGroups = ParseInlineRequiredAlternativeGroups(
@@ -250,7 +251,8 @@ public static class UsageSynopsisParser
         var candidateMembers = candidates
             .Select(candidate => GetRequiredAlternativeMembers(new ParsedOperands(
                 candidate.PositionalArguments,
-                candidate.UnparsedOperandTokens)))
+                candidate.UnparsedOperandTokens,
+                candidate.OptionSwitches)))
             .ToArray();
         if (candidateMembers.Any(static members => members.Count == 0))
         {
@@ -307,11 +309,14 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> GetRequiredAlternativeMembers(
         ParsedOperands operands) =>
-        DistinctAlternativeMembers(operands.Arguments
-            .Where(static argument => argument.IsRequired)
-            .Select(static argument => argument.AssociatedOptionSwitch is { } optionSwitch
-                ? new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch }
-                : new UsageRequiredAlternativeMember { PositionalPropertyName = argument.PropertyName }));
+        DistinctAlternativeMembers(
+            operands.Arguments
+                .Where(static argument => argument.IsRequired)
+                .Select(static argument => argument.AssociatedOptionSwitch is { } optionSwitch
+                    ? new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch }
+                    : new UsageRequiredAlternativeMember { PositionalPropertyName = argument.PropertyName })
+                .Concat(operands.OptionSwitches.Select(static optionSwitch =>
+                    new UsageRequiredAlternativeMember { OptionSwitch = optionSwitch })));
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> DistinctAlternativeMembers(
         IEnumerable<UsageRequiredAlternativeMember> members) =>
@@ -358,6 +363,7 @@ public static class UsageSynopsisParser
     {
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
+        var optionSwitches = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
         string? associatedOptionSwitch = null;
 
@@ -382,6 +388,7 @@ public static class UsageSynopsisParser
             if (TryGetOptionSwitch(operandToken, out var optionSwitch))
             {
                 associatedOptionSwitch = optionSwitch;
+                optionSwitches.Add(optionSwitch);
                 continue;
             }
 
@@ -435,7 +442,7 @@ public static class UsageSynopsisParser
             AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
         }
 
-        return new ParsedOperands(arguments, unparsedTokens);
+        return new ParsedOperands(arguments, unparsedTokens, optionSwitches);
     }
 
     private static IReadOnlyList<CliPositionalArgument> PreserveOptionTerminatorOnNestedGroup(
@@ -493,7 +500,8 @@ public static class UsageSynopsisParser
 
     private readonly record struct ParsedOperands(
         IReadOnlyList<CliPositionalArgument> Arguments,
-        IReadOnlyList<string> UnparsedTokens);
+        IReadOnlyList<string> UnparsedTokens,
+        IReadOnlyList<string> OptionSwitches);
 
     private static IEnumerable<string> SkipCommandAliases(IEnumerable<string> operandTokens)
     {
@@ -1409,6 +1417,8 @@ public sealed record UsageSynopsisParseResult
     public bool HasOperandTokens { get; init; }
 
     internal bool SupportsRequiredAlternativeInference { get; init; }
+
+    internal IReadOnlyList<string> OptionSwitches { get; init; } = [];
 
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
 

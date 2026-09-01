@@ -818,6 +818,18 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Models_Standalone_Flags_As_Required_Alternative_Members()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: brew services stop (<formula>|--all)",
+            ["brew", "services", "stop"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Formula", "--all"]);
+    }
+
+    [Test]
     public async Task Does_Not_Model_Operand_Aliases_As_Separate_Required_Properties()
     {
         var result = UsageSynopsisParser.Parse(
