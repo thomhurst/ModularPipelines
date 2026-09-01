@@ -292,6 +292,30 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Synchronous_Cancellation_Exception_Preserves_Original_Diagnostics()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var innerException = new InvalidOperationException("Inner cancellation detail.");
+        var expectedException = new FactoryCancellationException(
+            "Factory cancellation detail.",
+            innerException,
+            cancellation.Token);
+
+        var exception = await Assert.ThrowsAsync<FactoryCancellationException>(() =>
+            TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync<bool>(
+                _ => throw expectedException,
+                TimeSpan.FromSeconds(1),
+                CancellationToken.None));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception).IsSameReferenceAs(expectedException);
+            await Assert.That(exception!.InnerException).IsSameReferenceAs(innerException);
+            await Assert.That(exception.CancellationToken).IsEqualTo(cancellation.Token);
+        }
+    }
+
+    [Test]
     public async Task Completion_With_Asynchronous_Continuations_Before_Deadline_Is_Not_Claimed_By_Timeout()
     {
         var completion = new TaskCompletionSource<bool>(
@@ -381,4 +405,10 @@ public class ModuleTimeoutTests : TestBase
             await Assert.That(result.WasCancellationTokenRespected).IsTrue();
         }
     }
+
+    private sealed class FactoryCancellationException(
+        string message,
+        Exception innerException,
+        CancellationToken cancellationToken)
+        : OperationCanceledException(message, innerException, cancellationToken);
 }

@@ -119,12 +119,6 @@ internal static class TimeoutHelper
         {
             executionTask = taskFactory(attemptCts.Token);
         }
-        catch (OperationCanceledException exception)
-        {
-            var cancellationTaskSource = new TaskCompletionSource<T>();
-            cancellationTaskSource.SetCanceled(exception.CancellationToken);
-            executionTask = cancellationTaskSource.Task;
-        }
         catch (Exception exception)
         {
             executionTask = Task.FromException<T>(exception);
