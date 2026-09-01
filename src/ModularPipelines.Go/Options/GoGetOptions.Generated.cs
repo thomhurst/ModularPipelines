@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Go.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Go.Options;
 
@@ -29,8 +30,8 @@ public record GoGetOptions : GoOptions
     /// <summary>
     /// The -u option.
     /// </summary>
-    [CliFlag("-u")]
-    public bool? U { get; set; }
+    [CliOption("-u", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? U { get; set; }
 
     /// <summary>
     /// The -tool option.

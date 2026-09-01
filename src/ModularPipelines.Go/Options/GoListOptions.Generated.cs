@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Go.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Go.Options;
 
@@ -29,8 +30,8 @@ public record GoListOptions : GoOptions
     /// <summary>
     /// The -json option.
     /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
+    [CliOption("-json", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Json { get; set; }
 
     /// <summary>
     /// The -m option.

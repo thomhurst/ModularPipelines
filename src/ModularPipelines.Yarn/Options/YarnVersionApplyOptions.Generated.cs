@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Yarn.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Yarn.Options;
 
@@ -41,8 +42,8 @@ public record YarnVersionApplyOptions : YarnOptions
     /// <summary>
     /// Specify a prerelease pattern to use when working with prerelease versions
     /// </summary>
-    [CliFlag("--prerelease")]
-    public bool? Prerelease { get; set; }
+    [CliOption("--prerelease", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Prerelease { get; set; }
 
     /// <summary>
     /// Print version(s)/record(s) without actually bumping versions or recording deferred releases

@@ -172,7 +172,7 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, usage.Synopsis);
+        var options = ParseOptions(commandParts, helpText, usage.Synopsis);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -303,13 +303,49 @@ public partial class GoCliScraper : CliScraperBase
     /// Format: -flag    description
     ///         -flag value    description
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText, string? usageSynopsis)
+    private static List<CliOptionDefinition> ParseOptions(
+        IReadOnlyList<string> commandParts,
+        string helpText,
+        string? usageSynopsis)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         AddDocumentedOptions(GetOptionSectionLines(helpText), options, seenOptions);
         AddUsageOptions(usageSynopsis ?? string.Empty, options, seenOptions);
+        ApplyOptionalValueOptionShape(commandParts, options);
         return options;
+    }
+
+    private static void ApplyOptionalValueOptionShape(
+        IReadOnlyList<string> commandParts,
+        List<CliOptionDefinition> options)
+    {
+        var switchName = commandParts switch
+        {
+            ["get"] => "-u",
+            ["list"] => "-json",
+            _ => null,
+        };
+        if (switchName is null)
+        {
+            return;
+        }
+
+        var optionIndex = options.FindIndex(option => option.SwitchName == switchName);
+        if (optionIndex < 0)
+        {
+            return;
+        }
+
+        var option = options[optionIndex];
+        options[optionIndex] = option with
+        {
+            CSharpType = "string?",
+            IsFlag = false,
+            ValueArity = CliOptionValueArity.Optional,
+            ValueSeparator = "=",
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag: false),
+        };
     }
 
     private static string[] GetOptionSectionLines(string helpText)

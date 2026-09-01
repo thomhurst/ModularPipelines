@@ -482,6 +482,9 @@ public partial class YarnCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
+        var normalizedCommandParts = commandParts
+            .SelectMany(static part => part.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            .ToArray();
 
         // Try Clipanion-style "━━━ Options ━━━" section first (Yarn Berry)
         var optionsMatch = ClipanionOptionsSectionPattern().Match(helpText);
@@ -564,7 +567,7 @@ public partial class YarnCliScraper : CliScraperBase
 
             var hasValue = match.Groups["value"].Success;
             var hasOptionalValue = !hasValue
-                                   && IsOptionalValueOption(commandParts, longForm);
+                                   && IsOptionalValueOption(normalizedCommandParts, longForm);
             var isFlag = !hasValue && !hasOptionalValue;
             var isCountedFlag = isFlag
                                 && longForm.Equals("--verbose", StringComparison.OrdinalIgnoreCase)
