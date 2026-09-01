@@ -87,6 +87,12 @@ public record GoWorkEditOptions : GoOptions
     public bool? Json { get; set; }
 
     /// <summary>
+    /// Editing operations rendered in the order supplied. Use this sequence when order across different edit switches matters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Normal)]
+    public IEnumerable<GoEditOperation>? OrderedEdits { get; set; }
+
+    /// <summary>
     /// The go.work operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
