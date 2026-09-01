@@ -780,37 +780,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return 1;
         }
 
-        if (_renderableSecretObfuscator is not null && IsMaskableOutput(output))
+        var renderedMaskableOutputCount = TryRenderMaskableOutput(
+            directConsole,
+            outputs,
+            index);
+        if (renderedMaskableOutputCount > 0)
         {
-            var lastMaskableIndex = index;
-            while (lastMaskableIndex + 1 < outputs.Count
-                   && !outputs[lastMaskableIndex].AppendNewLine
-                   && IsMaskableOutput(outputs[lastMaskableIndex + 1]))
-            {
-                lastMaskableIndex++;
-            }
-
-            var containsRenderable = outputs
-                .Skip(index)
-                .Take(lastMaskableIndex - index + 1)
-                .Any(static item => item.IsRenderable);
-            if (containsRenderable)
-            {
-                var combinedRenderable = lastMaskableIndex == index
-                    ? output.Renderable!
-                    : new ConcatenatedRenderable(
-                        [.. outputs
-                            .Skip(index)
-                            .Take(lastMaskableIndex - index + 1)
-                            .Select(GetMaskableRenderable)]);
-                WriteRenderableWithCurrentSecrets(directConsole, combinedRenderable);
-                if (outputs[lastMaskableIndex].AppendNewLine)
-                {
-                    directConsole.WriteLine();
-                }
-
-                return lastMaskableIndex - index + 1;
-            }
+            return renderedMaskableOutputCount;
         }
 
         if (output.IsString)
@@ -850,6 +826,48 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         // while other providers (for example file logging) still receive the event.
         logEvent.WriteTo(logger);
         return 1;
+    }
+
+    private int TryRenderMaskableOutput(
+        IAnsiConsole directConsole,
+        IReadOnlyList<BufferedOutput> outputs,
+        int index)
+    {
+        if (_renderableSecretObfuscator is null || !IsMaskableOutput(outputs[index]))
+        {
+            return 0;
+        }
+
+        var lastMaskableIndex = index;
+        while (lastMaskableIndex + 1 < outputs.Count
+               && !outputs[lastMaskableIndex].AppendNewLine
+               && IsMaskableOutput(outputs[lastMaskableIndex + 1]))
+        {
+            lastMaskableIndex++;
+        }
+
+        BufferedOutput[] maskableOutputs =
+        [
+            .. outputs
+                .Skip(index)
+                .Take(lastMaskableIndex - index + 1),
+        ];
+        if (!maskableOutputs.Any(static output => output.IsRenderable))
+        {
+            return 0;
+        }
+
+        var renderable = maskableOutputs.Length == 1
+            ? maskableOutputs[0].Renderable!
+            : new ConcatenatedRenderable(
+                [.. maskableOutputs.Select(GetMaskableRenderable)]);
+        WriteRenderableWithCurrentSecrets(directConsole, renderable);
+        if (maskableOutputs[^1].AppendNewLine)
+        {
+            directConsole.WriteLine();
+        }
+
+        return maskableOutputs.Length;
     }
 
     private static bool IsMaskableOutput(BufferedOutput output) =>
