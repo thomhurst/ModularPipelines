@@ -136,6 +136,67 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_MasksSecretSplitAcrossAdjacentRenderables()
+    {
+        var (buffer, writer, loggerControl, secretObfuscator) =
+            CreateSecretMaskingBuffer("token");
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        logger.Write(new Text("to"));
+        logger.WriteLine("ken");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task IncrementalFlush_RetainsSecretPrefixUntilRenderableLineCompletes()
+    {
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.WriteRenderable(new Text("to"), "to", appendNewLine: false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteRenderable(new Text("ken"), "ken", appendNewLine: true);
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
     public async Task Flush_CustomObfuscatorRemasksLateSecretUnderEmissionGuard()
     {
         const string secret = "late-custom-secret";
@@ -1742,6 +1803,31 @@ public class ModuleOutputBufferTests
         await Assert.That(fallbackLogger.Entries).HasSingleItem();
         await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
             .IsEqualTo(1);
+    }
+
+    private static (
+        ModuleOutputBuffer Buffer,
+        StringWriter Writer,
+        SynchronousLoggerControl LoggerControl,
+        SecretObfuscator SecretObfuscator) CreateSecretMaskingBuffer(string secret)
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        return (
+            new ModuleOutputBuffer(
+                typeof(ModuleOutputBufferTests),
+                renderableSecretObfuscator: secretObfuscator,
+                renderableSecretProvider: secretProvider.Object),
+            writer,
+            new SynchronousLoggerControl(writer),
+            secretObfuscator);
     }
 
     private static ModuleOutputBuffer CreateBufferWithStructuredLog(

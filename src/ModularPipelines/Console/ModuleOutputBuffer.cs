@@ -540,7 +540,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                                        && _exception is not null
                                        && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
                                        && !_hasRenderedCompletionHeader;
-            if (_outputs.Count == 0
+            var flushableOutputCount = GetFlushableOutputCount(flushKind);
+            if (flushableOutputCount == 0
                 && _structuredDeliveryRetries.Count == 0
                 && !needsExceptionHeader)
             {
@@ -549,6 +550,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     _hasRenderedIncrementalOutput = false;
                 }
 
+                _thresholdFlushRequested = false;
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
@@ -557,21 +559,39 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return false;
             }
 
-            outputs = [.. _outputs];
+            outputs = _outputs.GetRange(0, flushableOutputCount);
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
             shouldRenderOutputGroup = needsExceptionHeader
-                                      || _outputs.Any(output => ProducesConsoleOutput(
+                                      || outputs.Any(output => ProducesConsoleOutput(
                                           output,
                                           isStructuredLogEnabled,
                                           fallbackLoggers));
             isContinuation = _hasRenderedIncrementalOutput;
-            _outputs.Clear();
+            _outputs.RemoveRange(0, flushableOutputCount);
             _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
             return true;
         }
+    }
+
+    private int GetFlushableOutputCount(OutputFlushKind flushKind)
+    {
+        if (flushKind is OutputFlushKind.Complete
+            || _renderableSecretObfuscator is null)
+        {
+            return _outputs.Count;
+        }
+
+        var count = _outputs.Count;
+        while (count > 0
+               && _outputs[count - 1] is { IsRenderable: true, AppendNewLine: false })
+        {
+            count--;
+        }
+
+        return count;
     }
 
     private void RenderOutputs(
@@ -721,14 +741,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        foreach (var output in outputs)
+        for (var index = 0; index < outputs.Count;)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            RenderBufferedOutput(
+            var renderedOutputCount = RenderBufferedOutput(
                 console,
                 directConsole,
                 logger,
-                output,
+                outputs,
+                index,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly);
@@ -736,45 +757,65 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             // Advance only after the sink returns successfully. A sink that accepts
             // output and then throws may cause a duplicate on retry, but retaining
             // the item avoids guaranteed data loss when delivery never happened.
-            renderedCount++;
+            renderedCount += renderedOutputCount;
+            index += renderedOutputCount;
         }
     }
 
-    private void RenderBufferedOutput(
+    private int RenderBufferedOutput(
         TextWriter console,
         IAnsiConsole directConsole,
         ILogger logger,
-        BufferedOutput output,
+        IReadOnlyList<BufferedOutput> outputs,
+        int index,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly)
     {
+        var output = outputs[index];
         if (output.IsRawBuildSystemCommand)
         {
             console.WriteLine(output.StringValue);
-            return;
+            return 1;
         }
 
         if (output.IsString)
         {
             WriteDirect(directConsole, console, output.StringValue, output.AppendNewLine);
-            return;
+            return 1;
         }
 
         if (output.Renderable is { } renderable)
         {
-            WriteRenderableWithCurrentSecrets(directConsole, renderable);
-            if (output.AppendNewLine)
+            var lastRenderableIndex = index;
+            while (_renderableSecretObfuscator is not null
+                   && lastRenderableIndex + 1 < outputs.Count
+                   && !outputs[lastRenderableIndex].AppendNewLine
+                   && outputs[lastRenderableIndex + 1].IsRenderable)
+            {
+                lastRenderableIndex++;
+            }
+
+            var combinedRenderable = lastRenderableIndex == index
+                ? renderable
+                : new ConcatenatedRenderable(
+                    outputs
+                        .Skip(index)
+                        .Take(lastRenderableIndex - index + 1)
+                        .Select(static item => item.Renderable!)
+                        .ToArray());
+            WriteRenderableWithCurrentSecrets(directConsole, combinedRenderable);
+            if (outputs[lastRenderableIndex].AppendNewLine)
             {
                 directConsole.WriteLine();
             }
 
-            return;
+            return lastRenderableIndex - index + 1;
         }
 
         if (output.LogEvent is not { } logEvent)
         {
-            return;
+            return 1;
         }
 
         if (writeStructuredLogsDirectly)
@@ -785,12 +826,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logEvent,
                 fallbackLoggers,
                 failedStructuredDeliveries);
-            return;
+            return 1;
         }
 
         // Synchronous MEL.Spectre rendering preserves this buffer's position
         // while other providers (for example file logging) still receive the event.
         logEvent.WriteTo(logger);
+        return 1;
     }
 
     private void WriteStructuredLogDirectly(
@@ -1091,6 +1133,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             command,
             console.WriteLine,
             value => WriteDirect(directConsole, console, value));
+    }
+
+    private sealed class ConcatenatedRenderable(IReadOnlyList<IRenderable> renderables) : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth)
+        {
+            var text = string.Concat(Render(options, maxWidth)
+                .Where(static segment => !segment.IsControlCode)
+                .Select(static segment => segment.Text));
+            return ((IRenderable) new Text(text)).Measure(options, maxWidth);
+        }
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
+            renderables.SelectMany(renderable => renderable.Render(options, maxWidth));
     }
 }
 
