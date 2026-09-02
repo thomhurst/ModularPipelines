@@ -77,6 +77,20 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
+    {
+        var coordinator = new InMemoryDistributedCoordinator(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                WorkerTimeout = TimeSpan.FromMilliseconds(10),
+            }));
+
+        await DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+            coordinator,
+            TimeSpan.FromMilliseconds(30));
+    }
+
+    [Test]
     public async Task Dequeue_With_Capability_Filtering()
     {
         var coordinator = new InMemoryDistributedCoordinator();

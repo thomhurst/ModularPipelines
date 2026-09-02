@@ -203,9 +203,17 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
     public async Task BroadcastCancellationAsync(CancellationToken cancellationToken)
     {
         _state.CancellationRequested.TrySetResult();
-        await _hubContext.Clients.All.SendAsync(
-            HubMethodNames.BroadcastCancellation,
-            cancellationToken);
+        try
+        {
+            await _hubContext.Clients.All.SendAsync(
+                    HubMethodNames.BroadcastCancellation,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to broadcast cancellation signal to workers");
+        }
     }
 
     public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>

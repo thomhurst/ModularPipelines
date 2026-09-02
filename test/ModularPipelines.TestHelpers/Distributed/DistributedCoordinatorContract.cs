@@ -71,7 +71,47 @@ public static class DistributedCoordinatorContract
         await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
-        await Assert.That(workers).Contains(registration);
+        await Assert.That(workers.Select(worker => worker.WorkerIndex))
+            .Contains(registration.WorkerIndex);
+    }
+
+    public static async Task FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+        IDistributedMasterCoordinator coordinator,
+        TimeSpan heartbeatExpiration)
+    {
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<Capability> { new("dotnet") },
+            DateTimeOffset.UtcNow)
+        {
+            UnattributedCommandCount = 0,
+        };
+
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        await Task.Delay(heartbeatExpiration);
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        var retainedRegistration = workers.SingleOrDefault(worker =>
+            worker.WorkerIndex == registration.WorkerIndex);
+        await Assert.That(retainedRegistration).IsNotNull();
+        await Assert.That(retainedRegistration!.UnattributedCommandCount)
+            .IsEqualTo(registration.UnattributedCommandCount);
+    }
+
+    public static async Task CancellationKeepsConcurrentObserverSubscribedAsync(
+        IDistributedMasterCoordinator coordinator,
+        Task? waitUntilReady = null)
+    {
+        using var firstCancellation = new CancellationTokenSource();
+        var firstObserver = coordinator.WaitForCancellationAsync(firstCancellation.Token);
+        var remainingObserver = coordinator.WaitForCancellationAsync(CancellationToken.None);
+
+        await WaitUntilReadyAsync(waitUntilReady);
+        firstCancellation.Cancel();
+        await Assert.That(async () => await firstObserver).Throws<OperationCanceledException>();
+
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+        await remainingObserver.WaitAsync(TimeSpan.FromSeconds(5));
     }
 
     private static async Task WaitUntilReadyAsync(Task? waitUntilReady)

@@ -202,6 +202,31 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task BroadcastCancellation_Retains_Durable_State_When_Transport_Fails()
+    {
+        var state = new SignalRMasterState();
+        var clientProxy = new Mock<ISingleClientProxy>();
+        clientProxy
+            .Setup(client => client.SendCoreAsync(
+                HubMethodNames.BroadcastCancellation,
+                It.IsAny<object?[]>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Transport failed"));
+        var clients = new Mock<IHubClients>();
+        clients.Setup(client => client.All).Returns(clientProxy.Object);
+        var hubContext = new Mock<IHubContext<DistributedPipelineHub>>();
+        hubContext.Setup(context => context.Clients).Returns(clients.Object);
+        var coordinator = new SignalRMasterCoordinator(
+            hubContext.Object,
+            state,
+            NullLogger<SignalRMasterCoordinator>.Instance);
+
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+
+        await state.CancellationRequested.Task.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+
+    [Test]
     public async Task Heartbeat_Refreshes_Registered_Worker()
     {
         var state = new SignalRMasterState();

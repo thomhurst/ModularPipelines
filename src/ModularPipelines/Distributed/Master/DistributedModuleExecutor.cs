@@ -83,15 +83,16 @@ internal class DistributedModuleExecutor(
             _metadataRegistry,
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
-        // Wait for workers to register before distributing work
-        await WaitForWorkersAsync(_lifetime.ApplicationStopping);
-
         IModuleScheduler? scheduler = null;
         var failureCancellationRequested = 0;
         Action requestFailureCancellation = () =>
             Interlocked.Exchange(ref failureCancellationRequested, 1);
         try
         {
+            // Wait for workers to register before distributing work. Keep this inside the
+            // shutdown scope so cancellation or coordinator failure still notifies workers.
+            await WaitForWorkersAsync(_lifetime.ApplicationStopping).ConfigureAwait(false);
+
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
             UsedHistoryModuleSchedulerInitializer.Precomplete(

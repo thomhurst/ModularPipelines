@@ -115,8 +115,9 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         IReadOnlyList<WorkerRegistration> result =
         [
             .. _workers.Values.Where(worker =>
-                _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
-                && heartbeat >= oldestLiveHeartbeat),
+                worker.UnattributedCommandCount.HasValue
+                || (_heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                    && heartbeat >= oldestLiveHeartbeat)),
         ];
         return Task.FromResult(result);
     }

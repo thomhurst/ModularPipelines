@@ -206,7 +206,9 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             var registration = JsonSerializer.Deserialize<WorkerRegistration>(
                 entry.Value.ToString(),
                 _jsonOptions)!;
-            if (await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex)))
+            if (registration.UnattributedCommandCount.HasValue
+                || await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex))
+                    .ConfigureAwait(false))
             {
                 workers.Add(registration);
             }
@@ -262,7 +264,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         }
         finally
         {
-            await _subscriber.UnsubscribeAsync(channel);
+            await subscription.UnsubscribeAsync().ConfigureAwait(false);
         }
     }
 

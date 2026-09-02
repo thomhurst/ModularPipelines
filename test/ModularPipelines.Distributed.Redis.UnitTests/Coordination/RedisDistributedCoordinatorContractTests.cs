@@ -41,7 +41,28 @@ public class RedisDistributedCoordinatorContractTests
             DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator));
     }
 
-    private static async Task RunContractAsync(Func<IDistributedMasterCoordinator, Task, Task> contract)
+    [Test]
+    public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
+    {
+        return RunContractAsync((coordinator, _) =>
+            DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+                coordinator,
+                TimeSpan.FromMilliseconds(250)),
+            workerTimeout: TimeSpan.FromMilliseconds(100));
+    }
+
+    [Test]
+    public Task Cancelling_One_Observer_Leaves_Concurrent_Observer_Subscribed()
+    {
+        return RunContractAsync(
+            DistributedCoordinatorContract.CancellationKeepsConcurrentObserverSubscribedAsync,
+            readySignalCount: 2);
+    }
+
+    private static async Task RunContractAsync(
+        Func<IDistributedMasterCoordinator, Task, Task> contract,
+        int readySignalCount = 1,
+        TimeSpan? workerTimeout = null)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -59,12 +80,23 @@ public class RedisDistributedCoordinatorContractTests
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, options.RunIdentifier!);
         var ready = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var readySignals = 0;
         var coordinator = new RedisDistributedCoordinator(
             connection.GetDatabase(),
             connection.GetSubscriber(),
             keys,
             options,
-            () => ready.TrySetResult());
+            () =>
+            {
+                if (Interlocked.Increment(ref readySignals) >= readySignalCount)
+                {
+                    ready.TrySetResult();
+                }
+            },
+            new DistributedOptions
+            {
+                WorkerTimeout = workerTimeout ?? TimeSpan.FromSeconds(30),
+            });
 
         await contract(coordinator, ready.Task);
     }

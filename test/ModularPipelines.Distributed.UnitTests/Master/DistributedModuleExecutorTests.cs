@@ -1179,6 +1179,35 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task Executor_Signals_Shutdown_When_Worker_Wait_Fails()
+    {
+        var failure = new InvalidOperationException("Worker registration failed");
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(failure);
+        coordinator.Setup(instance => instance.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var module = new DistributedModule();
+        var executor = CreateExecutor(
+            CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
+            coordinator: coordinator.Object,
+            distributedOptions: new DistributedOptions { TotalInstances = 2 });
+
+        var exception = await Assert.That(async () => await executor.ExecuteAsync([module]))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        coordinator.Verify(
+            instance => instance.BroadcastCancellationAsync(CancellationToken.None),
+            Times.Once());
+        coordinator.Verify(
+            instance => instance.SignalCompletionAsync(CancellationToken.None),
+            Times.Once());
+    }
+
+    [Test]
     public async Task Executor_Broadcasts_Cancellation_When_Application_Is_Stopping()
     {
         var coordinator = new Mock<IDistributedMasterCoordinator>();
