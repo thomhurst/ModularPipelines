@@ -30,5 +30,4 @@ public static class PnpmExtensions
         services.TryAddScoped<IPnpm, Services.Pnpm>();
         return services;
     }
-
 }

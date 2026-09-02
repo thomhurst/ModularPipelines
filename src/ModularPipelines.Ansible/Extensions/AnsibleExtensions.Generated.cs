@@ -30,5 +30,4 @@ public static class AnsibleExtensions
         services.TryAddScoped<IAnsible, Services.Ansible>();
         return services;
     }
-
 }

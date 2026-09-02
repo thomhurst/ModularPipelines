@@ -30,5 +30,4 @@ public static class MavenExtensions
         services.TryAddScoped<IMaven, Services.Maven>();
         return services;
     }
-
 }

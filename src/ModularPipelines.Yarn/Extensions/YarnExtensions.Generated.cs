@@ -30,5 +30,4 @@ public static class YarnExtensions
         services.TryAddScoped<IYarn, Services.Yarn>();
         return services;
     }
-
 }

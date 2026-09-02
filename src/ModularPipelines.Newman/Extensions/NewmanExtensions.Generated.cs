@@ -30,5 +30,4 @@ public static class NewmanExtensions
         services.TryAddScoped<INewman, Services.Newman>();
         return services;
     }
-
 }

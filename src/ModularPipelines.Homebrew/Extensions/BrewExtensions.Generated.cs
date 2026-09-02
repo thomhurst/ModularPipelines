@@ -30,5 +30,4 @@ public static class BrewExtensions
         services.TryAddScoped<IBrew, Services.Brew>();
         return services;
     }
-
 }
