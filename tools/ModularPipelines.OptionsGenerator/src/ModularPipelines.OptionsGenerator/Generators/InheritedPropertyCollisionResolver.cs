@@ -94,11 +94,25 @@ internal static class InheritedPropertyCollisionResolver
                         usedLocalNames),
                 })
             .ToArray();
-
         return command with
         {
             Options = options,
             PositionalArguments = positionalArguments,
+            RequiredAlternativeGroups = command.RequiredAlternativeGroups
+                .Select(group => group with
+                {
+                    Members = group.Members
+                        .Select(member => member with
+                        {
+                            PropertyName = ResolveAlternativeMemberName(
+                                command,
+                                options,
+                                positionalArguments,
+                                member),
+                        })
+                        .ToArray(),
+                })
+                .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
                     pair => TryGetRename(
@@ -112,6 +126,51 @@ internal static class InheritedPropertyCollisionResolver
                     StringComparer.Ordinal),
         };
     }
+
+    private static string ResolveAlternativeMemberName(
+        CliCommandDefinition command,
+        IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliRequiredAlternativeMember member)
+    {
+        if (member.OptionSwitch is { } optionSwitch
+            && member.PositionalArgumentPhase is null
+            && member.PositionalArgumentPositionIndex is null)
+        {
+            var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
+            if (optionIndex < 0)
+            {
+                throw InvalidAlternativeMember(command, member);
+            }
+
+            return options[optionIndex].PropertyName;
+        }
+
+        if (member.PositionalArgumentPhase is { } phase
+            && member.PositionalArgumentPositionIndex is { } positionIndex
+            && member.OptionSwitch is null)
+        {
+            var argumentIndex = Enumerable.Range(0, command.PositionalArguments.Count).FirstOrDefault(index =>
+                command.PositionalArguments[index].Phase == phase
+                && command.PositionalArguments[index].PositionIndex == positionIndex,
+                -1);
+            if (argumentIndex < 0)
+            {
+                throw InvalidAlternativeMember(command, member);
+            }
+
+            return positionalArguments[argumentIndex].PropertyName;
+        }
+
+        throw InvalidAlternativeMember(command, member);
+    }
+
+    private static InvalidOperationException InvalidAlternativeMember(
+        CliCommandDefinition command,
+        CliRequiredAlternativeMember member) =>
+        new(
+            $"Required alternative member {member.PropertyName} for {command.FullCommand} " +
+            "does not identify exactly one generated member.");
 
     private static IReadOnlyList<CliOptionDefinition> ResolveDuplicateOptionNames(
         IReadOnlyList<CliOptionDefinition> options,

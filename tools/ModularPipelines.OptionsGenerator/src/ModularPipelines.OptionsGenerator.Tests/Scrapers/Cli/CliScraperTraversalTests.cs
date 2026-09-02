@@ -62,6 +62,51 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task SharedTraversal_Discards_Required_Alternatives_With_Command_Placeholders()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake <command>
+
+                Available Commands:
+                  parent:  Manage parent resources
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent <command>
+                  fake parent --all
+
+                Available Commands:
+                  child:  Execute a child command
+
+                Flags:
+                  --all   Select all resources
+                """,
+            ["parent child --help"] = """
+                Execute a child command.
+
+                Usage:
+                  fake parent child [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var parent = commands.Single(command => command.FullCommand == "fake parent");
+
+        await Assert.That(parent.Options).Contains(option => option.SwitchName == "--all");
+        await Assert.That(parent.PositionalArguments).IsEmpty();
+        await Assert.That(parent.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake parent", "fake parent child"]);
+    }
+
+    [Test]
     public async Task SharedTraversal_Preserves_Command_Operand_When_Only_Skipped_Children_Are_Extracted()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -894,6 +939,143 @@ public class CliScraperTraversalTests
         await Assert.That(scraper.Skips("SSH")).IsFalse();
     }
 
+    [Test]
+    public async Task Cargo_Add_Models_Required_Dependency_Source_Alternatives()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Rust's package manager
+
+                Usage: cargo [OPTIONS] <COMMAND>
+
+                Commands:
+                  add  Add dependencies to a Cargo.toml manifest file
+
+                Options:
+                  -h, --help  Print help
+                """,
+            ["add --help"] = """
+                Add dependencies to a Cargo.toml manifest file
+
+                Usage: cargo add [OPTIONS] <DEP_ID|--path <PATH>|--git <URI>>...
+
+                Arguments:
+                  <DEP_ID|--path <PATH>|--git <URI>>...  Reference to a package to add
+
+                Options:
+                  -F, --features <FEATURES>  Features to activate
+
+                Source options:
+                      --path <PATH>  Filesystem path to local crate to add
+                      --git <URI>    Git repository location
+                      --registry <REGISTRY>  Package registry to use
+                      --rename <NAME>
+                          Rename the dependency
+
+                          Example uses:
+                          - Depending on multiple versions of a crate
+
+                Package Selection:
+                      --workspace  Add dependencies to every workspace package
+
+                Examples:
+                      --pretend <VALUE>  This is documentation, not an option
+                """,
+        });
+
+        var command = (await ScrapeAsync(new TestCargoCliScraper(executor))).Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("DepId");
+            await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(command.Options.Select(option => option.PropertyName))
+                .Contains("Path")
+                .And.Contains("Git")
+                .And.Contains("Registry")
+                .And.Contains("Workspace");
+            await Assert.That(command.Options.Select(option => option.PropertyName))
+                .DoesNotContain("Pretend");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Path").Description)
+                .IsEqualTo("Filesystem path to local crate to add");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Git").Description)
+                .IsEqualTo("Git repository location");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Registry").Description)
+                .IsEqualTo("Package registry to use");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Rename").Description)
+                .IsEqualTo("Rename the dependency");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Workspace").Description)
+                .IsEqualTo("Add dependencies to every workspace package");
+            await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+                .IsEquivalentTo(["DepId", "Path", "Git"]);
+        }
+    }
+
+    [Test]
+    public async Task Unresolved_Inferred_Alternative_Does_Not_Drop_Command()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: fake <command>
+
+                Available Commands:
+                  create  Create a target
+                """,
+            ["create --help"] = """
+                Usage: fake create (<TARGET>|--global)
+
+                Arguments:
+                  <TARGET>  Target name
+
+                Options:
+                  --known string  A command-local option
+                """,
+        });
+
+        var command = (await ScrapeAsync(new TestCobraScraper(executor))).Single();
+
+        await Assert.That(command.FullCommand).IsEqualTo("fake create");
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Required_Alternatives_Keep_Colliding_Option_And_Operand_Members()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: fake <command>
+
+                Available Commands:
+                  create  Create a file
+                """,
+            ["create --help"] = """
+                Usage: fake create (<FILENAME>|--filename <FILENAME>)
+
+                Arguments:
+                  <FILENAME>  Input file
+
+                Options:
+                  --filename string  Input file option
+                """,
+        });
+        var command = (await ScrapeAsync(new TestCobraScraper(executor))).Single();
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [command],
+        }).Commands.Single();
+
+        await Assert.That(resolved.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Filename", "FilenameArgument"]);
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
@@ -984,6 +1166,12 @@ public class CliScraperTraversalTests
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<PnpmCliScraper>.Instance);
+
+    private sealed class TestCargoCliScraper(ICliCommandExecutor executor)
+        : CargoCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<CargoCliScraper>.Instance);
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor
     {

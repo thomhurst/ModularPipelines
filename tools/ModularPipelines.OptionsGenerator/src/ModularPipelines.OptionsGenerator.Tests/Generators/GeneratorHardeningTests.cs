@@ -444,6 +444,109 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Required_Alternative_Group_Validates_Options_And_Requires_Service_Parameter()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--path",
+                    PropertyName = "Path",
+                    CSharpType = "string?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--git",
+                    PropertyName = "Git",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "DepId",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "DepId",
+                            PositionalArgumentPhase = CommandLinePhase.EarlyOperand,
+                            PositionalArgumentPositionIndex = 0,
+                        },
+                        new CliRequiredAlternativeMember { PropertyName = "Path", OptionSwitch = "--path" },
+                        new CliRequiredAlternativeMember { PropertyName = "Git", OptionSwitch = "--git" },
+                    ],
+                },
+            ],
+        };
+        var tool = Tool(command);
+
+        var options = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        var service = (await new ServiceImplementationGenerator().GenerateAsync(tool)).Single().Content;
+        var serviceInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options).Contains("public record ToolAddOptions : ToolOptions, IValidatableObject");
+            await Assert.That(options).Contains("DepId?.Any() == true");
+            await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Path)");
+            await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Git)");
+            await Assert.That(options).Contains("At least one of DepId, Path, or Git must be specified.");
+            await Assert.That(service).Contains("ToolAddOptions options,");
+            await Assert.That(service).DoesNotContain("new ToolAddOptions()");
+            await Assert.That(serviceInterface).Contains("AddAsync(ToolAddOptions options,");
+        }
+    }
+
+    [Test]
+    public async Task Required_Alternative_Group_Requires_NonEmpty_ReadOnly_Collection()
+    {
+        var command = Command("ToolImportOptions", "ToolOptions", ["import"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--entries",
+                    PropertyName = "Entries",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--file",
+                    PropertyName = "File",
+                    CSharpType = "string?",
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember { PropertyName = "Entries", OptionSwitch = "--entries" },
+                        new CliRequiredAlternativeMember { PropertyName = "File", OptionSwitch = "--file" },
+                    ],
+                },
+            ],
+        };
+
+        var options = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(options).Contains("Entries?.Any() == true");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Expose_Kubectl_ClusterInfo_Parent()
     {
         var tool = Tool(
@@ -779,6 +882,61 @@ public class GeneratorHardeningTests
                 .IsEqualTo("Filename");
             await Assert.That(resolvedCommand.PositionalArguments.Single().PropertyName)
                 .IsEqualTo("FilenameArgument");
+        }
+    }
+
+    [Test]
+    public async Task Required_Alternatives_Preserve_Option_And_Argument_Identity_After_Collision()
+    {
+        var command = Command("ToolCreateOptions", "ToolOptions", ["create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--filename",
+                    PropertyName = "Filename",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Filename",
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 0,
+                },
+            ],
+            RequiredAlternativeGroups =
+            [
+                new CliRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "Filename",
+                            OptionSwitch = "--filename",
+                        },
+                        new CliRequiredAlternativeMember
+                        {
+                            PropertyName = "Filename",
+                            PositionalArgumentPhase = CommandLinePhase.EarlyOperand,
+                            PositionalArgumentPositionIndex = 0,
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("!string.IsNullOrWhiteSpace(Filename)");
+            await Assert.That(generated).Contains("FilenameArgument?.Any() == true");
+            await Assert.That(generated).Contains("nameof(Filename), nameof(FilenameArgument)");
         }
     }
 

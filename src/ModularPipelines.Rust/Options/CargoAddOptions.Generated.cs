@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -19,12 +20,189 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record CargoAddOptions : CargoOptions
+public record CargoAddOptions : CargoOptions, IValidatableObject
 {
     /// <summary>
-    /// The DEP operand.
+    /// Disable the default features
+    /// </summary>
+    [CliFlag("--no-default-features")]
+    public bool? NoDefaultFeatures { get; set; }
+
+    /// <summary>
+    /// Re-enable the default features
+    /// </summary>
+    [CliFlag("--default-features")]
+    public bool? DefaultFeatures { get; set; }
+
+    /// <summary>
+    /// Space or comma separated list of features to activate
+    /// </summary>
+    [CliOption("--features", ShortForm = "-F")]
+    public IEnumerable<string>? Features { get; set; }
+
+    /// <summary>
+    /// Mark the dependency as optional
+    /// </summary>
+    [CliFlag("--optional")]
+    public bool? Optional { get; set; }
+
+    /// <summary>
+    /// Mark the dependency as required
+    /// </summary>
+    [CliFlag("--no-optional")]
+    public bool? NoOptional { get; set; }
+
+    /// <summary>
+    /// Mark the dependency as public (unstable)
+    /// </summary>
+    [CliFlag("--public")]
+    public bool? Public { get; set; }
+
+    /// <summary>
+    /// Mark the dependency as private (unstable)
+    /// </summary>
+    [CliFlag("--no-public")]
+    public bool? NoPublic { get; set; }
+
+    /// <summary>
+    /// Rename the dependency
+    /// </summary>
+    [CliOption("--rename")]
+    public string? Rename { get; set; }
+
+    /// <summary>
+    /// Don't actually write the manifest
+    /// </summary>
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Do not print cargo log messages
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Coloring
+    /// </summary>
+    [CliOption("--color")]
+    public string? Color { get; set; }
+
+    /// <summary>
+    /// Override a configuration value
+    /// </summary>
+    [CliOption("--config")]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Print help (see a summary with '-h')
+    /// </summary>
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Ignore `rust-version` specification in packages
+    /// </summary>
+    [CliFlag("--ignore-rust-version")]
+    public bool? IgnoreRustVersion { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
+
+    /// <summary>
+    /// Filesystem path to local crate to add
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// The path base to use when adding from a local crate (unstable).
+    /// </summary>
+    [CliOption("--base")]
+    public string? Base { get; set; }
+
+    /// <summary>
+    /// Git repository location
+    /// </summary>
+    [CliOption("--git")]
+    public string? Git { get; set; }
+
+    /// <summary>
+    /// Git branch to download the crate from
+    /// </summary>
+    [CliOption("--branch")]
+    public string? Branch { get; set; }
+
+    /// <summary>
+    /// Git tag to download the crate from
+    /// </summary>
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Git reference to download the crate from
+    /// </summary>
+    [CliOption("--rev")]
+    public string? Rev { get; set; }
+
+    /// <summary>
+    /// Package registry for this dependency
+    /// </summary>
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
+
+    /// <summary>
+    /// Add as development dependency
+    /// </summary>
+    [CliFlag("--dev")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
+    /// Add as build dependency
+    /// </summary>
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
+
+    /// <summary>
+    /// Add as dependency to the given target platform
+    /// </summary>
+    [CliOption("--target")]
+    public string? Target { get; set; }
+
+    /// <summary>
+    /// The &lt;DEP&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Dep { get; set; }
+
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!(Dep?.Any() == true || !string.IsNullOrWhiteSpace(Path) || !string.IsNullOrWhiteSpace(Git)))
+        {
+            yield return new ValidationResult("At least one of Dep, Path, or Git must be specified.", [nameof(Dep), nameof(Path), nameof(Git)]);
+        }
+    }
 
 }

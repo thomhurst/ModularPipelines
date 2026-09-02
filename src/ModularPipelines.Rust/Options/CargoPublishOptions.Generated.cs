@@ -75,4 +75,76 @@ public record CargoPublishOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// Publish all packages in the workspace
+    /// </summary>
+    [CliFlag("--workspace")]
+    public bool? Workspace { get; set; }
+
+    /// <summary>
+    /// Don't publish specified packages
+    /// </summary>
+    [CliOption("--exclude")]
+    public IEnumerable<string>? Exclude { get; set; }
+
+    /// <summary>
+    /// Space or comma separated list of features to activate
+    /// </summary>
+    [CliOption("--features", ShortForm = "-F")]
+    public IEnumerable<string>? Features { get; set; }
+
+    /// <summary>
+    /// Activate all available features
+    /// </summary>
+    [CliFlag("--all-features")]
+    public bool? AllFeatures { get; set; }
+
+    /// <summary>
+    /// Do not activate the `default` feature
+    /// </summary>
+    [CliFlag("--no-default-features")]
+    public bool? NoDefaultFeatures { get; set; }
+
+    /// <summary>
+    /// Number of parallel jobs, defaults to # of CPUs.
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j")]
+    public string? Jobs { get; set; }
+
+    /// <summary>
+    /// Do not abort the build as soon as there is an error
+    /// </summary>
+    [CliFlag("--keep-going")]
+    public bool? KeepGoing { get; set; }
+
+    /// <summary>
+    /// Directory for all generated artifacts
+    /// </summary>
+    [CliOption("--target-dir")]
+    public string? TargetDir { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
+
 }

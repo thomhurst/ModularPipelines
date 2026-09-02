@@ -523,6 +523,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
+                RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
             };
             command.ValidateOperandCoverage(
                 usage.HasOperandTokens,
@@ -785,6 +786,94 @@ public abstract partial class CliScraperBase : ICliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage) =>
         usage;
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage)
+    {
+        if (usage.RequiredAlternativeGroups.Count == 0)
+        {
+            return command.RequiredAlternativeGroups;
+        }
+
+        return
+        [
+            .. command.RequiredAlternativeGroups,
+            .. usage.RequiredAlternativeGroups
+                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                .OfType<CliRequiredAlternativeGroup>(),
+        ];
+    }
+
+    private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeGroup group)
+    {
+        var members = group.Members
+            .Select(member => TryResolveRequiredAlternativeMember(command, member))
+            .ToArray();
+        if (members.Any(static member => member is null))
+        {
+            // Synopsis inference can reference an inherited, global, or filtered switch.
+            // Discard that inferred constraint without dropping the command itself.
+            return null;
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            Members = members
+                .Select(static member => member!)
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
+                .ToArray(),
+        };
+    }
+
+    private static CliRequiredAlternativeMember? TryResolveRequiredAlternativeMember(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeMember member)
+    {
+        if (member.OptionSwitch is { } optionSwitch)
+        {
+            var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
+            if (optionIndex < 0)
+            {
+                return null;
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.Options[optionIndex].PropertyName,
+                OptionSwitch = command.Options[optionIndex].SwitchName,
+            };
+        }
+
+        if (member.PositionalPropertyName is { } positionalPropertyName)
+        {
+            var argumentIndex = Enumerable.Range(0, command.PositionalArguments.Count).FirstOrDefault(index =>
+                command.PositionalArguments[index].PropertyName.Equals(
+                    positionalPropertyName,
+                    StringComparison.OrdinalIgnoreCase),
+                -1);
+            if (argumentIndex < 0)
+            {
+                return null;
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
+                PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
+                PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+            };
+        }
+
+        return null;
+    }
+
+    private static string GetRequiredAlternativeIdentity(CliRequiredAlternativeMember member) =>
+        member.OptionSwitch is { } optionSwitch
+            ? $"option:{optionSwitch}"
+            : $"operand:{member.PositionalArgumentPhase}:{member.PositionalArgumentPositionIndex}";
 
     /// <summary>
     /// Returns true positional operands, excluding values syntactically owned by an option switch.

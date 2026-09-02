@@ -773,10 +773,224 @@ public class UsageSynopsisParserTests
 
         var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
         var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
 
-        await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
-        await Assert.That(dependency.IsRequired).IsFalse();
-        await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+            await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Models_Standalone_Switch_On_Separate_Synopsis_As_Required_Alternative()
+    {
+        const string helpText = """
+            Usage:
+              tool clean <TARGET>
+              tool clean --all
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "clean"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
+    public async Task Collapses_Option_Aliases_Before_Counting_Alternative_Branches()
+    {
+        const string helpText = """
+            Usage:
+              tool clean <TARGET>
+              tool clean (-a|--all)
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "clean"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
+    public async Task Does_Not_Flatten_Conjunctive_Alternative_Branches()
+    {
+        const string helpText = """
+            Usage:
+              tool copy <SOURCE> <DESTINATION>
+              tool copy --left <INPUT> --right <OUTPUT>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "copy"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Does_Not_Flatten_Parenthesized_Conjunctive_Alternative_Branches()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(--force --all))",
+            ["tool", "clean"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Does_Not_Treat_Conjunctive_Short_And_Long_Switches_As_Aliases()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(-f --all))",
+            ["tool", "clean"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Collapses_Inline_Option_Aliases_Before_Modeling_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|(-a|--all))",
+            ["tool", "clean"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(members).IsEquivalentTo(["Target", "--all"]);
+            await Assert.That(result.PositionalArguments.Single().IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Collapses_Comma_Separated_Option_Aliases()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool clean (<TARGET>|-a, --all)",
+            ["tool", "clean"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(members).IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
+    public async Task Preserves_Case_Distinct_Option_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool save (<TARGET>|-o|-O)",
+            ["tool", "save"]);
+        var members = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(members).IsEquivalentTo(["Target", "-o", "-O"]);
+    }
+
+    [Test]
+    public async Task Attached_Value_In_Nested_Group_Does_Not_Own_Following_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run <[--format=VALUE] file>",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+    }
+
+    [Test]
+    public async Task Does_Not_Infer_Optional_Switches_As_Required_Alternatives()
+    {
+        const string helpText = """
+            Usage:
+              tool run [--json] <FILE>
+              tool run [--yaml] <FILE>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Models_Required_Inline_Option_Operand_Alternatives()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: cargo add [OPTIONS] <DEP_ID|--path <PATH>|--git <URI>>...",
+            ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(dependency.PropertyName).IsEqualTo("DepId");
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(requiredSources).IsEquivalentTo(["DepId", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Does_Not_Enforce_Inline_Group_Bypassed_By_Alternate_Synopsis()
+    {
+        const string helpText = """
+            Usage:
+              tool import (<FILE>|--url <URL>)
+              tool import --stdin
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "import"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Models_Standalone_Flags_As_Required_Alternative_Members()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: brew services stop (<formula>|--all)",
+            ["brew", "services", "stop"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["Formula", "--all"]);
+    }
+
+    [Test]
+    public async Task Models_Attached_Value_Option_As_Required_Alternative_Member()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool send (<FILE>|--data=<TEXT>)",
+            ["tool", "send"]);
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        await Assert.That(requiredSources).IsEquivalentTo(["File", "--data"]);
+    }
+
+    [Test]
+    public async Task Splits_Parenthesized_Option_Aliases_Into_Real_Switches()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: git checkout (-p|--patch)",
+            ["git", "checkout"]);
+
+        await Assert.That(result.RequiredOptionSwitches).IsEquivalentTo(["-p", "--patch"]);
+        await Assert.That(result.RequiredOptionSwitches).DoesNotContain("-p|--patch");
+    }
+
+    [Test]
+    public async Task Does_Not_Model_Operand_Aliases_As_Separate_Required_Properties()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run <FILE|DIRECTORY>",
+            ["tool", "run"]);
+
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(result.PositionalArguments.Single().PropertyName).IsEqualTo("File");
     }
 
     [Test]
