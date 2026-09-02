@@ -20,6 +20,7 @@ internal class DistributedModuleExecutor(
     IHostApplicationLifetime lifetime,
     IModuleSchedulerFactory schedulerFactory,
     IModuleRunner moduleRunner,
+    IAlwaysRunHandler alwaysRunHandler,
     IRegistrationEventExecutor registrationEventExecutor,
     IDistributedMasterCoordinator masterCoordinator,
     IDistributedWorkerCoordinator workerCoordinator,
@@ -39,6 +40,7 @@ internal class DistributedModuleExecutor(
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
+    private readonly IAlwaysRunHandler _alwaysRunHandler = alwaysRunHandler;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
     private readonly IDistributedMasterCoordinator _masterCoordinator = masterCoordinator;
     private readonly IDistributedWorkerCoordinator _workerCoordinator = workerCoordinator;
@@ -101,6 +103,7 @@ internal class DistributedModuleExecutor(
                 _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
+            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             cts.Token.Register(() => CompleteCancelledModules(scheduler, _resultRegistrar, cts.Token));
 
             var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
@@ -108,7 +111,7 @@ internal class DistributedModuleExecutor(
 
             // Start the master worker loop — the master participates as a worker,
             // dequeuing and executing modules from the same queue as external workers.
-            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, moduleLookup, cts.Token);
+            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, moduleLookup, masterWorkerCts.Token);
 
             try
             {
@@ -148,7 +151,22 @@ internal class DistributedModuleExecutor(
                 // Expected when a module failure cancels the pipeline
             }
 
-            // All results collected — cancel to stop the master worker loop
+            try
+            {
+                if (cts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
+                {
+                    await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                if (!masterWorkerCts.IsCancellationRequested)
+                {
+                    await masterWorkerCts.CancelAsync();
+                }
+            }
+
+            // All results collected — stop the scheduler after successful execution.
             if (!cts.IsCancellationRequested)
             {
                 await cts.CancelAsync();
@@ -497,8 +515,11 @@ internal class DistributedModuleExecutor(
         CancellationTokenSource cts,
         Action requestFailureCancellation)
     {
-        using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
-        var lifecycleToken = timeoutCts?.Token ?? cts.Token;
+        var pipelineToken = module.Configuration.AlwaysRun
+            ? _lifetime.ApplicationStopping
+            : cts.Token;
+        using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, pipelineToken);
+        var lifecycleToken = timeoutCts?.Token ?? pipelineToken;
 
         try
         {
