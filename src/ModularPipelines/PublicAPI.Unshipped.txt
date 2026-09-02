@@ -1482,11 +1482,9 @@ ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.init -> v
 ModularPipelines.Distributed.ModuleAssignmentConfiguration
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.AlwaysRun.get -> bool
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.AlwaysRun.init -> void
-ModularPipelines.Distributed.ModuleAssignmentConfiguration.Deconstruct(out double? TimeoutSeconds, out int RetryCount, out bool AlwaysRun) -> void
-ModularPipelines.Distributed.ModuleAssignmentConfiguration.ModuleAssignmentConfiguration(double? TimeoutSeconds, int RetryCount, bool AlwaysRun) -> void
+ModularPipelines.Distributed.ModuleAssignmentConfiguration.Deconstruct(out double? TimeoutSeconds, out bool AlwaysRun) -> void
+ModularPipelines.Distributed.ModuleAssignmentConfiguration.ModuleAssignmentConfiguration(double? TimeoutSeconds, bool AlwaysRun) -> void
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.ModuleAssignmentConfiguration(ModularPipelines.Distributed.ModuleAssignmentConfiguration! original) -> void
-ModularPipelines.Distributed.ModuleAssignmentConfiguration.RetryCount.get -> int
-ModularPipelines.Distributed.ModuleAssignmentConfiguration.RetryCount.init -> void
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.TimeoutSeconds.get -> double?
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.TimeoutSeconds.init -> void
 ModularPipelines.Distributed.WorkerRegistration.RunIdentifier.get -> string?

@@ -217,7 +217,7 @@ public class SignalRMasterCoordinatorTests
             "LinuxModule", "System.String",
             new HashSet<Capability> { "linux" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -320,7 +320,7 @@ public class SignalRMasterCoordinatorTests
             "LinuxModule", "System.String",
             new HashSet<Capability> { "linux" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -334,7 +334,7 @@ public class SignalRMasterCoordinatorTests
             moduleTypeName, "System.String",
             new HashSet<Capability>(),
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)
