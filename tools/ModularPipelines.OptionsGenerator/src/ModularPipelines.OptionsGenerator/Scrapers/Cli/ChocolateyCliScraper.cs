@@ -56,6 +56,31 @@ public partial class ChocolateyCliScraper : CliScraperBase
     public override CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Windows;
 
     /// <summary>
+    /// Chocolatey starts a comparatively heavy .NET Framework process for each help request.
+    /// </summary>
+    protected override int MaxParallelism => 4;
+
+    /// <inheritdoc />
+    public override CliToolDefinition CreateToolDefinition()
+    {
+        return base.CreateToolDefinition() with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                MinimumCommandCount = 27,
+                SentinelCommands =
+                [
+                    "choco apikey",
+                    "choco export",
+                    "choco info",
+                    "choco outdated",
+                    "choco setapikey",
+                ],
+            },
+        };
+    }
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -238,9 +263,11 @@ public partial class ChocolateyCliScraper : CliScraperBase
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
     {
+        var positionalArguments = NormalizePositionalArguments(usage.PositionalArguments);
         usage = usage with
         {
-            PositionalArguments = NormalizePositionalArguments(usage.PositionalArguments),
+            HasOperandTokens = positionalArguments.Count > 0 || usage.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
         };
 
         if (command.CommandParts is ["config"])
