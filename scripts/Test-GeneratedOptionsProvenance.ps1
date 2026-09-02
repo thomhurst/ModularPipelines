@@ -86,6 +86,7 @@ try {
     $windowsJob = $normalizedWorkflowContents.Substring(
         $windowsJobStart,
         $reportJobStart - $windowsJobStart)
+    $expectedConcurrencyGroup = "group: `${{ github.workflow }}-generated-refresh-`${{ matrix.tool }}"
     foreach ($job in @($linuxJob, $windowsJob)) {
         $disableIndex = $job.IndexOf(
             '- name: Disable inherited auto-merge for push refreshes',
@@ -94,16 +95,14 @@ try {
         if ($disableIndex -lt 0 -or $buildIndex -lt 0 -or $disableIndex -gt $buildIndex) {
             throw 'Push refreshes must disable inherited auto-merge before generator work begins.'
         }
+
+        if (-not $job.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal) -or
+            -not $job.Contains('cancel-in-progress: false', [StringComparison]::Ordinal)) {
+            throw 'Generated refresh writes must serialize per tool without cancelling active work.'
+        }
     }
-    $expectedConcurrencyGroup = "group: `${{ github.workflow }}-generated-refresh"
-    if (-not $workflowContents.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal)) {
-        throw 'All generated refreshes must share one concurrency group.'
-    }
-    if ($workflowContents.Contains('generated-refresh-', [StringComparison]::Ordinal)) {
-        throw 'Generated refreshes must not split into overlapping concurrency groups.'
-    }
-    if (-not $workflowContents.Contains('cancel-in-progress: false', [StringComparison]::Ordinal)) {
-        throw 'Generated refreshes must queue instead of cancelling overlapping tool updates.'
+    if ($normalizedWorkflowContents -match '(?m)^concurrency:') {
+        throw 'Workflow-level concurrency can evict unrelated pending full-refresh jobs.'
     }
 
     New-Item -ItemType Directory -Path $tempRoot | Out-Null

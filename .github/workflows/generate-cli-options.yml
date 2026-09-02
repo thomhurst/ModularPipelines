@@ -47,10 +47,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-generated-refresh
-  cancel-in-progress: false
-
 jobs:
   validate-generation-safety:
     runs-on: ubuntu-latest
@@ -146,6 +142,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
+    concurrency:
+      group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
+      cancel-in-progress: false
 
     steps:
       - name: Check if tool should run
@@ -764,6 +763,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
+    concurrency:
+      group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
+      cancel-in-progress: false
 
     steps:
       - name: Check if tool should run
