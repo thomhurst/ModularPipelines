@@ -776,6 +776,53 @@ public class DistributedModuleExecutorTests
         alwaysRunHandler.VerifyAll();
     }
 
+    [Test]
+    public async Task FailFast_Skips_Queued_NonAlwaysRun_Master_Assignments()
+    {
+        var failedModule = new DistributedModule();
+        var queuedModule = new AnotherDistributedModule();
+        var scheduler = CreateMockScheduler(
+            new ModuleState(failedModule, typeof(DistributedModule)),
+            new ModuleState(queuedModule, typeof(AnotherDistributedModule)));
+        var pipelineCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        scheduler
+            .Setup(x => x.CancelPendingModules())
+            .Callback(() => pipelineCancelled.TrySetResult())
+            .Returns([]);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(AnotherDistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
+        var serializedFailure = serializer.Serialize(
+            failureResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 1);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            coordinator: noDequeue,
+            resultCollector: resultCollector);
+
+        var executionTask = executor.ExecuteAsync([failedModule, queuedModule]);
+        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WaitForResultStartedAsync(typeof(AnotherDistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        await pipelineCancelled.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        noDequeue.ReleaseWorkerQuery();
+
+        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+        moduleRunner.Verify(runner => runner.ExecuteWithoutDependencyWaitAsync(
+            It.IsAny<ModuleState>(),
+            It.IsAny<IModuleScheduler>(),
+            It.IsAny<CancellationToken>()), Times.Never);
+    }
+
     // =================================================================
     // Master-as-Worker Tests
     // =================================================================

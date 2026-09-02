@@ -111,7 +111,11 @@ internal class DistributedModuleExecutor(
 
             // Start the master worker loop — the master participates as a worker,
             // dequeuing and executing modules from the same queue as external workers.
-            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, moduleLookup, masterWorkerCts.Token);
+            var masterWorkerTask = RunMasterWorkerLoopAsync(
+                modules,
+                moduleLookup,
+                cts.Token,
+                masterWorkerCts.Token);
 
             try
             {
@@ -151,20 +155,8 @@ internal class DistributedModuleExecutor(
                 // Expected when a module failure cancels the pipeline
             }
 
-            try
-            {
-                if (cts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
-                {
-                    await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
-                }
-            }
-            finally
-            {
-                if (!masterWorkerCts.IsCancellationRequested)
-                {
-                    await masterWorkerCts.CancelAsync();
-                }
-            }
+            await CompleteAlwaysRunModulesAsync(scheduler, modules, cts, masterWorkerCts)
+                .ConfigureAwait(false);
 
             // All results collected — stop the scheduler after successful execution.
             if (!cts.IsCancellationRequested)
@@ -262,6 +254,28 @@ internal class DistributedModuleExecutor(
             executionContext);
     }
 
+    private async Task CompleteAlwaysRunModulesAsync(
+        IModuleScheduler scheduler,
+        IReadOnlyList<IModule> modules,
+        CancellationTokenSource pipelineCts,
+        CancellationTokenSource masterWorkerCts)
+    {
+        try
+        {
+            if (pipelineCts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
+            {
+                await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            if (!masterWorkerCts.IsCancellationRequested)
+            {
+                await masterWorkerCts.CancelAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
     private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
     {
         var expectedWorkers = _options.Value.TotalInstances - 1;
@@ -308,7 +322,11 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task RunMasterWorkerLoopAsync(IReadOnlyList<IModule> modules, Dictionary<string, IModule> moduleLookup, CancellationToken cancellationToken)
+    private async Task RunMasterWorkerLoopAsync(
+        IReadOnlyList<IModule> modules,
+        Dictionary<string, IModule> moduleLookup,
+        CancellationToken pipelineCancellationToken,
+        CancellationToken workerCancellationToken)
     {
         // Build master's capabilities (same logic as WorkerModuleExecutor)
         var options = _options.Value;
@@ -323,20 +341,38 @@ internal class DistributedModuleExecutor(
 
         using var workerScheduler = new WorkerModuleScheduler();
 
-        while (!cancellationToken.IsCancellationRequested)
+        while (!workerCancellationToken.IsCancellationRequested)
         {
             try
             {
-                var assignment = await _workerCoordinator.DequeueModuleAsync(capabilities, cancellationToken);
+                var assignment = await _workerCoordinator
+                    .DequeueModuleAsync(capabilities, workerCancellationToken)
+                    .ConfigureAwait(false);
                 if (assignment is null)
                 {
                     break;
                 }
 
+                if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
+                {
+                    _logger.LogInformation(
+                        "Master skipping cancelled module {Module}",
+                        assignment.ModuleTypeName);
+                    continue;
+                }
+
                 _logger.LogInformation("Master executing module {Module} locally",
                     assignment.ModuleTypeName);
 
-                await ExecuteAssignmentAsync(assignment, modules, moduleLookup, workerScheduler, cancellationToken);
+                var executionCancellationToken = assignment.Configuration.AlwaysRun
+                    ? workerCancellationToken
+                    : pipelineCancellationToken;
+                await ExecuteAssignmentAsync(
+                    assignment,
+                    modules,
+                    moduleLookup,
+                    workerScheduler,
+                    executionCancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
