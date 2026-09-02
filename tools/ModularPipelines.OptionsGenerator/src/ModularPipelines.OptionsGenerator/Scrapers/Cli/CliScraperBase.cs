@@ -406,26 +406,14 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
         var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
-        if (subcommands.Count > 0 || declaresCommandGroup)
+        PreserveGroupHelp(path, helpText, subcommands, declaresCommandGroup);
+        if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
         {
-            _scrapeProvenance.PreserveGroupHelp(path, helpText);
-        }
-
-        try
-        {
-            ValidateSubcommandDiscovery(path, helpText, subcommands);
-        }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-        {
-            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
             return;
         }
 
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
-        if (subcommands.Count == 0 && !declaresCommandGroup)
-        {
-            _scrapeProvenance.DiscardLeafHelp(path);
-        }
+        DiscardLeafHelp(path, subcommands, declaresCommandGroup);
 
         await EnqueueSubcommandsAsync(
             path,
@@ -434,6 +422,46 @@ public abstract partial class CliScraperBase : ICliScraper
             coordinator,
             visitedPaths,
             cancellationToken);
+    }
+
+    private void PreserveGroupHelp(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count > 0 || declaresCommandGroup)
+        {
+            _scrapeProvenance.PreserveGroupHelp(path, helpText);
+        }
+    }
+
+    private bool TryValidateSubcommandDiscovery(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands)
+    {
+        try
+        {
+            ValidateSubcommandDiscovery(path, helpText, subcommands);
+            return true;
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
+            return false;
+        }
+    }
+
+    private void DiscardLeafHelp(
+        string[] path,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count == 0 && !declaresCommandGroup)
+        {
+            _scrapeProvenance.DiscardLeafHelp(path);
+        }
     }
 
     private bool ShouldSkipDeepPath(string[] path)
