@@ -42,6 +42,11 @@ jobs:
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
+      - name: Test public API baseline synchronization
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiSnapshotFromSarif.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -596,6 +601,55 @@ jobs:
             echo "$coverage_delimiter"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Synchronize generated public API baselines
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          $shipped = Join-Path $packageDirectory 'PublicAPI.Shipped.txt'
+          $unshipped = Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'
+          $originalShipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt'
+          $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
+          Copy-Item -LiteralPath $shipped -Destination $originalShipped
+          Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
+          foreach ($baseline in $shipped, $unshipped) {
+            $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
+            [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
+          }
+
+          $errorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.current.sarif'
+          $buildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.snapshot-build.log'
+          $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
+            @('/m:1', '-p:UseSharedCompilation=false')
+          } else {
+            @()
+          }
+          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -c Release `
+            --no-incremental `
+            -p:TreatWarningsAsErrors=false `
+            -p:WarningsAsErrors= `
+            "-p:ErrorLog=$errorLog" `
+            @buildArguments *> $buildLog
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content -LiteralPath $buildLog
+            throw 'Failed to create the current public API snapshot.'
+          }
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiSnapshotFromSarif.ps1 `
+            -ErrorLogPath $errorLog `
+            -SnapshotPath $unshipped `
+            -RequireEntries
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Merge-PublicApiBaselineSnapshot.ps1 `
+            -OriginalShippedPath $originalShipped `
+            -OriginalUnshippedPath $originalUnshipped `
+            -CurrentApiSnapshotPath $unshipped `
+            -ShippedOutputPath $shipped `
+            -UnshippedOutputPath $unshipped
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -605,6 +659,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -632,6 +690,8 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: |
           BUILD_ARGS=()
           # Gcloud generates enough source for parallel MSBuild nodes to exhaust the hosted runner.
@@ -649,6 +709,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
@@ -867,6 +931,49 @@ jobs:
           }
           $coverageDelimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
+      - name: Synchronize generated public API baselines
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          $shipped = Join-Path $packageDirectory 'PublicAPI.Shipped.txt'
+          $unshipped = Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'
+          $originalShipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt'
+          $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
+          Copy-Item -LiteralPath $shipped -Destination $originalShipped
+          Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
+          foreach ($baseline in $shipped, $unshipped) {
+            $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
+            [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
+          }
+
+          $errorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.current.sarif'
+          $buildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.snapshot-build.log'
+          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -c Release `
+            --no-incremental `
+            -p:TreatWarningsAsErrors=false `
+            -p:WarningsAsErrors= `
+            "-p:ErrorLog=$errorLog" *> $buildLog
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content -LiteralPath $buildLog
+            throw 'Failed to create the current public API snapshot.'
+          }
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiSnapshotFromSarif.ps1 `
+            -ErrorLogPath $errorLog `
+            -SnapshotPath $unshipped `
+            -RequireEntries
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Merge-PublicApiBaselineSnapshot.ps1 `
+            -OriginalShippedPath $originalShipped `
+            -OriginalUnshippedPath $originalUnshipped `
+            -CurrentApiSnapshotPath $unshipped `
+            -ShippedOutputPath $shipped `
+            -UnshippedOutputPath $unshipped
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -876,6 +983,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -893,6 +1004,8 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: >-
           dotnet build
           "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
@@ -906,6 +1019,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
