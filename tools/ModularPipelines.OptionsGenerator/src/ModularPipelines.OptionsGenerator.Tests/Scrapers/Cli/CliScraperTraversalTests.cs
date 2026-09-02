@@ -12,6 +12,49 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class CliScraperTraversalTests
 {
     [Test]
+    public async Task CobraParentDoesNotUseChildDescription()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [command]
+
+            Available Commands:
+              child  Execute a child command
+
+            Flags:
+              --help  Show help
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraDescriptionAfterMetadataHeaderIsPreserved()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [flags]
+
+            Metadata:
+            Execute or manage parent resources.
+
+            Flags:
+              --help  Show help
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Execute or manage parent resources.");
+    }
+
+    [Test]
     public async Task SharedTraversal_Discovers_ExecutableParent_And_Children_Without_Command_Placeholders()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

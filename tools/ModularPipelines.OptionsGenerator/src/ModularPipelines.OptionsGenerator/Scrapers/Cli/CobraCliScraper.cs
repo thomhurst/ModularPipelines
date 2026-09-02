@@ -256,13 +256,17 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
+            if (CommandsSectionPattern().IsMatch(trimmed) ||
+                FlagsSectionPattern().IsMatch(trimmed) ||
+                trimmed.Equals("Options:", StringComparison.OrdinalIgnoreCase) ||
+                trimmed.Equals("Examples:", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
             // Skip section headers
             if (trimmed.EndsWith(':') ||
-                trimmed.StartsWith("Usage:") ||
-                trimmed.StartsWith("Examples:") ||
-                trimmed.StartsWith("Available Commands:") ||
-                trimmed.StartsWith("Flags:") ||
-                trimmed.StartsWith("Global Flags:"))
+                trimmed.StartsWith("Usage:"))
             {
                 continue;
             }
