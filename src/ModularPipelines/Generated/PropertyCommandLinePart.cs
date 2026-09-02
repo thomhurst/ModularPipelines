@@ -66,16 +66,9 @@ public sealed record OptionPart(
     CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
     /// <summary>
-    /// Gets the legacy optional-value compatibility marker.
-    /// Retained for binary compatibility with schema-2 generated metadata; ignored by validation.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public bool AllowsLegacyOptionalValues { get; init; }
-
-    /// <summary>
     /// Gets the number of separate operands consumed by one manual occurrence of this option.
     /// </summary>
-    public int ManualOperandCount { get; init; } = -1;
+    public int ManualOperandCount { get; init; } = 1;
 
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;

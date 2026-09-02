@@ -254,7 +254,7 @@ public class GeneratedRuntimeMetadataTests
     public async Task MissingCommandMetadata_ThrowsActionableException()
     {
         var optionsType = CreateDynamicType("MissingCommandMetadata");
-        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly);
+        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly, requiresGeneratedMetadata: false);
         GeneratedCommandMetadata.RegisterCoveredTypeNames(optionsType.Assembly, [optionsType.FullName!]);
 
         var exception = await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
@@ -269,7 +269,7 @@ public class GeneratedRuntimeMetadataTests
     public async Task ProcessedAssembly_UsesReflectionForGeneratorEmittedOptions()
     {
         var optionsType = typeof(VisualBasicCommandOptions);
-        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly);
+        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly, requiresGeneratedMetadata: false);
 
         var model = new CommandModelProvider().GetCommandModel(optionsType);
 
@@ -282,7 +282,7 @@ public class GeneratedRuntimeMetadataTests
     {
         var type = CreateDynamicType("CommandAssemblyRegistration");
 
-        GeneratedCommandMetadata.RegisterAssembly(type.Assembly);
+        GeneratedCommandMetadata.RegisterAssembly(type.Assembly, requiresGeneratedMetadata: false);
 
         using (Assert.Multiple())
         {
@@ -308,7 +308,10 @@ public class GeneratedRuntimeMetadataTests
             type,
             commandModel,
             RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
-        RuntimeMetadataRegistry.RegisterSecrets(type, secretAccessors);
+        RuntimeMetadataRegistry.RegisterSecrets(
+            type,
+            secretAccessors,
+            RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion);
 
         using (Assert.Multiple())
         {
@@ -361,18 +364,30 @@ public class GeneratedRuntimeMetadataTests
     [Test]
     public async Task DuplicateCommandMetadataRegistration_Throws()
     {
-        GeneratedCommandMetadata.Register(typeof(DuplicateCommandMetadataType), []);
+        GeneratedCommandMetadata.Register(
+            typeof(DuplicateCommandMetadataType),
+            [],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
 
-        await Assert.That(() => GeneratedCommandMetadata.Register(typeof(DuplicateCommandMetadataType), []))
+        await Assert.That(() => GeneratedCommandMetadata.Register(
+                typeof(DuplicateCommandMetadataType),
+                [],
+                GeneratedCommandMetadata.CurrentSchemaVersion))
             .Throws<InvalidOperationException>();
     }
 
     [Test]
     public async Task DuplicateSecretMetadataRegistration_Throws()
     {
-        GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []);
+        GeneratedSecretMetadata.Register(
+            typeof(DuplicateSecretMetadataType),
+            [],
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
-        await Assert.That(() => GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []))
+        await Assert.That(() => GeneratedSecretMetadata.Register(
+                typeof(DuplicateSecretMetadataType),
+                [],
+                GeneratedSecretMetadata.CurrentSchemaVersion))
             .Throws<InvalidOperationException>();
     }
 
@@ -409,11 +424,16 @@ public class GeneratedRuntimeMetadataTests
         var firstModel = new List<SecretPropertyAccessor>();
 
         var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedSecretMetadata.RegisterExternal(consumerAssembly, type, firstModel);
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             type,
-            new List<SecretPropertyAccessor>());
+            firstModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
+        GeneratedSecretMetadata.RegisterExternal(
+            consumerAssembly,
+            type,
+            new List<SecretPropertyAccessor>(),
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
         var found = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
         using (Assert.Multiple())
@@ -573,63 +593,46 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
-    public async Task ExternalMetadataOverridesLegacyDirectRegistration()
+    public async Task CommandMetadataRejectsNonCurrentSchema()
     {
-        var commandType = CreateDynamicType("LegacyDirectCommand");
-        var secretType = CreateDynamicType("LegacyDirectSecret");
-        var legacyCommandModel = new List<PropertyCommandLinePart>();
-        var rescannedCommandModel = new List<PropertyCommandLinePart>();
-        var legacySecretModel = new List<SecretPropertyAccessor>();
-        var rescannedSecretModel = new List<SecretPropertyAccessor>();
-        var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedCommandMetadata.Register(commandType, legacyCommandModel);
-        GeneratedSecretMetadata.Register(secretType, legacySecretModel, isComplete: true);
-        GeneratedCommandMetadata.RegisterExternal(
-            consumerAssembly,
-            commandType,
-            rescannedCommandModel,
-            GeneratedCommandMetadata.CurrentSchemaVersion);
-        GeneratedSecretMetadata.RegisterExternal(
-            consumerAssembly,
-            secretType,
-            rescannedSecretModel);
+        var type = CreateDynamicType("StaleCommandMetadata");
 
-        var commandFound = GeneratedCommandMetadata.TryGet(commandType, out var commandModel);
-        var secretFound = GeneratedSecretMetadata.TryGetAccessors(secretType, out var secretModel);
+        var exception = await Assert.That(() => GeneratedCommandMetadata.Register(
+                type,
+                [],
+                GeneratedCommandMetadata.CurrentSchemaVersion - 1))
+            .Throws<InvalidOperationException>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(commandFound).IsTrue();
-            await Assert.That(commandModel).IsSameReferenceAs(rescannedCommandModel);
-            await Assert.That(secretFound).IsTrue();
-            await Assert.That(secretModel).IsSameReferenceAs(rescannedSecretModel);
-        }
+        await Assert.That(exception!.Message).Contains("Rebuild the assembly against ModularPipelines v4");
     }
 
     [Test]
-    public async Task ExternalReflectionFallbackRejectsLegacySecretMetadata()
+    public async Task SecretMetadataRejectsNonCurrentSchema()
     {
-        var type = CreateDynamicType("LegacyReflectionFallback");
-        GeneratedSecretMetadata.Register(type, [], isComplete: true);
-        GeneratedSecretMetadata.RegisterExternalReflectionFallbackTypeNames(
-            typeof(GeneratedRuntimeMetadataTests).Assembly,
-            type.Assembly.FullName!,
-            [type.FullName!]);
+        var type = CreateDynamicType("StaleSecretMetadata");
 
-        var legacyFound = GeneratedSecretMetadata.TryGetAccessors(type, out _);
-        var currentModel = new List<SecretPropertyAccessor>();
-        GeneratedSecretMetadata.RegisterExternal(
-            typeof(GeneratedRuntimeMetadataTests).Assembly,
-            type,
-            currentModel);
-        var currentFound = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
+        var exception = await Assert.That(() => RuntimeMetadataRegistry.RegisterSecrets(
+                type,
+                [],
+                RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion - 1))
+            .Throws<InvalidOperationException>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(legacyFound).IsFalse();
-            await Assert.That(currentFound).IsTrue();
-            await Assert.That(registeredModel).IsSameReferenceAs(currentModel);
-        }
+        await Assert.That(exception!.Message).Contains("Rebuild the assembly against ModularPipelines v4");
+    }
+
+    [Test]
+    public async Task ExternalSecretMetadataRejectsNonCurrentSchema()
+    {
+        var type = CreateDynamicType("StaleExternalSecretMetadata");
+
+        var exception = await Assert.That(() => GeneratedSecretMetadata.RegisterExternal(
+                typeof(GeneratedRuntimeMetadataTests).Assembly,
+                type,
+                [],
+                GeneratedSecretMetadata.CurrentSchemaVersion - 1))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).Contains("Rebuild the assembly against ModularPipelines v4");
     }
 
     [Test]
@@ -646,7 +649,10 @@ public class GeneratedRuntimeMetadataTests
             commandType,
             currentCommandModel,
             GeneratedCommandMetadata.CurrentSchemaVersion);
-        GeneratedSecretMetadata.Register(secretType, currentSecretModel);
+        GeneratedSecretMetadata.Register(
+            secretType,
+            currentSecretModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
         GeneratedCommandMetadata.RegisterExternal(
             consumerAssembly,
             commandType,
@@ -655,7 +661,8 @@ public class GeneratedRuntimeMetadataTests
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             secretType,
-            rescannedSecretModel);
+            rescannedSecretModel,
+            GeneratedSecretMetadata.CurrentSchemaVersion);
 
         _ = GeneratedCommandMetadata.TryGet(commandType, out var commandModel);
         _ = GeneratedSecretMetadata.TryGetAccessors(secretType, out var secretModel);
@@ -664,28 +671,6 @@ public class GeneratedRuntimeMetadataTests
         {
             await Assert.That(commandModel).IsSameReferenceAs(currentCommandModel);
             await Assert.That(secretModel).IsSameReferenceAs(currentSecretModel);
-        }
-    }
-
-    [Test]
-    public async Task LegacyRegistrationOverloads_PreserveCompleteness()
-    {
-        var completeCommandType = CreateDynamicType("CompleteCommand");
-        var incompleteCommandType = CreateDynamicType("IncompleteCommand");
-        var completeSecretType = CreateDynamicType("CompleteSecret");
-        var incompleteSecretType = CreateDynamicType("IncompleteSecret");
-
-        GeneratedCommandMetadata.Register(completeCommandType, [], isComplete: true);
-        GeneratedCommandMetadata.Register(incompleteCommandType, [], isComplete: false);
-        GeneratedSecretMetadata.Register(completeSecretType, [], isComplete: true);
-        GeneratedSecretMetadata.Register(incompleteSecretType, [], isComplete: false);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(GeneratedCommandMetadata.TryGet(completeCommandType, out _)).IsTrue();
-            await Assert.That(GeneratedCommandMetadata.TryGet(incompleteCommandType, out _)).IsFalse();
-            await Assert.That(GeneratedSecretMetadata.TryGetAccessors(completeSecretType, out _)).IsTrue();
-            await Assert.That(GeneratedSecretMetadata.TryGetAccessors(incompleteSecretType, out _)).IsFalse();
         }
     }
 
@@ -814,10 +799,10 @@ public class GeneratedRuntimeMetadataTests
             .DefineType("CollectibleOptions", TypeAttributes.Public)
             .CreateType()!;
 
-        GeneratedCommandMetadata.RegisterAssembly(assembly);
+        GeneratedCommandMetadata.RegisterAssembly(assembly, requiresGeneratedMetadata: false);
         GeneratedCommandMetadata.Register(type, [], GeneratedCommandMetadata.CurrentSchemaVersion);
-        GeneratedSecretMetadata.RegisterAssembly(assembly);
-        GeneratedSecretMetadata.Register(type, []);
+        GeneratedSecretMetadata.RegisterAssembly(assembly, requiresGeneratedMetadata: false);
+        GeneratedSecretMetadata.Register(type, [], GeneratedSecretMetadata.CurrentSchemaVersion);
 
         return (new WeakReference(assembly), new WeakReference(type));
     }
@@ -852,7 +837,8 @@ public class GeneratedRuntimeMetadataTests
         GeneratedSecretMetadata.RegisterExternal(
             assembly,
             sharedOptionsType,
-            [new SecretPropertyAccessor("Value", getter)]);
+            [new SecretPropertyAccessor("Value", getter)],
+            GeneratedSecretMetadata.CurrentSchemaVersion);
         if (!GeneratedCommandMetadata.TryGet(sharedOptionsType, out _)
             || !GeneratedSecretMetadata.TryGetAccessors(sharedOptionsType, out _))
         {

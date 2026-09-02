@@ -1698,8 +1698,6 @@ ModularPipelines.Generated.ModuleDependencyMetadata.ModuleDependencyMetadata(Sys
 ModularPipelines.Generated.ModuleDependencyMetadata.Optional.get -> bool
 ModularPipelines.Generated.ModuleDependencyMetadata.Optional.init -> void
 ModularPipelines.Generated.OptionPart
-ModularPipelines.Generated.OptionPart.AllowsLegacyOptionalValues.get -> bool
-ModularPipelines.Generated.OptionPart.AllowsLegacyOptionalValues.init -> void
 ModularPipelines.Generated.OptionPart.Attribute.get -> ModularPipelines.Attributes.CliOptionAttribute!
 ModularPipelines.Generated.OptionPart.Attribute.init -> void
 ModularPipelines.Generated.OptionPart.Deconstruct(out string! PropertyName, out System.Func<object!, object?>! Getter, out ModularPipelines.Attributes.CliOptionAttribute! Attribute) -> void
@@ -2340,6 +2338,7 @@ const ModularPipelines.Distributed.Capability.Names.Linux = "linux" -> string!
 const ModularPipelines.Distributed.Capability.Names.MacOS = "macos" -> string!
 const ModularPipelines.Distributed.Capability.Names.Windows = "windows" -> string!
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 4 -> int
+const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion = 2 -> int
 const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 4 -> int
 const ModularPipelines.Tracing.PipelineTelemetry.CommandDurationTag = "modular_pipelines.command.duration_ms" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
@@ -2615,13 +2614,9 @@ static ModularPipelines.Generated.ArgumentPart.operator !=(ModularPipelines.Gene
 static ModularPipelines.Generated.ArgumentPart.operator ==(ModularPipelines.Generated.ArgumentPart? left, ModularPipelines.Generated.ArgumentPart? right) -> bool
 static ModularPipelines.Generated.FlagPart.operator !=(ModularPipelines.Generated.FlagPart? left, ModularPipelines.Generated.FlagPart? right) -> bool
 static ModularPipelines.Generated.FlagPart.operator ==(ModularPipelines.Generated.FlagPart? left, ModularPipelines.Generated.FlagPart? right) -> bool
-static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
-static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, bool isComplete) -> void
 static ModularPipelines.Generated.GeneratedCommandMetadata.Register(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
-static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterAssembly(System.Reflection.Assembly! assembly) -> void
 static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterAssembly(System.Reflection.Assembly! assembly, bool requiresGeneratedMetadata) -> void
 static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterCoveredTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
-static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
 static ModularPipelines.Generated.GeneratedCommandMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
 static ModularPipelines.Generated.GeneratedModuleEventMetadata.Register(System.Type! moduleType, System.Func<System.Collections.Generic.IReadOnlyList<System.Attribute!>!>! attributeFactory, bool isComplete = true) -> void
 static ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<TModule, TResult>(System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.ModuleDependencyMetadata!>! dependencies, bool dependenciesComplete = true) -> ModularPipelines.Generated.GeneratedModuleRegistration!
@@ -2629,18 +2624,13 @@ static ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<TMo
 static ModularPipelines.Generated.GeneratedModuleMetadata.Register(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.GeneratedModuleRegistration!>! registrations, bool isComplete = true) -> void
 static ModularPipelines.Generated.GeneratedModuleRegistration.operator !=(ModularPipelines.Generated.GeneratedModuleRegistration? left, ModularPipelines.Generated.GeneratedModuleRegistration? right) -> bool
 static ModularPipelines.Generated.GeneratedModuleRegistration.operator ==(ModularPipelines.Generated.GeneratedModuleRegistration? left, ModularPipelines.Generated.GeneratedModuleRegistration? right) -> bool
-static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors, bool isComplete = true) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterAssembly(System.Reflection.Assembly! assembly) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.Register(System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors, int schemaVersion) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterAssembly(System.Reflection.Assembly! assembly, bool requiresGeneratedMetadata) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(System.Reflection.Assembly! consumerAssembly, System.Collections.Generic.IReadOnlyList<string!>! assemblyIdentities) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(System.Reflection.Assembly! consumerAssembly, string! assemblyIdentity, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredTypeName(System.Reflection.Assembly! assembly, string! metadataName) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterCoveredTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! declaringType) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
-static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternalReflectionFallbackTypeNames(System.Reflection.Assembly! consumerAssembly, string! assemblyIdentity, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
+static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(System.Reflection.Assembly! consumerAssembly, System.Type! declaringType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors, int schemaVersion) -> void
 static ModularPipelines.Generated.GeneratedSecretMetadata.RegisterIncompleteTypeNames(System.Reflection.Assembly! assembly, System.Collections.Generic.IReadOnlyList<string!>! metadataNames) -> void
 static ModularPipelines.Generated.ModuleDependencyMetadata.operator !=(ModularPipelines.Generated.ModuleDependencyMetadata? left, ModularPipelines.Generated.ModuleDependencyMetadata? right) -> bool
 static ModularPipelines.Generated.ModuleDependencyMetadata.operator ==(ModularPipelines.Generated.ModuleDependencyMetadata? left, ModularPipelines.Generated.ModuleDependencyMetadata? right) -> bool
@@ -2648,9 +2638,8 @@ static ModularPipelines.Generated.OptionPart.operator !=(ModularPipelines.Genera
 static ModularPipelines.Generated.OptionPart.operator ==(ModularPipelines.Generated.OptionPart? left, ModularPipelines.Generated.OptionPart? right) -> bool
 static ModularPipelines.Generated.PropertyCommandLinePart.operator !=(ModularPipelines.Generated.PropertyCommandLinePart? left, ModularPipelines.Generated.PropertyCommandLinePart? right) -> bool
 static ModularPipelines.Generated.PropertyCommandLinePart.operator ==(ModularPipelines.Generated.PropertyCommandLinePart? left, ModularPipelines.Generated.PropertyCommandLinePart? right) -> bool
-static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterCommandOptions(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model) -> void
 static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterCommandOptions(System.Type! optionsType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.PropertyCommandLinePart!>! model, int schemaVersion) -> void
-static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterSecrets(System.Type! objectType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors) -> void
+static ModularPipelines.Generated.RuntimeMetadataRegistry.RegisterSecrets(System.Type! objectType, System.Collections.Generic.IReadOnlyList<ModularPipelines.Generated.SecretPropertyAccessor!>! accessors, int schemaVersion) -> void
 static ModularPipelines.Generated.SecretPropertyAccessor.operator !=(ModularPipelines.Generated.SecretPropertyAccessor? left, ModularPipelines.Generated.SecretPropertyAccessor? right) -> bool
 static ModularPipelines.Generated.SecretPropertyAccessor.operator ==(ModularPipelines.Generated.SecretPropertyAccessor? left, ModularPipelines.Generated.SecretPropertyAccessor? right) -> bool
 static ModularPipelines.ModuleResult.Failure.operator !=(ModularPipelines.ModuleResult.Failure? left, ModularPipelines.ModuleResult.Failure? right) -> bool
