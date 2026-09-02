@@ -69,12 +69,7 @@ internal sealed class CommandLineBuilder(
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
         var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
         var manualArgs = options.Arguments?.ToList() ?? [];
-        var requiredOperandMatch = MatchManualRequiredOperands(
-            commandModel,
-            options,
-            manualArgs);
-        var manualOptionTerminatorRemains = options.ArgumentsContainOptionTerminator
-                                            && !requiredOperandMatch.ConsumedOptionTerminator;
+        var manualOptionTerminatorRemains = options.ArgumentsContainOptionTerminator;
         ValidateAdditionalArguments(additionalArguments);
 
         var terminalCommandModel = commandModel
@@ -91,8 +86,6 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: true,
-            manualRequiredOperands: null,
-            requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
             out var globalOptionTerminatorIndex,
             out _);
@@ -102,8 +95,6 @@ internal sealed class CommandLineBuilder(
             additionalArguments,
             options,
             isGlobalOption: false,
-            requiredOperandMatch.ManualValues,
-            requiredOperandMatch.MaterializedValues,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex,
             out var commandLateOperandIndex);
@@ -120,9 +111,7 @@ internal sealed class CommandLineBuilder(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref terminalArgumentTerminatorState,
-            out var terminalArgumentOptionTerminatorIndex,
-            requiredOperandMatch.ManualValues,
-            requiredOperandMatch.MaterializedValues);
+            out var terminalArgumentOptionTerminatorIndex);
         modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
@@ -261,8 +250,6 @@ internal sealed class CommandLineBuilder(
         IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
         CommandLineToolOptions options,
         bool isGlobalOption,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands,
-        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> materializedRequiredOperands,
         ref bool emittedOptionTerminator,
         out int? emittedOptionTerminatorIndex,
         out int? lateOperandIndex)
@@ -291,9 +278,7 @@ internal sealed class CommandLineBuilder(
                 phaseModel,
                 options,
                 ref emittedOptionTerminator,
-                out var phaseOptionTerminatorIndex,
-                manualRequiredOperands,
-                materializedRequiredOperands);
+                out var phaseOptionTerminatorIndex);
             if (emittedOptionTerminatorIndex is null
                 && phaseOptionTerminatorIndex is { } phaseIndex)
             {
@@ -466,97 +451,6 @@ internal sealed class CommandLineBuilder(
             options,
             preserveTerminalOptions: false);
         return [.. extracted.Global, .. extracted.Command];
-    }
-
-    private static RequiredOperandMatch MatchManualRequiredOperands(
-        IReadOnlyList<PropertyCommandLinePart> commandModel,
-        CommandLineToolOptions options,
-        List<string> manualArgs)
-    {
-        var requiredOperands = commandModel
-            .OfType<ArgumentPart>()
-            .Where(part => !part.IsGlobalOption
-                           && part.Attribute.Required)
-            .OrderBy(static part => CommandLinePhaseOrder.GetRenderOrder(part.Phase))
-            .ThenBy(static part => part.Attribute.Position)
-            .ToList();
-        var materializedValues = requiredOperands.ToDictionary(
-            static part => part,
-            part => (IReadOnlyList<string>) CommandArgumentBuilder.GetValues(part.Getter(options)));
-        var missingRequiredOperands = requiredOperands
-            .Where(part => materializedValues[part].Count == 0)
-            .ToList();
-        if (missingRequiredOperands.Count == 0 || manualArgs.Count == 0)
-        {
-            return new RequiredOperandMatch(
-                new Dictionary<ArgumentPart, string>(),
-                materializedValues,
-                false);
-        }
-
-        IReadOnlyList<int> operandIndices;
-        if (options.ArgumentsContainToolOptions)
-        {
-            var classifiedArguments = manualArgs.ToList();
-            var classifiedOperandIndices = new List<int>();
-            _ = ExtractRecognizedManualOptionsByScope(
-                classifiedArguments,
-                commandModel.Where(static part => part.IsGlobalOption).ToList(),
-                commandModel.Where(static part => !part.IsGlobalOption).ToList(),
-                options,
-                preserveTerminalOptions: false,
-                positionalArgumentIndices: classifiedOperandIndices);
-            operandIndices = classifiedOperandIndices;
-        }
-        else
-        {
-            operandIndices = Enumerable.Range(0, manualArgs.Count)
-                .Where(index => manualArgs[index] != "--")
-                .ToList();
-        }
-
-        var matchedOperandCount = Math.Min(missingRequiredOperands.Count, operandIndices.Count);
-        var matchedRequiredOperands = missingRequiredOperands.Take(matchedOperandCount).ToList();
-        var matchedOperandIndices = SelectRequiredOperandIndices(matchedRequiredOperands, operandIndices);
-        var result = new Dictionary<ArgumentPart, string>(matchedOperandCount);
-        var indicesToRemove = new HashSet<int>();
-        var consumedOptionTerminator = false;
-        for (var index = 0; index < matchedOperandCount; index++)
-        {
-            var operandIndex = matchedOperandIndices[index];
-            var requiredOperand = matchedRequiredOperands[index];
-            result.Add(requiredOperand, manualArgs[operandIndex]);
-            indicesToRemove.Add(operandIndex);
-            if (requiredOperand.Attribute.PrependOptionTerminator
-                && operandIndex > 0
-                && manualArgs[operandIndex - 1] == "--")
-            {
-                indicesToRemove.Add(operandIndex - 1);
-                consumedOptionTerminator = true;
-            }
-        }
-
-        foreach (var index in indicesToRemove.OrderDescending())
-        {
-            manualArgs.RemoveAt(index);
-        }
-
-        return new RequiredOperandMatch(result, materializedValues, consumedOptionTerminator);
-    }
-
-    private static IReadOnlyList<int> SelectRequiredOperandIndices(
-        IReadOnlyList<ArgumentPart> requiredOperands,
-        IReadOnlyList<int> candidateIndices)
-    {
-        var lateOperandOrder = CommandLinePhaseOrder.GetRenderOrder(CommandLinePhase.LateOperand);
-        var trailingOperandCount = requiredOperands.Count(part =>
-            CommandLinePhaseOrder.GetRenderOrder(part.Phase) >= lateOperandOrder);
-        var leadingOperandCount = requiredOperands.Count - trailingOperandCount;
-        return
-        [
-            .. candidateIndices.Take(leadingOperandCount),
-            .. candidateIndices.TakeLast(trailingOperandCount),
-        ];
     }
 
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(
@@ -1089,11 +983,6 @@ internal sealed class CommandLineBuilder(
     {
         public static ExtractedManualOptions Empty { get; } = new([], [], false);
     }
-
-    private readonly record struct RequiredOperandMatch(
-        IReadOnlyDictionary<ArgumentPart, string> ManualValues,
-        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> MaterializedValues,
-        bool ConsumedOptionTerminator);
 
     private readonly record struct ManualOptionMatch(
         int ArgumentCount,
