@@ -30,9 +30,9 @@ public class WorkerModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.DequeueModuleAsync(
-                It.IsAny<IReadOnlySet<string>>(),
+                It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<IReadOnlySet<string>, CancellationToken>(async (_, cancellationToken) =>
+            .Returns<IReadOnlySet<Capability>, CancellationToken>(async (_, cancellationToken) =>
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
                 return null;

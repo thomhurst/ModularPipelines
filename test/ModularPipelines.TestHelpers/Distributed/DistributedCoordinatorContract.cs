@@ -64,7 +64,7 @@ public static class DistributedCoordinatorContract
     {
         var registration = new WorkerRegistration(
             1,
-            new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "dotnet" },
+            new HashSet<Capability> { new("dotnet") },
             DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);

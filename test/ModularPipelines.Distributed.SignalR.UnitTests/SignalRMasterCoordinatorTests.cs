@@ -161,9 +161,9 @@ public class SignalRMasterCoordinatorTests
             WorkerTimeout = TimeSpan.FromSeconds(1),
         };
         var coordinator = CreateCoordinator(state);
-        var recent = new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow);
-        var stale = new WorkerRegistration(2, new HashSet<string>(), DateTimeOffset.UtcNow);
-        var completed = new WorkerRegistration(3, new HashSet<string>(), DateTimeOffset.UtcNow)
+        var recent = new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow);
+        var stale = new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow);
+        var completed = new WorkerRegistration(3, new HashSet<Capability>(), DateTimeOffset.UtcNow)
         {
             UnattributedCommandCount = 1,
         };
@@ -208,7 +208,7 @@ public class SignalRMasterCoordinatorTests
         var coordinator = CreateCoordinator(state);
         var registration = new WorkerRegistration(
             1,
-            new HashSet<string>(),
+            new HashSet<Capability>(),
             DateTimeOffset.UtcNow);
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
         var original = state.Heartbeats[registration.WorkerIndex];

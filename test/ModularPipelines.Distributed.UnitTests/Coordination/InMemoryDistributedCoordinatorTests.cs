@@ -67,7 +67,7 @@ public class InMemoryDistributedCoordinatorTests
                 WorkerTimeout = TimeSpan.FromMilliseconds(10),
             }));
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
             CancellationToken.None);
 
         await Task.Delay(30);

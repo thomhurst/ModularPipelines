@@ -98,7 +98,7 @@ public class SignalRIntegrationTests
 
             await connection.InvokeAsync(
                 HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
                 null);
 
             await cancellationReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));

@@ -14,7 +14,7 @@ public class DistributedPipelineHubTests
         var state = new SignalRMasterState();
         var registration = new WorkerRegistration(
             1,
-            FrozenSet<string>.Empty,
+            FrozenSet<Capability>.Empty,
             DateTimeOffset.UtcNow)
         {
             UnattributedCommandCount = 3,
