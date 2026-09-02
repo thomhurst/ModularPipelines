@@ -34518,20 +34518,25 @@ var choco = context.Tools.Choco;
 
 | CLI command        | Options record           |
 | ------------------ | ------------------------ |
+| `choco apikey`     | `ChocoApikeyOptions`     |
 | `choco cache`      | `ChocoCacheOptions`      |
 | `choco config`     | `ChocoConfigOptions`     |
+| `choco export`     | `ChocoExportOptions`     |
 | `choco feature`    | `ChocoFeatureOptions`    |
 | `choco features`   | `ChocoFeaturesOptions`   |
 | `choco find`       | `ChocoFindOptions`       |
+| `choco info`       | `ChocoInfoOptions`       |
 | `choco install`    | `ChocoInstallOptions`    |
 | `choco license`    | `ChocoLicenseOptions`    |
 | `choco list`       | `ChocoListOptions`       |
 | `choco new`        | `ChocoNewOptions`        |
+| `choco outdated`   | `ChocoOutdatedOptions`   |
 | `choco pack`       | `ChocoPackOptions`       |
 | `choco pin`        | `ChocoPinOptions`        |
 | `choco push`       | `ChocoPushOptions`       |
 | `choco rule`       | `ChocoRuleOptions`       |
 | `choco search`     | `ChocoSearchOptions`     |
+| `choco setapikey`  | `ChocoSetapikeyOptions`  |
 | `choco source`     | `ChocoSourceOptions`     |
 | `choco sources`    | `ChocoSourcesOptions`    |
 | `choco support`    | `ChocoSupportOptions`    |
