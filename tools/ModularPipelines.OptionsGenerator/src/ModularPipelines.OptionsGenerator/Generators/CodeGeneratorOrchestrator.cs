@@ -1411,7 +1411,7 @@ public class GenerationResult
     public IEnumerable<string> ChangedPaths => FilesGenerated
         .Concat(FilesDeleted)
         .Select(path => path.Replace('\\', '/'))
-        .Distinct(StringComparer.OrdinalIgnoreCase);
+        .Distinct(StringComparer.Ordinal);
 
     public bool HasErrors => Errors.Count > 0;
 
