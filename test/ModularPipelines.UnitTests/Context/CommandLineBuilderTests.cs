@@ -532,72 +532,32 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Reserves_Trailing_Manual_Values_For_Late_Operands()
+    public async Task Build_Rejects_Manual_Values_For_Missing_Late_Operands()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new TestTerminatedPassthroughOptions(default!, default!)
-        {
-            Arguments = ["--", "--force", "source", "destination"],
-            ArgumentsContainOptionTerminator = true,
-            ArgumentsContainToolOptions = true,
-        });
-
-        await Assert.That(result.ToString())
-            .IsEqualTo("tool copy -- --force source destination");
+        await Assert.That(() => builder.Build(
+                new TestTerminatedPassthroughOptions(default!, default!)
+                {
+                    Arguments = ["--", "--force", "source", "destination"],
+                    ArgumentsContainOptionTerminator = true,
+                    ArgumentsContainToolOptions = true,
+                }))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("TestTerminatedPassthroughOptions.Source");
     }
 
     [Test]
-    public async Task Build_Allows_Manual_Arguments_To_Supply_New_Required_Operand()
+    public async Task Build_Rejects_Manual_Arguments_For_New_Required_Operand()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
+        await Assert.That(() => builder.Build(new TestRequiredOperandCompatibilityOptions
         {
             Arguments = ["legacy-operand"],
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand");
-    }
-
-    [Test]
-    public async Task Build_Classifies_Manual_Option_And_Required_Operand_Separately()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
-        {
-            Arguments = ["legacy-operand", "--yes"],
-            ArgumentsContainToolOptions = true,
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand --yes");
-    }
-
-    [Test]
-    public async Task Build_Inserts_Manual_Operand_At_Its_Structured_Position()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestTwoRequiredOperandCompatibilityOptions(default!, "id")
-        {
-            Arguments = ["address"],
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool import address id");
-    }
-
-    [Test]
-    public async Task Build_Rejects_One_Manual_Value_For_Two_Required_Operands()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        await Assert.That(() => builder.Build(new TestTwoRequiredOperandCompatibilityOptions
-        {
-            Arguments = ["address"],
         }))
             .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestTwoRequiredOperandCompatibilityOptions.Id");
+            .And.HasMessageContaining("TestRequiredOperandCompatibilityOptions.Operand");
     }
 
     [Test]
@@ -988,13 +948,13 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Validates_Mapped_Early_Operand_Terminator()
+    public async Task Build_Validates_Required_Early_Operand_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
         CommandLine Build() => builder.Build(new TestRequiredEarlyOperandOptions
         {
-            Arguments = ["-input"],
+            Operand = "-input",
             Force = true,
         });
 
@@ -2163,19 +2123,6 @@ public class CommandLineBuilderTests : TestBase
 
         [CliFlag("--yes")]
         public bool? Yes { get; init; }
-    }
-
-    [CliTool("tool")]
-    [CliSubCommand("import")]
-    private sealed record TestTwoRequiredOperandCompatibilityOptions(
-        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Address,
-        [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id)
-        : CommandLineToolOptions
-    {
-        public TestTwoRequiredOperandCompatibilityOptions()
-            : this(default(string)!, default(string)!)
-        {
-        }
     }
 
     [CliTool("test")]
