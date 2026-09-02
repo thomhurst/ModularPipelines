@@ -471,6 +471,20 @@ internal static class CommandCoverageGuard
             tool.OutputDirectory,
             "Generated",
             $"{tool.NamespacePrefix}.CommandCoverage.json");
+
+    internal static IReadOnlySet<string> GetBaselineCommandGroups(
+        CliToolDefinition tool,
+        string outputDirectory) =>
+        ReadBaseline(
+                tool,
+                outputDirectory,
+                GetManifestPath(tool, outputDirectory),
+                fallbackManifestPath: null,
+                pathComparer: StringComparer.OrdinalIgnoreCase,
+                allowMissingManifest: false)
+            ?.CommandGroups
+            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+        ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 }
 
 internal sealed record CommandCoverageManifest

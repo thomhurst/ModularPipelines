@@ -143,6 +143,31 @@ public class CodeGeneratorOrchestratorTests
             Task.FromCanceled<CliToolDefinition>(new CancellationToken(canceled: true));
     }
 
+    private sealed class SuccessfulHtmlScraper : ICliDocumentationScraper
+    {
+        public string ToolName => "fake";
+
+        public string NamespacePrefix => "Fake";
+
+        public string TargetNamespace => "ModularPipelines.Fake";
+
+        public string OutputDirectory => ToolOutputDirectory;
+
+        public Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(new CliToolDefinition
+            {
+                ToolName = ToolName,
+                NamespacePrefix = NamespacePrefix,
+                TargetNamespace = TargetNamespace,
+                OutputDirectory = OutputDirectory,
+                Commands = [FakeCommand()],
+                ExecutablePrerequisite = new CliExecutablePrerequisite
+                {
+                    CommandName = "fake",
+                },
+            });
+    }
+
     private sealed class DiagnosticExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -237,6 +262,38 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
             var diagnostics = await File.ReadAllTextAsync(diagnosticsPath);
             await Assert.That(diagnostics).Contains("RAW ROOT HELP: fake run only");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task SuccessfulHtmlFallback_ExcludesProvisionalCliCoverage()
+    {
+        var outputRoot = Path.Combine(
+            Path.GetTempPath(),
+            "mp-orchestrator-tests",
+            Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+
+        try
+        {
+            var cliScraper = new DiagnosticCliScraper(
+                new DiagnosticExecutor(),
+                produceCommand: false);
+            var orchestrator = new CodeGeneratorOrchestrator(
+                [cliScraper],
+                [new SuccessfulHtmlScraper()],
+                [new FakeGenerator()],
+                NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+            var result = await orchestrator.GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.Errors).IsEmpty();
+            await Assert.That(result.CommandCoverage).HasSingleItem();
+            await Assert.That(result.CommandCoverage[0].Manifest.CommandCount).IsEqualTo(1);
         }
         finally
         {

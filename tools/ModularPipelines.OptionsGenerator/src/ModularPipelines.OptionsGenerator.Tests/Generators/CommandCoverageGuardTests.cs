@@ -224,16 +224,12 @@ public class CommandCoverageGuardTests
                 ["aws", "apigateway"],
                 "apigateway help",
                 Result("RAW APIGATEWAY HELP: models omitted"));
-            provenance.PreserveGroupHelp(
-                ["aws", "apigateway"],
-                "RAW APIGATEWAY HELP: models omitted");
+            provenance.PreserveGroupHelp(["aws", "apigateway"]);
             provenance.Record(
                 ["aws", "ec2"],
                 "ec2 help",
                 Result("RAW EC2 HELP: describe-instances only"));
-            provenance.PreserveGroupHelp(
-                ["aws", "ec2"],
-                "RAW EC2 HELP: describe-instances only");
+            provenance.PreserveGroupHelp(["aws", "ec2"]);
 
             var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
                 outputDirectory,
@@ -282,7 +278,7 @@ public class CommandCoverageGuardTests
                 ["fake", "group"],
                 "group --help",
                 Result("RAW GROUP HELP"));
-            provenance.PreserveGroupHelp(["fake", "group"], "RAW GROUP HELP");
+            provenance.PreserveGroupHelp(["fake", "group"]);
             provenance.Record(
                 ["fake", "group", "leaf"],
                 "group leaf --help",
@@ -348,24 +344,32 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
-    public async Task PreservedGroupHelp_ReplacesEarlierRawInvocationOutput()
+    public async Task PreservedGroupHelp_KeepsOriginalCombinedInvocationOutput()
     {
         var outputDirectory = CreateOutputDirectory();
 
         try
         {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake group child")),
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
             var current = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake run")),
                 outputDirectory,
                 approveShrinkage: false);
             var provenance = new CliScrapeProvenance();
             provenance.Record(
-                ["fake"],
-                "--help",
-                Result("RAW ROOT HELP"));
-            provenance.PreserveGroupHelp(
-                ["fake"],
-                "RAW ROOT HELP\n\nCommands:\n  run  Discovered by supplemental inventory.");
+                ["fake", "group"],
+                "group --help",
+                new CliCommandResult
+                {
+                    StandardOutput = "RAW STDOUT",
+                    StandardError = "RAW STDERR",
+                    ExitCode = 0,
+                });
+            provenance.PreserveGroupHelp(["fake", "group"]);
 
             var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
                 outputDirectory,
@@ -373,7 +377,8 @@ public class CommandCoverageGuardTests
                 CancellationToken.None);
             var json = await File.ReadAllTextAsync(path!);
 
-            await Assert.That(json).Contains("Discovered by supplemental inventory");
+            await Assert.That(json).Contains("RAW STDOUT");
+            await Assert.That(json).Contains("RAW STDERR");
         }
         finally
         {

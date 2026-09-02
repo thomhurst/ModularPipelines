@@ -17,6 +17,7 @@ public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
     private readonly CliScrapeProvenance _scrapeProvenance = new();
+    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -406,7 +407,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
         var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
-        PreserveGroupHelp(path, helpText, subcommands, declaresCommandGroup);
+        PreserveGroupHelp(path, subcommands, declaresCommandGroup);
         if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
         {
             return;
@@ -426,13 +427,12 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private void PreserveGroupHelp(
         string[] path,
-        string helpText,
         IReadOnlyCollection<string> subcommands,
         bool declaresCommandGroup)
     {
         if (subcommands.Count > 0 || declaresCommandGroup)
         {
-            _scrapeProvenance.PreserveGroupHelp(path, helpText);
+            _scrapeProvenance.PreserveGroupHelp(path);
         }
     }
 
@@ -458,7 +458,9 @@ public abstract partial class CliScraperBase : ICliScraper
         IReadOnlyCollection<string> subcommands,
         bool declaresCommandGroup)
     {
-        if (subcommands.Count == 0 && !declaresCommandGroup)
+        if (subcommands.Count == 0
+            && !declaresCommandGroup
+            && !_knownCommandGroups.Contains(string.Join(' ', path)))
         {
             _scrapeProvenance.DiscardLeafHelp(path);
         }
@@ -695,6 +697,11 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (HelpCache.TryGet(cacheKey, out var cached))
         {
+            if (!string.IsNullOrEmpty(cached))
+            {
+                _scrapeProvenance.RecordCacheHit(commandPath, cached);
+            }
+
             return cached;
         }
 
@@ -758,6 +765,12 @@ public abstract partial class CliScraperBase : ICliScraper
             outputDirectory,
             coverage,
             cancellationToken);
+
+    internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
+    {
+        _knownCommandGroups.Clear();
+        _knownCommandGroups.UnionWith(commandGroups);
+    }
 
     /// <summary>
     /// Returns whether output from a help invocation is safe to parse.

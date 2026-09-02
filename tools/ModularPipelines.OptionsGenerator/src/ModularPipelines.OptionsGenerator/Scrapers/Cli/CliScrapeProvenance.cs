@@ -38,14 +38,29 @@ internal sealed class CliScrapeProvenance
         };
     }
 
-    public void PreserveGroupHelp(IReadOnlyList<string> commandPath, string helpText)
+    public void RecordCacheHit(IReadOnlyList<string> commandPath, string helpText)
+    {
+        var path = string.Join(' ', commandPath);
+        _helpInvocations.TryAdd(path, new CliHelpInvocation
+        {
+            CommandPath = path,
+            Arguments = "<cached>",
+            ExitCode = 0,
+            StandardOutputLength = helpText.Length,
+            StandardErrorLength = 0,
+            OutputSha256 = Fingerprint(helpText),
+            RawHelp = helpText,
+            PreserveRawHelp = commandPath.Count == 1,
+        });
+    }
+
+    public void PreserveGroupHelp(IReadOnlyList<string> commandPath)
     {
         var path = string.Join(' ', commandPath);
         if (_helpInvocations.TryGetValue(path, out var invocation))
         {
             _helpInvocations[path] = invocation with
             {
-                RawHelp = helpText,
                 PreserveRawHelp = true,
             };
         }
