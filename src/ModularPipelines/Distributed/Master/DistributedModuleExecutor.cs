@@ -179,35 +179,41 @@ internal class DistributedModuleExecutor(
         }
         finally
         {
-            // Always signal workers to stop — whether the master succeeded or crashed.
-            // Without this, workers hang forever waiting for work that will never come.
-            if (_lifetime.ApplicationStopping.IsCancellationRequested
-                || Volatile.Read(ref failureCancellationRequested) != 0)
-            {
-                try
-                {
-                    await _masterCoordinator.BroadcastCancellationAsync(CancellationToken.None)
-                        .ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "Failed to broadcast cancellation to workers during shutdown");
-                }
-            }
-
-            try
-            {
-                await _masterCoordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
-            }
-
+            await SignalWorkerShutdownAsync(
+                    _lifetime.ApplicationStopping.IsCancellationRequested
+                    || Volatile.Read(ref failureCancellationRequested) != 0)
+                .ConfigureAwait(false);
             scheduler?.Dispose();
         }
 
         return modules;
+    }
+
+    private async Task SignalWorkerShutdownAsync(bool broadcastCancellation)
+    {
+        // Always signal workers to stop — whether the master succeeded or crashed.
+        // Without this, workers hang forever waiting for work that will never come.
+        if (broadcastCancellation)
+        {
+            try
+            {
+                await _masterCoordinator.BroadcastCancellationAsync(CancellationToken.None)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to broadcast cancellation to workers during shutdown");
+            }
+        }
+
+        try
+        {
+            await _masterCoordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
+        }
     }
 
     internal static void CompleteCancelledModules(
