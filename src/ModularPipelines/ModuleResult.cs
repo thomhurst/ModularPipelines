@@ -492,7 +492,6 @@ public abstract record ModuleResult<T> : ModuleResult
 /// </remarks>
 internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 {
-    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
     public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -500,6 +499,13 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             return null;
         }
 
+        var (typeName, message, stackTrace) = ReadExceptionData(ref reader);
+        return CreateException(typeName, message, stackTrace);
+    }
+
+    private static (string? TypeName, string? Message, string? StackTrace) ReadExceptionData(
+        ref Utf8JsonReader reader)
+    {
         string? typeName = null;
         string? message = null;
         string? stackTrace = null;
@@ -532,6 +538,28 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             }
         }
 
+        return (typeName, message, stackTrace);
+    }
+
+    private static Exception CreateException(string? typeName, string? message, string? stackTrace)
+    {
+        var systemException = TryCreateSystemException(typeName, message);
+        if (systemException is not null)
+        {
+            return systemException;
+        }
+
+        return typeName is null
+            ? new Exception(message ?? "Deserialized exception")
+            : new RemoteModuleException(
+                typeName,
+                message ?? "Deserialized exception",
+                stackTrace);
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
+    private static Exception? TryCreateSystemException(string? typeName, string? message)
+    {
         // Try to reconstruct the original exception type if possible
         // Security: Only allow well-known exception types from System namespace
         if (typeName != null)
@@ -555,12 +583,7 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             }
         }
 
-        return typeName is null
-            ? new Exception(message ?? "Deserialized exception")
-            : new RemoteModuleException(
-                typeName,
-                message ?? "Deserialized exception",
-                stackTrace);
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
