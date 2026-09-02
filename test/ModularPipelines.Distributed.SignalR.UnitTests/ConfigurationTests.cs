@@ -11,7 +11,11 @@ public class ConfigurationTests
 
         await Assert.That(options.MasterUrl).IsEqualTo("http://localhost:5099");
         await Assert.That(options.HubPath).IsEqualTo("/pipeline-hub");
-        await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(120);
+        await Assert.That(options.ConnectionTimeout).IsEqualTo(TimeSpan.FromMinutes(2));
+        await Assert.That(options.ReconnectGrace).IsEqualTo(TimeSpan.FromSeconds(45));
+        await Assert.That(options.KeepAliveInterval).IsEqualTo(TimeSpan.FromSeconds(5));
+        await Assert.That(options.PeerTimeout).IsEqualTo(TimeSpan.FromSeconds(15));
+        await Assert.That(options.TunnelStartupTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
         await Assert.That(options.EnableAutoReconnect).IsTrue();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(5);
         await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(1024 * 1024);
@@ -24,7 +28,11 @@ public class ConfigurationTests
         {
             MasterUrl = "http://10.0.0.5:8080",
             HubPath = "/custom-hub",
-            ConnectionTimeoutSeconds = 60,
+            ConnectionTimeout = TimeSpan.FromMinutes(1),
+            ReconnectGrace = TimeSpan.FromSeconds(30),
+            KeepAliveInterval = TimeSpan.FromSeconds(10),
+            PeerTimeout = TimeSpan.FromSeconds(25),
+            TunnelStartupTimeout = TimeSpan.FromMinutes(1),
             EnableAutoReconnect = false,
             MaxReconnectAttempts = 10,
             MaximumReceiveMessageSize = 2 * 1024 * 1024,
@@ -32,7 +40,11 @@ public class ConfigurationTests
 
         await Assert.That(options.MasterUrl).IsEqualTo("http://10.0.0.5:8080");
         await Assert.That(options.HubPath).IsEqualTo("/custom-hub");
-        await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(60);
+        await Assert.That(options.ConnectionTimeout).IsEqualTo(TimeSpan.FromMinutes(1));
+        await Assert.That(options.ReconnectGrace).IsEqualTo(TimeSpan.FromSeconds(30));
+        await Assert.That(options.KeepAliveInterval).IsEqualTo(TimeSpan.FromSeconds(10));
+        await Assert.That(options.PeerTimeout).IsEqualTo(TimeSpan.FromSeconds(25));
+        await Assert.That(options.TunnelStartupTimeout).IsEqualTo(TimeSpan.FromMinutes(1));
         await Assert.That(options.EnableAutoReconnect).IsFalse();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(10);
         await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(2 * 1024 * 1024);

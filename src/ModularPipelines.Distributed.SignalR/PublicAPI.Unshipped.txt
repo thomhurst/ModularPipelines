@@ -1,1 +1,21 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeoutSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeoutSeconds.set -> void
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveIntervalSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveIntervalSeconds.set -> void
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeoutSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeoutSeconds.set -> void
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGraceSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGraceSeconds.set -> void
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeoutSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeoutSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeout.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveInterval.get -> System.TimeSpan
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveInterval.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeout.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGrace.get -> System.TimeSpan
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGrace.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeout.set -> void

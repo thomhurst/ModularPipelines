@@ -1,1 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpirationSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpirationSeconds.set -> void
+ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpiration.get -> System.TimeSpan
+ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpiration.set -> void

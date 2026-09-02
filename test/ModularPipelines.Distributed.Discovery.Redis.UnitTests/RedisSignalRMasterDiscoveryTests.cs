@@ -27,7 +27,7 @@ public class RedisSignalRMasterDiscoveryTests
         {
             KeyPrefix = "test-prefix",
             RunIdentifier = "test-run",
-            TtlSeconds = 600,
+            Ttl = TimeSpan.FromMinutes(10),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
@@ -84,7 +84,7 @@ public class RedisSignalRMasterDiscoveryTests
         {
             KeyPrefix = "test-prefix",
             RunIdentifier = "test-run",
-            PollIntervalMs = 50,
+            PollInterval = TimeSpan.FromMilliseconds(50),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
@@ -113,8 +113,8 @@ public class RedisSignalRMasterDiscoveryTests
         {
             KeyPrefix = "test-prefix",
             RunIdentifier = "test-run",
-            DiscoveryTimeoutSeconds = 1,
-            PollIntervalMs = 100,
+            DiscoveryTimeout = TimeSpan.FromSeconds(1),
+            PollInterval = TimeSpan.FromMilliseconds(100),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(

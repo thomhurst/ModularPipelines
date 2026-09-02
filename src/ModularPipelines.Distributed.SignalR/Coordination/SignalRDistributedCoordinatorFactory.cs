@@ -65,7 +65,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
     {
         var masterState = new SignalRMasterState
         {
-            ReconnectGracePeriod = TimeSpan.FromSeconds(_options.ReconnectGraceSeconds),
+            ReconnectGracePeriod = _options.ReconnectGrace,
         };
 
         // Start the SignalR server
@@ -102,7 +102,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
 
         // Connect with timeout and retry (DNS for tunnel URLs may need propagation time)
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.ConnectionTimeoutSeconds));
+        timeoutCts.CancelAfter(_options.ConnectionTimeout);
 
         logger.LogInformation("Connecting to master at {Url}...", hubUrl);
 
@@ -166,8 +166,8 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         // Ping the master frequently and give up on it quickly, so a dead master is
         // detected fast (triggering reconnect) and the master in turn detects a dead
         // worker fast (via the frequent pings) and re-queues its in-flight work.
-        connection.KeepAliveInterval = TimeSpan.FromSeconds(_options.KeepAliveIntervalSeconds);
-        connection.ServerTimeout = TimeSpan.FromSeconds(_options.PeerTimeoutSeconds);
+        connection.KeepAliveInterval = _options.KeepAliveInterval;
+        connection.ServerTimeout = _options.PeerTimeout;
 
         return connection;
     }

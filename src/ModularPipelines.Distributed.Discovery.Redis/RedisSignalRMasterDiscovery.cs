@@ -38,17 +38,15 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
 
     public async Task AdvertiseMasterUrlAsync(string masterUrl, CancellationToken cancellationToken)
     {
-        var ttl = TimeSpan.FromSeconds(_options.TtlSeconds);
-
-        await _store.SetAsync(_masterUrlKey, masterUrl, ttl, cancellationToken);
-        _logger.LogInformation("Advertised master URL '{Url}' to Redis key '{Key}' (TTL: {Ttl}s)",
-            masterUrl, _masterUrlKey, _options.TtlSeconds);
+        await _store.SetAsync(_masterUrlKey, masterUrl, _options.Ttl, cancellationToken);
+        _logger.LogInformation("Advertised master URL '{Url}' to Redis key '{Key}' (TTL: {Ttl})",
+            masterUrl, _masterUrlKey, _options.Ttl);
     }
 
     public async Task<string> DiscoverMasterUrlAsync(CancellationToken cancellationToken)
     {
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.DiscoveryTimeoutSeconds));
+        timeoutCts.CancelAfter(_options.DiscoveryTimeout);
 
         _logger.LogInformation("Waiting for master URL at Redis key '{Key}'...", _masterUrlKey);
 
@@ -61,11 +59,11 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
                 return masterUrl;
             }
 
-            await Task.Delay(_options.PollIntervalMs, timeoutCts.Token);
+            await Task.Delay(_options.PollInterval, timeoutCts.Token);
         }
 
         throw new TimeoutException(
-            $"Failed to discover master URL within {_options.DiscoveryTimeoutSeconds} seconds. " +
+            $"Failed to discover master URL within {_options.DiscoveryTimeout}. " +
             $"Redis key: {_masterUrlKey}");
     }
 }
