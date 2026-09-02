@@ -48,7 +48,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
         }
     }
 
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
         // The master's worker loop dequeues from the pending queue.
         // Uses a semaphore signal instead of polling to avoid busy-waiting.
@@ -90,7 +90,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
         return null;
     }
 
-    private ModuleAssignment? TryScanPendingQueue(IReadOnlySet<string> workerCapabilities)
+    private ModuleAssignment? TryScanPendingQueue(IReadOnlySet<Capability> workerCapabilities)
     {
         var pendingCount = _state.PendingAssignments.Count;
         for (var i = 0; i < pendingCount; i++)

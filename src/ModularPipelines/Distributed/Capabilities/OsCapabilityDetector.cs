@@ -5,28 +5,31 @@ namespace ModularPipelines.Distributed.Capabilities;
 
 internal static class OsCapabilityDetector
 {
-    public static IReadOnlyList<string> Detect()
+    public static IReadOnlyList<Capability> Detect()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows);
+            return ToCapabilities(OperatingSystemConditions.Windows);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux);
+            return ToCapabilities(OperatingSystemConditions.Linux);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS);
+            return ToCapabilities(OperatingSystemConditions.MacOS);
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
         {
-            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.FreeBSD);
+            return ToCapabilities(OperatingSystemConditions.FreeBSD);
         }
 
         return [];
     }
+
+    private static IReadOnlyList<Capability> ToCapabilities(string operatingSystem) =>
+        [.. OperatingSystemConditions.GetWorkerCapabilities(operatingSystem).Select(static name => new Capability(name))];
 }

@@ -2999,7 +2999,7 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 3,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3007,7 +3007,7 @@ public class RunReportTests
                         [moduleTypeIdentifier] = 3,
                     },
                 },
-                new WorkerRegistration(2, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal),
@@ -3204,7 +3204,7 @@ public class RunReportTests
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             [
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3214,7 +3214,7 @@ public class RunReportTests
                 },
                 .. collectedRemoteWorkerIndex == 1
                     ? Array.Empty<WorkerRegistration>()
-                    : [new WorkerRegistration(2, new HashSet<string>(), runStartedAt)],
+                    : [new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)],
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.AddRemote(
@@ -3288,7 +3288,7 @@ public class RunReportTests
             var coordinator = new Mock<IDistributedCoordinator>();
             coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync([
-                    new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                    new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                     {
                         UnattributedCommandCount = 0,
                         ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3296,7 +3296,7 @@ public class RunReportTests
                             [moduleTypeIdentifier] = 3,
                         },
                     },
-                    new WorkerRegistration(2, new HashSet<string>(), runStartedAt),
+                    new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt),
                 ]);
             var commandExecutionCounter = new CommandExecutionCounter();
             commandExecutionCounter.Add(firstType, count: 5);
@@ -3361,7 +3361,7 @@ public class RunReportTests
         });
         var incompleteRegistration = new WorkerRegistration(
             1,
-            new HashSet<string>(),
+            new HashSet<Capability>(),
             runStartedAt);
         var pollingCount = 0;
         var coordinator = new Mock<IDistributedCoordinator>();
@@ -3473,7 +3473,7 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 3,
                 },
@@ -3527,12 +3527,12 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt.AddMinutes(-5))
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt.AddMinutes(-5))
                 {
                     RunIdentifier = runIdentifier,
                     UnattributedCommandCount = 3,
                 },
-                new WorkerRegistration(2, new HashSet<string>(), runStartedAt.AddMinutes(5))
+                new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt.AddMinutes(5))
                 {
                     RunIdentifier = "previous-run",
                     UnattributedCommandCount = 99,

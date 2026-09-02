@@ -10,13 +10,13 @@ public class CapabilityMatcherTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -30,13 +30,13 @@ public class CapabilityMatcherTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker", "linux" },
+            RequiredCapabilities: new HashSet<Capability> { "docker", "linux" },
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "docker", "linux", "high-memory" },
+            Capabilities: new HashSet<Capability> { "docker", "linux", "high-memory" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -50,13 +50,13 @@ public class CapabilityMatcherTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -70,13 +70,13 @@ public class CapabilityMatcherTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Test.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "Docker" },
+            RequiredCapabilities: new HashSet<Capability> { "Docker" },
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "docker" },
+            Capabilities: new HashSet<Capability> { "docker" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);

@@ -5,12 +5,12 @@ using System.Text.Json.Serialization;
 namespace ModularPipelines.Distributed.Serialization;
 
 /// <summary>
-/// Serializes case-insensitive read-only string sets used by distributed messages.
+/// Serializes read-only capability sets as plain JSON string arrays.
 /// </summary>
-public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<string>>
+public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<Capability>>
 {
     /// <inheritdoc />
-    public override IReadOnlySet<string> Read(
+    public override IReadOnlySet<Capability> Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options)
@@ -20,7 +20,7 @@ public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<string
             throw new JsonException("Expected a JSON array.");
         }
 
-        var values = new List<string>();
+        var values = new List<Capability>();
         while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
         {
             if (reader.TokenType != JsonTokenType.String)
@@ -28,7 +28,7 @@ public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<string
                 throw new JsonException("Expected a string value.");
             }
 
-            values.Add(reader.GetString()!);
+            values.Add(new Capability(reader.GetString()!));
         }
 
         if (reader.TokenType != JsonTokenType.EndArray)
@@ -36,19 +36,19 @@ public sealed class ReadOnlySetJsonConverter : JsonConverter<IReadOnlySet<string
             throw new JsonException("Unexpected end of JSON array.");
         }
 
-        return values.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+        return values.ToFrozenSet();
     }
 
     /// <inheritdoc />
     public override void Write(
         Utf8JsonWriter writer,
-        IReadOnlySet<string> value,
+        IReadOnlySet<Capability> value,
         JsonSerializerOptions options)
     {
         writer.WriteStartArray();
         foreach (var item in value)
         {
-            writer.WriteStringValue(item);
+            CapabilityJsonConverter.WriteValue(writer, item);
         }
 
         writer.WriteEndArray();

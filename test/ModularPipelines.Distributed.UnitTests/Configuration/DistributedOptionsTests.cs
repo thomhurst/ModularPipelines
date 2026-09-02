@@ -33,7 +33,8 @@ public class DistributedOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.Capabilities).IsEquivalentTo(["docker", "gpu"]);
+            await Assert.That(options.Capabilities)
+                .IsEquivalentTo([Capability.Docker, Capability.Gpu]);
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
         }
     }

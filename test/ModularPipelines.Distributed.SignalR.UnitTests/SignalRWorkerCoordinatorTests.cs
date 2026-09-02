@@ -21,7 +21,7 @@ public class SignalRWorkerCoordinatorTests
         var assignment = new ModuleAssignment(
             "TestModule",
             "System.String",
-            FrozenSet<string>.Empty,
+            FrozenSet<Capability>.Empty,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfiguration(null, 0, false));
 

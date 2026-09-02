@@ -53,7 +53,7 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
         throw new NotSupportedException("Workers do not enqueue work. The master pushes assignments via hub callbacks.");
     }
 
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
         try
         {

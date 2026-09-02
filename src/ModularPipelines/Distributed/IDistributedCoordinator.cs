@@ -8,7 +8,7 @@ public interface IDistributedCoordinator
 {
     // Work Queue
     Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken);
-    Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken);
+    Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken);
 
     // Results
     Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken);

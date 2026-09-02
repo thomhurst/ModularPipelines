@@ -135,6 +135,7 @@ If you have a Redis instance accessible from the internet (or via a VPN), use it
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Extensions;
@@ -178,7 +179,7 @@ public class RestoreModule : Module<string>
     }
 }
 
-[RequiresCapability("linux")]
+[RequiresCapability(Capability.Names.Linux)]
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string>
 {
@@ -191,7 +192,7 @@ public class LinuxBuildModule : Module<string>
     }
 }
 
-[RequiresCapability("windows")]
+[RequiresCapability(Capability.Names.Windows)]
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string>
 {
@@ -204,7 +205,7 @@ public class WindowsBuildModule : Module<string>
     }
 }
 
-[RequiresCapability("macos")]
+[RequiresCapability(Capability.Names.MacOS)]
 [DependsOn<RestoreModule>]
 public class MacBuildModule : Module<string>
 {
