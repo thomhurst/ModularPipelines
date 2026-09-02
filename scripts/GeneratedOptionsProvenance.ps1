@@ -1,5 +1,3 @@
-Set-StrictMode -Version Latest
-
 function Assert-GeneratedOptionsToken {
     param(
         [Parameter(Mandatory)][string]$Name,

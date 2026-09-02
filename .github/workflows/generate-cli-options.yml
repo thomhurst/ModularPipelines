@@ -800,6 +800,9 @@ jobs:
             }
             if ($autoMergeEnabled -eq 'true') {
               gh pr merge $prNumber --disable-auto
+              if ($LASTEXITCODE -ne 0) {
+                exit $LASTEXITCODE
+              }
             }
           }
         env:

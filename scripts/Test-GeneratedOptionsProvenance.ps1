@@ -86,6 +86,9 @@ try {
     $windowsJob = $normalizedWorkflowContents.Substring(
         $windowsJobStart,
         $reportJobStart - $windowsJobStart)
+    if ($windowsJob -notmatch "(?ms)gh pr merge \`$prNumber --disable-auto`n\s+if \(\`$LASTEXITCODE -ne 0\)") {
+        throw 'Windows generation must fail when disabling inherited auto-merge fails.'
+    }
     $expectedConcurrencyGroup = "group: `${{ github.workflow }}-generated-refresh-`${{ matrix.tool }}"
     foreach ($job in @($linuxJob, $windowsJob)) {
         $disableIndex = $job.IndexOf(
@@ -253,7 +256,7 @@ try {
     $coveragePath = Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated/Fake.CommandCoverage.json'
     $validCoverage = Get-Content -LiteralPath $coveragePath -Raw
     $invalidCoverage = $validCoverage | ConvertFrom-Json
-    $invalidCoverage.toolVersion = $null
+    $invalidCoverage.PSObject.Properties.Remove('toolVersion')
     $invalidCoverage | ConvertTo-Json | Set-Content -LiteralPath $coveragePath
     $missingCommandMetadataError = $null
     try {
@@ -285,7 +288,7 @@ try {
     $provenancePath = Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated/Fake.Generation.json'
     $validProvenance = Get-Content -LiteralPath $provenancePath -Raw
     $invalidProvenance = $validProvenance | ConvertFrom-Json
-    $invalidProvenance.commandTreeSha256 = $null
+    $invalidProvenance.PSObject.Properties.Remove('commandTreeSha256')
     $invalidProvenance | ConvertTo-Json | Set-Content -LiteralPath $provenancePath
     $invalidProvenanceError = $null
     try {
