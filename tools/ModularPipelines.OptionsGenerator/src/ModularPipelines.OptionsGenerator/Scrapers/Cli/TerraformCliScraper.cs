@@ -245,12 +245,21 @@ public partial class TerraformCliScraper : CliScraperBase
                 continue;
             }
 
-            if (trimmed.StartsWith('-') || (trimmed.EndsWith(':') && trimmed.Length < 50))
+            if (trimmed.EndsWith(':') ||
+                trimmed.StartsWith("Aliases:", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            if (trimmed.StartsWith('-') || SubcommandLinePattern().IsMatch(line))
             {
                 return null;
             }
 
-            return trimmed.Length > 10 ? trimmed : null;
+            if (trimmed.Length > 10)
+            {
+                return trimmed;
+            }
         }
 
         return null;
