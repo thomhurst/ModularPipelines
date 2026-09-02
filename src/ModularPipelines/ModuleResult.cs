@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -546,15 +547,27 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
         var systemException = TryCreateSystemException(typeName, message);
         if (systemException is not null)
         {
-            return systemException;
+            return RestoreRemoteStackTrace(systemException, stackTrace);
         }
 
         return typeName is null
-            ? new Exception(message ?? "Deserialized exception")
+            ? RestoreRemoteStackTrace(
+                new Exception(message ?? "Deserialized exception"),
+                stackTrace)
             : new RemoteModuleException(
                 typeName,
                 message ?? "Deserialized exception",
                 stackTrace);
+    }
+
+    private static Exception RestoreRemoteStackTrace(Exception exception, string? stackTrace)
+    {
+        if (!string.IsNullOrEmpty(stackTrace))
+        {
+            ExceptionDispatchInfo.SetRemoteStackTrace(exception, stackTrace);
+        }
+
+        return exception;
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]

@@ -110,20 +110,20 @@ public class ModuleResultSerializerTests
             await Assert.That(remoteException.RemoteStackTrace)
                 .Contains(nameof(CaptureWorkerException));
             await Assert.That(remoteException.StackTrace)
-                .IsEqualTo(remoteException.RemoteStackTrace);
+                .Contains(remoteException.RemoteStackTrace!);
             await Assert.That(remoteException.Message)
                 .IsEqualTo($"Remote worker 7 threw {typeof(WorkerException).FullName}: worker failed");
         }
     }
 
     [Test]
-    public async Task Deserialize_System_Exception_Preserves_Exception_Type()
+    public async Task Deserialize_System_Exception_Preserves_Type_And_Remote_Stack_Trace()
     {
         var registry = new ModuleTypeRegistry();
         registry.Register(typeof(SimpleModule));
         var serializer = new ModuleResultSerializer(registry);
         ModuleResult<SimpleResult> result = new ModuleResult<SimpleResult>.Failure(
-            new InvalidOperationException("worker failed"))
+            CaptureSystemException())
         {
             Name = nameof(SimpleModule),
             TypeName = typeof(SimpleModule).FullName,
@@ -145,6 +145,8 @@ public class ModuleResultSerializerTests
             .IsTypeOf<InvalidOperationException>();
         await Assert.That(deserialized.ExceptionOrDefault!.Message)
             .IsEqualTo("worker failed");
+        await Assert.That(deserialized.ExceptionOrDefault.StackTrace)
+            .Contains(nameof(CaptureSystemException));
     }
 
     [Test]
@@ -170,6 +172,18 @@ public class ModuleResultSerializerTests
             throw new WorkerException("worker failed");
         }
         catch (WorkerException exception)
+        {
+            return exception;
+        }
+    }
+
+    private static InvalidOperationException CaptureSystemException()
+    {
+        try
+        {
+            throw new InvalidOperationException("worker failed");
+        }
+        catch (InvalidOperationException exception)
         {
             return exception;
         }

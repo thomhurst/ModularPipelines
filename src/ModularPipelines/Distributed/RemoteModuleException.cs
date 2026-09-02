@@ -1,3 +1,5 @@
+using System.Runtime.ExceptionServices;
+
 namespace ModularPipelines.Distributed;
 
 /// <summary>
@@ -24,6 +26,10 @@ public sealed class RemoteModuleException : Exception
         OriginalMessage = originalMessage;
         RemoteStackTrace = remoteStackTrace;
         WorkerIndex = workerIndex;
+        if (!string.IsNullOrEmpty(remoteStackTrace))
+        {
+            ExceptionDispatchInfo.SetRemoteStackTrace(this, remoteStackTrace);
+        }
     }
 
     /// <summary>
@@ -52,10 +58,13 @@ public sealed class RemoteModuleException : Exception
         : $"Remote execution threw {OriginalExceptionType}: {OriginalMessage}";
 
     /// <inheritdoc />
-    public override string? StackTrace => RemoteStackTrace;
+    public override string? StackTrace => base.StackTrace;
 
     internal void AttachWorkerIndex(int workerIndex)
     {
-        WorkerIndex ??= workerIndex;
+        if (workerIndex >= 0)
+        {
+            WorkerIndex ??= workerIndex;
+        }
     }
 }

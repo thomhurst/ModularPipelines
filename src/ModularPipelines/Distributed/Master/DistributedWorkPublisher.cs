@@ -264,7 +264,10 @@ internal class DistributedWorkPublisher(
             }
 
             var depResultTypeName = ModuleTypeRegistry.GetResultTypeName(depType) ?? "System.Object";
-            var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex: -1);
+            var workerIndex = result.ExceptionOrDefault is RemoteModuleException { WorkerIndex: { } origin }
+                ? origin
+                : -1;
+            var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex);
 
             // Compress large results to stay within transport payload limits.
             if (serialized.SerializedJson.Length > CompressionThresholdBytes)

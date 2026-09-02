@@ -233,6 +233,44 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
+    public async Task CreateAssignment_Preserves_Dependency_Failure_Worker_Index()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        typeRegistry.Register(typeof(ConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var now = DateTimeOffset.UtcNow;
+        ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
+            new RemoteModuleException("WorkerException", "worker failed", "remote stack", workerIndex: 3))
+        {
+            Name = nameof(DependencyModule),
+            TypeName = typeof(DependencyModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Failed,
+        };
+        resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new ConsumerModule());
+
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        var serializedDependency = assignment.DependencyResults!.Single();
+        await Assert.That(serializedDependency.WorkerIndex).IsEqualTo(3);
+        var relayedResult = serializer.Deserialize(serializedDependency);
+        var relayedException = relayedResult!.ExceptionOrDefault as RemoteModuleException;
+        await Assert.That(relayedException).IsNotNull();
+        await Assert.That(relayedException!.WorkerIndex).IsEqualTo(3);
+    }
+
+    [Test]
     public async Task CreateAssignment_Includes_Fluent_DependencyResults()
     {
         var coordinator = new InMemoryDistributedCoordinator();
