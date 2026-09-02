@@ -135,25 +135,29 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
-        if (string.IsNullOrWhiteSpace(buildHelp)
-            || GetSharedBuildFlagsHelp(buildHelp) is not { } sharedBuildFlags)
+        if (string.IsNullOrWhiteSpace(buildHelp))
         {
             return;
         }
 
-        var isDocWithoutDirectFlags = commandPath is [_, "doc"]
-                                      && !additionalHelp.Any(text => ContainsOption(text, "-C"));
-        if (!UsesSharedBuildFlags(commandPath, buildHelp)
-            && !BuildFlagsUsagePattern().IsMatch(helpText)
-            && !isDocWithoutDirectFlags)
+        var sharedBuildFlags = GetSharedBuildFlagsHelp(buildHelp);
+        if (sharedBuildFlags is null)
+        {
+            return;
+        }
+
+        var isDocWithoutDirectFlags = IsDocWithoutDirectFlags(commandPath, additionalHelp);
+        if (!ShouldIncludeSharedBuildFlags(
+                commandPath,
+                helpText,
+                buildHelp,
+                isDocWithoutDirectFlags))
         {
             return;
         }
 
         var sharedOptions = ParseOptions(["build"], sharedBuildFlags, usageSynopsis: null);
-        var candidates = isDocWithoutDirectFlags
-            ? sharedOptions.Where(option => option.SwitchName == "-C").ToArray()
-            : sharedOptions.ToArray();
+        var candidates = GetSharedBuildFlagCandidates(sharedOptions, isDocWithoutDirectFlags);
         var supportedFlags = await GetSupportedFlagsAsync(commandPath, candidates, cancellationToken);
         var unsupportedFlags = sharedOptions
             .Select(option => option.SwitchName)
@@ -163,6 +167,28 @@ public partial class GoCliScraper : CliScraperBase
         _unsupportedSharedBuildFlags[string.Join(" ", commandPath)] = unsupportedFlags;
         additionalHelp.Add(sharedBuildFlags);
     }
+
+    private static bool IsDocWithoutDirectFlags(
+        IReadOnlyList<string> commandPath,
+        IEnumerable<string> additionalHelp) =>
+        commandPath is [_, "doc"]
+        && !additionalHelp.Any(text => ContainsOption(text, "-C"));
+
+    private static bool ShouldIncludeSharedBuildFlags(
+        IReadOnlyList<string> commandPath,
+        string helpText,
+        string buildHelp,
+        bool isDocWithoutDirectFlags) =>
+        UsesSharedBuildFlags(commandPath, buildHelp)
+        || BuildFlagsUsagePattern().IsMatch(helpText)
+        || isDocWithoutDirectFlags;
+
+    private static CliOptionDefinition[] GetSharedBuildFlagCandidates(
+        IEnumerable<CliOptionDefinition> sharedOptions,
+        bool isDocWithoutDirectFlags) =>
+        isDocWithoutDirectFlags
+            ? sharedOptions.Where(option => option.SwitchName == "-C").ToArray()
+            : sharedOptions.ToArray();
 
     private async Task<IReadOnlySet<string>> GetSupportedFlagsAsync(
         IReadOnlyList<string> commandPath,
