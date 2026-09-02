@@ -4,7 +4,7 @@ Not every worker can execute every module. Some modules need Docker, others need
 
 ## Worker Capabilities[​](#worker-capabilities "Direct link to Worker Capabilities")
 
-Workers advertise their capabilities when they register with the coordinator. Capabilities are simple strings that describe what the worker can do.
+Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
 
 ```
 builder.AddDistributedMode(o =>
@@ -15,7 +15,7 @@ builder.AddDistributedMode(o =>
 
     o.TotalInstances = 4;
 
-    o.Capabilities = new List<string> { "docker", "gpu" };
+    o.Capabilities = [Capability.Docker, Capability.Gpu, "high-memory"];
 
 });
 ```
@@ -24,15 +24,16 @@ builder.AddDistributedMode(o =>
 
 By default, `AutoDetectOsCapability` is `true`, which automatically adds the current operating system as a capability:
 
-* Windows runners advertise `"windows"`
-* Linux runners advertise `"linux"`
-* macOS runners advertise `"macos"`
+* Windows runners advertise `Capability.Windows`
+* Linux runners advertise `Capability.Linux`
+* macOS runners advertise `Capability.MacOS`
+* FreeBSD runners advertise `Capability.FreeBSD`
 
-This means modules with `[RequiresCapability("linux")]` will only run on Linux workers without any extra configuration.
+Attribute arguments must be compile-time constants, so use the corresponding `Capability.Names` values. For example, modules with `[RequiresCapability(Capability.Names.Linux)]` only run on Linux workers without extra configuration.
 
 ### Auto-Detected OS from Platform Conditions[​](#auto-detected-os-from-platform-conditions "Direct link to Auto-Detected OS from Platform Conditions")
 
-When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
 
 ```
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
@@ -63,7 +64,7 @@ public class LinuxBuildModule : Module<string>
 Mark a module with `[RequiresCapability]` to restrict which workers can execute it. The module will only be assigned to workers that have **all** required capabilities.
 
 ```
-[RequiresCapability("docker")]
+[RequiresCapability(Capability.Names.Docker)]
 
 public class DockerBuildModule : Module<string>
 
@@ -88,12 +89,10 @@ public class DockerBuildModule : Module<string>
 
 ### Multiple Capabilities[​](#multiple-capabilities "Direct link to Multiple Capabilities")
 
-You can stack multiple attributes. The module will only run on a worker that has **all** of them:
+Pass multiple names to one attribute or stack attributes. Both forms require **all** declared capabilities:
 
 ```
-[RequiresCapability("linux")]
-
-[RequiresCapability("docker")]
+[RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
 
 public class LinuxDockerModule : Module<string>
 

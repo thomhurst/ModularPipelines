@@ -15,7 +15,7 @@ builder.AddDistributedMode(o =>
 
     o.TotalInstances = 4;
 
-    o.Capabilities = ["docker", "gpu"];
+    o.Capabilities = [Capability.Docker, Capability.Gpu];
 
     o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 
@@ -28,15 +28,15 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property                 | Type                    | Default                    | Description                                                                                                                                |
-| ------------------------ | ----------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `InstanceIndex`          | `int`                   | `0`                        | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.           |
-| `TotalInstances`         | `int`                   | `1`                        | Total number of instances (master + workers).                                                                                              |
-| `Capabilities`           | `IReadOnlyList<string>` | `[]`                       | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
-| `RunIdentifier`          | `string?`               | `null`                     | Identifier shared by every process in this pipeline run.                                                                                   |
-| `CapabilityTimeout`      | `TimeSpan`              | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                         |
-| `ModuleResultTimeout`    | `TimeSpan`              | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                    |
-| `AutoDetectOsCapability` | `bool`                  | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`).                                                   |
+| Property                 | Type                        | Default                    | Description                                                                                                                         |
+| ------------------------ | --------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `InstanceIndex`          | `int`                       | `0`                        | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.    |
+| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                       |
+| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
+| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                            |
+| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                  |
+| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                             |
+| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                               |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -63,6 +63,8 @@ You can also bind from configuration:
 ```
 builder.AddDistributedMode(builder.Configuration.GetSection("Distributed"));
 ```
+
+Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
 ## RedisDistributedOptions[​](#redisdistributedoptions "Direct link to RedisDistributedOptions")
 

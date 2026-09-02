@@ -193,6 +193,8 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
+using ModularPipelines.Distributed;
+
 using ModularPipelines.Distributed.Extensions;
 
 using ModularPipelines.Distributed.Redis.Extensions;
@@ -279,7 +281,7 @@ public class RestoreModule : Module<string>
 
 
 
-[RequiresCapability("linux")]
+[RequiresCapability(Capability.Names.Linux)]
 
 [DependsOn<RestoreModule>]
 
@@ -305,7 +307,7 @@ public class LinuxBuildModule : Module<string>
 
 
 
-[RequiresCapability("windows")]
+[RequiresCapability(Capability.Names.Windows)]
 
 [DependsOn<RestoreModule>]
 
@@ -331,7 +333,7 @@ public class WindowsBuildModule : Module<string>
 
 
 
-[RequiresCapability("macos")]
+[RequiresCapability(Capability.Names.MacOS)]
 
 [DependsOn<RestoreModule>]
 

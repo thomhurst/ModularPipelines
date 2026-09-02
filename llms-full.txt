@@ -1565,7 +1565,7 @@ This guarantees no result is missed regardless of timing.
 
 Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-The `ReadOnlySetJsonConverter` handles `IReadOnlySet<string>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`), which `System.Text.Json` cannot deserialize by default.
+The `ReadOnlySetJsonConverter` keeps `IReadOnlySet<Capability>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`) as plain string arrays on the wire.
 
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
@@ -1602,7 +1602,7 @@ public sealed class MyCustomCoordinator : IDistributedCoordinator
 
     public Task<ModuleAssignment?> DequeueModuleAsync(
 
-        IReadOnlySet<string> workerCapabilities,
+        IReadOnlySet<Capability> workerCapabilities,
 
         CancellationToken cancellationToken) =>
 
@@ -1704,7 +1704,7 @@ Not every worker can execute every module. Some modules need Docker, others need
 
 ## Worker Capabilities[​](#worker-capabilities "Direct link to Worker Capabilities")
 
-Workers advertise their capabilities when they register with the coordinator. Capabilities are simple strings that describe what the worker can do.
+Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
 
 ```
 builder.AddDistributedMode(o =>
@@ -1715,7 +1715,7 @@ builder.AddDistributedMode(o =>
 
     o.TotalInstances = 4;
 
-    o.Capabilities = new List<string> { "docker", "gpu" };
+    o.Capabilities = [Capability.Docker, Capability.Gpu, "high-memory"];
 
 });
 ```
@@ -1724,15 +1724,16 @@ builder.AddDistributedMode(o =>
 
 By default, `AutoDetectOsCapability` is `true`, which automatically adds the current operating system as a capability:
 
-* Windows runners advertise `"windows"`
-* Linux runners advertise `"linux"`
-* macOS runners advertise `"macos"`
+* Windows runners advertise `Capability.Windows`
+* Linux runners advertise `Capability.Linux`
+* macOS runners advertise `Capability.MacOS`
+* FreeBSD runners advertise `Capability.FreeBSD`
 
-This means modules with `[RequiresCapability("linux")]` will only run on Linux workers without any extra configuration.
+Attribute arguments must be compile-time constants, so use the corresponding `Capability.Names` values. For example, modules with `[RequiresCapability(Capability.Names.Linux)]` only run on Linux workers without extra configuration.
 
 ### Auto-Detected OS from Platform Conditions[​](#auto-detected-os-from-platform-conditions "Direct link to Auto-Detected OS from Platform Conditions")
 
-When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability("linux")]` to the same module.
+When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
 
 ```
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
@@ -1763,7 +1764,7 @@ public class LinuxBuildModule : Module<string>
 Mark a module with `[RequiresCapability]` to restrict which workers can execute it. The module will only be assigned to workers that have **all** required capabilities.
 
 ```
-[RequiresCapability("docker")]
+[RequiresCapability(Capability.Names.Docker)]
 
 public class DockerBuildModule : Module<string>
 
@@ -1788,12 +1789,10 @@ public class DockerBuildModule : Module<string>
 
 ### Multiple Capabilities[​](#multiple-capabilities "Direct link to Multiple Capabilities")
 
-You can stack multiple attributes. The module will only run on a worker that has **all** of them:
+Pass multiple names to one attribute or stack attributes. Both forms require **all** declared capabilities:
 
 ```
-[RequiresCapability("linux")]
-
-[RequiresCapability("docker")]
+[RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
 
 public class LinuxDockerModule : Module<string>
 
@@ -1891,7 +1890,7 @@ builder.AddDistributedMode(o =>
 
     o.TotalInstances = 4;
 
-    o.Capabilities = ["docker", "gpu"];
+    o.Capabilities = [Capability.Docker, Capability.Gpu];
 
     o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 
@@ -1904,15 +1903,15 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property                 | Type                    | Default                    | Description                                                                                                                                |
-| ------------------------ | ----------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `InstanceIndex`          | `int`                   | `0`                        | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.           |
-| `TotalInstances`         | `int`                   | `1`                        | Total number of instances (master + workers).                                                                                              |
-| `Capabilities`           | `IReadOnlyList<string>` | `[]`                       | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
-| `RunIdentifier`          | `string?`               | `null`                     | Identifier shared by every process in this pipeline run.                                                                                   |
-| `CapabilityTimeout`      | `TimeSpan`              | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                         |
-| `ModuleResultTimeout`    | `TimeSpan`              | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                    |
-| `AutoDetectOsCapability` | `bool`                  | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`).                                                   |
+| Property                 | Type                        | Default                    | Description                                                                                                                         |
+| ------------------------ | --------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `InstanceIndex`          | `int`                       | `0`                        | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable.    |
+| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                       |
+| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
+| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                            |
+| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                  |
+| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                             |
+| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                               |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -1939,6 +1938,8 @@ You can also bind from configuration:
 ```
 builder.AddDistributedMode(builder.Configuration.GetSection("Distributed"));
 ```
+
+Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
 ## RedisDistributedOptions[​](#redisdistributedoptions "Direct link to RedisDistributedOptions")
 
@@ -2507,6 +2508,8 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
+using ModularPipelines.Distributed;
+
 using ModularPipelines.Distributed.Extensions;
 
 using ModularPipelines.Distributed.Redis.Extensions;
@@ -2593,7 +2596,7 @@ public class RestoreModule : Module<string>
 
 
 
-[RequiresCapability("linux")]
+[RequiresCapability(Capability.Names.Linux)]
 
 [DependsOn<RestoreModule>]
 
@@ -2619,7 +2622,7 @@ public class LinuxBuildModule : Module<string>
 
 
 
-[RequiresCapability("windows")]
+[RequiresCapability(Capability.Names.Windows)]
 
 [DependsOn<RestoreModule>]
 
@@ -2645,7 +2648,7 @@ public class WindowsBuildModule : Module<string>
 
 
 
-[RequiresCapability("macos")]
+[RequiresCapability(Capability.Names.MacOS)]
 
 [DependsOn<RestoreModule>]
 
@@ -2816,9 +2819,9 @@ The coordinator is the shared communication layer between master and workers. It
 
 ### Capabilities[​](#capabilities "Direct link to Capabilities")
 
-Workers advertise what they can do (e.g. `"linux"`, `"docker"`, `"gpu"`). Modules declare what they need via `[RequiresCapability]` attributes. The coordinator only assigns a module to a worker that has all required capabilities.
+Workers advertise what they can do through typed values such as `Capability.Linux`, `Capability.Docker`, and `Capability.Gpu`. Modules declare what they need via `[RequiresCapability]` attributes using compile-time `Capability.Names` constants. The coordinator only assigns a module to a worker that has all required capabilities.
 
-If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system (`"windows"`, `"linux"`, or `"macos"`).
+If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system through the matching well-known capability.
 
 ## Architecture Diagram[​](#architecture-diagram "Direct link to Architecture Diagram")
 

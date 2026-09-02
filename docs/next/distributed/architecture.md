@@ -174,7 +174,7 @@ This guarantees no result is missed regardless of timing.
 
 Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-The `ReadOnlySetJsonConverter` handles `IReadOnlySet<string>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`), which `System.Text.Json` cannot deserialize by default.
+The `ReadOnlySetJsonConverter` keeps `IReadOnlySet<Capability>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`) as plain string arrays on the wire.
 
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
@@ -211,7 +211,7 @@ public sealed class MyCustomCoordinator : IDistributedCoordinator
 
     public Task<ModuleAssignment?> DequeueModuleAsync(
 
-        IReadOnlySet<string> workerCapabilities,
+        IReadOnlySet<Capability> workerCapabilities,
 
         CancellationToken cancellationToken) =>
 
