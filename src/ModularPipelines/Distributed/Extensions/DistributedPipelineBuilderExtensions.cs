@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Distributed.Configuration;
 
 namespace ModularPipelines.Distributed.Extensions;
 
@@ -22,10 +23,8 @@ public static class DistributedPipelineBuilderExtensions
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
         builder.Services.Configure<DistributedOptions>(o =>
-        {
-            configure(o);
-            o.Enabled = true;
-        });
+            configure(o));
+        builder.Services.PostConfigure<DistributedOptions>(EnableAndResolveRunId);
 
         return builder;
     }
@@ -41,7 +40,7 @@ public static class DistributedPipelineBuilderExtensions
         builder.Services.Configure<DistributedOptions>(section);
 
         // Also ensure Enabled is set
-        builder.Services.PostConfigure<DistributedOptions>(o => o.Enabled = true);
+        builder.Services.PostConfigure<DistributedOptions>(EnableAndResolveRunId);
         return builder;
     }
 
@@ -102,5 +101,11 @@ public static class DistributedPipelineBuilderExtensions
     {
         builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
         return builder;
+    }
+
+    private static void EnableAndResolveRunId(DistributedOptions options)
+    {
+        options.Enabled = true;
+        options.RunId = RunIdResolver.Resolve(options.RunId);
     }
 }

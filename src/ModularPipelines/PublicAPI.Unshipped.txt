@@ -353,6 +353,8 @@ ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines
 *REMOVED*ModularPipelines.Context.IPipelineContext.Tools.get -> ModularPipelines.Context.IToolsContext!
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.TimeToLiveSeconds.get -> int
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.TimeToLiveSeconds.set -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.RunIdentifier.get -> string?
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.RunIdentifier.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.CapabilityTimeoutSeconds.get -> int
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.CapabilityTimeoutSeconds.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
@@ -1473,8 +1475,8 @@ ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
-ModularPipelines.Distributed.DistributedOptions.RunIdentifier.get -> string?
-ModularPipelines.Distributed.DistributedOptions.RunIdentifier.set -> void
+ModularPipelines.Distributed.DistributedOptions.RunId.get -> string!
+ModularPipelines.Distributed.DistributedOptions.RunId.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.get -> System.TimeSpan
@@ -1520,8 +1522,8 @@ ModularPipelines.Distributed.RemoteModuleException.RemoteModuleException(string!
 ModularPipelines.Distributed.RemoteModuleException.RemoteStackTrace.get -> string?
 ModularPipelines.Distributed.RemoteModuleException.WorkerIndex.get -> int?
 override ModularPipelines.Distributed.RemoteModuleException.Message.get -> string!
-ModularPipelines.Distributed.WorkerRegistration.RunIdentifier.get -> string?
-ModularPipelines.Distributed.WorkerRegistration.RunIdentifier.init -> void
+ModularPipelines.Distributed.WorkerRegistration.RunId.get -> string?
+ModularPipelines.Distributed.WorkerRegistration.RunId.init -> void
 ModularPipelines.Distributed.WorkerRegistration.Capabilities.get -> System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.WorkerRegistration.Deconstruct(out int WorkerIndex, out System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! Capabilities, out System.DateTimeOffset RegisteredAt) -> void
 ModularPipelines.Distributed.WorkerRegistration.WorkerRegistration(int WorkerIndex, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! Capabilities, System.DateTimeOffset RegisteredAt) -> void

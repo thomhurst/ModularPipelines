@@ -153,12 +153,12 @@ builder.AddDistributedMode(o =>
 {
     o.InstanceIndex = instanceIndex;
     o.TotalInstances = totalInstances;
+    o.RunId = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")!;
 });
 
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 });
 
 builder.AddModule<RestoreModule>();

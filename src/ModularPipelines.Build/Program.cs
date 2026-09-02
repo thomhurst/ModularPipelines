@@ -174,6 +174,7 @@ file static class BuildPipelineConfiguration
         {
             o.InstanceIndex = instanceIndex;
             o.TotalInstances = totalInstances;
+            o.RunId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID") ?? o.RunId;
 
             // Explicitly keep distributed CI's result wait at 45 minutes. If a worker dies or
             // drops its connection after receiving a module, this bound converts the otherwise
@@ -190,7 +191,6 @@ file static class BuildPipelineConfiguration
         {
             o.RestUrl = redisRestUrl;
             o.RestToken = redisRestToken;
-            o.RunIdentifier = Environment.GetEnvironmentVariable("GITHUB_RUN_ID");
         });
 
         ConfigureArtifactStore(builder);

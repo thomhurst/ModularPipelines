@@ -17,7 +17,7 @@ builder.AddDistributedMode(o =>
     o.InstanceIndex = 0;
     o.TotalInstances = 4;
     o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+    o.RunId = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")!;
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
@@ -29,7 +29,7 @@ builder.AddDistributedMode(o =>
 | `InstanceIndex` | `int` | `0` | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
-| `RunIdentifier` | `string?` | `null` | Identifier shared by every process in this pipeline run. |
+| `RunId` | `string` | `RUN_IDENTIFIER` or generated | Identifier shared by every process in this pipeline run. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for worker registration before distributing work among the available workers. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |
@@ -63,7 +63,6 @@ Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "redis-host:6379,password=secret";
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
     o.KeyPrefix = "modpipe";
     o.KeyExpirationSeconds = 3600;
 });
@@ -72,7 +71,6 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `RUN_IDENTIFIER` is read; otherwise configuration fails. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
 
@@ -82,8 +80,9 @@ Distributed coordination requires an invocation-scoped identifier. It is resolve
 
 | Priority | Source | Environment |
 |----------|--------|-------------|
-| 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
+| 1 | `DistributedOptions.RunId` | Explicit configuration |
 | 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
+| 3 | Generated GUID | Single-process/default fallback |
 
 Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
 Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER` value before
@@ -92,7 +91,7 @@ value and export it as `RUN_IDENTIFIER` for every master and worker.
 
 ## Redis Key Schema
 
-All keys follow the pattern `{KeyPrefix}:{RunIdentifier}:{purpose}`. With the defaults, keys look like:
+All keys follow the pattern `{KeyPrefix}:{RunId}:{purpose}`. With the defaults, keys look like:
 
 | Key | Redis Type | Purpose |
 |-----|-----------|---------|

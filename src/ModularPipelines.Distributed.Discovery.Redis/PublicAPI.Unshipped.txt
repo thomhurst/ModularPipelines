@@ -1,1 +1,3 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.get -> string?
+*REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.set -> void

@@ -11,7 +11,6 @@ public class RedisDiscoveryOptionsTests
 
         await Assert.That(options.ConnectionString).IsEqualTo("localhost:6379");
         await Assert.That(options.KeyPrefix).IsEqualTo("modular-pipelines");
-        await Assert.That(options.RunIdentifier).IsNull();
         await Assert.That(options.TtlSeconds).IsEqualTo(3600);
         await Assert.That(options.DiscoveryTimeoutSeconds).IsEqualTo(120);
         await Assert.That(options.PollIntervalMs).IsEqualTo(500);
@@ -24,7 +23,6 @@ public class RedisDiscoveryOptionsTests
         {
             ConnectionString = "redis.internal:6380",
             KeyPrefix = "my-pipeline",
-            RunIdentifier = "run-123",
             TtlSeconds = 7200,
             DiscoveryTimeoutSeconds = 60,
             PollIntervalMs = 250,
@@ -32,7 +30,6 @@ public class RedisDiscoveryOptionsTests
 
         await Assert.That(options.ConnectionString).IsEqualTo("redis.internal:6380");
         await Assert.That(options.KeyPrefix).IsEqualTo("my-pipeline");
-        await Assert.That(options.RunIdentifier).IsEqualTo("run-123");
         await Assert.That(options.TtlSeconds).IsEqualTo(7200);
         await Assert.That(options.DiscoveryTimeoutSeconds).IsEqualTo(60);
         await Assert.That(options.PollIntervalMs).IsEqualTo(250);

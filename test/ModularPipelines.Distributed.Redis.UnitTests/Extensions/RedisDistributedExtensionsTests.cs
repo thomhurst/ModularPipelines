@@ -33,7 +33,6 @@ public class RedisDistributedExtensionsTests
             options =>
             {
                 options.ConnectionString = "unused";
-                options.RunIdentifier = "artifact-options-test";
             },
             options => options.CompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
@@ -71,31 +70,25 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    public async Task CoordinatorRunIdentifierScopesWorkerRegistrations()
+    public async Task Coordinator_Uses_Core_RunId()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddDistributedMode(_ => { });
+        builder.AddDistributedMode(options => options.RunId = "current-run");
         builder.AddRedisDistributedCoordinator(options =>
         {
             options.ConnectionString = "unused";
-            options.RunIdentifier = "current-run";
         });
         using var serviceProvider = builder.Services.BuildServiceProvider();
 
         var distributedOptions = serviceProvider
             .GetRequiredService<IOptions<DistributedOptions>>()
             .Value;
-        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(distributedOptions.RunIdentifier).IsEqualTo("current-run");
-            await Assert.That(redisOptions.RunIdentifier).IsEqualTo("current-run");
-        }
+        await Assert.That(distributedOptions.RunId).IsEqualTo("current-run");
+        await Assert.That(typeof(RedisDistributedOptions).GetProperty("RunIdentifier")).IsNull();
     }
 
     [Test]
-    public async Task CoordinatorRequiresInvocationScopedRunIdentifier()
+    public async Task Distributed_Mode_Generates_RunId_When_Unconfigured()
     {
         var originals = ExecutionEnvironmentVariables.ToDictionary(
             name => name,
@@ -111,11 +104,12 @@ public class RedisDistributedExtensionsTests
             var builder = Pipeline.CreateBuilder();
             builder.AddDistributedMode(_ => { });
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                builder.AddRedisDistributedCoordinator(options =>
-                    options.ConnectionString = "unused"));
+            builder.AddRedisDistributedCoordinator(options =>
+                options.ConnectionString = "unused");
+            using var serviceProvider = builder.Services.BuildServiceProvider();
+            var options = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
-            await Assert.That(exception.Message).Contains("unique RunIdentifier");
+            await Assert.That(Guid.TryParseExact(options.RunId, "N", out _)).IsTrue();
         }
         finally
         {

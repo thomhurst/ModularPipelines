@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.SignalR.Discovery;
 using StackExchange.Redis;
 
@@ -48,6 +50,7 @@ public static class RedisDiscoveryExtensions
         builder.Services.AddSingleton<ISignalRMasterDiscovery>(sp => new RedisSignalRMasterDiscovery(
             sp.GetRequiredService<IRedisDiscoveryStore>(),
             sp.GetRequiredService<RedisDiscoveryOptions>(),
+            sp.GetRequiredService<IOptions<DistributedOptions>>().Value,
             sp.GetRequiredService<ILogger<RedisSignalRMasterDiscovery>>()));
 
         return builder;

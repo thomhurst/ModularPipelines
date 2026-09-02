@@ -60,14 +60,7 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configure)
     {
-        var options = ConfigureRedis(builder, configure);
-        options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
-            ?? throw new InvalidOperationException(
-                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
-                + "Configure RunIdentifier explicitly or provide a supported CI run identifier.");
-
-        builder.Services.PostConfigure<DistributedOptions>(distributedOptions =>
-            distributedOptions.RunIdentifier ??= options.RunIdentifier);
+        ConfigureRedis(builder, configure);
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
