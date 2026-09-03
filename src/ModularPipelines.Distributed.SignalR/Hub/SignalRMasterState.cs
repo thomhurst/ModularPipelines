@@ -329,6 +329,10 @@ internal class SignalRMasterState
         lock (GetWorkerStateLock(workerIndex))
         {
             if (workerIndex != result.WorkerIndex
+                || !string.Equals(
+                    worker.CurrentAssignment?.ModuleTypeName,
+                    result.ModuleTypeName,
+                    StringComparison.Ordinal)
                 || !Workers.TryGetValue(worker.ConnectionId, out var currentWorker)
                 || !ReferenceEquals(currentWorker, worker)
                 || !Registrations.TryGetValue(workerIndex, out var currentRegistration)

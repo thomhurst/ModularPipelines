@@ -231,7 +231,7 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
-    public async Task PublishResult_Does_Not_Clear_A_Different_Current_Assignment()
+    public async Task PublishResult_Cannot_Complete_Another_Workers_Assignment()
     {
         var state = new SignalRMasterState();
         var worker = new WorkerState
@@ -241,6 +241,17 @@ public class DistributedPipelineHubTests
         };
         worker.TryAssign(CreateAssignment("CurrentModule"));
         state.RegisterWorker(worker);
+        var otherWorker = new WorkerState
+        {
+            ConnectionId = "connection-2",
+            Registration = new WorkerRegistration(2, [], DateTimeOffset.UtcNow),
+        };
+        var otherAssignment = CreateAssignment("OtherModule");
+        otherWorker.TryAssign(otherAssignment);
+        state.RegisterWorker(otherWorker);
+        state.ResultWaiters[otherAssignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
 
         var context = new Mock<HubCallerContext>();
         context.SetupGet(x => x.ConnectionId).Returns(worker.ConnectionId);
@@ -264,11 +275,17 @@ public class DistributedPipelineHubTests
             Clients = clients.Object,
         };
 
-        await hub.PublishResult(CreateResult("PreviousModule"));
+        await hub.PublishResult(CreateResult(otherAssignment.ModuleTypeName));
 
-        await Assert.That(worker.CurrentAssignment?.ModuleTypeName)
-            .IsEqualTo("CurrentModule");
-        await Assert.That(worker.IsIdle).IsFalse();
+        using (Assert.Multiple())
+        {
+            await Assert.That(worker.CurrentAssignment?.ModuleTypeName)
+                .IsEqualTo("CurrentModule");
+            await Assert.That(worker.IsIdle).IsFalse();
+            await Assert.That(otherWorker.CurrentAssignment).IsSameReferenceAs(otherAssignment);
+            await Assert.That(state.ResultWaiters[otherAssignment.ModuleTypeName].Task.IsCompleted)
+                .IsFalse();
+        }
     }
 
     private static ModuleAssignment CreateAssignment(string moduleTypeName)

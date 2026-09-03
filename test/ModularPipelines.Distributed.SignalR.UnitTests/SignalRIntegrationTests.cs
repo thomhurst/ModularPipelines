@@ -133,6 +133,7 @@ public class SignalRIntegrationTests
             var tcs = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
             masterState.ResultWaiters["TestModule"] = tcs;
+            AssignWorker(masterState, 1, "TestModule");
 
             // Act — publish a result
             var result = new SerializedModuleResult(
@@ -370,6 +371,7 @@ public class SignalRIntegrationTests
             // Pre-create result waiter for the master side
             masterState.ResultWaiters["BuildModule"] = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
+            AssignWorker(masterState, 1, "BuildModule");
 
             // Worker 1 publishes a result
             var result = new SerializedModuleResult(
@@ -475,6 +477,24 @@ public class SignalRIntegrationTests
         finally
         {
             await serverHost.DisposeAsync();
+        }
+    }
+
+    private static void AssignWorker(
+        SignalRMasterState state,
+        int workerIndex,
+        string moduleTypeName)
+    {
+        var worker = state.Workers.Values.Single(instance =>
+            instance.Registration.WorkerIndex == workerIndex);
+        if (!worker.TryAssign(new ModuleAssignment(
+                moduleTypeName,
+                "System.String",
+                [],
+                DateTimeOffset.UtcNow,
+                new ModuleAssignmentOptions(null, false))))
+        {
+            throw new InvalidOperationException($"Worker {workerIndex} already has an assignment.");
         }
     }
 }
