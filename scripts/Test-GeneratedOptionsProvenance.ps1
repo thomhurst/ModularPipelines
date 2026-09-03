@@ -100,8 +100,9 @@ try {
         }
 
         if (-not $job.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal) -or
-            -not $job.Contains('cancel-in-progress: false', [StringComparison]::Ordinal)) {
-            throw 'Generated refresh writes must serialize per tool without cancelling active work.'
+            -not $job.Contains('cancel-in-progress: false', [StringComparison]::Ordinal) -or
+            -not $job.Contains('queue: max', [StringComparison]::Ordinal)) {
+            throw 'Generated refresh writes must queue and serialize per tool without cancelling active work.'
         }
     }
     if ($normalizedWorkflowContents -match '(?m)^concurrency:') {
@@ -133,7 +134,7 @@ try {
         formatVersion = 1
         toolName = 'fake'
         toolVersion = 'fake 1.2.3'
-        commandTreeSha256 = 'command-fingerprint'
+        commandTreeSha256 = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
     } | ConvertTo-Json | Set-Content `
         -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated/Fake.CommandCoverage.json')
     Set-Content `
@@ -274,6 +275,27 @@ try {
     if ([string]::IsNullOrWhiteSpace($missingCommandMetadataError) -or
         -not $missingCommandMetadataError.Contains('incomplete command metadata', [StringComparison]::Ordinal)) {
         throw "Missing coverage metadata was accepted by the provenance writer: $missingCommandMetadataError"
+    }
+
+    $invalidCoverage = $validCoverage | ConvertFrom-Json
+    $invalidCoverage.commandTreeSha256 = 'not-a-sha256'
+    $invalidCoverage | ConvertTo-Json | Set-Content -LiteralPath $coveragePath
+    $malformedCommandMetadataError = $null
+    try {
+        & $writeScript `
+            -RepositoryRoot $tempRoot `
+            -Tool fake `
+            -PackageDirectory src/ModularPipelines.Fake `
+            -NamespacePrefix Fake `
+            -ChangeManifest $changeManifest
+    }
+    catch {
+        $malformedCommandMetadataError = $_.Exception.Message
+    }
+    Set-Content -LiteralPath $coveragePath -Value $validCoverage
+    if ([string]::IsNullOrWhiteSpace($malformedCommandMetadataError) -or
+        -not $malformedCommandMetadataError.Contains('invalid command tree SHA-256', [StringComparison]::Ordinal)) {
+        throw "Malformed coverage metadata was accepted by the provenance writer: $malformedCommandMetadataError"
     }
 
     & $writeScript `

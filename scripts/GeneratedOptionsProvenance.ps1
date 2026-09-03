@@ -20,6 +20,10 @@ function Assert-GeneratedOptionsCommandMetadata {
         [string]::IsNullOrWhiteSpace($CommandTreeSha256)) {
         throw "$Name contains incomplete command metadata."
     }
+
+    if ($CommandTreeSha256 -notmatch '^[0-9A-Fa-f]{64}$') {
+        throw "$Name contains an invalid command tree SHA-256."
+    }
 }
 
 function Get-GeneratedOptionsSourcePath {

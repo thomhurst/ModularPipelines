@@ -145,6 +145,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
+      queue: max
 
     steps:
       - name: Check if tool should run
@@ -766,6 +767,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
+      queue: max
 
     steps:
       - name: Check if tool should run
