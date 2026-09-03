@@ -26,6 +26,7 @@ public class S3ModuleCacheTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
+        builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
         builder.AddS3DistributedArtifactStore(
             options => options.BucketName = "artifact-bucket",
             options => options.CompressionLevel = CompressionLevel.NoCompression);
@@ -38,7 +39,7 @@ public class S3ModuleCacheTests
         using (Assert.Multiple())
         {
             await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
-            await Assert.That(distributedOptions.RunId).IsNotEmpty();
+            await Assert.That(distributedOptions.RunId).IsEqualTo("artifact-run");
             await Assert.That(configuredOptions.CompressionLevel)
                 .IsEqualTo(CompressionLevel.NoCompression);
         }
