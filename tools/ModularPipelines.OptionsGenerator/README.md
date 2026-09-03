@@ -228,7 +228,10 @@ Do not build `ModularPipelines.All.slnx` for generator work.
 
 ## CI generation workflow
 
-`.github/workflows/generate-cli-options.yml` runs weekly and on demand:
+`.github/workflows/generate-cli-options.yml` runs weekly, on demand, and after generator
+inputs change on `main`. A generator-input push regenerates every matrix tool so existing
+automated pull requests are rebuilt from current source rather than rebased with old
+snapshots.
 
 This regenerate-and-diff workflow is the authoritative staleness check. Generated-code
 version attributes identify the generator release that produced a file, but matching a
@@ -239,11 +242,20 @@ Regenerate outputs instead of changing version attributes in place.
 2. Fan out one installed CLI per Linux or Windows matrix job.
 3. install and verify the requested executable, then pin its resolved path;
 4. run the generator with a change manifest;
-5. allow `Stage-GeneratedChanges.ps1` to stage only declared generated paths and reject
+5. record the generator-source fingerprint, installed tool version, and command-tree
+   fingerprint in `Generated/<NamespacePrefix>.Generation.json`;
+6. allow `Stage-GeneratedChanges.ps1` to stage only declared generated paths and reject
    binary, oversized, root-level, or checkout-escape artifacts;
-6. build only the affected integration solution;
-7. create an automated pull request. Breaking generated API changes are accepted because
+7. build only the affected integration solution;
+8. create an automated pull request. Breaking generated API changes are accepted because
    the installed CLI is the source of truth.
+
+Generated-integration CI compares committed provenance with the generator tree and workflow
+on current `main`. Missing or mismatched provenance fails with a regeneration diagnostic.
+A clean rebase cannot refresh provenance and is intentionally rejected; rerun the Generate
+CLI Options workflow for that tool instead. Unrelated `main` changes do not invalidate a
+snapshot, and repeated generation with the same generator and pinned CLI produces identical
+provenance.
 
 Breaking generated API changes remain visible for human review. The workflow's manual
 `approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single run,
