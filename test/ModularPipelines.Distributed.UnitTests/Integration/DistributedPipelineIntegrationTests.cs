@@ -53,7 +53,7 @@ public class DistributedPipelineIntegrationTests
         registry.Register(typeof(ModuleA));
         var serializer = new ModuleResultSerializer(registry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, registry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, registry, resultRegistry);
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Master publishes work
@@ -130,7 +130,7 @@ public class DistributedPipelineIntegrationTests
         registry.Register(typeof(ModuleC));
         var serializer = new ModuleResultSerializer(registry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, registry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, registry, resultRegistry);
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Publish all 3 modules
