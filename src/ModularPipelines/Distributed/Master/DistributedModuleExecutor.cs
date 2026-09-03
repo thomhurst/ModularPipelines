@@ -365,7 +365,7 @@ internal class DistributedModuleExecutor(
         DateTimeOffset registrationDeadline,
         CancellationToken cancellationToken)
     {
-        var expectedWorkers = _options.Value.TotalInstances - 1;
+        var expectedWorkers = Math.Max(0, _options.Value.TotalInstances - 1);
         var minimumWorkers = _options.Value.MinimumWorkerCount;
         if (minimumWorkers < 0 || minimumWorkers > expectedWorkers)
         {

@@ -2117,7 +2117,9 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Executor_Skips_Worker_Wait_When_TotalInstances_Is_One()
+    [Arguments(0)]
+    [Arguments(1)]
+    public async Task Executor_Skips_Worker_Wait_When_No_Workers_Are_Expected(int totalInstances)
     {
         var module = new DistributedModule();
         var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
@@ -2128,7 +2130,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
-        var distributedOptions = new DistributedOptions { TotalInstances = 1 };
+        var distributedOptions = new DistributedOptions { TotalInstances = totalInstances };
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
