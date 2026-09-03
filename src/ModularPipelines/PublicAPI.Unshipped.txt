@@ -2068,6 +2068,8 @@ ModularPipelines.Reporting.ModuleOutputExcerpt.TruncatedBytes.get -> long
 ModularPipelines.Reporting.ModuleOutputExcerpt.TruncatedBytes.init -> void
 ModularPipelines.Reporting.ModuleRunReport
 ModularPipelines.Reporting.ModuleRunReport.<Clone>$() -> ModularPipelines.Reporting.ModuleRunReport!
+ModularPipelines.Reporting.ModuleRunReport.CacheHitAtMaster.get -> bool
+ModularPipelines.Reporting.ModuleRunReport.CacheHitAtMaster.init -> void
 ModularPipelines.Reporting.ModuleRunReport.CommandCount.get -> int
 ModularPipelines.Reporting.ModuleRunReport.CommandCount.init -> void
 ModularPipelines.Reporting.ModuleRunReport.Duration.get -> System.TimeSpan

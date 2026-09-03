@@ -752,7 +752,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         propertyMetadata = null!;
         isIncomplete = false;
-        if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+        if (property.IsStatic || property.GetMethod is null || seenPropertyNames.Contains(property.Name))
         {
             return false;
         }
@@ -760,6 +760,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var attribute = FindCommandAttribute(property, out var hasConflictingAttributes);
         if (hasConflictingAttributes)
         {
+            seenPropertyNames.Add(property.Name);
             isIncomplete = true;
             return true;
         }
@@ -768,6 +769,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             return false;
         }
+
+        seenPropertyNames.Add(property.Name);
 
         if (!IsPropertyAccessible(property, currentAssembly) || HasObsoleteError(property))
         {
