@@ -11,6 +11,7 @@ internal class SignalRMasterState
     private readonly object _pendingReconnectLock = new();
     private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
+    private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
     /// <summary>
     /// Connected workers indexed by SignalR connection ID.
@@ -75,6 +76,54 @@ internal class SignalRMasterState
     /// Used by <see cref="Coordination.SignalRMasterCoordinator.DequeueModuleAsync"/> to avoid polling.
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
+
+    public void RegisterWorker(WorkerState worker)
+    {
+        var registration = worker.Registration;
+        lock (GetWorkerStateLock(registration.WorkerIndex))
+        {
+            Registrations[registration.WorkerIndex] = registration;
+            Workers[worker.ConnectionId] = worker;
+            var pendingStatus = PendingWorkerStatuses.TryRemove(worker.ConnectionId, out var status)
+                                && IsStatusForRegistration(status, registration)
+                ? status
+                : null;
+            var initialStatus = pendingStatus ?? new WorkerStatus(registration.WorkerIndex)
+            {
+                RunIdentifier = registration.RunIdentifier,
+            };
+            WorkerStatuses.AddOrUpdate(
+                registration.WorkerIndex,
+                initialStatus,
+                (_, currentStatus) => string.Equals(
+                    currentStatus.RunIdentifier,
+                    registration.RunIdentifier,
+                    StringComparison.Ordinal)
+                    ? pendingStatus ?? currentStatus
+                    : initialStatus);
+            Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+        }
+    }
+
+    public void TryRecordHeartbeat(WorkerState worker, WorkerStatus status)
+    {
+        var registration = worker.Registration;
+        lock (GetWorkerStateLock(registration.WorkerIndex))
+        {
+            if (!Registrations.TryGetValue(status.WorkerIndex, out var currentRegistration)
+                || !ReferenceEquals(currentRegistration, registration)
+                || !IsStatusForRegistration(status, registration))
+            {
+                return;
+            }
+
+            WorkerStatuses[status.WorkerIndex] = status;
+            Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
+        }
+    }
+
+    internal object GetWorkerStateLock(int workerIndex) =>
+        _workerStateLocks.GetOrAdd(workerIndex, static _ => new object());
 
     public PendingReconnect? TrackPendingReconnect(
         WorkerState disconnectedWorker,
@@ -285,6 +334,15 @@ internal class SignalRMasterState
         pending?.Dispose();
         return trackedWorkers;
     }
+
+    private static bool IsStatusForRegistration(
+        WorkerStatus status,
+        WorkerRegistration registration) =>
+        status.WorkerIndex == registration.WorkerIndex
+        && string.Equals(
+            status.RunIdentifier,
+            registration.RunIdentifier,
+            StringComparison.Ordinal);
 
     private sealed class SemaphoreReleaser(SemaphoreSlim semaphore) : IDisposable
     {

@@ -45,26 +45,7 @@ internal class DistributedPipelineHub(
                 recoveredAssignment!.ModuleTypeName);
         }
 
-        state.Registrations[registration.WorkerIndex] = registration;
-        state.Workers[connectionId] = workerState;
-        var pendingStatus = state.PendingWorkerStatuses.TryRemove(connectionId, out var status)
-                            && IsStatusForRegistration(status, registration)
-            ? status
-            : null;
-        var initialStatus = pendingStatus ?? new WorkerStatus(registration.WorkerIndex)
-        {
-            RunIdentifier = registration.RunIdentifier,
-        };
-        state.WorkerStatuses.AddOrUpdate(
-            registration.WorkerIndex,
-            initialStatus,
-            (_, currentStatus) => string.Equals(
-                currentStatus.RunIdentifier,
-                registration.RunIdentifier,
-                StringComparison.Ordinal)
-                ? pendingStatus ?? currentStatus
-                : initialStatus);
-        state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+        state.RegisterWorker(workerState);
 
         // Cancellation is durable master state. A worker that was disconnected
         // during the original broadcast must receive it before registration returns.
@@ -87,7 +68,7 @@ internal class DistributedPipelineHub(
         var connectionId = Context.ConnectionId;
         if (_masterState.Workers.TryGetValue(connectionId, out var worker))
         {
-            TryRecordHeartbeat(worker, status);
+            _masterState.TryRecordHeartbeat(worker, status);
             return Task.CompletedTask;
         }
 
@@ -97,7 +78,7 @@ internal class DistributedPipelineHub(
         if (_masterState.Workers.TryGetValue(connectionId, out worker)
             && _masterState.PendingWorkerStatuses.TryRemove(connectionId, out var pendingStatus))
         {
-            TryRecordHeartbeat(worker, pendingStatus);
+            _masterState.TryRecordHeartbeat(worker, pendingStatus);
         }
 
         return Task.CompletedTask;
@@ -183,29 +164,6 @@ internal class DistributedPipelineHub(
 
         await base.OnDisconnectedAsync(exception).ConfigureAwait(false);
     }
-
-    private void TryRecordHeartbeat(WorkerState worker, WorkerStatus status)
-    {
-        var registration = worker.Registration;
-        if (!_masterState.Registrations.TryGetValue(status.WorkerIndex, out var currentRegistration)
-            || !ReferenceEquals(currentRegistration, registration)
-            || !IsStatusForRegistration(status, registration))
-        {
-            return;
-        }
-
-        _masterState.WorkerStatuses[status.WorkerIndex] = status;
-        _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
-    }
-
-    private static bool IsStatusForRegistration(
-        WorkerStatus status,
-        WorkerRegistration registration) =>
-        status.WorkerIndex == registration.WorkerIndex
-        && string.Equals(
-            status.RunIdentifier,
-            registration.RunIdentifier,
-            StringComparison.Ordinal);
 
     /// <summary>
     /// After the reconnect grace period, re-enqueues a disconnected worker's in-flight

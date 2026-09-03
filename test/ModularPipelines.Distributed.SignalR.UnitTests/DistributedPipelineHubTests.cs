@@ -102,6 +102,61 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
+    public async Task Registration_Replacement_Cannot_Race_With_Stale_Heartbeat_Persistence()
+    {
+        var state = new SignalRMasterState();
+        var oldHub = CreateHub(state, "old-connection");
+        var oldRegistration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+        {
+            RunIdentifier = "same-run",
+        };
+        var currentRegistration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+        {
+            RunIdentifier = "same-run",
+        };
+        await oldHub.RegisterWorker(oldRegistration, resumingModuleTypeName: null);
+        var staleStatus = new WorkerStatus(1)
+        {
+            RunIdentifier = "same-run",
+            UnattributedCommandCount = 99,
+        };
+        using var heartbeatStarted = new ManualResetEventSlim();
+        Task heartbeatTask;
+
+        lock (state.GetWorkerStateLock(1))
+        {
+            heartbeatTask = Task.Run(async () =>
+            {
+                heartbeatStarted.Set();
+                await oldHub.Heartbeat(staleStatus);
+            });
+            if (!heartbeatStarted.Wait(TimeSpan.FromSeconds(1)))
+            {
+                throw new TimeoutException("The stale heartbeat did not start.");
+            }
+
+            if (SpinWait.SpinUntil(
+                    () => heartbeatTask.IsCompleted,
+                    TimeSpan.FromMilliseconds(250)))
+            {
+                throw new InvalidOperationException(
+                    "The heartbeat bypassed the per-worker state lock.");
+            }
+
+            state.RegisterWorker(new WorkerState
+            {
+                ConnectionId = "current-connection",
+                Registration = currentRegistration,
+            });
+        }
+
+        await heartbeatTask.WaitAsync(TimeSpan.FromSeconds(1));
+
+        await Assert.That(state.Registrations[1]).IsSameReferenceAs(currentRegistration);
+        await Assert.That(state.WorkerStatuses[1]).IsNotSameReferenceAs(staleStatus);
+    }
+
+    [Test]
     public async Task Disconnect_Retains_Final_Status_For_Report_Collection()
     {
         var state = new SignalRMasterState();
