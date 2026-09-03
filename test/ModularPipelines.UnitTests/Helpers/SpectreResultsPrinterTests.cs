@@ -160,6 +160,34 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task DistributedSummaryLine_ShowsIdlePercentageAndLongestQueueWait()
+    {
+        var line = SpectreResultsPrinter.CreateDistributedSummaryLine(new DistributedRunReport
+        {
+            FleetUtilizationPercentage = 60,
+            Modules =
+            [
+                new DistributedModuleRunReport
+                {
+                    ModuleTypeName = "Example.FastModule, Example.Assembly",
+                    QueueWaitDuration = TimeSpan.FromSeconds(1),
+                },
+                new DistributedModuleRunReport
+                {
+                    ModuleTypeName = "Example.SlowModule, Example.Assembly",
+                    QueueWaitDuration = TimeSpan.FromSeconds(5),
+                },
+            ],
+        });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(line).Contains("Workers idle 40.0% of run");
+            await Assert.That(line).Contains("longest queue wait: 5s 0ms on SlowModule");
+        }
+    }
+
+    [Test]
     public async Task ModulesTable_ShowsPreviousRunDurationDelta()
     {
         var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);

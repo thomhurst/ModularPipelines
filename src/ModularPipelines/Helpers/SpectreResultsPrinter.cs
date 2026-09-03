@@ -52,6 +52,8 @@ internal class SpectreResultsPrinter : IResultsPrinter
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
 
+        PrintDistributedSummary(pipelineSummary.RunReport?.Distributed);
+
         System.Console.WriteLine();
     }
 
@@ -97,6 +99,20 @@ internal class SpectreResultsPrinter : IResultsPrinter
         return parts.Count > 0
             ? string.Join("[dim] | [/]", parts)
             : $"[dim]{totalCount} modules[/]";
+    }
+
+    internal static string CreateDistributedSummaryLine(DistributedRunReport report)
+    {
+        var idlePercentage = Math.Clamp(100 - report.FleetUtilizationPercentage, 0, 100);
+        var longestQueueWait = report.Modules.MaxBy(static module => module.QueueWaitDuration);
+        if (longestQueueWait is null)
+        {
+            return $"Workers idle {idlePercentage:F1}% of run";
+        }
+
+        return $"Workers idle {idlePercentage:F1}% of run; longest queue wait: "
+               + $"{longestQueueWait.QueueWaitDuration.ToDisplayString()} on "
+               + SpectreMarkupEscaper.Escape(GetModuleName(longestQueueWait.ModuleTypeName));
     }
 
     private static void PrintHeader(PipelineSummary pipelineSummary)
@@ -368,6 +384,24 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
 
         AnsiConsole.Write(CreateMetricsPanel(metrics));
+    }
+
+    private static void PrintDistributedSummary(DistributedRunReport? report)
+    {
+        if (report is null)
+        {
+            return;
+        }
+
+        System.Console.WriteLine();
+        AnsiConsole.MarkupLine($"[dim]Distributed:[/] {CreateDistributedSummaryLine(report)}");
+    }
+
+    private static string GetModuleName(string moduleTypeName)
+    {
+        var typeName = moduleTypeName.Split(',')[0];
+        var separator = typeName.LastIndexOf('.');
+        return separator >= 0 ? typeName[(separator + 1)..] : typeName;
     }
 
     private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)

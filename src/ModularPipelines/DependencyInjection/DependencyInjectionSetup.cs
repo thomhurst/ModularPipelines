@@ -273,6 +273,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<DistributedConditionRouting>()
             .AddSingleton<DistributedCacheHitTracker>()
+            .AddSingleton<DistributedTelemetryTracker>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IEnvironmentVariablesContext, EnvironmentVariables>()

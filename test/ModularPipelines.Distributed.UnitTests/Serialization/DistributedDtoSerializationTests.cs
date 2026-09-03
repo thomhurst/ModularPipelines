@@ -72,6 +72,35 @@ public class DistributedDtoSerializationTests
     }
 
     [Test]
+    public async Task SerializedModuleResult_RoundTrips_ExecutionTelemetry()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var expected = new SerializedModuleResult(
+            "BuildModule",
+            "System.String",
+            1,
+            "{}",
+            now)
+        {
+            ExecutionTelemetry = new DistributedModuleExecutionTelemetry
+            {
+                ClaimedAt = now.AddSeconds(-4),
+                ExecutionStartedAt = now.AddSeconds(-3),
+                ExecutionFinishedAt = now.AddSeconds(-1),
+                DependencyResultProcessingDuration = TimeSpan.FromMilliseconds(100),
+                ArtifactDownloadDuration = TimeSpan.FromMilliseconds(200),
+                ArtifactUploadDuration = TimeSpan.FromMilliseconds(300),
+            },
+        };
+
+        var json = JsonSerializer.Serialize(expected);
+        var actual = JsonSerializer.Deserialize<SerializedModuleResult>(json);
+
+        await Assert.That(actual).IsNotNull();
+        await Assert.That(actual!.ExecutionTelemetry).IsEqualTo(expected.ExecutionTelemetry);
+    }
+
+    [Test]
     public async Task WorkerRegistration_Rejects_Default_Capabilities()
     {
         var registration = new WorkerRegistration(

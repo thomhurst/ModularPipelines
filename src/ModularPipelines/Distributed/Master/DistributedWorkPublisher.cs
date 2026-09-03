@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text;
@@ -17,7 +18,8 @@ internal class DistributedWorkPublisher(
     IModuleDependencyRegistry? dependencyRegistry = null,
     IModuleMetadataRegistry? metadataRegistry = null,
     DistributedConditionRouting? conditionRouting = null,
-    IModuleConditionHandler? conditionHandler = null)
+    IModuleConditionHandler? conditionHandler = null,
+    DistributedTelemetryTracker? telemetryTracker = null)
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -27,6 +29,7 @@ internal class DistributedWorkPublisher(
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
     private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
     private readonly IModuleConditionHandler? _conditionHandler = conditionHandler;
+    private readonly DistributedTelemetryTracker? _telemetryTracker = telemetryTracker;
 
     public async Task<ModuleAssignment> CreateAssignmentAsync(
         IModule module,
@@ -131,7 +134,12 @@ internal class DistributedWorkPublisher(
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
-        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken);
+        assignment = assignment with { EnqueuedAt = DateTimeOffset.UtcNow };
+        var startedAt = Stopwatch.GetTimestamp();
+        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);
+        _telemetryTracker?.RecordAssignment(
+            assignment,
+            Stopwatch.GetElapsedTime(startedAt));
     }
 
     private static void AddExplicitOperatingSystemRoutes(

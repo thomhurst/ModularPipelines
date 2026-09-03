@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -17,7 +18,9 @@ internal sealed class PipelineRunReportFactory(
     IModuleOutputExcerptProvider? outputExcerptProvider = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
     ISecretProvider? secretProvider = null,
-    DistributedCacheHitTracker? distributedCacheHitTracker = null)
+    DistributedCacheHitTracker? distributedCacheHitTracker = null,
+    DistributedTelemetryTracker? distributedTelemetryTracker = null,
+    IOptions<DistributedOptions>? distributedOptions = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -97,6 +100,10 @@ internal sealed class PipelineRunReportFactory(
             Metrics = summary.Metrics,
             Exception = CreateExceptionDetails(pipelineException),
             Modules = modules,
+            Distributed = distributedTelemetryTracker?.CreateReport(
+                summary.Start,
+                summary.End,
+                distributedOptions?.Value.TotalInstances ?? 1),
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };

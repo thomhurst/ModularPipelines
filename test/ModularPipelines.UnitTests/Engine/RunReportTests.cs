@@ -1419,7 +1419,7 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
-        const int expectedCurrentSchemaVersion = 4;
+        const int expectedCurrentSchemaVersion = 5;
 
         using (Assert.Multiple())
         {
@@ -1428,8 +1428,9 @@ public class RunReportTests
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(5, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(5, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(6, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 
@@ -3696,6 +3697,53 @@ public class RunReportTests
             await Assert.That(output!.StdoutTail).IsEqualTo("stdout tail");
             await Assert.That(output.StderrTail).IsEqualTo("stderr tail");
             await Assert.That(output.TruncatedBytes).IsEqualTo(42);
+        }
+    }
+
+    [Test]
+    public async Task RunReportJsonRoundTripPreservesDistributedTelemetry()
+    {
+        var report = new PipelineRunReport
+        {
+            Distributed = new DistributedRunReport
+            {
+                WorkerCount = 2,
+                FleetUtilizationPercentage = 62.5,
+                Workers =
+                [
+                    new DistributedWorkerRunReport
+                    {
+                        WorkerIndex = 1,
+                        ModuleCount = 3,
+                        BusyDuration = TimeSpan.FromSeconds(5),
+                        IdleDuration = TimeSpan.FromSeconds(3),
+                        UtilizationPercentage = 62.5,
+                    },
+                ],
+                Modules =
+                [
+                    new DistributedModuleRunReport
+                    {
+                        ModuleTypeName = "Example.BuildModule",
+                        WorkerIndex = 1,
+                        QueueWaitDuration = TimeSpan.FromSeconds(2),
+                        TotalOverheadDuration = TimeSpan.FromMilliseconds(750),
+                    },
+                ],
+            },
+        };
+
+        var deserialized = RunReportJsonSerializer.Deserialize(
+            RunReportJsonSerializer.Serialize(report));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(deserialized!.Distributed).IsNotNull();
+            await Assert.That(deserialized.Distributed!.WorkerCount).IsEqualTo(2);
+            await Assert.That(deserialized.Distributed.FleetUtilizationPercentage).IsEqualTo(62.5);
+            await Assert.That(deserialized.Distributed.Workers.Single().WorkerIndex).IsEqualTo(1);
+            await Assert.That(deserialized.Distributed.Modules.Single().QueueWaitDuration)
+                .IsEqualTo(TimeSpan.FromSeconds(2));
         }
     }
 
