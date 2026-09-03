@@ -66,6 +66,28 @@ public class GradleCliScraperTests
         await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
+    [Test]
+    public async Task Parses_Version_From_MultiLine_Banner()
+    {
+        const string output = """
+            ------------------------------------------------------------
+            Gradle 9.7.1
+            ------------------------------------------------------------
+
+            Build time:    2026-08-19 14:16:09 UTC
+            Revision:      92f0512e7f06d84621afba191f75e265363890cf
+
+            Kotlin:        2.4.0
+            Groovy:        4.0.32
+            Ant:           Apache Ant(TM) version 1.10.17 compiled on April 6 2026
+            Launcher JVM:  17.0.20.1 (Eclipse Adoptium 17.0.20.1+1)
+            """;
+
+        var version = new TestGradleCliScraper().ParseVersion(output);
+
+        await Assert.That(version).IsEqualTo("9.7.1");
+    }
+
     private sealed class TestGradleCliScraper : GradleCliScraper
     {
         public TestGradleCliScraper()
@@ -78,5 +100,12 @@ public class GradleCliScraperTests
 
         public async Task<CliCommandDefinition> Parse(string helpText) =>
             (await ParseCommandAsync([ToolName], helpText, CancellationToken.None))!;
+
+        public string? ParseVersion(string output) => ParseVersionOutput(new CliCommandResult
+        {
+            StandardOutput = output,
+            StandardError = string.Empty,
+            ExitCode = 0,
+        });
     }
 }

@@ -99,8 +99,6 @@ ModularPipelines.Java.Options.GradleExecuteOptions.NoDaemon.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.NoDaemon.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.NoIsolatedProjects.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.NoIsolatedProjects.set -> void
-ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.get -> bool?
-ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.NoParallel.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.NoParallel.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.NoProblemsReport.get -> bool?
@@ -111,6 +109,8 @@ ModularPipelines.Java.Options.GradleExecuteOptions.NoScan.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.NoScan.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.NoWatchFs.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.NoWatchFs.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.Offline.get -> bool?
 ModularPipelines.Java.Options.GradleExecuteOptions.Offline.set -> void
 ModularPipelines.Java.Options.GradleExecuteOptions.Parallel.get -> bool?
@@ -221,8 +221,6 @@ ModularPipelines.Java.Options.MavenExecuteOptions.LogFile.get -> string?
 ModularPipelines.Java.Options.MavenExecuteOptions.LogFile.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.MavenExecuteOptions() -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.MavenExecuteOptions(ModularPipelines.Java.Options.MavenExecuteOptions! original) -> void
-ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.get -> bool?
-ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginRegistry.get -> bool?
 ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginRegistry.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginUpdates.get -> bool?
@@ -231,6 +229,8 @@ ModularPipelines.Java.Options.MavenExecuteOptions.NoSnapshotUpdates.get -> bool?
 ModularPipelines.Java.Options.MavenExecuteOptions.NoSnapshotUpdates.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.NoTransferProgress.get -> bool?
 ModularPipelines.Java.Options.MavenExecuteOptions.NoTransferProgress.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.Offline.get -> bool?
 ModularPipelines.Java.Options.MavenExecuteOptions.Offline.set -> void
 ModularPipelines.Java.Options.MavenExecuteOptions.Projects.get -> string?
@@ -262,8 +262,6 @@ ModularPipelines.Java.Options.MavenOptions.MavenOptions() -> void
 ModularPipelines.Java.Options.MavenOptions.MavenOptions(ModularPipelines.Java.Options.MavenOptions! original) -> void
 ModularPipelines.Java.Services.IGradle
 ModularPipelines.Java.Services.IMaven
-override abstract ModularPipelines.Java.Options.GradleOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleOptions!
-override abstract ModularPipelines.Java.Options.MavenOptions.<Clone>$() -> ModularPipelines.Java.Options.MavenOptions!
 override ModularPipelines.Java.Options.GradleExecuteOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleExecuteOptions!
 override ModularPipelines.Java.Options.GradleExecuteOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Java.Options.GradleExecuteOptions.Equals(object? obj) -> bool
@@ -286,6 +284,8 @@ override ModularPipelines.Java.Options.MavenOptions.Equals(object? obj) -> bool
 override ModularPipelines.Java.Options.MavenOptions.GetHashCode() -> int
 override ModularPipelines.Java.Options.MavenOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Java.Options.MavenOptions.ToString() -> string!
+override abstract ModularPipelines.Java.Options.GradleOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleOptions!
+override abstract ModularPipelines.Java.Options.MavenOptions.<Clone>$() -> ModularPipelines.Java.Options.MavenOptions!
 override sealed ModularPipelines.Java.Options.GradleExecuteOptions.Equals(ModularPipelines.Java.Options.GradleOptions? other) -> bool
 override sealed ModularPipelines.Java.Options.GradleOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Java.Options.MavenExecuteOptions.Equals(ModularPipelines.Java.Options.MavenOptions? other) -> bool
