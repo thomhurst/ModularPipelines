@@ -227,13 +227,7 @@ public partial interface ILiquibase
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    #pragma warning disable CS0618
-    public Task<CommandResult> MarkNextChangeSetRanAsync(LiquibaseMarkNextChangesetRanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => MarkNextChangesetRanAsync(options, executionOptions, cancellationToken);
-    #pragma warning restore CS0618
-
-    [Obsolete("Use MarkNextChangeSetRanAsync instead.")]
-    public Task<CommandResult> MarkNextChangesetRanAsync(LiquibaseMarkNextChangesetRanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> MarkNextChangeSetRanAsync(LiquibaseMarkNextChangeSetRanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -243,13 +237,7 @@ public partial interface ILiquibase
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    #pragma warning disable CS0618
-    public Task<CommandResult> MarkNextChangeSetRanSqlAsync(LiquibaseMarkNextChangesetRanSqlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => MarkNextChangesetRanSqlAsync(options, executionOptions, cancellationToken);
-    #pragma warning restore CS0618
-
-    [Obsolete("Use MarkNextChangeSetRanSqlAsync instead.")]
-    public Task<CommandResult> MarkNextChangesetRanSqlAsync(LiquibaseMarkNextChangesetRanSqlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> MarkNextChangeSetRanSqlAsync(LiquibaseMarkNextChangeSetRanSqlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

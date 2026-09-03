@@ -21,7 +21,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mark-next-changeset-ran")]
-public record LiquibaseMarkNextChangesetRanOptions : LiquibaseOptions
+public record LiquibaseMarkNextChangeSetRanOptions : LiquibaseOptions
 {
     /// <summary>
     /// The root changelog file
