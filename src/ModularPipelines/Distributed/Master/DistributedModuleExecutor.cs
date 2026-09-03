@@ -170,22 +170,8 @@ internal class DistributedModuleExecutor(
                 moduleType.FullName!,
                 ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
                 _options.Value.InstanceIndex);
-            try
-            {
-                await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(
-                    ex,
-                    "Failed to publish history-restored result for module {Module}",
-                    moduleType.Name);
-            }
+            await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 
@@ -693,15 +679,16 @@ internal class DistributedModuleExecutor(
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
-            await RegisterFailureResultAsync(
+            var failureResult = RegisterFailureResult(
                 module,
                 moduleType,
                 new TimeoutException(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
-                ModuleStatus.TimedOut).ConfigureAwait(false);
+                ModuleStatus.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
             requestFailureCancellation();
             await cts.CancelAsync();
+            await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
         {
@@ -711,11 +698,11 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            await RegisterFailureResultAsync(module, moduleType, ex, ModuleStatus.Failed)
-                .ConfigureAwait(false);
+            var failureResult = RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync();
+            await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
     }
 
@@ -763,26 +750,34 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task RegisterFailureResultAsync(
+    private IModuleResult? RegisterFailureResult(
         IModule module,
         Type moduleType,
         Exception exception,
         ModuleStatus status)
     {
-        IModuleResult failureResult;
         try
         {
-            failureResult = CreateCollectorFailureResult(
+            var failureResult = CreateCollectorFailureResult(
                 module,
                 moduleType,
                 exception,
                 status);
             ModuleCompletionSourceApplicator.TryApply(module, failureResult);
             _resultRegistry.RegisterResult(moduleType, failureResult);
+            return failureResult;
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to register failure result for module {Module}", moduleType.Name);
+            return null;
+        }
+    }
+
+    private async Task PublishFailureResultAsync(IModuleResult? failureResult, Type moduleType)
+    {
+        if (failureResult is null)
+        {
             return;
         }
 
@@ -800,7 +795,7 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogCritical(
                 ex,
-                "Failed to publish failure result for module {Module} — dependent workers may remain blocked",
+                "Failed to publish failure result for module {Module}; pipeline cancellation has already been requested",
                 moduleType.Name);
         }
     }

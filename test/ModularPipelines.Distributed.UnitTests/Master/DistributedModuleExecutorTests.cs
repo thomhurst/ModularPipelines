@@ -625,7 +625,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task History_Result_Publish_Failure_Does_Not_Skip_Remaining_Results()
+    public async Task History_Result_Publish_Failure_Stops_Dispatch_And_Broadcasts_Cancellation()
     {
         var firstModule = new DistributedModule();
         var secondModule = new AnotherDistributedModule();
@@ -654,18 +654,25 @@ public class DistributedModuleExecutorTests
                     : Task.CompletedTask);
         coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
             coordinator: coordinator.Object);
 
-        await executor.ExecuteAsync([firstModule, secondModule]);
+        var exception = await Assert.That(async () => await executor.ExecuteAsync([firstModule, secondModule]))
+            .Throws<InvalidOperationException>();
 
+        await Assert.That(exception!.Message).IsEqualTo("Transient publish failure");
         coordinator.Verify(instance => instance.PublishResultAsync(
             It.Is<SerializedModuleResult>(result =>
                 result.ModuleTypeName == typeof(AnotherDistributedModule).FullName),
-            It.IsAny<CancellationToken>()), Times.Once());
+            It.IsAny<CancellationToken>()), Times.Never());
+        coordinator.Verify(
+            instance => instance.BroadcastCancellationAsync(CancellationToken.None),
+            Times.Once());
     }
 
     [Test]
@@ -746,6 +753,56 @@ public class DistributedModuleExecutorTests
             It.Is<SerializedModuleResult>(result =>
                 result.ModuleTypeName == typeof(DistributedModule).FullName),
             CancellationToken.None), Times.Once());
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Failure_Result_Publish_Failure_Still_Cancels_Pipeline(
+        CancellationToken testCancellation)
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.EnqueueModuleAsync(
+                It.IsAny<ModuleAssignment>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.WaitForResultAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Result collection failed"));
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(),
+                CancellationToken.None))
+            .ThrowsAsync(new InvalidOperationException("Broker unavailable"));
+        coordinator.Setup(instance => instance.BroadcastCancellationAsync(CancellationToken.None))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(CancellationToken.None))
+            .Returns(Task.CompletedTask);
+
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator.Object, serializer);
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            resultCollector: resultCollector);
+
+        await executor.ExecuteAsync([module])
+            .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
+
+        await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
+            .IsNotNull();
+        coordinator.Verify(
+            instance => instance.BroadcastCancellationAsync(CancellationToken.None),
+            Times.Once());
+        coordinator.Verify(
+            instance => instance.SignalCompletionAsync(CancellationToken.None),
+            Times.Once());
     }
 
     [Test]
