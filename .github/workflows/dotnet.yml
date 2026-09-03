@@ -538,12 +538,12 @@ jobs:
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          # Standalone (non-distributed): TOTAL_INSTANCES=1 makes the pipeline skip the
+          # Standalone (non-distributed): one instance makes the pipeline skip the
           # Redis/SignalR discovery path entirely and run everything on this single runner.
           # Re-enabling distribution also requires restoring Redis/R2 credentials and the
           # cloudflared install because Program.cs configures EnableTunnel=true.
-          INSTANCE_INDEX: 0
-          TOTAL_INSTANCES: 1
+          MODULARPIPELINES_INSTANCE_INDEX: 0
+          MODULARPIPELINES_TOTAL_INSTANCES: 1
 
       - name: Upload Hang Dumps
         if: always() && needs.fast-fail.result == 'success'
