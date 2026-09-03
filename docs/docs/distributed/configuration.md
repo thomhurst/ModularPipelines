@@ -16,8 +16,9 @@ builder.AddDistributedMode(o =>
 {
     o.InstanceIndex = 0;
     o.TotalInstances = 4;
+    o.Role = DistributedRole.Master;
     o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
@@ -26,7 +27,8 @@ builder.AddDistributedMode(o =>
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `InstanceIndex` | `int` | `0` | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable. |
+| `Role` | `DistributedRole` | `Auto` | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`. |
+| `InstanceIndex` | `int` | `0` | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunIdentifier` | `string?` | `null` | Identifier shared by every process in this pipeline run. |
@@ -53,7 +55,25 @@ You can also bind from configuration:
 builder.AddDistributedMode(builder.Configuration.GetSection("Distributed"));
 ```
 
+Or call `builder.AddDistributedMode()` to bind the standard environment variables:
+
+| Environment variable | Option |
+|----------------------|--------|
+| `MODULARPIPELINES_INSTANCE_INDEX` | `InstanceIndex` |
+| `MODULARPIPELINES_TOTAL_INSTANCES` | `TotalInstances` |
+| `MODULARPIPELINES_RUN_ID` | `RunIdentifier` |
+| `MODULARPIPELINES_ROLE` | `Role` (`Auto`, `Master`, or `Worker`) |
+
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
+
+Satellite registrations use the same options pattern and accept configuration sections:
+
+```csharp
+builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
+builder.AddSignalRDistributedCoordinator(builder.Configuration.GetSection("SignalR"));
+builder.AddRedisSignalRDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
+builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
+```
 
 ## RedisDistributedOptions
 
@@ -63,7 +83,7 @@ Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "redis-host:6379,password=secret";
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
     o.KeyPrefix = "modpipe";
     o.KeyExpirationSeconds = 3600;
 });
@@ -72,7 +92,7 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `RUN_IDENTIFIER` is read; otherwise configuration fails. |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; otherwise configuration fails. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
 
@@ -83,12 +103,12 @@ Distributed coordination requires an invocation-scoped identifier. It is resolve
 | Priority | Source | Environment |
 |----------|--------|-------------|
 | 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
-| 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
+| 2 | `MODULARPIPELINES_RUN_ID` env var | Any CI or local orchestration |
 
 Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
-Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER` value before
+Redis namespace. Local multi-process runs should export one unique `MODULARPIPELINES_RUN_ID` value before
 starting the master and workers. CI workflows must likewise generate or derive one invocation-specific
-value and export it as `RUN_IDENTIFIER` for every master and worker.
+value and export it as `MODULARPIPELINES_RUN_ID` for every master and worker.
 
 ## Redis Key Schema
 

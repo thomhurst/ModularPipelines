@@ -7,6 +7,7 @@ public class RunIdentifierResolverTests
 {
     private static readonly string[] CiEnvironmentVariables =
     [
+        "MODULARPIPELINES_RUN_ID",
         "GITHUB_SHA",
         "BUILD_SOURCEVERSION",
         "CI_COMMIT_SHA",
@@ -26,6 +27,7 @@ public class RunIdentifierResolverTests
         await WithEnvironmentAsync(
             new Dictionary<string, string?>
             {
+                ["MODULARPIPELINES_RUN_ID"] = null,
                 ["GITHUB_SHA"] = "github-sha",
                 ["BUILD_SOURCEVERSION"] = "azure-sha",
                 ["CI_COMMIT_SHA"] = "gitlab-sha",
@@ -35,6 +37,23 @@ public class RunIdentifierResolverTests
                 var result = RunIdentifierResolver.Resolve(null);
 
                 await Assert.That(result).IsEqualTo("github-sha");
+            });
+    }
+
+    [Test]
+    public async Task Returns_Standard_Run_Id_Before_CI_Commit()
+    {
+        await WithEnvironmentAsync(
+            new Dictionary<string, string?>
+            {
+                ["MODULARPIPELINES_RUN_ID"] = "pipeline-run",
+                ["GITHUB_SHA"] = "github-sha",
+            },
+            async () =>
+            {
+                var result = RunIdentifierResolver.Resolve(null);
+
+                await Assert.That(result).IsEqualTo("pipeline-run");
             });
     }
 
