@@ -30,7 +30,7 @@ public record GoDocOptions : GoOptions
     /// Respect case when matching symbols.
     /// </summary>
     [CliFlag("-c")]
-    public bool? C { get; set; }
+    public bool? LowerC { get; set; }
 
     /// <summary>
     /// Treat a command (package main) like a regular package. Otherwise package main's exported symbols are hidden when showing the package's top-level documentation.
@@ -44,6 +44,9 @@ public record GoDocOptions : GoOptions
     [CliFlag("-ex")]
     public bool? Ex { get; set; }
 
+    /// <summary>
+    /// Serve HTML docs over HTTP.
+    /// </summary>
     [CliFlag("-http")]
     public bool? Http { get; set; }
 
@@ -69,7 +72,7 @@ public record GoDocOptions : GoOptions
     /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
     /// </summary>
     [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? COption { get; set; }
+    public string? UpperC { get; set; }
 
     /// <summary>
     /// The package operand.
