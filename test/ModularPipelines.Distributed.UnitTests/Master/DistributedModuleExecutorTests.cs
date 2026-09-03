@@ -1250,6 +1250,7 @@ public class DistributedModuleExecutorTests
         var moduleLogger = new Mock<IInternalModuleLogger>();
         moduleLogger.Setup(logger => logger.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
         IModuleLogger? ambientLogger = null;
+        Type? ambientModuleType = null;
 
         moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
@@ -1257,7 +1258,8 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, _, _) =>
             {
-                ambientLogger = ModuleLogger.Values.Value;
+                ambientLogger = AmbientModuleOutputContext.Current?.Logger;
+                ambientModuleType = AmbientModuleOutputContext.Current?.ModuleType;
                 var result = CreateSuccessResult(
                     new SimpleResult { Message = "master-executed" },
                     nameof(ArtifactLoggingModule));
@@ -1283,6 +1285,7 @@ public class DistributedModuleExecutorTests
             await executor.ExecuteAsync([module]);
 
             await Assert.That(ambientLogger).IsSameReferenceAs(moduleLogger.Object);
+            await Assert.That(ambientModuleType).IsEqualTo(typeof(ArtifactLoggingModule));
             moduleLogger.Verify(
                 logger => logger.Log(
                     LogLevel.Warning,

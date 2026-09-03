@@ -16,7 +16,6 @@ public class PublicSurfaceLeakageTests
         {
             "ModularPipelines.Context.Domains.Implementations.InstallersContext",
             "ModularPipelines.Context.HashContext",
-            "ModularPipelines.Distributed.DistributedRole",
             "ModularPipelines.Engine.ILogoPrinter",
             "ModularPipelines.Enums.DependencyType",
             "ModularPipelines.Extensions.StreamExtensions",

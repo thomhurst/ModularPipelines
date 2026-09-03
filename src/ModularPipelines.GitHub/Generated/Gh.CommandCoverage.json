@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "gh",
   "toolVersion": "gh version 2.98.0 (2026-08-20) https://github.com/cli/cli/releases/tag/v2.98.0",
-  "commandCount": 222,
-  "commandTreeSha256": "f3f924874c2a944f9c34cb5c08526accbbf78993506085ec687b956f6032f99d",
+  "commandCount": 221,
+  "commandTreeSha256": "3777cffcf304b41a18323a005d1f5bfd5dd24121249da59c9d985e6b8132d552",
   "commands": [
     "gh agent-task",
     "gh agent-task create",
@@ -214,7 +214,6 @@
     "gh ssh-key add",
     "gh ssh-key delete",
     "gh ssh-key list",
-    "gh stack",
     "gh status",
     "gh variable",
     "gh variable delete",

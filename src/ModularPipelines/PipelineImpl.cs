@@ -4,6 +4,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
@@ -57,6 +58,10 @@ internal sealed class PipelineImpl : IPipeline
 
         try
         {
+            var consoleCoordinator = services.GetRequiredService<IConsoleCoordinator>();
+            consoleCoordinator.Install();
+            consoleCoordinator.EnableOutputBuffering();
+
             if (!initializePipeline)
             {
                 return pipeline;

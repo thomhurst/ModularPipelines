@@ -195,16 +195,6 @@ public partial interface IGh
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Stacked PRs let you break a large change into a chain of pull requests
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> StackAsync(GhStackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// - Assigned Issues
     /// </summary>
     /// <param name="options">The command options.</param>

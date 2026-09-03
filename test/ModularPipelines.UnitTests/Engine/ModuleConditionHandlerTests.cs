@@ -53,29 +53,19 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
-    public async Task Environment_Master_Override_Does_Not_Filter_Foreign_Os_Module()
+    public async Task Explicit_Master_Role_Does_Not_Filter_Foreign_Os_Module()
     {
-        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
-
-        try
+        var handler = CreateHandler(new DistributedOptions
         {
-            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
+            Enabled = true,
+            Role = DistributedRole.Master,
+            InstanceIndex = 2,
+            TotalInstances = 3,
+        });
 
-            var handler = CreateHandler(new DistributedOptions
-            {
-                Enabled = true,
-                InstanceIndex = 2,
-                TotalInstances = 3,
-            });
+        var result = await handler.ShouldIgnore(CreateForeignOsModule());
 
-            var result = await handler.ShouldIgnore(CreateForeignOsModule());
-
-            await Assert.That(result.ShouldIgnore).IsFalse();
-        }
-        finally
-        {
-            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
-        }
+        await Assert.That(result.ShouldIgnore).IsFalse();
     }
 
     [Test]

@@ -238,7 +238,7 @@ public class ModuleTestBuilder<TModule>
             .GetRequiredService<IOptions<ModuleCacheOptions>>()
             .Value.WorkingDirectory;
 
-        await using var loggerScope = new ModuleLoggerScope(logger, typeof(TModule));
+        using var outputScope = new ModuleOutputContextScope(typeof(TModule), logger);
 
         IModuleResult result;
         try
