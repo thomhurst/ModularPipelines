@@ -12,5 +12,15 @@ public record ModuleAssignment(
     ModuleAssignmentConfiguration Configuration,
     IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
 {
+    /// <summary>
+    /// Gets the user-configured scheduling priority.
+    /// </summary>
+    public ModulePriority Priority { get; init; } = ModulePriority.Normal;
+
+    /// <summary>
+    /// Gets the estimated duration of the longest downstream path starting at this module.
+    /// </summary>
+    public TimeSpan CriticalPathWeight { get; init; }
+
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 }
