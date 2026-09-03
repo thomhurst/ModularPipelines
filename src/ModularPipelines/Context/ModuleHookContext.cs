@@ -15,6 +15,7 @@ namespace ModularPipelines.Context;
 internal class ModuleHookContext : IModuleHookContext
 {
     private readonly IPipelineContext _pipelineContext;
+    private readonly IConsoleWriter _consoleWriter;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly DateTimeOffset _startTime;
 
@@ -24,7 +25,8 @@ internal class ModuleHookContext : IModuleHookContext
         DateTimeOffset startTime,
         IModuleResult? result,
         IPipelineContext pipelineContext,
-        IModuleMetadataRegistry metadataRegistry)
+        IModuleMetadataRegistry metadataRegistry,
+        IConsoleWriter? consoleWriter = null)
     {
         Module = module;
         ModuleAttributes = moduleAttributes;
@@ -32,6 +34,7 @@ internal class ModuleHookContext : IModuleHookContext
         Result = result;
         _pipelineContext = pipelineContext;
         _metadataRegistry = metadataRegistry;
+        _consoleWriter = consoleWriter ?? pipelineContext.Console;
     }
 
     #region IModuleHookContext members
@@ -90,6 +93,9 @@ internal class ModuleHookContext : IModuleHookContext
 
     /// <inheritdoc />
     public ILogger Logger => _pipelineContext.Logger;
+
+    /// <inheritdoc />
+    public IConsoleWriter Console => _consoleWriter;
 
     /// <inheritdoc />
     public IShellContext Shell => _pipelineContext.Shell;

@@ -1,9 +1,11 @@
 using System.Buffers;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
+using Spectre.Console;
 
 namespace ModularPipelines.Secrets;
 
@@ -91,12 +93,31 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return new SecretObfuscationResult(input, 0);
         }
 
-        return ObfuscateMatches(
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var output = ObfuscateMatches(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            comparison);
+        if (!output.Output.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatches(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison),
+            static result => result.Output);
     }
 
     internal string ObfuscatePreservingMasks(string input)
@@ -116,16 +137,40 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return input;
         }
 
-        return ObfuscateMatches(
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var output = ObfuscateMatches(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal,
-            preserveExistingMasks: true).Output;
+            comparison,
+            preserveExistingMasks: true);
+        if (!output.Output.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output.Output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatches(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison),
+            static result => result.Output).Output;
     }
 
     internal MappedObfuscatedOutput ObfuscatePreservingMasksWithSourceMap(string input)
+        => ObfuscateWithSourceMap(input, preserveExistingMasks: true);
+
+    internal MappedObfuscatedOutput ObfuscateWithSourceMap(
+        string input,
+        bool preserveExistingMasks)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -142,12 +187,33 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             return CreateUnchangedSourceMap(input);
         }
 
-        return ObfuscateMatchesWithSourceMap(
+        var comparison = caseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var output = ObfuscateMatchesWithSourceMap(
             input,
             secretCache.Secrets,
             secretCache.SearchValues,
             maskValue,
-            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            comparison,
+            preserveExistingMasks);
+        if (!output.Value.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            comparison,
+            candidate => ObfuscateMatchesWithSourceMap(
+                input,
+                secretCache.Secrets,
+                secretCache.SearchValues,
+                candidate,
+                comparison,
+                preserveExistingMasks: false),
+            static result => result.Value);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -162,8 +228,13 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var comparison = CaseInsensitive
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
-        return secrets.All(secret =>
-            string.IsNullOrEmpty(secret) || !maskValue.Contains(secret, comparison));
+        return IsSafeMask(maskValue, secrets, comparison);
+    }
+
+    internal bool CanSafelyPreserveRegisteredMasks()
+    {
+        var options = _maskingOptions.Value;
+        return CanSafelyPreserveMasks(GetRegisteredSecretCache(options.CaseInsensitive).Secrets);
     }
 
     internal SecretCache GetSecretCache(
@@ -257,6 +328,87 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
     private static string GetMaskValue(SecretMaskingOptions options) =>
         string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
 
+    private static TResult ObfuscateWithSafeFallbackMask<TResult>(
+        IReadOnlyList<string> secrets,
+        SearchValues<string> searchValues,
+        StringComparison comparison,
+        Func<string, TResult> obfuscate,
+        Func<TResult, string> getOutput)
+        where TResult : notnull
+    {
+        string[] preferredMasks = ["[MASKED]", "[REDACTED]", "**********", "##########"];
+        foreach (var candidate in preferredMasks)
+        {
+            if (TryObfuscate(candidate, out var output))
+            {
+                return output;
+            }
+        }
+
+        var safeOutput = default(TResult);
+        var safeCharacter = FindSafeFallbackMaskCharacter(character =>
+            TryObfuscate(new string(character, 10), out safeOutput));
+        if (safeCharacter is not null)
+        {
+            return safeOutput!;
+        }
+
+        throw new InvalidOperationException("No non-secret masking characters remain available.");
+
+        bool TryObfuscate(string maskValue, out TResult output)
+        {
+            output = obfuscate(maskValue);
+            return IsSafeMask(maskValue, secrets, comparison)
+                   && !getOutput(output).AsSpan().ContainsAny(searchValues);
+        }
+    }
+
+    internal static char? FindSafeFallbackMaskCharacter(Func<char, bool> isSafe)
+    {
+        for (var codePoint = (int) char.MinValue; codePoint <= char.MaxValue; codePoint++)
+        {
+            var character = (char) codePoint;
+            var category = char.GetUnicodeCategory(character);
+            if (char.IsControl(character)
+                || char.IsSurrogate(character)
+                || char.IsWhiteSpace(character)
+                || category is UnicodeCategory.Format
+                    or UnicodeCategory.NonSpacingMark
+                    or UnicodeCategory.SpacingCombiningMark
+                    or UnicodeCategory.EnclosingMark
+                    or UnicodeCategory.PrivateUse
+                    or UnicodeCategory.OtherNotAssigned
+                || character.GetCellWidth() <= 0)
+            {
+                continue;
+            }
+
+            if (isSafe(character))
+            {
+                return character;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool IsSafeMask(
+        string candidate,
+        IReadOnlyList<string> secrets,
+        StringComparison comparison)
+    {
+        var maximumSecretLength = secrets
+            .Where(secret => !string.IsNullOrEmpty(secret))
+            .Select(secret => secret.Length)
+            .DefaultIfEmpty()
+            .Max();
+        var repetitionCount = (maximumSecretLength / candidate.Length) + 2;
+        var repeatedCandidate = string.Concat(Enumerable.Repeat(candidate, repetitionCount));
+
+        return secrets.All(secret =>
+            string.IsNullOrEmpty(secret) || !repeatedCandidate.Contains(secret, comparison));
+    }
+
     private static SecretCache CreateSecretCache(
         IEnumerable<string> secrets,
         long version,
@@ -338,9 +490,12 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         IReadOnlyList<string> secrets,
         SearchValues<string> searchValues,
         string maskValue,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool preserveExistingMasks)
     {
-        var existingMaskRanges = GetMaskRanges(input, maskValue);
+        var existingMaskRanges = preserveExistingMasks
+            ? GetMaskRanges(input, maskValue)
+            : [];
         var maskRangeIndex = 0;
         var sourceToOutputByteOffsets = new int[input.Length + 1];
         var result = new StringBuilder(input.Length);

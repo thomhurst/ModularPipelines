@@ -13,6 +13,7 @@ using ModularPipelines.TestHelpers;
 using Moq;
 using NReco.Logging.File;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 using ModularPipelines.FileSystem;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using ModularPipelines.Enums;
@@ -26,9 +27,9 @@ public class ModuleLoggerTests
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            ((IConsoleWriter) context.Logger).LogToConsole(RandomString);
+            context.Console.WriteLine(RandomString);
 
-            ((IConsoleWriter) context.Logger).LogToConsole(new MySecrets().Value1!);
+            context.Console.WriteLine(new MySecrets().Value1!);
 
             await Task.Yield();
             return true;
@@ -58,9 +59,9 @@ public class ModuleLoggerTests
     }
 
     [Test]
-    public async Task LogToConsole_Does_Not_Write_To_File_Logger()
+    public async Task ConsoleWriteLine_Does_Not_Write_To_File_Logger()
     {
-        // This test verifies that LogToConsole output goes to console buffers,
+        // This test verifies that console output goes to console buffers,
         // NOT to file loggers. The console output itself is verified implicitly
         // through the full integration tests.
         var file = FilePath.GetNewTemporaryFilePath();
@@ -77,7 +78,7 @@ public class ModuleLoggerTests
 
         await host.DisposeAsync();
 
-        // The key behavior: LogToConsole output should NOT appear in file logs
+        // The key behavior: console output should NOT appear in file logs
         await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
     }
 
@@ -431,8 +432,11 @@ public class ModuleLoggerTests
         var renderedLines = new List<string>();
         var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
         moduleOutputBuffer
-            .Setup(x => x.WriteLine(It.IsAny<string>()))
-            .Callback<string>(renderedLines.Add);
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedLines.Add(rendered));
         var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer.Object);
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
@@ -451,6 +455,132 @@ public class ModuleLoggerTests
         await Assert.That(renderedLines).Count().IsEqualTo(2);
         await Assert.That(renderedLines[1]).Contains("second");
         await Assert.That(renderedLines[1]).DoesNotContain("first");
+    }
+
+    [Test]
+    public async Task WriteMarkupLine_DoesNotApplyCustomObfuscatorTwice()
+    {
+        IRenderable? bufferedRenderable = null;
+        string? bufferedPlainText = null;
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((renderable, plainText, _) =>
+            {
+                bufferedRenderable = renderable;
+                bufferedPlainText = plainText;
+            });
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input switch
+            {
+                "secret" => "masked",
+                "masked" => "masked-twice",
+                _ => input ?? string.Empty,
+            });
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.WriteMarkupLine("[green]secret[/]");
+
+        using var writer = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+            Ansi = AnsiSupport.No,
+        });
+        console.Write(bufferedRenderable!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(bufferedPlainText).IsEqualTo("secret");
+            await Assert.That(writer.ToString()).Contains("masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+        }
+    }
+
+    [Test]
+    public async Task Write_SnapshotsRenderableAtConfiguredConsoleWidth()
+    {
+        string? renderedOutput = null;
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((_, rendered, _) => renderedOutput = rendered);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        using var consoleWriter = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(consoleWriter),
+            Ansi = AnsiSupport.No,
+        });
+        console.Profile.Width = 24;
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>(),
+            console);
+
+        logger.Write(new Rule("Title"));
+
+        await Assert.That(renderedOutput).IsNotNull();
+        await Assert.That(renderedOutput!.TrimEnd('\r', '\n').Length).IsEqualTo(24);
+    }
+
+    [Test]
+    public async Task Write_SnapshotsMutableRenderableBeforeBuffering()
+    {
+        var snapshots = new List<IRenderable>();
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteRenderable(
+                It.IsAny<IRenderable>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()))
+            .Callback<IRenderable, string, bool>((renderable, _, _) => snapshots.Add(renderable));
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>());
+        var table = new Table().AddColumn("Value").AddRow("first");
+
+        logger.Write(table);
+        table.AddRow("second");
+        logger.Write(table);
+
+        using var writer = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+            Ansi = AnsiSupport.No,
+        });
+        console.Write(snapshots[0]);
+        var firstSnapshot = writer.ToString();
+
+        await Assert.That(firstSnapshot).Contains("first");
+        await Assert.That(firstSnapshot).DoesNotContain("second");
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]

@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -50,51 +51,60 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
                 pipelineSummary);
     }
 
-    public Task OnModuleReadyAsync(ModuleState moduleState)
+    public Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeReadyHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState));
+                CreateModuleHookContext(moduleState, consoleWriter));
     }
 
-    public Task OnModuleStartAsync(ModuleState moduleState)
+    public Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeStartHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState));
+                CreateModuleHookContext(moduleState, consoleWriter));
     }
 
-    public Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result)
+    public Task OnModuleEndAsync(
+        ModuleState moduleState,
+        IModuleResult result,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeEndHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 result);
     }
 
-    public Task OnModuleFailureAsync(ModuleState moduleState, Exception exception)
+    public Task OnModuleFailureAsync(
+        ModuleState moduleState,
+        Exception exception,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeFailureHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 exception);
     }
 
-    public Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason)
+    public Task OnModuleSkippedAsync(
+        ModuleState moduleState,
+        SkipDecision reason,
+        IConsoleWriter consoleWriter)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeSkippedHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState),
+                CreateModuleHookContext(moduleState, consoleWriter),
                 reason);
     }
 
@@ -103,7 +113,9 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return _moduleContextProvider.GetModuleContext();
     }
 
-    private ModuleHookContext CreateModuleHookContext(ModuleState moduleState)
+    private ModuleHookContext CreateModuleHookContext(
+        ModuleState moduleState,
+        IConsoleWriter consoleWriter)
     {
         var moduleType = moduleState.ModuleType;
         var moduleAttributes = _attributeEventService.GetAttributes(moduleType);
@@ -115,6 +127,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
             startTime,
             moduleState.Result,
             GetPipelineContext(),
-            _metadataRegistry);
+            _metadataRegistry,
+            consoleWriter);
     }
 }
