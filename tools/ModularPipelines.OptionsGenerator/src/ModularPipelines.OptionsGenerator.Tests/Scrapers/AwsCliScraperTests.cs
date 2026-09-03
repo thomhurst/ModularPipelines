@@ -277,12 +277,22 @@ public class AwsCliScraperTests
 
         var options = commands.Single().Options;
         var enabled = options.Single(option => option.SwitchName == "--enabled");
+        var quiet = options.Single(option => option.SwitchName == "--quiet");
         var path = options.Single(option => option.SwitchName == "--entities-path");
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        var generatedOptions = await new OptionsClassGenerator().GenerateAsync(tool);
+        var generatedContent = generatedOptions.Single(file =>
+            file.RelativePath.EndsWith("AwsFixtureApplyOptions.Generated.cs", StringComparison.Ordinal)).Content;
         using (Assert.Multiple())
         {
             await Assert.That(enabled.CSharpType).IsEqualTo("bool?");
             await Assert.That(enabled.IsFlag).IsFalse();
             await Assert.That(enabled.AcceptsMultipleValues).IsFalse();
+            await Assert.That(quiet.CSharpType).IsEqualTo("bool?");
+            await Assert.That(quiet.IsFlag).IsTrue();
+            await Assert.That(quiet.NegatedSwitchName).IsNull();
+            await Assert.That(generatedContent).Contains("[CliFlag(\"--quiet\")]");
+            await Assert.That(generatedContent).Contains("[CliOption(\"--enabled\")]");
             await Assert.That(path.CSharpType).IsEqualTo("string?");
             await Assert.That(path.AcceptsMultipleValues).IsFalse();
         }
@@ -946,6 +956,9 @@ public class AwsCliScraperTests
                     OPTIONS
                            --enabled (boolean)
                             Explicit Boolean value. Possible values: true false
+
+                           --quiet (boolean)
+                            Suppress command output.
 
                            --entities-path (string)
                             A path that contains multiple levels.
