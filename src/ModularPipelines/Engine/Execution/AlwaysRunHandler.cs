@@ -26,7 +26,20 @@ internal class AlwaysRunHandler(
     private readonly TimeProvider _timeProvider = timeProvider;
 
     /// <inheritdoc />
-    public async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules)
+    public Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules) =>
+        WaitForAlwaysRunModulesAsync(
+            scheduler,
+            modules,
+            moduleState => _moduleRunner.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler,
+                CancellationToken.None));
+
+    /// <inheritdoc />
+    public async Task WaitForAlwaysRunModulesAsync(
+        IModuleScheduler scheduler,
+        IReadOnlyList<IModule> modules,
+        Func<ModuleState, Task> startPendingModuleAsync)
     {
         var alwaysRunModules = modules.Where(x => x.Configuration.AlwaysRun).ToList();
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
@@ -46,7 +59,12 @@ internal class AlwaysRunHandler(
                     break;
                 }
 
-                await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
+                await ProcessAlwaysRunModulesAsync(
+                        scheduler,
+                        modulesToProcess,
+                        exceptions,
+                        startPendingModuleAsync)
+                    .ConfigureAwait(false);
 
                 var deferredModules = modulesToProcess
                     .Where(module =>
@@ -159,7 +177,8 @@ internal class AlwaysRunHandler(
     private async Task ProcessAlwaysRunModulesAsync(
         IModuleScheduler scheduler,
         IReadOnlyCollection<IModule> modules,
-        ConcurrentQueue<Exception> exceptions)
+        ConcurrentQueue<Exception> exceptions,
+        Func<ModuleState, Task> startPendingModuleAsync)
     {
         var parallelOptions = new ParallelOptions
         {
@@ -171,7 +190,11 @@ internal class AlwaysRunHandler(
             parallelOptions,
             async (module, _) =>
             {
-                var exception = await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
+                var exception = await WaitForSingleAlwaysRunModuleAsync(
+                        scheduler,
+                        module,
+                        startPendingModuleAsync)
+                    .ConfigureAwait(false);
                 if (exception != null)
                 {
                     exceptions.Enqueue(exception);
@@ -179,7 +202,10 @@ internal class AlwaysRunHandler(
             }).ConfigureAwait(false);
     }
 
-    private async Task<Exception?> WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, IModule module)
+    private async Task<Exception?> WaitForSingleAlwaysRunModuleAsync(
+        IModuleScheduler scheduler,
+        IModule module,
+        Func<ModuleState, Task> startPendingModuleAsync)
     {
         var moduleType = module.GetType();
         var moduleState = scheduler.GetModuleState(moduleType);
@@ -202,7 +228,7 @@ internal class AlwaysRunHandler(
 
             try
             {
-                await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, scheduler, CancellationToken.None).ConfigureAwait(false);
+                await startPendingModuleAsync(moduleState).ConfigureAwait(false);
 
                 if (CanLateStartAlwaysRunModule(moduleState))
                 {
