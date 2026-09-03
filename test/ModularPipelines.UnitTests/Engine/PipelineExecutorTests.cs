@@ -126,6 +126,25 @@ public class PipelineExecutorTests
         await Assert.That(await module).IsSameReferenceAs(acceptedResult);
     }
 
+    [Test]
+    public async Task Backend_Result_Requires_Fully_Qualified_Type_Name()
+    {
+        var module = new UnexecutedModule();
+        var result = new Mock<IModuleResult>();
+        result.SetupGet(x => x.Name).Returns(module.GetType().Name);
+        result.SetupGet(x => x.TypeName).Returns((string?) null);
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            backendResults: [result.Object]);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync([module], new OrganizedModules([], [])));
+
+        await Assert.That(exception!.Message).Contains("fully qualified TypeName");
+    }
+
     private static PipelineExecutor CreateExecutor(
         ISecondaryExceptionContainer secondaryExceptions,
         IExceptionRethrowService exceptionRethrowService,

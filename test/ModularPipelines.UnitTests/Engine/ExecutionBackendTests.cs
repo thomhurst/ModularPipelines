@@ -94,7 +94,7 @@ public class ExecutionBackendTests
     }
 
     [Test]
-    public async Task BackendContextRegistersResultWhenModuleAwaitableIsFaulted()
+    public async Task BackendContextDoesNotRegisterResultWhenModuleAwaitableIsFaulted()
     {
         var module = new BackendTestModule();
         await using var pipeline = await TestPipelineBuilder.Create()
@@ -111,7 +111,7 @@ public class ExecutionBackendTests
         using (Assert.Multiple())
         {
             await Assert.That(applied).IsFalse();
-            await Assert.That(resultRegistry.GetResult(module.GetType())).IsSameReferenceAs(result);
+            await Assert.That(resultRegistry.GetResult(module.GetType())).IsNull();
             await Assert.That(module.CompletionSource.Task.Exception?.InnerException)
                 .IsSameReferenceAs(failure);
         }

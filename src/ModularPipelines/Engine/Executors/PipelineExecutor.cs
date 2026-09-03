@@ -90,10 +90,17 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         foreach (var result in results)
         {
+            if (string.IsNullOrWhiteSpace(result.TypeName))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend result '{result.Name}' must provide a fully qualified TypeName.");
+            }
+
             var matchingModules = modules
-                .Where(module => result.TypeName is not null
-                    ? string.Equals(module.GetType().FullName, result.TypeName, StringComparison.Ordinal)
-                    : string.Equals(module.GetType().Name, result.Name, StringComparison.Ordinal))
+                .Where(module => string.Equals(
+                    module.GetType().FullName,
+                    result.TypeName,
+                    StringComparison.Ordinal))
                 .ToArray();
             if (matchingModules.Length != 1)
             {

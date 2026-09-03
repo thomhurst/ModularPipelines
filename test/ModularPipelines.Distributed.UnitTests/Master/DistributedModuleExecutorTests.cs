@@ -1879,6 +1879,60 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    [Timeout(10_000)]
+    public async Task External_Cancellation_Stops_Master_Worker_Before_Publishing_Completes(
+        CancellationToken testCancellation)
+    {
+        var dequeueStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dequeueCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var publishRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(c => c.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<IReadOnlySet<Capability>, CancellationToken>(async (_, cancellationToken) =>
+            {
+                dequeueStarted.TrySetResult();
+                try
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    dequeueCancelled.TrySetResult();
+                }
+
+                return null;
+            });
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var conditionHandler = new Mock<IModuleConditionHandler>();
+        conditionHandler.Setup(handler => handler.PrepareDistributedRoutingAsync(
+                It.IsAny<IModule>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(publishRelease.Task);
+        var module = new DistributedModule();
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            conditionHandler: conditionHandler.Object);
+        using var executionCancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+
+        var execution = executor.ExecuteAsync(
+            [module],
+            new ExecutionBackendContext(resultRegistry),
+            executionCancellation.Token);
+        await dequeueStarted.Task.WaitAsync(testCancellation);
+        await executionCancellation.CancelAsync();
+
+        await dequeueCancelled.Task.WaitAsync(testCancellation);
+        publishRelease.TrySetResult();
+        await execution.WaitAsync(testCancellation);
+    }
+
+    [Test]
     public async Task Executor_Broadcasts_Cancellation_When_Assignment_Creation_Fails()
     {
         var failure = new InvalidOperationException("Routing failed");

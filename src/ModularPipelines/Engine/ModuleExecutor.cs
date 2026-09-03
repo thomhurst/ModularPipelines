@@ -97,7 +97,7 @@ internal class ModuleExecutor : IExecutionBackend
         {
             scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
             await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
-            return GetCompletedResults(modules);
+            return _resultRegistry.GetCompletedResults(modules);
         }
         catch (Exception outerEx)
         {
@@ -285,7 +285,6 @@ internal class ModuleExecutor : IExecutionBackend
                 parallelOptions,
                 async (moduleState, ct) =>
                 {
-                    moduleState.AttachScheduler(scheduler);
                     try
                     {
                         await _moduleRunner.ExecuteAsync(moduleState, ct).ConfigureAwait(false);
@@ -344,14 +343,6 @@ internal class ModuleExecutor : IExecutionBackend
         }
 
         return exception;
-    }
-
-    private IReadOnlyList<IModuleResult> GetCompletedResults(IEnumerable<IModule> modules)
-    {
-        return modules
-            .Select(module => _resultRegistry.GetResult(module.GetType()))
-            .OfType<IModuleResult>()
-            .ToArray();
     }
 
     private void RegisterCancelledModuleResults(

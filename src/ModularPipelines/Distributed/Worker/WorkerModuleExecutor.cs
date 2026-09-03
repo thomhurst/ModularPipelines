@@ -56,6 +56,7 @@ internal class WorkerModuleExecutor(
         IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(modules);
         ArgumentNullException.ThrowIfNull(context);
 
         var options = _options.Value;
@@ -124,10 +125,7 @@ internal class WorkerModuleExecutor(
             await AwaitBackgroundTasksAsync(heartbeatTask, cancellationTask);
         }
 
-        return executedModules
-            .Select(module => _resultRegistry.GetResult(module.GetType()))
-            .OfType<IModuleResult>()
-            .ToArray();
+        return _resultRegistry.GetCompletedResults(executedModules);
     }
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)

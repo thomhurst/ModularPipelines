@@ -14,16 +14,9 @@ internal sealed class ExecutionBackendContext(IModuleResultRegistry resultRegist
 
         var internalModule = module.AsInternal();
         var applied = internalModule.TrySetDistributedResult(result);
-        if (applied)
+        if (internalModule.ResultTask.IsCompletedSuccessfully)
         {
-            _resultRegistry.RegisterResult(module.GetType(), result);
-        }
-        else if (_resultRegistry.GetResult(module.GetType()) is null)
-        {
-            var completedResult = internalModule.ResultTask.IsCompletedSuccessfully
-                ? internalModule.ResultTask.Result
-                : result;
-            _resultRegistry.RegisterResult(module.GetType(), completedResult);
+            _resultRegistry.RegisterResult(module.GetType(), internalModule.ResultTask.Result);
         }
 
         return applied;

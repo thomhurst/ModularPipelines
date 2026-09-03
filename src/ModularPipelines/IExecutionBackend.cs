@@ -27,7 +27,11 @@ public interface IExecutionBackend
     /// <param name="modules">The planned modules to execute.</param>
     /// <param name="context">Operations supplied by the engine for applying remotely produced results.</param>
     /// <param name="cancellationToken">A token that requests pipeline cancellation.</param>
-    /// <returns>The completed module results. Results already applied through <paramref name="context"/> may be omitted.</returns>
+    /// <returns>
+    /// The completed module results. Each returned result must provide its module's fully qualified
+    /// type name through <see cref="IModuleResult.TypeName"/>. Results already applied through
+    /// <paramref name="context"/> may be omitted.
+    /// </returns>
     Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IExecutionBackendContext context,

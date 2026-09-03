@@ -76,6 +76,7 @@ internal class DistributedModuleExecutor(
         IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(modules);
         ArgumentNullException.ThrowIfNull(context);
 
         if (modules.Count == 0)
@@ -129,7 +130,7 @@ internal class DistributedModuleExecutor(
                 _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
-            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
+            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
             var executionToken = cts.Token;
             using var cancellationRegistration = executionToken.Register(
                 () => CompleteCancelledModules(scheduler, _resultRegistrar, executionToken));
@@ -179,10 +180,7 @@ internal class DistributedModuleExecutor(
             scheduler?.Dispose();
         }
 
-        return modules
-            .Select(module => _resultRegistry.GetResult(module.GetType()))
-            .OfType<IModuleResult>()
-            .ToArray();
+        return _resultRegistry.GetCompletedResults(modules);
     }
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)
