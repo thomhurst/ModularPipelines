@@ -8,6 +8,61 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class DistributedPipelineHubTests
 {
     [Test]
+    public async Task Heartbeat_From_Connected_Worker_Cannot_Update_Another_Worker()
+    {
+        var state = new SignalRMasterState();
+        const string connectionId = "connected-worker";
+        state.Workers[connectionId] = new WorkerState
+        {
+            ConnectionId = connectionId,
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+        var context = new Mock<HubCallerContext>();
+        context.SetupGet(x => x.ConnectionId).Returns(connectionId);
+        var hub = new DistributedPipelineHub(
+            state,
+            NullLogger<DistributedPipelineHub>.Instance)
+        {
+            Context = context.Object,
+        };
+
+        await hub.Heartbeat(new WorkerStatus(2));
+
+        await Assert.That(state.WorkerStatuses.ContainsKey(2)).IsFalse();
+        await Assert.That(state.Heartbeats.ContainsKey(2)).IsFalse();
+    }
+
+    [Test]
+    public async Task Heartbeat_Before_Reconnection_Registration_Preserves_Final_Status()
+    {
+        var state = new SignalRMasterState();
+        var context = new Mock<HubCallerContext>();
+        context.SetupGet(x => x.ConnectionId).Returns("reconnected-worker");
+        var hub = new DistributedPipelineHub(
+            state,
+            NullLogger<DistributedPipelineHub>.Instance)
+        {
+            Context = context.Object,
+        };
+        var status = new WorkerStatus(1)
+        {
+            RunIdentifier = "run-1",
+            UnattributedCommandCount = 3,
+        };
+
+        await hub.Heartbeat(status);
+        await hub.RegisterWorker(
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+            {
+                RunIdentifier = "run-1",
+            },
+            resumingModuleTypeName: null);
+
+        await Assert.That(state.WorkerStatuses[1]).IsSameReferenceAs(status);
+        await Assert.That(state.Heartbeats.ContainsKey(1)).IsTrue();
+    }
+
+    [Test]
     public async Task Disconnect_Retains_Final_Status_For_Report_Collection()
     {
         var state = new SignalRMasterState();

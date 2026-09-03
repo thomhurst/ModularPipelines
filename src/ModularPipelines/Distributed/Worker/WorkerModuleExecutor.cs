@@ -70,6 +70,7 @@ internal class WorkerModuleExecutor(
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
         var heartbeatTask = SendHeartbeatsAsync(
             options.InstanceIndex,
+            options.RunIdentifier,
             options.WorkerHeartbeatInterval,
             cancellationToken);
         var cancellationTask = ObserveDistributedCancellationAsync(
@@ -124,6 +125,7 @@ internal class WorkerModuleExecutor(
 
     private async Task SendHeartbeatsAsync(
         int workerIndex,
+        string? runIdentifier,
         TimeSpan interval,
         CancellationToken cancellationToken)
     {
@@ -133,8 +135,12 @@ internal class WorkerModuleExecutor(
             {
                 await Task.Delay(interval, cancellationToken);
                 await _coordinator.SendHeartbeatAsync(
-                    new WorkerStatus(workerIndex),
-                    cancellationToken);
+                        new WorkerStatus(workerIndex)
+                        {
+                            RunIdentifier = runIdentifier,
+                        },
+                        cancellationToken)
+                    .ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {

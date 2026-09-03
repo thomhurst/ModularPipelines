@@ -1542,8 +1542,11 @@ ModularPipelines.Distributed.WorkerRegistration.Deconstruct(out int WorkerIndex,
 ModularPipelines.Distributed.WorkerRegistration.WorkerRegistration(int WorkerIndex, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>! Capabilities, System.DateTimeOffset RegisteredAt) -> void
 ModularPipelines.Distributed.WorkerStatus
 ModularPipelines.Distributed.WorkerStatus.Deconstruct(out int WorkerIndex) -> void
+static ModularPipelines.Distributed.WorkerStatus.IsLive(ModularPipelines.Distributed.WorkerStatus? status, bool hasLiveHeartbeat) -> bool
 ModularPipelines.Distributed.WorkerStatus.ModuleCommandCounts.get -> System.Collections.Generic.IReadOnlyDictionary<string!, int>?
 ModularPipelines.Distributed.WorkerStatus.ModuleCommandCounts.init -> void
+ModularPipelines.Distributed.WorkerStatus.RunIdentifier.get -> string?
+ModularPipelines.Distributed.WorkerStatus.RunIdentifier.init -> void
 ModularPipelines.Distributed.WorkerStatus.UnattributedCommandCount.get -> int?
 ModularPipelines.Distributed.WorkerStatus.UnattributedCommandCount.init -> void
 ModularPipelines.Distributed.WorkerStatus.WorkerIndex.get -> int

@@ -96,18 +96,27 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         _workers[registration.WorkerIndex] = registration;
-        _workerStatuses.TryAdd(registration.WorkerIndex, new WorkerStatus(registration.WorkerIndex));
+        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        {
+            RunIdentifier = registration.RunIdentifier,
+        };
+        _workerStatuses.AddOrUpdate(
+            registration.WorkerIndex,
+            initialStatus,
+            (_, currentStatus) => string.Equals(
+                currentStatus.RunIdentifier,
+                registration.RunIdentifier,
+                StringComparison.Ordinal)
+                ? currentStatus
+                : initialStatus);
         _heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
         return Task.CompletedTask;
     }
 
     public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
-        if (_workers.ContainsKey(status.WorkerIndex))
-        {
-            _workerStatuses[status.WorkerIndex] = status;
-            _heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
-        }
+        _workerStatuses[status.WorkerIndex] = status;
+        _heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
 
         return Task.CompletedTask;
     }
@@ -118,10 +127,10 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         IReadOnlyList<WorkerRegistration> result =
         [
             .. _workers.Values.Where(worker =>
-                _workerStatuses.TryGetValue(worker.WorkerIndex, out var status)
-                && (status.UnattributedCommandCount.HasValue
-                    || (_heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
-                        && heartbeat >= oldestLiveHeartbeat))),
+                WorkerStatus.IsLive(
+                    _workerStatuses.GetValueOrDefault(worker.WorkerIndex),
+                    _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                    && heartbeat >= oldestLiveHeartbeat)),
         ];
         return Task.FromResult(result);
     }

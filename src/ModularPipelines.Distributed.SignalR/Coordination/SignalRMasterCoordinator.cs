@@ -149,18 +149,27 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
     {
         // Workers register through the hub. This is for the interface contract.
         _state.Registrations[registration.WorkerIndex] = registration;
-        _state.WorkerStatuses.TryAdd(registration.WorkerIndex, new WorkerStatus(registration.WorkerIndex));
+        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        {
+            RunIdentifier = registration.RunIdentifier,
+        };
+        _state.WorkerStatuses.AddOrUpdate(
+            registration.WorkerIndex,
+            initialStatus,
+            (_, currentStatus) => string.Equals(
+                currentStatus.RunIdentifier,
+                registration.RunIdentifier,
+                StringComparison.Ordinal)
+                ? currentStatus
+                : initialStatus);
         _state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
         return Task.CompletedTask;
     }
 
     public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
-        if (_state.Registrations.ContainsKey(status.WorkerIndex))
-        {
-            _state.WorkerStatuses[status.WorkerIndex] = status;
-            _state.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
-        }
+        _state.WorkerStatuses[status.WorkerIndex] = status;
+        _state.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
 
         return Task.CompletedTask;
     }
@@ -171,9 +180,9 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
         IReadOnlyList<WorkerRegistration> workers =
         [
             .. _state.Registrations.Values.Where(worker =>
-                (_state.WorkerStatuses.TryGetValue(worker.WorkerIndex, out var status)
-                 && status.UnattributedCommandCount.HasValue)
-                || (_state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                WorkerStatus.IsLive(
+                    _state.WorkerStatuses.GetValueOrDefault(worker.WorkerIndex),
+                    _state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
                     && heartbeat >= oldestLiveHeartbeat)),
         ];
         return Task.FromResult(workers);

@@ -32,9 +32,13 @@ public class DistributedDtoSerializationTests
         var registration = new WorkerRegistration(
             1,
             ["Docker"],
-            DateTimeOffset.UtcNow);
+            DateTimeOffset.UtcNow)
+        {
+            RunIdentifier = "run-1",
+        };
         var status = new WorkerStatus(1)
         {
+            RunIdentifier = "run-1",
             UnattributedCommandCount = 3,
         };
 
@@ -45,7 +49,9 @@ public class DistributedDtoSerializationTests
 
         await Assert.That(actualRegistration).IsNotNull();
         await Assert.That(actualRegistration!.Capabilities).Contains((Capability) "Docker");
+        await Assert.That(actualRegistration.RunIdentifier).IsEqualTo("run-1");
         await Assert.That(actualStatus).IsNotNull();
+        await Assert.That(actualStatus!.RunIdentifier).IsEqualTo("run-1");
         await Assert.That(actualStatus!.UnattributedCommandCount).IsEqualTo(3);
     }
 

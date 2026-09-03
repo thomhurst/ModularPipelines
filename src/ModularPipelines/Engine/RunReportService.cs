@@ -369,6 +369,7 @@ internal sealed class RunReportService(
                     await distributedCoordinator.SendHeartbeatAsync(
                             new WorkerStatus(options.InstanceIndex)
                             {
+                                RunIdentifier = options.RunIdentifier,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
@@ -586,6 +587,7 @@ internal sealed class RunReportService(
             .ToHashSet();
         var workerStatuses = await GetWorkerStatusesAsync(
                 expectedWorkerIndexes,
+                executionIdentifier,
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -615,6 +617,7 @@ internal sealed class RunReportService(
             {
                 workerStatuses = await GetWorkerStatusesAsync(
                         expectedWorkerIndexes,
+                        executionIdentifier,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -632,12 +635,14 @@ internal sealed class RunReportService(
 
     private async Task<WorkerStatus[]> GetWorkerStatusesAsync(
         HashSet<int> expectedWorkerIndexes,
+        string? executionIdentifier,
         CancellationToken cancellationToken) =>
         [.. (await GetMasterCoordinator()
                 .GetWorkerStatusesAsync(cancellationToken)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false))
-            .Where(status => expectedWorkerIndexes.Contains(status.WorkerIndex))];
+            .Where(status => expectedWorkerIndexes.Contains(status.WorkerIndex)
+                             && IsCurrentExecution(status.RunIdentifier, executionIdentifier))];
 
     private IDistributedMasterCoordinator GetMasterCoordinator() =>
         masterCoordinator
@@ -647,9 +652,14 @@ internal sealed class RunReportService(
     private static bool IsCurrentExecution(
         WorkerRegistration worker,
         string? executionIdentifier) =>
+        IsCurrentExecution(worker.RunIdentifier, executionIdentifier);
+
+    private static bool IsCurrentExecution(
+        string? runIdentifier,
+        string? executionIdentifier) =>
         string.IsNullOrWhiteSpace(executionIdentifier)
         || string.Equals(
-            worker.RunIdentifier,
+            runIdentifier,
             executionIdentifier,
             StringComparison.Ordinal);
 

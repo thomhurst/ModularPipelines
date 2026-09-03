@@ -47,7 +47,19 @@ internal class DistributedPipelineHub(
 
         state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
-        state.WorkerStatuses.TryAdd(registration.WorkerIndex, new WorkerStatus(registration.WorkerIndex));
+        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        {
+            RunIdentifier = registration.RunIdentifier,
+        };
+        state.WorkerStatuses.AddOrUpdate(
+            registration.WorkerIndex,
+            initialStatus,
+            (_, currentStatus) => string.Equals(
+                currentStatus.RunIdentifier,
+                registration.RunIdentifier,
+                StringComparison.Ordinal)
+                ? currentStatus
+                : initialStatus);
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
         // Cancellation is durable master state. A worker that was disconnected
@@ -69,11 +81,15 @@ internal class DistributedPipelineHub(
     public Task Heartbeat(WorkerStatus status)
     {
         if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
-            && worker.Registration.WorkerIndex == status.WorkerIndex)
+            && worker.Registration.WorkerIndex != status.WorkerIndex)
         {
-            _masterState.WorkerStatuses[status.WorkerIndex] = status;
-            _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
+            return Task.CompletedTask;
         }
+
+        // A reconnect heartbeat can race with RegisterWorker on a separate SignalR invocation.
+        // Persist it first so final metrics cannot be dropped during that window.
+        _masterState.WorkerStatuses[status.WorkerIndex] = status;
+        _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
 
         return Task.CompletedTask;
     }

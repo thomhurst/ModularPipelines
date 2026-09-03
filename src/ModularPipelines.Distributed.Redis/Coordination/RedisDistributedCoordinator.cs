@@ -180,7 +180,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var json = JsonSerializer.Serialize(registration);
         await _database.HashSetAsync(_keys.Workers, registration.WorkerIndex.ToString(), json);
         await _database.KeyExpireAsync(_keys.Workers, _keyExpiration);
-        var statusJson = JsonSerializer.Serialize(new WorkerStatus(registration.WorkerIndex));
+        var statusJson = JsonSerializer.Serialize(new WorkerStatus(registration.WorkerIndex)
+        {
+            RunIdentifier = registration.RunIdentifier,
+        });
         await _database.HashSetAsync(
             _keys.WorkerStatuses,
             registration.WorkerIndex.ToString(),
@@ -208,10 +211,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         {
             var registration = JsonSerializer.Deserialize<WorkerRegistration>(
                 entry.Value.ToString())!;
-            if ((statuses.TryGetValue(registration.WorkerIndex, out var status)
-                 && status.UnattributedCommandCount.HasValue)
-                || await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex))
-                    .ConfigureAwait(false))
+            if (WorkerStatus.IsLive(
+                    statuses.GetValueOrDefault(registration.WorkerIndex),
+                    await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex))
+                        .ConfigureAwait(false)))
             {
                 workers.Add(registration);
             }

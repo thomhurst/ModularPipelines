@@ -2512,6 +2512,7 @@ public class RunReportTests
                 coordinator.Verify(x => x.SendHeartbeatAsync(
                     It.Is<WorkerStatus>(status =>
                         status.WorkerIndex == 1
+                        && status.RunIdentifier == "current-run"
                         && status.UnattributedCommandCount == 3
                         && status.ModuleCommandCounts![ModuleTypeIdentifier.Get(typeof(SuccessfulModule))] == 2),
                     It.IsAny<CancellationToken>()), Times.Once);
@@ -3568,11 +3569,13 @@ public class RunReportTests
             .ReturnsAsync([
                 new WorkerStatus(1)
                 {
-                    UnattributedCommandCount = 3,
-                },
-                new WorkerStatus(2)
-                {
+                    RunIdentifier = "previous-run",
                     UnattributedCommandCount = 99,
+                },
+                new WorkerStatus(1)
+                {
+                    RunIdentifier = runIdentifier,
+                    UnattributedCommandCount = 3,
                 },
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
