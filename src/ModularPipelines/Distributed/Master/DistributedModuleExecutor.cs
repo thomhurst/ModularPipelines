@@ -511,11 +511,11 @@ internal class DistributedModuleExecutor(
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
         var lifecycleToken = timeoutCts?.Token ?? cts.Token;
+        var assignment = await _publisher.CreateAssignmentAsync(module, lifecycleToken)
+            .ConfigureAwait(false);
 
         try
         {
-            var assignment = await _publisher.CreateAssignmentAsync(module, lifecycleToken)
-                .ConfigureAwait(false);
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
             await _publisher.PublishAsync(assignment, lifecycleToken);
             await EnsureAssignmentHasExecutionRouteAsync(

@@ -30,7 +30,7 @@ public class DistributedOptions
 
     /// <summary>
     /// Gets or sets the minimum number of external workers that must register before
-    /// the master starts dispatching work. The default is zero, which starts dispatch immediately.
+    /// the master starts dispatching work. The default is zero, which starts dispatching immediately.
     /// Waiting stops when <see cref="CapabilityTimeout"/> expires, after which dispatch proceeds
     /// with the workers currently available even when the configured minimum was not reached.
     /// </summary>
