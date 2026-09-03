@@ -17,7 +17,10 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
@@ -375,7 +378,7 @@ public sealed class PipelineBuilder
                     Console.NoopSpectreConsoleLoggerControl>());
             }
 
-            // Activate distributed mode if configured (replaces executor based on role)
+            // Activate distributed infrastructure. Execution backend selection is deferred to DI.
             ActivateDistributedModeIfConfigured(services);
 
             services
@@ -498,42 +501,34 @@ public sealed class PipelineBuilder
             });
         }
 
-        var options = ResolveDistributedOptions(services);
-        if (options is null || !options.Enabled)
+        if (!services.Any(descriptor => descriptor.ServiceType == typeof(DistributedModeRegistration)))
         {
             return;
         }
 
-        var role = options.TotalInstances <= 1
-            ? DistributedRole.Master
-            : new RoleDetector(Microsoft.Extensions.Options.Options.Create(options)).DetectRole();
+        services.TryAddSingleton<RoleDetector>();
 
         // Replace coordinators when the factory is the latest relevant registration. Creation
         // stays deferred so workers do not block during DI build while waiting for discovery.
         var coordinatorFactoryIndex = FindLastServiceIndex<IDistributedCoordinatorFactory>(services);
         var masterCoordinatorIndex = FindLastServiceIndex<IDistributedMasterCoordinator>(services);
         var workerCoordinatorIndex = FindLastServiceIndex<IDistributedWorkerCoordinator>(services);
-        var coordinatorIndex = role == DistributedRole.Master
-            ? Math.Max(masterCoordinatorIndex, workerCoordinatorIndex)
-            : workerCoordinatorIndex;
-        if (coordinatorFactoryIndex > coordinatorIndex)
+        if (coordinatorFactoryIndex > masterCoordinatorIndex)
         {
             RemoveService<IDistributedMasterCoordinator>(services);
+            services.AddSingleton<DeferredMasterCoordinator>();
+            services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
+        }
+
+        if (coordinatorFactoryIndex > workerCoordinatorIndex)
+        {
             RemoveService<IDistributedWorkerCoordinator>(services);
-            if (role == DistributedRole.Master)
-            {
-                services.AddSingleton<DeferredMasterCoordinator>();
-                services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
-                    serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
-                services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-                    serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
-            }
-            else
-            {
-                services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-                    new DeferredWorkerCoordinator(
-                        serviceProvider.GetRequiredService<IDistributedCoordinatorFactory>()));
-            }
+            services.AddSingleton<DeferredWorkerCoordinator>();
+            services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                    ? serviceProvider.GetRequiredService<IDistributedMasterCoordinator>()
+                    : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
         }
     }
 
@@ -548,50 +543,6 @@ public sealed class PipelineBuilder
         }
 
         return -1;
-    }
-
-    /// <summary>
-    /// Extracts DistributedOptions from the service collection without calling BuildServiceProvider().
-    /// </summary>
-    private static DistributedOptions? ResolveDistributedOptions(IServiceCollection services)
-    {
-        // Look for the IOptions<DistributedOptions> singleton instance registration
-        var optionsDescriptor = services.FirstOrDefault(d =>
-            d.ServiceType == typeof(IOptions<DistributedOptions>) &&
-            d.Lifetime == ServiceLifetime.Singleton &&
-            d.ImplementationInstance is not null);
-
-        if (optionsDescriptor?.ImplementationInstance is IOptions<DistributedOptions> options)
-        {
-            return options.Value;
-        }
-
-        // Check for IConfigureOptions<DistributedOptions> (from Configure<T>() calls)
-        var hasConfigureOptions = services.Any(d =>
-            d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) ||
-            d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>));
-
-        if (hasConfigureOptions)
-        {
-            var opts = new DistributedOptions();
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IConfigureOptions<DistributedOptions>))
-            {
-                ((IConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).Configure(opts);
-            }
-
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IPostConfigureOptions<DistributedOptions>))
-            {
-                ((IPostConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
-            }
-
-            return opts;
-        }
-
-        return null;
     }
 
     private static void RemoveService<T>(IServiceCollection services)

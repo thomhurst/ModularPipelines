@@ -102,8 +102,7 @@ internal class ModuleRunner : IModuleRunner
         _resultHistoryProvider = resultHistoryProvider;
         _pipelineContextProvider = pipelineContextProvider;
         _artifactLifecycleManager = artifactLifecycleManager;
-        _manageArtifactsLocally = !distributedOptions.Value.Enabled
-                                  || distributedOptions.Value.TotalInstances <= 1;
+        _manageArtifactsLocally = !distributedOptions.Value.Enabled;
         var registeredModules = modules.ToArray();
         _registeredModuleTypes = registeredModules.Select(static module => module.GetType()).ToArray();
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);

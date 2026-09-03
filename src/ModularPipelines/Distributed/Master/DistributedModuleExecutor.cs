@@ -523,7 +523,7 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            await ExecuteAndPublishAsync(assignment, module, cancellationToken);
+            await ExecuteAndPublishAsync(assignment, module, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

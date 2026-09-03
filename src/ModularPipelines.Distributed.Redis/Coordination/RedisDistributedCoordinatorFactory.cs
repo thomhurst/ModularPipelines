@@ -14,11 +14,11 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
     private readonly DistributedOptions _distributedOptions;
 
     public RedisDistributedCoordinatorFactory(
-        RedisDistributedOptions options,
+        IOptions<RedisDistributedOptions> options,
         IConnectionMultiplexer connection,
         IOptions<DistributedOptions> distributedOptions)
     {
-        _options = options;
+        _options = options.Value;
         _connection = connection;
         _distributedOptions = distributedOptions.Value;
     }

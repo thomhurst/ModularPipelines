@@ -356,6 +356,8 @@ ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.CapabilityTimeoutSeconds.get -> int
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.CapabilityTimeoutSeconds.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
+*REMOVED*ModularPipelines.Distributed.DistributedOptions.Enabled.get -> bool
+*REMOVED*ModularPipelines.Distributed.DistributedOptions.Enabled.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ExecutionIdentifier.get -> string?
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ExecutionIdentifier.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeoutSeconds.get -> int
@@ -1473,12 +1475,18 @@ ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.Role.get -> ModularPipelines.Distributed.DistributedRole
+ModularPipelines.Distributed.DistributedOptions.Role.set -> void
 ModularPipelines.Distributed.DistributedOptions.RunIdentifier.get -> string?
 ModularPipelines.Distributed.DistributedOptions.RunIdentifier.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.set -> void
+ModularPipelines.Distributed.DistributedRole
+ModularPipelines.Distributed.DistributedRole.Auto = 0 -> ModularPipelines.Distributed.DistributedRole
+ModularPipelines.Distributed.DistributedRole.Master = 1 -> ModularPipelines.Distributed.DistributedRole
+ModularPipelines.Distributed.DistributedRole.Worker = 2 -> ModularPipelines.Distributed.DistributedRole
 ModularPipelines.Distributed.IDistributedCoordinatorFactory.CreateMasterAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.IDistributedMasterCoordinator!>!
 ModularPipelines.Distributed.IDistributedCoordinatorFactory.CreateWorkerAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.IDistributedWorkerCoordinator!>!
 ModularPipelines.Distributed.IDistributedMasterCoordinator
@@ -2625,6 +2633,7 @@ static ModularPipelines.Distributed.Capability.operator ==(ModularPipelines.Dist
 static ModularPipelines.Distributed.Capability.Windows.get -> ModularPipelines.Distributed.Capability
 static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStore<TStore>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStoreFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator !=(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator ==(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool
 static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!

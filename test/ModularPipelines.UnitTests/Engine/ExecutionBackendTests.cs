@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -10,6 +11,19 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class ExecutionBackendTests
 {
+    [Test]
+    public async Task CustomBackendOverridesDistributedBackend()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>()
+            .AddDistributedMode(options => options.TotalInstances = 2)
+            .AddExecutionBackend<RecordingExecutionBackend>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
+            .IsTypeOf<RecordingExecutionBackend>();
+    }
+
     [Test]
     public async Task CustomBackendReceivesPlanAndCompletesModule()
     {

@@ -1,5 +1,6 @@
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
@@ -14,11 +15,11 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
     private readonly ArtifactOptions _artifactOptions;
 
     public S3DistributedArtifactStoreFactory(
-        S3ArtifactOptions s3Options,
-        ArtifactOptions artifactOptions)
+        IOptions<S3ArtifactOptions> s3Options,
+        IOptions<ArtifactOptions> artifactOptions)
     {
-        _s3Options = s3Options;
-        _artifactOptions = artifactOptions;
+        _s3Options = s3Options.Value;
+        _artifactOptions = artifactOptions.Value;
     }
 
     public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)

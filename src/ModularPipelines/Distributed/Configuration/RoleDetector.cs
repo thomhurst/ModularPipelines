@@ -9,11 +9,9 @@ internal class RoleDetector(IOptions<DistributedOptions> options)
 
     public DistributedRole DetectRole()
     {
-        // Check environment variable override first
-        var envInstance = System.Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
-        if (envInstance is not null && int.TryParse(envInstance, out var envIndex))
+        if (_options.Role != DistributedRole.Auto)
         {
-            return envIndex == 0 ? DistributedRole.Master : DistributedRole.Worker;
+            return _options.Role;
         }
 
         return _options.InstanceIndex == 0 ? DistributedRole.Master : DistributedRole.Worker;

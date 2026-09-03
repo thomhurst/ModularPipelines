@@ -15,6 +15,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
@@ -377,7 +378,7 @@ internal static class DependencyInjectionSetup
     /// <summary>
     /// Registers distributed execution infrastructure with local defaults.
     /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
-    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
+    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when distributed mode is enabled.
     /// </summary>
     private static void RegisterDistributedServices(IServiceCollection services)
     {
@@ -411,8 +412,7 @@ internal static class DependencyInjectionSetup
         services.TryAddSingleton<WorkerModuleExecutor>();
         services.TryAddSingleton<IExecutionBackend>(serviceProvider =>
         {
-            var options = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value;
-            if (!options.Enabled || options.TotalInstances <= 1)
+            if (serviceProvider.GetService<DistributedModeRegistration>() is null)
             {
                 return serviceProvider.GetRequiredService<ModuleExecutor>();
             }

@@ -268,7 +268,7 @@ internal class WorkerModuleExecutor(
 
         try
         {
-            await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken);
+            await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken).ConfigureAwait(false);
             executedModules.Add(module);
         }
         catch (Exception ex)
@@ -309,7 +309,7 @@ internal class WorkerModuleExecutor(
                 _typeRegistry.GetRegisteredModuleTypes(),
                 _dependencyRegistry,
                 _metadataRegistry);
-            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, cancellationToken);
+            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, cancellationToken).ConfigureAwait(false);
 
             var result = await module.AsInternal().ResultTask;
             var artifactReferences = await TryUploadArtifactsAsync(
