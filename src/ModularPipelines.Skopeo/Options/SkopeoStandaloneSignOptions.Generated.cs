@@ -19,6 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-sign")]
 public record SkopeoStandaloneSignOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Signature,
     [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest,
     [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerReference,
     [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyFingerprint

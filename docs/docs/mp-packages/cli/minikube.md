@@ -65,9 +65,7 @@ var minikube = context.Tools.Minikube;
 | `minikube mount` | `MinikubeMountOptions` |
 | `minikube node` | `MinikubeNodeOptions` |
 | `minikube node add` | `MinikubeNodeAddOptions` |
-| `minikube node delete` | `MinikubeNodeDeleteOptions` |
 | `minikube node start` | `MinikubeNodeStartOptions` |
-| `minikube node stop` | `MinikubeNodeStopOptions` |
 | `minikube pause` | `MinikubePauseOptions` |
 | `minikube podman-env` | `MinikubePodmanEnvOptions` |
 | `minikube profile` | `MinikubeProfileOptions` |

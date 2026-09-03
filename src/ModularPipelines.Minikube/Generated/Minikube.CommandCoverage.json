@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "minikube",
-  "toolVersion": "v1.39.0",
-  "commandCount": 48,
-  "commandTreeSha256": "bf42616787394cb9655a39166d359fda44cf62395db38aa427f98dc1b9f67bd6",
+  "toolVersion": "v1.38.1",
+  "commandCount": 46,
+  "commandTreeSha256": "fe004f502186d3380241c4979ceefbcc1c6f7c2ea8c76bd41efd9b802f971224",
   "commands": [
     "minikube addons",
     "minikube addons configure",
@@ -36,9 +36,7 @@
     "minikube mount",
     "minikube node",
     "minikube node add",
-    "minikube node delete",
     "minikube node start",
-    "minikube node stop",
     "minikube pause",
     "minikube podman-env",
     "minikube profile",

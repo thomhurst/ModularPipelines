@@ -64,7 +64,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? AutoUpdateDrivers { get; set; }
 
     /// <summary>
-    /// v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24':
+    /// v0.0.50@sha256:eb4fec00e8ad70adf8e6436f195cc429825ffb85f95afcdb5d8d9deb576f3e93':
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -158,12 +158,6 @@ public record MinikubeStartOptions : MinikubeOptions
     /// </summary>
     [CliFlag("--dns-proxy")]
     public bool? DnsProxy { get; set; }
-
-    /// <summary>
-    /// Static DNS server IP addresses for the VM (VM drivers only)
-    /// </summary>
-    [CliOption("--dns-servers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DnsServers { get; set; }
 
     /// <summary>
     /// Environment variables to pass to the Docker daemon. (format: key=value)
@@ -322,7 +316,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// //storage.googleapis.com/minikube/iso/minikube-v1.39.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.39.0/minikube-v1.39.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.39.0-amd64.iso]:
+    /// //storage.googleapis.com/minikube/iso/minikube-v1.38.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.38.0/minikube-v1.38.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.38.0-amd64.iso]:
     /// </summary>
     [CliOption("--iso-url", Format = OptionFormat.EqualsSeparated)]
     public string? IsoUrl { get; set; }
@@ -334,7 +328,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? KeepContext { get; set; }
 
     /// <summary>
-    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.37.0, 'latest' for v1.37.0). Defaults to 'stable'.
+    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.35.1, 'latest' for v1.35.1). Defaults to 'stable'.
     /// </summary>
     [CliOption("--kubernetes-version", Format = OptionFormat.EqualsSeparated)]
     public string? KubernetesVersion { get; set; }
@@ -374,12 +368,6 @@ public record MinikubeStartOptions : MinikubeOptions
     /// </summary>
     [CliOption("--listen-address", Format = OptionFormat.EqualsSeparated)]
     public string? ListenAddress { get; set; }
-
-    /// <summary>
-    /// Enable mDNS (.local address resolution) by configuring systemd-resolved inside the node (VM drivers only)
-    /// </summary>
-    [CliFlag("--mdns")]
-    public bool? Mdns { get; set; }
 
     /// <summary>
     /// Amount of RAM to allocate to Kubernetes (format: &lt;number&gt;[&lt;unit&gt;], where unit = b, k, m or g). Use "max" to use the maximum amount of memory. Use "no-limit" to not specify a limit (Docker/Podman only)
@@ -520,7 +508,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? Preload { get; set; }
 
     /// <summary>
-    /// Which source to download the preload from (valid options: gcs, github, auto). Defaults to auto (try github first, then gcs as failover).
+    /// Which source to download the preload from (valid options: gcs, github, auto). Defaults to auto (try both).
     /// </summary>
     [CliOption("--preload-source", Format = OptionFormat.EqualsSeparated)]
     public string? PreloadSource { get; set; }
@@ -614,12 +602,6 @@ public record MinikubeStartOptions : MinikubeOptions
     /// </summary>
     [CliFlag("--vm")]
     public bool? Vm { get; set; }
-
-    /// <summary>
-    /// Enable vmnet checksum and TSO offloading. See krunkit driver documentation for known limitations (krunkit driver only)
-    /// </summary>
-    [CliFlag("--vmnet-offloading")]
-    public bool? VmnetOffloading { get; set; }
 
     /// <summary>
     /// comma separated list of Kubernetes components to verify and wait for after starting a cluster. defaults to "apiserver,system_pods", available options: "apiserver,system_pods,default_sa,apps_running,node_ready,kubelet,extra" . other acceptable values are 'all' or 'none', 'true' and 'false'
