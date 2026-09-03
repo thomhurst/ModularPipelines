@@ -69,7 +69,6 @@ ModularPipelines.Shellcheck.Options.ShellcheckOptions
 ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions() -> void
 ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions(ModularPipelines.Shellcheck.Options.ShellcheckOptions! original) -> void
 ModularPipelines.Shellcheck.Services.IShellcheck
-override abstract ModularPipelines.Shellcheck.Options.ShellcheckOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckOptions!
 override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions!
 override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equals(object? obj) -> bool
@@ -81,6 +80,7 @@ override ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(object? ob
 override ModularPipelines.Shellcheck.Options.ShellcheckOptions.GetHashCode() -> int
 override ModularPipelines.Shellcheck.Options.ShellcheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Shellcheck.Options.ShellcheckOptions.ToString() -> string!
+override abstract ModularPipelines.Shellcheck.Options.ShellcheckOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckOptions!
 override sealed ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equals(ModularPipelines.Shellcheck.Options.ShellcheckOptions? other) -> bool
 override sealed ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.get_Shellcheck(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Shellcheck.Services.IShellcheck!
