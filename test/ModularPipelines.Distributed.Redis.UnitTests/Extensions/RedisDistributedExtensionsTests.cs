@@ -120,6 +120,44 @@ public class RedisDistributedExtensionsTests
         }
     }
 
+    [Test]
+    public async Task Distributed_Mode_Rejects_Unconfigured_Multi_Instance_Run()
+    {
+        var originals = ExecutionEnvironmentVariables.ToDictionary(
+            name => name,
+            Environment.GetEnvironmentVariable);
+
+        try
+        {
+            foreach (var name in ExecutionEnvironmentVariables)
+            {
+                Environment.SetEnvironmentVariable(name, null);
+            }
+
+            var builder = Pipeline.CreateBuilder();
+            builder.AddDistributedMode(options => options.TotalInstances = 2);
+            builder.AddRedisDistributedCoordinator(options =>
+                options.ConnectionString = "unused");
+            using var serviceProvider = builder.Services.BuildServiceProvider();
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                _ = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception.Message).Contains(nameof(DistributedOptions.RunId));
+                await Assert.That(exception.Message).Contains("RUN_IDENTIFIER");
+            }
+        }
+        finally
+        {
+            foreach (var (name, value) in originals)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
+        }
+    }
+
     private sealed class NoOpModule : Module<int>
     {
         protected override Task<int> ExecuteAsync(

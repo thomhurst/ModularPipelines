@@ -1,5 +1,3 @@
-using ModularPipelines.Distributed.Configuration;
-
 namespace ModularPipelines.Distributed;
 
 public class DistributedOptions
@@ -12,9 +10,10 @@ public class DistributedOptions
 
     /// <summary>
     /// Gets or sets the identifier shared by every process in this pipeline run.
-    /// Defaults to <c>RUN_IDENTIFIER</c> when set; otherwise a new identifier is generated.
+    /// <c>AddDistributedMode</c> resolves an empty value from <c>RUN_IDENTIFIER</c>, or generates
+    /// an identifier for a single-instance run.
     /// </summary>
-    public string RunId { get; set; } = RunIdResolver.Resolve(null);
+    public string RunId { get; set; } = string.Empty;
 
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 

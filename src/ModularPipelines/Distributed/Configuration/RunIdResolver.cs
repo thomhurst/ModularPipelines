@@ -4,7 +4,7 @@ internal static class RunIdResolver
 {
     internal const string EnvironmentVariable = "RUN_IDENTIFIER";
 
-    public static string Resolve(string? configuredValue)
+    public static string Resolve(string? configuredValue, int totalInstances)
     {
         if (!string.IsNullOrWhiteSpace(configuredValue))
         {
@@ -12,8 +12,19 @@ internal static class RunIdResolver
         }
 
         var environmentValue = Environment.GetEnvironmentVariable(EnvironmentVariable);
-        return string.IsNullOrWhiteSpace(environmentValue)
-            ? Guid.NewGuid().ToString("N")
-            : environmentValue;
+        if (!string.IsNullOrWhiteSpace(environmentValue))
+        {
+            return environmentValue;
+        }
+
+        if (totalInstances > 1)
+        {
+            throw new InvalidOperationException(
+                $"Distributed execution with {nameof(DistributedOptions.TotalInstances)} greater than 1 "
+                + $"requires one shared {nameof(DistributedOptions.RunId)}. Configure it explicitly "
+                + $"or set {EnvironmentVariable} for every process.");
+        }
+
+        return Guid.NewGuid().ToString("N");
     }
 }

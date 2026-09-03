@@ -106,6 +106,6 @@ public static class DistributedPipelineBuilderExtensions
     private static void EnableAndResolveRunId(DistributedOptions options)
     {
         options.Enabled = true;
-        options.RunId = RunIdResolver.Resolve(options.RunId);
+        options.RunId = RunIdResolver.Resolve(options.RunId, options.TotalInstances);
     }
 }

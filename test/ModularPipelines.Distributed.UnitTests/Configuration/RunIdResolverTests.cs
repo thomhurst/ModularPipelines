@@ -8,7 +8,7 @@ public class RunIdResolverTests
     [Test]
     public async Task Resolve_Returns_Explicit_Value()
     {
-        var result = RunIdResolver.Resolve("explicit-run");
+        var result = RunIdResolver.Resolve("explicit-run", totalInstances: 2);
 
         await Assert.That(result).IsEqualTo("explicit-run");
     }
@@ -21,7 +21,7 @@ public class RunIdResolverTests
         {
             Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, "environment-run");
 
-            var result = RunIdResolver.Resolve(null);
+            var result = RunIdResolver.Resolve(null, totalInstances: 2);
 
             await Assert.That(result).IsEqualTo("environment-run");
         }
@@ -39,9 +39,32 @@ public class RunIdResolverTests
         {
             Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, null);
 
-            var result = RunIdResolver.Resolve(" ");
+            var result = RunIdResolver.Resolve(" ", totalInstances: 1);
 
             await Assert.That(Guid.TryParseExact(result, "N", out _)).IsTrue();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, original);
+        }
+    }
+
+    [Test]
+    public async Task Resolve_Rejects_Unconfigured_Multi_Instance_Run()
+    {
+        var original = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable);
+        try
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, null);
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                RunIdResolver.Resolve(null, totalInstances: 2));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception.Message).Contains(nameof(DistributedOptions.RunId));
+                await Assert.That(exception.Message).Contains(RunIdResolver.EnvironmentVariable);
+            }
         }
         finally
         {
