@@ -244,7 +244,11 @@ public partial class GoCliScraper : CliScraperBase
             ? "help " + string.Join(" ", commandPath.Skip(1))
             : "help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)
             ? result.StandardOutput

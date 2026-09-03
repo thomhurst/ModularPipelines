@@ -23,13 +23,13 @@ public class PulumiOptionsTests : TestBase
     }
 
     [Test]
-    public async Task Legacy_Env_Run_Constructor_Uses_Manual_Command_Operand()
+    public async Task Env_Run_Uses_Structured_Command_And_Arguments()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development", "echo")
         {
-            Arguments = ["echo", "hello"],
+            Args = ["hello"],
         });
 
         await Assert.That(commandLine.ToString())
@@ -37,14 +37,13 @@ public class PulumiOptionsTests : TestBase
     }
 
     [Test]
-    public async Task Legacy_Env_Run_Consumes_Manual_Option_Terminator()
+    public async Task Env_Run_Structured_Command_Emits_Option_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var commandLine = builder.Build(new PulumiEnvRunOptions("development")
+        var commandLine = builder.Build(new PulumiEnvRunOptions("development", "bash")
         {
-            Arguments = ["--", "bash", "-c", "echo hello"],
-            ArgumentsContainOptionTerminator = true,
+            Args = ["-c", "echo hello"],
         });
 
         await Assert.That(commandLine.ToString())

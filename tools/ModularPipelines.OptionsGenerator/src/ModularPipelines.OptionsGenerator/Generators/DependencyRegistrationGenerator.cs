@@ -90,8 +90,6 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 
         sb.AppendLine("        return services;");
         sb.AppendLine("    }");
-        sb.AppendLine();
-
         sb.AppendLine("}");
 
         return sb.ToString();

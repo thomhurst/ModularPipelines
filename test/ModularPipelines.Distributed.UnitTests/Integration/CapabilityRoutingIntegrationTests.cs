@@ -13,15 +13,15 @@ public class CapabilityRoutingIntegrationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
         // Worker with docker capability
         var result = await coordinator.DequeueModuleAsync(
-            new HashSet<string> { "linux", "docker" }, CancellationToken.None);
+            new HashSet<Capability> { "linux", "docker" }, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.ModuleTypeName).IsEqualTo("Docker.Module");
@@ -35,16 +35,16 @@ public class CapabilityRoutingIntegrationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
         // Worker without docker capability - should timeout
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
         var result = await coordinator.DequeueModuleAsync(
-            new HashSet<string> { "linux" }, cts.Token);
+            new HashSet<Capability> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
     }
@@ -54,27 +54,27 @@ public class CapabilityRoutingIntegrationTests
     {
         var dockerWorker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "linux", "docker" },
+            Capabilities: new HashSet<Capability> { "linux", "docker" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var plainWorker = new WorkerRegistration(
             WorkerIndex: 2,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         var plainAssignment = new ModuleAssignment(
             ModuleTypeName: "Plain.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         // Docker worker can execute both
         await Assert.That(CapabilityMatcher.CanExecute(dockerAssignment, dockerWorker)).IsTrue();

@@ -138,6 +138,13 @@ internal static class GeneratorDiagnostics
         + "assembly so it is visible to the metadata generator",
         DiagnosticSeverity.Error);
 
+    public static DiagnosticDescriptor IncompatibleRuntimeMetadata { get; } = Create(
+        "MPG0018",
+        "Referenced assembly uses incompatible runtime metadata",
+        "Referenced assembly '{0}' uses runtime metadata schemas {1}/{2}, but this generator "
+        + "requires {3}/{4}; rebuild the referenced assembly against ModularPipelines v4",
+        DiagnosticSeverity.Error);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

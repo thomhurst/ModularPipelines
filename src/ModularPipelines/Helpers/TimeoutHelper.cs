@@ -99,8 +99,9 @@ internal static class TimeoutHelper
         using var deadlineCts = new CancellationTokenSource();
         using var attemptCts = new CancellationTokenSource();
 
-        var deadlineState = new CancellationSignalState<T>(attemptCts);
-        var externalCancellationState = new CancellationSignalState<T>(attemptCts);
+        var cancellationSignals = new CancellationSignals<T>(attemptCts);
+        var deadlineState = cancellationSignals.Deadline;
+        var externalCancellationState = cancellationSignals.ExternalCancellation;
         using var deadlineRegistration = deadlineCts.Token.Register(
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             deadlineState);
@@ -108,12 +109,13 @@ internal static class TimeoutHelper
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             externalCancellationState);
 
-        // Now schedule the timeout - registration is guaranteed to catch it
+        // Arm the timeout before starting the factory. If cancellation occurs while
+        // the factory is returning its task, signal resolution waits for publication
+        // of that real task instead of making a decision from a provisional wrapper.
         deadlineCts.CancelAfter(timeout.Value);
 
         var executionTask = taskFactory(attemptCts.Token);
-        deadlineState.PublishExecutionTask(executionTask);
-        externalCancellationState.PublishExecutionTask(executionTask);
+        cancellationSignals.PublishExecutionTask(executionTask);
 
         await Task.WhenAny(
                 executionTask,
@@ -215,26 +217,53 @@ internal static class TimeoutHelper
         }
     }
 
-    internal sealed class CancellationSignalState<T>(CancellationTokenSource attemptCts)
+    internal sealed class CancellationSignals<T>
+    {
+        private Task<T>? _executionTask;
+
+        public CancellationSignals(CancellationTokenSource attemptCts)
+        {
+            Deadline = new CancellationSignalState<T>(attemptCts, this);
+            ExternalCancellation = new CancellationSignalState<T>(attemptCts, this);
+        }
+
+        public CancellationSignalState<T> Deadline { get; }
+
+        public CancellationSignalState<T> ExternalCancellation { get; }
+
+        internal Task<T>? ExecutionTask => Volatile.Read(ref _executionTask);
+
+        public void PublishExecutionTask(Task<T> executionTask)
+        {
+            // Both signals read one atomic task reference, so neither can observe
+            // a provisional wrapper after the actual factory task is available.
+            Volatile.Write(ref _executionTask, executionTask);
+            Deadline.ExecutionTaskPublished();
+            ExternalCancellation.ExecutionTaskPublished();
+        }
+    }
+
+    internal sealed class CancellationSignalState<T>(
+        CancellationTokenSource attemptCts,
+        CancellationSignals<T> cancellationSignals)
     {
         private readonly Lock _lock = new();
-        private Task<T>? _executionTask;
         private bool _cancellationSignaled;
 
         public TaskCompletionSource<bool> Signal { get; } = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public void PublishExecutionTask(Task<T> executionTask)
+        internal void ExecutionTaskPublished()
         {
             bool cancellationSignaled;
             lock (_lock)
             {
-                _executionTask = executionTask;
                 cancellationSignaled = _cancellationSignaled;
             }
 
             if (cancellationSignaled)
             {
+                var executionTask = cancellationSignals.ExecutionTask!;
                 // A completed value or fault existed by the time publication caught up
                 // with the signal. A cancelled task still belongs to the signal that
                 // cancelled the attempt token.
@@ -248,7 +277,7 @@ internal static class TimeoutHelper
             lock (_lock)
             {
                 _cancellationSignaled = true;
-                executionTask = _executionTask;
+                executionTask = cancellationSignals.ExecutionTask;
             }
 
             if (executionTask is not null)

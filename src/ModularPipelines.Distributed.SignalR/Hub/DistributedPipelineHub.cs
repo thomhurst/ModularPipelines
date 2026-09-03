@@ -47,9 +47,33 @@ internal class DistributedPipelineHub(
 
         state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
+        state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+
+        // Cancellation is durable master state. A worker that was disconnected
+        // during the original broadcast must receive it before registration returns.
+        if (state.CancellationRequested.Task.IsCompletedSuccessfully)
+        {
+            await Clients.Caller.SendAsync(
+                HubMethodNames.BroadcastCancellation,
+                Context.ConnectionAborted);
+        }
 
         _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
             registration.WorkerIndex, connectionId, string.Join(", ", registration.Capabilities));
+    }
+
+    /// <summary>
+    /// Records liveness for a connected worker.
+    /// </summary>
+    public Task Heartbeat(int workerIndex)
+    {
+        if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
+            && worker.Registration.WorkerIndex == workerIndex)
+        {
+            _masterState.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+        }
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -86,7 +110,7 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Called by workers to request work when idle.
     /// </summary>
-    public async Task RequestWork(HashSet<string> capabilities)
+    public async Task RequestWork(HashSet<Capability> capabilities)
     {
         var state = _masterState;
 
@@ -105,6 +129,10 @@ internal class DistributedPipelineHub(
             var workerIndex = workerState.Registration.WorkerIndex;
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
                 workerIndex, Context.ConnectionId);
+
+            // Retain the final registration and heartbeat for run-report collection.
+            // GetRegisteredWorkersAsync uses heartbeat age to exclude stale workers
+            // from liveness checks without erasing their last published metrics here.
 
             // Don't re-enqueue in-flight work immediately: the worker may just be blipping
             // and auto-reconnecting, and re-running a module (with side effects) is unsafe.

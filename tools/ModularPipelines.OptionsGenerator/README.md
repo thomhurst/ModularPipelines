@@ -83,7 +83,7 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 | `--use-cli-first <true\|false>` | Prefer installed CLI help over HTML documentation. Defaults to `true`. |
 | `--enhance-types <true\|false>` | Run type detection after HTML scraping. Defaults to `true`. |
 | `--change-manifest <path>` | Record every repository-relative generated or deleted path for safe automation. |
-| `--approve-command-coverage-shrinkage` | Acknowledge reviewed command-set changes for this run, including same-version additions or removals. It does not bypass minimum counts or sentinel commands. |
+| `--approve-command-coverage-shrinkage` | Acknowledge reviewed same-version additions and up to five undocumented command removals for this run. Larger removals require per-command exclusions with reasons. It never bypasses minimum counts or sentinel commands. |
 | `--input <path>` | Generate an external integration from JSON. This cannot be combined with `--tools`. |
 
 For reproducible CI scraping, set `MODULARPIPELINES_CLI_EXECUTABLE` to the verified absolute
@@ -158,6 +158,7 @@ Generation fails when:
 - a configured sentinel command disappeared;
 - the command set changed while the resolved tool version stayed the same, without explicit approval;
 - a previously generated command disappeared without explicit approval;
+- blanket approval would remove more than five commands without documented exclusions;
 - a known command group lost all children without explicit approval; or
 - an exclusion lacks a full command and non-empty reason.
 
@@ -172,13 +173,19 @@ When command coverage changes:
    plugin, authentication prompt, preview flag, or wrong executable must not be approved as
    upstream shrinkage.
 2. Fix the scraper when the commands still exist, then regenerate.
-3. If the change is expected, run once with
-   `--approve-command-coverage-shrinkage` and review the generated API and coverage diff.
-4. Add a documented exclusion instead when a command intentionally remains unsupported.
+3. If a same-version addition or at most five upstream removals are expected, run once with
+   `--approve-command-coverage-shrinkage` and review the generated API, baseline-version
+   comparison, and coverage diff.
+4. For larger removals, add a documented exclusion with a reviewed reason for each removal
+   beyond the five-command allowance. Blanket approval alone deliberately has no mass-removal
+   escape hatch.
 
-Approval permits same-version command-set changes, removed commands, and groups losing all
-children. Minimum counts and sentinel requirements always remain enforced. Additions after
-an intentional tool-version change need no approval.
+Approval permits same-version additions, up to five undocumented removals, and groups losing
+all children. Minimum counts, sentinel requirements, and the removal blast-radius ceiling
+always remain enforced. Additions after an intentional tool-version change need no approval.
+On a CLI coverage failure, raw root and relevant parent help output is written under
+`artifacts/options-generator-diagnostics/`; generation CI uploads that directory so reviewers
+can distinguish an upstream removal from a partial scrape.
 
 ## Validate a change
 
@@ -240,4 +247,5 @@ Regenerate outputs instead of changing version attributes in place.
 
 Breaking generated API changes remain visible for human review. The workflow's manual
 `approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single run,
-not a permanent weakening of the coverage policy.
+not a permanent weakening of the coverage policy. It cannot approve more than five
+undocumented removals; coverage failures upload raw help provenance for diagnosis.

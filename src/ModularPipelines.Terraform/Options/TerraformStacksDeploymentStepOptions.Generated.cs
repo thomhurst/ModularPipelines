@@ -12,9 +12,6 @@ using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
-/// <summary>
-/// show                            Show details of a deployment step in the current configuration.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-step")]

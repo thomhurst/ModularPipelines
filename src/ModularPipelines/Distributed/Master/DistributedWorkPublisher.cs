@@ -10,7 +10,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Distributed.Master;
 
 internal class DistributedWorkPublisher(
-    IDistributedCoordinator coordinator,
+    IDistributedMasterCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
@@ -19,7 +19,7 @@ internal class DistributedWorkPublisher(
     DistributedConditionRouting? conditionRouting = null,
     IModuleConditionHandler? conditionHandler = null)
 {
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
@@ -49,8 +49,9 @@ internal class DistributedWorkPublisher(
         var requiredCapabilities = moduleType
             .GetCustomAttributes(typeof(RequiresCapabilityAttribute), true)
             .Cast<RequiresCapabilityAttribute>()
-            .Select(a => a.Capability)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .SelectMany(static attribute => attribute.Capabilities)
+            .Select(static name => new Capability(name))
+            .ToHashSet();
 
         var conditionAttributes = moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().ToArray();
         var operatingSystemRoutes = GetOperatingSystemRoutes(module, conditionAttributes);
@@ -61,7 +62,6 @@ internal class DistributedWorkPublisher(
 
         var dependencyResults = GatherDependencyResults(module);
 
-        // Distributed workers do not yet consume portable retry configuration.
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
             ResultTypeName: resultTypeName,
@@ -69,7 +69,6 @@ internal class DistributedWorkPublisher(
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
-                RetryCount: 0,
                 AlwaysRun: config.AlwaysRun
             ),
             DependencyResults: dependencyResults)
@@ -136,7 +135,7 @@ internal class DistributedWorkPublisher(
     }
 
     private static void AddExplicitOperatingSystemRoutes(
-        ISet<string> requiredCapabilities,
+        ISet<Capability> requiredCapabilities,
         ICollection<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
         foreach (var capability in requiredCapabilities.ToArray())
@@ -152,7 +151,7 @@ internal class DistributedWorkPublisher(
     }
 
     private static void AddOperatingSystemCapabilities(
-        ISet<string> requiredCapabilities,
+        ISet<Capability> requiredCapabilities,
         IReadOnlyList<OperatingSystemConditions.OperatingSystemRoute> routes)
     {
         var effectiveOperatingSystems = IntersectRoutes(routes);
@@ -263,7 +262,10 @@ internal class DistributedWorkPublisher(
             }
 
             var depResultTypeName = ModuleTypeRegistry.GetResultTypeName(depType) ?? "System.Object";
-            var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex: -1);
+            var workerIndex = result is ModuleResult { WorkerIndex: { } origin }
+                ? origin
+                : -1;
+            var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex);
 
             // Compress large results to stay within transport payload limits.
             if (serialized.SerializedJson.Length > CompressionThresholdBytes)

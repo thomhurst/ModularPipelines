@@ -30,5 +30,4 @@ public static class WingetExtensions
         services.TryAddScoped<IWinget, Services.Winget>();
         return services;
     }
-
 }

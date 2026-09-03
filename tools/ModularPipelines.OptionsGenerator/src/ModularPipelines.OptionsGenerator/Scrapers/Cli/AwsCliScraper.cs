@@ -128,7 +128,12 @@ public partial class AwsCliScraper : CliScraperBase
             ? string.Join(" ", commandPath.Skip(1)) + " help"
             : "help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken,
+            preserveRawHelp: commandPath.Length <= 2);
 
         // AWS CLI outputs help to stdout
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)

@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
-public record PodmanComposeCpOptions : PodmanOptions
+public record PodmanComposeCpOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ServiceSrcPath,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string DestPath
+) : PodmanOptions
 {
     /// <summary>
     /// Include containers created by the run command
@@ -49,17 +52,5 @@ public record PodmanComposeCpOptions : PodmanOptions
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
-
-    /// <summary>
-    /// The SERVICE:SRC_PATH operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? ServiceSrcPath { get; set; }
-
-    /// <summary>
-    /// The DEST_PATH operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
-    public string? DestPath { get; set; }
 
 }

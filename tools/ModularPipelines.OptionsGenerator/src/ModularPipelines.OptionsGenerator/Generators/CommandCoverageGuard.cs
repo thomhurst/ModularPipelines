@@ -10,6 +10,8 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 internal static class CommandCoverageGuard
 {
     private const int ManifestFormatVersion = 1;
+    private const int MaximumBlanketApprovedRemovals = 5;
+    private const int RepresentativeRemovalLimit = 10;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -84,7 +86,9 @@ internal static class CommandCoverageGuard
             knownGroupsWithoutChildren,
             hasSameVersionCommandSetDrift,
             tool.ToolVersion,
-            approveShrinkage);
+            approveShrinkage,
+            previous?.ToolVersion,
+            tool.ToolVersion);
 
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
 
@@ -93,11 +97,14 @@ internal static class CommandCoverageGuard
             ManifestPath = manifestPath,
             Manifest = manifest,
             HasPreviousBaseline = previous is not null,
+            PreviousCommandCount = previous?.CommandCount,
+            PreviousToolVersion = previous?.ToolVersion,
             AddedCommands = addedCommands,
             RemovedCommands = removedCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
             Violations = violations,
-            ChangesApproved = approveShrinkage,
+            ChangesApproved = approveShrinkage
+                              && unapprovedRemovedCommands.Length <= MaximumBlanketApprovedRemovals,
         };
     }
 
@@ -168,7 +175,9 @@ internal static class CommandCoverageGuard
         IReadOnlyList<string> groupsWithoutChildren,
         bool hasSameVersionCommandSetDrift,
         string? toolVersion,
-        bool approveShrinkage)
+        bool approveShrinkage,
+        string? previousToolVersion,
+        string? currentToolVersion)
     {
         var violations = new List<string>();
 
@@ -202,6 +211,20 @@ internal static class CommandCoverageGuard
             }
 
             AddViolation(violations, "Known command groups lost all children", groupsWithoutChildren);
+        }
+        else if (unapprovedRemovedCommands.Count > MaximumBlanketApprovedRemovals)
+        {
+            var previousVersion = previousToolVersion ?? "unknown version";
+            var currentVersion = currentToolVersion ?? "unknown version";
+            var representativeRemovals = unapprovedRemovedCommands.Take(RepresentativeRemovalLimit);
+            var remainingCount = unapprovedRemovedCommands.Count - RepresentativeRemovalLimit;
+            var suffix = remainingCount > 0 ? $" (+{remainingCount} more)" : string.Empty;
+            violations.Add(
+                $"Blanket approval cannot authorize {unapprovedRemovedCommands.Count} command removals "
+                + $"from baseline {previousVersion} to current {currentVersion}; the maximum is "
+                + $"{MaximumBlanketApprovedRemovals}. Add explicit command coverage exclusions with "
+                + $"reviewed reasons for every additional removal. Representative removals: "
+                + $"{string.Join(", ", representativeRemovals)}{suffix}.");
         }
 
         return violations;
@@ -448,6 +471,20 @@ internal static class CommandCoverageGuard
             tool.OutputDirectory,
             "Generated",
             $"{tool.NamespacePrefix}.CommandCoverage.json");
+
+    internal static IReadOnlySet<string> GetBaselineCommandGroups(
+        CliToolDefinition tool,
+        string outputDirectory) =>
+        ReadBaseline(
+                tool,
+                outputDirectory,
+                GetManifestPath(tool, outputDirectory),
+                fallbackManifestPath: null,
+                pathComparer: StringComparer.OrdinalIgnoreCase,
+                allowMissingManifest: false)
+            ?.CommandGroups
+            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+        ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 }
 
 internal sealed record CommandCoverageManifest
@@ -476,6 +513,10 @@ internal sealed record CommandCoverageEvaluation
     public required CommandCoverageManifest Manifest { get; init; }
 
     public required bool HasPreviousBaseline { get; init; }
+
+    public int? PreviousCommandCount { get; init; }
+
+    public string? PreviousToolVersion { get; init; }
 
     public required IReadOnlyList<string> AddedCommands { get; init; }
 

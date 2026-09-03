@@ -14,9 +14,19 @@ public class DistributedOptions
     /// </summary>
     public string? RunIdentifier { get; set; }
 
-    public IReadOnlyList<string> Capabilities { get; set; } = [];
+    public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 
     public TimeSpan CapabilityTimeout { get; set; } = TimeSpan.FromMinutes(5);
+
+    /// <summary>
+    /// Gets or sets how often workers report liveness to the coordinator.
+    /// </summary>
+    public TimeSpan WorkerHeartbeatInterval { get; set; } = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// Gets or sets how long a worker remains live without a heartbeat.
+    /// </summary>
+    public TimeSpan WorkerTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
     public bool AutoDetectOsCapability { get; set; } = true;
 

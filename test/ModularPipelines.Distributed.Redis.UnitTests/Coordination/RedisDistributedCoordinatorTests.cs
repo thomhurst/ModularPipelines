@@ -73,7 +73,7 @@ public class RedisDistributedCoordinatorTests
             .ReturnsAsync(RedisResult.Create((RedisValue) json));
 
         var result = await _coordinator.DequeueModuleAsync(
-            new HashSet<string>(), CancellationToken.None);
+            new HashSet<Capability>(), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
@@ -92,7 +92,7 @@ public class RedisDistributedCoordinatorTests
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
         var result = await _coordinator.DequeueModuleAsync(
-            new HashSet<string> { "linux" }, cts.Token);
+            new HashSet<Capability> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
     }
@@ -110,7 +110,7 @@ public class RedisDistributedCoordinatorTests
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(50));
         var result = await _coordinator.DequeueModuleAsync(
-            new HashSet<string>(), cts.Token);
+            new HashSet<Capability>(), cts.Token);
 
         await Assert.That(result).IsNull();
     }
@@ -183,6 +183,8 @@ public class RedisDistributedCoordinatorTests
                 new HashEntry("1", JsonSerializer.Serialize(worker1, JsonOptions)),
                 new HashEntry("2", JsonSerializer.Serialize(worker2, JsonOptions)),
             ]);
+        _dbMock.Setup(db => db.KeyExistsAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
 
         var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
@@ -213,21 +215,21 @@ public class RedisDistributedCoordinatorTests
             .ReturnsAsync("1");
 
         var result = await _coordinator.DequeueModuleAsync(
-            new HashSet<string>(), CancellationToken.None);
+            new HashSet<Capability>(), CancellationToken.None);
 
         await Assert.That(result).IsNull();
     }
 
     private static ModuleAssignment CreateAssignment(
         string moduleTypeName,
-        HashSet<string>? requiredCapabilities = null)
+        HashSet<Capability>? requiredCapabilities = null)
     {
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
-            RequiredCapabilities: requiredCapabilities ?? new HashSet<string>(),
+            RequiredCapabilities: requiredCapabilities ?? new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)
@@ -244,7 +246,7 @@ public class RedisDistributedCoordinatorTests
     {
         return new WorkerRegistration(
             WorkerIndex: workerIndex,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
     }
 }

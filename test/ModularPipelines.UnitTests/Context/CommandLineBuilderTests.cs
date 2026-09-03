@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Secrets;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 using ModularPipelines.Generated;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Context;
 
@@ -530,80 +532,14 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Reserves_Trailing_Manual_Values_For_Late_Operands()
+    public async Task Build_Rejects_Manual_Arguments_For_Missing_Required_Operand()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new TestTerminatedPassthroughOptions(default!, default!)
-        {
-            Arguments = ["--", "--force", "source", "destination"],
-            ArgumentsContainOptionTerminator = true,
-            ArgumentsContainToolOptions = true,
-        });
-
-        await Assert.That(result.ToString())
-            .IsEqualTo("tool copy -- --force source destination");
-    }
-
-    [Test]
-    public async Task Build_Allows_Manual_Arguments_To_Supply_New_Required_Operand()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
+        await Assert.That(() => builder.Build(new TestRequiredOperandCompatibilityOptions
         {
             Arguments = ["legacy-operand"],
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand");
-    }
-
-    [Test]
-    public async Task Build_Classifies_Manual_Option_And_Required_Operand_Separately()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestRequiredOperandCompatibilityOptions
-        {
-            Arguments = ["legacy-operand", "--yes"],
-            ArgumentsContainToolOptions = true,
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool run legacy-operand --yes");
-    }
-
-    [Test]
-    public async Task Build_Inserts_Manual_Operand_At_Its_Structured_Position()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        var result = builder.Build(new TestTwoRequiredOperandCompatibilityOptions(default!, "id")
-        {
-            Arguments = ["address"],
-        });
-
-        await Assert.That(result.ToString()).IsEqualTo("tool import address id");
-    }
-
-    [Test]
-    public async Task Build_Rejects_One_Manual_Value_For_Two_Required_Operands()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        await Assert.That(() => builder.Build(new TestTwoRequiredOperandCompatibilityOptions
-            {
-                Arguments = ["address"],
-            }))
-            .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestTwoRequiredOperandCompatibilityOptions.Id");
-    }
-
-    [Test]
-    public async Task Build_Still_Rejects_Missing_Required_Operand_Without_Manual_Arguments()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        await Assert.That(() => builder.Build(new TestRequiredOperandCompatibilityOptions()))
+        }))
             .Throws<ArgumentException>()
             .And.HasMessageContaining("TestRequiredOperandCompatibilityOptions.Operand");
     }
@@ -986,13 +922,13 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Validates_Mapped_Early_Operand_Terminator()
+    public async Task Build_Validates_Required_Early_Operand_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
         CommandLine Build() => builder.Build(new TestRequiredEarlyOperandOptions
         {
-            Arguments = ["-input"],
+            Operand = "-input",
             Force = true,
         });
 
@@ -1158,54 +1094,6 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Derives_Legacy_Generated_Option_Operand_Count()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-        var optionsType = typeof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new OptionPart(
-                    nameof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>.Pairs),
-                    static _ => null,
-                    new CliOptionAttribute("--arg")),
-            ]);
-        var options = new LegacyGeneratedMetadataOptions<LegacyMetadataMarker>
-        {
-            Arguments = ["--arg", "name", "value", "--", "tail"],
-            ArgumentsContainOptionTerminator = true,
-            ArgumentsContainToolOptions = true,
-        };
-
-        var result = builder.Build(options);
-
-        await Assert.That(result.ToString()).IsEqualTo("jq --arg name value -- tail");
-    }
-
-    [Test]
-    public async Task CommandModelProvider_Rebuilds_Stale_Negated_Flag_Metadata()
-    {
-        var optionsType = typeof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>);
-        GeneratedCommandMetadata.Register(
-            optionsType,
-            [
-                new FlagPart(
-                    nameof(LegacyNegatedFlagOptions<LegacyNegatedFlagMarker>.Feature),
-                    static _ => null,
-                    new CliFlagAttribute("--feature"))
-                {
-                    IsSupportedPropertyType = true,
-                },
-            ],
-            GeneratedCommandMetadata.CurrentSchemaVersion - 1);
-
-        var model = new CommandModelProvider().GetCommandModel(optionsType);
-
-        await Assert.That(model.OfType<FlagPart>().Single().Attribute.NegatedName)
-            .IsEqualTo("--no-feature");
-    }
-
-    [Test]
     public async Task Reflection_Metadata_Counts_Derived_Value_Pairs()
     {
         var model = new CommandModelProvider()
@@ -1213,6 +1101,35 @@ public class CommandLineBuilderTests : TestBase
 
         await Assert.That(model.OfType<OptionPart>().Single().ManualOperandCount)
             .IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Build_Allows_Zero_Manual_Operands_From_Runtime_Metadata()
+    {
+        var modelProvider = new Mock<ICommandModelProvider>();
+        modelProvider
+            .Setup(x => x.GetCommandModel(typeof(TestZeroManualOperandOptions)))
+            .Returns(
+            [
+                new OptionPart(
+                    "Zero",
+                    static _ => null,
+                    new CliOptionAttribute("--zero"))
+                {
+                    ManualOperandCount = 0,
+                },
+            ]);
+        var (builder, _) = await GetService<ICommandLineBuilder>(services =>
+            services.AddSingleton(modelProvider.Object));
+
+        var result = builder.Build(new TestZeroManualOperandOptions
+        {
+            Arguments = ["--zero", "--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool --zero -- tail");
     }
 
     [Test]
@@ -2177,22 +2094,6 @@ public class CommandLineBuilderTests : TestBase
             : this(default(string)!)
         {
         }
-
-        [CliFlag("--yes")]
-        public bool? Yes { get; init; }
-    }
-
-    [CliTool("tool")]
-    [CliSubCommand("import")]
-    private sealed record TestTwoRequiredOperandCompatibilityOptions(
-        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Address,
-        [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id)
-        : CommandLineToolOptions
-    {
-        public TestTwoRequiredOperandCompatibilityOptions()
-            : this(default(string)!, default(string)!)
-        {
-        }
     }
 
     [CliTool("test")]
@@ -2247,23 +2148,6 @@ public class CommandLineBuilderTests : TestBase
         public string? SymbolSource { get; init; }
     }
 
-    private sealed class LegacyMetadataMarker;
-
-    private sealed class LegacyNegatedFlagMarker;
-
-    [CliTool("tool")]
-    private sealed record LegacyNegatedFlagOptions<T> : CommandLineToolOptions
-    {
-        [CliFlag("--feature", NegatedName = "--no-feature")]
-        public bool? Feature { get; init; }
-    }
-
-    [CliTool("jq")]
-    private sealed record LegacyGeneratedMetadataOptions<T> : CommandLineToolOptions
-    {
-        public IReadOnlyList<CliValuePair>? Pairs { get; init; }
-    }
-
     private sealed record DerivedCliValuePair(string First, string Second)
         : CliValuePair(First, Second);
 
@@ -2273,6 +2157,9 @@ public class CommandLineBuilderTests : TestBase
         [CliOption("--arg")]
         public T? Pair { get; init; }
     }
+
+    [CliTool("tool")]
+    private sealed record TestZeroManualOperandOptions : CommandLineToolOptions;
 
     [CliTool("jq")]
     private record TestManualTerminatorOptions : CommandLineToolOptions

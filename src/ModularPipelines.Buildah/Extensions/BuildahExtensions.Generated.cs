@@ -32,5 +32,4 @@ public static class BuildahExtensions
         services.TryAddScoped<IBuildahSource, BuildahSource>();
         return services;
     }
-
 }

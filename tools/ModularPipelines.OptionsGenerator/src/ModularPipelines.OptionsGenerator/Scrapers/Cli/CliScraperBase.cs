@@ -16,6 +16,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private readonly CliScrapeProvenance _scrapeProvenance = new();
+    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -391,6 +393,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (ShouldSkipPath(path, helpText))
         {
+            _scrapeProvenance.DiscardLeafHelp(path);
             return;
         }
 
@@ -403,17 +406,16 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
-        try
+        var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
+        PreserveGroupHelp(path, subcommands, declaresCommandGroup);
+        if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
         {
-            ValidateSubcommandDiscovery(path, helpText, subcommands);
-        }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-        {
-            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
             return;
         }
 
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
+        DiscardLeafHelp(path, subcommands, declaresCommandGroup);
+
         await EnqueueSubcommandsAsync(
             path,
             subcommands,
@@ -421,6 +423,47 @@ public abstract partial class CliScraperBase : ICliScraper
             coordinator,
             visitedPaths,
             cancellationToken);
+    }
+
+    private void PreserveGroupHelp(
+        string[] path,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count > 0 || declaresCommandGroup)
+        {
+            _scrapeProvenance.PreserveGroupHelp(path);
+        }
+    }
+
+    private bool TryValidateSubcommandDiscovery(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands)
+    {
+        try
+        {
+            ValidateSubcommandDiscovery(path, helpText, subcommands);
+            return true;
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
+            return false;
+        }
+    }
+
+    private void DiscardLeafHelp(
+        string[] path,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count == 0
+            && !declaresCommandGroup
+            && !_knownCommandGroups.Contains(string.Join(' ', path)))
+        {
+            _scrapeProvenance.DiscardLeafHelp(path);
+        }
     }
 
     private bool ShouldSkipDeepPath(string[] path)
@@ -523,6 +566,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
+                RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
             };
             command.ValidateOperandCoverage(
                 usage.HasOperandTokens,
@@ -653,6 +697,11 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (HelpCache.TryGet(cacheKey, out var cached))
         {
+            if (!string.IsNullOrEmpty(cached))
+            {
+                _scrapeProvenance.RecordCacheHit(commandPath, cached);
+            }
+
             return cached;
         }
 
@@ -661,7 +710,11 @@ public abstract partial class CliScraperBase : ICliScraper
             ? string.Join(" ", commandPath.Skip(1)) + " --help"
             : "--help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
@@ -685,6 +738,38 @@ public abstract partial class CliScraperBase : ICliScraper
 
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
+    }
+
+    private protected async Task<CliCommandResult> ExecuteAndRecordHelpCommandAsync(
+        IReadOnlyList<string> commandPath,
+        string executablePath,
+        string arguments,
+        CancellationToken cancellationToken,
+        string? workingDirectory = null,
+        bool preserveRawHelp = false)
+    {
+        var result = await Executor.ExecuteAsync(
+            executablePath,
+            arguments,
+            cancellationToken,
+            workingDirectory);
+        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+        return result;
+    }
+
+    internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
+        string outputDirectory,
+        CommandCoverageEvaluation coverage,
+        CancellationToken cancellationToken) =>
+        _scrapeProvenance.WriteCoverageFailureDiagnosticsAsync(
+            outputDirectory,
+            coverage,
+            cancellationToken);
+
+    internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
+    {
+        _knownCommandGroups.Clear();
+        _knownCommandGroups.UnionWith(commandGroups);
     }
 
     /// <summary>
@@ -785,6 +870,94 @@ public abstract partial class CliScraperBase : ICliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage) =>
         usage;
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage)
+    {
+        if (usage.RequiredAlternativeGroups.Count == 0)
+        {
+            return command.RequiredAlternativeGroups;
+        }
+
+        return
+        [
+            .. command.RequiredAlternativeGroups,
+            .. usage.RequiredAlternativeGroups
+                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                .OfType<CliRequiredAlternativeGroup>(),
+        ];
+    }
+
+    private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeGroup group)
+    {
+        var members = group.Members
+            .Select(member => TryResolveRequiredAlternativeMember(command, member))
+            .ToArray();
+        if (members.Any(static member => member is null))
+        {
+            // Synopsis inference can reference an inherited, global, or filtered switch.
+            // Discard that inferred constraint without dropping the command itself.
+            return null;
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            Members = members
+                .Select(static member => member!)
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
+                .ToArray(),
+        };
+    }
+
+    private static CliRequiredAlternativeMember? TryResolveRequiredAlternativeMember(
+        CliCommandDefinition command,
+        UsageRequiredAlternativeMember member)
+    {
+        if (member.OptionSwitch is { } optionSwitch)
+        {
+            var optionIndex = CliOptionDefinition.FindIndexBySwitch(command.Options, optionSwitch);
+            if (optionIndex < 0)
+            {
+                return null;
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.Options[optionIndex].PropertyName,
+                OptionSwitch = command.Options[optionIndex].SwitchName,
+            };
+        }
+
+        if (member.PositionalPropertyName is { } positionalPropertyName)
+        {
+            var argumentIndex = Enumerable.Range(0, command.PositionalArguments.Count).FirstOrDefault(index =>
+                command.PositionalArguments[index].PropertyName.Equals(
+                    positionalPropertyName,
+                    StringComparison.OrdinalIgnoreCase),
+                -1);
+            if (argumentIndex < 0)
+            {
+                return null;
+            }
+
+            return new CliRequiredAlternativeMember
+            {
+                PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
+                PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
+                PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+            };
+        }
+
+        return null;
+    }
+
+    private static string GetRequiredAlternativeIdentity(CliRequiredAlternativeMember member) =>
+        member.OptionSwitch is { } optionSwitch
+            ? $"option:{optionSwitch}"
+            : $"operand:{member.PositionalArgumentPhase}:{member.PositionalArgumentPositionIndex}";
 
     /// <summary>
     /// Returns true positional operands, excluding values syntactically owned by an option switch.

@@ -31,5 +31,4 @@ public static class GrypeExtensions
         services.TryAddScoped<IGrypeDb, GrypeDb>();
         return services;
     }
-
 }

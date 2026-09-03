@@ -17,7 +17,7 @@ namespace ModularPipelines.Distributed.Worker;
 
 internal class WorkerModuleExecutor(
     IHostApplicationLifetime lifetime,
-    IDistributedCoordinator coordinator,
+    IDistributedWorkerCoordinator coordinator,
     IEnumerable<IModule> registeredModules,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
@@ -32,7 +32,7 @@ internal class WorkerModuleExecutor(
     DistributedConditionRouting? conditionRouting = null) : IModuleExecutor
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules
         .Distinct<IModule>(ReferenceEqualityComparer.Instance)
         .ToArray();
@@ -52,7 +52,9 @@ internal class WorkerModuleExecutor(
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
         var options = _options.Value;
-        var cancellationToken = _lifetime.ApplicationStopping;
+        using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(
+            _lifetime.ApplicationStopping);
+        var cancellationToken = executionCts.Token;
         var availableModules = _registeredModules
             .Concat(modules)
             .Distinct<IModule>(ReferenceEqualityComparer.Instance)
@@ -66,48 +68,134 @@ internal class WorkerModuleExecutor(
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var capabilities = BuildCapabilities(options);
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
+        var heartbeatTask = SendHeartbeatsAsync(
+            options.InstanceIndex,
+            options.WorkerHeartbeatInterval,
+            cancellationToken);
+        var cancellationTask = ObserveDistributedCancellationAsync(
+            executionCts,
+            options.WorkerHeartbeatInterval);
 
         var executedModules = new List<IModule>();
         using var workerScheduler = new WorkerModuleScheduler();
 
-        while (!cancellationToken.IsCancellationRequested)
+        try
         {
-            try
+            while (!cancellationToken.IsCancellationRequested)
             {
-                var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
-                if (assignment is null)
+                try
                 {
-                    // No more work available
+                    var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
+                    if (assignment is null)
+                    {
+                        // No more work available
+                        break;
+                    }
+
+                    _logger.LogInformation("Worker {Index} executing module {Module}",
+                        options.InstanceIndex, assignment.ModuleTypeName);
+                    await ExecuteAssignmentAsync(
+                        assignment,
+                        moduleLookup,
+                        workerScheduler,
+                        executedModules,
+                        options.InstanceIndex,
+                        cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    _logger.LogInformation("Worker {Index} shutting down", options.InstanceIndex);
                     break;
                 }
-
-                _logger.LogInformation("Worker {Index} executing module {Module}",
-                    options.InstanceIndex, assignment.ModuleTypeName);
-                await ExecuteAssignmentAsync(
-                    assignment,
-                    moduleLookup,
-                    workerScheduler,
-                    executedModules,
-                    options.InstanceIndex,
-                    cancellationToken);
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Worker {Index} encountered an error in execution loop", options.InstanceIndex);
+                }
             }
-            catch (OperationCanceledException)
-            {
-                _logger.LogInformation("Worker {Index} shutting down", options.InstanceIndex);
-                break;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Worker {Index} encountered an error in execution loop", options.InstanceIndex);
-            }
+        }
+        finally
+        {
+            await executionCts.CancelAsync();
+            await AwaitBackgroundTasksAsync(heartbeatTask, cancellationTask);
         }
 
         return executedModules;
     }
 
-    private static HashSet<string> BuildCapabilities(DistributedOptions options)
+    private async Task SendHeartbeatsAsync(
+        int workerIndex,
+        TimeSpan interval,
+        CancellationToken cancellationToken)
     {
-        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                await Task.Delay(interval, cancellationToken);
+                await _coordinator.SendHeartbeatAsync(workerIndex, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Worker {Index} heartbeat failed", workerIndex);
+            }
+        }
+    }
+
+    private async Task ObserveDistributedCancellationAsync(
+        CancellationTokenSource executionCts,
+        TimeSpan retryInterval)
+    {
+        while (!executionCts.IsCancellationRequested)
+        {
+            try
+            {
+                await _coordinator.WaitForCancellationAsync(executionCts.Token);
+                if (!executionCts.IsCancellationRequested)
+                {
+                    _logger.LogInformation("Master requested distributed cancellation");
+                    await executionCts.CancelAsync();
+                }
+
+                return;
+            }
+            catch (OperationCanceledException) when (executionCts.IsCancellationRequested)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Worker cancellation observer failed; retrying");
+            }
+
+            try
+            {
+                await Task.Delay(retryInterval, executionCts.Token);
+            }
+            catch (OperationCanceledException) when (executionCts.IsCancellationRequested)
+            {
+                return;
+            }
+        }
+    }
+
+    private static async Task AwaitBackgroundTasksAsync(params Task[] tasks)
+    {
+        try
+        {
+            await Task.WhenAll(tasks);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
+    {
+        var capabilities = new HashSet<Capability>(options.Capabilities);
         if (options.AutoDetectOsCapability)
         {
             capabilities.UnionWith(OsCapabilityDetector.Detect());
@@ -116,7 +204,7 @@ internal class WorkerModuleExecutor(
         return capabilities;
     }
 
-    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<string> capabilities, CancellationToken cancellationToken)
+    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<Capability> capabilities, CancellationToken cancellationToken)
     {
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,

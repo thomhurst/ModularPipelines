@@ -23,7 +23,7 @@ on:
         default: true
         type: boolean
       approve-command-coverage-shrinkage:
-        description: 'Explicitly approve command-set changes or shrinkage for this run'
+        description: 'Approve same-version changes and at most five undocumented removals; larger removals need reasoned exclusions, and minimum/sentinel checks remain enforced'
         required: false
         default: false
         type: boolean
@@ -596,6 +596,15 @@ jobs:
             echo "$coverage_delimiter"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Upload scrape failure diagnostics
+        if: always() && steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: options-generator-diagnostics-${{ matrix.tool }}-${{ runner.os }}
+          path: artifacts/options-generator-diagnostics
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -866,6 +875,15 @@ jobs:
               Out-File -FilePath $env:GITHUB_OUTPUT -Append
           }
           $coverageDelimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Upload scrape failure diagnostics
+        if: always() && steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: options-generator-diagnostics-${{ matrix.tool }}-${{ runner.os }}
+          path: artifacts/options-generator-diagnostics
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'

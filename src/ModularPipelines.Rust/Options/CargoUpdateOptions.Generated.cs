@@ -70,6 +70,42 @@ public record CargoUpdateOptions : CargoOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// Only update the workspace packages
+    /// </summary>
+    [CliFlag("--workspace", ShortForm = "-w")]
+    public bool? Workspace { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Ignore `rust-version` specification in packages
+    /// </summary>
+    [CliFlag("--ignore-rust-version")]
+    public bool? IgnoreRustVersion { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
+
+    /// <summary>
     /// The [SPEC] operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

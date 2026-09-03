@@ -331,36 +331,55 @@ public class ArtifactContextApiTests
     [Test]
     public async Task Directory_Archive_Extraction_Observes_Cancellation()
     {
-        var archivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
-        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
+        await using var archiveStream = new MemoryStream();
+        using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+        await using (var entryStream = archive.CreateEntry(
+                         "payload.bin",
+                         CompressionLevel.NoCompression).Open())
+        {
+            await entryStream.WriteAsync(new byte[1024 * 1024]);
+        }
+
+        var archiveBytes = archiveStream.ToArray();
+        for (var iteration = 0; iteration < 10; iteration++)
+        {
+            await VerifyArchiveExtractionCancellationAsync(archiveBytes, iteration);
+        }
+    }
+
+    private static async Task VerifyArchiveExtractionCancellationAsync(
+        byte[] archiveBytes,
+        int iteration)
+    {
+        var destinationDirectory = Directory.CreateTempSubdirectory(
+            $"artifact-extraction-{iteration}-");
+        await using var archiveStream = new MemoryStream(archiveBytes, writable: false);
+        await using var blockingStream = new SwitchableBlockingReadStream(archiveStream);
+        using var archiveToExtract = new ZipArchive(
+            blockingStream,
+            ZipArchiveMode.Read,
+            leaveOpen: true);
+        using var cancellationTokenSource = new CancellationTokenSource();
+        blockingStream.BlockReads(cancellationTokenSource.Token);
+        var extractionTask = Task.Run(() =>
+            ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                archiveToExtract,
+                destinationDirectory.FullName,
+                cancellationTokenSource.Token));
 
         try
         {
-            await using (var archiveStream = File.Create(archivePath))
-            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create))
-            await using (var entryStream = archive.CreateEntry(
-                             "payload.bin",
-                             CompressionLevel.NoCompression).Open())
-            {
-                var buffer = new byte[64 * 1024];
-                for (var index = 0; index < 1024; index++)
-                {
-                    await entryStream.WriteAsync(buffer);
-                }
-            }
-
-            using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(1));
-            using var archiveToExtract = ZipFile.OpenRead(archivePath);
-
+            await blockingStream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            cancellationTokenSource.Cancel();
             await Assert.ThrowsAsync<OperationCanceledException>(() =>
-                ArtifactContextImpl.ExtractDirectoryArchiveAsync(
-                    archiveToExtract,
-                    destinationDirectory.FullName,
-                    cancellationTokenSource.Token));
+                extractionTask.WaitAsync(TimeSpan.FromSeconds(5)));
         }
         finally
         {
-            File.Delete(archivePath);
+            // Ensure cleanup also cancels when setup or an assertion fails before the explicit cancellation.
+            await cancellationTokenSource.CancelAsync();
+            blockingStream.ReleaseReads();
+            await extractionTask.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
             destinationDirectory.Delete(recursive: true);
         }
     }
@@ -445,6 +464,101 @@ public class ArtifactContextApiTests
             IModuleContext context,
             CancellationToken cancellationToken)
             => Task.FromResult(string.Empty);
+    }
+
+    private sealed class SwitchableBlockingReadStream(Stream inner) : Stream
+    {
+        private readonly TaskCompletionSource _readStarted = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseReads = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private volatile bool _blockReads;
+        private CancellationToken _blockingCancellationToken;
+
+        public Task ReadStarted => _readStarted.Task;
+
+        public override bool CanRead => inner.CanRead;
+
+        public override bool CanSeek => inner.CanSeek;
+
+        public override bool CanWrite => inner.CanWrite;
+
+        public override long Length => inner.Length;
+
+        public override long Position
+        {
+            get => inner.Position;
+            set => inner.Position = value;
+        }
+
+        public void BlockReads(CancellationToken cancellationToken)
+        {
+            _blockingCancellationToken = cancellationToken;
+            _blockReads = true;
+        }
+
+        public void ReleaseReads() => _releaseReads.TrySetResult();
+
+        public override void Flush() => inner.Flush();
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            WaitForRelease();
+            return inner.Read(buffer, offset, count);
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            WaitForRelease();
+            return inner.Read(buffer);
+        }
+
+        public override async Task<int> ReadAsync(
+            byte[] buffer,
+            int offset,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            await WaitForReleaseAsync(cancellationToken);
+            return await inner.ReadAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override async ValueTask<int> ReadAsync(
+            Memory<byte> buffer,
+            CancellationToken cancellationToken = default)
+        {
+            await WaitForReleaseAsync(cancellationToken);
+            return await inner.ReadAsync(buffer, cancellationToken);
+        }
+
+        public override long Seek(long offset, SeekOrigin origin) => inner.Seek(offset, origin);
+
+        public override void SetLength(long value) => inner.SetLength(value);
+
+        public override void Write(byte[] buffer, int offset, int count) =>
+            inner.Write(buffer, offset, count);
+
+        private Task WaitForReleaseAsync(CancellationToken cancellationToken)
+        {
+            if (!_blockReads)
+            {
+                return Task.CompletedTask;
+            }
+
+            _readStarted.TrySetResult();
+            return _releaseReads.Task.WaitAsync(cancellationToken);
+        }
+
+        private void WaitForRelease()
+        {
+            if (!_blockReads)
+            {
+                return;
+            }
+
+            _readStarted.TrySetResult();
+            _releaseReads.Task.Wait(_blockingCancellationToken);
+        }
     }
 
     [PublishArtifactOnReady]

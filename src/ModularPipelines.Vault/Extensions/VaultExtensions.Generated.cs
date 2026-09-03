@@ -30,5 +30,4 @@ public static class VaultExtensions
         services.TryAddScoped<IVault, Services.Vault>();
         return services;
     }
-
 }

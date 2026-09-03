@@ -173,6 +173,30 @@ public class CliOptionDefinitionTests
         await Assert.That(option1).IsNotEqualTo(option2);
     }
 
+    [Test]
+    public async Task FindIndexBySwitch_Distinguishes_Case_Sensitive_Short_Options()
+    {
+        var options = new[]
+        {
+            new CliOptionDefinition
+            {
+                SwitchName = "--output",
+                ShortForm = "-o",
+                PropertyName = "Output",
+                CSharpType = "string?",
+            },
+            new CliOptionDefinition
+            {
+                SwitchName = "--remote-name",
+                ShortForm = "-O",
+                PropertyName = "RemoteName",
+                CSharpType = "bool?",
+            },
+        };
+
+        await Assert.That(CliOptionDefinition.FindIndexBySwitch(options, "-O")).IsEqualTo(1);
+    }
+
     #endregion
 
     [Test]

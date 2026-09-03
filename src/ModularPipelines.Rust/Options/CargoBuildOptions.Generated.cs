@@ -28,7 +28,7 @@ public record CargoBuildOptions : CargoOptions
     public bool? FutureIncompatReport { get; set; }
 
     /// <summary>
-    /// Error format [possible values: human, short, json,
+    /// Error format [possible values: human, short, json, json-diagnostic-short, json-diagnostic-rendered-ansi, json-render-diagnostics]
     /// </summary>
     [CliOption("--message-format")]
     public string? MessageFormat { get; set; }
@@ -56,5 +56,155 @@ public record CargoBuildOptions : CargoOptions
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Build all packages in the workspace
+    /// </summary>
+    [CliFlag("--workspace")]
+    public bool? Workspace { get; set; }
+
+    /// <summary>
+    /// Exclude packages from the build
+    /// </summary>
+    [CliOption("--exclude")]
+    public IEnumerable<string>? Exclude { get; set; }
+
+    /// <summary>
+    /// Alias for --workspace (deprecated)
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Build only this package's library
+    /// </summary>
+    [CliFlag("--lib")]
+    public bool? Lib { get; set; }
+
+    /// <summary>
+    /// Build all binaries
+    /// </summary>
+    [CliFlag("--bins")]
+    public bool? Bins { get; set; }
+
+    /// <summary>
+    /// Build all examples
+    /// </summary>
+    [CliFlag("--examples")]
+    public bool? Examples { get; set; }
+
+    /// <summary>
+    /// Build all targets that have `test = true` set
+    /// </summary>
+    [CliFlag("--tests")]
+    public bool? Tests { get; set; }
+
+    /// <summary>
+    /// Build all targets that have `bench = true` set
+    /// </summary>
+    [CliFlag("--benches")]
+    public bool? Benches { get; set; }
+
+    /// <summary>
+    /// Build all targets
+    /// </summary>
+    [CliFlag("--all-targets")]
+    public bool? AllTargets { get; set; }
+
+    /// <summary>
+    /// Space or comma separated list of features to activate
+    /// </summary>
+    [CliOption("--features", ShortForm = "-F")]
+    public IEnumerable<string>? Features { get; set; }
+
+    /// <summary>
+    /// Activate all available features
+    /// </summary>
+    [CliFlag("--all-features")]
+    public bool? AllFeatures { get; set; }
+
+    /// <summary>
+    /// Do not activate the `default` feature
+    /// </summary>
+    [CliFlag("--no-default-features")]
+    public bool? NoDefaultFeatures { get; set; }
+
+    /// <summary>
+    /// Build artifacts in release mode, with optimizations
+    /// </summary>
+    [CliFlag("--release", ShortForm = "-r")]
+    public bool? Release { get; set; }
+
+    /// <summary>
+    /// Build artifacts with the specified profile
+    /// </summary>
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
+
+    /// <summary>
+    /// Number of parallel jobs, defaults to # of CPUs.
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j")]
+    public string? Jobs { get; set; }
+
+    /// <summary>
+    /// Do not abort the build as soon as there is an error
+    /// </summary>
+    [CliFlag("--keep-going")]
+    public bool? KeepGoing { get; set; }
+
+    /// <summary>
+    /// Directory for all generated artifacts
+    /// </summary>
+    [CliOption("--target-dir")]
+    public string? TargetDir { get; set; }
+
+    /// <summary>
+    /// Copy final artifacts to this directory (unstable)
+    /// </summary>
+    [CliOption("--artifact-dir")]
+    public string? ArtifactDir { get; set; }
+
+    /// <summary>
+    /// Output build graph in JSON (unstable)
+    /// </summary>
+    [CliFlag("--unit-graph")]
+    public bool? UnitGraph { get; set; }
+
+    /// <summary>
+    /// Output a build timing report at the end of the build
+    /// </summary>
+    [CliFlag("--timings")]
+    public bool? Timings { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Ignore `rust-version` specification in packages
+    /// </summary>
+    [CliFlag("--ignore-rust-version")]
+    public bool? IgnoreRustVersion { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
 
 }

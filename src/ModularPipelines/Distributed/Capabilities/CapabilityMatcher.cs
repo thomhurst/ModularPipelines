@@ -15,14 +15,13 @@ public static class CapabilityMatcher
     /// <summary>
     /// Checks if the given capabilities satisfy a module assignment's requirements.
     /// </summary>
-    public static bool CanExecute(ModuleAssignment assignment, IReadOnlySet<string> workerCapabilities)
+    public static bool CanExecute(ModuleAssignment assignment, IReadOnlySet<Capability> workerCapabilities)
     {
         if (assignment.RequiredCapabilities.Count == 0)
         {
             return true;
         }
 
-        return assignment.RequiredCapabilities.All(
-            required => workerCapabilities.Contains(required, StringComparer.OrdinalIgnoreCase));
+        return assignment.RequiredCapabilities.All(workerCapabilities.Contains);
     }
 }

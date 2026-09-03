@@ -30,5 +30,4 @@ public static class NbgvExtensions
         services.TryAddScoped<INbgv, Services.Nbgv>();
         return services;
     }
-
 }

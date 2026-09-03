@@ -1618,7 +1618,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             new StringLogger<RunReportService>(log));
 
@@ -1650,7 +1650,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             runReportEnrichers: [new StaticRunReportEnricher()]);
@@ -1714,7 +1714,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             runReportEnrichers: [new CallbackRunReportEnricher(() => version = 4)]);
@@ -1910,7 +1910,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             enricherTimeout: TimeSpan.FromMilliseconds(25),
@@ -2000,7 +2000,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
@@ -2055,7 +2055,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             runReportEnrichers: [new StaticRunReportEnricher()]);
@@ -2083,7 +2083,7 @@ public class RunReportTests
             OptionsFactory.Create(new PipelineOptions()),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
@@ -2115,7 +2115,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             runReportEnrichers: [new CommandCountingRunReportEnricher(commandExecutionCounter)]);
@@ -2186,7 +2186,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             runReportEnrichers: [new StaticRunReportEnricher()]);
@@ -2242,7 +2242,7 @@ public class RunReportTests
             OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             enricherTimeout: TimeSpan.FromMilliseconds(25),
@@ -2394,7 +2394,7 @@ public class RunReportTests
                 options,
                 OptionsFactory.Create(new DistributedOptions()),
                 new RoleDetector(OptionsFactory.Create(new DistributedOptions())),
-                Mock.Of<IDistributedCoordinator>(),
+                Mock.Of<IDistributedMasterCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
                 pathResolver: new RunReportPathResolver(directory));
@@ -2430,7 +2430,7 @@ public class RunReportTests
                 }),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                Mock.Of<IDistributedCoordinator>(),
+                Mock.Of<IDistributedMasterCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
                 pathResolver: pathResolver);
@@ -2456,7 +2456,7 @@ public class RunReportTests
         var directory = CreateTemporaryDirectory();
         var reportPath = Path.Combine(directory, "run-report.json");
         var historyStore = new Mock<IRunHistoryStore>();
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.RegisterWorkerAsync(
                 It.IsAny<WorkerRegistration>(),
                 It.IsAny<CancellationToken>()))
@@ -2552,7 +2552,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
@@ -2590,7 +2590,7 @@ public class RunReportTests
             OptionsFactory.Create(new PipelineOptions()),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
@@ -2646,7 +2646,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
@@ -2698,7 +2698,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             historyStoreTimeout: TimeSpan.FromMinutes(1));
@@ -2733,7 +2733,7 @@ public class RunReportTests
     [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedWorkerMetricsTimeoutWhenCoordinatorIgnoresCancellation()
     {
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         var registrationCompletion = new TaskCompletionSource(
             TaskCreationOptions.RunContinuationsAsynchronously);
         coordinator.Setup(x => x.RegisterWorkerAsync(
@@ -2816,7 +2816,7 @@ public class RunReportTests
             }),
             distributedOptions,
             new RoleDetector(distributedOptions),
-            Mock.Of<IDistributedCoordinator>(),
+            Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             historyStoreTimeout: TimeSpan.FromMilliseconds(50));
@@ -2996,10 +2996,10 @@ public class RunReportTests
             InstanceIndex = 0,
             TotalInstances = 3,
         });
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 3,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3007,7 +3007,7 @@ public class RunReportTests
                         [moduleTypeIdentifier] = 3,
                     },
                 },
-                new WorkerRegistration(2, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal),
@@ -3030,9 +3030,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -3200,11 +3201,11 @@ public class RunReportTests
             InstanceIndex = 0,
             TotalInstances = 3,
         });
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             [
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3214,7 +3215,7 @@ public class RunReportTests
                 },
                 .. collectedRemoteWorkerIndex == 1
                     ? Array.Empty<WorkerRegistration>()
-                    : [new WorkerRegistration(2, new HashSet<string>(), runStartedAt)],
+                    : [new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)],
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.AddRemote(
@@ -3235,10 +3236,11 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
-                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -3285,10 +3287,10 @@ public class RunReportTests
                 InstanceIndex = 0,
                 TotalInstances = 3,
             });
-            var coordinator = new Mock<IDistributedCoordinator>();
+            var coordinator = new Mock<IDistributedMasterCoordinator>();
             coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync([
-                    new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                    new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                     {
                         UnattributedCommandCount = 0,
                         ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -3296,7 +3298,7 @@ public class RunReportTests
                             [moduleTypeIdentifier] = 3,
                         },
                     },
-                    new WorkerRegistration(2, new HashSet<string>(), runStartedAt),
+                    new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt),
                 ]);
             var commandExecutionCounter = new CommandExecutionCounter();
             commandExecutionCounter.Add(firstType, count: 5);
@@ -3315,10 +3317,11 @@ public class RunReportTests
                     OptionsFactory.Create(new PipelineOptions()),
                     distributedOptions,
                     new RoleDetector(distributedOptions),
-                    coordinator.Object,
+                    Mock.Of<IDistributedWorkerCoordinator>(),
                     commandExecutionCounter,
                     NullLogger<RunReportService>.Instance,
-                    workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                    workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                    masterCoordinator: coordinator.Object);
 
                 var report = await service.CompleteAsync(new PipelineSummary(
                     [firstModule, secondModule],
@@ -3361,10 +3364,10 @@ public class RunReportTests
         });
         var incompleteRegistration = new WorkerRegistration(
             1,
-            new HashSet<string>(),
+            new HashSet<Capability>(),
             runStartedAt);
         var pollingCount = 0;
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             {
@@ -3389,9 +3392,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(10));
@@ -3416,7 +3420,7 @@ public class RunReportTests
     {
         var queryCompletion = new TaskCompletionSource<IReadOnlyList<WorkerRegistration>>(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .Returns(queryCompletion.Task);
         var distributedOptions = OptionsFactory.Create(new DistributedOptions
@@ -3440,10 +3444,11 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
-                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50),
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary())
                 .WaitAsync(TimeSpan.FromSeconds(2));
@@ -3470,10 +3475,10 @@ public class RunReportTests
             InstanceIndex = 0,
             TotalInstances = 3,
         });
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
                     UnattributedCommandCount = 3,
                 },
@@ -3493,9 +3498,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(2));
@@ -3524,15 +3530,15 @@ public class RunReportTests
             TotalInstances = 3,
             RunIdentifier = runIdentifier,
         });
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, new HashSet<string>(), runStartedAt.AddMinutes(-5))
+                new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt.AddMinutes(-5))
                 {
                     RunIdentifier = runIdentifier,
                     UnattributedCommandCount = 3,
                 },
-                new WorkerRegistration(2, new HashSet<string>(), runStartedAt.AddMinutes(5))
+                new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt.AddMinutes(5))
                 {
                     RunIdentifier = "previous-run",
                     UnattributedCommandCount = 99,
@@ -3553,9 +3559,10 @@ public class RunReportTests
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
                 new RoleDetector(distributedOptions),
-                coordinator.Object,
+                Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
                 .WaitAsync(TimeSpan.FromSeconds(2));

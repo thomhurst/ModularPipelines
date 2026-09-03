@@ -33,7 +33,7 @@ public class TerraformStacksConfiguration
     #region Commands
 
     /// <summary>
-    /// list                List configurations associated with the given stack.
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

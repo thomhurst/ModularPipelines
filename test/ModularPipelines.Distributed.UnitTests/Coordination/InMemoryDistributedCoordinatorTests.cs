@@ -26,7 +26,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<string> { "linux" },
+            Capabilities: new HashSet<Capability> { "linux" },
             RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -45,6 +45,52 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Cancellation_Unblocks_Worker_Observer()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync(coordinator);
+    }
+
+    [Test]
+    public async Task Heartbeat_Keeps_Worker_Registration_Live()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator);
+    }
+
+    [Test]
+    public async Task Stale_Worker_Is_Excluded_From_Live_Registrations()
+    {
+        var coordinator = new InMemoryDistributedCoordinator(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                WorkerTimeout = TimeSpan.FromMilliseconds(10),
+            }));
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            CancellationToken.None);
+
+        await Task.Delay(30);
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers).IsEmpty();
+    }
+
+    [Test]
+    public async Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
+    {
+        var coordinator = new InMemoryDistributedCoordinator(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                WorkerTimeout = TimeSpan.FromMilliseconds(10),
+            }));
+
+        await DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+            coordinator,
+            TimeSpan.FromMilliseconds(30));
+    }
+
+    [Test]
     public async Task Dequeue_With_Capability_Filtering()
     {
         var coordinator = new InMemoryDistributedCoordinator();
@@ -52,16 +98,16 @@ public class InMemoryDistributedCoordinatorTests
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string> { "docker" },
+            RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
 
         // Worker without docker capability should not get the assignment
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
         var result = await coordinator.DequeueModuleAsync(
-            new HashSet<string> { "linux" }, cts.Token);
+            new HashSet<Capability> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
     }

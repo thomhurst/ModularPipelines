@@ -79,6 +79,9 @@ jobs:
       - name: Test generated integration validation routing
         shell: pwsh
         run: ./scripts/Test-ResolveGeneratedIntegrationValidation.ps1
+      - name: Test required pipeline context routing
+        shell: pwsh
+        run: ./scripts/Test-RequiredPipelineContext.ps1
       - name: Verify public API baseline coverage
         shell: pwsh
         run: ./scripts/Assert-PublicApiBaselines.ps1
@@ -359,7 +362,7 @@ jobs:
           Write-Output 'Only pre-existing diagnostics outside changed C# files were found.'
 
   pipeline:
-    name: ${{ matrix.check_name }}
+    name: full pipeline (${{ matrix.os }})
     needs: fast-fail
     # Generated-options PRs use the one-tool validation job below. Main pushes and
     # every other PR retain the complete repository pipeline.
@@ -377,7 +380,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            check_name: pipeline (ubuntu-latest)
       fail-fast: false
     runs-on: ${{ matrix.os }}
     permissions:
@@ -681,6 +683,27 @@ jobs:
             --framework net10.0 \
             --no-build \
             --no-restore
+
+  required-pipeline:
+    name: pipeline (ubuntu-latest)
+    needs: [fast-fail, pipeline, generated-integration]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate required pipeline result
+        shell: pwsh
+        run: |
+          ./scripts/Assert-RequiredPipelineContext.ps1 `
+            -IsGeneratedIntegration '${{ needs.fast-fail.outputs.is_generated_integration }}' `
+            -FastFailResult '${{ needs.fast-fail.result }}' `
+            -FullPipelineResult '${{ needs.pipeline.result }}' `
+            -GeneratedIntegrationResult '${{ needs.generated-integration.result }}'
 
   trim-aot:
     name: trim and Native AOT

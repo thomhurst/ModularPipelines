@@ -30,5 +30,4 @@ public static class GoExtensions
         services.TryAddScoped<IGo, Services.Go>();
         return services;
     }
-
 }

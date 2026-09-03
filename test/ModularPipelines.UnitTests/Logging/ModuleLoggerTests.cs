@@ -219,6 +219,14 @@ public class ModuleLoggerTests
     [Test]
     public async Task Dispose_DoesNotWaitForInProgressStateObfuscation()
     {
+        for (var iteration = 0; iteration < 10; iteration++)
+        {
+            await VerifyDisposeDoesNotWaitForInProgressStateObfuscationAsync();
+        }
+    }
+
+    private static async Task VerifyDisposeDoesNotWaitForInProgressStateObfuscationAsync()
+    {
         var logEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var buffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
@@ -240,24 +248,42 @@ public class ModuleLoggerTests
             formattedValuesObfuscator.Object,
             consoleCoordinator.Object,
             Mock.Of<IOutputCoordinator>());
-        var logTask = Task.Run(() => logger.LogInformation("message"));
-
-        await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
-        var disposeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var disposeTask = Task.Run(() =>
-        {
-            disposeStarted.TrySetResult();
-            logger.Dispose();
-        });
+        var logTask = Task.Factory.StartNew(
+            () => logger.LogInformation("message"),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
+        var disposeTask = Task.CompletedTask;
+        var disposeScheduled = false;
 
         try
         {
-            await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
-            await disposeTask.WaitAsync(TimeSpan.FromSeconds(1));
+            await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            var disposeStarted = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            disposeTask = Task.Factory.StartNew(
+                () =>
+                {
+                    disposeStarted.TrySetResult();
+                    logger.Dispose();
+                },
+                CancellationToken.None,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
+            disposeScheduled = true;
+
+            await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await disposeTask.WaitAsync(TimeSpan.FromSeconds(5));
         }
         finally
         {
             releaseLog.TrySetResult();
+            await Task.WhenAll(logTask, disposeTask)
+                .ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            if (!disposeScheduled)
+            {
+                logger.Dispose();
+            }
         }
 
         await Task.WhenAll(logTask, disposeTask);

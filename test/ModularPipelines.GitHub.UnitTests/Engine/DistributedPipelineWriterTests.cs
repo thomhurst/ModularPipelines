@@ -138,7 +138,7 @@ public class DistributedPipelineWriterTests : TestBase
             "run: dotnet run --project 'src/My Pipeline'\"'\"'s/Pipeline.csproj' -c Release");
     }
 
-    [RequiresCapability("linux")]
+    [RequiresCapability("linux", "docker")]
     private sealed class LinuxModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;

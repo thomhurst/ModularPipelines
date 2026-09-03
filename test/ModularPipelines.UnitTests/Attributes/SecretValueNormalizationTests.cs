@@ -313,7 +313,7 @@ public class SecretValueNormalizationTests
             typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
             []));
         var objectType = typeBuilder.CreateType()!;
-        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly, requiresGeneratedMetadata: false);
         GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
         var provider = CreateProvider(out _);
         var value = Activator.CreateInstance(objectType)!;
@@ -360,7 +360,7 @@ public class SecretValueNormalizationTests
             typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
             []));
         var optionsType = typeBuilder.CreateType()!;
-        GeneratedSecretMetadata.RegisterAssembly(optionsType.Assembly);
+        GeneratedSecretMetadata.RegisterAssembly(optionsType.Assembly, requiresGeneratedMetadata: false);
         var provider = CreateProvider(out _);
 
         var secrets = provider.GetSecretsInObject(Activator.CreateInstance(optionsType)).ToList();
@@ -414,7 +414,7 @@ public class SecretValueNormalizationTests
             FieldAttributes.Public);
         var objectType = typeBuilder.CreateType()!;
         var value = Activator.CreateInstance(objectType)!;
-        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly, requiresGeneratedMetadata: false);
         GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
 
         var secrets = provider.GetSecretsInObject(value).ToList();

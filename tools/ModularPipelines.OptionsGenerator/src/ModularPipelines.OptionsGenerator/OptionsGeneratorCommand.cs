@@ -67,7 +67,7 @@ internal static class OptionsGeneratorCommand
             },
             ApproveCommandCoverageShrinkage: new Option<bool>("--approve-command-coverage-shrinkage")
             {
-                Description = "Explicitly approve same-version command-set changes, removed commands, and command groups losing all children. Sentinel and minimum coverage checks still apply.",
+                Description = "Explicitly approve same-version command-set changes, up to five undocumented removals, and command groups losing all children. Larger removals require documented exclusions with reviewed reasons. Sentinel and minimum coverage checks still apply.",
                 DefaultValueFactory = _ => false,
             },
             ChangeManifest: new Option<string?>("--change-manifest")

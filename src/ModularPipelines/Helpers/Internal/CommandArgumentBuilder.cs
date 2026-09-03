@@ -32,28 +32,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
         ref bool emittedOptionTerminator,
-        out int? emittedOptionTerminatorIndex,
-        IReadOnlyDictionary<ArgumentPart, string>? manualRequiredOperands = null,
-        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>>? materializedRequiredOperands = null)
+        out int? emittedOptionTerminatorIndex)
     {
         var optionsType = optionsObject.GetType();
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
         var argumentValues = arguments.ToDictionary(
             static argument => argument,
-            argument => materializedRequiredOperands?.TryGetValue(argument, out var values) == true
-                ? values
-                : GetValues(argument.Getter(optionsObject)));
-        if (manualRequiredOperands is not null)
-        {
-            foreach (var (argument, value) in manualRequiredOperands)
-            {
-                if (argumentValues.TryGetValue(argument, out var values) && values.Count == 0)
-                {
-                    argumentValues[argument] = [value];
-                }
-            }
-        }
+            argument => (IReadOnlyList<string>) GetValues(argument.Getter(optionsObject)));
 
         var renderedOptionValues = flagsAndOptions.ToDictionary(
             static part => part,

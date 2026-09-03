@@ -74,7 +74,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             var workingDirectory = usesHelpRepository
                 ? await GetHelpRepositoryAsync()
                 : null;
-            result = await Executor.ExecuteAsync(
+            result = await ExecuteAndRecordHelpCommandAsync(
+                commandPath,
                 ToolName,
                 arguments,
                 cancellationToken,

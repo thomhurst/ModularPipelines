@@ -170,7 +170,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     {
         var declaredCapabilities = moduleType
             .GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true)
-            .Select(attribute => attribute.Capability);
+            .SelectMany(attribute => attribute.Capabilities);
         var operatingSystemConditions = moduleType
             .GetCustomAttributes(inherit: true)
             .OfType<IConditionAttribute>()

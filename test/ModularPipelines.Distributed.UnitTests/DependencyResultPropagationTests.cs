@@ -74,9 +74,9 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(ConsumerModule).FullName!,
             ResultTypeName: typeof(string).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: [serializedDep]);
 
         // Create module instances
@@ -118,9 +118,9 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(IndependentModule).FullName!,
             ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: null);
 
         // Act & Assert — should not throw
@@ -134,9 +134,9 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(IndependentModule).FullName!,
             ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<string>(),
+            RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: []);
 
         // Act & Assert — check guard condition

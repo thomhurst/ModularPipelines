@@ -30,5 +30,4 @@ public static class FlywayExtensions
         services.TryAddScoped<IFlyway, Services.Flyway>();
         return services;
     }
-
 }

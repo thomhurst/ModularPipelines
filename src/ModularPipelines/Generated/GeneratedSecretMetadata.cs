@@ -13,18 +13,11 @@ namespace ModularPipelines.Generated;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class GeneratedSecretMetadata
 {
+    internal const int CurrentSchemaVersion = 2;
+
     private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = [];
     private static readonly ConditionalWeakTable<Assembly, AssemblyCoverage> AssemblyCoverageByAssembly = [];
     private static readonly ConditionalWeakTable<Assembly, ExternalSecretMetadata> ExternalAccessors = [];
-
-    /// <summary>
-    /// Registers that an assembly ran the C# metadata generator.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterAssembly(Assembly assembly)
-    {
-        RegisterAssembly(assembly, requiresGeneratedMetadata: false);
-    }
 
     /// <summary>
     /// Registers that an assembly ran the C# metadata generator and whether reflection fallback is unsafe.
@@ -42,46 +35,19 @@ public static class GeneratedSecretMetadata
     }
 
     /// <summary>
-    /// Registers that a declaring type has no secret properties.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Register(Type declaringType)
-    {
-        Register(declaringType, Array.Empty<SecretPropertyAccessor>());
-    }
-
-    /// <summary>
     /// Registers generated secret accessors for a declaring type.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors)
-    {
-        RegisterCore(declaringType, accessors, isComplete: true, isLegacy: false);
-    }
-
-    /// <summary>
-    /// Preserves the registration signature emitted by earlier source-generator versions.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Register(
-        Type declaringType,
         IReadOnlyList<SecretPropertyAccessor> accessors,
-        bool isComplete = true)
+        int schemaVersion)
     {
-        RegisterCore(declaringType, accessors, isComplete, isLegacy: true);
-    }
+        ValidateSchemaVersion(declaringType.Assembly, schemaVersion);
 
-    private static void RegisterCore(
-        Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors,
-        bool isComplete,
-        bool isLegacy)
-    {
         try
         {
-            Accessors.Add(declaringType, new SecretMetadata(accessors, isComplete, isLegacy));
+            Accessors.Add(declaringType, new SecretMetadata(accessors));
         }
         catch (ArgumentException exception)
         {
@@ -89,6 +55,19 @@ public static class GeneratedSecretMetadata
                 $"Secret metadata is already registered for {declaringType}.",
                 exception);
         }
+    }
+
+    private static void ValidateSchemaVersion(Assembly assembly, int schemaVersion)
+    {
+        if (schemaVersion == CurrentSchemaVersion)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Assembly '{assembly.GetName().Name}' registered secret metadata schema "
+            + $"{schemaVersion}, but this ModularPipelines runtime requires schema "
+            + $"{CurrentSchemaVersion}. Rebuild the assembly against ModularPipelines v4.");
     }
 
     /// <summary>
@@ -118,15 +97,6 @@ public static class GeneratedSecretMetadata
     }
 
     /// <summary>
-    /// Registers empty secret metadata emitted by a consuming assembly for an external type.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterExternal(Assembly consumerAssembly, Type declaringType)
-    {
-        RegisterExternal(consumerAssembly, declaringType, Array.Empty<SecretPropertyAccessor>());
-    }
-
-    /// <summary>
     /// Registers secret metadata emitted by a consuming assembly for an external type.
     /// Registrations are scoped weakly to the consumer so collectible assemblies are not retained.
     /// </summary>
@@ -134,14 +104,16 @@ public static class GeneratedSecretMetadata
     public static void RegisterExternal(
         Assembly consumerAssembly,
         Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors)
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        int schemaVersion)
     {
+        ValidateSchemaVersion(consumerAssembly, schemaVersion);
         var registrations = ExternalAccessors.GetValue(
             consumerAssembly,
             static _ => new ExternalSecretMetadata());
         registrations.Accessors.TryAdd(
             declaringType,
-            new SecretMetadata(accessors, IsComplete: true, IsLegacy: false));
+            new SecretMetadata(accessors));
     }
 
     /// <summary>
@@ -175,20 +147,6 @@ public static class GeneratedSecretMetadata
             assemblyIdentity,
             metadataNames,
             static registrations => registrations.CoveredTypeNamesByAssemblyIdentity);
-
-    /// <summary>
-    /// Rejects legacy exact metadata for external types that require JIT reflection fallback.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterExternalReflectionFallbackTypeNames(
-        Assembly consumerAssembly,
-        string assemblyIdentity,
-        IReadOnlyList<string> metadataNames) =>
-        RegisterExternalTypeNames(
-            consumerAssembly,
-            assemblyIdentity,
-            metadataNames,
-            static registrations => registrations.ReflectionFallbackTypeNamesByAssemblyIdentity);
 
     private static void RegisterExternalTypeNames(
         Assembly consumerAssembly,
@@ -234,16 +192,15 @@ public static class GeneratedSecretMetadata
             return ReturnEmptyAccessors(out accessors, result: true);
         }
 
-        Accessors.TryGetValue(type, out var directMetadata);
-        if (TryGetDirectAccessors(directMetadata, allowLegacy: false, out accessors)
-            || TryGetExternalAccessors(type, out accessors))
+        if (Accessors.TryGetValue(type, out var directMetadata))
         {
+            accessors = directMetadata.Accessors;
             return true;
         }
 
-        if (RequiresExternalReflectionFallback(type))
+        if (TryGetExternalAccessors(type, out accessors))
         {
-            return ReturnEmptyAccessors(out accessors, result: false);
+            return true;
         }
 
         if (IsCoveredExternalType(type) || IsCoveredExternalAssembly(type))
@@ -251,28 +208,7 @@ public static class GeneratedSecretMetadata
             return ReturnEmptyAccessors(out accessors, result: true);
         }
 
-        if (TryGetDirectAccessors(directMetadata, allowLegacy: true, out accessors))
-        {
-            return true;
-        }
-
         return ReturnEmptyAccessors(out accessors, IsCoveredGeneratedType(type));
-    }
-
-    private static bool TryGetDirectAccessors(
-        SecretMetadata? metadata,
-        bool allowLegacy,
-        out IReadOnlyList<SecretPropertyAccessor> accessors)
-    {
-        if (metadata is { IsComplete: true }
-            && (allowLegacy || !metadata.IsLegacy))
-        {
-            accessors = metadata.Accessors;
-            return true;
-        }
-
-        accessors = Array.Empty<SecretPropertyAccessor>();
-        return false;
     }
 
     private static bool TryGetExternalAccessors(
@@ -281,8 +217,7 @@ public static class GeneratedSecretMetadata
     {
         foreach (var registrations in ExternalAccessors)
         {
-            if (registrations.Value.Accessors.TryGetValue(type, out var metadata)
-                && metadata.IsComplete)
+            if (registrations.Value.Accessors.TryGetValue(type, out var metadata))
             {
                 accessors = metadata.Accessors;
                 return true;
@@ -326,11 +261,6 @@ public static class GeneratedSecretMetadata
         IsExternalTypeNameRegistered(
             type,
             static registrations => registrations.CoveredTypeNamesByAssemblyIdentity);
-
-    private static bool RequiresExternalReflectionFallback(Type type) =>
-        IsExternalTypeNameRegistered(
-            type,
-            static registrations => registrations.ReflectionFallbackTypeNamesByAssemblyIdentity);
 
     private static bool IsExternalTypeNameRegistered(
         Type type,
@@ -393,10 +323,7 @@ public static class GeneratedSecretMetadata
                || typeof(IAsyncStateMachine).IsAssignableFrom(type);
     }
 
-    private sealed record SecretMetadata(
-        IReadOnlyList<SecretPropertyAccessor> Accessors,
-        bool IsComplete,
-        bool IsLegacy);
+    private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors);
 
     private sealed class ExternalSecretMetadata
     {
@@ -406,10 +333,6 @@ public static class GeneratedSecretMetadata
 
         public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
             CoveredTypeNamesByAssemblyIdentity
-        { get; } = new(StringComparer.Ordinal);
-
-        public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
-            ReflectionFallbackTypeNamesByAssemblyIdentity
         { get; } = new(StringComparer.Ordinal);
     }
 

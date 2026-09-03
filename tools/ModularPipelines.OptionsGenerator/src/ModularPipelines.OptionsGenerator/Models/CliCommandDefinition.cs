@@ -51,6 +51,11 @@ public record CliCommandDefinition
     public IReadOnlyList<CliArgumentGroup> ArgumentGroups { get; init; } = [];
 
     /// <summary>
+    /// Command-level choices for which at least one generated property must be supplied.
+    /// </summary>
+    public IReadOnlyList<CliRequiredAlternativeGroup> RequiredAlternativeGroups { get; init; } = [];
+
+    /// <summary>
     /// Positional arguments for this command.
     /// </summary>
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];

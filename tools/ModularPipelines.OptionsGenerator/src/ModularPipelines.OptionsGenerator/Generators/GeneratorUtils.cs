@@ -705,7 +705,8 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(command);
 
         return command.RequiredOptions.Count > 0 ||
-               command.PositionalArguments.Any(p => p.IsRequired);
+               command.PositionalArguments.Any(p => p.IsRequired) ||
+               command.RequiredAlternativeGroups.Count > 0;
     }
 
     internal static IReadOnlyList<RequiredConstructorParameter> GetRequiredConstructorParameters(

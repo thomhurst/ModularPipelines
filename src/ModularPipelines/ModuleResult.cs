@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -55,6 +57,12 @@ public abstract record ModuleResult : IModuleResult
     /// </summary>
     [JsonInclude]
     public string? TypeName { get; init; }
+
+    /// <summary>
+    /// Gets the distributed worker index that produced this result, when known.
+    /// </summary>
+    [JsonIgnore]
+    public int? WorkerIndex { get; internal init; }
 
     // === Safe accessors (no exceptions) ===
 
@@ -382,6 +390,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = failure.EndTime,
             Status = failure.Status,
             ModuleType = failure.ModuleType,
+            WorkerIndex = failure.WorkerIndex,
         };
 
     /// <summary>
@@ -398,6 +407,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = skipped.EndTime,
             Status = skipped.Status,
             ModuleType = skipped.ModuleType,
+            WorkerIndex = skipped.WorkerIndex,
         };
 
     // === Internal factory methods ===
@@ -460,7 +470,7 @@ public abstract record ModuleResult<T> : ModuleResult
 
 /// <summary>
 /// JSON converter for Exception objects. Serializes essential exception data
-/// and deserializes to a wrapper exception preserving the message.
+/// and deserializes unknown types to a wrapper preserving their diagnostics.
 /// </summary>
 /// <remarks>
 /// <para><strong>Security Considerations:</strong></para>
@@ -485,12 +495,12 @@ public abstract record ModuleResult<T> : ModuleResult
 /// </list>
 /// <para>
 /// On deserialization, only well-known exception types from the System namespace are
-/// reconstructed. Unknown types fall back to a generic Exception to prevent type injection.
+/// reconstructed. Unknown types become <see cref="RemoteModuleException"/> instances to
+/// prevent type injection while retaining their original diagnostics.
 /// </para>
 /// </remarks>
 internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 {
-    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
     public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -498,8 +508,16 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             return null;
         }
 
+        var (typeName, message, stackTrace) = ReadExceptionData(ref reader);
+        return CreateException(typeName, message, stackTrace);
+    }
+
+    private static (string? TypeName, string? Message, string? StackTrace) ReadExceptionData(
+        ref Utf8JsonReader reader)
+    {
         string? typeName = null;
         string? message = null;
+        string? stackTrace = null;
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject)
@@ -521,11 +539,48 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
                         message = reader.GetString();
                         break;
                     case "StackTrace":
+                        stackTrace = reader.TokenType == JsonTokenType.Null
+                            ? null
+                            : reader.GetString();
                         break;
                 }
             }
         }
 
+        return (typeName, message, stackTrace);
+    }
+
+    private static Exception CreateException(string? typeName, string? message, string? stackTrace)
+    {
+        var systemException = TryCreateSystemException(typeName, message);
+        if (systemException is not null)
+        {
+            return RestoreRemoteStackTrace(systemException, stackTrace);
+        }
+
+        return typeName is null
+            ? RestoreRemoteStackTrace(
+                new Exception(message ?? "Deserialized exception"),
+                stackTrace)
+            : new RemoteModuleException(
+                typeName,
+                message ?? "Deserialized exception",
+                stackTrace);
+    }
+
+    private static Exception RestoreRemoteStackTrace(Exception exception, string? stackTrace)
+    {
+        if (!string.IsNullOrEmpty(stackTrace))
+        {
+            ExceptionDispatchInfo.SetRemoteStackTrace(exception, stackTrace);
+        }
+
+        return exception;
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
+    private static Exception? TryCreateSystemException(string? typeName, string? message)
+    {
         // Try to reconstruct the original exception type if possible
         // Security: Only allow well-known exception types from System namespace
         if (typeName != null)
@@ -549,11 +604,7 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             }
         }
 
-        // NOTE: StackTrace is intentionally not restored during deserialization.
-        // Setting the StackTrace property via reflection is fragile and can cause issues.
-        // The original stack trace is preserved in the JSON for diagnostic purposes,
-        // but deserialized exceptions will have a new stack trace from deserialization.
-        return new Exception(message ?? "Deserialized exception");
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
@@ -562,9 +613,15 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 
         // Security: Use FullName instead of AssemblyQualifiedName to avoid leaking
         // assembly version, culture, and public key token information
-        writer.WriteString("Type", value.GetType().FullName);
-        writer.WriteString("Message", value.Message);
-        writer.WriteString("StackTrace", value.StackTrace);
+        var remoteException = value as RemoteModuleException;
+        var typeName = remoteException?.OriginalExceptionType ?? value.GetType().FullName;
+        var message = remoteException?.OriginalMessage ?? value.Message;
+        var stackTrace = remoteException?.RemoteStackTrace ?? value.StackTrace;
+
+        writer.WriteString("Type", typeName);
+        writer.WriteString("Message", message);
+        writer.WriteString("StackTrace", stackTrace);
+
         writer.WriteEndObject();
     }
 }

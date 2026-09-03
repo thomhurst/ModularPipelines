@@ -30,5 +30,4 @@ public static class ShellcheckExtensions
         services.TryAddScoped<IShellcheck, Services.Shellcheck>();
         return services;
     }
-
 }

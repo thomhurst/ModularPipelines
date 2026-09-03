@@ -7,7 +7,7 @@ public record ModuleAssignment(
     string ModuleTypeName,
     string ResultTypeName,
     [property: JsonConverter(typeof(ReadOnlySetJsonConverter))]
-    IReadOnlySet<string> RequiredCapabilities,
+    IReadOnlySet<Capability> RequiredCapabilities,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfiguration Configuration,
     IReadOnlyList<SerializedModuleResult>? DependencyResults = null)

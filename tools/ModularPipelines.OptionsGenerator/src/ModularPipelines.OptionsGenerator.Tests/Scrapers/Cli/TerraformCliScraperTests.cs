@@ -61,6 +61,66 @@ public class TerraformCliScraperTests
         }
     }
 
+    [Test]
+    public async Task DeploymentStepParentDoesNotUseChildDescription()
+    {
+        const string helpText = """
+            Usage: terraform stacks deployment-step <subcommand> [options]
+
+            Subcommands:
+              artifacts  Download artifacts from a deployment step.
+              show       Show details of a deployment step in the current configuration.
+            """;
+
+        var definition = await _scraper.Parse(
+            ["terraform", "stacks", "deployment-step"],
+            helpText);
+
+        await Assert.That(definition!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task DeploymentStepShowUsesItsOwnDescription()
+    {
+        const string helpText = """
+            Usage: terraform stacks deployment-step show [options]
+
+            Show the details of a single deployment step.
+
+            Options:
+              -deployment-step-id  The ID of the deployment step to show. (required)
+            """;
+
+        var definition = await _scraper.Parse(
+            ["terraform", "stacks", "deployment-step", "show"],
+            helpText);
+
+        await Assert.That(definition!.Description)
+            .IsEqualTo("Show the details of a single deployment step.");
+    }
+
+    [Test]
+    public async Task DescriptionAfterAliasesIsPreserved()
+    {
+        const string helpText = """
+            Usage: terraform stacks deployment-step show [options]
+
+            Aliases: s
+
+            Show the details of a single deployment step.
+
+            Options:
+              -deployment-step-id  The ID of the deployment step to show. (required)
+            """;
+
+        var definition = await _scraper.Parse(
+            ["terraform", "stacks", "deployment-step", "show"],
+            helpText);
+
+        await Assert.That(definition!.Description)
+            .IsEqualTo("Show the details of a single deployment step.");
+    }
+
     private static string CreateHelpText(string command, string switchName, string description) => $$"""
         Usage: terraform stacks deployment-step {{command}} [options]
 

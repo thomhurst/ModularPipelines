@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine.Attributes;
 
 namespace ModularPipelines;
@@ -13,16 +14,16 @@ namespace ModularPipelines;
 internal static class OperatingSystemConditions
 {
     /// <summary>Capability identifier for Windows-only modules.</summary>
-    public const string Windows = "windows";
+    public const string Windows = Capability.Names.Windows;
 
     /// <summary>Capability identifier for Linux-only modules.</summary>
-    public const string Linux = "linux";
+    public const string Linux = Capability.Names.Linux;
 
     /// <summary>Capability identifier for macOS-only modules.</summary>
-    public const string MacOS = "macos";
+    public const string MacOS = Capability.Names.MacOS;
 
     /// <summary>Capability identifier for FreeBSD-only modules.</summary>
-    public const string FreeBSD = "freebsd";
+    public const string FreeBSD = Capability.Names.FreeBSD;
 
     private const string AlternativeCapabilityPrefix = "operating-system:";
     private static readonly string[] OperatingSystems = [Windows, Linux, MacOS, FreeBSD];

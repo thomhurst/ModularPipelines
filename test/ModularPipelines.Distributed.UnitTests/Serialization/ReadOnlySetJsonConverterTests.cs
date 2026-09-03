@@ -13,10 +13,10 @@ public class ReadOnlySetJsonConverterTests
     [Test]
     public async Task RoundTrip_PreservesValuesAndCaseInsensitiveComparison()
     {
-        IReadOnlySet<string> expected = new HashSet<string> { "Docker", "GPU" };
+        IReadOnlySet<Capability> expected = new HashSet<Capability> { "Docker", "GPU" };
 
         var json = JsonSerializer.Serialize(expected, JsonOptions);
-        var actual = JsonSerializer.Deserialize<IReadOnlySet<string>>(json, JsonOptions);
+        var actual = JsonSerializer.Deserialize<IReadOnlySet<Capability>>(json, JsonOptions);
 
         await Assert.That(actual).IsNotNull();
         await Assert.That(actual!).IsEquivalentTo(expected);
@@ -29,9 +29,9 @@ public class ReadOnlySetJsonConverterTests
         var expected = new ModuleAssignment(
             "BuildModule",
             "System.String",
-            new HashSet<string> { "Docker" },
+            new HashSet<Capability> { "Docker" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false))
+            new ModuleAssignmentConfiguration(null, false))
         {
             SatisfiedConditionGroups = ["Conditions.CrossPlatform"],
         };
@@ -50,7 +50,7 @@ public class ReadOnlySetJsonConverterTests
     {
         var expected = new WorkerRegistration(
             1,
-            new HashSet<string> { "Docker" },
+            new HashSet<Capability> { "Docker" },
             DateTimeOffset.UtcNow)
         {
             UnattributedCommandCount = 3,
@@ -62,5 +62,17 @@ public class ReadOnlySetJsonConverterTests
         await Assert.That(actual).IsNotNull();
         await Assert.That(actual!.Capabilities.Contains("docker")).IsTrue();
         await Assert.That(actual.UnattributedCommandCount).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task WorkerRegistration_Rejects_Default_Capabilities()
+    {
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<Capability> { default },
+            DateTimeOffset.UtcNow);
+
+        await Assert.That(() => JsonSerializer.Serialize(registration))
+            .Throws<JsonException>();
     }
 }

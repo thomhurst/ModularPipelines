@@ -12,9 +12,6 @@ using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
-/// <summary>
-/// list                List configurations associated with the given stack.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "configuration")]

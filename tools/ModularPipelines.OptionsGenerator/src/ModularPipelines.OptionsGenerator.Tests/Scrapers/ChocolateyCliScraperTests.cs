@@ -27,8 +27,59 @@ public class ChocolateyCliScraperTests
             ["choco", "info"],
             helpText);
 
-        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+        command!.ValidateOperandCoverage();
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["Pkg"]);
+    }
+
+    [Test]
+    [Arguments("apikey")]
+    [Arguments("export")]
+    [Arguments("info")]
+    [Arguments("outdated")]
+    [Arguments("setapikey")]
+    public async Task Options_Only_Usage_Does_Not_Discard_Command(string commandName)
+    {
+        var helpText = $"""
+            Chocolatey v2.7.4
+            {commandName} Command
+
+            Usage
+
+                choco {commandName} [<options/switches>]
+
+            Options and Switches
+            ====================
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(
+            ["choco", commandName],
+            helpText);
+
+        command!.ValidateOperandCoverage();
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.HasOperandTakingUsage).IsFalse();
+            await Assert.That(command.PositionalArguments).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Command_Coverage_Protects_Full_Chocolatey_Surface()
+    {
+        var coverage = new TestChocolateyCliScraper().CreateToolDefinition().CommandCoverage;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(coverage.MinimumCommandCount).IsEqualTo(27);
+            await Assert.That(coverage.SentinelCommands).IsEquivalentTo(
+            [
+                "choco apikey",
+                "choco export",
+                "choco info",
+                "choco outdated",
+                "choco setapikey",
+            ]);
+        }
     }
 
     [Test]

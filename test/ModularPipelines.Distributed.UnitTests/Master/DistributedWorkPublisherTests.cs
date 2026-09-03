@@ -155,6 +155,14 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
+    private sealed class MultipleCapabilitiesModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
     [RunIfAny<OnLinux, FalseCondition>]
     [RunIf<OnWindows>]
     private sealed class ConflictingMixedGenericAlternativeModule : Module<string>
@@ -222,6 +230,83 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResults).IsNotNull();
         await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
         await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Preserves_Dependency_Failure_Worker_Index()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        typeRegistry.Register(typeof(ConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var now = DateTimeOffset.UtcNow;
+        ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
+            new RemoteModuleException("WorkerException", "worker failed", "remote stack", workerIndex: 3))
+        {
+            Name = nameof(DependencyModule),
+            TypeName = typeof(DependencyModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Failed,
+            WorkerIndex = 3,
+        };
+        resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new ConsumerModule());
+
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        var serializedDependency = assignment.DependencyResults!.Single();
+        await Assert.That(serializedDependency.WorkerIndex).IsEqualTo(3);
+        var relayedResult = serializer.Deserialize(serializedDependency);
+        var relayedException = relayedResult!.ExceptionOrDefault as RemoteModuleException;
+        await Assert.That(relayedException).IsNotNull();
+        await Assert.That(relayedException!.WorkerIndex).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Preserves_System_Dependency_Failure_Worker_Index()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        typeRegistry.Register(typeof(ConsumerModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var now = DateTimeOffset.UtcNow;
+        ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
+            new InvalidOperationException("worker failed"))
+        {
+            Name = nameof(DependencyModule),
+            TypeName = typeof(DependencyModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Failed,
+            WorkerIndex = 3,
+        };
+        resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new ConsumerModule());
+
+        var serializedDependency = assignment.DependencyResults!.Single();
+        await Assert.That(serializedDependency.WorkerIndex).IsEqualTo(3);
+        var relayedResult = serializer.Deserialize(serializedDependency);
+        await Assert.That(relayedResult!.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
+        await Assert.That(((ModuleResult) relayedResult).WorkerIndex).IsEqualTo(3);
     }
 
     [Test]
@@ -408,6 +493,26 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
 
         await Assert.That(assignment.RequiredCapabilities).IsEmpty();
+    }
+
+    [Test]
+    public async Task CreateAssignment_Flattens_Multiple_Capabilities_From_One_Attribute()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MultipleCapabilitiesModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            serializer,
+            resultRegistry);
+
+        var assignment = publisher.CreateAssignment(new MultipleCapabilitiesModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEquivalentTo([Capability.Linux, Capability.Docker]);
     }
 
     [Test]

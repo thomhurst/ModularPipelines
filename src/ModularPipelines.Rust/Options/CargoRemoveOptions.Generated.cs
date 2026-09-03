@@ -53,4 +53,46 @@ public record CargoRemoveOptions(
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// Remove from dev-dependencies
+    /// </summary>
+    [CliFlag("--dev")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
+    /// Remove from build-dependencies
+    /// </summary>
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
+
+    /// <summary>
+    /// Remove from target-dependencies
+    /// </summary>
+    [CliOption("--target")]
+    public string? Target { get; set; }
+
+    /// <summary>
+    /// Path to Cargo.toml
+    /// </summary>
+    [CliOption("--manifest-path", ShortForm = "-m")]
+    public string? ManifestPath { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public bool? Frozen { get; set; }
+
 }

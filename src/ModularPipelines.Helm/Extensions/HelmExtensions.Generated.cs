@@ -37,5 +37,4 @@ public static class HelmExtensions
         services.TryAddScoped<IHelmShow, HelmShow>();
         return services;
     }
-
 }
