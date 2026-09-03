@@ -46,6 +46,7 @@ jobs:
         shell: pwsh
         run: |
           tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiSnapshotFromSarif.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-WriteRemovedPublicApiSnapshotFromSarif.ps1
           tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
@@ -623,6 +624,30 @@ jobs:
           $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
           Copy-Item -LiteralPath $shipped -Destination $originalShipped
           Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
+          $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
+            @('/m:1', '-p:UseSharedCompilation=false')
+          } else {
+            @()
+          }
+          $removalErrorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removals.sarif'
+          $removalBuildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removal-build.log'
+          $confirmedRemovals = Join-Path $env:RUNNER_TEMP 'PublicAPI.ConfirmedRemovals.txt'
+          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -c Release `
+            --no-incremental `
+            -p:TreatWarningsAsErrors=false `
+            -p:WarningsAsErrors= `
+            "-p:ErrorLog=$removalErrorLog" `
+            @buildArguments *> $removalBuildLog
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content -LiteralPath $removalBuildLog
+            throw 'Failed to collect confirmed public API removals.'
+          }
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-RemovedPublicApiSnapshotFromSarif.ps1 `
+            -ErrorLogPath $removalErrorLog `
+            -SnapshotPath $confirmedRemovals
+
           foreach ($baseline in $shipped, $unshipped) {
             $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
             [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
@@ -630,11 +655,6 @@ jobs:
 
           $errorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.current.sarif'
           $buildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.snapshot-build.log'
-          $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
-            @('/m:1', '-p:UseSharedCompilation=false')
-          } else {
-            @()
-          }
           dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
             -c Release `
             --no-incremental `
@@ -656,6 +676,7 @@ jobs:
             -OriginalShippedPath $originalShipped `
             -OriginalUnshippedPath $originalUnshipped `
             -CurrentApiSnapshotPath $unshipped `
+            -ConfirmedRemovedApiPath $confirmedRemovals `
             -ShippedOutputPath $shipped `
             -UnshippedOutputPath $unshipped
 
@@ -962,6 +983,24 @@ jobs:
           $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
           Copy-Item -LiteralPath $shipped -Destination $originalShipped
           Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
+          $removalErrorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removals.sarif'
+          $removalBuildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removal-build.log'
+          $confirmedRemovals = Join-Path $env:RUNNER_TEMP 'PublicAPI.ConfirmedRemovals.txt'
+          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -c Release `
+            --no-incremental `
+            -p:TreatWarningsAsErrors=false `
+            -p:WarningsAsErrors= `
+            "-p:ErrorLog=$removalErrorLog" *> $removalBuildLog
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content -LiteralPath $removalBuildLog
+            throw 'Failed to collect confirmed public API removals.'
+          }
+
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-RemovedPublicApiSnapshotFromSarif.ps1 `
+            -ErrorLogPath $removalErrorLog `
+            -SnapshotPath $confirmedRemovals
+
           foreach ($baseline in $shipped, $unshipped) {
             $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
             [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
@@ -989,6 +1028,7 @@ jobs:
             -OriginalShippedPath $originalShipped `
             -OriginalUnshippedPath $originalUnshipped `
             -CurrentApiSnapshotPath $unshipped `
+            -ConfirmedRemovedApiPath $confirmedRemovals `
             -ShippedOutputPath $shipped `
             -UnshippedOutputPath $unshipped
 

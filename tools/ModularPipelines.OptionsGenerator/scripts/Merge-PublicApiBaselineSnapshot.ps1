@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory)][string] $OriginalShippedPath,
     [Parameter(Mandatory)][string] $OriginalUnshippedPath,
     [Parameter(Mandatory)][string] $CurrentApiSnapshotPath,
+    [Parameter(Mandatory)][string] $ConfirmedRemovedApiPath,
     [Parameter(Mandatory)][string] $ShippedOutputPath,
     [Parameter(Mandatory)][string] $UnshippedOutputPath
 )
@@ -51,6 +52,10 @@ function Write-Baseline([string] $Path, [string[]] $Headers, [string[]] $Entries
 $originalShipped = Read-Baseline $OriginalShippedPath
 $originalUnshipped = Read-Baseline $OriginalUnshippedPath
 $currentSnapshot = Read-Baseline $CurrentApiSnapshotPath
+$confirmedRemovedApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
+foreach ($entry in Get-ApiEntries (Read-Baseline $ConfirmedRemovedApiPath)) {
+    $null = $confirmedRemovedApis.Add($entry)
+}
 
 $currentApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 foreach ($entry in Get-ApiEntries $currentSnapshot) {
@@ -61,7 +66,7 @@ foreach ($entry in Get-ApiEntries $currentSnapshot) {
 
 $shippedApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 foreach ($entry in Get-ApiEntries $originalShipped) {
-    if ($currentApis.Contains($entry)) {
+    if ($currentApis.Contains($entry) -or -not $confirmedRemovedApis.Contains($entry)) {
         $null = $shippedApis.Add($entry)
     }
 }
@@ -74,7 +79,7 @@ foreach ($entry in $currentApis) {
 }
 
 foreach ($entry in Get-ApiEntries $originalShipped) {
-    if (-not $currentApis.Contains($entry)) {
+    if (-not $currentApis.Contains($entry) -and $confirmedRemovedApis.Contains($entry)) {
         $null = $unshippedApis.Add("$removedPrefix$entry")
     }
 }

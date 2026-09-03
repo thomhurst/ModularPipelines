@@ -34,6 +34,7 @@ try {
     $originalShipped = Join-Path $testRoot 'PublicAPI.Shipped.original.txt'
     $originalUnshipped = Join-Path $testRoot 'PublicAPI.Unshipped.original.txt'
     $currentSnapshot = Join-Path $testRoot 'PublicAPI.Current.txt'
+    $confirmedRemovals = Join-Path $testRoot 'PublicAPI.ConfirmedRemovals.txt'
     $shippedOutput = Join-Path $testRoot 'PublicAPI.Shipped.txt'
     $unshippedOutput = Join-Path $testRoot 'PublicAPI.Unshipped.txt'
 
@@ -42,6 +43,7 @@ try {
         'Api.Changed(string)'
         'Api.Existing'
         'Api.Removed()'
+        'Api.SnapshotMissing'
     ) | Set-Content -LiteralPath $originalShipped
     @(
         '#nullable enable'
@@ -60,17 +62,23 @@ try {
         'Api.Pending'
         'Api.Reintroduced'
     ) | Set-Content -LiteralPath $currentSnapshot
+    @(
+        'Api.Changed(string)'
+        'Api.Removed()'
+    ) | Set-Content -LiteralPath $confirmedRemovals
 
     & $mergeScript `
         -OriginalShippedPath $originalShipped `
         -OriginalUnshippedPath $originalUnshipped `
         -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
         -ShippedOutputPath $shippedOutput `
         -UnshippedOutputPath $unshippedOutput
 
     Assert-Lines $shippedOutput @(
         '#nullable enable'
         'Api.Existing'
+        'Api.SnapshotMissing'
     )
     Assert-Lines $unshippedOutput @(
         '#nullable enable'
@@ -91,6 +99,7 @@ try {
         -OriginalShippedPath $shippedOutput `
         -OriginalUnshippedPath $unshippedOutput `
         -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
         -ShippedOutputPath $shippedOutput `
         -UnshippedOutputPath $unshippedOutput
 
