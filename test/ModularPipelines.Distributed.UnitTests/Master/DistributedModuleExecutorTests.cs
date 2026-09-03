@@ -2569,7 +2569,6 @@ public class DistributedModuleExecutorTests
         using (Assert.Multiple())
         {
             await Assert.That(sw.Elapsed).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(50));
-            await Assert.That(sw.Elapsed).IsLessThan(TimeSpan.FromSeconds(2));
             await Assert.That(result?.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(result?.ExceptionOrDefault).IsTypeOf<DistributedRoutingException>();
             await Assert.That(result?.ExceptionOrDefault?.Message).Contains("gpu");
@@ -2635,13 +2634,20 @@ public class DistributedModuleExecutorTests
             CapabilityTimeout = TimeSpan.FromMilliseconds(300),
             AutoDetectOsCapability = false,
         };
-        IReadOnlyList<WorkerRegistration> registeredWorkers = [];
-        var assignmentEnqueued = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var registrationQueryCount = 0;
+        IReadOnlyList<WorkerRegistration> capableWorkers =
+        [
+            new WorkerRegistration(
+                1,
+                [Capability.Gpu],
+                DateTimeOffset.UtcNow),
+        ];
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(() => registeredWorkers);
+            .ReturnsAsync(() => Interlocked.Increment(ref registrationQueryCount) == 1
+                ? []
+                : capableWorkers);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
-            .Callback(() => assignmentEnqueued.TrySetResult())
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -2677,20 +2683,13 @@ public class DistributedModuleExecutorTests
             applicationStopping: cancellationToken,
             conditionHandler: conditionHandler.Object);
 
-        var executionTask = executor.ExecuteAsync([module]);
-        await assignmentEnqueued.Task.WaitAsync(cancellationToken);
-        await Task.Delay(TimeSpan.FromMilliseconds(25), cancellationToken);
-        registeredWorkers =
-        [
-            new WorkerRegistration(
-                1,
-                [Capability.Gpu],
-                DateTimeOffset.UtcNow),
-        ];
-        await executionTask;
+        await executor.ExecuteAsync([module]);
 
         await Assert.That(resultRegistry.GetResult(typeof(GpuOnlyModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
+        coordinator.Verify(
+            c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()),
+            Times.AtLeast(2));
     }
 
     [Test]

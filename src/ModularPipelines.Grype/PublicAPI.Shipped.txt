@@ -87,8 +87,6 @@ ModularPipelines.Grype.Options.GrypeDbListOptions.Quiet.set -> void
 ModularPipelines.Grype.Options.GrypeDbListOptions.Verbose.get -> int?
 ModularPipelines.Grype.Options.GrypeDbListOptions.Verbose.set -> void
 ModularPipelines.Grype.Options.GrypeDbOptions
-ModularPipelines.Grype.Options.GrypeDbOptions.Command.get -> string?
-ModularPipelines.Grype.Options.GrypeDbOptions.Command.set -> void
 ModularPipelines.Grype.Options.GrypeDbOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Grype.Options.GrypeDbOptions.Config.set -> void
 ModularPipelines.Grype.Options.GrypeDbOptions.GrypeDbOptions() -> void
@@ -119,8 +117,6 @@ ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Verbose.set -> void
 ModularPipelines.Grype.Options.GrypeDbSearchOptions
 ModularPipelines.Grype.Options.GrypeDbSearchOptions.BroadCpeMatching.get -> bool?
 ModularPipelines.Grype.Options.GrypeDbSearchOptions.BroadCpeMatching.set -> void
-ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.get -> string?
-ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.set -> void
 ModularPipelines.Grype.Options.GrypeDbSearchOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Grype.Options.GrypeDbSearchOptions.Config.set -> void
 ModularPipelines.Grype.Options.GrypeDbSearchOptions.Distro.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -224,8 +220,6 @@ ModularPipelines.Grype.Options.GrypeExplainOptions.Quiet.get -> bool?
 ModularPipelines.Grype.Options.GrypeExplainOptions.Quiet.set -> void
 ModularPipelines.Grype.Options.GrypeExplainOptions.Verbose.get -> int?
 ModularPipelines.Grype.Options.GrypeExplainOptions.Verbose.set -> void
-ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.get -> string?
-ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.set -> void
 ModularPipelines.Grype.Options.GrypeOptions
 ModularPipelines.Grype.Options.GrypeOptions.GrypeOptions() -> void
 ModularPipelines.Grype.Options.GrypeOptions.GrypeOptions(ModularPipelines.Grype.Options.GrypeOptions! original) -> void
