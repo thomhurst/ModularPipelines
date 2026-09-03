@@ -31,11 +31,13 @@ public class S3ModuleCacheTests
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var distributedOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
         var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
 
         using (Assert.Multiple())
         {
             await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
+            await Assert.That(distributedOptions.RunId).IsNotEmpty();
             await Assert.That(configuredOptions.CompressionLevel)
                 .IsEqualTo(CompressionLevel.NoCompression);
         }

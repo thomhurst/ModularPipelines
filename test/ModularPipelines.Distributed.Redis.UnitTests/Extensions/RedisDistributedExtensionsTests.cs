@@ -52,16 +52,19 @@ public class RedisDistributedExtensionsTests
     public async Task ArtifactStoreRegistersStandaloneRedisDependencies()
     {
         var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
 
         builder.AddRedisDistributedArtifactStore(options =>
             options.ConnectionString = "artifact-only");
 
-        using var serviceProvider = builder.Services.BuildServiceProvider();
-        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+        await using var pipeline = await builder.BuildAsync();
+        var redisOptions = pipeline.Services.GetRequiredService<RedisDistributedOptions>();
+        var distributedOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
         using (Assert.Multiple())
         {
             await Assert.That(redisOptions.ConnectionString).IsEqualTo("artifact-only");
+            await Assert.That(distributedOptions.RunId).IsNotEmpty();
             await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsTrue();
             await Assert.That(builder.Services.Any(descriptor =>
@@ -73,14 +76,15 @@ public class RedisDistributedExtensionsTests
     public async Task Coordinator_Uses_Core_RunId()
     {
         var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
         builder.AddDistributedMode(options => options.RunId = "current-run");
         builder.AddRedisDistributedCoordinator(options =>
         {
             options.ConnectionString = "unused";
         });
-        using var serviceProvider = builder.Services.BuildServiceProvider();
+        await using var pipeline = await builder.BuildAsync();
 
-        var distributedOptions = serviceProvider
+        var distributedOptions = pipeline.Services
             .GetRequiredService<IOptions<DistributedOptions>>()
             .Value;
         await Assert.That(distributedOptions.RunId).IsEqualTo("current-run");
@@ -102,12 +106,13 @@ public class RedisDistributedExtensionsTests
             }
 
             var builder = Pipeline.CreateBuilder();
+            builder.AddModule<NoOpModule>();
             builder.AddDistributedMode(_ => { });
 
             builder.AddRedisDistributedCoordinator(options =>
                 options.ConnectionString = "unused");
-            using var serviceProvider = builder.Services.BuildServiceProvider();
-            var options = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+            await using var pipeline = await builder.BuildAsync();
+            var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
             await Assert.That(Guid.TryParseExact(options.RunId, "N", out _)).IsTrue();
         }
@@ -138,14 +143,13 @@ public class RedisDistributedExtensionsTests
             builder.AddDistributedMode(options => options.TotalInstances = 2);
             builder.AddRedisDistributedCoordinator(options =>
                 options.ConnectionString = "unused");
-            using var serviceProvider = builder.Services.BuildServiceProvider();
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                _ = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value);
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.BuildAsync());
 
             using (Assert.Multiple())
             {
-                await Assert.That(exception.Message).Contains(nameof(DistributedOptions.RunId));
+                await Assert.That(exception!.Message).Contains(nameof(DistributedOptions.RunId));
                 await Assert.That(exception.Message).Contains("RUN_IDENTIFIER");
             }
         }
