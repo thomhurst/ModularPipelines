@@ -33,7 +33,7 @@ public record GcloudRecaptchaKeysUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLabels? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key for Express assessments.

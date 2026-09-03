@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud maps commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanagerMaps
+public class GcloudCertificateManagerMaps
 {
     private readonly ICommandContext _command;
-    private GcloudCertificatemanagerMapsEntries? _entries;
+    private GcloudCertificateManagerMapsEntries? _entries;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanagerMaps"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManagerMaps"/> class.
     /// </summary>
-    public GcloudCertificatemanagerMaps(ICommandContext command)
+    public GcloudCertificateManagerMaps(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudCertificatemanagerMaps
     /// <summary>
     /// gcloud entries sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerMapsEntries Entries => _entries ??= new GcloudCertificatemanagerMapsEntries(_command);
+    public GcloudCertificateManagerMapsEntries Entries => _entries ??= new GcloudCertificateManagerMapsEntries(_command);
 
     #endregion
 

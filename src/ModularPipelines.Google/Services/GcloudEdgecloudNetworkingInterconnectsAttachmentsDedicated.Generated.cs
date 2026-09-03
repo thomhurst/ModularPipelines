@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dedicated commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated
+public class GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated"/> class.
     /// </summary>
-    public GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated(ICommandContext command)
+    public GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated(ICommandContext command)
     {
         _command = command;
     }

@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainerClusters
+public class GcloudEdgeCloudContainerClusters
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecloudContainerClustersNodePools? _nodePools;
+    private GcloudEdgeCloudContainerClustersNodePools? _nodePools;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerClusters"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerClusters"/> class.
     /// </summary>
-    public GcloudEdgecloudContainerClusters(ICommandContext command)
+    public GcloudEdgeCloudContainerClusters(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudEdgecloudContainerClusters
     /// <summary>
     /// gcloud node-pools sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerClustersNodePools NodePools => _nodePools ??= new GcloudEdgecloudContainerClustersNodePools(_command);
+    public GcloudEdgeCloudContainerClustersNodePools NodePools => _nodePools ??= new GcloudEdgeCloudContainerClustersNodePools(_command);
 
     #endregion
 

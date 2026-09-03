@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud enum-values commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTagTemplatesFieldsEnumValues
+public class GcloudDataCatalogTagTemplatesFieldsEnumValues
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplatesFieldsEnumValues"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTagTemplatesFieldsEnumValues"/> class.
     /// </summary>
-    public GcloudDatacatalogTagTemplatesFieldsEnumValues(ICommandContext command)
+    public GcloudDataCatalogTagTemplatesFieldsEnumValues(ICommandContext command)
     {
         _command = command;
     }

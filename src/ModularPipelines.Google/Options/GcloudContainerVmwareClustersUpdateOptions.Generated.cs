@@ -73,7 +73,7 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
     /// </summary>
     [CliOption("--add-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAnnotations { get; set; }
+    public string? AddAnnotations { get; set; }
 
     /// <summary>
     /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Remove annotations of the given keys.

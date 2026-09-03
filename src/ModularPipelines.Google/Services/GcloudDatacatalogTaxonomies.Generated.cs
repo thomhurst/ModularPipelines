@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud taxonomies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTaxonomies
+public class GcloudDataCatalogTaxonomies
 {
     private readonly ICommandContext _command;
-    private GcloudDatacatalogTaxonomiesPolicyTags? _policyTags;
+    private GcloudDataCatalogTaxonomiesPolicyTags? _policyTags;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTaxonomies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTaxonomies"/> class.
     /// </summary>
-    public GcloudDatacatalogTaxonomies(ICommandContext command)
+    public GcloudDataCatalogTaxonomies(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDatacatalogTaxonomies
     /// <summary>
     /// gcloud policy-tags sub-commands.
     /// </summary>
-    public GcloudDatacatalogTaxonomiesPolicyTags PolicyTags => _policyTags ??= new GcloudDatacatalogTaxonomiesPolicyTags(_command);
+    public GcloudDataCatalogTaxonomiesPolicyTags PolicyTags => _policyTags ??= new GcloudDataCatalogTaxonomiesPolicyTags(_command);
 
     #endregion
 

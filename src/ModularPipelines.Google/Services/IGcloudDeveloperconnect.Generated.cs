@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudDeveloperconnect
+public interface IGcloudDeveloperConnect
 {
     /// <summary>
     /// gcloud account-connectors sub-commands.
     /// </summary>
-    GcloudDeveloperconnectAccountConnectors AccountConnectors => throw new System.NotSupportedException();
+    GcloudDeveloperConnectAccountConnectors AccountConnectors => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
-    GcloudDeveloperconnectConnections Connections => throw new System.NotSupportedException();
+    GcloudDeveloperConnectConnections Connections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud insights-configs sub-commands.
     /// </summary>
-    GcloudDeveloperconnectInsightsConfigs InsightsConfigs => throw new System.NotSupportedException();
+    GcloudDeveloperConnectInsightsConfigs InsightsConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDeveloperconnectOperations Operations => throw new System.NotSupportedException();
+    GcloudDeveloperConnectOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Developer Connect resources

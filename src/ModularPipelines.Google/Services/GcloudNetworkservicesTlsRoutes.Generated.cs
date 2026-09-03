@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tls-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesTlsRoutes
+public class GcloudNetworkServicesTlsRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesTlsRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesTlsRoutes"/> class.
     /// </summary>
-    public GcloudNetworkservicesTlsRoutes(ICommandContext command)
+    public GcloudNetworkServicesTlsRoutes(ICommandContext command)
     {
         _command = command;
     }

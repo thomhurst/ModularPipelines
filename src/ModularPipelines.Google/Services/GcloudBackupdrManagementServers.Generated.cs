@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud management-servers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdrManagementServers
+public class GcloudBackupDrManagementServers
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdrManagementServers"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDrManagementServers"/> class.
     /// </summary>
-    public GcloudBackupdrManagementServers(ICommandContext command)
+    public GcloudBackupDrManagementServers(ICommandContext command)
     {
         _command = command;
     }

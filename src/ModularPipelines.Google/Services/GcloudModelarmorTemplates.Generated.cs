@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudModelarmorTemplates
+public class GcloudModelArmorTemplates
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudModelarmorTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudModelArmorTemplates"/> class.
     /// </summary>
-    public GcloudModelarmorTemplates(ICommandContext command)
+    public GcloudModelArmorTemplates(ICommandContext command)
     {
         _command = command;
     }

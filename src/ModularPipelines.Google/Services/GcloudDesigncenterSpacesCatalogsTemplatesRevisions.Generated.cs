@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud revisions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesCatalogsTemplatesRevisions
+public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesCatalogsTemplatesRevisions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesCatalogsTemplatesRevisions"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogsTemplatesRevisions(ICommandContext command)
+    public GcloudDesignCenterSpacesCatalogsTemplatesRevisions(ICommandContext command)
     {
         _command = command;
     }

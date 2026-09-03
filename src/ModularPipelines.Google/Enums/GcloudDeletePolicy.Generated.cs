@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDeletePolicy
 {
     [EnumValue("abandon")]
-    Abandon = 0,
+    Abandon,
 
     [EnumValue("delete")]
-    Delete = 1
+    Delete
 }

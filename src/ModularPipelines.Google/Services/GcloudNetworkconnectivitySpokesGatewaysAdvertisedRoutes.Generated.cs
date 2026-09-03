@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud advertised-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes
+public class GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes(ICommandContext command)
+    public GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes(ICommandContext command)
     {
         _command = command;
     }

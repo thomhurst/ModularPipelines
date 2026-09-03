@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud secure-access-connect commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecureAccessConnect
+public class GcloudNetworkSecuritySecureAccessConnect
 {
     private readonly ICommandContext _command;
-    private GcloudNetworksecuritySecureAccessConnectAttachments? _attachments;
-    private GcloudNetworksecuritySecureAccessConnectRealms? _realms;
+    private GcloudNetworkSecuritySecureAccessConnectAttachments? _attachments;
+    private GcloudNetworkSecuritySecureAccessConnectRealms? _realms;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecureAccessConnect"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecureAccessConnect"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnect(ICommandContext command)
+    public GcloudNetworkSecuritySecureAccessConnect(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudNetworksecuritySecureAccessConnect
     /// <summary>
     /// gcloud attachments sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnectAttachments Attachments => _attachments ??= new GcloudNetworksecuritySecureAccessConnectAttachments(_command);
+    public GcloudNetworkSecuritySecureAccessConnectAttachments Attachments => _attachments ??= new GcloudNetworkSecuritySecureAccessConnectAttachments(_command);
 
     /// <summary>
     /// gcloud realms sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnectRealms Realms => _realms ??= new GcloudNetworksecuritySecureAccessConnectRealms(_command);
+    public GcloudNetworkSecuritySecureAccessConnectRealms Realms => _realms ??= new GcloudNetworkSecuritySecureAccessConnectRealms(_command);
 
     #endregion
 

@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudVectorsearch
+public interface IGcloudVectorSearch
 {
     /// <summary>
     /// gcloud collections sub-commands.
     /// </summary>
-    GcloudVectorsearchCollections Collections => throw new System.NotSupportedException();
+    GcloudVectorSearchCollections Collections => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudVectorsearchOperations Operations => throw new System.NotSupportedException();
+    GcloudVectorSearchOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Vector Search data objects

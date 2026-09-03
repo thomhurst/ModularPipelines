@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud local commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatformLocal
+public class GcloudAiPlatformLocal
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAiplatformLocal"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAiPlatformLocal"/> class.
     /// </summary>
-    public GcloudAiplatformLocal(ICommandContext command)
+    public GcloudAiPlatformLocal(ICommandContext command)
     {
         _command = command;
     }

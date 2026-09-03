@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud modelarmor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudModelarmor : IGcloudModelarmor
+public class GcloudModelArmor : IGcloudModelArmor
 {
     private readonly ICommandContext _command;
-    private GcloudModelarmorFloorsettings? _floorsettings;
-    private GcloudModelarmorTemplates? _templates;
+    private GcloudModelArmorFloorsettings? _floorsettings;
+    private GcloudModelArmorTemplates? _templates;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudModelarmor"/> class.
+    /// Initializes a new instance of the <see cref="GcloudModelArmor"/> class.
     /// </summary>
-    public GcloudModelarmor(ICommandContext command)
+    public GcloudModelArmor(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudModelarmor : IGcloudModelarmor
     /// <summary>
     /// gcloud floorsettings sub-commands.
     /// </summary>
-    public GcloudModelarmorFloorsettings Floorsettings => _floorsettings ??= new GcloudModelarmorFloorsettings(_command);
+    public GcloudModelArmorFloorsettings Floorsettings => _floorsettings ??= new GcloudModelArmorFloorsettings(_command);
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    public GcloudModelarmorTemplates Templates => _templates ??= new GcloudModelarmorTemplates(_command);
+    public GcloudModelArmorTemplates Templates => _templates ??= new GcloudModelArmorTemplates(_command);
 
     #endregion
 

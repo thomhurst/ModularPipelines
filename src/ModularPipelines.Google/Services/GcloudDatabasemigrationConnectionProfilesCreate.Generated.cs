@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud create commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigrationConnectionProfilesCreate
+public class GcloudDatabaseMigrationConnectionProfilesCreate
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigrationConnectionProfilesCreate"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigrationConnectionProfilesCreate"/> class.
     /// </summary>
-    public GcloudDatabasemigrationConnectionProfilesCreate(ICommandContext command)
+    public GcloudDatabaseMigrationConnectionProfilesCreate(ICommandContext command)
     {
         _command = command;
     }
@@ -130,20 +130,11 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SqlServerAsync(
-        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions? options = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions(), executionOptions, cancellationToken);
-    }
-
-    [Obsolete("Use SqlServerAsync instead.")]
-    public virtual async Task<CommandResult> SqlserverAsync(
-        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await SqlServerAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

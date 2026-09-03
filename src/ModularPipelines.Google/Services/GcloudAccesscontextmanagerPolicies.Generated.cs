@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerPolicies
+public class GcloudAccessContextManagerPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerPolicies"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerPolicies(ICommandContext command)
+    public GcloudAccessContextManagerPolicies(ICommandContext command)
     {
         _command = command;
     }

@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud container commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainer
+public class GcloudEdgeCloudContainer
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecloudContainerClusters? _clusters;
-    private GcloudEdgecloudContainerMachines? _machines;
-    private GcloudEdgecloudContainerOperations? _operations;
-    private GcloudEdgecloudContainerRegions? _regions;
-    private GcloudEdgecloudContainerVpnConnections? _vpnConnections;
-    private GcloudEdgecloudContainerZones? _zones;
+    private GcloudEdgeCloudContainerClusters? _clusters;
+    private GcloudEdgeCloudContainerMachines? _machines;
+    private GcloudEdgeCloudContainerOperations? _operations;
+    private GcloudEdgeCloudContainerRegions? _regions;
+    private GcloudEdgeCloudContainerVpnConnections? _vpnConnections;
+    private GcloudEdgeCloudContainerZones? _zones;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainer"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainer"/> class.
     /// </summary>
-    public GcloudEdgecloudContainer(ICommandContext command)
+    public GcloudEdgeCloudContainer(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudEdgecloudContainer
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerClusters Clusters => _clusters ??= new GcloudEdgecloudContainerClusters(_command);
+    public GcloudEdgeCloudContainerClusters Clusters => _clusters ??= new GcloudEdgeCloudContainerClusters(_command);
 
     /// <summary>
     /// gcloud machines sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerMachines Machines => _machines ??= new GcloudEdgecloudContainerMachines(_command);
+    public GcloudEdgeCloudContainerMachines Machines => _machines ??= new GcloudEdgeCloudContainerMachines(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerOperations Operations => _operations ??= new GcloudEdgecloudContainerOperations(_command);
+    public GcloudEdgeCloudContainerOperations Operations => _operations ??= new GcloudEdgeCloudContainerOperations(_command);
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerRegions Regions => _regions ??= new GcloudEdgecloudContainerRegions(_command);
+    public GcloudEdgeCloudContainerRegions Regions => _regions ??= new GcloudEdgeCloudContainerRegions(_command);
 
     /// <summary>
     /// gcloud vpn-connections sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerVpnConnections VpnConnections => _vpnConnections ??= new GcloudEdgecloudContainerVpnConnections(_command);
+    public GcloudEdgeCloudContainerVpnConnections VpnConnections => _vpnConnections ??= new GcloudEdgeCloudContainerVpnConnections(_command);
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainerZones Zones => _zones ??= new GcloudEdgecloudContainerZones(_command);
+    public GcloudEdgeCloudContainerZones Zones => _zones ??= new GcloudEdgeCloudContainerZones(_command);
 
     #endregion
 

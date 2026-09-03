@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud multicast-group-range-activations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesMulticastGroupRangeActivations
+public class GcloudNetworkServicesMulticastGroupRangeActivations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesMulticastGroupRangeActivations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesMulticastGroupRangeActivations"/> class.
     /// </summary>
-    public GcloudNetworkservicesMulticastGroupRangeActivations(ICommandContext command)
+    public GcloudNetworkServicesMulticastGroupRangeActivations(ICommandContext command)
     {
         _command = command;
     }

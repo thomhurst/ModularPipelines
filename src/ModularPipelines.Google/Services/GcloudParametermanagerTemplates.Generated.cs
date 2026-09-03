@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudParametermanagerTemplates
+public class GcloudParameterManagerTemplates
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudParametermanagerTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudParameterManagerTemplates"/> class.
     /// </summary>
-    public GcloudParametermanagerTemplates(ICommandContext command)
+    public GcloudParameterManagerTemplates(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud mirroring-deployments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityMirroringDeployments
+public class GcloudNetworkSecurityMirroringDeployments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityMirroringDeployments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityMirroringDeployments"/> class.
     /// </summary>
-    public GcloudNetworksecurityMirroringDeployments(ICommandContext command)
+    public GcloudNetworkSecurityMirroringDeployments(ICommandContext command)
     {
         _command = command;
     }

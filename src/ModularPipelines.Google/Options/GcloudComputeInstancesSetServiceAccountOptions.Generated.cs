@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// set a service account and      access scopes for a Compute Engine VM instance
+/// set a service account and     access scopes for a Compute Engine VM instance
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -45,19 +45,12 @@ public record GcloudComputeInstancesSetServiceAccountOptions(
     /// At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. You can explicitly specify the Compute Engine default service account using the 'default' alias. If not provided, the instance will use the service account it currently has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Remove service account from the instance
     /// </summary>
     [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

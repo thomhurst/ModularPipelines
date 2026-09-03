@@ -14,41 +14,71 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// create cloud access      bindings for a specific group
+/// create cloud access     bindings for a specific group
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "cloud-bindings", "create")]
 public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptions
 {
-    [Obsolete("BindingFile is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Path to the file that contains a Google Cloud Platform user access binding. This file contains a YAML-compliant object representing a GcpUserAccessBinding (as described in the API reference: https://docs.cloud.google.com/access-context-manager/docs/apply-policies-to-user-groups#define_configurations_for_specific_applications) containing ScopedAccessSettings only. No other binding fields are allowed.
+    /// </summary>
+    [CliOption("--binding-file", Format = OptionFormat.EqualsSeparated)]
     public string? BindingFile { get; set; }
 
-    [Obsolete("DryRunLevel is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The dry run access level that binds to the given group. The dry run access level will be evaluated but won't be enforced. Denial on dry run access level will be logged. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-def.
+    /// </summary>
+    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DryRunLevel { get; set; }
 
-    [Obsolete("FederatedPrincipal is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// IAM federated principal that this binding applies to. Can be a single principal or a principal set. Used to assign policies to third-party workforce or workload identities. At most one of --group-key or --federated-principal can be specified.
+    /// </summary>
+    [CliOption("--federated-principal", Format = OptionFormat.EqualsSeparated)]
     public string? FederatedPrincipal { get; set; }
 
-    [Obsolete("GroupKey is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Google Group ID whose members are subject to the restrictions of this binding. At most one of --group-key or --federated-principal can be specified.
+    /// </summary>
+    [CliOption("--group-key", Format = OptionFormat.EqualsSeparated)]
     public string? GroupKey { get; set; }
 
-    [Obsolete("Level is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The access level that binds to the given group. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/abc.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Level { get; set; }
 
-    [Obsolete("Organization is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Parent organization for this binding.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
-    [Obsolete("ServiceAccount is no longer supported by the installed CLI and has no effect.")]
-    public int? ServiceAccount { get; set; }
+    /// <summary>
+    /// Service account email that this binding applies to. Used to assign policies to a single first-party service account. At most one of --group-key, --federated-principal, --service-account, or --service-account-project-number can be specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
 
-    [Obsolete("ServiceAccountProjectNumber is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Project number of the project that contains the service accounts that are subject to the restrictions of this binding. Used to assign policies to all service accounts in a Google Cloud project. At most one of --group-key, --federated-principal, --service-account, or --service-account-project-number can be specified.
+    /// </summary>
+    [CliOption("--service-account-project-number", Format = OptionFormat.EqualsSeparated)]
     public int? ServiceAccountProjectNumber { get; set; }
 
-    [Obsolete("SessionLength is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The maximum lifetime of a user session provided as an ISO 8601 duration string. Must be at least one hour or zero seconds, and no more than twenty-four hours. Granularity is limited to seconds. When --session-length=0 then users in the group attached to this binding will have infinite session length, effectively disabling the session settings. A session begins when a user signs in successfully. If a user signs out before the end of the session lifetime, a new login creates a new session with a fresh lifetime. When a session expires, the user is asked to re-authenticate in accordance with session-method. Setting --session-reauth-method when --session-length is empty raises an error.
+    /// </summary>
+    [CliOption("--session-length", Format = OptionFormat.EqualsSeparated)]
     public string? SessionLength { get; set; }
 
-    [Obsolete("SessionReauthMethod is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Specifies the type of re-authentication challenge given to the user when their session expires. Defaults to --session-reauth-method=login if unspecified and --session-length is set. Cannot be used when --session-length is empty or 0. SESSION_REAUTH_METHOD must be one of: login The user will be prompted to perform regular login. Users who are enrolled for two-step verification and haven't chosen to "Remember this computer" will be prompted for their second factor. password The user will only be required to enter their password. security-key The user will be prompted to authenticate using their security key. If no security key has been configured, authentication will fall back to LOGIN. For help configuring your security key, see https://support.google.com/a/answer/2537800?hl=en#zippy=%2Cview-add-or-remove-security-keys
+    /// </summary>
+    [CliOption("--session-reauth-method", Format = OptionFormat.EqualsSeparated)]
     public string? SessionReauthMethod { get; set; }
 
 }

@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud gateways commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokesGateways
+public class GcloudNetworkConnectivitySpokesGateways
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes? _advertisedRoutes;
+    private GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes? _advertisedRoutes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesGateways"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokesGateways"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesGateways(ICommandContext command)
+    public GcloudNetworkConnectivitySpokesGateways(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudNetworkconnectivitySpokesGateways
     /// <summary>
     /// gcloud advertised-routes sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes AdvertisedRoutes => _advertisedRoutes ??= new GcloudNetworkconnectivitySpokesGatewaysAdvertisedRoutes(_command);
+    public GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes AdvertisedRoutes => _advertisedRoutes ??= new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes(_command);
 
     #endregion
 

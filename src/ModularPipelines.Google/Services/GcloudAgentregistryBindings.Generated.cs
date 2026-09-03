@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud bindings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentregistryBindings
+public class GcloudAgentRegistryBindings
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentregistryBindings"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentRegistryBindings"/> class.
     /// </summary>
-    public GcloudAgentregistryBindings(ICommandContext command)
+    public GcloudAgentRegistryBindings(ICommandContext command)
     {
         _command = command;
     }

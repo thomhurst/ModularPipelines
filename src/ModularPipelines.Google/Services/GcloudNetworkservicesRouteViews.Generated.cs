@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud route-views commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesRouteViews
+public class GcloudNetworkServicesRouteViews
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesRouteViews"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesRouteViews"/> class.
     /// </summary>
-    public GcloudNetworkservicesRouteViews(ICommandContext command)
+    public GcloudNetworkServicesRouteViews(ICommandContext command)
     {
         _command = command;
     }

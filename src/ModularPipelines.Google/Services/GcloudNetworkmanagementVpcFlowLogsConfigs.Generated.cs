@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud vpc-flow-logs-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagementVpcFlowLogsConfigs
+public class GcloudNetworkManagementVpcFlowLogsConfigs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagementVpcFlowLogsConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagementVpcFlowLogsConfigs"/> class.
     /// </summary>
-    public GcloudNetworkmanagementVpcFlowLogsConfigs(ICommandContext command)
+    public GcloudNetworkManagementVpcFlowLogsConfigs(ICommandContext command)
     {
         _command = command;
     }

@@ -17,12 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudConnectionPersistenceOnUnhealthyBackends
 {
     [EnumValue("DEFAULT_FOR_PROTOCOL")]
-    DefaultForProtocol = 0,
+    DefaultForProtocol,
 
     [EnumValue("NEVER_PERSIST")]
-    NeverPersist = 1,
+    NeverPersist,
 
     [EnumValue("ALWAYS_PERSIST")]
-    AlwaysPersist = 2,
-
+    AlwaysPersist
 }

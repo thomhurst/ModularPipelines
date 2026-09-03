@@ -31,6 +31,12 @@ public record GcloudMlVideoDetectLabelsOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// The mode of label detection requested. DETECTION_MODE must be one of: frame Detect labels at the per-frame level. shot Detect labels at the per-shot level. shot-and-frame Detect labels at both the per-shot and per-frame level.
+    /// </summary>
+    [CliOption("--detection-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DetectionMode { get; set; }
+
+    /// <summary>
     /// Location to which the results should be written. Must be a Google Cloud Storage URI.
     /// </summary>
     [CliOption("--output-uri", Format = OptionFormat.EqualsSeparated)]
@@ -47,11 +53,5 @@ public record GcloudMlVideoDetectLabelsOptions(
     /// </summary>
     [CliOption("--segments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Segments { get; set; }
-
-    /// <summary>
-    /// The mode of label detection requested. DETECTION_MODE must be one of: frame Detect labels at the per-frame level. shot Detect labels at the per-shot level. shot-and-frame Detect labels at both the per-shot and per-frame level.
-    /// </summary>
-    [CliOption("--detection-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? DetectionMode { get; set; }
 
 }

@@ -17,9 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDataDiskEncryption
 {
     [EnumValue("GMEK")]
-    Gmek = 0,
+    Gmek,
 
     [EnumValue("CMEK")]
-    Cmek = 1,
-
+    Cmek
 }

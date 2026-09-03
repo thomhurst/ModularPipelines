@@ -24,28 +24,28 @@ public record GcloudPreviewComputeHttpsHealthChecksCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// An optional, textual description for the HTTPS health check.
-    /// </summary>
-    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
-    public string? Description { get; set; }
-
-    /// <summary>
-    /// The value of the host header used in this HTTPS health check request. By default, this is empty and Compute Engine automatically sets the host header in health requests to the same external IP address as the forwarding rule associated with the target pool.
-    /// </summary>
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
-
-    /// <summary>
     /// How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--check-interval", Format = OptionFormat.EqualsSeparated)]
     public string? CheckInterval { get; set; }
 
     /// <summary>
+    /// An optional, textual description for the HTTPS health check.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// The number of consecutive successful health checks before an unhealthy instance is marked as healthy. The default is 2.
     /// </summary>
     [CliOption("--healthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? HealthyThreshold { get; set; }
+
+    /// <summary>
+    /// The value of the host header used in this HTTPS health check request. By default, this is empty and Compute Engine automatically sets the host header in health requests to the same external IP address as the forwarding rule associated with the target pool.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
 
     /// <summary>
     /// The TCP port number that this health check monitors. The default value is 443.

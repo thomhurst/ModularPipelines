@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud custom-mirroring commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecurityProfilesCustomMirroring
+public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfilesCustomMirroring"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecurityProfilesCustomMirroring"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesCustomMirroring(ICommandContext command)
+    public GcloudNetworkSecuritySecurityProfilesCustomMirroring(ICommandContext command)
     {
         _command = command;
     }

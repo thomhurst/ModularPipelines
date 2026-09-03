@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudAuditmanager
+public interface IGcloudAuditManager
 {
     /// <summary>
     /// gcloud audit-reports sub-commands.
     /// </summary>
-    GcloudAuditmanagerAuditReports AuditReports => throw new System.NotSupportedException();
+    GcloudAuditManagerAuditReports AuditReports => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud audit-scopes sub-commands.
     /// </summary>
-    GcloudAuditmanagerAuditScopes AuditScopes => throw new System.NotSupportedException();
+    GcloudAuditManagerAuditScopes AuditScopes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud enrollments sub-commands.
     /// </summary>
-    GcloudAuditmanagerEnrollments Enrollments => throw new System.NotSupportedException();
+    GcloudAuditManagerEnrollments Enrollments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAuditmanagerOperations Operations => throw new System.NotSupportedException();
+    GcloudAuditManagerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// enroll resources, audit workloads and generate     reports

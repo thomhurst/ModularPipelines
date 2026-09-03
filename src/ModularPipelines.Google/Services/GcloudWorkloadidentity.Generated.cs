@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workloadidentity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkloadidentity : IGcloudWorkloadidentity
+public class GcloudWorkloadIdentity : IGcloudWorkloadIdentity
 {
     private readonly ICommandContext _command;
-    private GcloudWorkloadidentityServiceAgents? _serviceAgents;
+    private GcloudWorkloadIdentityServiceAgents? _serviceAgents;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudWorkloadidentity"/> class.
+    /// Initializes a new instance of the <see cref="GcloudWorkloadIdentity"/> class.
     /// </summary>
-    public GcloudWorkloadidentity(ICommandContext command)
+    public GcloudWorkloadIdentity(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudWorkloadidentity : IGcloudWorkloadidentity
     /// <summary>
     /// gcloud service-agents sub-commands.
     /// </summary>
-    public GcloudWorkloadidentityServiceAgents ServiceAgents => _serviceAgents ??= new GcloudWorkloadidentityServiceAgents(_command);
+    public GcloudWorkloadIdentityServiceAgents ServiceAgents => _serviceAgents ??= new GcloudWorkloadIdentityServiceAgents(_command);
 
     #endregion
 

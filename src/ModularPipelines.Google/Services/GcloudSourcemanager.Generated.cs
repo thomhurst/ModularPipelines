@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud sourcemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSourcemanager : IGcloudSourcemanager
+public class GcloudSourceManager : IGcloudSourceManager
 {
     private readonly ICommandContext _command;
-    private GcloudSourcemanagerInstances? _instances;
-    private GcloudSourcemanagerLocations? _locations;
-    private GcloudSourcemanagerOperations? _operations;
-    private GcloudSourcemanagerRepos? _repos;
+    private GcloudSourceManagerInstances? _instances;
+    private GcloudSourceManagerLocations? _locations;
+    private GcloudSourceManagerOperations? _operations;
+    private GcloudSourceManagerRepos? _repos;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudSourcemanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudSourceManager"/> class.
     /// </summary>
-    public GcloudSourcemanager(ICommandContext command)
+    public GcloudSourceManager(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudSourcemanager : IGcloudSourcemanager
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    public GcloudSourcemanagerInstances Instances => _instances ??= new GcloudSourcemanagerInstances(_command);
+    public GcloudSourceManagerInstances Instances => _instances ??= new GcloudSourceManagerInstances(_command);
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    public GcloudSourcemanagerLocations Locations => _locations ??= new GcloudSourcemanagerLocations(_command);
+    public GcloudSourceManagerLocations Locations => _locations ??= new GcloudSourceManagerLocations(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudSourcemanagerOperations Operations => _operations ??= new GcloudSourcemanagerOperations(_command);
+    public GcloudSourceManagerOperations Operations => _operations ??= new GcloudSourceManagerOperations(_command);
 
     /// <summary>
     /// gcloud repos sub-commands.
     /// </summary>
-    public GcloudSourcemanagerRepos Repos => _repos ??= new GcloudSourcemanagerRepos(_command);
+    public GcloudSourceManagerRepos Repos => _repos ??= new GcloudSourceManagerRepos(_command);
 
     #endregion
 

@@ -19,22 +19,22 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudActivedirectory
+public interface IGcloudActiveDirectory
 {
     /// <summary>
     /// gcloud domains sub-commands.
     /// </summary>
-    GcloudActivedirectoryDomains Domains => throw new System.NotSupportedException();
+    GcloudActiveDirectoryDomains Domains => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudActivedirectoryOperations Operations => throw new System.NotSupportedException();
+    GcloudActiveDirectoryOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud peerings sub-commands.
     /// </summary>
-    GcloudActivedirectoryPeerings Peerings => throw new System.NotSupportedException();
+    GcloudActiveDirectoryPeerings Peerings => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Managed Microsoft AD resources

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud endpoint-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesEndpointPolicies
+public class GcloudNetworkServicesEndpointPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesEndpointPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesEndpointPolicies"/> class.
     /// </summary>
-    public GcloudNetworkservicesEndpointPolicies(ICommandContext command)
+    public GcloudNetworkServicesEndpointPolicies(ICommandContext command)
     {
         _command = command;
     }

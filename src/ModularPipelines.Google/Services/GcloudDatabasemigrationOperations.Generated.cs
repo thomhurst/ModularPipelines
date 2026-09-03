@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud operations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigrationOperations
+public class GcloudDatabaseMigrationOperations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigrationOperations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigrationOperations"/> class.
     /// </summary>
-    public GcloudDatabasemigrationOperations(ICommandContext command)
+    public GcloudDatabaseMigrationOperations(ICommandContext command)
     {
         _command = command;
     }

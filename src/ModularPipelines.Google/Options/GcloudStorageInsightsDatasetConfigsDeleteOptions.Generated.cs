@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "delete")]
-public record GcloudStorageInsightsDatasetConfigsDeleteOptions : GcloudOptions
+public record GcloudStorageInsightsDataSetConfigsDeleteOptions : GcloudOptions
 {
     /// <summary>
     /// Delete the BigQuery instance links before the config gets deleted explicitly.

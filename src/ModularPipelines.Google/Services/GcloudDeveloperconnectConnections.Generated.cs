@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnectConnections
+public class GcloudDeveloperConnectConnections
 {
     private readonly ICommandContext _command;
-    private GcloudDeveloperconnectConnectionsGitRepositoryLinks? _gitRepositoryLinks;
+    private GcloudDeveloperConnectConnectionsGitRepositoryLinks? _gitRepositoryLinks;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnectConnections"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnectConnections"/> class.
     /// </summary>
-    public GcloudDeveloperconnectConnections(ICommandContext command)
+    public GcloudDeveloperConnectConnections(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDeveloperconnectConnections
     /// <summary>
     /// gcloud git-repository-links sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectConnectionsGitRepositoryLinks GitRepositoryLinks => _gitRepositoryLinks ??= new GcloudDeveloperconnectConnectionsGitRepositoryLinks(_command);
+    public GcloudDeveloperConnectConnectionsGitRepositoryLinks GitRepositoryLinks => _gitRepositoryLinks ??= new GcloudDeveloperConnectConnectionsGitRepositoryLinks(_command);
 
     #endregion
 

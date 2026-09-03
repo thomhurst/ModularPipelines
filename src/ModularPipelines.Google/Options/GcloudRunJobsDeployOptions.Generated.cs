@@ -24,127 +24,127 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsDeployOptions : GcloudOptions
 {
     /// <summary>
-    /// Binary Authorization policy to check against. This must be set to "default".
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Binary Authorization policy to check against. This must be set to "default".
     /// </summary>
     [CliOption("--binary-authorization", Format = OptionFormat.EqualsSeparated)]
     public string? BinaryAuthorization { get; set; }
 
     /// <summary>
-    /// Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
     /// </summary>
     [CliOption("--breakglass", Format = OptionFormat.EqualsSeparated)]
     public string? Breakglass { get; set; }
 
     /// <summary>
-    /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
     /// <summary>
-    /// The GPU type to use.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The GPU type to use.
     /// </summary>
     [CliOption("--gpu-type", Format = OptionFormat.EqualsSeparated)]
     public string? GpuType { get; set; }
 
     /// <summary>
-    /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Negates --gpu-zonal-redundancy. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--no-gpu-zonal-redundancy")]
     public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// CMEK key reference to encrypt the container with.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. CMEK key reference to encrypt the container with.
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
     /// </summary>
     [CliOption("--max-retries", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetries { get; set; }
 
     /// <summary>
-    /// Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
     /// </summary>
     [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
     public string? Parallelism { get; set; }
 
     /// <summary>
-    /// Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// List of containers to remove.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. List of containers to remove.
     /// </summary>
     [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
-    /// the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run resource; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run resource; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.
     /// </summary>
     [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? TaskTimeout { get; set; }
 
     /// <summary>
-    /// Number of tasks that must run to completion for the execution to be considered done.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Number of tasks that must run to completion for the execution to be considered done.
     /// </summary>
     [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
     public string? Tasks { get; set; }
 
     /// <summary>
-    /// Set a VPC connector for this resource.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set a VPC connector for this resource.
     /// </summary>
     [CliOption("--vpc-connector", Format = OptionFormat.EqualsSeparated)]
     public string? VpcConnector { get; set; }
 
     /// <summary>
-    /// Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
     /// </summary>
     [CliOption("--vpc-egress", Format = OptionFormat.EqualsSeparated)]
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a name and type key. Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: * bucket: (required) the name of the bucket to use as the source of this volume * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. * mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: * size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: * location: (required) The location of the NFS Server, in the form SERVER:/PATH * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
 
     /// <summary>
-    /// Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
     /// </summary>
     [CliFlag("--clear-volumes")]
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Removes volumes from the Cloud Run resource.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }
@@ -153,7 +153,7 @@ public record GcloudRunJobsDeployOptions : GcloudOptions
     /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
     /// </summary>
     [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddVolumeMount { get; set; }
+    public string? AddVolumeMount { get; set; }
 
     /// <summary>
     /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
@@ -210,6 +210,12 @@ public record GcloudRunJobsDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? StartupProbe { get; set; }
 
     /// <summary>
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
+    /// </summary>
+    [CliOption("--workdir", Format = OptionFormat.EqualsSeparated)]
+    public string? Workdir { get; set; }
+
+    /// <summary>
     /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Remove all environment variables.
     /// </summary>
     [CliFlag("--clear-env-vars")]
@@ -228,13 +234,13 @@ public record GcloudRunJobsDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
     /// </summary>
     [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
     /// </summary>
     [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
@@ -253,14 +259,14 @@ public record GcloudRunJobsDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
     /// </summary>
     [SecretValue]
     [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
     /// </summary>
     [SecretValue]
     [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
@@ -279,61 +285,51 @@ public record GcloudRunJobsDeployOptions : GcloudOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: --async cannot be used if executing the job after the update. Execute the job immediately after the creation or update completes. gcloud exits once the job has started unless the --wait flag is set.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Execute the job immediately after the creation or update completes. gcloud exits once the job has started unless the --wait flag is set.
     /// </summary>
     [CliFlag("--execute-now")]
     public bool? ExecuteNow { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: --async cannot be used if executing the job after the update. Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started. Implies --execute-now.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started. Implies --execute-now.
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Disconnect this Cloud Run job from the VPC network it is connected to.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Disconnect this Cloud Run job from the VPC network it is connected to.
     /// </summary>
     [CliFlag("--clear-network")]
     public bool? ClearNetwork { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Run job.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Run job.
     /// </summary>
     [CliFlag("--clear-network-tags")]
     public bool? ClearNetworkTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
     /// </summary>
     [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Workdir is no longer supported by the installed CLI and has no effect.")]
-    public string? Workdir { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,7 +22,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "materialized-views", "list")]
 public record GcloudBigtableMaterializedViewsListOptions : GcloudOptions
 {
-    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
-    public string? View { get; set; }
+    /// <summary>
+    /// Specifies what type of information to return about the view. VIEW must be one of: full, replication, schema.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public GcloudView? View { get; set; }
 
 }

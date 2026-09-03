@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networking commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudNetworking
+public class GcloudEdgeCloudNetworking
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecloudNetworkingInterconnects? _interconnects;
-    private GcloudEdgecloudNetworkingNetworks? _networks;
-    private GcloudEdgecloudNetworkingOperations? _operations;
-    private GcloudEdgecloudNetworkingRouters? _routers;
-    private GcloudEdgecloudNetworkingSubnets? _subnets;
-    private GcloudEdgecloudNetworkingZones? _zones;
+    private GcloudEdgeCloudNetworkingInterconnects? _interconnects;
+    private GcloudEdgeCloudNetworkingNetworks? _networks;
+    private GcloudEdgeCloudNetworkingOperations? _operations;
+    private GcloudEdgeCloudNetworkingRouters? _routers;
+    private GcloudEdgeCloudNetworkingSubnets? _subnets;
+    private GcloudEdgeCloudNetworkingZones? _zones;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworking"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudNetworking"/> class.
     /// </summary>
-    public GcloudEdgecloudNetworking(ICommandContext command)
+    public GcloudEdgeCloudNetworking(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudEdgecloudNetworking
     /// <summary>
     /// gcloud interconnects sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingInterconnects Interconnects => _interconnects ??= new GcloudEdgecloudNetworkingInterconnects(_command);
+    public GcloudEdgeCloudNetworkingInterconnects Interconnects => _interconnects ??= new GcloudEdgeCloudNetworkingInterconnects(_command);
 
     /// <summary>
     /// gcloud networks sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingNetworks Networks => _networks ??= new GcloudEdgecloudNetworkingNetworks(_command);
+    public GcloudEdgeCloudNetworkingNetworks Networks => _networks ??= new GcloudEdgeCloudNetworkingNetworks(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingOperations Operations => _operations ??= new GcloudEdgecloudNetworkingOperations(_command);
+    public GcloudEdgeCloudNetworkingOperations Operations => _operations ??= new GcloudEdgeCloudNetworkingOperations(_command);
 
     /// <summary>
     /// gcloud routers sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingRouters Routers => _routers ??= new GcloudEdgecloudNetworkingRouters(_command);
+    public GcloudEdgeCloudNetworkingRouters Routers => _routers ??= new GcloudEdgeCloudNetworkingRouters(_command);
 
     /// <summary>
     /// gcloud subnets sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingSubnets Subnets => _subnets ??= new GcloudEdgecloudNetworkingSubnets(_command);
+    public GcloudEdgeCloudNetworkingSubnets Subnets => _subnets ??= new GcloudEdgeCloudNetworkingSubnets(_command);
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingZones Zones => _zones ??= new GcloudEdgecloudNetworkingZones(_command);
+    public GcloudEdgeCloudNetworkingZones Zones => _zones ??= new GcloudEdgeCloudNetworkingZones(_command);
 
     #endregion
 

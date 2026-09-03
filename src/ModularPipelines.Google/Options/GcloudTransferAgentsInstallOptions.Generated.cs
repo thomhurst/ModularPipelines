@@ -46,7 +46,7 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     public bool? EnableMultipart { get; set; }
 
     /// <summary>
-    /// Split up files and transfer the resulting chunks in parallel before merging them at the destination. Can be used make transfers of large files faster as long as the network and disk speed are not limiting factors. If unset, agent decides when to use the feature. Use --enable-multipart to enable and --no-enable-multipart to disable.
+    /// Negates --enable-multipart. Split up files and transfer the resulting chunks in parallel before merging them at the destination. Can be used make transfers of large files faster as long as the network and disk speed are not limiting factors. If unset, agent decides when to use the feature. Use --enable-multipart to enable and --no-enable-multipart to disable.
     /// </summary>
     [CliFlag("--no-enable-multipart")]
     public bool? NoEnableMultipart { get; set; }
@@ -56,18 +56,6 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     /// </summary>
     [CliOption("--id-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? IdPrefix { get; set; }
-
-    /// <summary>
-    /// If you want to grant agents access to specific parts of your filesystem instead of the entire filesystem, specify which directory paths to mount to the agent container. Multiple paths must be separated by commas with no spaces (e.g., --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting specific directories, gcloud transfer will also mount a directory for logs (either /tmp or what you've specified for --logs-directory) and your Google credentials file for agent authentication. It is strongly recommended that you use this flag. If this flag isn't specified, gcloud transfer will mount your entire filesystem to the agent container and give the agent root access.
-    /// </summary>
-    [CliOption("--mount-directories", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MountDirectories { get; set; }
-
-    /// <summary>
-    /// Specify the HTTP URL and port of a proxy server if you want to use a forward proxy. For example, to use the URL 'example.com' and port '8080' specify 'http://www.example.com:8080/' Ensure that you specify the HTTP URL and not an HTTPS URL to avoid double-wrapping requests in TLS encryption. Double-wrapped requests prevent the proxy server from sending valid outbound requests.
-    /// </summary>
-    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? Proxy { get; set; }
 
     /// <summary>
     /// Specify the absolute path to the directory you want to store transfer logs in. If not specified, gcloud transfer will mount your /tmp directory for logs.
@@ -80,5 +68,17 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     /// </summary>
     [CliOption("--memlock-limit", Format = OptionFormat.EqualsSeparated)]
     public string? MemlockLimit { get; set; }
+
+    /// <summary>
+    /// If you want to grant agents access to specific parts of your filesystem instead of the entire filesystem, specify which directory paths to mount to the agent container. Multiple paths must be separated by commas with no spaces (e.g., --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting specific directories, gcloud transfer will also mount a directory for logs (either /tmp or what you've specified for --logs-directory) and your Google credentials file for agent authentication. It is strongly recommended that you use this flag. If this flag isn't specified, gcloud transfer will mount your entire filesystem to the agent container and give the agent root access.
+    /// </summary>
+    [CliOption("--mount-directories", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MountDirectories { get; set; }
+
+    /// <summary>
+    /// Specify the HTTP URL and port of a proxy server if you want to use a forward proxy. For example, to use the URL 'example.com' and port '8080' specify 'http://www.example.com:8080/' Ensure that you specify the HTTP URL and not an HTTPS URL to avoid double-wrapping requests in TLS encryption. Double-wrapped requests prevent the proxy server from sending valid outbound requests.
+    /// </summary>
+    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? Proxy { get; set; }
 
 }

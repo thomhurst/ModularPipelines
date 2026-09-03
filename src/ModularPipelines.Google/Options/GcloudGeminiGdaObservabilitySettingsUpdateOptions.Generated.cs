@@ -22,85 +22,85 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiGdaObservabilitySettingsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// Message describing Setting for Conversational Analytics. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Set gdaObservabilitySetting.conversationalAnalyticsSetting back to default value.
+    /// Message describing Setting for Conversational Analytics. Set gdaObservabilitySetting.conversationalAnalyticsSetting back to default value.
     /// </summary>
     [CliFlag("--clear-conversational-analytics-setting")]
     public bool? ClearConversationalAnalyticsSetting { get; set; }
 
     /// <summary>
-    /// Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
+    /// Message describing Setting for Conversational Analytics. Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
     /// </summary>
     [CliFlag("--conversational-analytics-setting-feedback-enabled")]
     public bool? ConversationalAnalyticsSettingFeedbackEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
+    /// Negates --conversational-analytics-setting-feedback-enabled. Message describing Setting for Conversational Analytics. Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
     /// </summary>
     [CliFlag("--no-conversational-analytics-setting-feedback-enabled")]
     public bool? NoConversationalAnalyticsSettingFeedbackEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
+    /// Message describing Setting for Conversational Analytics. Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
     /// </summary>
     [CliFlag("--conversational-analytics-setting-logging-enabled")]
     public bool? ConversationalAnalyticsSettingLoggingEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
+    /// Negates --conversational-analytics-setting-logging-enabled. Message describing Setting for Conversational Analytics. Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
     /// </summary>
     [CliFlag("--no-conversational-analytics-setting-logging-enabled")]
     public bool? NoConversationalAnalyticsSettingLoggingEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
+    /// Message describing Setting for Conversational Analytics. Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
     /// </summary>
     [CliFlag("--conversational-analytics-setting-metrics-enabled")]
     public bool? ConversationalAnalyticsSettingMetricsEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
+    /// Negates --conversational-analytics-setting-metrics-enabled. Message describing Setting for Conversational Analytics. Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
     /// </summary>
     [CliFlag("--no-conversational-analytics-setting-metrics-enabled")]
     public bool? NoConversationalAnalyticsSettingMetricsEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
+    /// Message describing Setting for Conversational Analytics. Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
     /// </summary>
     [CliFlag("--conversational-analytics-setting-traces-enabled")]
     public bool? ConversationalAnalyticsSettingTracesEnabled { get; set; }
 
     /// <summary>
-    /// Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
+    /// Negates --conversational-analytics-setting-traces-enabled. Message describing Setting for Conversational Analytics. Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
     /// </summary>
     [CliFlag("--no-conversational-analytics-setting-traces-enabled")]
     public bool? NoConversationalAnalyticsSettingTracesEnabled { get; set; }
 
     /// <summary>
-    /// Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Message describing Setting for Conversational Analytics. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Message describing Setting for Conversational Analytics. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// Message describing Setting for Conversational Analytics. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Message describing Setting for Conversational Analytics. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAdmissionPolicy
 {
     [EnumValue("ADMIT_ON_FIRST_MISS")]
-    AdmitOnFirstMiss = 0,
+    AdmitOnFirstMiss,
 
     [EnumValue("ADMIT_ON_SECOND_MISS")]
-    AdmitOnSecondMiss = 1
+    AdmitOnSecondMiss
 }

@@ -116,7 +116,7 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     /// At most one of these can be specified: Reference to a collection of individual image name to image full path replacements. For example: $ gcloud deploy releases create foo \ --images image1=path/to/image1:v1@sha256:45db24
     /// </summary>
     [CliOption("--images", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Images { get; set; }
+    public string? Images { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Skips creating a rollout in the first target defined in the delivery pipeline.
@@ -165,5 +165,11 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--skaffold-file", Format = OptionFormat.EqualsSeparated)]
     public string? SkaffoldFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: The location of the source that contains skaffold.yaml. The location can be a directory on a local disk or a gzipped archive file (.tar.gz) in Google Cloud Storage. If the source is a local directory, this command skips the files specified in the --ignore-file. If --ignore-file is not specified, use.gcloudignore file. If a .gcloudignore file is absent and a .gitignore file is present in the local source directory, gcloud will use a generated Git-compatible .gcloudignore file that respects your .gitignored files. The global .gitignore is not respected. For more information on .gcloudignore, see gcloud topic gcloudignore.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
 }

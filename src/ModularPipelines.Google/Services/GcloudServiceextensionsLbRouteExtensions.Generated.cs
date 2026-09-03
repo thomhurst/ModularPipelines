@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud lb-route-extensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensionsLbRouteExtensions
+public class GcloudServiceExtensionsLbRouteExtensions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensionsLbRouteExtensions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensionsLbRouteExtensions"/> class.
     /// </summary>
-    public GcloudServiceextensionsLbRouteExtensions(ICommandContext command)
+    public GcloudServiceExtensionsLbRouteExtensions(ICommandContext command)
     {
         _command = command;
     }

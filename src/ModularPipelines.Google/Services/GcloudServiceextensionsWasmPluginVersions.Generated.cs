@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud wasm-plugin-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensionsWasmPluginVersions
+public class GcloudServiceExtensionsWasmPluginVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensionsWasmPluginVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensionsWasmPluginVersions"/> class.
     /// </summary>
-    public GcloudServiceextensionsWasmPluginVersions(ICommandContext command)
+    public GcloudServiceExtensionsWasmPluginVersions(ICommandContext command)
     {
         _command = command;
     }

@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudExceedAction
 {
     [EnumValue("deny-403")]
-    Deny_403 = 0,
+    Deny_403,
 
     [EnumValue("deny-404")]
-    Deny_404 = 1,
+    Deny_404,
 
     [EnumValue("deny-429")]
-    Deny_429 = 2,
+    Deny_429,
 
     [EnumValue("deny-502")]
-    Deny_502 = 3,
+    Deny_502,
 
     [EnumValue("deny")]
-    Deny = 4,
+    Deny,
 
     [EnumValue("redirect")]
-    Redirect = 5
+    Redirect
 }

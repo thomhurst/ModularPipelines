@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloud-exadata-infrastructures commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseCloudExadataInfrastructures
+public class GcloudOracleDatabaseCloudExadataInfrastructures
 {
     private readonly ICommandContext _command;
-    private GcloudOracledatabaseCloudExadataInfrastructuresDbServers? _dbServers;
+    private GcloudOracleDatabaseCloudExadataInfrastructuresDbServers? _dbServers;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudExadataInfrastructures"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseCloudExadataInfrastructures"/> class.
     /// </summary>
-    public GcloudOracledatabaseCloudExadataInfrastructures(ICommandContext command)
+    public GcloudOracleDatabaseCloudExadataInfrastructures(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudOracledatabaseCloudExadataInfrastructures
     /// <summary>
     /// gcloud db-servers sub-commands.
     /// </summary>
-    public GcloudOracledatabaseCloudExadataInfrastructuresDbServers DbServers => _dbServers ??= new GcloudOracledatabaseCloudExadataInfrastructuresDbServers(_command);
+    public GcloudOracleDatabaseCloudExadataInfrastructuresDbServers DbServers => _dbServers ??= new GcloudOracleDatabaseCloudExadataInfrastructuresDbServers(_command);
 
     #endregion
 

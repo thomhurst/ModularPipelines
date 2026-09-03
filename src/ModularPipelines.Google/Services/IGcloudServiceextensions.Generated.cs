@@ -19,37 +19,37 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudServiceextensions
+public interface IGcloudServiceExtensions
 {
     /// <summary>
     /// gcloud authz-extensions sub-commands.
     /// </summary>
-    GcloudServiceextensionsAuthzExtensions AuthzExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsAuthzExtensions AuthzExtensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lb-edge-extensions sub-commands.
     /// </summary>
-    GcloudServiceextensionsLbEdgeExtensions LbEdgeExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbEdgeExtensions LbEdgeExtensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lb-route-extensions sub-commands.
     /// </summary>
-    GcloudServiceextensionsLbRouteExtensions LbRouteExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbRouteExtensions LbRouteExtensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud lb-traffic-extensions sub-commands.
     /// </summary>
-    GcloudServiceextensionsLbTrafficExtensions LbTrafficExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud wasm-plugins sub-commands.
     /// </summary>
-    GcloudServiceextensionsWasmPlugins WasmPlugins => throw new System.NotSupportedException();
+    GcloudServiceExtensionsWasmPlugins WasmPlugins => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud wasm-plugin-versions sub-commands.
     /// </summary>
-    GcloudServiceextensionsWasmPluginVersions WasmPluginVersions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Service Extensions resources

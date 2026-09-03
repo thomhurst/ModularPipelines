@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud machines commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainerMachines
+public class GcloudEdgeCloudContainerMachines
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerMachines"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerMachines"/> class.
     /// </summary>
-    public GcloudEdgecloudContainerMachines(ICommandContext command)
+    public GcloudEdgeCloudContainerMachines(ICommandContext command)
     {
         _command = command;
     }

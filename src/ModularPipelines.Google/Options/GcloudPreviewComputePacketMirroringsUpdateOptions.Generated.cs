@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -51,7 +52,7 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     /// ◆ For ingress, only ingress traffic is mirrored. ◆ For egress, only egress traffic is mirrored. ◆ For both (default), both directions are mirrored. DIRECTION must be one of: both, egress, ingress.
     /// </summary>
     [CliOption("--filter-direction", Format = OptionFormat.EqualsSeparated)]
-    public string? FilterDirection { get; set; }
+    public GcloudFilterDirection? FilterDirection { get; set; }
 
     /// <summary>
     /// Region of the packet mirroring to update. Overrides the default compute/region property value for this command invocation.

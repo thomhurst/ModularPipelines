@@ -19,6 +19,6 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters")]
-public record GcloudParametermanagerParametersOptions : GcloudOptions
+public record GcloudParameterManagerParametersOptions : GcloudOptions
 {
 }

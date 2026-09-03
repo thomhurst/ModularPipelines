@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policyintelligence commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPolicyintelligence : IGcloudPolicyintelligence
+public class GcloudPolicyIntelligence : IGcloudPolicyIntelligence
 {
     private readonly ICommandContext _command;
-    private GcloudPolicyintelligenceSimulate? _simulate;
-    private GcloudPolicyintelligenceTroubleshootPolicy? _troubleshootPolicy;
+    private GcloudPolicyIntelligenceSimulate? _simulate;
+    private GcloudPolicyIntelligenceTroubleshootPolicy? _troubleshootPolicy;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudPolicyintelligence"/> class.
+    /// Initializes a new instance of the <see cref="GcloudPolicyIntelligence"/> class.
     /// </summary>
-    public GcloudPolicyintelligence(ICommandContext command)
+    public GcloudPolicyIntelligence(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudPolicyintelligence : IGcloudPolicyintelligence
     /// <summary>
     /// gcloud simulate sub-commands.
     /// </summary>
-    public GcloudPolicyintelligenceSimulate Simulate => _simulate ??= new GcloudPolicyintelligenceSimulate(_command);
+    public GcloudPolicyIntelligenceSimulate Simulate => _simulate ??= new GcloudPolicyIntelligenceSimulate(_command);
 
     /// <summary>
     /// gcloud troubleshoot-policy sub-commands.
     /// </summary>
-    public GcloudPolicyintelligenceTroubleshootPolicy TroubleshootPolicy => _troubleshootPolicy ??= new GcloudPolicyintelligenceTroubleshootPolicy(_command);
+    public GcloudPolicyIntelligenceTroubleshootPolicy TroubleshootPolicy => _troubleshootPolicy ??= new GcloudPolicyIntelligenceTroubleshootPolicy(_command);
 
     #endregion
 

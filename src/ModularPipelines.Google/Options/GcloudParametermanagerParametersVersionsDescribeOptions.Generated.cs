@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "versions", "describe")]
-public record GcloudParametermanagerParametersVersionsDescribeOptions : GcloudOptions
+public record GcloudParameterManagerParametersVersionsDescribeOptions : GcloudOptions
 {
     /// <summary>
     /// View of the ParameterVersion. In the default FULL view, all metadata &amp; payload associated with the ParameterVersion will be returned. VIEW must be one of: basic Include only the metadata for the resource. full Include metadata &amp; other relevant payload data as well. This is the default view.

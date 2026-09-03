@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud organization-impacts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicehealthOrganizationImpacts
+public class GcloudServiceHealthOrganizationImpacts
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServicehealthOrganizationImpacts"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceHealthOrganizationImpacts"/> class.
     /// </summary>
-    public GcloudServicehealthOrganizationImpacts(ICommandContext command)
+    public GcloudServiceHealthOrganizationImpacts(ICommandContext command)
     {
         _command = command;
     }

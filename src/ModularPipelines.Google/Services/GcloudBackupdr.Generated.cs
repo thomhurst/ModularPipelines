@@ -18,26 +18,26 @@ namespace ModularPipelines.Google.Services;
 /// gcloud backupdr commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdr : IGcloudBackupdr
+public class GcloudBackupDr : IGcloudBackupDr
 {
     private readonly ICommandContext _command;
-    private GcloudBackupdrBackupPlanAssociations? _backupPlanAssociations;
-    private GcloudBackupdrBackupPlanRevisions? _backupPlanRevisions;
-    private GcloudBackupdrBackupPlans? _backupPlans;
-    private GcloudBackupdrBackups? _backups;
-    private GcloudBackupdrBackupVaults? _backupVaults;
-    private GcloudBackupdrDataSourceReferences? _dataSourceReferences;
-    private GcloudBackupdrDataSources? _dataSources;
-    private GcloudBackupdrLocations? _locations;
-    private GcloudBackupdrManagementServers? _managementServers;
-    private GcloudBackupdrOperations? _operations;
-    private GcloudBackupdrResourceBackupConfig? _resourceBackupConfig;
-    private GcloudBackupdrServiceConfig? _serviceConfig;
+    private GcloudBackupDrBackupPlanAssociations? _backupPlanAssociations;
+    private GcloudBackupDrBackupPlanRevisions? _backupPlanRevisions;
+    private GcloudBackupDrBackupPlans? _backupPlans;
+    private GcloudBackupDrBackups? _backups;
+    private GcloudBackupDrBackupVaults? _backupVaults;
+    private GcloudBackupDrDataSourceReferences? _dataSourceReferences;
+    private GcloudBackupDrDataSources? _dataSources;
+    private GcloudBackupDrLocations? _locations;
+    private GcloudBackupDrManagementServers? _managementServers;
+    private GcloudBackupDrOperations? _operations;
+    private GcloudBackupDrResourceBackupConfig? _resourceBackupConfig;
+    private GcloudBackupDrServiceConfig? _serviceConfig;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdr"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDr"/> class.
     /// </summary>
-    public GcloudBackupdr(ICommandContext command)
+    public GcloudBackupDr(ICommandContext command)
     {
         _command = command;
     }
@@ -47,62 +47,62 @@ public class GcloudBackupdr : IGcloudBackupdr
     /// <summary>
     /// gcloud backup-plan-associations sub-commands.
     /// </summary>
-    public GcloudBackupdrBackupPlanAssociations BackupPlanAssociations => _backupPlanAssociations ??= new GcloudBackupdrBackupPlanAssociations(_command);
+    public GcloudBackupDrBackupPlanAssociations BackupPlanAssociations => _backupPlanAssociations ??= new GcloudBackupDrBackupPlanAssociations(_command);
 
     /// <summary>
     /// gcloud backup-plan-revisions sub-commands.
     /// </summary>
-    public GcloudBackupdrBackupPlanRevisions BackupPlanRevisions => _backupPlanRevisions ??= new GcloudBackupdrBackupPlanRevisions(_command);
+    public GcloudBackupDrBackupPlanRevisions BackupPlanRevisions => _backupPlanRevisions ??= new GcloudBackupDrBackupPlanRevisions(_command);
 
     /// <summary>
     /// gcloud backup-plans sub-commands.
     /// </summary>
-    public GcloudBackupdrBackupPlans BackupPlans => _backupPlans ??= new GcloudBackupdrBackupPlans(_command);
+    public GcloudBackupDrBackupPlans BackupPlans => _backupPlans ??= new GcloudBackupDrBackupPlans(_command);
 
     /// <summary>
     /// gcloud backups sub-commands.
     /// </summary>
-    public GcloudBackupdrBackups Backups => _backups ??= new GcloudBackupdrBackups(_command);
+    public GcloudBackupDrBackups Backups => _backups ??= new GcloudBackupDrBackups(_command);
 
     /// <summary>
     /// gcloud backup-vaults sub-commands.
     /// </summary>
-    public GcloudBackupdrBackupVaults BackupVaults => _backupVaults ??= new GcloudBackupdrBackupVaults(_command);
+    public GcloudBackupDrBackupVaults BackupVaults => _backupVaults ??= new GcloudBackupDrBackupVaults(_command);
 
     /// <summary>
     /// gcloud data-source-references sub-commands.
     /// </summary>
-    public GcloudBackupdrDataSourceReferences DataSourceReferences => _dataSourceReferences ??= new GcloudBackupdrDataSourceReferences(_command);
+    public GcloudBackupDrDataSourceReferences DataSourceReferences => _dataSourceReferences ??= new GcloudBackupDrDataSourceReferences(_command);
 
     /// <summary>
     /// gcloud data-sources sub-commands.
     /// </summary>
-    public GcloudBackupdrDataSources DataSources => _dataSources ??= new GcloudBackupdrDataSources(_command);
+    public GcloudBackupDrDataSources DataSources => _dataSources ??= new GcloudBackupDrDataSources(_command);
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    public GcloudBackupdrLocations Locations => _locations ??= new GcloudBackupdrLocations(_command);
+    public GcloudBackupDrLocations Locations => _locations ??= new GcloudBackupDrLocations(_command);
 
     /// <summary>
     /// gcloud management-servers sub-commands.
     /// </summary>
-    public GcloudBackupdrManagementServers ManagementServers => _managementServers ??= new GcloudBackupdrManagementServers(_command);
+    public GcloudBackupDrManagementServers ManagementServers => _managementServers ??= new GcloudBackupDrManagementServers(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudBackupdrOperations Operations => _operations ??= new GcloudBackupdrOperations(_command);
+    public GcloudBackupDrOperations Operations => _operations ??= new GcloudBackupDrOperations(_command);
 
     /// <summary>
     /// gcloud resource-backup-config sub-commands.
     /// </summary>
-    public GcloudBackupdrResourceBackupConfig ResourceBackupConfig => _resourceBackupConfig ??= new GcloudBackupdrResourceBackupConfig(_command);
+    public GcloudBackupDrResourceBackupConfig ResourceBackupConfig => _resourceBackupConfig ??= new GcloudBackupDrResourceBackupConfig(_command);
 
     /// <summary>
     /// gcloud service-config sub-commands.
     /// </summary>
-    public GcloudBackupdrServiceConfig ServiceConfig => _serviceConfig ??= new GcloudBackupdrServiceConfig(_command);
+    public GcloudBackupDrServiceConfig ServiceConfig => _serviceConfig ??= new GcloudBackupDrServiceConfig(_command);
 
     #endregion
 

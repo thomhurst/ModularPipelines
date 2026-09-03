@@ -18,19 +18,19 @@ namespace ModularPipelines.Google.Services;
 /// gcloud datacatalog commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalog : IGcloudDatacatalog
+public class GcloudDataCatalog : IGcloudDataCatalog
 {
     private readonly ICommandContext _command;
-    private GcloudDatacatalogEntries? _entries;
-    private GcloudDatacatalogEntryGroups? _entryGroups;
-    private GcloudDatacatalogTags? _tags;
-    private GcloudDatacatalogTagTemplates? _tagTemplates;
-    private GcloudDatacatalogTaxonomies? _taxonomies;
+    private GcloudDataCatalogEntries? _entries;
+    private GcloudDataCatalogEntryGroups? _entryGroups;
+    private GcloudDataCatalogTags? _tags;
+    private GcloudDataCatalogTagTemplates? _tagTemplates;
+    private GcloudDataCatalogTaxonomies? _taxonomies;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalog"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalog"/> class.
     /// </summary>
-    public GcloudDatacatalog(ICommandContext command)
+    public GcloudDataCatalog(ICommandContext command)
     {
         _command = command;
     }
@@ -40,27 +40,27 @@ public class GcloudDatacatalog : IGcloudDatacatalog
     /// <summary>
     /// gcloud entries sub-commands.
     /// </summary>
-    public GcloudDatacatalogEntries Entries => _entries ??= new GcloudDatacatalogEntries(_command);
+    public GcloudDataCatalogEntries Entries => _entries ??= new GcloudDataCatalogEntries(_command);
 
     /// <summary>
     /// gcloud entry-groups sub-commands.
     /// </summary>
-    public GcloudDatacatalogEntryGroups EntryGroups => _entryGroups ??= new GcloudDatacatalogEntryGroups(_command);
+    public GcloudDataCatalogEntryGroups EntryGroups => _entryGroups ??= new GcloudDataCatalogEntryGroups(_command);
 
     /// <summary>
     /// gcloud tags sub-commands.
     /// </summary>
-    public GcloudDatacatalogTags Tags => _tags ??= new GcloudDatacatalogTags(_command);
+    public GcloudDataCatalogTags Tags => _tags ??= new GcloudDataCatalogTags(_command);
 
     /// <summary>
     /// gcloud tag-templates sub-commands.
     /// </summary>
-    public GcloudDatacatalogTagTemplates TagTemplates => _tagTemplates ??= new GcloudDatacatalogTagTemplates(_command);
+    public GcloudDataCatalogTagTemplates TagTemplates => _tagTemplates ??= new GcloudDataCatalogTagTemplates(_command);
 
     /// <summary>
     /// gcloud taxonomies sub-commands.
     /// </summary>
-    public GcloudDatacatalogTaxonomies Taxonomies => _taxonomies ??= new GcloudDatacatalogTaxonomies(_command);
+    public GcloudDataCatalogTaxonomies Taxonomies => _taxonomies ??= new GcloudDataCatalogTaxonomies(_command);
 
     #endregion
 

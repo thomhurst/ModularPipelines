@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud apigateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudApigateway : IGcloudApigateway
+public class GcloudApiGateway : IGcloudApiGateway
 {
     private readonly ICommandContext _command;
-    private GcloudApigatewayApiConfigs? _apiConfigs;
-    private GcloudApigatewayApis? _apis;
-    private GcloudApigatewayGateways? _gateways;
-    private GcloudApigatewayOperations? _operations;
+    private GcloudApiGatewayApiConfigs? _apiConfigs;
+    private GcloudApiGatewayApis? _apis;
+    private GcloudApiGatewayGateways? _gateways;
+    private GcloudApiGatewayOperations? _operations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudApigateway"/> class.
+    /// Initializes a new instance of the <see cref="GcloudApiGateway"/> class.
     /// </summary>
-    public GcloudApigateway(ICommandContext command)
+    public GcloudApiGateway(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudApigateway : IGcloudApigateway
     /// <summary>
     /// gcloud api-configs sub-commands.
     /// </summary>
-    public GcloudApigatewayApiConfigs ApiConfigs => _apiConfigs ??= new GcloudApigatewayApiConfigs(_command);
+    public GcloudApiGatewayApiConfigs ApiConfigs => _apiConfigs ??= new GcloudApiGatewayApiConfigs(_command);
 
     /// <summary>
     /// gcloud apis sub-commands.
     /// </summary>
-    public GcloudApigatewayApis Apis => _apis ??= new GcloudApigatewayApis(_command);
+    public GcloudApiGatewayApis Apis => _apis ??= new GcloudApiGatewayApis(_command);
 
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    public GcloudApigatewayGateways Gateways => _gateways ??= new GcloudApigatewayGateways(_command);
+    public GcloudApiGatewayGateways Gateways => _gateways ??= new GcloudApiGatewayGateways(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudApigatewayOperations Operations => _operations ??= new GcloudApigatewayOperations(_command);
+    public GcloudApiGatewayOperations Operations => _operations ??= new GcloudApiGatewayOperations(_command);
 
     #endregion
 

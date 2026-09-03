@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tags commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTags
+public class GcloudDataCatalogTags
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTags"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTags"/> class.
     /// </summary>
-    public GcloudDatacatalogTags(ICommandContext command)
+    public GcloudDataCatalogTags(ICommandContext command)
     {
         _command = command;
     }

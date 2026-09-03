@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud trusts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudActivedirectoryDomainsTrusts
+public class GcloudActiveDirectoryDomainsTrusts
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudActivedirectoryDomainsTrusts"/> class.
+    /// Initializes a new instance of the <see cref="GcloudActiveDirectoryDomainsTrusts"/> class.
     /// </summary>
-    public GcloudActivedirectoryDomainsTrusts(ICommandContext command)
+    public GcloudActiveDirectoryDomainsTrusts(ICommandContext command)
     {
         _command = command;
     }

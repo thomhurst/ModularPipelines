@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudSourcemanager
+public interface IGcloudSourceManager
 {
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudSourcemanagerInstances Instances => throw new System.NotSupportedException();
+    GcloudSourceManagerInstances Instances => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudSourcemanagerLocations Locations => throw new System.NotSupportedException();
+    GcloudSourceManagerLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudSourcemanagerOperations Operations => throw new System.NotSupportedException();
+    GcloudSourceManagerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud repos sub-commands.
     /// </summary>
-    GcloudSourcemanagerRepos Repos => throw new System.NotSupportedException();
+    GcloudSourceManagerRepos Repos => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Secure Source Manager resources

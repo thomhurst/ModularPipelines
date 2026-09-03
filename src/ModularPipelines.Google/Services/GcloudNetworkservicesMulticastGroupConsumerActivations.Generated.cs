@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud multicast-group-consumer-activations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesMulticastGroupConsumerActivations
+public class GcloudNetworkServicesMulticastGroupConsumerActivations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesMulticastGroupConsumerActivations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesMulticastGroupConsumerActivations"/> class.
     /// </summary>
-    public GcloudNetworkservicesMulticastGroupConsumerActivations(ICommandContext command)
+    public GcloudNetworkServicesMulticastGroupConsumerActivations(ICommandContext command)
     {
         _command = command;
     }

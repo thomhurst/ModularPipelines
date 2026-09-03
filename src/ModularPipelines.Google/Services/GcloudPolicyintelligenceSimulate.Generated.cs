@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud simulate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPolicyintelligenceSimulate
+public class GcloudPolicyIntelligenceSimulate
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudPolicyintelligenceSimulate"/> class.
+    /// Initializes a new instance of the <see cref="GcloudPolicyIntelligenceSimulate"/> class.
     /// </summary>
-    public GcloudPolicyintelligenceSimulate(ICommandContext command)
+    public GcloudPolicyIntelligenceSimulate(ICommandContext command)
     {
         _command = command;
     }

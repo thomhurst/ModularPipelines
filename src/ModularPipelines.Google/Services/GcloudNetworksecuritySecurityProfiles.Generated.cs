@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud security-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecurityProfiles
+public class GcloudNetworkSecuritySecurityProfiles
 {
     private readonly ICommandContext _command;
-    private GcloudNetworksecuritySecurityProfilesCustomIntercept? _customIntercept;
-    private GcloudNetworksecuritySecurityProfilesCustomMirroring? _customMirroring;
-    private GcloudNetworksecuritySecurityProfilesThreatPrevention? _threatPrevention;
-    private GcloudNetworksecuritySecurityProfilesUrlFiltering? _urlFiltering;
+    private GcloudNetworkSecuritySecurityProfilesCustomIntercept? _customIntercept;
+    private GcloudNetworkSecuritySecurityProfilesCustomMirroring? _customMirroring;
+    private GcloudNetworkSecuritySecurityProfilesThreatPrevention? _threatPrevention;
+    private GcloudNetworkSecuritySecurityProfilesUrlFiltering? _urlFiltering;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfiles"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecurityProfiles"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfiles(ICommandContext command)
+    public GcloudNetworkSecuritySecurityProfiles(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudNetworksecuritySecurityProfiles
     /// <summary>
     /// gcloud custom-intercept sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesCustomIntercept CustomIntercept => _customIntercept ??= new GcloudNetworksecuritySecurityProfilesCustomIntercept(_command);
+    public GcloudNetworkSecuritySecurityProfilesCustomIntercept CustomIntercept => _customIntercept ??= new GcloudNetworkSecuritySecurityProfilesCustomIntercept(_command);
 
     /// <summary>
     /// gcloud custom-mirroring sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesCustomMirroring CustomMirroring => _customMirroring ??= new GcloudNetworksecuritySecurityProfilesCustomMirroring(_command);
+    public GcloudNetworkSecuritySecurityProfilesCustomMirroring CustomMirroring => _customMirroring ??= new GcloudNetworkSecuritySecurityProfilesCustomMirroring(_command);
 
     /// <summary>
     /// gcloud threat-prevention sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesThreatPrevention ThreatPrevention => _threatPrevention ??= new GcloudNetworksecuritySecurityProfilesThreatPrevention(_command);
+    public GcloudNetworkSecuritySecurityProfilesThreatPrevention ThreatPrevention => _threatPrevention ??= new GcloudNetworkSecuritySecurityProfilesThreatPrevention(_command);
 
     /// <summary>
     /// gcloud url-filtering sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesUrlFiltering UrlFiltering => _urlFiltering ??= new GcloudNetworksecuritySecurityProfilesUrlFiltering(_command);
+    public GcloudNetworkSecuritySecurityProfilesUrlFiltering UrlFiltering => _urlFiltering ??= new GcloudNetworkSecuritySecurityProfilesUrlFiltering(_command);
 
     #endregion
 

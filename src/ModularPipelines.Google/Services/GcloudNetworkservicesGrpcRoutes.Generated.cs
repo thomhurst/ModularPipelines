@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud grpc-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesGrpcRoutes
+public class GcloudNetworkServicesGrpcRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesGrpcRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesGrpcRoutes"/> class.
     /// </summary>
-    public GcloudNetworkservicesGrpcRoutes(ICommandContext command)
+    public GcloudNetworkServicesGrpcRoutes(ICommandContext command)
     {
         _command = command;
     }

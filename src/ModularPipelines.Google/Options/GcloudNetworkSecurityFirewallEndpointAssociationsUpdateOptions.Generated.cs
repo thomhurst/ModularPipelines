@@ -29,7 +29,7 @@ public record GcloudNetworkSecurityFirewallEndpointAssociationsUpdateOptions : G
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
@@ -41,63 +41,63 @@ public record GcloudNetworkSecurityFirewallEndpointAssociationsUpdateOptions : G
     public string? Location { get; set; }
 
     /// <summary>
-    /// Disable a firewall endpoint association. To enable a disabled association, use: $ gcloud network-security firewall-endpoint-associations update \ MY-ASSOCIATION --no-disabled
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable a firewall endpoint association. To enable a disabled association, use: $ gcloud network-security firewall-endpoint-associations update \ MY-ASSOCIATION --no-disabled
     /// </summary>
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disable a firewall endpoint association. To enable a disabled association, use: $ gcloud network-security firewall-endpoint-associations update \ MY-ASSOCIATION --no-disabled
+    /// Negates --disabled. At most one of these can be specified: Disable a firewall endpoint association. To enable a disabled association, use: $ gcloud network-security firewall-endpoint-associations update \ MY-ASSOCIATION --no-disabled
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// At most one of these can be specified: Or at least one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-security firewall-endpoint-associations update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-security firewall-endpoint-associations update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-security firewall-endpoint-associations update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-security firewall-endpoint-associations update \ --clear-labels --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Remove TLS inspection policy from this association.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove TLS inspection policy from this association.
     /// </summary>
     [CliFlag("--no-tls-inspection-policy")]
     public bool? NoTlsInspectionPolicy { get; set; }
 
     /// <summary>
-    /// ID of the TLS Inspection Policy or fully qualified identifier for the TLS Inspection Policy. To set the tls_inspection_policy attribute: * provide the argument --tls-inspection-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. ID of the TLS Inspection Policy or fully qualified identifier for the TLS Inspection Policy. To set the tls_inspection_policy attribute: ▹ provide the argument --tls-inspection-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--tls-inspection-policy", Format = OptionFormat.EqualsSeparated)]
     public string? TlsInspectionPolicy { get; set; }
 
     /// <summary>
-    /// Project of the TLS Inspection Policy. To set the tls-inspection-policy-project attribute: * provide the argument --tls-inspection-policy on the command line with a fully specified name; * provide the argument --tls-inspection-policy-project on the command line; * provide the argument --project on the command line; * provide the argument FIREWALL_ENDPOINT_ASSOCIATION on the command line with a fully specified name.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. Project of the TLS Inspection Policy. To set the tls-inspection-policy-project attribute: ▹ provide the argument --tls-inspection-policy on the command line with a fully specified name; ▹ provide the argument --tls-inspection-policy-project on the command line; ▹ provide the argument --project on the command line; ▹ provide the argument FIREWALL_ENDPOINT_ASSOCIATION on the command line with a fully specified name.
     /// </summary>
     [CliOption("--tls-inspection-policy-project", Format = OptionFormat.EqualsSeparated)]
     public string? TlsInspectionPolicyProject { get; set; }
 
     /// <summary>
-    /// Region of the TLS Inspection Policy. NOTE: TLS Inspection Policy needs to be in the same region as Firewall Plus endpoint resource. To set the tls-inspection-policy-region attribute: * provide the argument --tls-inspection-policy on the command line with a fully specified name; * provide the argument --tls-inspection-policy-region on the command line.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. Region of the TLS Inspection Policy. NOTE: TLS Inspection Policy needs to be in the same region as Firewall Plus endpoint resource. To set the tls-inspection-policy-region attribute: ▹ provide the argument --tls-inspection-policy on the command line with a fully specified name; ▹ provide the argument --tls-inspection-policy-region on the command line.
     /// </summary>
     [CliOption("--tls-inspection-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? TlsInspectionPolicyRegion { get; set; }
-
-    /// <summary>
-    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
-    /// </summary>
-    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxWait { get; set; }
 
 }

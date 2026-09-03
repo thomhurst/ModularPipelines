@@ -67,91 +67,91 @@ public record GcloudSpannerInstancesUpdateOptions(
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud spanner instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud spanner instances update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud spanner instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud spanner instances update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Number of nodes for the instance.
+    /// At most one of these can be specified: Number of nodes for the instance.
     /// </summary>
     [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public string? Nodes { get; set; }
 
     /// <summary>
-    /// Number of processing units for the instance.
+    /// At most one of these can be specified: Number of processing units for the instance.
     /// </summary>
     [CliOption("--processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? ProcessingUnits { get; set; }
 
     /// <summary>
-    /// Specifies the target percentage of storage the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Specifies the target percentage of storage the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingStorageTarget { get; set; }
 
     /// <summary>
-    /// Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
     /// </summary>
     [CliFlag("--disable-downscaling")]
     public bool? DisableDownscaling { get; set; }
 
     /// <summary>
-    /// Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// Negates --disable-downscaling. At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
     /// </summary>
     [CliFlag("--no-disable-downscaling")]
     public bool? NoDisableDownscaling { get; set; }
 
     /// <summary>
-    /// Specifies the asymmetric autoscaling option for the instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At most one of these can be specified: Specifies the asymmetric autoscaling option for the instance.
     /// </summary>
     [CliOption("--asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
     public string? AsymmetricAutoscalingOption { get; set; }
 
     /// <summary>
-    /// Specify a comma separated list of locations from which to remove asymmetric autoscaling options
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At most one of these can be specified: Specify a comma separated list of locations from which to remove asymmetric autoscaling options
     /// </summary>
     [CliOption("--clear-asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ClearAsymmetricAutoscalingOption { get; set; }
 
     /// <summary>
-    /// Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingHighPriorityCpuTarget { get; set; }
 
     /// <summary>
-    /// Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Specifies the target percentage of total CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingTotalCpuTarget { get; set; }
 
     /// <summary>
-    /// Maximum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxNodes { get; set; }
 
     /// <summary>
-    /// Minimum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinNodes { get; set; }
 
     /// <summary>
-    /// Maximum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxProcessingUnits { get; set; }
 
     /// <summary>
-    /// Minimum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinProcessingUnits { get; set; }

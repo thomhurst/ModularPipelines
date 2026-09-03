@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafkaClusters
+public class GcloudManagedKafkaClusters
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafkaClusters"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafkaClusters"/> class.
     /// </summary>
-    public GcloudManagedkafkaClusters(ICommandContext command)
+    public GcloudManagedKafkaClusters(ICommandContext command)
     {
         _command = command;
     }

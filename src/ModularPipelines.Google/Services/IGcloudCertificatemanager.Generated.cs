@@ -19,37 +19,37 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudCertificatemanager
+public interface IGcloudCertificateManager
 {
     /// <summary>
     /// gcloud certificates sub-commands.
     /// </summary>
-    GcloudCertificatemanagerCertificates Certificates => throw new System.NotSupportedException();
+    GcloudCertificateManagerCertificates Certificates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud dns-authorizations sub-commands.
     /// </summary>
-    GcloudCertificatemanagerDnsAuthorizations DnsAuthorizations => throw new System.NotSupportedException();
+    GcloudCertificateManagerDnsAuthorizations DnsAuthorizations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud issuance-configs sub-commands.
     /// </summary>
-    GcloudCertificatemanagerIssuanceConfigs IssuanceConfigs => throw new System.NotSupportedException();
+    GcloudCertificateManagerIssuanceConfigs IssuanceConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud maps sub-commands.
     /// </summary>
-    GcloudCertificatemanagerMaps Maps => throw new System.NotSupportedException();
+    GcloudCertificateManagerMaps Maps => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudCertificatemanagerOperations Operations => throw new System.NotSupportedException();
+    GcloudCertificateManagerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud trust-configs sub-commands.
     /// </summary>
-    GcloudCertificatemanagerTrustConfigs TrustConfigs => throw new System.NotSupportedException();
+    GcloudCertificateManagerTrustConfigs TrustConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage SSL certificates for your Google Cloud     projects

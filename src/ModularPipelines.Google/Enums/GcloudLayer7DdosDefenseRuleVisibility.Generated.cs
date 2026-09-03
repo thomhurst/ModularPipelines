@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLayer7DdosDefenseRuleVisibility
 {
     [EnumValue("STANDARD")]
-    Standard = 0,
+    Standard,
 
     [EnumValue("PREMIUM")]
-    Premium = 1
+    Premium
 }

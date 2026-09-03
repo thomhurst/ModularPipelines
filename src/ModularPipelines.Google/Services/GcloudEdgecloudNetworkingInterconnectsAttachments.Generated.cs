@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud attachments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudNetworkingInterconnectsAttachments
+public class GcloudEdgeCloudNetworkingInterconnectsAttachments
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated? _dedicated;
+    private GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated? _dedicated;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingInterconnectsAttachments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudNetworkingInterconnectsAttachments"/> class.
     /// </summary>
-    public GcloudEdgecloudNetworkingInterconnectsAttachments(ICommandContext command)
+    public GcloudEdgeCloudNetworkingInterconnectsAttachments(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudEdgecloudNetworkingInterconnectsAttachments
     /// <summary>
     /// gcloud dedicated sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated Dedicated => _dedicated ??= new GcloudEdgecloudNetworkingInterconnectsAttachmentsDedicated(_command);
+    public GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated Dedicated => _dedicated ??= new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated(_command);
 
     #endregion
 

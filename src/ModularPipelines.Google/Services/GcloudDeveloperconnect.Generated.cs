@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud developerconnect commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnect : IGcloudDeveloperconnect
+public class GcloudDeveloperConnect : IGcloudDeveloperConnect
 {
     private readonly ICommandContext _command;
-    private GcloudDeveloperconnectAccountConnectors? _accountConnectors;
-    private GcloudDeveloperconnectConnections? _connections;
-    private GcloudDeveloperconnectInsightsConfigs? _insightsConfigs;
-    private GcloudDeveloperconnectOperations? _operations;
+    private GcloudDeveloperConnectAccountConnectors? _accountConnectors;
+    private GcloudDeveloperConnectConnections? _connections;
+    private GcloudDeveloperConnectInsightsConfigs? _insightsConfigs;
+    private GcloudDeveloperConnectOperations? _operations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnect"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnect"/> class.
     /// </summary>
-    public GcloudDeveloperconnect(ICommandContext command)
+    public GcloudDeveloperConnect(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudDeveloperconnect : IGcloudDeveloperconnect
     /// <summary>
     /// gcloud account-connectors sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectAccountConnectors AccountConnectors => _accountConnectors ??= new GcloudDeveloperconnectAccountConnectors(_command);
+    public GcloudDeveloperConnectAccountConnectors AccountConnectors => _accountConnectors ??= new GcloudDeveloperConnectAccountConnectors(_command);
 
     /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectConnections Connections => _connections ??= new GcloudDeveloperconnectConnections(_command);
+    public GcloudDeveloperConnectConnections Connections => _connections ??= new GcloudDeveloperConnectConnections(_command);
 
     /// <summary>
     /// gcloud insights-configs sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectInsightsConfigs InsightsConfigs => _insightsConfigs ??= new GcloudDeveloperconnectInsightsConfigs(_command);
+    public GcloudDeveloperConnectInsightsConfigs InsightsConfigs => _insightsConfigs ??= new GcloudDeveloperConnectInsightsConfigs(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectOperations Operations => _operations ??= new GcloudDeveloperconnectOperations(_command);
+    public GcloudDeveloperConnectOperations Operations => _operations ??= new GcloudDeveloperConnectOperations(_command);
 
     #endregion
 

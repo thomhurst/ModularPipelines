@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud data-objects commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVectorsearchCollectionsDataObjects
+public class GcloudVectorSearchCollectionsDataObjects
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudVectorsearchCollectionsDataObjects"/> class.
+    /// Initializes a new instance of the <see cref="GcloudVectorSearchCollectionsDataObjects"/> class.
     /// </summary>
-    public GcloudVectorsearchCollectionsDataObjects(ICommandContext command)
+    public GcloudVectorSearchCollectionsDataObjects(ICommandContext command)
     {
         _command = command;
     }

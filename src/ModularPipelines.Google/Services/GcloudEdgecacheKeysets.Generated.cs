@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud keysets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecacheKeysets
+public class GcloudEdgeCacheKeysets
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecacheKeysets"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCacheKeysets"/> class.
     /// </summary>
-    public GcloudEdgecacheKeysets(ICommandContext command)
+    public GcloudEdgeCacheKeysets(ICommandContext command)
     {
         _command = command;
     }

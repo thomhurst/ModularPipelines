@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud components commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesApplicationTemplatesComponents
+public class GcloudDesignCenterSpacesApplicationTemplatesComponents
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesApplicationTemplatesComponentsConnections? _connections;
+    private GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections? _connections;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesApplicationTemplatesComponents"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesApplicationTemplatesComponents"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplatesComponents(ICommandContext command)
+    public GcloudDesignCenterSpacesApplicationTemplatesComponents(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplatesComponentsConnections Connections => _connections ??= new GcloudDesigncenterSpacesApplicationTemplatesComponentsConnections(_command);
+    public GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections Connections => _connections ??= new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections(_command);
 
     #endregion
 

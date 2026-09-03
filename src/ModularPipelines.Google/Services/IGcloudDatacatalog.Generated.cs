@@ -19,32 +19,32 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudDatacatalog
+public interface IGcloudDataCatalog
 {
     /// <summary>
     /// gcloud entries sub-commands.
     /// </summary>
-    GcloudDatacatalogEntries Entries => throw new System.NotSupportedException();
+    GcloudDataCatalogEntries Entries => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud entry-groups sub-commands.
     /// </summary>
-    GcloudDatacatalogEntryGroups EntryGroups => throw new System.NotSupportedException();
+    GcloudDataCatalogEntryGroups EntryGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tags sub-commands.
     /// </summary>
-    GcloudDatacatalogTags Tags => throw new System.NotSupportedException();
+    GcloudDataCatalogTags Tags => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tag-templates sub-commands.
     /// </summary>
-    GcloudDatacatalogTagTemplates TagTemplates => throw new System.NotSupportedException();
+    GcloudDataCatalogTagTemplates TagTemplates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud taxonomies sub-commands.
     /// </summary>
-    GcloudDatacatalogTaxonomies Taxonomies => throw new System.NotSupportedException();
+    GcloudDataCatalogTaxonomies Taxonomies => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Data Catalog resources

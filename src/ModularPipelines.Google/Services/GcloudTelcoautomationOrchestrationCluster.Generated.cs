@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud orchestration-cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudTelcoautomationOrchestrationCluster
+public class GcloudTelcoAutomationOrchestrationCluster
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudTelcoautomationOrchestrationCluster"/> class.
+    /// Initializes a new instance of the <see cref="GcloudTelcoAutomationOrchestrationCluster"/> class.
     /// </summary>
-    public GcloudTelcoautomationOrchestrationCluster(ICommandContext command)
+    public GcloudTelcoAutomationOrchestrationCluster(ICommandContext command)
     {
         _command = command;
     }

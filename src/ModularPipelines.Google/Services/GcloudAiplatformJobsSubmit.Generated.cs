@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud submit commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatformJobsSubmit
+public class GcloudAiPlatformJobsSubmit
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAiplatformJobsSubmit"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAiPlatformJobsSubmit"/> class.
     /// </summary>
-    public GcloudAiplatformJobsSubmit(ICommandContext command)
+    public GcloudAiPlatformJobsSubmit(ICommandContext command)
     {
         _command = command;
     }

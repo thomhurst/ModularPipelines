@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud auth-providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentidentityAuthProviders
+public class GcloudAgentIdentityAuthProviders
 {
     private readonly ICommandContext _command;
-    private GcloudAgentidentityAuthProvidersAuthorizations? _authorizations;
+    private GcloudAgentIdentityAuthProvidersAuthorizations? _authorizations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentidentityAuthProviders"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentIdentityAuthProviders"/> class.
     /// </summary>
-    public GcloudAgentidentityAuthProviders(ICommandContext command)
+    public GcloudAgentIdentityAuthProviders(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudAgentidentityAuthProviders
     /// <summary>
     /// gcloud authorizations sub-commands.
     /// </summary>
-    public GcloudAgentidentityAuthProvidersAuthorizations Authorizations => _authorizations ??= new GcloudAgentidentityAuthProvidersAuthorizations(_command);
+    public GcloudAgentIdentityAuthProvidersAuthorizations Authorizations => _authorizations ??= new GcloudAgentIdentityAuthProvidersAuthorizations(_command);
 
     #endregion
 

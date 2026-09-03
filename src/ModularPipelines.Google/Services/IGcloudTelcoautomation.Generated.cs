@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudTelcoautomation
+public interface IGcloudTelcoAutomation
 {
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudTelcoautomationOperations Operations => throw new System.NotSupportedException();
+    GcloudTelcoAutomationOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud orchestration-cluster sub-commands.
     /// </summary>
-    GcloudTelcoautomationOrchestrationCluster OrchestrationCluster => throw new System.NotSupportedException();
+    GcloudTelcoAutomationOrchestrationCluster OrchestrationCluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Telco Automation resources

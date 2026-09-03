@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud address-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityAddressGroups
+public class GcloudNetworkSecurityAddressGroups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityAddressGroups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityAddressGroups"/> class.
     /// </summary>
-    public GcloudNetworksecurityAddressGroups(ICommandContext command)
+    public GcloudNetworkSecurityAddressGroups(ICommandContext command)
     {
         _command = command;
     }

@@ -23,85 +23,85 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation update_mask is ignored. The creation will succeed only if the input accountConnector has all the necessary. Use --allow-missing to enable and --no-allow-missing to disable.
+    /// Proxy configuration. If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation update_mask is ignored. The creation will succeed only if the input accountConnector has all the necessary. Use --allow-missing to enable and --no-allow-missing to disable.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation update_mask is ignored. The creation will succeed only if the input accountConnector has all the necessary. Use --allow-missing to enable and --no-allow-missing to disable.
+    /// Negates --allow-missing. Proxy configuration. If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation update_mask is ignored. The creation will succeed only if the input accountConnector has all the necessary. Use --allow-missing to enable and --no-allow-missing to disable.
     /// </summary>
     [CliFlag("--no-allow-missing")]
     public bool? NoAllowMissing { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete.
+    /// Proxy configuration. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
+    /// Proxy configuration. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// For resources [account_connector, custom-oauth-config-service-directory], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// Proxy configuration. For resources [account_connector, custom-oauth-config-service-directory], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// Proxy configuration. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
+    /// Proxy configuration. If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
+    /// Negates --validate-only. Proxy configuration. If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
     /// </summary>
     [CliFlag("--no-validate-only")]
     public bool? NoValidateOnly { get; set; }
 
     /// <summary>
-    /// Set annotations to new value. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// Proxy configuration. Update annotations. At most one of these can be specified: Set annotations to new value. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
-    /// Update annotations value or add key value pair. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
+    /// Proxy configuration. Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateAnnotations { get; set; }
 
     /// <summary>
-    /// Clear annotations value and set to empty map.
+    /// Proxy configuration. Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
     /// </summary>
     [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
     /// <summary>
-    /// Remove existing value from map annotations. Sets remove_annotations value. Shorthand Example: --remove-annotations=string,string JSON Example: --remove-annotations=["string"] File Example: --remove-annotations=path_to_file.(yaml|json)
+    /// Proxy configuration. Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map annotations. Sets remove_annotations value. Shorthand Example: --remove-annotations=string,string JSON Example: --remove-annotations=["string"] File Example: --remove-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAnnotations { get; set; }
 
     /// <summary>
-    /// Set accountConnector.customOauthConfig back to default value.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Set accountConnector.customOauthConfig back to default value.
     /// </summary>
     [CliFlag("--clear-custom-oauth-config")]
     public bool? ClearCustomOauthConfig { get; set; }
 
     /// <summary>
-    /// Client ID of the OAuth application.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Client ID of the OAuth application.
     /// </summary>
     [CliOption("--custom-oauth-config-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigClientId { get; set; }
@@ -114,103 +114,103 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     public string? CustomOauthConfigClientSecret { get; set; }
 
     /// <summary>
-    /// Host URI of the OAuth application.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Host URI of the OAuth application.
     /// </summary>
     [CliOption("--custom-oauth-config-host-uri", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigHostUri { get; set; }
 
     /// <summary>
-    /// Disable PKCE for this OAuth config. PKCE is enabled by default. Use --custom-oauth-config-pkce-disabled to enable and --no-custom-oauth-config-pkce-disabled to disable.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Disable PKCE for this OAuth config. PKCE is enabled by default. Use --custom-oauth-config-pkce-disabled to enable and --no-custom-oauth-config-pkce-disabled to disable.
     /// </summary>
     [CliFlag("--custom-oauth-config-pkce-disabled")]
     public bool? CustomOauthConfigPkceDisabled { get; set; }
 
     /// <summary>
-    /// Disable PKCE for this OAuth config. PKCE is enabled by default. Use --custom-oauth-config-pkce-disabled to enable and --no-custom-oauth-config-pkce-disabled to disable.
+    /// Negates --custom-oauth-config-pkce-disabled. Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Disable PKCE for this OAuth config. PKCE is enabled by default. Use --custom-oauth-config-pkce-disabled to enable and --no-custom-oauth-config-pkce-disabled to disable.
     /// </summary>
     [CliFlag("--no-custom-oauth-config-pkce-disabled")]
     public bool? NoCustomOauthConfigPkceDisabled { get; set; }
 
     /// <summary>
-    /// Type of the SCM provider. CUSTOM_OAUTH_CONFIG_SCM_PROVIDER must be one of: bitbucket-data-center BYO Account Connector is an instance of Bitbucket Data Center. github-enterprise BYO Account Connector is an instance of GitHub Enterprise. gitlab-enterprise BYO Account Connector is an instance of GitLab Enterprise.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Type of the SCM provider. CUSTOM_OAUTH_CONFIG_SCM_PROVIDER must be one of: bitbucket-data-center BYO Account Connector is an instance of Bitbucket Data Center. github-enterprise BYO Account Connector is an instance of GitHub Enterprise. gitlab-enterprise BYO Account Connector is an instance of GitLab Enterprise.
     /// </summary>
     [CliOption("--custom-oauth-config-scm-provider", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigScmProvider { get; set; }
 
     /// <summary>
-    /// Scopes to be requested during OAuth.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Scopes to be requested during OAuth.
     /// </summary>
     [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomOauthConfigScopes { get; set; }
 
     /// <summary>
-    /// SSL certificate to use for requests to a private service.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. SSL certificate to use for requests to a private service.
     /// </summary>
     [CliOption("--custom-oauth-config-ssl-ca-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigSslCaCertificate { get; set; }
 
     /// <summary>
-    /// ID of the service or fully qualified identifier for the service. To set the service attribute: + provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-service-directory", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigServiceDirectory { get; set; }
 
     /// <summary>
-    /// The namespace id of the service resource. To set the namespace attribute: + provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; + provide the argument --namespace on the command line.
+    /// Proxy configuration. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. The namespace id of the service resource. To set the namespace attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
     /// </summary>
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Set accountConnector.providerOauthConfig back to default value.
+    /// Proxy configuration. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. Set accountConnector.providerOauthConfig back to default value.
     /// </summary>
     [CliFlag("--clear-provider-oauth-config")]
     public bool? ClearProviderOauthConfig { get; set; }
 
     /// <summary>
-    /// User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again.
+    /// Proxy configuration. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again.
     /// </summary>
     [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProviderOauthConfigScopes { get; set; }
 
     /// <summary>
-    /// Set accountConnector.proxyConfig back to default value.
+    /// Proxy configuration. Set accountConnector.proxyConfig back to default value.
     /// </summary>
     [CliFlag("--clear-proxy-config")]
     public bool? ClearProxyConfig { get; set; }
 
     /// <summary>
-    /// Setting this to true allows the git and http proxies to perform actions on behalf of the user configured under the account connector. Use --proxy-config-enabled to enable and --no-proxy-config-enabled to disable.
+    /// Proxy configuration. Setting this to true allows the git and http proxies to perform actions on behalf of the user configured under the account connector. Use --proxy-config-enabled to enable and --no-proxy-config-enabled to disable.
     /// </summary>
     [CliFlag("--proxy-config-enabled")]
     public bool? ProxyConfigEnabled { get; set; }
 
     /// <summary>
-    /// Setting this to true allows the git and http proxies to perform actions on behalf of the user configured under the account connector. Use --proxy-config-enabled to enable and --no-proxy-config-enabled to disable.
+    /// Negates --proxy-config-enabled. Proxy configuration. Setting this to true allows the git and http proxies to perform actions on behalf of the user configured under the account connector. Use --proxy-config-enabled to enable and --no-proxy-config-enabled to disable.
     /// </summary>
     [CliFlag("--no-proxy-config-enabled")]
     public bool? NoProxyConfigEnabled { get; set; }
 
     /// <summary>
-    /// Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Proxy configuration. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Proxy configuration. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// Proxy configuration. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Proxy configuration. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

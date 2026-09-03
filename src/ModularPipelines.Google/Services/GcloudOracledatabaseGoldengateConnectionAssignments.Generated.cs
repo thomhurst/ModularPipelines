@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud goldengate-connection-assignments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGoldengateConnectionAssignments
+public class GcloudOracleDatabaseGoldengateConnectionAssignments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGoldengateConnectionAssignments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGoldengateConnectionAssignments"/> class.
     /// </summary>
-    public GcloudOracledatabaseGoldengateConnectionAssignments(ICommandContext command)
+    public GcloudOracleDatabaseGoldengateConnectionAssignments(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dns-authorizations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanagerDnsAuthorizations
+public class GcloudCertificateManagerDnsAuthorizations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanagerDnsAuthorizations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManagerDnsAuthorizations"/> class.
     /// </summary>
-    public GcloudCertificatemanagerDnsAuthorizations(ICommandContext command)
+    public GcloudCertificateManagerDnsAuthorizations(ICommandContext command)
     {
         _command = command;
     }

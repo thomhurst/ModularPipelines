@@ -19,22 +19,22 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudAccessapproval
+public interface IGcloudAccessApproval
 {
     /// <summary>
     /// gcloud requests sub-commands.
     /// </summary>
-    GcloudAccessapprovalRequests Requests => throw new System.NotSupportedException();
+    GcloudAccessApprovalRequests Requests => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-account sub-commands.
     /// </summary>
-    GcloudAccessapprovalServiceAccount ServiceAccount => throw new System.NotSupportedException();
+    GcloudAccessApprovalServiceAccount ServiceAccount => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    GcloudAccessapprovalSettings Settings => throw new System.NotSupportedException();
+    GcloudAccessApprovalSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Access Approval requests and settings

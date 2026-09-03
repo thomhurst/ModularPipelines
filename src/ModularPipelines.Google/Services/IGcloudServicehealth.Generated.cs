@@ -19,22 +19,22 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudServicehealth
+public interface IGcloudServiceHealth
 {
     /// <summary>
     /// gcloud events sub-commands.
     /// </summary>
-    GcloudServicehealthEvents Events => throw new System.NotSupportedException();
+    GcloudServiceHealthEvents Events => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud organization-events sub-commands.
     /// </summary>
-    GcloudServicehealthOrganizationEvents OrganizationEvents => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationEvents OrganizationEvents => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud organization-impacts sub-commands.
     /// </summary>
-    GcloudServicehealthOrganizationImpacts OrganizationImpacts => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationImpacts OrganizationImpacts => throw new System.NotSupportedException();
 
     /// <summary>
     /// request events that are relevant to your project or     organization

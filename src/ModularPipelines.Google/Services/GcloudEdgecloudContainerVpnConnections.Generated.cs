@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud vpn-connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainerVpnConnections
+public class GcloudEdgeCloudContainerVpnConnections
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerVpnConnections"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerVpnConnections"/> class.
     /// </summary>
-    public GcloudEdgecloudContainerVpnConnections(ICommandContext command)
+    public GcloudEdgeCloudContainerVpnConnections(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud linked-vpc-network commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokesLinkedVpcNetwork
+public class GcloudNetworkConnectivitySpokesLinkedVpcNetwork
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesLinkedVpcNetwork"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokesLinkedVpcNetwork"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedVpcNetwork(ICommandContext command)
+    public GcloudNetworkConnectivitySpokesLinkedVpcNetwork(ICommandContext command)
     {
         _command = command;
     }

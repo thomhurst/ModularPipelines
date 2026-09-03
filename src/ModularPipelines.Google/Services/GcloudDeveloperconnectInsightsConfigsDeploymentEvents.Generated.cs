@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud deployment-events commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnectInsightsConfigsDeploymentEvents
+public class GcloudDeveloperConnectInsightsConfigsDeploymentEvents
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnectInsightsConfigsDeploymentEvents"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnectInsightsConfigsDeploymentEvents"/> class.
     /// </summary>
-    public GcloudDeveloperconnectInsightsConfigsDeploymentEvents(ICommandContext command)
+    public GcloudDeveloperConnectInsightsConfigsDeploymentEvents(ICommandContext command)
     {
         _command = command;
     }

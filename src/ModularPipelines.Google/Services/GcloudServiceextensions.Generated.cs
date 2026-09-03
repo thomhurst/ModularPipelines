@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud serviceextensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensions : IGcloudServiceextensions
+public class GcloudServiceExtensions : IGcloudServiceExtensions
 {
     private readonly ICommandContext _command;
-    private GcloudServiceextensionsAuthzExtensions? _authzExtensions;
-    private GcloudServiceextensionsLbEdgeExtensions? _lbEdgeExtensions;
-    private GcloudServiceextensionsLbRouteExtensions? _lbRouteExtensions;
-    private GcloudServiceextensionsLbTrafficExtensions? _lbTrafficExtensions;
-    private GcloudServiceextensionsWasmPlugins? _wasmPlugins;
-    private GcloudServiceextensionsWasmPluginVersions? _wasmPluginVersions;
+    private GcloudServiceExtensionsAuthzExtensions? _authzExtensions;
+    private GcloudServiceExtensionsLbEdgeExtensions? _lbEdgeExtensions;
+    private GcloudServiceExtensionsLbRouteExtensions? _lbRouteExtensions;
+    private GcloudServiceExtensionsLbTrafficExtensions? _lbTrafficExtensions;
+    private GcloudServiceExtensionsWasmPlugins? _wasmPlugins;
+    private GcloudServiceExtensionsWasmPluginVersions? _wasmPluginVersions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensions"/> class.
     /// </summary>
-    public GcloudServiceextensions(ICommandContext command)
+    public GcloudServiceExtensions(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudServiceextensions : IGcloudServiceextensions
     /// <summary>
     /// gcloud authz-extensions sub-commands.
     /// </summary>
-    public GcloudServiceextensionsAuthzExtensions AuthzExtensions => _authzExtensions ??= new GcloudServiceextensionsAuthzExtensions(_command);
+    public GcloudServiceExtensionsAuthzExtensions AuthzExtensions => _authzExtensions ??= new GcloudServiceExtensionsAuthzExtensions(_command);
 
     /// <summary>
     /// gcloud lb-edge-extensions sub-commands.
     /// </summary>
-    public GcloudServiceextensionsLbEdgeExtensions LbEdgeExtensions => _lbEdgeExtensions ??= new GcloudServiceextensionsLbEdgeExtensions(_command);
+    public GcloudServiceExtensionsLbEdgeExtensions LbEdgeExtensions => _lbEdgeExtensions ??= new GcloudServiceExtensionsLbEdgeExtensions(_command);
 
     /// <summary>
     /// gcloud lb-route-extensions sub-commands.
     /// </summary>
-    public GcloudServiceextensionsLbRouteExtensions LbRouteExtensions => _lbRouteExtensions ??= new GcloudServiceextensionsLbRouteExtensions(_command);
+    public GcloudServiceExtensionsLbRouteExtensions LbRouteExtensions => _lbRouteExtensions ??= new GcloudServiceExtensionsLbRouteExtensions(_command);
 
     /// <summary>
     /// gcloud lb-traffic-extensions sub-commands.
     /// </summary>
-    public GcloudServiceextensionsLbTrafficExtensions LbTrafficExtensions => _lbTrafficExtensions ??= new GcloudServiceextensionsLbTrafficExtensions(_command);
+    public GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions => _lbTrafficExtensions ??= new GcloudServiceExtensionsLbTrafficExtensions(_command);
 
     /// <summary>
     /// gcloud wasm-plugins sub-commands.
     /// </summary>
-    public GcloudServiceextensionsWasmPlugins WasmPlugins => _wasmPlugins ??= new GcloudServiceextensionsWasmPlugins(_command);
+    public GcloudServiceExtensionsWasmPlugins WasmPlugins => _wasmPlugins ??= new GcloudServiceExtensionsWasmPlugins(_command);
 
     /// <summary>
     /// gcloud wasm-plugin-versions sub-commands.
     /// </summary>
-    public GcloudServiceextensionsWasmPluginVersions WasmPluginVersions => _wasmPluginVersions ??= new GcloudServiceextensionsWasmPluginVersions(_command);
+    public GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions => _wasmPluginVersions ??= new GcloudServiceExtensionsWasmPluginVersions(_command);
 
     #endregion
 

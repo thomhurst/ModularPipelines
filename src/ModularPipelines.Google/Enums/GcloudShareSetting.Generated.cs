@@ -16,12 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudShareSetting
 {
-    [EnumValue("projects")]
-    Projects = 0,
-
-    [EnumValue("organization")]
-    Organization = 1,
-
     [EnumValue("local")]
-    Local = 2
+    Local,
+
+    [EnumValue("projects")]
+    Projects
 }

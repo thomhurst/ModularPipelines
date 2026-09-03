@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud servicedirectory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicedirectory : IGcloudServicedirectory
+public class GcloudServiceDirectory : IGcloudServiceDirectory
 {
     private readonly ICommandContext _command;
-    private GcloudServicedirectoryEndpoints? _endpoints;
-    private GcloudServicedirectoryLocations? _locations;
-    private GcloudServicedirectoryNamespaces? _namespaces;
-    private GcloudServicedirectoryServices? _services;
+    private GcloudServiceDirectoryEndpoints? _endpoints;
+    private GcloudServiceDirectoryLocations? _locations;
+    private GcloudServiceDirectoryNamespaces? _namespaces;
+    private GcloudServiceDirectoryServices? _services;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServicedirectory"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceDirectory"/> class.
     /// </summary>
-    public GcloudServicedirectory(ICommandContext command)
+    public GcloudServiceDirectory(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudServicedirectory : IGcloudServicedirectory
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    public GcloudServicedirectoryEndpoints Endpoints => _endpoints ??= new GcloudServicedirectoryEndpoints(_command);
+    public GcloudServiceDirectoryEndpoints Endpoints => _endpoints ??= new GcloudServiceDirectoryEndpoints(_command);
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    public GcloudServicedirectoryLocations Locations => _locations ??= new GcloudServicedirectoryLocations(_command);
+    public GcloudServiceDirectoryLocations Locations => _locations ??= new GcloudServiceDirectoryLocations(_command);
 
     /// <summary>
     /// gcloud namespaces sub-commands.
     /// </summary>
-    public GcloudServicedirectoryNamespaces Namespaces => _namespaces ??= new GcloudServicedirectoryNamespaces(_command);
+    public GcloudServiceDirectoryNamespaces Namespaces => _namespaces ??= new GcloudServiceDirectoryNamespaces(_command);
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    public GcloudServicedirectoryServices Services => _services ??= new GcloudServicedirectoryServices(_command);
+    public GcloudServiceDirectoryServices Services => _services ??= new GcloudServiceDirectoryServices(_command);
 
     #endregion
 

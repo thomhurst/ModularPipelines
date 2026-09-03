@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud service-connection-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityServiceConnectionPolicies
+public class GcloudNetworkConnectivityServiceConnectionPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityServiceConnectionPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityServiceConnectionPolicies"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityServiceConnectionPolicies(ICommandContext command)
+    public GcloudNetworkConnectivityServiceConnectionPolicies(ICommandContext command)
     {
         _command = command;
     }

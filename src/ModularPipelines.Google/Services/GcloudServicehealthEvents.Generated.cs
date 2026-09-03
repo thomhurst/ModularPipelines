@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud events commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicehealthEvents
+public class GcloudServiceHealthEvents
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServicehealthEvents"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceHealthEvents"/> class.
     /// </summary>
-    public GcloudServicehealthEvents(ICommandContext command)
+    public GcloudServiceHealthEvents(ICommandContext command)
     {
         _command = command;
     }

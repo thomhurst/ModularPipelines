@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policy-based-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityPolicyBasedRoutes
+public class GcloudNetworkConnectivityPolicyBasedRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityPolicyBasedRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityPolicyBasedRoutes"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityPolicyBasedRoutes(ICommandContext command)
+    public GcloudNetworkConnectivityPolicyBasedRoutes(ICommandContext command)
     {
         _command = command;
     }

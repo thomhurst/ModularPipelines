@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud url-lists commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityUrlLists
+public class GcloudNetworkSecurityUrlLists
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityUrlLists"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityUrlLists"/> class.
     /// </summary>
-    public GcloudNetworksecurityUrlLists(ICommandContext command)
+    public GcloudNetworkSecurityUrlLists(ICommandContext command)
     {
         _command = command;
     }

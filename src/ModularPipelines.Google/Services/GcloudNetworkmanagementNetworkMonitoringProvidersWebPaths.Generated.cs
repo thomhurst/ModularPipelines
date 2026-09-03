@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud web-paths commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths
+public class GcloudNetworkManagementNetworkMonitoringProvidersWebPaths
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagementNetworkMonitoringProvidersWebPaths"/> class.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths(ICommandContext command)
+    public GcloudNetworkManagementNetworkMonitoringProvidersWebPaths(ICommandContext command)
     {
         _command = command;
     }

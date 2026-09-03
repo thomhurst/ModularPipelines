@@ -19,62 +19,62 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudNetworkconnectivity
+public interface IGcloudNetworkConnectivity
 {
     /// <summary>
     /// gcloud hubs sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityHubs Hubs => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityHubs Hubs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud internal-ranges sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityInternalRanges InternalRanges => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityInternalRanges InternalRanges => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityLocations Locations => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicloud-data-transfer-configs sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityMulticloudDataTransferConfigs MulticloudDataTransferConfigs => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityMulticloudDataTransferConfigs MulticloudDataTransferConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicloud-data-transfer-supported-services sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityMulticloudDataTransferSupportedServices MulticloudDataTransferSupportedServices => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityMulticloudDataTransferSupportedServices MulticloudDataTransferSupportedServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityOperations Operations => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud policy-based-routes sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityPolicyBasedRoutes PolicyBasedRoutes => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityPolicyBasedRoutes PolicyBasedRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud regional-endpoints sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityRegionalEndpoints RegionalEndpoints => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityRegionalEndpoints RegionalEndpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-connection-policies sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityServiceConnectionPolicies ServiceConnectionPolicies => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityServiceConnectionPolicies ServiceConnectionPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud spokes sub-commands.
     /// </summary>
-    GcloudNetworkconnectivitySpokes Spokes => throw new System.NotSupportedException();
+    GcloudNetworkConnectivitySpokes Spokes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud transports sub-commands.
     /// </summary>
-    GcloudNetworkconnectivityTransports Transports => throw new System.NotSupportedException();
+    GcloudNetworkConnectivityTransports Transports => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Network Connectivity resources

@@ -19,32 +19,32 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudDeploymentmanager
+public interface IGcloudDeploymentManager
 {
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudDeploymentmanagerDeployments Deployments => throw new System.NotSupportedException();
+    GcloudDeploymentManagerDeployments Deployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud manifests sub-commands.
     /// </summary>
-    GcloudDeploymentmanagerManifests Manifests => throw new System.NotSupportedException();
+    GcloudDeploymentManagerManifests Manifests => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDeploymentmanagerOperations Operations => throw new System.NotSupportedException();
+    GcloudDeploymentManagerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resources sub-commands.
     /// </summary>
-    GcloudDeploymentmanagerResources Resources => throw new System.NotSupportedException();
+    GcloudDeploymentManagerResources Resources => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud types sub-commands.
     /// </summary>
-    GcloudDeploymentmanagerTypes Types => throw new System.NotSupportedException();
+    GcloudDeploymentManagerTypes Types => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage deployments of cloud resources

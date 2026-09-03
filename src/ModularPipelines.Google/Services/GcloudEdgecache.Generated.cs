@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud edgecache commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecache : IGcloudEdgecache
+public class GcloudEdgeCache : IGcloudEdgeCache
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecacheKeysets? _keysets;
-    private GcloudEdgecacheOperations? _operations;
-    private GcloudEdgecacheOrigins? _origins;
-    private GcloudEdgecacheServices? _services;
+    private GcloudEdgeCacheKeysets? _keysets;
+    private GcloudEdgeCacheOperations? _operations;
+    private GcloudEdgeCacheOrigins? _origins;
+    private GcloudEdgeCacheServices? _services;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecache"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCache"/> class.
     /// </summary>
-    public GcloudEdgecache(ICommandContext command)
+    public GcloudEdgeCache(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudEdgecache : IGcloudEdgecache
     /// <summary>
     /// gcloud keysets sub-commands.
     /// </summary>
-    public GcloudEdgecacheKeysets Keysets => _keysets ??= new GcloudEdgecacheKeysets(_command);
+    public GcloudEdgeCacheKeysets Keysets => _keysets ??= new GcloudEdgeCacheKeysets(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudEdgecacheOperations Operations => _operations ??= new GcloudEdgecacheOperations(_command);
+    public GcloudEdgeCacheOperations Operations => _operations ??= new GcloudEdgeCacheOperations(_command);
 
     /// <summary>
     /// gcloud origins sub-commands.
     /// </summary>
-    public GcloudEdgecacheOrigins Origins => _origins ??= new GcloudEdgecacheOrigins(_command);
+    public GcloudEdgeCacheOrigins Origins => _origins ??= new GcloudEdgeCacheOrigins(_command);
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    public GcloudEdgecacheServices Services => _services ??= new GcloudEdgecacheServices(_command);
+    public GcloudEdgeCacheServices Services => _services ??= new GcloudEdgeCacheServices(_command);
 
     #endregion
 

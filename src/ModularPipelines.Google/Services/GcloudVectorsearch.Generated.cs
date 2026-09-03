@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud vectorsearch commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVectorsearch : IGcloudVectorsearch
+public class GcloudVectorSearch : IGcloudVectorSearch
 {
     private readonly ICommandContext _command;
-    private GcloudVectorsearchCollections? _collections;
-    private GcloudVectorsearchOperations? _operations;
+    private GcloudVectorSearchCollections? _collections;
+    private GcloudVectorSearchOperations? _operations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudVectorsearch"/> class.
+    /// Initializes a new instance of the <see cref="GcloudVectorSearch"/> class.
     /// </summary>
-    public GcloudVectorsearch(ICommandContext command)
+    public GcloudVectorSearch(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudVectorsearch : IGcloudVectorsearch
     /// <summary>
     /// gcloud collections sub-commands.
     /// </summary>
-    public GcloudVectorsearchCollections Collections => _collections ??= new GcloudVectorsearchCollections(_command);
+    public GcloudVectorSearchCollections Collections => _collections ??= new GcloudVectorSearchCollections(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudVectorsearchOperations Operations => _operations ??= new GcloudVectorsearchOperations(_command);
+    public GcloudVectorSearchOperations Operations => _operations ??= new GcloudVectorSearchOperations(_command);
 
     #endregion
 

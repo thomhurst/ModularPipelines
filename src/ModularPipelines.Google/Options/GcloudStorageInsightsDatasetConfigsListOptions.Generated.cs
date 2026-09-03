@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "list")]
-public record GcloudStorageInsightsDatasetConfigsListOptions : GcloudOptions
+public record GcloudStorageInsightsDataSetConfigsListOptions : GcloudOptions
 {
     /// <summary>
     /// Provide location of the dataset config.

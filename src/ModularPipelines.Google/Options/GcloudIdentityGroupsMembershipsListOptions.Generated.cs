@@ -29,7 +29,10 @@ public record GcloudIdentityGroupsMembershipsListOptions : GcloudOptions
     [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
     public string? PageToken { get; set; }
 
-    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// There are two possible views, 'basic' and 'full', default is 'basic'. VIEW must be one of: basic Response only basic information of the Groups. (e.g. 'display_name', 'name') full Response includes all the fields of the Groups
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
 
 }

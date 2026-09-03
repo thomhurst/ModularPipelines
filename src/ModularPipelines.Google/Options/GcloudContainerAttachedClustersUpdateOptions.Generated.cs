@@ -122,7 +122,6 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
-    [SecretValue]
     [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretName { get; set; }
 

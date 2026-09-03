@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNotificationEventTypes
 {
     [EnumValue("success")]
-    Success = 0,
+    Success,
 
     [EnumValue("failed")]
-    Failed = 1,
+    Failed,
 
     [EnumValue("aborted")]
-    Aborted = 2
+    Aborted
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAccessMode
 {
     [EnumValue("READ_ONLY_MANY")]
-    ReadOnlyMany = 0,
+    ReadOnlyMany,
 
     [EnumValue("READ_WRITE_MANY")]
-    ReadWriteMany = 1,
+    ReadWriteMany,
 
     [EnumValue("READ_WRITE_SINGLE")]
-    ReadWriteSingle = 2
+    ReadWriteSingle
 }

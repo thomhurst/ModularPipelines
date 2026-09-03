@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud operations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatformOperations
+public class GcloudAiPlatformOperations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAiplatformOperations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAiPlatformOperations"/> class.
     /// </summary>
-    public GcloudAiplatformOperations(ICommandContext command)
+    public GcloudAiPlatformOperations(ICommandContext command)
     {
         _command = command;
     }

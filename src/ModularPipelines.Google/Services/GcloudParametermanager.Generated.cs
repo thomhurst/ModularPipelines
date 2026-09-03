@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud parametermanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudParametermanager : IGcloudParametermanager
+public class GcloudParameterManager : IGcloudParameterManager
 {
     private readonly ICommandContext _command;
-    private GcloudParametermanagerParameters? _parameters;
-    private GcloudParametermanagerTemplates? _templates;
+    private GcloudParameterManagerParameters? _parameters;
+    private GcloudParameterManagerTemplates? _templates;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudParametermanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudParameterManager"/> class.
     /// </summary>
-    public GcloudParametermanager(ICommandContext command)
+    public GcloudParameterManager(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudParametermanager : IGcloudParametermanager
     /// <summary>
     /// gcloud parameters sub-commands.
     /// </summary>
-    public GcloudParametermanagerParameters Parameters => _parameters ??= new GcloudParametermanagerParameters(_command);
+    public GcloudParameterManagerParameters Parameters => _parameters ??= new GcloudParameterManagerParameters(_command);
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    public GcloudParametermanagerTemplates Templates => _templates ??= new GcloudParametermanagerTemplates(_command);
+    public GcloudParameterManagerTemplates Templates => _templates ??= new GcloudParameterManagerTemplates(_command);
 
     #endregion
 
@@ -56,11 +56,11 @@ public class GcloudParametermanager : IGcloudParametermanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudParametermanagerOptions? options = null,
+        GcloudParameterManagerOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

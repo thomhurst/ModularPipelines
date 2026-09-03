@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud db-system-shapes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseDbSystemShapes
+public class GcloudOracleDatabaseDbSystemShapes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseDbSystemShapes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseDbSystemShapes"/> class.
     /// </summary>
-    public GcloudOracledatabaseDbSystemShapes(ICommandContext command)
+    public GcloudOracleDatabaseDbSystemShapes(ICommandContext command)
     {
         _command = command;
     }

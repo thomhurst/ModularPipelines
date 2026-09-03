@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud ull-mirroring-engines commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityUllMirroringEngines
+public class GcloudNetworkSecurityUllMirroringEngines
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityUllMirroringEngines"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityUllMirroringEngines"/> class.
     /// </summary>
-    public GcloudNetworksecurityUllMirroringEngines(ICommandContext command)
+    public GcloudNetworkSecurityUllMirroringEngines(ICommandContext command)
     {
         _command = command;
     }

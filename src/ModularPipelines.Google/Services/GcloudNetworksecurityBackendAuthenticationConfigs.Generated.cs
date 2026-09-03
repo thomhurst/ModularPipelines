@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud backend-authentication-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityBackendAuthenticationConfigs
+public class GcloudNetworkSecurityBackendAuthenticationConfigs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityBackendAuthenticationConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityBackendAuthenticationConfigs"/> class.
     /// </summary>
-    public GcloudNetworksecurityBackendAuthenticationConfigs(ICommandContext command)
+    public GcloudNetworkSecurityBackendAuthenticationConfigs(ICommandContext command)
     {
         _command = command;
     }

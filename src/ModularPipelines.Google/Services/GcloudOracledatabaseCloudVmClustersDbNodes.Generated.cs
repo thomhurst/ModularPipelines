@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud db-nodes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseCloudVmClustersDbNodes
+public class GcloudOracleDatabaseCloudVmClustersDbNodes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudVmClustersDbNodes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseCloudVmClustersDbNodes"/> class.
     /// </summary>
-    public GcloudOracledatabaseCloudVmClustersDbNodes(ICommandContext command)
+    public GcloudOracleDatabaseCloudVmClustersDbNodes(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud linked-interconnect-attachments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments
+public class GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments(ICommandContext command)
+    public GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments(ICommandContext command)
     {
         _command = command;
     }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "update")]
-public record GcloudStorageInsightsDatasetConfigsUpdateOptions : GcloudOptions
+public record GcloudStorageInsightsDataSetConfigsUpdateOptions : GcloudOptions
 {
     /// <summary>
     /// Provide retention period for the activity data in the config. This overrides the retention period for activity data. Otherwise, the retention_period_days value is used for activity data as well.
@@ -62,7 +62,7 @@ public record GcloudStorageInsightsDatasetConfigsUpdateOptions : GcloudOptions
     /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source folder IDs or the file containing list of folder IDs. CSV formatted file containing source folder IDs, one per line.
     /// </summary>
     [CliOption("--source-folders-file", Format = OptionFormat.EqualsSeparated)]
-    public string? SourceFoldersFile { get; set; }
+    public IEnumerable<string>? SourceFoldersFile { get; set; }
 
     /// <summary>
     /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source project numbers or the file containing list of project numbers. List of source project numbers.
@@ -74,7 +74,7 @@ public record GcloudStorageInsightsDatasetConfigsUpdateOptions : GcloudOptions
     /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source project numbers or the file containing list of project numbers. CSV formatted file containing source project numbers, one per line.
     /// </summary>
     [CliOption("--source-projects-file", Format = OptionFormat.EqualsSeparated)]
-    public string? SourceProjectsFile { get; set; }
+    public IEnumerable<string>? SourceProjectsFile { get; set; }
 
     /// <summary>
     /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names to be excluded.

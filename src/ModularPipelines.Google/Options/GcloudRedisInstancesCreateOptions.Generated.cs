@@ -78,6 +78,12 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public string? MaintenanceWindowHour { get; set; }
 
     /// <summary>
+    /// The name of the Google Compute Engine network to which the instance will be connected. If left unspecified, the default network will be used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
     /// Operation mode for automated persistence. PERSISTENCE_MODE must be one of: disabled RDB mode is disabled rdb Automatic RDB persistence
     /// </summary>
     [CliOption("--persistence-mode", Format = OptionFormat.EqualsSeparated)]
@@ -126,24 +132,6 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public string? ReservedIpRange { get; set; }
 
     /// <summary>
-    /// Transit encryption mode used by the instance. TRANSIT_ENCRYPTION_MODE must be one of: disabled Transit encryption is disabled for the instance. server-authentication Client to Server traffic encryption enabled with server authentication.
-    /// </summary>
-    [CliOption("--transit-encryption-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? TransitEncryptionMode { get; set; }
-
-    /// <summary>
-    /// The zone of the Redis instance. If not provided the service will pick a random zone in the region. For the standard tier, instances will be created across two zones for protection against zonal failures. So if --alternative-zone is also provided, it must be different from --zone.
-    /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public string? Zone { get; set; }
-
-    /// <summary>
-    /// The name of the Google Compute Engine network to which the instance will be connected. If left unspecified, the default network will be used.
-    /// </summary>
-    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
-    public string? Network { get; set; }
-
-    /// <summary>
     /// The memory size of the instance in GiB. If not provided, size of 1 GiB will be used.
     /// </summary>
     [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
@@ -154,5 +142,17 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
+
+    /// <summary>
+    /// Transit encryption mode used by the instance. TRANSIT_ENCRYPTION_MODE must be one of: disabled Transit encryption is disabled for the instance. server-authentication Client to Server traffic encryption enabled with server authentication.
+    /// </summary>
+    [CliOption("--transit-encryption-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? TransitEncryptionMode { get; set; }
+
+    /// <summary>
+    /// The zone of the Redis instance. If not provided the service will pick a random zone in the region. For the standard tier, instances will be created across two zones for protection against zonal failures. So if --alternative-zone is also provided, it must be different from --zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

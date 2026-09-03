@@ -18,22 +18,22 @@ namespace ModularPipelines.Google.Services;
 /// gcloud inframanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanager : IGcloudInframanager
+public class GcloudInfraManager : IGcloudInfraManager
 {
     private readonly ICommandContext _command;
-    private GcloudInframanagerAutomigrationconfig? _automigrationconfig;
-    private GcloudInframanagerDeployments? _deployments;
-    private GcloudInframanagerPreviews? _previews;
-    private GcloudInframanagerResourceChanges? _resourceChanges;
-    private GcloudInframanagerResourceDrifts? _resourceDrifts;
-    private GcloudInframanagerResources? _resources;
-    private GcloudInframanagerRevisions? _revisions;
-    private GcloudInframanagerTerraformVersions? _terraformVersions;
+    private GcloudInfraManagerAutomigrationconfig? _automigrationconfig;
+    private GcloudInfraManagerDeployments? _deployments;
+    private GcloudInfraManagerPreviews? _previews;
+    private GcloudInfraManagerResourceChanges? _resourceChanges;
+    private GcloudInfraManagerResourceDrifts? _resourceDrifts;
+    private GcloudInfraManagerResources? _resources;
+    private GcloudInfraManagerRevisions? _revisions;
+    private GcloudInfraManagerTerraformVersions? _terraformVersions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManager"/> class.
     /// </summary>
-    public GcloudInframanager(ICommandContext command)
+    public GcloudInfraManager(ICommandContext command)
     {
         _command = command;
     }
@@ -43,42 +43,42 @@ public class GcloudInframanager : IGcloudInframanager
     /// <summary>
     /// gcloud automigrationconfig sub-commands.
     /// </summary>
-    public GcloudInframanagerAutomigrationconfig Automigrationconfig => _automigrationconfig ??= new GcloudInframanagerAutomigrationconfig(_command);
+    public GcloudInfraManagerAutomigrationconfig Automigrationconfig => _automigrationconfig ??= new GcloudInfraManagerAutomigrationconfig(_command);
 
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    public GcloudInframanagerDeployments Deployments => _deployments ??= new GcloudInframanagerDeployments(_command);
+    public GcloudInfraManagerDeployments Deployments => _deployments ??= new GcloudInfraManagerDeployments(_command);
 
     /// <summary>
     /// gcloud previews sub-commands.
     /// </summary>
-    public GcloudInframanagerPreviews Previews => _previews ??= new GcloudInframanagerPreviews(_command);
+    public GcloudInfraManagerPreviews Previews => _previews ??= new GcloudInfraManagerPreviews(_command);
 
     /// <summary>
     /// gcloud resource-changes sub-commands.
     /// </summary>
-    public GcloudInframanagerResourceChanges ResourceChanges => _resourceChanges ??= new GcloudInframanagerResourceChanges(_command);
+    public GcloudInfraManagerResourceChanges ResourceChanges => _resourceChanges ??= new GcloudInfraManagerResourceChanges(_command);
 
     /// <summary>
     /// gcloud resource-drifts sub-commands.
     /// </summary>
-    public GcloudInframanagerResourceDrifts ResourceDrifts => _resourceDrifts ??= new GcloudInframanagerResourceDrifts(_command);
+    public GcloudInfraManagerResourceDrifts ResourceDrifts => _resourceDrifts ??= new GcloudInfraManagerResourceDrifts(_command);
 
     /// <summary>
     /// gcloud resources sub-commands.
     /// </summary>
-    public GcloudInframanagerResources Resources => _resources ??= new GcloudInframanagerResources(_command);
+    public GcloudInfraManagerResources Resources => _resources ??= new GcloudInfraManagerResources(_command);
 
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    public GcloudInframanagerRevisions Revisions => _revisions ??= new GcloudInframanagerRevisions(_command);
+    public GcloudInfraManagerRevisions Revisions => _revisions ??= new GcloudInfraManagerRevisions(_command);
 
     /// <summary>
     /// gcloud terraform-versions sub-commands.
     /// </summary>
-    public GcloudInframanagerTerraformVersions TerraformVersions => _terraformVersions ??= new GcloudInframanagerTerraformVersions(_command);
+    public GcloudInfraManagerTerraformVersions TerraformVersions => _terraformVersions ??= new GcloudInfraManagerTerraformVersions(_command);
 
     #endregion
 

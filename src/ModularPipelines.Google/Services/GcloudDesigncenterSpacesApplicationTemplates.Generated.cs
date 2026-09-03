@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud application-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesApplicationTemplates
+public class GcloudDesignCenterSpacesApplicationTemplates
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesApplicationTemplatesComponents? _components;
-    private GcloudDesigncenterSpacesApplicationTemplatesRevisions? _revisions;
+    private GcloudDesignCenterSpacesApplicationTemplatesComponents? _components;
+    private GcloudDesignCenterSpacesApplicationTemplatesRevisions? _revisions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesApplicationTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesApplicationTemplates"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplates(ICommandContext command)
+    public GcloudDesignCenterSpacesApplicationTemplates(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudDesigncenterSpacesApplicationTemplates
     /// <summary>
     /// gcloud components sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplatesComponents Components => _components ??= new GcloudDesigncenterSpacesApplicationTemplatesComponents(_command);
+    public GcloudDesignCenterSpacesApplicationTemplatesComponents Components => _components ??= new GcloudDesignCenterSpacesApplicationTemplatesComponents(_command);
 
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplatesRevisions Revisions => _revisions ??= new GcloudDesigncenterSpacesApplicationTemplatesRevisions(_command);
+    public GcloudDesignCenterSpacesApplicationTemplatesRevisions Revisions => _revisions ??= new GcloudDesignCenterSpacesApplicationTemplatesRevisions(_command);
 
     #endregion
 

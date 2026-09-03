@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityHubsGroups
+public class GcloudNetworkConnectivityHubsGroups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityHubsGroups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityHubsGroups"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityHubsGroups(ICommandContext command)
+    public GcloudNetworkConnectivityHubsGroups(ICommandContext command)
     {
         _command = command;
     }

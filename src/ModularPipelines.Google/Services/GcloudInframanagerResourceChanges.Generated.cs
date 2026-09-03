@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud resource-changes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerResourceChanges
+public class GcloudInfraManagerResourceChanges
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerResourceChanges"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerResourceChanges"/> class.
     /// </summary>
-    public GcloudInframanagerResourceChanges(ICommandContext command)
+    public GcloudInfraManagerResourceChanges(ICommandContext command)
     {
         _command = command;
     }

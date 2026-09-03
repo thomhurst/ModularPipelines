@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud agent-connectivity-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesAgentConnectivityTemplates
+public class GcloudNetworkServicesAgentConnectivityTemplates
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesAgentConnectivityTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesAgentConnectivityTemplates"/> class.
     /// </summary>
-    public GcloudNetworkservicesAgentConnectivityTemplates(ICommandContext command)
+    public GcloudNetworkServicesAgentConnectivityTemplates(ICommandContext command)
     {
         _command = command;
     }

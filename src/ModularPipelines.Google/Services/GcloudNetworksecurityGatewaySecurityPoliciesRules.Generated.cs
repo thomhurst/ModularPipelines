@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud rules commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityGatewaySecurityPoliciesRules
+public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityGatewaySecurityPoliciesRules"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityGatewaySecurityPoliciesRules"/> class.
     /// </summary>
-    public GcloudNetworksecurityGatewaySecurityPoliciesRules(ICommandContext command)
+    public GcloudNetworkSecurityGatewaySecurityPoliciesRules(ICommandContext command)
     {
         _command = command;
     }

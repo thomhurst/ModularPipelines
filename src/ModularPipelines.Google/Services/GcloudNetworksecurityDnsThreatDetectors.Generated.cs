@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dns-threat-detectors commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityDnsThreatDetectors
+public class GcloudNetworkSecurityDnsThreatDetectors
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityDnsThreatDetectors"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityDnsThreatDetectors"/> class.
     /// </summary>
-    public GcloudNetworksecurityDnsThreatDetectors(ICommandContext command)
+    public GcloudNetworkSecurityDnsThreatDetectors(ICommandContext command)
     {
         _command = command;
     }

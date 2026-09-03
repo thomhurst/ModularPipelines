@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud peerings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudActivedirectoryPeerings
+public class GcloudActiveDirectoryPeerings
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudActivedirectoryPeerings"/> class.
+    /// Initializes a new instance of the <see cref="GcloudActiveDirectoryPeerings"/> class.
     /// </summary>
-    public GcloudActivedirectoryPeerings(ICommandContext command)
+    public GcloudActiveDirectoryPeerings(ICommandContext command)
     {
         _command = command;
     }

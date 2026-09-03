@@ -69,7 +69,7 @@ public record GcloudComputeRoutersUpdateOptions(
     /// The list of individual IP ranges, in CIDR format, to dynamically advertise on this router. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --set-advertisement-ranges=192.168.10.0/24. To store a description with the range, use --set-advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode.
     /// </summary>
     [CliOption("--set-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetAdvertisementRanges { get; set; }
+    public string? SetAdvertisementRanges { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this router. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
@@ -81,7 +81,7 @@ public record GcloudComputeRoutersUpdateOptions(
     /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to dynamically advertise on this router. This list is appended to any existing advertisements. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --advertisement-ranges=192.168.10.0/24. To store a description with the range, use --advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode.
     /// </summary>
     [CliOption("--add-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAdvertisementRanges { get; set; }
+    public string? AddAdvertisementRanges { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this router. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.

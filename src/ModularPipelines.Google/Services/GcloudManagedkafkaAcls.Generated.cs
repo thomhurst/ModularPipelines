@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud acls commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafkaAcls
+public class GcloudManagedKafkaAcls
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafkaAcls"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafkaAcls"/> class.
     /// </summary>
-    public GcloudManagedkafkaAcls(ICommandContext command)
+    public GcloudManagedKafkaAcls(ICommandContext command)
     {
         _command = command;
     }

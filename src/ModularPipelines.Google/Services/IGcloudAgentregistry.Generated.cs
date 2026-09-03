@@ -19,37 +19,37 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudAgentregistry
+public interface IGcloudAgentRegistry
 {
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    GcloudAgentregistryAgents Agents => throw new System.NotSupportedException();
+    GcloudAgentRegistryAgents Agents => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud bindings sub-commands.
     /// </summary>
-    GcloudAgentregistryBindings Bindings => throw new System.NotSupportedException();
+    GcloudAgentRegistryBindings Bindings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudAgentregistryEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudAgentRegistryEndpoints Endpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud mcp-servers sub-commands.
     /// </summary>
-    GcloudAgentregistryMcpServers McpServers => throw new System.NotSupportedException();
+    GcloudAgentRegistryMcpServers McpServers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAgentregistryOperations Operations => throw new System.NotSupportedException();
+    GcloudAgentRegistryOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudAgentregistryServices Services => throw new System.NotSupportedException();
+    GcloudAgentRegistryServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Agent Registry resources

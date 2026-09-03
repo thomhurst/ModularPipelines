@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dataset-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudStorageInsightsDatasetConfigs
+public class GcloudStorageInsightsDataSetConfigs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudStorageInsightsDatasetConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudStorageInsightsDataSetConfigs"/> class.
     /// </summary>
-    public GcloudStorageInsightsDatasetConfigs(ICommandContext command)
+    public GcloudStorageInsightsDataSetConfigs(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudStorageInsightsDatasetConfigsOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLinkAsync(
-        GcloudStorageInsightsDatasetConfigsCreateLinkOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsCreateLinkOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsCreateLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsCreateLinkOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudStorageInsightsDatasetConfigsCreateOptions options,
+        GcloudStorageInsightsDataSetConfigsCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -85,11 +85,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLinkAsync(
-        GcloudStorageInsightsDatasetConfigsDeleteLinkOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsDeleteLinkOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsDeleteLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsDeleteLinkOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GcloudStorageInsightsDatasetConfigsDeleteOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudStorageInsightsDatasetConfigsDescribeOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudStorageInsightsDatasetConfigsListOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        GcloudStorageInsightsDatasetConfigsUpdateOptions? options = null,
+        GcloudStorageInsightsDataSetConfigsUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDatasetConfigsUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudStorageInsightsDataSetConfigsUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

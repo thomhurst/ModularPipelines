@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudAgentidentity
+public interface IGcloudAgentIdentity
 {
     /// <summary>
     /// gcloud access-summaries sub-commands.
     /// </summary>
-    GcloudAgentidentityAccessSummaries AccessSummaries => throw new System.NotSupportedException();
+    GcloudAgentIdentityAccessSummaries AccessSummaries => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud auth-providers sub-commands.
     /// </summary>
-    GcloudAgentidentityAuthProviders AuthProviders => throw new System.NotSupportedException();
+    GcloudAgentIdentityAuthProviders AuthProviders => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Agent Identity resources

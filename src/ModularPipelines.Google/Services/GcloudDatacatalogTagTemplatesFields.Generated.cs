@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud fields commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTagTemplatesFields
+public class GcloudDataCatalogTagTemplatesFields
 {
     private readonly ICommandContext _command;
-    private GcloudDatacatalogTagTemplatesFieldsEnumValues? _enumValues;
+    private GcloudDataCatalogTagTemplatesFieldsEnumValues? _enumValues;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplatesFields"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTagTemplatesFields"/> class.
     /// </summary>
-    public GcloudDatacatalogTagTemplatesFields(ICommandContext command)
+    public GcloudDataCatalogTagTemplatesFields(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDatacatalogTagTemplatesFields
     /// <summary>
     /// gcloud enum-values sub-commands.
     /// </summary>
-    public GcloudDatacatalogTagTemplatesFieldsEnumValues EnumValues => _enumValues ??= new GcloudDatacatalogTagTemplatesFieldsEnumValues(_command);
+    public GcloudDataCatalogTagTemplatesFieldsEnumValues EnumValues => _enumValues ??= new GcloudDataCatalogTagTemplatesFieldsEnumValues(_command);
 
     #endregion
 

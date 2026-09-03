@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudWindowsOsVersion
 {
     [EnumValue("ltsc2019")]
-    Ltsc2019 = 0,
+    Ltsc2019,
 
     [EnumValue("ltsc2022")]
-    Ltsc2022 = 1
+    Ltsc2022
 }

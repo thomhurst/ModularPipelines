@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -56,7 +57,7 @@ public record GcloudNetappStoragePoolsUpdateOptions : GcloudOptions
     /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Quality of service (QoS) type for the Storage Pool. QOS_TYPE must be one of: auto, manual, qos-type-unspecified.
     /// </summary>
     [CliOption("--qos-type", Format = OptionFormat.EqualsSeparated)]
-    public string? QosType { get; set; }
+    public GcloudQosType? QosType { get; set; }
 
     /// <summary>
     /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. String indicating replica zone for the Storage Pool

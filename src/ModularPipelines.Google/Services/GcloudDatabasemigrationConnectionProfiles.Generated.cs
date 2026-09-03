@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud connection-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigrationConnectionProfiles
+public class GcloudDatabaseMigrationConnectionProfiles
 {
     private readonly ICommandContext _command;
-    private GcloudDatabasemigrationConnectionProfilesCreate? _create;
+    private GcloudDatabaseMigrationConnectionProfilesCreate? _create;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigrationConnectionProfiles"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigrationConnectionProfiles"/> class.
     /// </summary>
-    public GcloudDatabasemigrationConnectionProfiles(ICommandContext command)
+    public GcloudDatabaseMigrationConnectionProfiles(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDatabasemigrationConnectionProfiles
     /// <summary>
     /// gcloud create sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationConnectionProfilesCreate Create => _create ??= new GcloudDatabasemigrationConnectionProfilesCreate(_command);
+    public GcloudDatabaseMigrationConnectionProfilesCreate Create => _create ??= new GcloudDatabaseMigrationConnectionProfilesCreate(_command);
 
     #endregion
 

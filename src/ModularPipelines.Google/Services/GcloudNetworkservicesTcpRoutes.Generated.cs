@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tcp-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesTcpRoutes
+public class GcloudNetworkServicesTcpRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesTcpRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesTcpRoutes"/> class.
     /// </summary>
-    public GcloudNetworkservicesTcpRoutes(ICommandContext command)
+    public GcloudNetworkServicesTcpRoutes(ICommandContext command)
     {
         _command = command;
     }

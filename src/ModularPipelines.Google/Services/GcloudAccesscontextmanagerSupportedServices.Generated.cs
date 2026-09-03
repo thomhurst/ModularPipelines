@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud supported-services commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerSupportedServices
+public class GcloudAccessContextManagerSupportedServices
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerSupportedServices"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerSupportedServices"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerSupportedServices(ICommandContext command)
+    public GcloudAccessContextManagerSupportedServices(ICommandContext command)
     {
         _command = command;
     }

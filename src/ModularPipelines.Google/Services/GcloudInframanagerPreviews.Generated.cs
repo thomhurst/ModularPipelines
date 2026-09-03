@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud previews commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerPreviews
+public class GcloudInfraManagerPreviews
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerPreviews"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerPreviews"/> class.
     /// </summary>
-    public GcloudInframanagerPreviews(ICommandContext command)
+    public GcloudInfraManagerPreviews(ICommandContext command)
     {
         _command = command;
     }

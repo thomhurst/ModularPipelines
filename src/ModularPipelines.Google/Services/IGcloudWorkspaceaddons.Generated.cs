@@ -19,12 +19,12 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudWorkspaceaddons
+public interface IGcloudWorkspaceAddOns
 {
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudWorkspaceaddonsDeployments Deployments => throw new System.NotSupportedException();
+    GcloudWorkspaceAddOnsDeployments Deployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// ons resources

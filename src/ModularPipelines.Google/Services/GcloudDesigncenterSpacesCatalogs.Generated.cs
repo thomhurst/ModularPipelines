@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud catalogs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesCatalogs
+public class GcloudDesignCenterSpacesCatalogs
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesCatalogsShares? _shares;
-    private GcloudDesigncenterSpacesCatalogsTemplates? _templates;
+    private GcloudDesignCenterSpacesCatalogsShares? _shares;
+    private GcloudDesignCenterSpacesCatalogsTemplates? _templates;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesCatalogs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesCatalogs"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogs(ICommandContext command)
+    public GcloudDesignCenterSpacesCatalogs(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <summary>
     /// gcloud shares sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogsShares Shares => _shares ??= new GcloudDesigncenterSpacesCatalogsShares(_command);
+    public GcloudDesignCenterSpacesCatalogsShares Shares => _shares ??= new GcloudDesignCenterSpacesCatalogsShares(_command);
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogsTemplates Templates => _templates ??= new GcloudDesigncenterSpacesCatalogsTemplates(_command);
+    public GcloudDesignCenterSpacesCatalogsTemplates Templates => _templates ??= new GcloudDesignCenterSpacesCatalogsTemplates(_command);
 
     #endregion
 

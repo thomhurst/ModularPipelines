@@ -22,103 +22,103 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseAutonomousDatabasesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// For resources [autonomous_database, encryption-key-kms], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. For resources [autonomous_database, encryption-key-kms], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Set autonomousDatabase.properties back to default value.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Set autonomousDatabase.properties back to default value.
     /// </summary>
     [CliFlag("--clear-properties")]
     public bool? ClearProperties { get; set; }
 
     /// <summary>
-    /// This field indicates the maximum data loss limit for an Autonomous Database, in seconds.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. This field indicates the maximum data loss limit for an Autonomous Database, in seconds.
     /// </summary>
     [CliOption("--properties-local-adg-auto-failover-max-data-loss-limit-duration", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesLocalAdgAutoFailoverMaxDataLossLimitDuration { get; set; }
 
     /// <summary>
-    /// Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
     /// </summary>
     [CliFlag("--properties-local-data-guard-enabled")]
     public bool? PropertiesLocalDataGuardEnabled { get; set; }
 
     /// <summary>
-    /// Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
+    /// Negates --properties-local-data-guard-enabled. The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
     /// </summary>
     [CliFlag("--no-properties-local-data-guard-enabled")]
     public bool? NoPropertiesLocalDataGuardEnabled { get; set; }
 
     /// <summary>
-    /// Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
     /// </summary>
     [CliFlag("--properties-refreshable-clone")]
     public bool? PropertiesRefreshableClone { get; set; }
 
     /// <summary>
-    /// Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
+    /// Negates --properties-refreshable-clone. The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
     /// </summary>
     [CliFlag("--no-properties-refreshable-clone")]
     public bool? NoPropertiesRefreshableClone { get; set; }
 
     /// <summary>
-    /// The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one of: google-managed Google Managed KMS key, if selected, please provide the KMS key name. oracle-managed Oracle Managed.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one of: google-managed Google Managed KMS key, if selected, please provide the KMS key name. oracle-managed Oracle Managed.
     /// </summary>
     [CliOption("--encryption-key-provider", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKeyProvider { get; set; }
 
     /// <summary>
-    /// The keyRing id of the cryptoKey resource. To set the key-ring attribute: * provide the argument --current on the command line with a fully specified name; * provide the argument --key-ring on the command line.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --current on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
 
     /// <summary>
-    /// Clear encryption_key_kms value and set to null.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Update encryption_key_kms. At most one of these can be specified: Clear encryption_key_kms value and set to null.
     /// </summary>
     [CliFlag("--clear-encryption-key-kms")]
     public bool? ClearEncryptionKeyKms { get; set; }
 
     /// <summary>
-    /// ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: + provide the argument --encryption-key-kms on the command line.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. CryptoKey resource - Set encryption_key_kms to new value. The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --encryption-key-kms on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --encryption-key-kms on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the key-ring attribute: ▸ provide the argument --encryption-key-kms on the command line with a fully specified name; ▸ provide the argument --key-ring on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --encryption-key-kms on the command line.
     /// </summary>
     [CliOption("--encryption-key-kms", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKeyKms { get; set; }
 
     /// <summary>
-    /// Set labels to new value. The labels or tags associated with the Autonomous Database. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Update labels. At most one of these can be specified: Set labels to new value. The labels or tags associated with the Autonomous Database. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. The labels or tags associated with the Autonomous Database. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. The labels or tags associated with the Autonomous Database. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// The properties of an Autonomous Database. Arguments for the local adg auto failover max data loss limit duration. Arguments for the local data guard enabled. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

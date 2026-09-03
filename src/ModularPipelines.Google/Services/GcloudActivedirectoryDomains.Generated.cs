@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud domains commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudActivedirectoryDomains
+public class GcloudActiveDirectoryDomains
 {
     private readonly ICommandContext _command;
-    private GcloudActivedirectoryDomainsBackups? _backups;
-    private GcloudActivedirectoryDomainsTrusts? _trusts;
+    private GcloudActiveDirectoryDomainsBackups? _backups;
+    private GcloudActiveDirectoryDomainsTrusts? _trusts;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudActivedirectoryDomains"/> class.
+    /// Initializes a new instance of the <see cref="GcloudActiveDirectoryDomains"/> class.
     /// </summary>
-    public GcloudActivedirectoryDomains(ICommandContext command)
+    public GcloudActiveDirectoryDomains(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudActivedirectoryDomains
     /// <summary>
     /// gcloud backups sub-commands.
     /// </summary>
-    public GcloudActivedirectoryDomainsBackups Backups => _backups ??= new GcloudActivedirectoryDomainsBackups(_command);
+    public GcloudActiveDirectoryDomainsBackups Backups => _backups ??= new GcloudActiveDirectoryDomainsBackups(_command);
 
     /// <summary>
     /// gcloud trusts sub-commands.
     /// </summary>
-    public GcloudActivedirectoryDomainsTrusts Trusts => _trusts ??= new GcloudActivedirectoryDomainsTrusts(_command);
+    public GcloudActiveDirectoryDomainsTrusts Trusts => _trusts ??= new GcloudActiveDirectoryDomainsTrusts(_command);
 
     #endregion
 

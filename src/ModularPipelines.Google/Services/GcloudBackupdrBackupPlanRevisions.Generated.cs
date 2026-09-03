@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud backup-plan-revisions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdrBackupPlanRevisions
+public class GcloudBackupDrBackupPlanRevisions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdrBackupPlanRevisions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDrBackupPlanRevisions"/> class.
     /// </summary>
-    public GcloudBackupdrBackupPlanRevisions(ICommandContext command)
+    public GcloudBackupDrBackupPlanRevisions(ICommandContext command)
     {
         _command = command;
     }

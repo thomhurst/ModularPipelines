@@ -18,17 +18,21 @@ namespace ModularPipelines.Google.Services;
 /// gcloud edgecloud commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloud : IGcloudEdgecloud
+public class GcloudEdgeCloud : IGcloudEdgeCloud
 {
     private readonly ICommandContext _command;
-    private GcloudEdgecloudContainer? _container;
-    private GcloudEdgecloudNetworking? _networking;
-    private GcloudEdgecloudZones? _zones;
+    private GcloudEdgeCloudApiKeys? _apiKeys;
+    private GcloudEdgeCloudContainer? _container;
+    private GcloudEdgeCloudNetworking? _networking;
+    private GcloudEdgeCloudProjects? _projects;
+    private GcloudEdgeCloudServiceAccounts? _serviceAccounts;
+    private GcloudEdgeCloudServices? _services;
+    private GcloudEdgeCloudZones? _zones;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloud"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloud"/> class.
     /// </summary>
-    public GcloudEdgecloud(ICommandContext command)
+    public GcloudEdgeCloud(ICommandContext command)
     {
         _command = command;
     }
@@ -36,19 +40,39 @@ public class GcloudEdgecloud : IGcloudEdgecloud
     #region Sub-command Groups
 
     /// <summary>
+    /// gcloud api-keys sub-commands.
+    /// </summary>
+    public GcloudEdgeCloudApiKeys ApiKeys => _apiKeys ??= new GcloudEdgeCloudApiKeys(_command);
+
+    /// <summary>
     /// gcloud container sub-commands.
     /// </summary>
-    public GcloudEdgecloudContainer Container => _container ??= new GcloudEdgecloudContainer(_command);
+    public GcloudEdgeCloudContainer Container => _container ??= new GcloudEdgeCloudContainer(_command);
 
     /// <summary>
     /// gcloud networking sub-commands.
     /// </summary>
-    public GcloudEdgecloudNetworking Networking => _networking ??= new GcloudEdgecloudNetworking(_command);
+    public GcloudEdgeCloudNetworking Networking => _networking ??= new GcloudEdgeCloudNetworking(_command);
+
+    /// <summary>
+    /// gcloud projects sub-commands.
+    /// </summary>
+    public GcloudEdgeCloudProjects Projects => _projects ??= new GcloudEdgeCloudProjects(_command);
+
+    /// <summary>
+    /// gcloud service-accounts sub-commands.
+    /// </summary>
+    public GcloudEdgeCloudServiceAccounts ServiceAccounts => _serviceAccounts ??= new GcloudEdgeCloudServiceAccounts(_command);
+
+    /// <summary>
+    /// gcloud services sub-commands.
+    /// </summary>
+    public GcloudEdgeCloudServices Services => _services ??= new GcloudEdgeCloudServices(_command);
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    public GcloudEdgecloudZones Zones => _zones ??= new GcloudEdgecloudZones(_command);
+    public GcloudEdgeCloudZones Zones => _zones ??= new GcloudEdgeCloudZones(_command);
 
     #endregion
 

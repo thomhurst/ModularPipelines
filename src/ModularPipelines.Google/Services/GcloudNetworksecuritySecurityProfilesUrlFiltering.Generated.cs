@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud url-filtering commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecurityProfilesUrlFiltering
+public class GcloudNetworkSecuritySecurityProfilesUrlFiltering
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfilesUrlFiltering"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecurityProfilesUrlFiltering"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesUrlFiltering(ICommandContext command)
+    public GcloudNetworkSecuritySecurityProfilesUrlFiltering(ICommandContext command)
     {
         _command = command;
     }

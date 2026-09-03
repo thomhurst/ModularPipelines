@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud entry-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogEntryGroups
+public class GcloudDataCatalogEntryGroups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogEntryGroups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogEntryGroups"/> class.
     /// </summary>
-    public GcloudDatacatalogEntryGroups(ICommandContext command)
+    public GcloudDataCatalogEntryGroups(ICommandContext command)
     {
         _command = command;
     }
