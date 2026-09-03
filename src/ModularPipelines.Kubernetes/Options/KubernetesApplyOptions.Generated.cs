@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Kubernetes.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Kubernetes.Enums;
 
 namespace ModularPipelines.Kubernetes.Options;
@@ -19,7 +20,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apply")]
-public record KubernetesApplyOptions : KubernetesOptions
+public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
 {
     /// <summary>
     /// Select all resources in the namespace of the specified resource types.
@@ -164,5 +165,14 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(Filename?.Any() == true || !string.IsNullOrWhiteSpace(Kustomize)))
+        {
+            yield return new ValidationResult("At least one of Filename or Kustomize must be specified.", [nameof(Filename), nameof(Kustomize)]);
+        }
+    }
 
 }

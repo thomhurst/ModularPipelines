@@ -13,11 +13,12 @@ public class KubernetesCommandRenderingTests : TestBase
     {
         var result = await GetResult(new KubernetesApplyOptions
         {
+            Filename = ["manifest.yaml"],
             Validate = "warn",
         });
 
         await Assert.That(result.CommandInput)
-            .IsEqualTo("kubectl apply --validate=warn");
+            .IsEqualTo("kubectl apply --filename=manifest.yaml --validate=warn");
     }
 
     [Test]
