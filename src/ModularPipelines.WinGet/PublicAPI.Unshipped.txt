@@ -1,4 +1,54 @@
 #nullable enable
+*REMOVED*ModularPipelines.WinGet.Options.WingetConfigureOptions.History.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetExportOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetHashOptions.Msix.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetHashOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetImportOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.Force.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetListOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetListOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetPinOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetRepairOptions.Force.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetShowOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetShowOptions.Versions.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetShowOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.get -> bool?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.get -> string?
+*REMOVED*ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.get -> string?
 *REMOVED*ModularPipelines.WinGet.Services.IWinget.ConfigureAsync(ModularPipelines.WinGet.Options.WingetConfigureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.WinGet.Services.IWinget.ConfigureExportAsync(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.WinGet.Services.IWinget.ConfigureListAsync(ModularPipelines.WinGet.Options.WingetConfigureListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -42,6 +92,56 @@
 *REMOVED*ModularPipelines.WinGet.Services.IWinget.UpgradeAsync(ModularPipelines.WinGet.Options.WingetUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.WinGet.Services.IWinget.ValidateAsync(ModularPipelines.WinGet.Options.WingetValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.WinGet.Extensions.WingetExtensions.Winget(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.WinGet.Services.IWinget!
+ModularPipelines.WinGet.Options.WingetConfigureOptions.History.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.get -> bool?
+ModularPipelines.WinGet.Options.WingetExportOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetHashOptions.Msix.get -> bool?
+ModularPipelines.WinGet.Options.WingetHashOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.Versions.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.get -> bool?
 ModularPipelines.WinGet.Services.IWinget.ConfigureAsync(ModularPipelines.WinGet.Options.WingetConfigureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.WinGet.Services.IWinget.ConfigureExportAsync(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.WinGet.Services.IWinget.ConfigureListAsync(ModularPipelines.WinGet.Options.WingetConfigureListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -84,20 +184,3 @@ ModularPipelines.WinGet.Services.IWinget.SourceUpdateAsync(ModularPipelines.WinG
 ModularPipelines.WinGet.Services.IWinget.UninstallAsync(ModularPipelines.WinGet.Options.WingetUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.WinGet.Services.IWinget.UpgradeAsync(ModularPipelines.WinGet.Options.WingetUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.WinGet.Services.IWinget.ValidateAsync(ModularPipelines.WinGet.Options.WingetValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.WinGet.Extensions.WingetExtensions.Winget(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.WinGet.Services.IWinget!
-ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationModeValue.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationModeValue.get -> string?
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationModeValue.set -> void
