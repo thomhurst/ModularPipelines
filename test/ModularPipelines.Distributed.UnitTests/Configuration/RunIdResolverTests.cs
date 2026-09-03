@@ -71,4 +71,27 @@ public class RunIdResolverTests
             Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, original);
         }
     }
+
+    [Test]
+    public async Task Resolve_Rejects_Unconfigured_Run_When_Explicit_Id_Is_Required()
+    {
+        var original = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable);
+        try
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, null);
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                RunIdResolver.Resolve(null, totalInstances: 1, requireExplicitRunId: true));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception.Message).Contains(nameof(DistributedOptions.RunId));
+                await Assert.That(exception.Message).Contains(RunIdResolver.EnvironmentVariable);
+            }
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, original);
+        }
+    }
 }

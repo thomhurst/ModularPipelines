@@ -4,7 +4,10 @@ internal static class RunIdResolver
 {
     internal const string EnvironmentVariable = "MODULARPIPELINES_RUN_ID";
 
-    public static string Resolve(string? configuredValue, int totalInstances)
+    public static string Resolve(
+        string? configuredValue,
+        int totalInstances,
+        bool requireExplicitRunId = false)
     {
         if (!string.IsNullOrWhiteSpace(configuredValue))
         {
@@ -17,11 +20,11 @@ internal static class RunIdResolver
             return environmentValue;
         }
 
-        if (totalInstances > 1)
+        if (totalInstances > 1 || requireExplicitRunId)
         {
             throw new InvalidOperationException(
-                $"Distributed execution with {nameof(DistributedOptions.TotalInstances)} greater than 1 "
-                + $"requires one shared {nameof(DistributedOptions.RunId)}. Configure it explicitly "
+                $"This distributed configuration requires one shared {nameof(DistributedOptions.RunId)}. "
+                + "Configure it explicitly "
                 + $"or set {EnvironmentVariable} for every process.");
         }
 

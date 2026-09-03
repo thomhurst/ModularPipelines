@@ -115,7 +115,7 @@ producer module names.
 Distributed duration options now use `TimeSpan`: `ArtifactOptions.TimeToLive`,
 `DistributedOptions.CapabilityTimeout`, and `DistributedOptions.ModuleResultTimeout`.
 `DistributedOptions.ExecutionIdentifier` and `WorkerRegistration.ExecutionIdentifier`
-are now `RunIdentifier`. `ModuleAssignmentConfig` is now
+are now `RunId`. `ModuleAssignmentConfig` is now
 `ModuleAssignmentConfiguration`. Custom stores can be
 registered with `AddDistributedArtifactStore<TStore>()` or
 `AddDistributedArtifactStoreFactory<TFactory>()`.

@@ -152,8 +152,28 @@ file static class BuildPipelineConfiguration
     {
         var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
         var redisRestToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
-        var instanceIndex = int.TryParse(Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX"), out var idx) ? idx : 0;
-        var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES"), out var total) ? total : 1;
+        var instanceIndexValue = Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX");
+        var totalInstancesValue = Environment.GetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES");
+
+        if (string.IsNullOrWhiteSpace(instanceIndexValue)
+            && string.IsNullOrWhiteSpace(totalInstancesValue))
+        {
+            return true;
+        }
+
+        var instanceIndex = ParseDistributedInstanceValue(
+            "MODULARPIPELINES_INSTANCE_INDEX",
+            instanceIndexValue,
+            minimum: 0);
+        var totalInstances = ParseDistributedInstanceValue(
+            "MODULARPIPELINES_TOTAL_INSTANCES",
+            totalInstancesValue,
+            minimum: 1);
+        if (instanceIndex >= totalInstances)
+        {
+            throw new InvalidOperationException(
+                "MODULARPIPELINES_INSTANCE_INDEX must be less than MODULARPIPELINES_TOTAL_INSTANCES.");
+        }
 
         if (totalInstances <= 1)
         {
@@ -174,7 +194,14 @@ file static class BuildPipelineConfiguration
         {
             o.InstanceIndex = instanceIndex;
             o.TotalInstances = totalInstances;
-            o.RunId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID") ?? o.RunId;
+            var configuredRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+            var githubRunId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID");
+            if (string.IsNullOrWhiteSpace(o.RunId)
+                && string.IsNullOrWhiteSpace(configuredRunId)
+                && !string.IsNullOrWhiteSpace(githubRunId))
+            {
+                o.RunId = githubRunId;
+            }
 
             // Explicitly keep distributed CI's result wait at 45 minutes. If a worker dies or
             // drops its connection after receiving a module, this bound converts the otherwise
@@ -195,6 +222,20 @@ file static class BuildPipelineConfiguration
 
         ConfigureArtifactStore(builder);
         return true;
+    }
+
+    private static int ParseDistributedInstanceValue(
+        string variableName,
+        string? value,
+        int minimum)
+    {
+        if (!int.TryParse(value, out var result) || result < minimum)
+        {
+            throw new InvalidOperationException(
+                $"{variableName} must be an integer greater than or equal to {minimum}.");
+        }
+
+        return result;
     }
 
     private static bool ShouldRunStandalone(int instanceIndex, string reason)

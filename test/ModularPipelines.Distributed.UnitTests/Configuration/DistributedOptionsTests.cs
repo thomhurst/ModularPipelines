@@ -25,6 +25,7 @@ public class DistributedOptionsTests
         {
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
             await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
+            await Assert.That(options.RequireExplicitRunId).IsFalse();
         }
     }
 

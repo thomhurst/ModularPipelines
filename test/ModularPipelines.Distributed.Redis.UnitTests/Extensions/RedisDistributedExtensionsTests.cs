@@ -55,6 +55,7 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
+        builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
 
         builder.AddRedisDistributedArtifactStore(options =>
             options.ConnectionString = "artifact-only");
@@ -66,11 +67,34 @@ public class RedisDistributedExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(redisOptions.ConnectionString).IsEqualTo("artifact-only");
-            await Assert.That(distributedOptions.RunId).IsNotEmpty();
+            await Assert.That(distributedOptions.RunId).IsEqualTo("artifact-run");
             await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsTrue();
             await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(IDistributedArtifactStoreFactory))).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactStore_Rejects_Unconfigured_RunId()
+    {
+        var original = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        try
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            var builder = Pipeline.CreateBuilder();
+            builder.AddModule<NoOpModule>();
+            builder.AddRedisDistributedArtifactStore(options =>
+                options.ConnectionString = "artifact-only");
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.BuildAsync());
+
+            await Assert.That(exception!.Message).Contains(nameof(DistributedOptions.RunId));
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", original);
         }
     }
 
@@ -91,6 +115,21 @@ public class RedisDistributedExtensionsTests
             .Value;
         await Assert.That(distributedOptions.RunId).IsEqualTo("current-run");
         await Assert.That(typeof(RedisDistributedOptions).GetProperty("RunIdentifier")).IsNull();
+    }
+
+    [Test]
+    public async Task Coordinator_Allows_RunId_Configured_After_Redis_Registration()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisDistributedCoordinator(options =>
+            options.ConnectionString = "unused");
+        builder.AddDistributedMode(options => options.RunId = "configured-after-redis");
+
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
+
+        await Assert.That(options.RunId).IsEqualTo("configured-after-redis");
     }
 
     [Test]

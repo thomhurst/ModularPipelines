@@ -49,6 +49,8 @@ public static class RedisDiscoveryExtensions
 
     private static PipelineBuilder AddRedisSignalRDiscoveryServices(PipelineBuilder builder)
     {
+        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
         builder.Services.AddOptions<RedisDiscoveryOptions>()
             .Validate(
                 options => string.IsNullOrWhiteSpace(options.RestUrl)

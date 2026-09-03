@@ -16,10 +16,16 @@ public class DistributedOptions
 
     /// <summary>
     /// Gets or sets the identifier shared by every process in this pipeline run.
-    /// <c>AddDistributedMode</c> resolves an empty value from <c>MODULARPIPELINES_RUN_ID</c>, or generates
-    /// an identifier for a single-instance run.
+    /// The options pipeline resolves an empty value from <c>MODULARPIPELINES_RUN_ID</c>, or generates
+    /// an identifier for a single-instance run when <see cref="RequireExplicitRunId"/> is false.
     /// </summary>
     public string RunId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets whether this run must provide <see cref="RunId"/> explicitly or through
+    /// <c>MODULARPIPELINES_RUN_ID</c>. Shared backends enable this automatically.
+    /// </summary>
+    public bool RequireExplicitRunId { get; set; }
 
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 

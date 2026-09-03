@@ -32,6 +32,7 @@ builder.AddDistributedMode(o =>
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
+| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for worker registration before distributing work among the available workers. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |

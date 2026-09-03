@@ -1,10 +1,16 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class RedisDiscoveryOptionsTests
 {
     [Test]
@@ -65,6 +71,7 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsIncompleteRestConfiguration()
     {
         var builder = Pipeline.CreateBuilder();
+        builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
         builder.AddRedisSignalRDiscovery(options => options.RestUrl = "https://redis.example");
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(
@@ -72,5 +79,49 @@ public class RedisDiscoveryOptionsTests
 
         await Assert.That(exception!.Failures)
             .Contains("RestUrl and RestToken must be configured together.");
+    }
+
+    [Test]
+    public async Task HostBuildRejectsUnconfiguredRunId()
+    {
+        var original = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        try
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            var builder = Pipeline.CreateBuilder();
+            builder.AddModule<NoOpModule>();
+            builder.AddRedisSignalRDiscovery(_ => { });
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.BuildAsync());
+
+            await Assert.That(exception!.Message).Contains(nameof(DistributedOptions.RunId));
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", original);
+        }
+    }
+
+    [Test]
+    public async Task RunIdCanBeConfiguredAfterDiscoveryRegistration()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisSignalRDiscovery(_ => { });
+        builder.AddDistributedMode(options => options.RunId = "configured-after-discovery");
+
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
+
+        await Assert.That(options.RunId).IsEqualTo("configured-after-discovery");
+    }
+
+    private sealed class NoOpModule : Module<int>
+    {
+        protected override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(0);
     }
 }
