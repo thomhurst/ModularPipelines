@@ -22,8 +22,10 @@ internal class RedisKeyBuilder
 
     public string Workers => $"{_prefix}:{_runId}:workers";
 
+    public string WorkerHeartbeatPrefix => $"{_prefix}:{_runId}:workers:";
+
     public string WorkerHeartbeat(int workerIndex) =>
-        $"{_prefix}:{_runId}:workers:{workerIndex}:heartbeat";
+        $"{WorkerHeartbeatPrefix}{workerIndex}:heartbeat";
 
     public string WorkAvailableChannel => $"{_prefix}:{_runId}:work:available";
 

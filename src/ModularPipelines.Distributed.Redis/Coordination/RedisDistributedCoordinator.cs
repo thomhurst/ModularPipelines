@@ -12,6 +12,9 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// </summary>
 internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinator
 {
+    private const double PriorityScoreBand = 1_000_000_000_000;
+    private const double MaximumCriticalPathScore = PriorityScoreBand - 1;
+
     private readonly IDatabase _database;
     private readonly ISubscriber _subscriber;
     private readonly RedisKeyBuilder _keys;
@@ -44,7 +47,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
         var json = JsonSerializer.Serialize(assignment, _jsonOptions);
-        await _database.ListLeftPushAsync(_keys.WorkQueue, json);
+        await _database.SortedSetAddAsync(_keys.WorkQueue, json, GetQueueScore(assignment));
         await _database.KeyExpireAsync(_keys.WorkQueue, _keyExpiration);
 
         // Notify waiting workers that work is available
@@ -91,7 +94,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
             _onWaitReady?.Invoke();
 
-            // Wait for notifications — only LRANGE when a publish says work is available
+            // Wait for notifications — only scan the sorted set when work is available.
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
@@ -269,43 +272,91 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     }
 
     private static readonly string ScanAndClaimScript = @"
-local items = redis.call('LRANGE', KEYS[1], 0, -1)
+local priority_band = 1000000000000
+local items = redis.call('ZREVRANGE', KEYS[1], 0, -1, 'WITHSCORES')
+local workers = redis.call('HVALS', KEYS[2])
 local caps = cjson.decode(ARGV[1])
-for i, item in ipairs(items) do
-    local assignment = cjson.decode(item)
-    local required = assignment['RequiredCapabilities']
-    if required == nil or #required == 0 then
-        redis.call('LREM', KEYS[1], 1, item)
-        return item
-    end
-    local matched = true
+
+local function supports(required, available)
     for _, req in ipairs(required) do
         local found = false
-        for _, cap in ipairs(caps) do
+        for _, cap in ipairs(available) do
             if string.lower(req) == string.lower(cap) then
                 found = true
                 break
             end
         end
         if not found then
-            matched = false
-            break
+            return false
         end
     end
-    if matched then
-        redis.call('LREM', KEYS[1], 1, item)
-        return item
+    return true
+end
+
+local best_item = nil
+local best_priority = -1
+local best_eligible_workers = nil
+local best_required_count = -1
+local best_weight = -1
+local best_assigned_at = nil
+
+for i = 1, #items, 2 do
+    local item = items[i]
+    local score = tonumber(items[i + 1])
+    local assignment = cjson.decode(item)
+    local required = assignment['RequiredCapabilities'] or {}
+    if supports(required, caps) then
+        local eligible_workers = 0
+        for _, worker_json in ipairs(workers) do
+            local worker = cjson.decode(worker_json)
+            local heartbeat_key = ARGV[2] .. string.format('%d', worker['WorkerIndex']) .. ':heartbeat'
+            if redis.call('EXISTS', heartbeat_key) == 1 and supports(required, worker['Capabilities'] or {}) then
+                eligible_workers = eligible_workers + 1
+            end
+        end
+
+        local priority = math.floor(score / priority_band)
+        local weight = score - (priority * priority_band)
+        local required_count = #required
+        local assigned_at = assignment['AssignedAt'] or ''
+        local is_better = priority > best_priority
+            or (priority == best_priority and (best_eligible_workers == nil or eligible_workers < best_eligible_workers))
+            or (priority == best_priority and eligible_workers == best_eligible_workers and required_count > best_required_count)
+            or (priority == best_priority and eligible_workers == best_eligible_workers and required_count == best_required_count and weight > best_weight)
+            or (priority == best_priority and eligible_workers == best_eligible_workers and required_count == best_required_count and weight == best_weight and (best_assigned_at == nil or assigned_at < best_assigned_at))
+
+        if is_better then
+            best_item = item
+            best_priority = priority
+            best_eligible_workers = eligible_workers
+            best_required_count = required_count
+            best_weight = weight
+            best_assigned_at = assigned_at
+        end
     end
 end
-return nil";
+
+if best_item ~= nil then
+    redis.call('ZREM', KEYS[1], best_item)
+end
+return best_item";
+
+    internal static double GetQueueScore(ModuleAssignment assignment)
+    {
+        var criticalPathScore = Math.Clamp(
+            assignment.CriticalPathWeight.TotalSeconds,
+            0,
+            MaximumCriticalPathScore);
+        return ((int) assignment.Priority * PriorityScoreBand) + criticalPathScore;
+    }
 
     private async Task<ModuleAssignment?> TryScanAndClaimAsync(IReadOnlySet<Capability> workerCapabilities)
     {
         var capsJson = JsonSerializer.Serialize(workerCapabilities.ToArray());
         var result = await _database.ScriptEvaluateAsync(
             ScanAndClaimScript,
-            [(RedisKey) _keys.WorkQueue],
-            [capsJson]);
+            [(RedisKey) _keys.WorkQueue, (RedisKey) _keys.Workers],
+            [capsJson, _keys.WorkerHeartbeatPrefix]);
 
         if (result.IsNull)
         {

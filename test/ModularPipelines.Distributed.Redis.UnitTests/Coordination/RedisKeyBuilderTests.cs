@@ -41,6 +41,8 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
+        await Assert.That(builder.WorkerHeartbeatPrefix)
+            .IsEqualTo("modpipe:abc123:workers:");
         await Assert.That(builder.WorkerHeartbeat(7))
             .IsEqualTo("modpipe:abc123:workers:7:heartbeat");
     }

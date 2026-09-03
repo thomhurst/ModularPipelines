@@ -7,7 +7,7 @@ namespace ModularPipelines.Distributed.Coordination;
 
 internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? options = null) : IDistributedMasterCoordinator
 {
-    private readonly List<ModuleAssignment> _workQueue = [];
+    private readonly PriorityQueue<ModuleAssignment, AssignmentQueuePriority> _workQueue = new();
     private readonly SemaphoreSlim _workAvailable = new(0);
     private readonly Lock _queueLock = new();
     private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
@@ -16,13 +16,19 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     private readonly TaskCompletionSource _cancellationRequested = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
     private readonly TimeSpan _workerTimeout = options?.Value.WorkerTimeout ?? TimeSpan.FromSeconds(30);
+    private long _enqueueSequence;
     private volatile bool _completed;
 
     public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
         lock (_queueLock)
         {
-            _workQueue.Add(assignment);
+            _workQueue.Enqueue(
+                assignment,
+                AssignmentQueuePriority.Create(
+                    assignment,
+                    GetLiveWorkersForScheduling(),
+                    _enqueueSequence++));
         }
 
         _workAvailable.Release();
@@ -49,15 +55,26 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
 
                 lock (_queueLock)
                 {
-                    for (var i = 0; i < _workQueue.Count; i++)
+                    RefreshQueuePriorities();
+                    var skippedAssignments = new List<(ModuleAssignment Assignment, AssignmentQueuePriority Priority)>();
+                    var queuedCount = _workQueue.Count;
+                    for (var i = 0; i < queuedCount; i++)
                     {
-                        if (CapabilityMatcher.CanExecute(_workQueue[i], workerCapabilities))
+                        if (!_workQueue.TryDequeue(out var assignment, out var priority))
                         {
-                            var assignment = _workQueue[i];
-                            _workQueue.RemoveAt(i);
+                            break;
+                        }
+
+                        if (CapabilityMatcher.CanExecute(assignment, workerCapabilities))
+                        {
+                            RestoreSkippedAssignments(skippedAssignments);
                             return assignment;
                         }
+
+                        skippedAssignments.Add((assignment, priority));
                     }
+
+                    RestoreSkippedAssignments(skippedAssignments);
 
                     // No matching assignment found — the semaphore count was consumed but
                     // the item that triggered it didn't match our capabilities.
@@ -137,4 +154,87 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
 
     public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
         _cancellationRequested.Task.WaitAsync(cancellationToken);
+
+    private void RestoreSkippedAssignments(
+        IEnumerable<(ModuleAssignment Assignment, AssignmentQueuePriority Priority)> assignments)
+    {
+        foreach (var (assignment, priority) in assignments)
+        {
+            _workQueue.Enqueue(assignment, priority);
+        }
+    }
+
+    private void RefreshQueuePriorities()
+    {
+        var assignments = new List<(ModuleAssignment Assignment, long Sequence)>(_workQueue.Count);
+        while (_workQueue.TryDequeue(out var assignment, out var priority))
+        {
+            assignments.Add((assignment, priority.Sequence));
+        }
+
+        foreach (var (assignment, sequence) in assignments)
+        {
+            _workQueue.Enqueue(
+                assignment,
+                AssignmentQueuePriority.Create(assignment, GetLiveWorkersForScheduling(), sequence));
+        }
+    }
+
+    private IEnumerable<WorkerRegistration> GetLiveWorkersForScheduling()
+    {
+        var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _workerTimeout;
+        return _workers.Values.Where(worker =>
+            _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+            && heartbeat >= oldestLiveHeartbeat);
+    }
+
+    private readonly record struct AssignmentQueuePriority(
+        ModulePriority Priority,
+        int EligibleWorkerCount,
+        int RequiredCapabilityCount,
+        long CriticalPathTicks,
+        long Sequence) : IComparable<AssignmentQueuePriority>
+    {
+        public static AssignmentQueuePriority Create(
+            ModuleAssignment assignment,
+            IEnumerable<WorkerRegistration> workers,
+            long sequence)
+        {
+            var workerArray = workers.ToArray();
+            var eligibleWorkerCount = workerArray.Length == 0
+                ? int.MaxValue
+                : workerArray.Count(worker => CapabilityMatcher.CanExecute(assignment, worker));
+
+            return new AssignmentQueuePriority(
+                assignment.Priority,
+                eligibleWorkerCount,
+                assignment.RequiredCapabilities.Count,
+                assignment.CriticalPathWeight.Ticks,
+                sequence);
+        }
+
+        public int CompareTo(AssignmentQueuePriority other)
+        {
+            var result = other.Priority.CompareTo(Priority);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = EligibleWorkerCount.CompareTo(other.EligibleWorkerCount);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = other.RequiredCapabilityCount.CompareTo(RequiredCapabilityCount);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = other.CriticalPathTicks.CompareTo(CriticalPathTicks);
+            return result != 0 ? result : Sequence.CompareTo(other.Sequence);
+        }
+    }
 }

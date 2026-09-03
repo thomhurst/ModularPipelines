@@ -19,6 +19,8 @@ namespace ModularPipelines.Engine;
 /// </summary>
 internal class ModuleScheduler : IModuleScheduler
 {
+    private static readonly TimeSpan DefaultEstimatedDuration = TimeSpan.FromMinutes(2);
+
     private readonly ILogger _logger;
     private readonly TimeProvider _timeProvider;
     private readonly ConcurrencyOptions _options;
@@ -38,6 +40,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
     private readonly IModuleStateTracker _stateTracker;
+    private readonly ISafeModuleEstimatedTimeProvider? _estimatedTimeProvider;
 
     private bool _hasSchedulingConstraints;
     private bool _schedulerCompleted;
@@ -53,7 +56,8 @@ internal class ModuleScheduler : IModuleScheduler
         IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
         IModuleConstraintEvaluator constraintEvaluator,
-        ISchedulerStatusReporter statusReporter)
+        ISchedulerStatusReporter statusReporter,
+        ISafeModuleEstimatedTimeProvider? estimatedTimeProvider = null)
     {
         _logger = logger;
         _timeProvider = timeProvider;
@@ -63,6 +67,7 @@ internal class ModuleScheduler : IModuleScheduler
         _metricsCollector = metricsCollector;
         _constraintEvaluator = constraintEvaluator;
         _statusReporter = statusReporter;
+        _estimatedTimeProvider = estimatedTimeProvider;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _pendingReadyModules = new HashSet<ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
@@ -159,6 +164,7 @@ internal class ModuleScheduler : IModuleScheduler
             try
             {
                 _logger.LogDebug("Module scheduler started");
+                await CalculateCriticalPathWeightsAsync().ConfigureAwait(false);
                 await RunSchedulerLoopAsync(cancellationToken).ConfigureAwait(false);
                 CompleteScheduler();
                 _logger.LogDebug("Module scheduler completed");
@@ -529,9 +535,11 @@ internal class ModuleScheduler : IModuleScheduler
         _stateLock.EnterWriteLock();
         try
         {
-            // Sort by priority descending so higher priority modules are queued first
+            // Respect explicit user priority first, then reduce makespan by starting
+            // modules on the longest estimated downstream path.
             var potentiallyReadyModules = _pendingReadyModules
                 .OrderByDescending(m => (int) m.Priority)
+                .ThenByDescending(m => m.CriticalPathWeight)
                 .ToArray();
 
             // Constraint-free pipelines need no active-module scan or pairwise evaluation.
@@ -606,5 +614,77 @@ internal class ModuleScheduler : IModuleScheduler
             "Scheduler found {Count} ready modules: {Modules}",
             modulesToQueue.Count,
             string.Join(", ", modulesToQueue.Select(m => m.ModuleType.Name)));
+    }
+
+    private async Task CalculateCriticalPathWeightsAsync()
+    {
+        if (_estimatedTimeProvider is null)
+        {
+            foreach (var state in _moduleStates.Values)
+            {
+                state.EstimatedDuration = DefaultEstimatedDuration;
+            }
+        }
+        else
+        {
+            await Task.WhenAll(_moduleStates.Values.Select(async state =>
+            {
+                var estimate = await _estimatedTimeProvider
+                    .GetModuleEstimatedTimeAsync(state.ModuleType)
+                    .ConfigureAwait(false);
+                state.EstimatedDuration = estimate > TimeSpan.Zero
+                    ? estimate
+                    : DefaultEstimatedDuration;
+            })).ConfigureAwait(false);
+        }
+
+        var calculatedWeights = new Dictionary<ModuleState, TimeSpan>();
+        foreach (var state in _moduleStates.Values)
+        {
+            state.CriticalPathWeight = CalculateCriticalPathWeight(
+                state,
+                calculatedWeights,
+                new HashSet<ModuleState>());
+        }
+    }
+
+    private static TimeSpan CalculateCriticalPathWeight(
+        ModuleState state,
+        IDictionary<ModuleState, TimeSpan> calculatedWeights,
+        ISet<ModuleState> currentPath)
+    {
+        if (calculatedWeights.TryGetValue(state, out var calculatedWeight))
+        {
+            return calculatedWeight;
+        }
+
+        // Dependency cycles are reported by the scheduler's existing deadlock path.
+        // Stop recursion here so estimating them does not mask that diagnostic.
+        if (!currentPath.Add(state))
+        {
+            return TimeSpan.Zero;
+        }
+
+        var longestDependentPath = TimeSpan.Zero;
+        foreach (var dependent in state.DependentModules)
+        {
+            var dependentWeight = CalculateCriticalPathWeight(dependent, calculatedWeights, currentPath);
+            if (dependentWeight > longestDependentPath)
+            {
+                longestDependentPath = dependentWeight;
+            }
+        }
+
+        currentPath.Remove(state);
+        calculatedWeight = AddSaturating(state.EstimatedDuration, longestDependentPath);
+        calculatedWeights[state] = calculatedWeight;
+        return calculatedWeight;
+    }
+
+    private static TimeSpan AddSaturating(TimeSpan left, TimeSpan right)
+    {
+        return left.Ticks > TimeSpan.MaxValue.Ticks - right.Ticks
+            ? TimeSpan.MaxValue
+            : left + right;
     }
 }

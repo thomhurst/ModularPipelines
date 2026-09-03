@@ -75,6 +75,40 @@ public static class DistributedCoordinatorContract
             .Contains(registration.WorkerIndex);
     }
 
+    public static async Task ClaimPrefersScarceCapabilityWorkAsync(
+        IDistributedMasterCoordinator coordinator)
+    {
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Contract.Common") with
+            {
+                RequiredCapabilities = new HashSet<Capability> { "common" },
+                CriticalPathWeight = TimeSpan.FromMinutes(10),
+            },
+            CancellationToken.None);
+
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Contract.Linux") with
+            {
+                RequiredCapabilities = new HashSet<Capability> { "linux" },
+                CriticalPathWeight = TimeSpan.FromMinutes(1),
+            },
+            CancellationToken.None);
+
+        // Register after enqueue to verify scarcity is evaluated against the fleet at claim time.
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(1, new HashSet<Capability> { "common", "linux" }, DateTimeOffset.UtcNow),
+            CancellationToken.None);
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(2, new HashSet<Capability> { "common" }, DateTimeOffset.UtcNow),
+            CancellationToken.None);
+
+        var claimed = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { "common", "linux" },
+            CancellationToken.None);
+
+        await Assert.That(claimed!.ModuleTypeName).IsEqualTo("Contract.Linux");
+    }
+
     public static async Task FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
         IDistributedMasterCoordinator coordinator,
         TimeSpan heartbeatExpiration)

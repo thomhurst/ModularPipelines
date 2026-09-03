@@ -34,16 +34,17 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task EnqueueModuleAsync_PushesToListAndSetsExpiry()
+    public async Task EnqueueModuleAsync_AddsToSortedSetAndSetsExpiry()
     {
         var assignment = CreateAssignment("Test.Module");
 
         await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
-        _dbMock.Verify(db => db.ListLeftPushAsync(
+        _dbMock.Verify(db => db.SortedSetAddAsync(
             _keys.WorkQueue,
             It.Is<RedisValue>(v => v.ToString().Contains("Test.Module")),
-            It.IsAny<When>(),
+            It.IsAny<double>(),
+            It.IsAny<SortedSetWhen>(),
             It.IsAny<CommandFlags>()), Times.Once);
 
         _dbMock.Verify(db => db.KeyExpireAsync(
@@ -57,6 +58,31 @@ public class RedisDistributedCoordinatorTests
             It.Is<RedisChannel>(c => c.ToString() == _keys.WorkAvailableChannel),
             It.IsAny<RedisValue>(),
             It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task QueueScore_Prefers_UserPriority_Then_CriticalPathWeight()
+    {
+        var highPriority = CreateAssignment("High") with
+        {
+            Priority = ModulePriority.High,
+            CriticalPathWeight = TimeSpan.FromSeconds(1),
+        };
+        var longNormalPath = CreateAssignment("Normal") with
+        {
+            Priority = ModulePriority.Normal,
+            CriticalPathWeight = TimeSpan.MaxValue,
+        };
+        var shortNormalPath = CreateAssignment("Short") with
+        {
+            Priority = ModulePriority.Normal,
+            CriticalPathWeight = TimeSpan.FromSeconds(1),
+        };
+
+        await Assert.That(RedisDistributedCoordinator.GetQueueScore(highPriority))
+            .IsGreaterThan(RedisDistributedCoordinator.GetQueueScore(longNormalPath));
+        await Assert.That(RedisDistributedCoordinator.GetQueueScore(longNormalPath))
+            .IsGreaterThan(RedisDistributedCoordinator.GetQueueScore(shortNormalPath));
     }
 
     [Test]
