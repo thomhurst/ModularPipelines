@@ -214,14 +214,18 @@ public class DistributedModuleExecutorTests
             return await inner.GetRegisteredWorkersAsync(cancellationToken);
         }
 
+        public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
+            CancellationToken cancellationToken) =>
+            inner.GetWorkerStatusesAsync(cancellationToken);
+
         public Task SignalCompletionAsync(CancellationToken cancellationToken)
             => inner.SignalCompletionAsync(cancellationToken);
 
         public Task BroadcastCancellationAsync(CancellationToken cancellationToken)
             => inner.BroadcastCancellationAsync(cancellationToken);
 
-        public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
-            => inner.SendHeartbeatAsync(workerIndex, cancellationToken);
+        public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
+            => inner.SendHeartbeatAsync(status, cancellationToken);
 
         public Task WaitForCancellationAsync(CancellationToken cancellationToken)
             => inner.WaitForCancellationAsync(cancellationToken);
@@ -1643,7 +1647,7 @@ public class DistributedModuleExecutorTests
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.WorkerQueryStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
             CancellationToken.None);
         noDequeue.ReleaseWorkerQuery();
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
@@ -1693,7 +1697,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         var registeredWorkers = new List<WorkerRegistration>
         {
-            new(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            new(1, [], DateTimeOffset.UtcNow),
         };
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => registeredWorkers.AsReadOnly());

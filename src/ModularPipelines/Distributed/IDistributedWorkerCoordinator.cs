@@ -25,7 +25,7 @@ public interface IDistributedWorkerCoordinator
     /// <summary>
     /// Reports that a registered worker is still alive.
     /// </summary>
-    Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken);
+    Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken);
 
     /// <summary>
     /// Waits until the master broadcasts distributed cancellation.

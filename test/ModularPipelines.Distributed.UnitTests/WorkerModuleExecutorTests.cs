@@ -80,9 +80,9 @@ public class WorkerModuleExecutorTests
         var assignment = new ModuleAssignment(
             typeof(TModule).FullName!,
             typeof(int).FullName!,
-            new HashSet<Capability>(),
+            [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
         await coordinator.EnqueueModuleAsync(assignment, cancellationToken);
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(),

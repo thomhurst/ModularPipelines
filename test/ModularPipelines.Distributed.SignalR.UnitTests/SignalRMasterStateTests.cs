@@ -11,7 +11,7 @@ public class SignalRMasterStateTests
         var worker = new WorkerState
         {
             ConnectionId = "conn-1",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
         var result = worker.TryAssign(CreateAssignment());
@@ -25,7 +25,7 @@ public class SignalRMasterStateTests
         var worker = new WorkerState
         {
             ConnectionId = "conn-1",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
         worker.TryAssign(CreateAssignment());
@@ -40,7 +40,7 @@ public class SignalRMasterStateTests
         var worker = new WorkerState
         {
             ConnectionId = "conn-1",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
         worker.TryAssign(CreateAssignment());
@@ -61,12 +61,12 @@ public class SignalRMasterStateTests
             state.Workers[$"conn-{i}"] = new WorkerState
             {
                 ConnectionId = $"conn-{i}",
-                Registration = new WorkerRegistration(i, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+                Registration = new WorkerRegistration(i, [], DateTimeOffset.UtcNow),
             };
-            state.Registrations[i] = new WorkerRegistration(i, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow);
+            state.Registrations[i] = new WorkerRegistration(i, [], DateTimeOffset.UtcNow);
             state.PendingAssignments.Enqueue(new ModuleAssignment(
-                $"Module{i}", "System.String", FrozenSet<Capability>.Empty,
-                DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, false)));
+                $"Module{i}", "System.String", [],
+                DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             state.ResultWaiters[$"Module{i}"] = new TaskCompletionSource<SerializedModuleResult>();
         }));
 
@@ -96,9 +96,9 @@ public class SignalRMasterStateTests
             new ModuleAssignment(
                 "TestModule",
                 "System.String",
-                FrozenSet<Capability>.Empty,
+                [],
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, false)));
+                new ModuleAssignmentOptions(null, false)));
 
         await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
 
@@ -152,7 +152,7 @@ public class SignalRMasterStateTests
         var replacement = new WorkerState
         {
             ConnectionId = "replacement",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
         await Assert.That(pending.TryMakeAvailableForRedispatch()).IsTrue();
@@ -184,7 +184,7 @@ public class SignalRMasterStateTests
             var worker = new WorkerState
             {
                 ConnectionId = $"connection-{i}",
-                Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+                Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
             };
 
             var start = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -375,7 +375,7 @@ public class SignalRMasterStateTests
         return new WorkerState
         {
             ConnectionId = connectionId,
-            Registration = new WorkerRegistration(workerIndex, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(workerIndex, [], DateTimeOffset.UtcNow),
         };
     }
 
@@ -384,9 +384,9 @@ public class SignalRMasterStateTests
         return new ModuleAssignment(
             "TestModule",
             "System.String",
-            FrozenSet<Capability>.Empty,
+            [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
     }
 
     private static SerializedModuleResult CreateResult()

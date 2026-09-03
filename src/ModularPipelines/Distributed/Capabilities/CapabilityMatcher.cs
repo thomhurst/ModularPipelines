@@ -9,7 +9,7 @@ public static class CapabilityMatcher
     /// </summary>
     public static bool CanExecute(ModuleAssignment assignment, WorkerRegistration worker)
     {
-        return CanExecute(assignment, worker.Capabilities);
+        return assignment.RequiredCapabilities.All(worker.Capabilities.Contains);
     }
 
     /// <summary>

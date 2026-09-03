@@ -14,7 +14,7 @@ public class ConfigurationTests
         await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(120);
         await Assert.That(options.EnableAutoReconnect).IsTrue();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(5);
-        await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(1024 * 1024);
+        await Assert.That(options.MaxReceiveMessageSize).IsEqualTo(1024 * 1024);
     }
 
     [Test]
@@ -27,7 +27,7 @@ public class ConfigurationTests
             ConnectionTimeoutSeconds = 60,
             EnableAutoReconnect = false,
             MaxReconnectAttempts = 10,
-            MaximumReceiveMessageSize = 2 * 1024 * 1024,
+            MaxReceiveMessageSize = 2 * 1024 * 1024,
         };
 
         await Assert.That(options.MasterUrl).IsEqualTo("http://10.0.0.5:8080");
@@ -35,6 +35,6 @@ public class ConfigurationTests
         await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(60);
         await Assert.That(options.EnableAutoReconnect).IsFalse();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(10);
-        await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(2 * 1024 * 1024);
+        await Assert.That(options.MaxReceiveMessageSize).IsEqualTo(2 * 1024 * 1024);
     }
 }

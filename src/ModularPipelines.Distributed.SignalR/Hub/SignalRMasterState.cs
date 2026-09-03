@@ -23,6 +23,11 @@ internal class SignalRMasterState
     public ConcurrentDictionary<int, WorkerRegistration> Registrations { get; } = new();
 
     /// <summary>
+    /// Latest status reported by each registered worker.
+    /// </summary>
+    public ConcurrentDictionary<int, WorkerStatus> WorkerStatuses { get; } = new();
+
+    /// <summary>
     /// Latest heartbeat for each registered worker.
     /// </summary>
     public ConcurrentDictionary<int, DateTimeOffset> Heartbeats { get; } = new();

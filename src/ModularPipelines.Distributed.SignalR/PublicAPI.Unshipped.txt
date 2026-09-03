@@ -1,1 +1,5 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaximumReceiveMessageSize.get -> long
+*REMOVED*ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaximumReceiveMessageSize.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaxReceiveMessageSize.get -> long
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaxReceiveMessageSize.set -> void

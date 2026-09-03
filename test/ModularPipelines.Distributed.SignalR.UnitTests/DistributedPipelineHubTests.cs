@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -9,13 +8,14 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class DistributedPipelineHubTests
 {
     [Test]
-    public async Task Disconnect_Retains_Final_Registration_For_Report_Collection()
+    public async Task Disconnect_Retains_Final_Status_For_Report_Collection()
     {
         var state = new SignalRMasterState();
         var registration = new WorkerRegistration(
             1,
-            FrozenSet<Capability>.Empty,
-            DateTimeOffset.UtcNow)
+            [],
+            DateTimeOffset.UtcNow);
+        var status = new WorkerStatus(1)
         {
             UnattributedCommandCount = 3,
         };
@@ -26,6 +26,7 @@ public class DistributedPipelineHubTests
         };
         state.Workers[worker.ConnectionId] = worker;
         state.Registrations[registration.WorkerIndex] = registration;
+        state.WorkerStatuses[registration.WorkerIndex] = status;
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
         var context = new Mock<HubCallerContext>();
@@ -44,6 +45,8 @@ public class DistributedPipelineHubTests
             await Assert.That(state.Workers).IsEmpty();
             await Assert.That(state.Registrations[registration.WorkerIndex])
                 .IsSameReferenceAs(registration);
+            await Assert.That(state.WorkerStatuses[registration.WorkerIndex])
+                .IsSameReferenceAs(status);
             await Assert.That(state.Heartbeats.ContainsKey(registration.WorkerIndex)).IsTrue();
         }
     }
@@ -55,7 +58,7 @@ public class DistributedPipelineHubTests
         var worker = new WorkerState
         {
             ConnectionId = "connection-1",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
         worker.TryAssign(CreateAssignment("CurrentModule"));
         state.Workers[worker.ConnectionId] = worker;
@@ -94,9 +97,9 @@ public class DistributedPipelineHubTests
         return new ModuleAssignment(
             moduleTypeName,
             "System.String",
-            FrozenSet<Capability>.Empty,
+            [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)

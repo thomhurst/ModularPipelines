@@ -55,10 +55,10 @@ internal static class DependencyResultApplicator
             {
                 // Decompress GZip-compressed dependency results before deserialization
                 var toDeserialize = serializedDep;
-                if (serializedDep.SerializedJson.StartsWith(DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
+                if (serializedDep.Payload.StartsWith(DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
                 {
-                    var decompressed = DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
-                    toDeserialize = serializedDep with { SerializedJson = decompressed };
+                    var decompressed = DistributedWorkPublisher.DecompressJson(serializedDep.Payload);
+                    toDeserialize = serializedDep with { Payload = decompressed };
                 }
 
                 var result = serializer.Deserialize(toDeserialize);
@@ -91,7 +91,7 @@ internal static class DependencyResultApplicator
                 ModuleTypeName: assignment.ModuleTypeName,
                 ResultTypeName: assignment.ResultTypeName,
                 WorkerIndex: workerIndex,
-                SerializedJson: "null",
+                Payload: "null",
                 CompletedAt: DateTimeOffset.UtcNow);
             await coordinator.PublishResultAsync(failureResult, cancellationToken);
         }

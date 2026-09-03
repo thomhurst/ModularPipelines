@@ -57,7 +57,7 @@ internal class ModuleResultSerializer
             ModuleTypeName: moduleTypeName,
             ResultTypeName: resultTypeName,
             WorkerIndex: workerIndex,
-            SerializedJson: json,
+            Payload: json,
             CompletedAt: DateTimeOffset.UtcNow)
         {
             CommandCount = resolved is null
@@ -79,7 +79,7 @@ internal class ModuleResultSerializer
         var resolved = _typeRegistry.Resolve(serialized.ModuleTypeName) ?? throw new InvalidOperationException(
                 $"Cannot deserialize result for module '{serialized.ModuleTypeName}': type not found in registry.");
         var resultType = typeof(ModuleResult<>).MakeGenericType(resolved.ResultType);
-        var result = JsonSerializer.Deserialize(serialized.SerializedJson, resultType, _options) as ModuleResult;
+        var result = JsonSerializer.Deserialize(serialized.Payload, resultType, _options) as ModuleResult;
         int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
         if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
         {

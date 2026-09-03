@@ -47,6 +47,7 @@ internal class DistributedPipelineHub(
 
         state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
+        state.WorkerStatuses.TryAdd(registration.WorkerIndex, new WorkerStatus(registration.WorkerIndex));
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
         // Cancellation is durable master state. A worker that was disconnected
@@ -65,12 +66,13 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Records liveness for a connected worker.
     /// </summary>
-    public Task Heartbeat(int workerIndex)
+    public Task Heartbeat(WorkerStatus status)
     {
         if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
-            && worker.Registration.WorkerIndex == workerIndex)
+            && worker.Registration.WorkerIndex == status.WorkerIndex)
         {
-            _masterState.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+            _masterState.WorkerStatuses[status.WorkerIndex] = status;
+            _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
         }
 
         return Task.CompletedTask;
