@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Options;
-using ModularPipelines.Cosign.Enums;
 
 namespace ModularPipelines.Cosign.Options;
 
@@ -194,7 +193,7 @@ public record CosignSignOptions(
     /// security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
     /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
-    public CosignSignSlot? Slot { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// path to the X.509 CA certificate file in PEM format to be used for the connection to the TSA Server

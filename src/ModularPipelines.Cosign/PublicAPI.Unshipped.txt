@@ -1,7 +1,319 @@
 #nullable enable
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignAttestSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput.Json = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput.Text = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Always = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Never = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Once = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Always = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Cached = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Never = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPublicKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPublicKeySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPublicKeySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPublicKeySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignPublicKeySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignSignSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignSignSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignSignSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignSignSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignSignSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
+*REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
+*REMOVED*ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignAttestOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.CosignBundleExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.CosignBundleExecuteOptions(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Output.get -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Output.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Slot.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.CosignPivToolExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.CosignPivToolExecuteOptions(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.CosignPivToolGenerateKeyOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.CosignPivToolGenerateKeyOptions(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ManagementKey.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ManagementKey.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PinPolicy.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PinPolicy.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.RandomManagementKey.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.RandomManagementKey.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Slot.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.TouchPolicy.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.TouchPolicy.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.CosignPivToolResetOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.CosignPivToolResetOptions(ModularPipelines.Cosign.Options.CosignPivToolResetOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.CosignPivToolSetManagementKeyOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.CosignPivToolSetManagementKeyOptions(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NewKey.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NewKey.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OldKey.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OldKey.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.RandomManagementKey.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.RandomManagementKey.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.CosignPivToolSetPinOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.CosignPivToolSetPinOptions(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NewPin.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NewPin.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OldPin.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OldPin.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.CosignPivToolSetPukOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.CosignPivToolSetPukOptions(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NewPuk.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NewPuk.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OldPuk.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OldPuk.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.CosignPivToolUnblockOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.CosignPivToolUnblockOptions(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NewPin.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NewPin.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Puk.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Puk.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.CosignPkcs11ToolExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.CosignPkcs11ToolExecuteOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.CosignPkcs11ToolListKeysUrisOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.CosignPkcs11ToolListKeysUrisOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ModulePath.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ModulePath.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Pin.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Pin.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.SlotId.get -> int?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.SlotId.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.CosignPkcs11ToolListTokensOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.CosignPkcs11ToolListTokensOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ModulePath.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ModulePath.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.NoInput.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.NoInput.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSignBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSignOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.CosignSigningConfigExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.CosignSigningConfigExecuteOptions(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions() -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions! original) -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Help.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.OutputFile.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.OutputFile.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Timeout.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Timeout.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.get -> bool?
+*REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.get -> string?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifySlot?
 *REMOVED*ModularPipelines.Cosign.Services.CosignBundle.CosignBundle(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Cosign.Services.CosignDownload.CosignDownload(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.Cosign.Services.CosignPivTool
 *REMOVED*ModularPipelines.Cosign.Services.CosignPivTool.CosignPivTool(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+*REMOVED*ModularPipelines.Cosign.Services.CosignPkcs11Tool
 *REMOVED*ModularPipelines.Cosign.Services.CosignPkcs11Tool.CosignPkcs11Tool(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Cosign.Services.CosignSigningConfig.CosignSigningConfig(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Cosign.Services.CosignTrustedRoot.CosignTrustedRoot(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
@@ -13,6 +325,8 @@
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.InitializeAsync(ModularPipelines.Cosign.Options.CosignInitializeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.LoadAsync(ModularPipelines.Cosign.Options.CosignLoadOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.LoginAsync(ModularPipelines.Cosign.Options.CosignLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*ModularPipelines.Cosign.Services.ICosign.PivTool.get -> ModularPipelines.Cosign.Services.ICosignPivTool!
+*REMOVED*ModularPipelines.Cosign.Services.ICosign.Pkcs11Tool.get -> ModularPipelines.Cosign.Services.ICosignPkcs11Tool!
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.PublicKeyAsync(ModularPipelines.Cosign.Options.CosignPublicKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.SaveAsync(ModularPipelines.Cosign.Options.CosignSaveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosign.SignAsync(ModularPipelines.Cosign.Options.CosignSignOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -30,6 +344,7 @@
 *REMOVED*ModularPipelines.Cosign.Services.ICosignDownload.ExecuteAsync(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignDownload.SbomAsync(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignDownload.SignatureAsync(ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.AttestationAsync(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.GenerateKeyAsync(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -38,6 +353,7 @@
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.SetPinAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.SetPukAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPivTool.UnblockAsync(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*ModularPipelines.Cosign.Services.ICosignPkcs11Tool
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ListKeysUrisAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ListTokensAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -45,7 +361,157 @@
 *REMOVED*ModularPipelines.Cosign.Services.ICosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignTrustedRoot.CreateAsync(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Cosign.Services.ICosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignBundleExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolResetOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.ToString() -> string!
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 *REMOVED*static ModularPipelines.Cosign.Extensions.CosignExtensions.Cosign(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cosign.Services.ICosign!
+*REMOVED*static ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? left, ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? left, ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? left, ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? left, ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? left, ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? left, ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolResetOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? left, ModularPipelines.Cosign.Options.CosignPivToolResetOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolResetOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? left, ModularPipelines.Cosign.Options.CosignPivToolResetOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? left, ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? left, ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? right) -> bool
+*REMOVED*static ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? right) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? other) -> bool
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignBundle.CreateAsync(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignBundle.ExecuteAsync(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignBundle.InspectAsync(ModularPipelines.Cosign.Options.CosignBundleInspectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -69,10 +535,62 @@
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignTrustedRoot.CreateAsync(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Cosign.Services.CosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignAttestOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignBundleOptions
+ModularPipelines.Cosign.Options.CosignBundleOptions.CosignBundleOptions() -> void
+ModularPipelines.Cosign.Options.CosignBundleOptions.CosignBundleOptions(ModularPipelines.Cosign.Options.CosignBundleOptions! original) -> void
+ModularPipelines.Cosign.Options.CosignBundleOptions.Help.get -> bool?
+ModularPipelines.Cosign.Options.CosignBundleOptions.Help.set -> void
+ModularPipelines.Cosign.Options.CosignBundleOptions.OutputFile.get -> string?
+ModularPipelines.Cosign.Options.CosignBundleOptions.OutputFile.set -> void
+ModularPipelines.Cosign.Options.CosignBundleOptions.Timeout.get -> string?
+ModularPipelines.Cosign.Options.CosignBundleOptions.Timeout.set -> void
+ModularPipelines.Cosign.Options.CosignBundleOptions.Verbose.get -> bool?
+ModularPipelines.Cosign.Options.CosignBundleOptions.Verbose.set -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions
+ModularPipelines.Cosign.Options.CosignDownloadOptions.CosignDownloadOptions() -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions.CosignDownloadOptions(ModularPipelines.Cosign.Options.CosignDownloadOptions! original) -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Help.get -> bool?
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Help.set -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions.OutputFile.get -> string?
+ModularPipelines.Cosign.Options.CosignDownloadOptions.OutputFile.set -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Timeout.get -> string?
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Timeout.set -> void
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Verbose.get -> bool?
+ModularPipelines.Cosign.Options.CosignDownloadOptions.Verbose.set -> void
+ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignSignBlobOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignSignOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.CosignSigningConfigOptions() -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.CosignSigningConfigOptions(ModularPipelines.Cosign.Options.CosignSigningConfigOptions! original) -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Help.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Help.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.OutputFile.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.OutputFile.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Timeout.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Timeout.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Verbose.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Verbose.set -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.CosignTrustedRootOptions() -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.CosignTrustedRootOptions(ModularPipelines.Cosign.Options.CosignTrustedRootOptions! original) -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Help.get -> bool?
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Help.set -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.OutputFile.get -> string?
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.OutputFile.set -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Timeout.get -> string?
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Timeout.set -> void
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Verbose.get -> bool?
+ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Verbose.set -> void
+ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Slot.get -> string?
+ModularPipelines.Cosign.Options.CosignVerifyOptions.Slot.get -> string?
 ModularPipelines.Cosign.Services.CosignBundle.CosignBundle(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Cosign.Services.CosignDownload.CosignDownload(ModularPipelines.Context.ICommandContext! command) -> void
-ModularPipelines.Cosign.Services.CosignPivTool.CosignPivTool(ModularPipelines.Context.ICommandContext! command) -> void
-ModularPipelines.Cosign.Services.CosignPkcs11Tool.CosignPkcs11Tool(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Cosign.Services.CosignSigningConfig.CosignSigningConfig(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Cosign.Services.CosignTrustedRoot.CosignTrustedRoot(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Cosign.Services.ICosign.AttestAsync(ModularPipelines.Cosign.Options.CosignAttestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -93,49 +611,66 @@ ModularPipelines.Cosign.Services.ICosign.VerifyAttestationAsync(ModularPipelines
 ModularPipelines.Cosign.Services.ICosign.VerifyBlobAsync(ModularPipelines.Cosign.Options.CosignVerifyBlobOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosign.VerifyBlobAttestationAsync(ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignBundle.CreateAsync(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignBundle.ExecuteAsync(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Cosign.Services.ICosignBundle.ExecuteAsync(ModularPipelines.Cosign.Options.CosignBundleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignBundle.InspectAsync(ModularPipelines.Cosign.Options.CosignBundleInspectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignBundle.UpgradeAsync(ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignDownload.AttestationAsync(ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignDownload.ExecuteAsync(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Cosign.Services.ICosignDownload.ExecuteAsync(ModularPipelines.Cosign.Options.CosignDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignDownload.SbomAsync(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignDownload.SignatureAsync(ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.AttestationAsync(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.GenerateKeyAsync(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.ResetAsync(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.SetManagementKeyAsync(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.SetPinAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.SetPukAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPivTool.UnblockAsync(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ListKeysUrisAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignPkcs11Tool.ListTokensAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignSigningConfig.CreateAsync(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Cosign.Services.ICosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Cosign.Services.ICosignTrustedRoot.CreateAsync(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Cosign.Services.ICosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.Cosign.Extensions.CosignExtensions.Cosign(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Cosign.Services.ICosign!
+ModularPipelines.Cosign.Services.ICosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+override ModularPipelines.Cosign.Options.CosignBundleOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignBundleOptions!
+override ModularPipelines.Cosign.Options.CosignBundleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cosign.Options.CosignBundleOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cosign.Options.CosignBundleOptions.GetHashCode() -> int
+override ModularPipelines.Cosign.Options.CosignBundleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cosign.Options.CosignBundleOptions.ToString() -> string!
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignDownloadOptions!
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.GetHashCode() -> int
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cosign.Options.CosignDownloadOptions.ToString() -> string!
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSigningConfigOptions!
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.GetHashCode() -> int
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cosign.Options.CosignSigningConfigOptions.ToString() -> string!
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignTrustedRootOptions!
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.GetHashCode() -> int
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cosign.Options.CosignTrustedRootOptions.ToString() -> string!
+override sealed ModularPipelines.Cosign.Options.CosignBundleOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+override sealed ModularPipelines.Cosign.Options.CosignDownloadOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+override sealed ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+override sealed ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+static ModularPipelines.Cosign.Options.CosignBundleOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleOptions? left, ModularPipelines.Cosign.Options.CosignBundleOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignBundleOptions.operator ==(ModularPipelines.Cosign.Options.CosignBundleOptions? left, ModularPipelines.Cosign.Options.CosignBundleOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignDownloadOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadOptions? left, ModularPipelines.Cosign.Options.CosignDownloadOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignDownloadOptions.operator ==(ModularPipelines.Cosign.Options.CosignDownloadOptions? left, ModularPipelines.Cosign.Options.CosignDownloadOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignSigningConfigOptions.operator !=(ModularPipelines.Cosign.Options.CosignSigningConfigOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignSigningConfigOptions.operator ==(ModularPipelines.Cosign.Options.CosignSigningConfigOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignTrustedRootOptions.operator !=(ModularPipelines.Cosign.Options.CosignTrustedRootOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignTrustedRootOptions.operator ==(ModularPipelines.Cosign.Options.CosignTrustedRootOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootOptions? right) -> bool
+virtual ModularPipelines.Cosign.Options.CosignBundleOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleOptions? other) -> bool
+virtual ModularPipelines.Cosign.Options.CosignDownloadOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadOptions? other) -> bool
+virtual ModularPipelines.Cosign.Options.CosignSigningConfigOptions.Equals(ModularPipelines.Cosign.Options.CosignSigningConfigOptions? other) -> bool
+virtual ModularPipelines.Cosign.Options.CosignTrustedRootOptions.Equals(ModularPipelines.Cosign.Options.CosignTrustedRootOptions? other) -> bool
 virtual ModularPipelines.Cosign.Services.CosignBundle.CreateAsync(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignBundle.ExecuteAsync(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Cosign.Services.CosignBundle.ExecuteAsync(ModularPipelines.Cosign.Options.CosignBundleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignBundle.InspectAsync(ModularPipelines.Cosign.Options.CosignBundleInspectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignBundle.UpgradeAsync(ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignDownload.AttestationAsync(ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignDownload.ExecuteAsync(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Cosign.Services.CosignDownload.ExecuteAsync(ModularPipelines.Cosign.Options.CosignDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignDownload.SbomAsync(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignDownload.SignatureAsync(ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.AttestationAsync(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.GenerateKeyAsync(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.ResetAsync(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.SetManagementKeyAsync(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.SetPinAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.SetPukAsync(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPivTool.UnblockAsync(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPkcs11Tool.ExecuteAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPkcs11Tool.ListKeysUrisAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignPkcs11Tool.ListTokensAsync(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignSigningConfig.CreateAsync(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Cosign.Services.CosignSigningConfig.ExecuteAsync(ModularPipelines.Cosign.Options.CosignSigningConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Cosign.Services.CosignTrustedRoot.CreateAsync(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Cosign.Services.CosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Cosign.Services.CosignTrustedRoot.ExecuteAsync(ModularPipelines.Cosign.Options.CosignTrustedRootOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

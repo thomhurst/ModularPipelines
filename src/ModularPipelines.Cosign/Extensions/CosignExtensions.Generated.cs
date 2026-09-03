@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Cosign.Services;
 
 namespace ModularPipelines.Cosign.Extensions;
@@ -31,8 +30,6 @@ public static class CosignExtensions
         services.TryAddScoped<ICosign, Services.Cosign>();
         services.TryAddScoped<ICosignBundle, CosignBundle>();
         services.TryAddScoped<ICosignDownload, CosignDownload>();
-        services.TryAddScoped<ICosignPivTool, CosignPivTool>();
-        services.TryAddScoped<ICosignPkcs11Tool, CosignPkcs11Tool>();
         services.TryAddScoped<ICosignSigningConfig, CosignSigningConfig>();
         services.TryAddScoped<ICosignTrustedRoot, CosignTrustedRoot>();
         return services;
