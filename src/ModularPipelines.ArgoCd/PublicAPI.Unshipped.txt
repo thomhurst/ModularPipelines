@@ -1,4 +1,530 @@
 #nullable enable
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat.Json = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat.Text = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel.Debug = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel.Error = 3 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel.Info = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel.Warn = 2 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress.Gzip = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress.None = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat.Json = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat.Text = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel.Debug = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel.Error = 3 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel.Info = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel.Warn = 2 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress.Gzip = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress.None = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat.Json = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat.Text = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel.Debug = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel.Error = 3 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel.Info = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel.Warn = 2 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress.Gzip = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress.None = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAccountOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminAppGetReconcileResultsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminAppGetReconcileResultsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterGenerateSpecOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterGenerateSpecOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ArgoCdAdminClusterKubeconfigOptions() -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ArgoCdAdminClusterKubeconfigOptions(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions! original) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ArgocdContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ArgocdContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AuthToken.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.AuthToken.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCrtKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientCrtKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Cluster.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Cluster.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClusterUrl.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ClusterUrl.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Config.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Config.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Context.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Context.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ControllerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ControllerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Core.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Core.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.GrpcWeb.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.GrpcWeb.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.GrpcWebRootPath.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.GrpcWebRootPath.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Header.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Header.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Help.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.HttpRetryMax.get -> int?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.HttpRetryMax.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Insecure.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Insecure.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.InsecureSkipTlsVerify.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.InsecureSkipTlsVerify.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.KubeConfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.KubeConfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.KubeContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.KubeContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Logformat.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLogformat?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Logformat.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Loglevel.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigLoglevel?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Loglevel.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Namespace.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Namespace.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.OutputPath.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.OutputPath.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Password.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Password.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Plaintext.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Plaintext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PortForward.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PortForward.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PortForwardNamespace.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PortForwardNamespace.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PromptsEnabled.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PromptsEnabled.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ProxyUrl.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ProxyUrl.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisCompress.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeconfigRedisCompress?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisCompress.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisHaproxyName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisHaproxyName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RedisName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RepoServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RepoServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RequestTimeout.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.RequestTimeout.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Server.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Server.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ServerCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ServerCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Token.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Token.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.User.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.User.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Username.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Username.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterShardsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterShardsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterStatsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterStatsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminDashboardOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminDashboardOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminExportOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminExportOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminImportOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminImportOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminInitialPasswordOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminInitialPasswordOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateGetOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateGetOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateGetOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateGetOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateNotifyOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateNotifyOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateNotifyOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateNotifyOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTemplateOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerGetOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerGetOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerGetOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerGetOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerRunOptions.ArgocdRepoServerStrictTls.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerRunOptions.ArgocdRepoServerStrictTls.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerRunOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminNotificationsTriggerRunOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminProjGenerateAllowListOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminProjGenerateAllowListOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminProjUpdateRolePolicyOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminProjUpdateRolePolicyOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminRedisInitialPasswordOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminRedisInitialPasswordOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacCanOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacCanOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacValidateOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsRbacValidateOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesHealthOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesHealthOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesListActionsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesListActionsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesRunActionOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsResourceOverridesRunActionOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsValidateOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAdminSettingsValidateOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppSyncOptions.Assumeyes.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdAppSyncOptions.Assumeyes.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdApplicationSetOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdCertOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterAddOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterAddOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdClusterOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdConfigureOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdGpgOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ArgoCdLoginOptions(string! Server) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Deconstruct(out string! Server) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Server.get -> string!
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Server.init -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ServerOption.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ServerOption.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ArgoCdProjAddSignatureKeyOptions(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions! original) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ArgoCdProjAddSignatureKeyOptions(string! Project, string! KeyId) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ArgocdContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ArgocdContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.AuthToken.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.AuthToken.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ClientCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ClientCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ClientCrtKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ClientCrtKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Config.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Config.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ControllerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ControllerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Core.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Core.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Deconstruct(out string! Project, out string! KeyId) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.GrpcWeb.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.GrpcWeb.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.GrpcWebRootPath.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.GrpcWebRootPath.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Header.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Header.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Help.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.HttpRetryMax.get -> int?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.HttpRetryMax.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Insecure.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Insecure.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.KeyId.get -> string!
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.KeyId.init -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.KubeContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.KubeContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Logformat.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLogformat?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Logformat.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Loglevel.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyLoglevel?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Loglevel.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Plaintext.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Plaintext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PortForward.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PortForward.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PortForwardNamespace.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PortForwardNamespace.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Project.get -> string!
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Project.init -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PromptsEnabled.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PromptsEnabled.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisCompress.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjAddSignatureKeyRedisCompress?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisCompress.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisHaproxyName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisHaproxyName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RedisName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RepoServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.RepoServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Server.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Server.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ServerCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ServerCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ArgoCdProjRemoveSignatureKeyOptions(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions! original) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ArgoCdProjRemoveSignatureKeyOptions(string! Project, string! KeyId) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ArgocdContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ArgocdContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.AuthToken.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.AuthToken.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ClientCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ClientCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ClientCrtKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ClientCrtKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Config.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Config.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ControllerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ControllerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Core.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Core.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Deconstruct(out string! Project, out string! KeyId) -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.GrpcWeb.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.GrpcWeb.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.GrpcWebRootPath.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.GrpcWebRootPath.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Header.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Header.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Help.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Help.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.HttpRetryMax.get -> int?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.HttpRetryMax.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Insecure.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Insecure.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.KeyId.get -> string!
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.KeyId.init -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.KubeContext.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.KubeContext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Logformat.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLogformat?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Logformat.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Loglevel.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyLoglevel?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Loglevel.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Plaintext.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Plaintext.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PortForward.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PortForward.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PortForwardNamespace.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PortForwardNamespace.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Project.get -> string!
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Project.init -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PromptsEnabled.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PromptsEnabled.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisCompress.get -> ModularPipelines.ArgoCd.Enums.ArgoCdProjRemoveSignatureKeyRedisCompress?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisCompress.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisHaproxyName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisHaproxyName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RedisName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RepoServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.RepoServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Server.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Server.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ServerCrt.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ServerCrt.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepoOptions.TlsServerName.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.As.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.As.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.AsGroup.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.AsUid.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.AsUid.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.CertificateAuthority.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.CertificateAuthority.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.ClientCertificate.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.ClientCertificate.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.ClientKey.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.ClientKey.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.DisableCompression.get -> bool?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.DisableCompression.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.Kubeconfig.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.Kubeconfig.set -> void
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.TlsServerName.get -> string?
+*REMOVED*ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions.TlsServerName.set -> void
 *REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAccount.ArgoCdAccount(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdmin.ArgoCdAdmin(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.ArgoCdAdminApp(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
@@ -126,7 +652,37 @@
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.ListAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.RmAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.<Clone>$() -> ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.<Clone>$() -> ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.ToString() -> string!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.<Clone>$() -> ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.EqualityContract.get -> System.Type!
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*override ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.ToString() -> string!
+*REMOVED*override sealed ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdOptions? other) -> bool
+*REMOVED*override sealed ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdOptions? other) -> bool
 *REMOVED*static ModularPipelines.ArgoCd.Extensions.ArgoCdExtensions.ArgoCd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.ArgoCd.Services.IArgoCd!
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.operator !=(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? right) -> bool
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.operator ==(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? right) -> bool
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.operator !=(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.operator ==(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.operator !=(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions? right) -> bool
+*REMOVED*static ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.operator ==(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions? right) -> bool
+*REMOVED*virtual ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions? other) -> bool
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.BcryptAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountBcryptOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.CanIAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountCanIOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.DeleteTokenAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountDeleteTokenOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -149,8 +705,8 @@
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.GetReconcileResultsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminAppGetReconcileResultsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.GenerateSpecAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterGenerateSpecOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-*REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeconfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeConfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeconfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ShardsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterShardsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.StatsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterStatsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminClusterNamespaces.DisableNamespacedModeAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -290,6 +846,122 @@
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.ListAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.ArgoCd.Services.ArgoCdRepocreds.RmAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat.Json = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat.Text = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel.Debug = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel.Error = 3 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel.Info = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel.Warn = 2 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress.Gzip = 0 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress
+ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress.None = 1 -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ArgoCdAdminClusterKubeConfigOptions() -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ArgoCdAdminClusterKubeConfigOptions(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions! original) -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ArgocdContext.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ArgocdContext.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.As.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.As.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AsGroup.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AsGroup.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AsUid.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AsUid.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AuthToken.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.AuthToken.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.CertificateAuthority.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.CertificateAuthority.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCertificate.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCertificate.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCrt.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCrt.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCrtKey.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientCrtKey.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientKey.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClientKey.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Cluster.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Cluster.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClusterUrl.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ClusterUrl.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Config.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Config.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Context.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Context.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ControllerName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ControllerName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Core.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Core.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.DisableCompression.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.DisableCompression.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.GrpcWeb.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.GrpcWeb.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.GrpcWebRootPath.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.GrpcWebRootPath.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Header.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Header.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Help.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Help.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.HttpRetryMax.get -> int?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.HttpRetryMax.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Insecure.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Insecure.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.InsecureSkipTlsVerify.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.InsecureSkipTlsVerify.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.KubeConfig.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.KubeConfig.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.KubeContext.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.KubeContext.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Logformat.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLogformat?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Logformat.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Loglevel.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigLoglevel?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Loglevel.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Namespace.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Namespace.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.OutputPath.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.OutputPath.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Password.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Password.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Plaintext.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Plaintext.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PortForward.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PortForward.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PortForwardNamespace.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PortForwardNamespace.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PromptsEnabled.get -> bool?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PromptsEnabled.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ProxyUrl.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ProxyUrl.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisCompress.get -> ModularPipelines.ArgoCd.Enums.ArgoCdAdminClusterKubeConfigRedisCompress?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisCompress.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisHaproxyName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisHaproxyName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RedisName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RepoServerName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RepoServerName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RequestTimeout.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.RequestTimeout.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Server.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Server.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ServerCrt.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ServerCrt.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ServerName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ServerName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.TlsServerName.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.TlsServerName.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Token.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Token.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.User.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.User.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Username.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Username.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ArgoCdLoginOptions(string! ServerArgument) -> void
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Deconstruct(out string! ServerArgument) -> void
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Server.get -> string?
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.Server.set -> void
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ServerArgument.get -> string!
+ModularPipelines.ArgoCd.Options.ArgoCdLoginOptions.ServerArgument.init -> void
 ModularPipelines.ArgoCd.Services.ArgoCdAccount.ArgoCdAccount(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.ArgoCd.Services.ArgoCdAdmin.ArgoCdAdmin(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.ArgoCdAdminApp(ModularPipelines.Context.ICommandContext! command) -> void
@@ -388,7 +1060,6 @@ ModularPipelines.ArgoCd.Services.IArgoCdGpg.RmAsync(ModularPipelines.ArgoCd.Opti
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AddDestinationAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddDestinationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AddDestinationServiceAccountAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddDestinationServiceAccountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AddOrphanedIgnoreAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddOrphanedIgnoreOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.ArgoCd.Services.IArgoCdProj.AddSignatureKeyAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AddSourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AddSourceNamespaceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSourceNamespaceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.AllowClusterResourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAllowClusterResourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -404,7 +1075,6 @@ ModularPipelines.ArgoCd.Services.IArgoCdProj.ListAsync(ModularPipelines.ArgoCd.O
 ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveDestinationAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveDestinationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveDestinationServiceAccountAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveDestinationServiceAccountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveOrphanedIgnoreAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveOrphanedIgnoreOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveSignatureKeyAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveSourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.RemoveSourceNamespaceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSourceNamespaceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdProj.SetAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -417,7 +1087,16 @@ ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.AddAsync(ModularPipelines.Argo
 ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.ListAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.ArgoCd.Services.IArgoCdRepocreds.RmAsync(ModularPipelines.ArgoCd.Options.ArgoCdRepocredsRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.ArgoCd.Extensions.ArgoCdExtensions.ArgoCd(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.ArgoCd.Services.IArgoCd!
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.<Clone>$() -> ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions!
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.GetHashCode() -> int
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.ToString() -> string!
+override sealed ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdOptions? other) -> bool
+static ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.operator !=(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? right) -> bool
+static ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.operator ==(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? left, ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? right) -> bool
+virtual ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions.Equals(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? other) -> bool
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.BcryptAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountBcryptOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.CanIAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountCanIOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAccount.DeleteTokenAsync(ModularPipelines.ArgoCd.Options.ArgoCdAccountDeleteTokenOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -440,8 +1119,7 @@ virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.GenerateSpecAsync(Modula
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminApp.GetReconcileResultsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminAppGetReconcileResultsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ExecuteAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.GenerateSpecAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterGenerateSpecOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeConfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeconfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.KubeConfigAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterKubeConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.ShardsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterShardsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminCluster.StatsAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterStatsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdAdminClusterNamespaces.DisableNamespacedModeAsync(ModularPipelines.ArgoCd.Options.ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -524,7 +1202,6 @@ virtual ModularPipelines.ArgoCd.Services.ArgoCdGpg.RmAsync(ModularPipelines.Argo
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddDestinationAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddDestinationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddDestinationServiceAccountAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddDestinationServiceAccountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddOrphanedIgnoreAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddOrphanedIgnoreOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddSignatureKeyAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSignatureKeyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddSourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AddSourceNamespaceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAddSourceNamespaceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.AllowClusterResourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjAllowClusterResourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -540,7 +1217,6 @@ virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.ListAsync(ModularPipelines.A
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveDestinationAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveDestinationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveDestinationServiceAccountAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveDestinationServiceAccountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveOrphanedIgnoreAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveOrphanedIgnoreOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveSignatureKeyAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSignatureKeyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveSourceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSourceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.RemoveSourceNamespaceAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjRemoveSourceNamespaceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.ArgoCd.Services.ArgoCdProj.SetAsync(ModularPipelines.ArgoCd.Options.ArgoCdProjSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
