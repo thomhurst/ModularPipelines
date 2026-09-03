@@ -18,7 +18,9 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record PnpmAddOptions : PnpmOptions
+public record PnpmAddOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
+) : PnpmOptions
 {
     /// <summary>
     /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
@@ -199,11 +201,5 @@ public record PnpmAddOptions : PnpmOptions
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
-
-    /// <summary>
-    /// The name operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Name { get; set; }
 
 }
