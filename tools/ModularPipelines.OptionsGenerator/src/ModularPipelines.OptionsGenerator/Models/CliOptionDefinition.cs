@@ -228,6 +228,12 @@ public record CliOptionDefinition
     public bool IsKeyValue { get; init; }
 
     /// <summary>
+    /// Whether the CLI declares this option as one structured value, even when
+    /// its nested fields contain collection-shaped values.
+    /// </summary>
+    internal bool IsStructuredValue { get; init; }
+
+    /// <summary>
     /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
     /// </summary>
     public bool RequiresModelsNamespace

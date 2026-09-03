@@ -416,11 +416,20 @@ public partial class AwsCliScraper : CliScraperBase
                           || string.IsNullOrEmpty(typeHint)
                           || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
-            var isArray = typeHint.Contains("list") || typeHint.Contains("...");
-            var isNumeric = IsNumericType(typeHint);
             var isStructure = typeHint.Contains("structure");
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
+            var isArray = typeHint.Contains("list")
+                          || typeHint.Contains("...")
+                          || (!isStructure
+                              && !isKeyValue
+                              && !isFlag
+                              && !isBooleanValue
+                              && HelpDeclaresRepeatableOption(
+                                  helpText,
+                                  longForm,
+                                  description ?? string.Empty));
+            var isNumeric = IsNumericType(typeHint);
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
@@ -446,6 +455,7 @@ public partial class AwsCliScraper : CliScraperBase
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
+                IsStructuredValue = isStructure || isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
