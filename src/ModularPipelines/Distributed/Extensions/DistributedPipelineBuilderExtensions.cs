@@ -52,6 +52,7 @@ public static class DistributedPipelineBuilderExtensions
         "Distributed type-erased result serialization is unsupported in Native AOT.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
+        builder.Services.TryAddSingleton<DistributedModeRegistration>();
         builder.Services.Configure<DistributedOptions>(o =>
         {
             configure(o);
@@ -69,6 +70,7 @@ public static class DistributedPipelineBuilderExtensions
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, IConfigurationSection section)
     {
+        builder.Services.TryAddSingleton<DistributedModeRegistration>();
         builder.Services.Configure<DistributedOptions>(section);
 
         // Also ensure Enabled is set
@@ -168,4 +170,8 @@ public static class DistributedPipelineBuilderExtensions
         builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
         return builder;
     }
+}
+
+internal sealed class DistributedModeRegistration
+{
 }

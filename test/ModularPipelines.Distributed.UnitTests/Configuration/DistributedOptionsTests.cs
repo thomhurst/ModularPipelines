@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Master;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -125,6 +126,22 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task DependencyBasedPostConfigure_Selects_Worker_Executor()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(new RoleSelection(DistributedRole.Worker));
+        builder.Services.AddOptions<DistributedOptions>()
+            .PostConfigure<RoleSelection>((options, selection) => options.Role = selection.Role);
+        builder.AddDistributedMode(_ => { });
+        builder.AddModule<NoOpModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<IModuleExecutor>())
+            .IsTypeOf<WorkerModuleExecutor>();
+    }
+
+    [Test]
     public async Task Parameterless_Registration_Binds_Standard_Environment_Variables()
     {
         var previousInstanceIndex = Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX");
@@ -168,4 +185,6 @@ public class DistributedOptionsTests
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(0);
     }
+
+    private sealed record RoleSelection(DistributedRole Role);
 }

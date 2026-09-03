@@ -96,7 +96,7 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    public async Task CoordinatorRequiresInvocationScopedRunIdentifier()
+    public async Task HostBuildRejectsMissingInvocationScopedRunIdentifier()
     {
         var originals = ExecutionEnvironmentVariables.ToDictionary(
             name => name,
@@ -114,14 +114,12 @@ public class RedisDistributedExtensionsTests
 
             builder.AddRedisDistributedCoordinator(options =>
                 options.ConnectionString = "unused");
-            using var serviceProvider = builder.Services.BuildServiceProvider();
+            var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+                () => builder.BuildAsync());
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                _ = serviceProvider
-                    .GetRequiredService<IOptions<RedisDistributedOptions>>()
-                    .Value);
-
-            await Assert.That(exception.Message).Contains("unique RunIdentifier");
+            await Assert.That(exception!.Failures).Contains(
+                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
+                + "Configure RunIdentifier explicitly or set MODULARPIPELINES_RUN_ID.");
         }
         finally
         {

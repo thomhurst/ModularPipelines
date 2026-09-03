@@ -179,11 +179,14 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
     {
-        builder.Services.PostConfigure<RedisDistributedOptions>(options =>
-            options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
-                ?? throw new InvalidOperationException(
-                    "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
-                    + "Configure RunIdentifier explicitly or set MODULARPIPELINES_RUN_ID."));
+        builder.Services.AddOptions<RedisDistributedOptions>()
+            .PostConfigure(options =>
+                options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier))
+            .Validate(
+                options => !string.IsNullOrWhiteSpace(options.RunIdentifier),
+                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
+                + "Configure RunIdentifier explicitly or set MODULARPIPELINES_RUN_ID.")
+            .ValidateOnStart();
         builder.Services.AddOptions<DistributedOptions>()
             .PostConfigure<IOptions<RedisDistributedOptions>>((distributedOptions, redisOptions) =>
                 distributedOptions.RunIdentifier ??= redisOptions.Value.RunIdentifier);
