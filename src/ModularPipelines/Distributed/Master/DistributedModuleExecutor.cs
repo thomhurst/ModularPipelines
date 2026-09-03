@@ -170,8 +170,22 @@ internal class DistributedModuleExecutor(
                 moduleType.FullName!,
                 ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
                 _options.Value.InstanceIndex);
-            await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(
+                    ex,
+                    "Failed to publish history-restored result for module {Module}",
+                    moduleType.Name);
+            }
         }
     }
 
@@ -679,12 +693,12 @@ internal class DistributedModuleExecutor(
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
-            RegisterFailureResult(
+            await RegisterFailureResultAsync(
                 module,
                 moduleType,
                 new TimeoutException(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
-                ModuleStatus.TimedOut);
+                ModuleStatus.TimedOut).ConfigureAwait(false);
             scheduler.MarkModuleCompleted(moduleType, false);
             requestFailureCancellation();
             await cts.CancelAsync();
@@ -697,7 +711,8 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
+            await RegisterFailureResultAsync(module, moduleType, ex, ModuleStatus.Failed)
+                .ConfigureAwait(false);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync();
@@ -748,15 +763,16 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private void RegisterFailureResult(
+    private async Task RegisterFailureResultAsync(
         IModule module,
         Type moduleType,
         Exception exception,
         ModuleStatus status)
     {
+        IModuleResult failureResult;
         try
         {
-            var failureResult = CreateCollectorFailureResult(
+            failureResult = CreateCollectorFailureResult(
                 module,
                 moduleType,
                 exception,
@@ -767,6 +783,25 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to register failure result for module {Module}", moduleType.Name);
+            return;
+        }
+
+        try
+        {
+            var serialized = _serializer.Serialize(
+                failureResult,
+                moduleType.FullName!,
+                ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
+                _options.Value.InstanceIndex);
+            await _masterCoordinator.PublishResultAsync(serialized, CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(
+                ex,
+                "Failed to publish failure result for module {Module} — dependent workers may remain blocked",
+                moduleType.Name);
         }
     }
 }

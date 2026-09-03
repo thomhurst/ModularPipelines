@@ -625,6 +625,50 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task History_Result_Publish_Failure_Does_Not_Skip_Remaining_Results()
+    {
+        var firstModule = new DistributedModule();
+        var secondModule = new AnotherDistributedModule();
+        var scheduler = CreateMockScheduler();
+        var resultRegistry = new ModuleResultRegistry();
+        resultRegistry.RegisterResult(
+            typeof(DistributedModule),
+            CreateSuccessResult(
+                new SimpleResult { Message = "history" },
+                nameof(DistributedModule),
+                ModuleStatus.RestoredFromHistory));
+        resultRegistry.RegisterResult(
+            typeof(AnotherDistributedModule),
+            CreateSuccessResult(
+                42,
+                nameof(AnotherDistributedModule),
+                ModuleStatus.RestoredFromHistory));
+
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<SerializedModuleResult, CancellationToken>((result, _) =>
+                result.ModuleTypeName == typeof(DistributedModule).FullName
+                    ? Task.FromException(new InvalidOperationException("Transient publish failure"))
+                    : Task.CompletedTask);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object);
+
+        await executor.ExecuteAsync([firstModule, secondModule]);
+
+        coordinator.Verify(instance => instance.PublishResultAsync(
+            It.Is<SerializedModuleResult>(result =>
+                result.ModuleTypeName == typeof(AnotherDistributedModule).FullName),
+            It.IsAny<CancellationToken>()), Times.Once());
+    }
+
+    [Test]
     public async Task Cancelled_Distributed_Module_Registers_Failure_Result()
     {
         // Arrange: coordinator throws OperationCanceledException on WaitForResult
@@ -674,6 +718,10 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Deserialization failed"));
+        coordinator.Setup(c => c.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -694,6 +742,10 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
+        coordinator.Verify(c => c.PublishResultAsync(
+            It.Is<SerializedModuleResult>(result =>
+                result.ModuleTypeName == typeof(DistributedModule).FullName),
+            CancellationToken.None), Times.Once());
     }
 
     [Test]
