@@ -1208,7 +1208,7 @@ public class CodeGeneratorOrchestrator
         ISet<string> names)
     {
         var expectedName = Path.GetFileName(path);
-        if (names.Contains(expectedName, StringComparer.Ordinal))
+        if (names.Contains(expectedName))
         {
             return;
         }
@@ -1222,24 +1222,30 @@ public class CodeGeneratorOrchestrator
 
         var existingPath = Path.Combine(directory, casingVariant);
         var temporaryPath = Path.Combine(directory, $".{Guid.NewGuid():N}.casing.tmp");
+        File.Move(existingPath, temporaryPath);
         try
         {
-            File.Move(existingPath, temporaryPath);
             File.Move(temporaryPath, path);
-            names.Remove(casingVariant);
-            names.Add(expectedName);
         }
-        finally
+        catch
         {
             try
             {
-                File.Delete(temporaryPath);
+                if (File.Exists(temporaryPath) && !File.Exists(existingPath))
+                {
+                    File.Move(temporaryPath, existingPath);
+                }
             }
             catch (Exception)
             {
-                // The casing update already failed; do not mask its exception.
+                // Preserve the original move failure. The old content remains at the temporary path.
             }
+
+            throw;
         }
+
+        names.Remove(casingVariant);
+        names.Add(expectedName);
     }
 
     private static string ValidateContainedPath(
