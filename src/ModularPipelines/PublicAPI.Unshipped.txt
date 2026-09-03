@@ -1487,6 +1487,13 @@ ModularPipelines.Distributed.ModuleAssignmentConfiguration.ModuleAssignmentConfi
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.ModuleAssignmentConfiguration(ModularPipelines.Distributed.ModuleAssignmentConfiguration! original) -> void
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.TimeoutSeconds.get -> double?
 ModularPipelines.Distributed.ModuleAssignmentConfiguration.TimeoutSeconds.init -> void
+ModularPipelines.Distributed.RemoteModuleException
+ModularPipelines.Distributed.RemoteModuleException.OriginalExceptionType.get -> string!
+ModularPipelines.Distributed.RemoteModuleException.OriginalMessage.get -> string!
+ModularPipelines.Distributed.RemoteModuleException.RemoteModuleException(string! originalExceptionType, string! originalMessage, string? remoteStackTrace, int? workerIndex = null) -> void
+ModularPipelines.Distributed.RemoteModuleException.RemoteStackTrace.get -> string?
+ModularPipelines.Distributed.RemoteModuleException.WorkerIndex.get -> int?
+override ModularPipelines.Distributed.RemoteModuleException.Message.get -> string!
 ModularPipelines.Distributed.WorkerRegistration.RunIdentifier.get -> string?
 ModularPipelines.Distributed.WorkerRegistration.RunIdentifier.init -> void
 ModularPipelines.Distributed.WorkerRegistration.Capabilities.get -> System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>!
@@ -1855,6 +1862,7 @@ ModularPipelines.ModuleResult.Status.get -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleResult.Status.init -> void
 ModularPipelines.ModuleResult.TypeName.get -> string?
 ModularPipelines.ModuleResult.TypeName.init -> void
+ModularPipelines.ModuleResult.WorkerIndex.get -> int?
 ModularPipelines.ModuleResult<T>
 ModularPipelines.ModuleResult<T>.Failure
 ModularPipelines.ModuleResult<T>.Failure.Deconstruct(out System.Exception! Exception) -> void
