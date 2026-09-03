@@ -83,6 +83,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud access-context-manager levels list` | `GcloudAccessContextManagerLevelsListOptions` |
 | `gcloud access-context-manager levels replace-all` | `GcloudAccessContextManagerLevelsReplaceAllOptions` |
 | `gcloud access-context-manager levels update` | `GcloudAccessContextManagerLevelsUpdateOptions` |
+| `gcloud access-context-manager lookup-configured-perimeter` | `GcloudAccessContextManagerLookupConfiguredPerimeterOptions` |
 | `gcloud access-context-manager perimeters` | `GcloudAccessContextManagerPerimetersOptions` |
 | `gcloud access-context-manager perimeters create` | `GcloudAccessContextManagerPerimetersCreateOptions` |
 | `gcloud access-context-manager perimeters delete` | `GcloudAccessContextManagerPerimetersDeleteOptions` |
@@ -1254,6 +1255,18 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud cloudlocationfinder cloud-locations describe` | `GcloudCloudlocationfinderCloudLocationsDescribeOptions` |
 | `gcloud cloudlocationfinder cloud-locations list` | `GcloudCloudlocationfinderCloudLocationsListOptions` |
 | `gcloud cloudlocationfinder cloud-locations search` | `GcloudCloudlocationfinderCloudLocationsSearchOptions` |
+| `gcloud cluster-director` | `GcloudClusterDirectorOptions` |
+| `gcloud cluster-director clusters` | `GcloudClusterDirectorClustersOptions` |
+| `gcloud cluster-director clusters create` | `GcloudClusterDirectorClustersCreateOptions` |
+| `gcloud cluster-director clusters delete` | `GcloudClusterDirectorClustersDeleteOptions` |
+| `gcloud cluster-director clusters describe` | `GcloudClusterDirectorClustersDescribeOptions` |
+| `gcloud cluster-director clusters list` | `GcloudClusterDirectorClustersListOptions` |
+| `gcloud cluster-director clusters update` | `GcloudClusterDirectorClustersUpdateOptions` |
+| `gcloud cluster-director locations` | `GcloudClusterDirectorLocationsOptions` |
+| `gcloud cluster-director locations describe` | `GcloudClusterDirectorLocationsDescribeOptions` |
+| `gcloud cluster-director locations list` | `GcloudClusterDirectorLocationsListOptions` |
+| `gcloud cluster-director operations` | `GcloudClusterDirectorOperationsOptions` |
+| `gcloud cluster-director operations describe` | `GcloudClusterDirectorOperationsDescribeOptions` |
 | `gcloud colab` | `GcloudColabOptions` |
 | `gcloud colab executions` | `GcloudColabExecutionsOptions` |
 | `gcloud colab executions create` | `GcloudColabExecutionsCreateOptions` |
@@ -2085,6 +2098,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute reservations set-iam-policy` | `GcloudComputeReservationsSetIamPolicyOptions` |
 | `gcloud compute reservations slots` | `GcloudComputeReservationsSlotsOptions` |
 | `gcloud compute reservations slots describe` | `GcloudComputeReservationsSlotsDescribeOptions` |
+| `gcloud compute reservations slots get-health` | `GcloudComputeReservationsSlotsGetHealthOptions` |
 | `gcloud compute reservations slots get-version` | `GcloudComputeReservationsSlotsGetVersionOptions` |
 | `gcloud compute reservations slots list` | `GcloudComputeReservationsSlotsListOptions` |
 | `gcloud compute reservations sub-blocks` | `GcloudComputeReservationsSubBlocksOptions` |
@@ -3735,6 +3749,11 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud edge-cache services list` | `GcloudEdgeCacheServicesListOptions` |
 | `gcloud edge-cache services update` | `GcloudEdgeCacheServicesUpdateOptions` |
 | `gcloud edge-cloud` | `GcloudEdgeCloudOptions` |
+| `gcloud edge-cloud api-keys` | `GcloudEdgeCloudApiKeysOptions` |
+| `gcloud edge-cloud api-keys create` | `GcloudEdgeCloudApiKeysCreateOptions` |
+| `gcloud edge-cloud api-keys delete` | `GcloudEdgeCloudApiKeysDeleteOptions` |
+| `gcloud edge-cloud api-keys describe` | `GcloudEdgeCloudApiKeysDescribeOptions` |
+| `gcloud edge-cloud api-keys list` | `GcloudEdgeCloudApiKeysListOptions` |
 | `gcloud edge-cloud container` | `GcloudEdgeCloudContainerOptions` |
 | `gcloud edge-cloud container clusters` | `GcloudEdgeCloudContainerClustersOptions` |
 | `gcloud edge-cloud container clusters create` | `GcloudEdgeCloudContainerClustersCreateOptions` |
@@ -3805,8 +3824,31 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud edge-cloud networking subnets list` | `GcloudEdgeCloudNetworkingSubnetsListOptions` |
 | `gcloud edge-cloud networking zones` | `GcloudEdgeCloudNetworkingZonesOptions` |
 | `gcloud edge-cloud networking zones init` | `GcloudEdgeCloudNetworkingZonesInitOptions` |
+| `gcloud edge-cloud projects` | `GcloudEdgeCloudProjectsOptions` |
+| `gcloud edge-cloud projects describe` | `GcloudEdgeCloudProjectsDescribeOptions` |
+| `gcloud edge-cloud projects enable` | `GcloudEdgeCloudProjectsEnableOptions` |
+| `gcloud edge-cloud projects list` | `GcloudEdgeCloudProjectsListOptions` |
+| `gcloud edge-cloud service-accounts` | `GcloudEdgeCloudServiceAccountsOptions` |
+| `gcloud edge-cloud service-accounts create` | `GcloudEdgeCloudServiceAccountsCreateOptions` |
+| `gcloud edge-cloud service-accounts delete` | `GcloudEdgeCloudServiceAccountsDeleteOptions` |
+| `gcloud edge-cloud service-accounts describe` | `GcloudEdgeCloudServiceAccountsDescribeOptions` |
+| `gcloud edge-cloud service-accounts keys` | `GcloudEdgeCloudServiceAccountsKeysOptions` |
+| `gcloud edge-cloud service-accounts keys create` | `GcloudEdgeCloudServiceAccountsKeysCreateOptions` |
+| `gcloud edge-cloud service-accounts keys describe` | `GcloudEdgeCloudServiceAccountsKeysDescribeOptions` |
+| `gcloud edge-cloud service-accounts keys disable` | `GcloudEdgeCloudServiceAccountsKeysDisableOptions` |
+| `gcloud edge-cloud service-accounts keys list` | `GcloudEdgeCloudServiceAccountsKeysListOptions` |
+| `gcloud edge-cloud service-accounts list` | `GcloudEdgeCloudServiceAccountsListOptions` |
+| `gcloud edge-cloud services` | `GcloudEdgeCloudServicesOptions` |
+| `gcloud edge-cloud services describe` | `GcloudEdgeCloudServicesDescribeOptions` |
+| `gcloud edge-cloud services enable` | `GcloudEdgeCloudServicesEnableOptions` |
+| `gcloud edge-cloud services list` | `GcloudEdgeCloudServicesListOptions` |
 | `gcloud edge-cloud zones` | `GcloudEdgeCloudZonesOptions` |
+| `gcloud edge-cloud zones describe` | `GcloudEdgeCloudZonesDescribeOptions` |
+| `gcloud edge-cloud zones get-iam-policy` | `GcloudEdgeCloudZonesGetIamPolicyOptions` |
 | `gcloud edge-cloud zones list` | `GcloudEdgeCloudZonesListOptions` |
+| `gcloud edge-cloud zones roles` | `GcloudEdgeCloudZonesRolesOptions` |
+| `gcloud edge-cloud zones roles list` | `GcloudEdgeCloudZonesRolesListOptions` |
+| `gcloud edge-cloud zones set-iam-policy` | `GcloudEdgeCloudZonesSetIamPolicyOptions` |
 | `gcloud emulators` | `GcloudEmulatorsOptions` |
 | `gcloud emulators firestore` | `GcloudEmulatorsFirestoreOptions` |
 | `gcloud emulators firestore start` | `GcloudEmulatorsFirestoreStartOptions` |
