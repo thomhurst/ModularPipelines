@@ -9,10 +9,23 @@ internal sealed class DependencyResultCache(
     private readonly ConcurrentDictionary<string, Lazy<Task<SerializedModuleResult>>> _results =
         new(StringComparer.Ordinal);
 
-    public Task<SerializedModuleResult> GetAsync(string moduleTypeName) =>
-        _results.GetOrAdd(
+    public async Task<SerializedModuleResult> GetAsync(string moduleTypeName)
+    {
+        var lazyResult = _results.GetOrAdd(
             moduleTypeName,
             name => new Lazy<Task<SerializedModuleResult>>(
                 () => coordinator.WaitForResultAsync(name, cancellationToken),
-                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
+                LazyThreadSafetyMode.ExecutionAndPublication));
+
+        try
+        {
+            return await lazyResult.Value.ConfigureAwait(false);
+        }
+        catch
+        {
+            _results.TryRemove(
+                new KeyValuePair<string, Lazy<Task<SerializedModuleResult>>>(moduleTypeName, lazyResult));
+            throw;
+        }
+    }
 }

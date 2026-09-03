@@ -163,4 +163,29 @@ public class DependencyResultPropagationTests
             x => x.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
+
+    [Test]
+    public async Task Failed_Dependency_Fetch_Is_Not_Cached()
+    {
+        var moduleTypeName = typeof(DependencyModule).FullName!;
+        var expected = new SerializedModuleResult(
+            moduleTypeName,
+            typeof(DepResult).FullName!,
+            -1,
+            "{}",
+            DateTimeOffset.UtcNow);
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator
+            .SetupSequence(x => x.WaitForResultAsync(moduleTypeName, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new IOException("transient failure"))
+            .ReturnsAsync(expected);
+        var cache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
+
+        await Assert.That(async () => await cache.GetAsync(moduleTypeName))
+            .Throws<IOException>();
+        await Assert.That(await cache.GetAsync(moduleTypeName)).IsSameReferenceAs(expected);
+        coordinator.Verify(
+            x => x.WaitForResultAsync(moduleTypeName, It.IsAny<CancellationToken>()),
+            Times.Exactly(2));
+    }
 }
