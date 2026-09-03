@@ -126,11 +126,7 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken,
         bool skipDependencyWait)
     {
-        var scheduler = moduleState.Scheduler;
-        if (!skipDependencyWait && scheduler is null)
-        {
-            throw new InvalidOperationException("Locally planned module execution requires an engine scheduler.");
-        }
+        var scheduler = GetScheduler(moduleState, skipDependencyWait);
 
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -191,7 +187,7 @@ internal class ModuleRunner : IModuleRunner
 
                 // Check constraints again after acquiring execution slots. Keeping the module queued
                 // until this point prevents limiter wait time from being reported as execution time.
-                if (scheduler is not null && !scheduler.MarkModuleStarted(moduleType))
+                if (!TryMarkModuleStarted(scheduler, moduleType))
                 {
                     _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
                     return; // Module will be rescheduled by the scheduler
@@ -235,6 +231,21 @@ internal class ModuleRunner : IModuleRunner
                 }
             }
         }
+    }
+
+    private static IModuleScheduler? GetScheduler(ModuleState moduleState, bool skipDependencyWait)
+    {
+        if (!skipDependencyWait && moduleState.Scheduler is null)
+        {
+            throw new InvalidOperationException("Locally planned module execution requires an engine scheduler.");
+        }
+
+        return moduleState.Scheduler;
+    }
+
+    private static bool TryMarkModuleStarted(IModuleScheduler? scheduler, Type moduleType)
+    {
+        return scheduler?.MarkModuleStarted(moduleType) ?? true;
     }
 
     internal static Exception NormalizeLimiterCancellation(
