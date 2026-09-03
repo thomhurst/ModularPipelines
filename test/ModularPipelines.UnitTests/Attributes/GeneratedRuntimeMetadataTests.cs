@@ -675,7 +675,7 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
-    [TUnit.Core.NotInParallel("CollectibleMetadata")]
+    [TUnit.Core.NotInParallel]
     [Timeout(30_000)]
     public async Task GeneratedMetadata_DoesNotRootCollectibleAssemblies(
         CancellationToken cancellationToken)
@@ -683,14 +683,16 @@ public class GeneratedRuntimeMetadataTests
         for (var iteration = 0; iteration < 3; iteration++)
         {
             await AssertCollectibleMetadataReleasedAsync(
-                    RegisterCollectibleMetadataOnDedicatedThread(RegisterCollectibleMetadata),
+                    RegisterCollectibleMetadataOnDedicatedThread(
+                        RegisterCollectibleMetadata,
+                        cancellationToken),
                     cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
     [Test]
-    [TUnit.Core.NotInParallel("CollectibleMetadata")]
+    [TUnit.Core.NotInParallel]
     [Timeout(30_000)]
     public async Task ExternalMetadata_DoesNotRootCollectibleConsumerAssembly(
         CancellationToken cancellationToken)
@@ -699,14 +701,15 @@ public class GeneratedRuntimeMetadataTests
         {
             await AssertCollectibleMetadataReleasedAsync(
                     RegisterCollectibleMetadataOnDedicatedThread(
-                        RegisterCollectibleExternalMetadata),
+                        RegisterCollectibleExternalMetadata,
+                        cancellationToken),
                     cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
     [Test]
-    [TUnit.Core.NotInParallel("CollectibleMetadata")]
+    [TUnit.Core.NotInParallel]
     public async Task CollectionProbe_DetectsStrongRoot(CancellationToken cancellationToken)
     {
         var strongRoot = new object();
@@ -761,7 +764,8 @@ public class GeneratedRuntimeMetadataTests
 
     private static (WeakReference Assembly, WeakReference Type)
         RegisterCollectibleMetadataOnDedicatedThread(
-            Func<(WeakReference Assembly, WeakReference Type)> register)
+            Func<(WeakReference Assembly, WeakReference Type)> register,
+            CancellationToken cancellationToken)
     {
         (WeakReference Assembly, WeakReference Type) references = default;
         ExceptionDispatchInfo? exception = null;
@@ -781,7 +785,10 @@ public class GeneratedRuntimeMetadataTests
         };
 
         thread.Start();
-        thread.Join();
+        while (!thread.Join(millisecondsTimeout: 25))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+        }
 
         exception?.Throw();
 
@@ -849,12 +856,9 @@ public class GeneratedRuntimeMetadataTests
             sharedOptionsType,
             [new SecretPropertyAccessor("Value", getter)],
             GeneratedSecretMetadata.CurrentSchemaVersion);
-        if (!GeneratedCommandMetadata.TryGet(sharedOptionsType, out _)
-            || !GeneratedSecretMetadata.TryGetAccessors(sharedOptionsType, out _))
-        {
-            throw new InvalidOperationException("External metadata registration was not visible.");
-        }
 
+        // Lookup behavior is covered separately. This leak probe must not enumerate the
+        // shared metadata tables while other tests may be registering entries.
         return (new WeakReference(assembly), new WeakReference(consumerType));
     }
 
