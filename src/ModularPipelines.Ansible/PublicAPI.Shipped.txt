@@ -89,7 +89,6 @@ ModularPipelines.Ansible.Services.IAnsible
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Ansible.get -> ModularPipelines.Ansible.Services.IAnsible!
-override abstract ModularPipelines.Ansible.Options.AnsibleOptions.<Clone>$() -> ModularPipelines.Ansible.Options.AnsibleOptions!
 override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.<Clone>$() -> ModularPipelines.Ansible.Options.AnsibleExecuteOptions!
 override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(object? obj) -> bool
@@ -101,6 +100,7 @@ override ModularPipelines.Ansible.Options.AnsibleOptions.Equals(object? obj) -> 
 override ModularPipelines.Ansible.Options.AnsibleOptions.GetHashCode() -> int
 override ModularPipelines.Ansible.Options.AnsibleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Ansible.Options.AnsibleOptions.ToString() -> string!
+override abstract ModularPipelines.Ansible.Options.AnsibleOptions.<Clone>$() -> ModularPipelines.Ansible.Options.AnsibleOptions!
 override sealed ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(ModularPipelines.Ansible.Options.AnsibleOptions? other) -> bool
 override sealed ModularPipelines.Ansible.Options.AnsibleOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Ansible.Extensions.AnsibleExtensions.RegisterAnsibleContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
