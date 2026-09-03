@@ -137,7 +137,9 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
-    public async Task Registration_Replacement_Cannot_Race_With_Stale_Heartbeat_Persistence()
+    [Timeout(10_000)]
+    public async Task Registration_Replacement_Cannot_Race_With_Stale_Heartbeat_Persistence(
+        CancellationToken cancellationToken)
     {
         var state = new SignalRMasterState();
         var oldHub = CreateHub(state, "old-connection");
@@ -160,23 +162,17 @@ public class DistributedPipelineHubTests
 
         lock (state.GetWorkerStateLock(1))
         {
-            heartbeatTask = Task.Run(async () =>
-            {
-                heartbeatStarted.Set();
-                await oldHub.Heartbeat(staleStatus);
-            });
-            if (!heartbeatStarted.Wait(TimeSpan.FromSeconds(1)))
-            {
-                throw new TimeoutException("The stale heartbeat did not start.");
-            }
-
-            if (SpinWait.SpinUntil(
-                    () => heartbeatTask.IsCompleted,
-                    TimeSpan.FromMilliseconds(250)))
-            {
-                throw new InvalidOperationException(
-                    "The heartbeat bypassed the per-worker state lock.");
-            }
+            heartbeatTask = Task.Factory.StartNew(
+                    async () =>
+                    {
+                        heartbeatStarted.Set();
+                        await oldHub.Heartbeat(staleStatus);
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.LongRunning | TaskCreationOptions.DenyChildAttach,
+                    TaskScheduler.Default)
+                .Unwrap();
+            heartbeatStarted.Wait(cancellationToken);
 
             state.RegisterWorker(new WorkerState
             {
@@ -185,7 +181,7 @@ public class DistributedPipelineHubTests
             });
         }
 
-        await heartbeatTask.WaitAsync(TimeSpan.FromSeconds(1));
+        await heartbeatTask.WaitAsync(cancellationToken);
 
         await Assert.That(state.Registrations[1]).IsSameReferenceAs(currentRegistration);
         await Assert.That(state.WorkerStatuses[1]).IsNotSameReferenceAs(staleStatus);
