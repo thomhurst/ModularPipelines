@@ -13,6 +13,7 @@ public class CosignOptionsTests
         var arguments = BuildArguments(new CosignSignOptions(["registry.example/app:v1", "registry.example/app:v2"])
         {
             Annotations = ["team=platform", "environment=production"],
+            Slot = "card-authentication",
             Upload = true,
         });
 
@@ -22,6 +23,7 @@ public class CosignOptionsTests
             "registry.example/app:v2",
             "--annotations=team=platform",
             "--annotations=environment=production",
+            "--slot=card-authentication",
             "--upload=true",
         ]);
     }
