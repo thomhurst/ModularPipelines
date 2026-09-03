@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
@@ -10,7 +9,7 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class SignalRWorkerCoordinatorTests
 {
     [Test]
-    public async Task EnqueueModule_Throws_NotSupportedException()
+    public async Task Worker_Coordinator_Exposes_Only_Worker_Contract()
     {
         await using var connection = new HubConnectionBuilder()
             .WithUrl("http://localhost")
@@ -18,15 +17,8 @@ public class SignalRWorkerCoordinatorTests
         var coordinator = new SignalRWorkerCoordinator(
             connection,
             NullLogger<SignalRWorkerCoordinator>.Instance);
-        var assignment = new ModuleAssignment(
-            "TestModule",
-            "System.String",
-            FrozenSet<Capability>.Empty,
-            DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
-
-        await Assert.That(() => coordinator.EnqueueModuleAsync(assignment, CancellationToken.None))
-            .Throws<NotSupportedException>();
+        await Assert.That(coordinator is IDistributedWorkerCoordinator).IsTrue();
+        await Assert.That(coordinator is IDistributedMasterCoordinator).IsFalse();
     }
 
     [Test]

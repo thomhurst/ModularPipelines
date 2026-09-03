@@ -20,14 +20,15 @@ internal sealed class RunReportService(
     IOptions<PipelineOptions> pipelineOptions,
     IOptions<DistributedOptions> distributedOptions,
     RoleDetector roleDetector,
-    IDistributedCoordinator distributedCoordinator,
+    IDistributedWorkerCoordinator distributedCoordinator,
     ICommandExecutionCounter commandExecutionCounter,
     ILogger<RunReportService> logger,
     TimeSpan? historyStoreTimeout = null,
     TimeSpan? workerMetricsTimeout = null,
     TimeSpan? enricherTimeout = null,
     IEnumerable<IRunReportEnricher>? runReportEnrichers = null,
-    RunReportPathResolver? pathResolver = null) : IRunReportService
+    RunReportPathResolver? pathResolver = null,
+    IDistributedMasterCoordinator? masterCoordinator = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
@@ -578,7 +579,7 @@ internal sealed class RunReportService(
         IReadOnlyList<WorkerRegistration> initialWorkers;
         try
         {
-            initialWorkers = await distributedCoordinator
+            initialWorkers = await GetMasterCoordinator()
                 .GetRegisteredWorkersAsync(cancellationToken)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -623,7 +624,7 @@ internal sealed class RunReportService(
             IReadOnlyList<WorkerRegistration> workers;
             try
             {
-                workers = await distributedCoordinator
+                workers = await GetMasterCoordinator()
                     .GetRegisteredWorkersAsync(cancellationToken)
                     .WaitAsync(cancellationToken)
                     .ConfigureAwait(false);
@@ -654,6 +655,11 @@ internal sealed class RunReportService(
                              && IsCurrentExecution(worker, executionIdentifier))
             .GroupBy(worker => worker.WorkerIndex)
             .Select(group => group.MaxBy(worker => worker.RegisteredAt)!)];
+
+    private IDistributedMasterCoordinator GetMasterCoordinator() =>
+        masterCoordinator
+        ?? throw new InvalidOperationException(
+            "The distributed master coordinator is unavailable in this process.");
 
     private static bool IsCurrentExecution(
         WorkerRegistration worker,

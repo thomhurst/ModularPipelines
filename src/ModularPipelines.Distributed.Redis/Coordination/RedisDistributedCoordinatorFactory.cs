@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Redis.Configuration;
 using StackExchange.Redis;
 
@@ -10,20 +11,41 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
 {
     private readonly RedisDistributedOptions _options;
     private readonly IConnectionMultiplexer _connection;
+    private readonly DistributedOptions _distributedOptions;
 
-    public RedisDistributedCoordinatorFactory(RedisDistributedOptions options, IConnectionMultiplexer connection)
+    public RedisDistributedCoordinatorFactory(
+        RedisDistributedOptions options,
+        IConnectionMultiplexer connection,
+        IOptions<DistributedOptions> distributedOptions)
     {
         _options = options;
         _connection = connection;
+        _distributedOptions = distributedOptions.Value;
     }
 
-    public Task<IDistributedCoordinator> CreateAsync(CancellationToken cancellationToken)
+    public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
+    {
+        IDistributedMasterCoordinator coordinator = CreateCoordinator();
+        return Task.FromResult(coordinator);
+    }
+
+    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken)
+    {
+        IDistributedWorkerCoordinator coordinator = CreateCoordinator();
+        return Task.FromResult(coordinator);
+    }
+
+    private RedisDistributedCoordinator CreateCoordinator()
     {
         var database = _connection.GetDatabase();
         var subscriber = _connection.GetSubscriber();
         var runId = RunIdentifierResolver.Resolve(_options.RunIdentifier);
         var keys = new RedisKeyBuilder(_options.KeyPrefix, runId);
-        IDistributedCoordinator coordinator = new RedisDistributedCoordinator(database, subscriber, keys, _options);
-        return Task.FromResult(coordinator);
+        return new RedisDistributedCoordinator(
+            database,
+            subscriber,
+            keys,
+            _options,
+            distributedOptions: _distributedOptions);
     }
 }

@@ -21,7 +21,8 @@ internal class DistributedModuleExecutor(
     IModuleSchedulerFactory schedulerFactory,
     IModuleRunner moduleRunner,
     IRegistrationEventExecutor registrationEventExecutor,
-    IDistributedCoordinator coordinator,
+    IDistributedMasterCoordinator masterCoordinator,
+    IDistributedWorkerCoordinator workerCoordinator,
     DistributedWorkPublisher publisher,
     DistributedResultCollector resultCollector,
     ModuleTypeRegistry typeRegistry,
@@ -39,7 +40,8 @@ internal class DistributedModuleExecutor(
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedMasterCoordinator _masterCoordinator = masterCoordinator;
+    private readonly IDistributedWorkerCoordinator _workerCoordinator = workerCoordinator;
     private readonly DistributedWorkPublisher _publisher = publisher;
     private readonly DistributedResultCollector _resultCollector = resultCollector;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -81,12 +83,16 @@ internal class DistributedModuleExecutor(
             _metadataRegistry,
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
-        // Wait for workers to register before distributing work
-        await WaitForWorkersAsync(_lifetime.ApplicationStopping);
-
         IModuleScheduler? scheduler = null;
+        var failureCancellationRequested = 0;
+        Action requestFailureCancellation = () =>
+            Interlocked.Exchange(ref failureCancellationRequested, 1);
         try
         {
+            // Wait for workers to register before distributing work. Keep this inside the
+            // shutdown scope so cancellation or coordinator failure still notifies workers.
+            await WaitForWorkersAsync(_lifetime.ApplicationStopping).ConfigureAwait(false);
+
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
             UsedHistoryModuleSchedulerInitializer.Precomplete(
@@ -123,7 +129,8 @@ internal class DistributedModuleExecutor(
                         moduleState.Module,
                         moduleType,
                         scheduler,
-                        cts);
+                        cts,
+                        requestFailureCancellation);
                     resultTasks.Add(collectTask);
                 }
             }
@@ -165,23 +172,48 @@ internal class DistributedModuleExecutor(
                 // Expected
             }
         }
+        catch
+        {
+            requestFailureCancellation();
+            throw;
+        }
         finally
         {
-            // Always signal workers to stop — whether the master succeeded or crashed.
-            // Without this, workers hang forever waiting for work that will never come.
-            try
-            {
-                await _coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
-            }
-
+            await SignalWorkerShutdownAsync(
+                    _lifetime.ApplicationStopping.IsCancellationRequested
+                    || Volatile.Read(ref failureCancellationRequested) != 0)
+                .ConfigureAwait(false);
             scheduler?.Dispose();
         }
 
         return modules;
+    }
+
+    private async Task SignalWorkerShutdownAsync(bool broadcastCancellation)
+    {
+        // Always signal workers to stop — whether the master succeeded or crashed.
+        // Without this, workers hang forever waiting for work that will never come.
+        if (broadcastCancellation)
+        {
+            try
+            {
+                await _masterCoordinator.BroadcastCancellationAsync(CancellationToken.None)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to broadcast cancellation to workers during shutdown");
+            }
+        }
+
+        try
+        {
+            await _masterCoordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
+        }
     }
 
     internal static void CompleteCancelledModules(
@@ -232,7 +264,7 @@ internal class DistributedModuleExecutor(
         {
             try
             {
-                var workers = await _coordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
+                var workers = await _masterCoordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
                 if (workers.Count != lastCount)
                 {
                     lastCount = workers.Count;
@@ -277,7 +309,7 @@ internal class DistributedModuleExecutor(
         {
             try
             {
-                var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
+                var assignment = await _workerCoordinator.DequeueModuleAsync(capabilities, cancellationToken);
                 if (assignment is null)
                 {
                     break;
@@ -310,14 +342,14 @@ internal class DistributedModuleExecutor(
         if (resolved is null)
         {
             _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, cancellationToken);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
         {
             _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, cancellationToken);
             return;
         }
 
@@ -399,7 +431,7 @@ internal class DistributedModuleExecutor(
                 serialized = serialized with { Artifacts = artifactReferences };
             }
 
-            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            await _workerCoordinator.PublishResultAsync(serialized, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -449,7 +481,7 @@ internal class DistributedModuleExecutor(
                 assignment.ModuleTypeName,
                 assignment.ResultTypeName,
                 _options.Value.InstanceIndex);
-            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            await _workerCoordinator.PublishResultAsync(serialized, cancellationToken);
         }
         catch (Exception publishException)
         {
@@ -462,7 +494,8 @@ internal class DistributedModuleExecutor(
         IModule module,
         Type moduleType,
         IModuleScheduler scheduler,
-        CancellationTokenSource cts)
+        CancellationTokenSource cts,
+        Action requestFailureCancellation)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
         var lifecycleToken = timeoutCts?.Token ?? cts.Token;
@@ -471,7 +504,13 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
             await _publisher.PublishAsync(assignment, lifecycleToken);
-            await CollectResultAsync(module, moduleType, scheduler, cts, lifecycleToken);
+            await CollectResultAsync(
+                module,
+                moduleType,
+                scheduler,
+                cts,
+                requestFailureCancellation,
+                lifecycleToken);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
         {
@@ -484,6 +523,7 @@ internal class DistributedModuleExecutor(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
                 ModuleStatus.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
+            requestFailureCancellation();
             await cts.CancelAsync();
         }
         catch (OperationCanceledException exception)
@@ -496,6 +536,7 @@ internal class DistributedModuleExecutor(
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
             RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
+            requestFailureCancellation();
             await cts.CancelAsync();
         }
     }
@@ -523,6 +564,7 @@ internal class DistributedModuleExecutor(
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        Action requestFailureCancellation,
         CancellationToken cancellationToken)
     {
         var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
@@ -538,6 +580,7 @@ internal class DistributedModuleExecutor(
         if (!success)
         {
             _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
+            requestFailureCancellation();
             await pipelineCts.CancelAsync();
         }
     }

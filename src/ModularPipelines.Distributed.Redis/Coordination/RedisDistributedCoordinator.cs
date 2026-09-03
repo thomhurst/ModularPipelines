@@ -7,15 +7,16 @@ using StackExchange.Redis;
 namespace ModularPipelines.Distributed.Redis.Coordination;
 
 /// <summary>
-/// Redis-based implementation of <see cref="IDistributedCoordinator"/>.
+/// Redis-based implementation of <see cref="IDistributedMasterCoordinator"/>.
 /// All keys are isolated by run identifier to support concurrent pipeline runs.
 /// </summary>
-internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
+internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinator
 {
     private readonly IDatabase _database;
     private readonly ISubscriber _subscriber;
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _keyExpiration;
+    private readonly TimeSpan _workerTimeout;
     private readonly JsonSerializerOptions _jsonOptions;
     // Lets real-backend contract tests synchronize after the race-closing reads complete.
     private readonly Action? _onWaitReady;
@@ -25,12 +26,14 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         ISubscriber subscriber,
         RedisKeyBuilder keys,
         RedisDistributedOptions options,
-        Action? onWaitReady = null)
+        Action? onWaitReady = null,
+        DistributedOptions? distributedOptions = null)
     {
         _database = database;
         _subscriber = subscriber;
         _keys = keys;
         _keyExpiration = TimeSpan.FromSeconds(options.KeyExpirationSeconds);
+        _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         _onWaitReady = onWaitReady;
         _jsonOptions = new JsonSerializerOptions
         {
@@ -183,6 +186,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         var json = JsonSerializer.Serialize(registration, _jsonOptions);
         await _database.HashSetAsync(_keys.Workers, registration.WorkerIndex.ToString(), json);
         await _database.KeyExpireAsync(_keys.Workers, _keyExpiration);
+        await SendHeartbeatAsync(registration.WorkerIndex, cancellationToken);
+    }
+
+    public async Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    {
+        await _database.StringSetAsync(
+            _keys.WorkerHeartbeat(workerIndex),
+            "1",
+            _workerTimeout);
     }
 
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
@@ -191,7 +203,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         var workers = new List<WorkerRegistration>(entries.Length);
         foreach (var entry in entries)
         {
-            workers.Add(JsonSerializer.Deserialize<WorkerRegistration>(entry.Value.ToString(), _jsonOptions)!);
+            var registration = JsonSerializer.Deserialize<WorkerRegistration>(
+                entry.Value.ToString(),
+                _jsonOptions)!;
+            if (registration.UnattributedCommandCount.HasValue
+                || await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex))
+                    .ConfigureAwait(false))
+            {
+                workers.Add(registration);
+            }
         }
 
         return workers;
@@ -202,6 +222,50 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         await _database.StringSetAsync(_keys.CompletionFlag, "1");
         await _database.KeyExpireAsync(_keys.CompletionFlag, _keyExpiration);
         await _subscriber.PublishAsync(RedisChannel.Literal(_keys.CompletionChannel), "1");
+    }
+
+    public async Task BroadcastCancellationAsync(CancellationToken cancellationToken)
+    {
+        await _database.StringSetAsync(_keys.CancellationFlag, "1");
+        await _database.KeyExpireAsync(_keys.CancellationFlag, _keyExpiration);
+        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.CancellationChannel), "1");
+    }
+
+    public async Task WaitForCancellationAsync(CancellationToken cancellationToken)
+    {
+        var existing = await _database.StringGetAsync(_keys.CancellationFlag);
+        if (!existing.IsNullOrEmpty)
+        {
+            return;
+        }
+
+        var cancellationSignal = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var channel = RedisChannel.Literal(_keys.CancellationChannel);
+        var subscription = await _subscriber.SubscribeAsync(channel);
+        subscription.OnMessage(_ => cancellationSignal.TrySetResult());
+
+        try
+        {
+            existing = await _database.StringGetAsync(_keys.CancellationFlag);
+            if (!existing.IsNullOrEmpty)
+            {
+                cancellationSignal.TrySetResult();
+            }
+
+            if (!cancellationSignal.Task.IsCompleted)
+            {
+                _onWaitReady?.Invoke();
+            }
+
+            using var registration = cancellationToken.Register(() =>
+                cancellationSignal.TrySetCanceled(cancellationToken));
+            await cancellationSignal.Task;
+        }
+        finally
+        {
+            await subscription.UnsubscribeAsync().ConfigureAwait(false);
+        }
     }
 
     private static readonly string ScanAndClaimScript = @"
