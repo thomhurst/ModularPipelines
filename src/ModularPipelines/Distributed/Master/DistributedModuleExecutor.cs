@@ -239,12 +239,8 @@ internal class DistributedModuleExecutor(
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
-        if (_cacheResultRepository is null
-            || _pipelineOptions?.Value.DisableModuleCache == true
-            || !module.Configuration.CacheEnabled
-            || module.Configuration.SkipCondition is not null
-            || moduleState.SkipResult.ShouldSkip
-            || moduleType.GetCustomAttributes(true).OfType<IConditionAttribute>().Any())
+        var cacheResultRepository = _cacheResultRepository;
+        if (cacheResultRepository is null || !CanRestoreCachedResult(moduleState))
         {
             return false;
         }
@@ -254,14 +250,14 @@ internal class DistributedModuleExecutor(
             await using var scope = _serviceScopeFactory.CreateAsyncScope();
             var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
             var cachedResult = await ModuleCacheResultAccessor.GetResultAsync(
-                    _cacheResultRepository,
+                    cacheResultRepository,
                     module,
                     pipelineContext,
                     cancellationToken)
                 .ConfigureAwait(false);
             if (cachedResult is null)
             {
-                _cacheResultRepository.DiscardFingerprint(module);
+                cacheResultRepository.DiscardFingerprint(module);
                 return false;
             }
 
@@ -293,13 +289,22 @@ internal class DistributedModuleExecutor(
         }
         catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
         {
-            _cacheResultRepository.DiscardFingerprint(module);
+            cacheResultRepository.DiscardFingerprint(module);
             _logger.LogWarning(
                 exception,
                 "Could not restore module {Module} from cache on the master; dispatching normally",
                 moduleType.Name);
             return false;
         }
+    }
+
+    private bool CanRestoreCachedResult(ModuleState moduleState)
+    {
+        return _pipelineOptions?.Value.DisableModuleCache != true
+               && moduleState.Module.Configuration.CacheEnabled
+               && moduleState.Module.Configuration.SkipCondition is null
+               && !moduleState.SkipResult.ShouldSkip
+               && !moduleState.ModuleType.GetCustomAttributes(true).OfType<IConditionAttribute>().Any();
     }
 
     private static void SetModuleCompletionSource(
