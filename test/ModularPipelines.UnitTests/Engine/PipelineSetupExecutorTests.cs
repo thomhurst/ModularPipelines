@@ -6,6 +6,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using Moq;
 
@@ -70,7 +71,9 @@ public class PipelineSetupExecutorTests
         var module = new TestModule();
         CountingAttribute.InstanceCount = 0;
 
-        await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
+        await executor.OnModuleReadyAsync(
+            new ModuleState(module, module.GetType()),
+            Mock.Of<IConsoleWriter>());
 
         await Assert.That(CountingAttribute.InstanceCount).IsEqualTo(0);
     }
@@ -93,7 +96,9 @@ public class PipelineSetupExecutorTests
             attributeEventService);
         var module = new TestModule();
 
-        await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
+        await executor.OnModuleReadyAsync(
+            new ModuleState(module, module.GetType()),
+            Mock.Of<IConsoleWriter>());
 
         await Assert.That(ReferenceEquals(
                 handlerAttributes,
@@ -124,7 +129,9 @@ public class PipelineSetupExecutorTests
         var module = new TestModule();
 
         await executor.OnPipelineStartAsync();
-        await executor.OnModuleReadyAsync(new ModuleState(module, module.GetType()));
+        await executor.OnModuleReadyAsync(
+            new ModuleState(module, module.GetType()),
+            Mock.Of<IConsoleWriter>());
 
         var expected = new[]
         {
@@ -163,13 +170,61 @@ public class PipelineSetupExecutorTests
         var result = Mock.Of<IModuleResult>();
         var exception = new InvalidOperationException("Expected failure");
         var skipDecision = SkipDecision.Skip("Expected skip");
+        var writer = Mock.Of<IConsoleWriter>();
 
-        await executor.OnModuleEndAsync(moduleState, result);
-        await executor.OnModuleFailureAsync(moduleState, exception);
-        await executor.OnModuleSkippedAsync(moduleState, skipDecision);
+        await executor.OnModuleEndAsync(moduleState, result, writer);
+        await executor.OnModuleFailureAsync(moduleState, exception, writer);
+        await executor.OnModuleSkippedAsync(moduleState, skipDecision, writer);
 
         handler.Verify(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), result), Times.Once);
         handler.Verify(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), exception), Times.Once);
         handler.Verify(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), skipDecision), Times.Once);
+    }
+
+    [Test]
+    public async Task ModuleEvents_UseProvidedConsoleWriter()
+    {
+        var receivedWriters = new List<IConsoleWriter>();
+        var handler = new Mock<IModuleEventHandler>();
+        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
+            .Callback<IModuleHookContext>(context => receivedWriters.Add(context.Console))
+            .Returns(Task.CompletedTask);
+        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>()))
+            .Callback<IModuleHookContext>(context => receivedWriters.Add(context.Console))
+            .Returns(Task.CompletedTask);
+        handler.Setup(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), It.IsAny<IModuleResult>()))
+            .Callback<IModuleHookContext, IModuleResult>((context, _) => receivedWriters.Add(context.Console))
+            .Returns(Task.CompletedTask);
+        handler.Setup(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), It.IsAny<Exception>()))
+            .Callback<IModuleHookContext, Exception>((context, _) => receivedWriters.Add(context.Console))
+            .Returns(Task.CompletedTask);
+        handler.Setup(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), It.IsAny<SkipDecision>()))
+            .Callback<IModuleHookContext, SkipDecision>((context, _) => receivedWriters.Add(context.Console))
+            .Returns(Task.CompletedTask);
+        var executor = new PipelineSetupExecutor(
+            [],
+            [handler.Object],
+            new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>()),
+            Mock.Of<IPipelineContextProvider>(),
+            Mock.Of<IModuleMetadataRegistry>(),
+            new ModuleAttributeEventService());
+        var module = new TestModule();
+        var state = new ModuleState(module, module.GetType());
+        var result = Mock.Of<IModuleResult>();
+        var exception = new InvalidOperationException("Expected failure");
+        var skipDecision = SkipDecision.Skip("Expected skip");
+        var writer = Mock.Of<IConsoleWriter>();
+
+        await executor.OnModuleReadyAsync(state, writer);
+        await executor.OnModuleStartAsync(state, writer);
+        await executor.OnModuleEndAsync(state, result, writer);
+        await executor.OnModuleFailureAsync(state, exception, writer);
+        await executor.OnModuleSkippedAsync(state, skipDecision, writer);
+
+        await Assert.That(receivedWriters.Count).IsEqualTo(5);
+        foreach (var receivedWriter in receivedWriters)
+        {
+            await Assert.That(receivedWriter).IsSameReferenceAs(writer);
+        }
     }
 }

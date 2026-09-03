@@ -10,6 +10,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Reporting;
 using ModularPipelines.Secrets;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Console;
 
@@ -28,7 +29,7 @@ namespace ModularPipelines.Console;
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
-internal class ModuleOutputBuffer : IModuleOutputBuffer
+internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOutputBuffer
 {
     private static readonly TimeSpan DefaultRenderGateTimeout = TimeSpan.FromSeconds(1);
     private readonly List<BufferedOutput> _outputs = [];
@@ -42,6 +43,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private readonly bool _showFailureHeaderWithoutOutput;
     private readonly bool _showSuccessMarker;
+    private readonly BufferedSecretRemasker _secretRemasker;
+    private readonly IAnsiConsole? _renderableConsole;
     private readonly ModuleOutputExcerptBuffer? _outputExcerptBuffer;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
@@ -69,6 +72,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
     /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
+    /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
+    /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
+    /// <param name="renderableConsole">Console whose profile controls rich output layout.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
@@ -78,7 +84,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         bool showFailureHeaderWithoutOutput = false,
         int outputExcerptMaximumBytes = 0,
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
-        ISecretProvider? outputExcerptSecretProvider = null)
+        ISecretProvider? outputExcerptSecretProvider = null,
+        ISecretObfuscator? renderableSecretObfuscator = null,
+        ISecretProvider? renderableSecretProvider = null,
+        IAnsiConsole? renderableConsole = null)
         : this(
             moduleType.Name,
             moduleType,
@@ -89,7 +98,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             showFailureHeaderWithoutOutput,
             outputExcerptMaximumBytes: outputExcerptMaximumBytes,
             outputExcerptSecretObfuscator: outputExcerptSecretObfuscator,
-            outputExcerptSecretProvider: outputExcerptSecretProvider)
+            outputExcerptSecretProvider: outputExcerptSecretProvider,
+            renderableSecretObfuscator: renderableSecretObfuscator,
+            renderableSecretProvider: renderableSecretProvider,
+            renderableConsole: renderableConsole)
     {
     }
 
@@ -109,6 +121,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
     /// <param name="outputExcerptLogger">Logger for fail-closed excerpt diagnostics.</param>
+    /// <param name="renderableSecretObfuscator">Obfuscator used to mask rich output again immediately before emission.</param>
+    /// <param name="renderableSecretProvider">Provider used to stabilize secrets while rich output is emitted.</param>
+    /// <param name="renderableConsole">Console whose profile controls rich output layout.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
@@ -121,7 +136,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         int outputExcerptMaximumBytes = 0,
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
         ISecretProvider? outputExcerptSecretProvider = null,
-        ILogger? outputExcerptLogger = null)
+        ILogger? outputExcerptLogger = null,
+        ISecretObfuscator? renderableSecretObfuscator = null,
+        ISecretProvider? renderableSecretProvider = null,
+        IAnsiConsole? renderableConsole = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -132,6 +150,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
         _showFailureHeaderWithoutOutput = showFailureHeaderWithoutOutput;
         _showSuccessMarker = showSuccessMarker;
+        _secretRemasker = new BufferedSecretRemasker(
+            renderableSecretObfuscator,
+            renderableSecretProvider);
+        _renderableConsole = renderableConsole;
         _outputExcerptBuffer = outputExcerptMaximumBytes > 0
             ? new ModuleOutputExcerptBuffer(
                 outputExcerptMaximumBytes,
@@ -161,6 +183,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public void WriteRenderable(IRenderable renderable, string plainText)
+    {
+        WriteRenderable(renderable, plainText, appendNewLine: true);
+    }
+
+    /// <inheritdoc />
+    public void WriteRenderable(IRenderable renderable, string plainText, bool appendNewLine)
+    {
+        AddOutput(
+            BufferedOutput.FromRenderable(renderable, plainText, appendNewLine),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
     public void WriteErrorLine(string message)
     {
         AddOutput(
@@ -176,6 +212,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 message,
                 ModuleOutputStream.StandardError,
                 appendNewLine: false),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
+    public void WritePreObfuscated(
+        string message,
+        ModuleOutputStream stream,
+        bool appendNewLine)
+    {
+        AddOutput(
+            BufferedOutput.FromString(
+                message,
+                stream,
+                appendNewLine,
+                isPreObfuscated: true),
             allowAfterCompletion: true);
     }
 
@@ -329,7 +380,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var exclusiveSink = effectiveFallbackLoggers
             .OfType<IExclusiveStructuredLogSink>()
             .SingleOrDefault();
-        Func<LogLevel, bool> isStructuredLogEnabled = exclusiveSink is null
+        var isStructuredLogEnabled = exclusiveSink is null
             ? _isSpectreEnabled
             : exclusiveSink.IsEnabled;
         if (!TryTakeOutputs(
@@ -403,7 +454,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
     {
-        return _directConsoles.GetValue(writer, static value => CreateDirectConsole(value));
+        var directConsole = _directConsoles.GetValue(writer, CreateDirectConsole);
+        RefreshDirectConsoleProfile(directConsole);
+        return directConsole;
     }
 
     private void AddOutput(BufferedOutput output, bool allowAfterCompletion)
@@ -445,6 +498,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 _outputExcerptBuffer.Append(
                     output.StringValue!,
+                    output.Stream,
+                    output.AppendNewLine);
+                return;
+            }
+
+            if (output.IsRenderable)
+            {
+                _outputExcerptBuffer.Append(
+                    output.RenderablePlainText!,
                     output.Stream,
                     output.AppendNewLine);
                 return;
@@ -493,7 +555,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                                        && _exception is not null
                                        && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
                                        && !_hasRenderedCompletionHeader;
-            if (_outputs.Count == 0
+            var flushableOutputCount = GetFlushableOutputCount(flushKind);
+            if (flushableOutputCount == 0
                 && _structuredDeliveryRetries.Count == 0
                 && !needsExceptionHeader)
             {
@@ -502,6 +565,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     _hasRenderedIncrementalOutput = false;
                 }
 
+                _thresholdFlushRequested = false;
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
@@ -510,21 +574,28 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return false;
             }
 
-            outputs = [.. _outputs];
+            outputs = _outputs.GetRange(0, flushableOutputCount);
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
             shouldRenderOutputGroup = needsExceptionHeader
-                                      || _outputs.Any(output => ProducesConsoleOutput(
+                                      || outputs.Any(output => ProducesConsoleOutput(
                                           output,
                                           isStructuredLogEnabled,
                                           fallbackLoggers));
             isContinuation = _hasRenderedIncrementalOutput;
-            _outputs.Clear();
+            _outputs.RemoveRange(0, flushableOutputCount);
             _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
             return true;
         }
+    }
+
+    private int GetFlushableOutputCount(OutputFlushKind flushKind)
+    {
+        return flushKind is OutputFlushKind.Complete
+            ? _outputs.Count
+            : _secretRemasker.GetIncrementalFlushableOutputCount(_outputs);
     }
 
     private void RenderOutputs(
@@ -674,60 +745,122 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        foreach (var output in outputs)
+        for (var index = 0; index < outputs.Count;)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
-            if (output.IsRawBuildSystemCommand)
-            {
-                console.WriteLine(output.StringValue);
-            }
-            else if (output.IsString)
-            {
-                WriteDirect(
-                    directConsole,
-                    console,
-                    output.StringValue,
-                    output.AppendNewLine);
-            }
-            else if (output.LogEvent is { } logEvent)
-            {
-                if (writeStructuredLogsDirectly)
-                {
-                    var failedLoggers = WriteToFallbackLoggers(
-                        logEvent,
-                        fallbackLoggers,
-                        console);
-                    if (failedLoggers.Count > 0)
-                    {
-                        failedStructuredDeliveries.Add(
-                            new StructuredDeliveryRetry(logEvent, failedLoggers));
-                    }
-
-                    var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
-                        logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
-                    if (_isSpectreEnabled(logEvent.Level)
-                        && !wroteToDirectStructuredLogSink)
-                    {
-                        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
-                        if (logEvent.FormatException() is { } formattedException)
-                        {
-                            console.WriteLine(formattedException);
-                        }
-                    }
-                }
-                else
-                {
-                    // Synchronous MEL.Spectre rendering preserves this buffer's position
-                    // while other providers (for example file logging) still receive the event.
-                    logEvent.WriteTo(logger);
-                }
-            }
+            var renderedOutputCount = RenderBufferedOutput(
+                console,
+                directConsole,
+                logger,
+                outputs,
+                index,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly);
 
             // Advance only after the sink returns successfully. A sink that accepts
             // output and then throws may cause a duplicate on retry, but retaining
             // the item avoids guaranteed data loss when delivery never happened.
-            renderedCount++;
+            renderedCount += renderedOutputCount;
+            index += renderedOutputCount;
+        }
+    }
+
+    private int RenderBufferedOutput(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        ILogger logger,
+        IReadOnlyList<BufferedOutput> outputs,
+        int index,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
+        bool writeStructuredLogsDirectly)
+    {
+        var output = outputs[index];
+        if (output.IsRawBuildSystemCommand)
+        {
+            console.WriteLine(output.StringValue);
+            return 1;
+        }
+
+        var renderedMaskableOutputCount = TryRenderMaskableOutput(
+            directConsole,
+            outputs,
+            index);
+        if (renderedMaskableOutputCount > 0)
+        {
+            return renderedMaskableOutputCount;
+        }
+
+        if (output.IsString)
+        {
+            WriteDirect(directConsole, console, output.StringValue, output.AppendNewLine);
+            return 1;
+        }
+
+        if (output.Renderable is { } renderable)
+        {
+            _secretRemasker.WriteRenderable(directConsole, renderable);
+            if (output.AppendNewLine)
+            {
+                directConsole.WriteLine();
+            }
+
+            return 1;
+        }
+
+        if (output.LogEvent is not { } logEvent)
+        {
+            return 1;
+        }
+
+        if (writeStructuredLogsDirectly)
+        {
+            WriteStructuredLogDirectly(
+                console,
+                directConsole,
+                logEvent,
+                fallbackLoggers,
+                failedStructuredDeliveries);
+            return 1;
+        }
+
+        // Synchronous MEL.Spectre rendering preserves this buffer's position
+        // while other providers (for example file logging) still receive the event.
+        logEvent.WriteTo(logger);
+        return 1;
+    }
+
+    private int TryRenderMaskableOutput(
+        IAnsiConsole directConsole,
+        IReadOnlyList<BufferedOutput> outputs,
+        int index) =>
+        _secretRemasker.TryWrite(directConsole, outputs, index);
+
+    private void WriteStructuredLogDirectly(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries)
+    {
+        var failedLoggers = WriteToFallbackLoggers(logEvent, fallbackLoggers, console);
+        if (failedLoggers.Count > 0)
+        {
+            failedStructuredDeliveries.Add(new StructuredDeliveryRetry(logEvent, failedLoggers));
+        }
+
+        var wroteToDirectStructuredLogSink = fallbackLoggers.Any(logger =>
+            logger is IDirectStructuredLogSink && !failedLoggers.Contains(logger));
+        if (!_isSpectreEnabled(logEvent.Level) || wroteToDirectStructuredLogSink)
+        {
+            return;
+        }
+
+        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
+        if (logEvent.FormatException() is { } formattedException)
+        {
+            console.WriteLine(formattedException);
         }
     }
 
@@ -885,6 +1018,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return !string.IsNullOrEmpty(output.StringValue);
         }
 
+        if (output.IsRenderable)
+        {
+            return true;
+        }
+
         if (output.LogEvent is not { } logEvent)
         {
             return false;
@@ -908,15 +1046,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return !foundBufferedConsoleLogger && isStructuredLogEnabled(logEvent.Level);
     }
 
-    private static IAnsiConsole CreateDirectConsole(TextWriter writer)
+    private IAnsiConsole CreateDirectConsole(TextWriter writer)
     {
-        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        return AnsiConsole.Create(new AnsiConsoleSettings
         {
             Out = new AnsiConsoleOutput(writer),
         });
-        console.Profile.Width = AnsiConsole.Profile.Width;
-        console.Profile.Capabilities = AnsiConsole.Profile.Capabilities;
-        return console;
+    }
+
+    private void RefreshDirectConsoleProfile(IAnsiConsole directConsole)
+    {
+        var sourceProfile = _renderableConsole?.Profile ?? AnsiConsole.Profile;
+        directConsole.Profile.Width = sourceProfile.Width;
+        directConsole.Profile.Height = sourceProfile.Height;
+        directConsole.Profile.Capabilities = sourceProfile.Capabilities;
     }
 
     private static void WriteDirect(
@@ -984,14 +1127,44 @@ internal readonly struct BufferedOutput
     public IBufferedLogEvent? LogEvent { get; private init; }
 
     /// <summary>
+    /// Gets the rich renderable value, when present.
+    /// </summary>
+    public IRenderable? Renderable { get; private init; }
+
+    /// <summary>
+    /// Gets the plain-text representation retained for run reports.
+    /// </summary>
+    public string? RenderablePlainText { get; private init; }
+
+    /// <summary>
     /// Gets a value indicating whether this output contains a string.
     /// </summary>
     public bool IsString => StringValue != null;
 
     /// <summary>
+    /// Gets a value indicating whether this output contains a rich renderable.
+    /// </summary>
+    public bool IsRenderable => Renderable != null;
+
+    /// <summary>
+    /// Gets a value indicating whether this output participates in secret-aware rendering.
+    /// </summary>
+    internal bool IsMaskable => IsRenderable || (IsString && !IsRawBuildSystemCommand);
+
+    /// <summary>
+    /// Gets the plain-text representation used for cross-fragment secret matching.
+    /// </summary>
+    internal string MaskablePlainText => StringValue ?? RenderablePlainText ?? string.Empty;
+
+    /// <summary>
     /// Gets a value indicating whether this string is a raw build-system command.
     /// </summary>
     public bool IsRawBuildSystemCommand { get; private init; }
+
+    /// <summary>
+    /// Gets a value indicating whether console interception already obfuscated this string.
+    /// </summary>
+    public bool IsPreObfuscated { get; private init; }
 
     /// <summary>
     /// Gets the output stream represented by this item.
@@ -1009,8 +1182,15 @@ internal readonly struct BufferedOutput
     public static BufferedOutput FromString(
         string value,
         ModuleOutputStream stream = ModuleOutputStream.StandardOutput,
-        bool appendNewLine = true) =>
-        new() { StringValue = value, Stream = stream, AppendNewLine = appendNewLine };
+        bool appendNewLine = true,
+        bool isPreObfuscated = false) =>
+        new()
+        {
+            StringValue = value,
+            Stream = stream,
+            AppendNewLine = appendNewLine,
+            IsPreObfuscated = isPreObfuscated,
+        };
 
     /// <summary>
     /// Creates a buffered output from a raw build-system command.
@@ -1020,6 +1200,21 @@ internal readonly struct BufferedOutput
         {
             StringValue = value,
             IsRawBuildSystemCommand = true,
+        };
+
+    /// <summary>
+    /// Creates buffered output from a rich renderable.
+    /// </summary>
+    public static BufferedOutput FromRenderable(
+        IRenderable renderable,
+        string plainText,
+        bool appendNewLine = true) =>
+        new()
+        {
+            Renderable = renderable,
+            RenderablePlainText = plainText,
+            Stream = ModuleOutputStream.StandardOutput,
+            AppendNewLine = appendNewLine,
         };
 
     /// <summary>

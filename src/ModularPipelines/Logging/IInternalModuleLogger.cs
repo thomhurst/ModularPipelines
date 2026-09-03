@@ -16,4 +16,10 @@ internal interface IInternalModuleLogger : IModuleLogger
     /// Sets the final module status used when rendering buffered output.
     /// </summary>
     void SetStatus(ModuleStatus status);
+
+    /// <summary>
+    /// Prevents this scoped logger from completing the shared module output buffer.
+    /// Used when scheduling defers the module before execution starts.
+    /// </summary>
+    void PreserveBufferForDeferredExecution();
 }

@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Execution;
@@ -14,7 +15,7 @@ internal class ModuleLifecycleContext
         IReadOnlyList<Attribute> moduleAttributes,
         DateTimeOffset startTime,
         IPipelineContext pipelineContext,
-        IServiceProvider scopedServiceProvider,
+        IConsoleWriter consoleWriter,
         CancellationToken cancellationToken)
     {
         Module = module;
@@ -22,7 +23,7 @@ internal class ModuleLifecycleContext
         ModuleAttributes = moduleAttributes;
         StartTime = startTime;
         PipelineContext = pipelineContext;
-        ScopedServiceProvider = scopedServiceProvider;
+        ConsoleWriter = consoleWriter;
         CancellationToken = cancellationToken;
     }
 
@@ -52,9 +53,9 @@ internal class ModuleLifecycleContext
     public IPipelineContext PipelineContext { get; }
 
     /// <summary>
-    /// Gets the scoped service provider for this module execution.
+    /// Gets the console writer scoped to this module execution.
     /// </summary>
-    public IServiceProvider ScopedServiceProvider { get; }
+    public IConsoleWriter ConsoleWriter { get; }
 
     /// <summary>
     /// Gets the cancellation token.
