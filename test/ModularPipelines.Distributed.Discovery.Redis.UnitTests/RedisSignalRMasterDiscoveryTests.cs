@@ -13,11 +13,12 @@ public class RedisSignalRMasterDiscoveryTests
         // Arrange
         var db = new Mock<IDatabase>();
 
-        // Setup all StringSetAsync overloads to capture the call
-        // StackExchange.Redis 2.x has: StringSetAsync(RedisKey, RedisValue, TimeSpan?, ...)
         db.Setup(d => d.StringSetAsync(
-                It.IsAny<RedisKey>(), It.IsAny<RedisValue>(),
-                It.IsAny<TimeSpan?>(), It.IsAny<bool>(), It.IsAny<When>(), It.IsAny<CommandFlags>()))
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
             .ReturnsAsync(true);
 
         var connection = new Mock<IConnectionMultiplexer>();
@@ -35,6 +36,15 @@ public class RedisSignalRMasterDiscoveryTests
 
         // Act — should not throw
         await discovery.AdvertiseMasterUrlAsync("http://master:5099", CancellationToken.None);
+
+        db.Verify(d => d.StringSetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.Is<Expiration>(expiration =>
+                    expiration.Equals(new Expiration(TimeSpan.FromMinutes(10)))),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()),
+            Times.Once);
     }
 
     [Test]
