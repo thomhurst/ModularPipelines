@@ -28,7 +28,7 @@ builder.AddRedisDistributed(
     artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
-Set `RUN_IDENTIFIER` to the same unique value on every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
+Set `RUN_IDENTIFIER` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
 

@@ -43,6 +43,7 @@ You can also bind from configuration:
   "Distributed": {
     "InstanceIndex": 0,
     "TotalInstances": 4,
+    "RunId": "unique-invocation-id",
     "Capabilities": ["docker"],
     "CapabilityTimeout": "00:05:00"
   }
@@ -84,10 +85,10 @@ Distributed coordination requires an invocation-scoped identifier. It is resolve
 | 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
 | 3 | Generated GUID | Single-process/default fallback |
 
-Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
-Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER` value before
-starting the master and workers. CI workflows must likewise generate or derive one invocation-specific
-value and export it as `RUN_IDENTIFIER` for every master and worker.
+Use an invocation-specific value rather than a stable commit identifier so rerunning the same commit
+receives a fresh Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER`
+value before starting the master and workers. CI workflows must likewise generate or derive one
+invocation-specific value and export it as `RUN_IDENTIFIER` for every master and worker.
 
 ## Redis Key Schema
 
