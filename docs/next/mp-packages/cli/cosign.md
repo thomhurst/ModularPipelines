@@ -30,12 +30,12 @@ var cosign = context.Tools.Cosign;
 | -------------------------------- | ------------------------------------ |
 | `cosign attest`                  | `CosignAttestOptions`                |
 | `cosign attest-blob`             | `CosignAttestBlobOptions`            |
-| `cosign bundle`                  | `CosignBundleExecuteOptions`         |
+| `cosign bundle`                  | `CosignBundleOptions`                |
 | `cosign bundle create`           | `CosignBundleCreateOptions`          |
 | `cosign bundle inspect`          | `CosignBundleInspectOptions`         |
 | `cosign bundle upgrade`          | `CosignBundleUpgradeOptions`         |
 | `cosign clean`                   | `CosignCleanOptions`                 |
-| `cosign download`                | `CosignDownloadExecuteOptions`       |
+| `cosign download`                | `CosignDownloadOptions`              |
 | `cosign download attestation`    | `CosignDownloadAttestationOptions`   |
 | `cosign download sbom`           | `CosignDownloadSbomOptions`          |
 | `cosign download signature`      | `CosignDownloadSignatureOptions`     |
@@ -48,10 +48,10 @@ var cosign = context.Tools.Cosign;
 | `cosign save`                    | `CosignSaveOptions`                  |
 | `cosign sign`                    | `CosignSignOptions`                  |
 | `cosign sign-blob`               | `CosignSignBlobOptions`              |
-| `cosign signing-config`          | `CosignSigningConfigExecuteOptions`  |
+| `cosign signing-config`          | `CosignSigningConfigOptions`         |
 | `cosign signing-config create`   | `CosignSigningConfigCreateOptions`   |
 | `cosign tree`                    | `CosignTreeOptions`                  |
-| `cosign trusted-root`            | `CosignTrustedRootExecuteOptions`    |
+| `cosign trusted-root`            | `CosignTrustedRootOptions`           |
 | `cosign trusted-root create`     | `CosignTrustedRootCreateOptions`     |
 | `cosign verify`                  | `CosignVerifyOptions`                |
 | `cosign verify-attestation`      | `CosignVerifyAttestationOptions`     |
