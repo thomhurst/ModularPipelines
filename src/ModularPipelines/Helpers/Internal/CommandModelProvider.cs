@@ -147,14 +147,6 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             : 1;
     }
 
-    [RequiresUnreferencedCode("Legacy generated metadata requires option property metadata.")]
-    internal static int GetManualOperandCount(Type optionsType, string propertyName) =>
-        GetHierarchyProperties(optionsType)
-            .FirstOrDefault(property => property.Name == propertyName
-                                        && GetCommandAttribute(optionsType, property) is not null) is { } property
-            ? GetManualOperandCount(property.PropertyType)
-            : 1;
-
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
     internal static IEnumerable<PropertyInfo> GetOptionProperties(Type optionsType)
     {
