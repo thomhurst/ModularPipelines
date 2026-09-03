@@ -23,10 +23,34 @@ public record GoToolOptions(
 ) : GoOptions
 {
     /// <summary>
-    /// The -n option.
+    /// The -n flag causes tool to print the command that would be executed but not execute it.
     /// </summary>
     [CliFlag("-n")]
     public bool? N { get; set; }
+
+    /// <summary>
+    /// The -modfile=file.mod build flag causes tool to use an alternate file instead of the go.mod in the module root directory.
+    /// </summary>
+    [CliOption("-modfile", Format = OptionFormat.EqualsSeparated)]
+    public string? Modfile { get; set; }
+
+    /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
+    public string? C { get; set; }
+
+    /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliOption("-overlay")]
+    public string? Overlay { get; set; }
+
+    /// <summary>
+    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
+    /// </summary>
+    [CliFlag("-modcacherw")]
+    public bool? Modcacherw { get; set; }
 
     /// <summary>
     /// The args operand.

@@ -21,7 +21,7 @@ namespace ModularPipelines.Go.Options;
 public record GoWorkUseOptions : GoOptions
 {
     /// <summary>
-    /// The -r option.
+    /// The -r flag searches recursively for modules in the argument directories, and the use command operates as if each of the directories were specified as arguments. When -r is used, symlinks to directories within the argument tree are ignored.
     /// </summary>
     [CliFlag("-r")]
     public bool? R { get; set; }
