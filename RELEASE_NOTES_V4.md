@@ -120,6 +120,12 @@ are now `RunIdentifier`. `ModuleAssignmentConfig` is now
 registered with `AddDistributedArtifactStore<TStore>()` or
 `AddDistributedArtifactStoreFactory<TFactory>()`.
 
+## Module console output
+
+`IConsoleWriter` now lives in `ModularPipelines.Logging` and is available from
+`context.Console`. Use `WriteLine` for plain text, `WriteMarkupLine` for
+Spectre.Console markup, and `Write` for renderables. `LogToConsole` was removed.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:
