@@ -102,6 +102,41 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
+    public async Task Superseded_Connection_Cannot_Request_Work_Or_Publish_Result()
+    {
+        var state = new SignalRMasterState();
+        var oldHub = CreateHub(state, "old-connection");
+        var currentHub = CreateHub(state, "current-connection");
+        var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
+        var currentAssignment = CreateAssignment("CurrentModule");
+        state.ResultWaiters[currentAssignment.ModuleTypeName] =
+            new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+
+        await oldHub.RegisterWorker(registration, resumingModuleTypeName: null);
+        var oldWorker = state.Workers["old-connection"];
+        oldWorker.TryAssign(currentAssignment);
+
+        await currentHub.RegisterWorker(
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            currentAssignment.ModuleTypeName);
+
+        state.PendingAssignments.Enqueue(CreateAssignment("NextModule"));
+        await oldHub.RequestWork([]);
+        await oldHub.PublishResult(CreateResult(currentAssignment.ModuleTypeName));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(state.Workers.ContainsKey("old-connection")).IsFalse();
+            await Assert.That(state.Workers["current-connection"].CurrentAssignment)
+                .IsSameReferenceAs(currentAssignment);
+            await Assert.That(state.PendingAssignments).Count().IsEqualTo(1);
+            await Assert.That(state.ResultWaiters[currentAssignment.ModuleTypeName].Task.IsCompleted)
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Registration_Replacement_Cannot_Race_With_Stale_Heartbeat_Persistence()
     {
         var state = new SignalRMasterState();
@@ -173,8 +208,7 @@ public class DistributedPipelineHubTests
             ConnectionId = "connection-1",
             Registration = registration,
         };
-        state.Workers[worker.ConnectionId] = worker;
-        state.Registrations[registration.WorkerIndex] = registration;
+        state.RegisterWorker(worker);
         state.WorkerStatuses[registration.WorkerIndex] = status;
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
@@ -210,7 +244,7 @@ public class DistributedPipelineHubTests
             Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
         worker.TryAssign(CreateAssignment("CurrentModule"));
-        state.Workers[worker.ConnectionId] = worker;
+        state.RegisterWorker(worker);
 
         var context = new Mock<HubCallerContext>();
         context.SetupGet(x => x.ConnectionId).Returns(worker.ConnectionId);

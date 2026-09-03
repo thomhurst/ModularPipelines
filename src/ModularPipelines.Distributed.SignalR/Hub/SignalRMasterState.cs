@@ -77,11 +77,18 @@ internal class SignalRMasterState
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
 
-    public void RegisterWorker(WorkerState worker)
+    public WorkerState? RegisterWorker(WorkerState worker)
     {
         var registration = worker.Registration;
         lock (GetWorkerStateLock(registration.WorkerIndex))
         {
+            var supersededWorker = Workers.Values.FirstOrDefault(candidate =>
+                candidate.Registration.WorkerIndex == registration.WorkerIndex);
+            if (supersededWorker is not null)
+            {
+                Workers.TryRemove(supersededWorker.ConnectionId, out _);
+            }
+
             Registrations[registration.WorkerIndex] = registration;
             Workers[worker.ConnectionId] = worker;
             var pendingStatus = PendingWorkerStatuses.TryRemove(worker.ConnectionId, out var status)
@@ -102,6 +109,7 @@ internal class SignalRMasterState
                     ? pendingStatus ?? currentStatus
                     : initialStatus);
             Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+            return supersededWorker;
         }
     }
 
@@ -310,6 +318,27 @@ internal class SignalRMasterState
     {
         using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName);
         return CompleteResult(result);
+    }
+
+    public async Task<(bool Accepted, IReadOnlyList<WorkerState> WorkersToRelease)>
+        TryCompleteWorkerResultAsync(WorkerState worker, SerializedModuleResult result)
+    {
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
+            .ConfigureAwait(false);
+        var workerIndex = worker.Registration.WorkerIndex;
+        lock (GetWorkerStateLock(workerIndex))
+        {
+            if (workerIndex != result.WorkerIndex
+                || !Workers.TryGetValue(worker.ConnectionId, out var currentWorker)
+                || !ReferenceEquals(currentWorker, worker)
+                || !Registrations.TryGetValue(workerIndex, out var currentRegistration)
+                || !ReferenceEquals(currentRegistration, worker.Registration))
+            {
+                return (false, []);
+            }
+
+            return (true, CompleteResult(result));
+        }
     }
 
     private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)

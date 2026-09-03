@@ -31,6 +31,18 @@ internal class DistributedPipelineHub(
             Registration = registration,
         };
 
+        var supersededWorker = state.RegisterWorker(workerState);
+        PendingReconnect? supersededReconnect = null;
+        var supersededAssignment = supersededWorker?.ClearAssignment();
+        if (supersededAssignment is not null
+            && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleTypeName, out var waiter)
+            && !waiter.Task.IsCompleted)
+        {
+            supersededReconnect = state.TrackPendingReconnect(
+                supersededWorker!,
+                supersededAssignment);
+        }
+
         // A reconnect may restore work only when the worker claims the same in-flight
         // module. The stable index alone is insufficient because a replacement process
         // can reuse it without owning the original execution.
@@ -45,7 +57,10 @@ internal class DistributedPipelineHub(
                 recoveredAssignment!.ModuleTypeName);
         }
 
-        state.RegisterWorker(workerState);
+        if (supersededReconnect is not null)
+        {
+            _ = ReEnqueueAfterGraceAsync(state, _logger, supersededReconnect);
+        }
 
         // Cancellation is durable master state. A worker that was disconnected
         // during the original broadcast must receive it before registration returns.
@@ -91,16 +106,25 @@ internal class DistributedPipelineHub(
     {
         var state = _masterState;
 
+        if (!state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
+        {
+            return;
+        }
+
         _logger.LogDebug("Received result for {Module} from worker {Worker}",
             result.ModuleTypeName, result.WorkerIndex);
 
         // 1. Complete the result and atomically capture workers involved in reconnect
         // recovery before a concurrent registration can start tracking the assignment.
-        var workersToRelease = (await state.CompleteResultAsync(result)).ToHashSet();
-        if (state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
+        var completion = await state.TryCompleteWorkerResultAsync(sendingWorker, result)
+            .ConfigureAwait(false);
+        if (!completion.Accepted)
         {
-            workersToRelease.Add(sendingWorker);
+            return;
         }
+
+        var workersToRelease = completion.WorkersToRelease.ToHashSet();
+        workersToRelease.Add(sendingWorker);
 
         // 2. Broadcast ReceiveDependencyResult to all workers for CompletionSource pre-population
         await Clients.Others.SendAsync(HubMethodNames.ReceiveDependencyResult, result);
