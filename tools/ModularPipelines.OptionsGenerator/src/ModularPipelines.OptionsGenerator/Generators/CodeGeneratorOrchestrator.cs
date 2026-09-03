@@ -932,7 +932,8 @@ public class CodeGeneratorOrchestrator
                 cancellationToken,
                 enforceOutputContainment ? outputDirectory : null,
                 "generated file path",
-                fileNamesByDirectory);
+                fileNamesByDirectory,
+                replaceableExistingPaths);
             writtenFullPaths.Add(Path.GetFullPath(fullPath));
             result.FilesGenerated.Add(file.RelativePath);
             emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
@@ -1157,7 +1158,8 @@ public class CodeGeneratorOrchestrator
         CancellationToken cancellationToken,
         string? containmentRoot = null,
         string propertyName = "generated path",
-        IDictionary<string, HashSet<string>>? fileNamesByDirectory = null)
+        IDictionary<string, HashSet<string>>? fileNamesByDirectory = null,
+        IReadOnlySet<string>? replaceableExistingPaths = null)
     {
         if (containmentRoot is not null)
         {
@@ -1169,7 +1171,12 @@ public class CodeGeneratorOrchestrator
         {
             Directory.CreateDirectory(directory);
             var fileNames = GetFileNames(directory, fileNamesByDirectory);
-            EnsureExactFileNameCasing(path, directory, fileNames);
+            EnsureExactFileNameCasing(
+                path,
+                directory,
+                fileNames,
+                containmentRoot,
+                replaceableExistingPaths);
         }
 
         if (containmentRoot is not null)
@@ -1205,7 +1212,9 @@ public class CodeGeneratorOrchestrator
     private static void EnsureExactFileNameCasing(
         string path,
         string directory,
-        ISet<string> names)
+        ISet<string> names,
+        string? containmentRoot,
+        IReadOnlySet<string>? replaceableExistingPaths)
     {
         var expectedName = Path.GetFileName(path);
         if (names.Contains(expectedName))
@@ -1221,6 +1230,15 @@ public class CodeGeneratorOrchestrator
         }
 
         var existingPath = Path.Combine(directory, casingVariant);
+        var ownershipRoot = containmentRoot ?? directory;
+        if (!IsExternallyOwnedGeneratedFile(ownershipRoot, existingPath)
+            && (replaceableExistingPaths is null
+                || !replaceableExistingPaths.Contains(Path.GetFullPath(existingPath))))
+        {
+            throw new InvalidDataException(
+                $"Refusing to rename existing path '{existingPath}' because it is not owned by this generation.");
+        }
+
         var temporaryPath = Path.Combine(directory, $".{Guid.NewGuid():N}.casing.tmp");
         File.Move(existingPath, temporaryPath);
         try
