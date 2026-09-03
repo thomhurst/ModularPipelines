@@ -4,16 +4,20 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 using OptionsFactory = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.UnitTests.Caching;
@@ -151,6 +155,18 @@ public class ModuleCacheTests
         protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
                 .WithCacheKeyPart(KeyPart)
                 .WithCacheAssemblyVersionKey(AssemblyVersionKey);
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("stable");
+    }
+
+    private sealed class ReusedFingerprintModule : Module<string>
+    {
+        public const string EnvironmentVariable = "MODULARPIPELINES_REUSED_FINGERPRINT_TEST";
+
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
+            .WithCacheEnvironmentVariable(EnvironmentVariable);
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -1176,6 +1192,47 @@ public class ModuleCacheTests
                 .WithCacheAssemblyVersionKey(" "));
 
         await Assert.That(exception.ParamName).IsEqualTo("value");
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task Pending_Fingerprint_Is_Reused_For_Repeat_Lookup()
+    {
+        var originalValue = Environment.GetEnvironmentVariable(ReusedFingerprintModule.EnvironmentVariable);
+        var fingerprints = new List<string>();
+        var module = new ReusedFingerprintModule();
+        var options = new ModuleCacheOptions { WorkingDirectory = Path.GetTempPath() };
+        var store = new Mock<IModuleCacheStore>();
+        store.Setup(instance => instance.OpenReadAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<string, CancellationToken>((fingerprint, _) => fingerprints.Add(fingerprint))
+            .ReturnsAsync((Stream?) null);
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.As<IInternalPipelineContext>();
+        var repository = new ModuleCacheResultRepository(
+            store.Object,
+            OptionsFactory.Create(options),
+            new ModuleCacheFileHasher(OptionsFactory.Create(options)),
+            new ModuleLookup([module]),
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
+            NullLogger<ModuleCacheResultRepository>.Instance);
+
+        try
+        {
+            Environment.SetEnvironmentVariable(ReusedFingerprintModule.EnvironmentVariable, "first");
+            await repository.GetResultAsync(module, pipelineContext.Object, CancellationToken.None);
+            Environment.SetEnvironmentVariable(ReusedFingerprintModule.EnvironmentVariable, "second");
+            await repository.GetResultAsync(module, pipelineContext.Object, CancellationToken.None);
+
+            await Assert.That(fingerprints).Count().IsEqualTo(2);
+            await Assert.That(fingerprints[1]).IsEqualTo(fingerprints[0]);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(ReusedFingerprintModule.EnvironmentVariable, originalValue);
+        }
     }
 
     [Test]
