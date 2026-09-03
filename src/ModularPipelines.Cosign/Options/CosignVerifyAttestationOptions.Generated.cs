@@ -210,7 +210,7 @@ public record CosignVerifyAttestationOptions(
     /// security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
     /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
-    public CosignVerifyAttestationSlot? Slot { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Path to a Sigstore TrustedRoot JSON file

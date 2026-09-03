@@ -33,6 +33,17 @@ function Write-Sarif([string] $Path, [object[]] $Results) {
     } | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $Path
 }
 
+function Write-SarifV1([string] $Path, [object[]] $Results) {
+    foreach ($result in $Results) {
+        $result.locations = @(@{ resultFile = @{ uri = $targetUri } })
+    }
+
+    @{
+        version = '1.0.0'
+        runs = @(@{ results = $Results })
+    } | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $Path
+}
+
 try {
     $errorLog = Join-Path $resolvedTestRoot 'compiler.sarif'
     $snapshot = Join-Path $resolvedTestRoot 'PublicAPI.Unshipped.txt'
@@ -64,6 +75,18 @@ try {
             [string[]] $expected,
             [StringComparer]::Ordinal)) {
         throw "Unexpected snapshot contents: $($actual -join ', ')"
+    }
+
+    Write-SarifV1 $errorLog @(
+        @{ ruleId = 'RS0016'; message = "Symbol 'Api.FromSarifV1' is not part of the declared public API" }
+    )
+    & $snapshotScript `
+        -ErrorLogPath $errorLog `
+        -SnapshotPath $snapshot `
+        -PackageDirectory $packageDirectory `
+        -RequireEntries
+    if ((Get-Content -LiteralPath $snapshot -Raw) -notmatch 'Api\.FromSarifV1') {
+        throw 'SARIF v1 resultFile URI was not extracted.'
     }
 
     Write-Sarif $errorLog @(
