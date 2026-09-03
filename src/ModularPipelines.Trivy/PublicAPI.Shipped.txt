@@ -513,10 +513,10 @@ ModularPipelines.Trivy.Options.TrivyConfigOptions.HelmSetString.get -> System.Co
 ModularPipelines.Trivy.Options.TrivyConfigOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyConfigOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyConfigOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyConfigOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyConfigOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyConfigOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyConfigOptions.IgnorePolicy.set -> void
+ModularPipelines.Trivy.Options.TrivyConfigOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyConfigOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyConfigOptions.IncludeDeprecatedChecks.get -> bool?
 ModularPipelines.Trivy.Options.TrivyConfigOptions.IncludeDeprecatedChecks.set -> void
 ModularPipelines.Trivy.Options.TrivyConfigOptions.IncludeNonFailures.get -> bool?
@@ -607,10 +607,10 @@ ModularPipelines.Trivy.Options.TrivyConvertOptions.Format.get -> ModularPipeline
 ModularPipelines.Trivy.Options.TrivyConvertOptions.Format.set -> void
 ModularPipelines.Trivy.Options.TrivyConvertOptions.GenerateDefaultConfig.get -> bool?
 ModularPipelines.Trivy.Options.TrivyConvertOptions.GenerateDefaultConfig.set -> void
-ModularPipelines.Trivy.Options.TrivyConvertOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyConvertOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyConvertOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyConvertOptions.IgnorePolicy.set -> void
+ModularPipelines.Trivy.Options.TrivyConvertOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyConvertOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyConvertOptions.Insecure.get -> bool?
 ModularPipelines.Trivy.Options.TrivyConvertOptions.Insecure.set -> void
 ModularPipelines.Trivy.Options.TrivyConvertOptions.ListAllPkgs.get -> bool?
@@ -713,16 +713,16 @@ ModularPipelines.Trivy.Options.TrivyFilesystemOptions.HelmSetString.get -> Syste
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoredLicenses.set -> void
-ModularPipelines.Trivy.Options.TrivyFilesystemOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyFilesystemOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IgnoredLicenses.set -> void
+ModularPipelines.Trivy.Options.TrivyFilesystemOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyFilesystemOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IncludeDeprecatedChecks.get -> bool?
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IncludeDeprecatedChecks.set -> void
 ModularPipelines.Trivy.Options.TrivyFilesystemOptions.IncludeDevDeps.get -> bool?
@@ -910,16 +910,16 @@ ModularPipelines.Trivy.Options.TrivyImageOptions.HelmSetString.get -> System.Col
 ModularPipelines.Trivy.Options.TrivyImageOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyImageOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoredLicenses.set -> void
-ModularPipelines.Trivy.Options.TrivyImageOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyImageOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Trivy.Options.TrivyImageOptions.IgnoredLicenses.set -> void
+ModularPipelines.Trivy.Options.TrivyImageOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyImageOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.ImageConfigScanners.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners>?
 ModularPipelines.Trivy.Options.TrivyImageOptions.ImageConfigScanners.set -> void
 ModularPipelines.Trivy.Options.TrivyImageOptions.ImageName.get -> string?
@@ -1123,14 +1123,14 @@ ModularPipelines.Trivy.Options.TrivyKubernetesOptions.HelmSetString.get -> Syste
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyKubernetesOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyKubernetesOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyKubernetesOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyKubernetesOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.ImageSrc.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc>?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.ImageSrc.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.IncludeDeprecatedChecks.get -> bool?
@@ -1153,12 +1153,12 @@ ModularPipelines.Trivy.Options.TrivyKubernetesOptions.ListAllPkgs.get -> bool?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.ListAllPkgs.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.MisconfigScanners.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.MisconfigScanners.set -> void
+ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NoProgress.get -> bool?
+ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NoProgress.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NodeCollectorImageref.get -> string?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NodeCollectorImageref.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NodeCollectorNamespace.get -> string?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NodeCollectorNamespace.set -> void
-ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NoProgress.get -> bool?
-ModularPipelines.Trivy.Options.TrivyKubernetesOptions.NoProgress.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.OfflineScan.get -> bool?
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.OfflineScan.set -> void
 ModularPipelines.Trivy.Options.TrivyKubernetesOptions.Output.get -> string?
@@ -1719,16 +1719,16 @@ ModularPipelines.Trivy.Options.TrivyRepositoryOptions.HelmSetString.get -> Syste
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoredLicenses.set -> void
-ModularPipelines.Trivy.Options.TrivyRepositoryOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyRepositoryOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IgnoredLicenses.set -> void
+ModularPipelines.Trivy.Options.TrivyRepositoryOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyRepositoryOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IncludeDeprecatedChecks.get -> bool?
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IncludeDeprecatedChecks.set -> void
 ModularPipelines.Trivy.Options.TrivyRepositoryOptions.IncludeDevDeps.get -> bool?
@@ -1915,16 +1915,16 @@ ModularPipelines.Trivy.Options.TrivyRootfsOptions.HelmSetString.get -> System.Co
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoredLicenses.set -> void
-ModularPipelines.Trivy.Options.TrivyRootfsOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyRootfsOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Trivy.Options.TrivyRootfsOptions.IgnoredLicenses.set -> void
+ModularPipelines.Trivy.Options.TrivyRootfsOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyRootfsOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IncludeDeprecatedChecks.get -> bool?
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IncludeDeprecatedChecks.set -> void
 ModularPipelines.Trivy.Options.TrivyRootfsOptions.IncludeNonFailures.get -> bool?
@@ -2075,16 +2075,16 @@ ModularPipelines.Trivy.Options.TrivySbomOptions.Format.get -> ModularPipelines.T
 ModularPipelines.Trivy.Options.TrivySbomOptions.Format.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.GenerateDefaultConfig.get -> bool?
 ModularPipelines.Trivy.Options.TrivySbomOptions.GenerateDefaultConfig.set -> void
-ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoredLicenses.set -> void
-ModularPipelines.Trivy.Options.TrivySbomOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivySbomOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoredLicenses.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Trivy.Options.TrivySbomOptions.IgnoredLicenses.set -> void
+ModularPipelines.Trivy.Options.TrivySbomOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivySbomOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.Insecure.get -> bool?
 ModularPipelines.Trivy.Options.TrivySbomOptions.Insecure.set -> void
 ModularPipelines.Trivy.Options.TrivySbomOptions.JavaDbRepository.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -2409,14 +2409,14 @@ ModularPipelines.Trivy.Options.TrivyVmOptions.HelmSetString.get -> System.Collec
 ModularPipelines.Trivy.Options.TrivyVmOptions.HelmSetString.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.HelmValues.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Trivy.Options.TrivyVmOptions.HelmValues.set -> void
-ModularPipelines.Trivy.Options.TrivyVmOptions.Ignorefile.get -> string?
-ModularPipelines.Trivy.Options.TrivyVmOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnorePolicy.get -> string?
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnorePolicy.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnoreStatus.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus>?
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnoreStatus.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnoreUnfixed.get -> bool?
 ModularPipelines.Trivy.Options.TrivyVmOptions.IgnoreUnfixed.set -> void
+ModularPipelines.Trivy.Options.TrivyVmOptions.Ignorefile.get -> string?
+ModularPipelines.Trivy.Options.TrivyVmOptions.Ignorefile.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.IncludeNonFailures.get -> bool?
 ModularPipelines.Trivy.Options.TrivyVmOptions.IncludeNonFailures.set -> void
 ModularPipelines.Trivy.Options.TrivyVmOptions.Insecure.get -> bool?
@@ -2521,7 +2521,6 @@ ModularPipelines.Trivy.Services.TrivyRegistry
 ModularPipelines.Trivy.Services.TrivyVex
 ModularPipelines.Trivy.Services.TrivyVex.Repo.get -> ModularPipelines.Trivy.Services.TrivyVexRepo!
 ModularPipelines.Trivy.Services.TrivyVexRepo
-override abstract ModularPipelines.Trivy.Options.TrivyOptions.<Clone>$() -> ModularPipelines.Trivy.Options.TrivyOptions!
 override ModularPipelines.Trivy.Options.TrivyCleanOptions.<Clone>$() -> ModularPipelines.Trivy.Options.TrivyCleanOptions!
 override ModularPipelines.Trivy.Options.TrivyCleanOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Trivy.Options.TrivyCleanOptions.Equals(object? obj) -> bool
@@ -2713,6 +2712,7 @@ override ModularPipelines.Trivy.Options.TrivyVmOptions.Equals(object? obj) -> bo
 override ModularPipelines.Trivy.Options.TrivyVmOptions.GetHashCode() -> int
 override ModularPipelines.Trivy.Options.TrivyVmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Trivy.Options.TrivyVmOptions.ToString() -> string!
+override abstract ModularPipelines.Trivy.Options.TrivyOptions.<Clone>$() -> ModularPipelines.Trivy.Options.TrivyOptions!
 override sealed ModularPipelines.Trivy.Options.TrivyCleanOptions.Equals(ModularPipelines.Trivy.Options.TrivyOptions? other) -> bool
 override sealed ModularPipelines.Trivy.Options.TrivyConfigOptions.Equals(ModularPipelines.Trivy.Options.TrivyOptions? other) -> bool
 override sealed ModularPipelines.Trivy.Options.TrivyConvertOptions.Equals(ModularPipelines.Trivy.Options.TrivyOptions? other) -> bool
