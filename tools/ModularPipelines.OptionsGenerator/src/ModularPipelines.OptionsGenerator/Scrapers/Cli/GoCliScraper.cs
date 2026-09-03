@@ -582,8 +582,54 @@ public partial class GoCliScraper : CliScraperBase
         AddDocumentedOptions(normalizedHelpText.Split('\n'), options, repeatableOptions);
         AddProseOptions(paragraphs, options, repeatableOptions);
         ApplyCommandSpecificOptionShapes(commandParts, options);
+        DisambiguatePropertyNames(options);
         return options;
     }
+
+    private static void DisambiguatePropertyNames(List<CliOptionDefinition> options)
+    {
+        var usedPropertyNames = options
+            .GroupBy(option => option.PropertyName, StringComparer.Ordinal)
+            .Where(group => group.Count() == 1)
+            .Select(group => group.Key)
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var group in options
+                     .GroupBy(option => option.PropertyName, StringComparer.Ordinal)
+                     .Where(group => group.Count() > 1)
+            .OrderBy(group => group.Key, StringComparer.Ordinal))
+        {
+            foreach (var option in group.OrderBy(option => option.SwitchName, StringComparer.Ordinal))
+            {
+                var encodedSwitchName = EncodeSwitchName(option.SwitchName);
+                var propertyName = encodedSwitchName;
+                var suffix = 2;
+                while (!usedPropertyNames.Add(propertyName))
+                {
+                    propertyName = $"{encodedSwitchName}{suffix++}";
+                }
+
+                var optionIndex = options.FindIndex(item =>
+                    item.SwitchName.Equals(option.SwitchName, StringComparison.Ordinal));
+                options[optionIndex] = option with
+                {
+                    PropertyName = propertyName,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, option.IsFlag),
+                };
+            }
+        }
+    }
+
+    private static string EncodeSwitchName(string switchName) =>
+        string.Concat(switchName.TrimStart('-').Select(character => character switch
+        {
+            >= 'A' and <= 'Z' => $"Upper{character}",
+            >= 'a' and <= 'z' => $"Lower{char.ToUpperInvariant(character)}",
+            >= '0' and <= '9' => $"Digit{character}",
+            '-' => "Hyphen",
+            '_' => "Underscore",
+            _ => $"Character{(int) character:X4}",
+        }));
 
     private static void ApplyCommandSpecificOptionShapes(
         IReadOnlyList<string> commandParts,
@@ -956,17 +1002,18 @@ public partial class GoCliScraper : CliScraperBase
                 break;
             }
 
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
             if (trimmedNext.EndsWith(':') && trimmedNext.Length < 30)
             {
                 break;
             }
 
             var continuationIndentation = nextLine.Length - nextLine.TrimStart().Length;
+            if (GoOptionLinePattern().IsMatch(nextLine)
+                && continuationIndentation <= declarationIndentation)
+            {
+                break;
+            }
+
             if (continuationIndentation <= declarationIndentation)
             {
                 break;

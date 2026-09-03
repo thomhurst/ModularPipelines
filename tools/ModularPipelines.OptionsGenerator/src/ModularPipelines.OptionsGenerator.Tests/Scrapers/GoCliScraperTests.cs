@@ -298,7 +298,28 @@ public class GoCliScraperTests
             await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
             await Assert.That(workingDirectory.Description).Contains("Change to dir");
             await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(compileOnly.PropertyName).IsEqualTo("LowerC");
+            await Assert.That(workingDirectory.PropertyName).IsEqualTo("UpperC");
+            await Assert.That(test.Options.Select(option => option.PropertyName).Distinct(StringComparer.Ordinal).Count())
+                .IsEqualTo(test.Options.Count);
         }
+    }
+
+    [Test]
+    public async Task Preserves_Hyphen_Led_Description_Continuations()
+    {
+        const string helpText = """
+            usage: go test [-fuzz regexp]
+
+                -fuzz regexp
+                    Run the fuzz test matching regexp and minimize it using
+                    -fuzzminimizetime 1h30s).
+            """;
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(["go", "test"], helpText);
+
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "-fuzz").Description)
+            .Contains("-fuzzminimizetime 1h30s).");
     }
 
     [Test]
