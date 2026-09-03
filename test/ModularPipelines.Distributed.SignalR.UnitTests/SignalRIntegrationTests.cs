@@ -158,7 +158,7 @@ public class SignalRIntegrationTests
                 ResultTypeName: "System.Int32",
                 RequiredCapabilities: new HashSet<Capability>(),
                 AssignedAt: DateTimeOffset.UtcNow,
-                Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+                Configuration: new ModuleAssignmentConfiguration(null, false));
 
             masterState.PendingAssignments.Enqueue(moduleAssignment);
 
@@ -247,19 +247,19 @@ public class SignalRIntegrationTests
                 "WindowsBuildModule", "System.String",
                 new HashSet<Capability> { "windows" },
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, 0, false));
+                new ModuleAssignmentConfiguration(null, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule", "System.String",
                 new HashSet<Capability> { "linux", "docker" },
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, 0, false));
+                new ModuleAssignmentConfiguration(null, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule", "System.String",
                 new HashSet<Capability>(),
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, 0, false));
+                new ModuleAssignmentConfiguration(null, false));
 
             masterState.PendingAssignments.Enqueue(windowsModule);
             masterState.PendingAssignments.Enqueue(dockerModule);
@@ -409,7 +409,7 @@ public class SignalRIntegrationTests
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
                     moduleName, "System.String", new HashSet<Capability>(),
-                    DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
+                    DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, false)));
             }
 
             // Worker requests work — will get first assignment, then re-request after each publish

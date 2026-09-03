@@ -31,7 +31,7 @@ public class ReadOnlySetJsonConverterTests
             "System.String",
             new HashSet<Capability> { "Docker" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false))
+            new ModuleAssignmentConfiguration(null, false))
         {
             SatisfiedConditionGroups = ["Conditions.CrossPlatform"],
         };
