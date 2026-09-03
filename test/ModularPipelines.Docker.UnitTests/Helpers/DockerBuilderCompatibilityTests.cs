@@ -80,7 +80,7 @@ public class DockerBuilderCompatibilityTests
         {
             Progress = DockerBuilderHistoryLogsProgress.Plain,
         };
-        var canonicalOptions = (DockerBuildxHistoryLogsOptions)options;
+        var canonicalOptions = (DockerBuildxHistoryLogsOptions) options;
 
         await Assert.That(options.Progress)
             .IsEqualTo(DockerBuilderHistoryLogsProgress.Plain);
@@ -105,6 +105,20 @@ public class DockerBuilderCompatibilityTests
         var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
 
         await AssertArguments(arguments, ["--progress=plain"]);
+    }
+
+    [Test]
+    [Arguments(typeof(DockerBuilderBuildOptions), "context")]
+    [Arguments(typeof(DockerBuilderDapBuildOptions), "context")]
+    [Arguments(typeof(DockerBuilderPolicyEvalOptions), "policy.json")]
+    [Arguments(typeof(DockerBuilderPolicyTestOptions), "policy.json")]
+    public async Task BuilderOptionsRenderInheritedPositionalOperand(Type optionsType, string operand)
+    {
+        var options = Activator.CreateInstance(optionsType, operand)!;
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+        var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
+
+        await Assert.That(arguments).Contains(operand);
     }
 
     [Test]
