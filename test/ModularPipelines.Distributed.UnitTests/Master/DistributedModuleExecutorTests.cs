@@ -1824,15 +1824,37 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var module = new DistributedModule();
+        var secondModule = new AnotherDistributedModule();
+        var resultRegistry = new ModuleResultRegistry();
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler.Setup(handler => handler.WaitForAlwaysRunModulesAsync(
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<Func<ModuleState, Task>>()))
+            .Returns(Task.CompletedTask);
         var executor = CreateExecutor(
-            CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
+            CreateMockScheduler(
+                new ModuleState(module, typeof(DistributedModule)),
+                new ModuleState(secondModule, typeof(AnotherDistributedModule))),
+            resultRegistry: resultRegistry,
             coordinator: coordinator.Object,
+            alwaysRunHandler: alwaysRunHandler.Object,
             conditionHandler: conditionHandler.Object);
 
-        var exception = await Assert.That(async () => await executor.ExecuteAsync([module]))
-            .Throws<InvalidOperationException>();
+        await executor.ExecuteAsync([module, secondModule]);
 
-        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))?.ExceptionOrDefault)
+            .IsSameReferenceAs(failure);
+        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+            It.IsAny<IModule>(),
+            It.IsAny<CancellationToken>()), Times.Once());
+        coordinator.Verify(instance => instance.EnqueueModuleAsync(
+            It.IsAny<ModuleAssignment>(),
+            It.IsAny<CancellationToken>()), Times.Never());
+        alwaysRunHandler.Verify(handler => handler.WaitForAlwaysRunModulesAsync(
+            It.IsAny<IModuleScheduler>(),
+            It.IsAny<IReadOnlyList<IModule>>(),
+            It.IsAny<Func<ModuleState, Task>>()), Times.Once());
         coordinator.Verify(
             instance => instance.BroadcastCancellationAsync(CancellationToken.None),
             Times.Once());
@@ -2015,11 +2037,17 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleResult<SimpleResult>?) null);
 
-        var executor = CreateExecutor(scheduler, cacheResultRepository: cache.Object);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            cacheResultRepository: cache.Object);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => executor.ExecuteAsync([module]));
+        await executor.ExecuteAsync([module]);
 
         cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
+        await Assert.That(resultRegistry.GetResult(module.GetType())?.Status)
+            .IsEqualTo(ModuleStatus.Failed);
     }
 
     [Test]

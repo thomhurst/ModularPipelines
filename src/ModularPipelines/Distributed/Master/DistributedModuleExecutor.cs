@@ -190,6 +190,8 @@ internal class DistributedModuleExecutor(
         CancellationTokenSource pipelineCts,
         Action requestFailureCancellation)
     {
+        pipelineCts.Token.ThrowIfCancellationRequested();
+
         if (await TryRestoreCachedResultAsync(moduleState, scheduler, pipelineCts.Token)
                 .ConfigureAwait(false))
         {
@@ -314,6 +316,22 @@ internal class DistributedModuleExecutor(
                 scheduler,
                 cts,
                 requestFailureCancellation);
+        }
+        catch (OperationCanceledException) when (cts.IsCancellationRequested)
+        {
+            return null;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(
+                exception,
+                "Failed to create a distributed assignment for module {Module}",
+                moduleType.Name);
+            RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed);
+            scheduler.MarkModuleCompleted(moduleType, false, exception);
+            requestFailureCancellation();
+            await cts.CancelAsync().ConfigureAwait(false);
+            return null;
         }
         finally
         {
