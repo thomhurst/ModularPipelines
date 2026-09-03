@@ -93,6 +93,30 @@ public class ExecutionBackendTests
         }
     }
 
+    [Test]
+    public async Task BackendContextRegistersResultWhenModuleAwaitableIsFaulted()
+    {
+        var module = new BackendTestModule();
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule(module)
+            .BuildAsync();
+        var context = pipeline.Services.GetRequiredService<IExecutionBackendContext>();
+        var resultRegistry = pipeline.Services.GetRequiredService<IModuleResultRegistry>();
+        var result = CreateResult(module);
+        var failure = new InvalidOperationException("Concurrent module failure");
+        module.CompletionSource.TrySetException(failure);
+
+        var applied = context.TryApplyResult(module, result);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(applied).IsFalse();
+            await Assert.That(resultRegistry.GetResult(module.GetType())).IsSameReferenceAs(result);
+            await Assert.That(module.CompletionSource.Task.Exception?.InnerException)
+                .IsSameReferenceAs(failure);
+        }
+    }
+
     private static ModuleResult<int> CreateResult(IModule module, int value = 42)
     {
         var now = DateTimeOffset.UtcNow;

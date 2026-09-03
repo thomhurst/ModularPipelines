@@ -524,6 +524,15 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync(cachedResult);
         var resultRegistry = new ModuleResultRegistry();
         var cacheHitTracker = new DistributedCacheHitTracker();
+        var executionContext = new Mock<IExecutionBackendContext>();
+        executionContext.Setup(context => context.TryApplyResult(
+                module,
+                It.IsAny<IModuleResult>()))
+            .Returns<IModule, IModuleResult>((target, result) =>
+            {
+                resultRegistry.RegisterResult(target.GetType(), result);
+                return ModuleCompletionSourceApplicator.TryApply(target, result);
+            });
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
@@ -531,7 +540,7 @@ public class DistributedModuleExecutorTests
             cacheResultRepository: cache.Object,
             cacheHitTracker: cacheHitTracker);
 
-        await executor.ExecuteAsync([module]);
+        await executor.ExecuteAsync([module], executionContext.Object, CancellationToken.None);
 
         var result = await ((IInternalModule) module).ResultTask;
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
@@ -540,6 +549,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(resultRegistry.GetResult(typeof(CachedDistributedModule)))
             .IsSameReferenceAs(result);
         await Assert.That(cacheHitTracker.Contains(result)).IsTrue();
+        executionContext.Verify(context => context.TryApplyResult(module, result), Times.Once());
         coordinator.Verify(c => c.EnqueueModuleAsync(
             It.IsAny<ModuleAssignment>(),
             It.IsAny<CancellationToken>()), Times.Never());

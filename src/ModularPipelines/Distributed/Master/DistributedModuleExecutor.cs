@@ -218,7 +218,7 @@ internal class DistributedModuleExecutor(
     {
         pipelineCts.Token.ThrowIfCancellationRequested();
 
-        if (await TryRestoreCachedResultAsync(moduleState, scheduler, pipelineCts.Token)
+        if (await TryRestoreCachedResultAsync(moduleState, scheduler, context, pipelineCts.Token)
                 .ConfigureAwait(false))
         {
             return;
@@ -376,6 +376,7 @@ internal class DistributedModuleExecutor(
     private async Task<bool> TryRestoreCachedResultAsync(
         ModuleState moduleState,
         IModuleScheduler scheduler,
+        IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         var module = moduleState.Module;
@@ -423,8 +424,7 @@ internal class DistributedModuleExecutor(
             cachedResult,
             ModuleStatus.RestoredFromCache);
         moduleState.Result = restoredResult;
-        _resultRegistry.RegisterResult(moduleType, restoredResult);
-        ModuleCompletionSourceApplicator.TryApply(module, restoredResult);
+        context.TryApplyResult(module, restoredResult);
         _cacheHitTracker.Record(restoredResult);
         scheduler.MarkModuleCompleted(
             moduleType,

@@ -18,10 +18,12 @@ internal sealed class ExecutionBackendContext(IModuleResultRegistry resultRegist
         {
             _resultRegistry.RegisterResult(module.GetType(), result);
         }
-        else if (_resultRegistry.GetResult(module.GetType()) is null
-                 && internalModule.ResultTask.IsCompletedSuccessfully)
+        else if (_resultRegistry.GetResult(module.GetType()) is null)
         {
-            _resultRegistry.RegisterResult(module.GetType(), internalModule.ResultTask.Result);
+            var completedResult = internalModule.ResultTask.IsCompletedSuccessfully
+                ? internalModule.ResultTask.Result
+                : result;
+            _resultRegistry.RegisterResult(module.GetType(), completedResult);
         }
 
         return applied;
