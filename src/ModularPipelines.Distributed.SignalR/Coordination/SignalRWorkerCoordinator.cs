@@ -16,9 +16,13 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     private readonly Channel<ModuleAssignment> _assignmentChannel;
     private readonly TaskCompletionSource _cancellationRequested = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly Lock _reconnectLock = new();
 
     private WorkerRegistration? _lastRegistration;
     private ModuleAssignment? _inFlightAssignment;
+    private TaskCompletionSource<bool> _connectionTransition = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
+    private long _connectionGeneration;
     private volatile bool _awaitingAssignment;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
@@ -42,7 +46,9 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         // connection (re-queuing its in-flight work). Re-register under the new connection
         // and ask for work again so the master resumes dispatching to us; otherwise a
         // reconnected worker is orphaned and sits idle.
+        _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
+        _connection.Closed += OnClosedAsync;
     }
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
@@ -56,10 +62,11 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             _awaitingAssignment = true;
 
             // Request work from master
-            await _connection.InvokeAsync(HubMethodNames.RequestWork, workerCapabilities, cancellationToken);
+            await _connection.InvokeAsync(HubMethodNames.RequestWork, workerCapabilities, cancellationToken)
+                .ConfigureAwait(false);
 
             // Wait for assignment via the channel (populated by ReceiveAssignment callback)
-            if (await _assignmentChannel.Reader.WaitToReadAsync(cancellationToken))
+            if (await _assignmentChannel.Reader.WaitToReadAsync(cancellationToken).ConfigureAwait(false))
             {
                 if (_assignmentChannel.Reader.TryRead(out var assignment))
                 {
@@ -82,7 +89,8 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
 
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
-        await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken);
+        await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken)
+            .ConfigureAwait(false);
 
         var assignment = Volatile.Read(ref _inFlightAssignment);
         if (assignment?.ModuleTypeName == result.ModuleTypeName)
@@ -91,13 +99,32 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         }
     }
 
-    public Task<SerializedModuleResult> WaitForResultAsync(
+    public async Task<SerializedModuleResult> WaitForResultAsync(
         string moduleTypeName,
-        CancellationToken cancellationToken) =>
-        _connection.InvokeAsync<SerializedModuleResult>(
-            HubMethodNames.WaitForResult,
-            moduleTypeName,
-            cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        while (true)
+        {
+            var connectionGeneration = Volatile.Read(ref _connectionGeneration);
+            try
+            {
+                return await _connection.InvokeAsync<SerializedModuleResult>(
+                        HubMethodNames.WaitForResult,
+                        moduleTypeName,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex) when (!cancellationToken.IsCancellationRequested
+                                       && ex is not Microsoft.AspNetCore.SignalR.HubException)
+            {
+                if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken)
+                        .ConfigureAwait(false))
+                {
+                    throw;
+                }
+            }
+        }
+    }
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
@@ -106,7 +133,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             HubMethodNames.RegisterWorker,
             registration,
             Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
         _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
     }
 
@@ -116,8 +143,33 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
         _cancellationRequested.Task.WaitAsync(cancellationToken);
 
+    private Task OnReconnectingAsync(Exception? exception)
+    {
+        lock (_reconnectLock)
+        {
+            if (_connectionTransition.Task.IsCompleted)
+            {
+                _connectionTransition = new TaskCompletionSource<bool>(
+                    TaskCreationOptions.RunContinuationsAsynchronously);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
     private async Task OnReconnectedAsync(string? connectionId)
     {
+        TaskCompletionSource<bool> connectionTransition;
+        lock (_reconnectLock)
+        {
+            Interlocked.Increment(ref _connectionGeneration);
+            connectionTransition = _connectionTransition;
+            _connectionTransition = new TaskCompletionSource<bool>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+        }
+
+        connectionTransition.TrySetResult(true);
+
         var registration = _lastRegistration;
         if (registration is null)
         {
@@ -133,20 +185,49 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             await _connection.InvokeAsync(
                 HubMethodNames.RegisterWorker,
                 registration,
-                Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName);
+                Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName).ConfigureAwait(false);
 
             // Only re-request work if we're idle and waiting for an assignment. If we're
             // mid-execution, the master restored our in-flight module on re-registration;
             // requesting work now would make it dispatch that module again (double run).
             if (_awaitingAssignment)
             {
-                await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities);
+                await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities)
+                    .ConfigureAwait(false);
             }
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to re-register worker {Index} after reconnect", registration.WorkerIndex);
         }
+    }
+
+    private Task OnClosedAsync(Exception? exception)
+    {
+        lock (_reconnectLock)
+        {
+            _connectionTransition.TrySetResult(false);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task<bool> WaitForReconnectAsync(
+        long connectionGeneration,
+        CancellationToken cancellationToken)
+    {
+        Task<bool> connectionTransitionTask;
+        lock (_reconnectLock)
+        {
+            if (_connectionGeneration != connectionGeneration)
+            {
+                return true;
+            }
+
+            connectionTransitionTask = _connectionTransition.Task;
+        }
+
+        return await connectionTransitionTask.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     private void OnReceiveAssignment(ModuleAssignment assignment)

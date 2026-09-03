@@ -555,6 +555,76 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task History_Restored_Result_Is_Published_Before_Dependent_Assignment()
+    {
+        var dependency = new DistributedModule();
+        var dependent = new DependsOnDistributedModule();
+        var dependentState = new ModuleState(dependent, typeof(DependsOnDistributedModule));
+        var scheduler = CreateMockScheduler(dependentState);
+        var resultRegistry = new ModuleResultRegistry();
+        var historyResult = CreateSuccessResult(
+            new SimpleResult { Message = "history" },
+            nameof(DistributedModule),
+            ModuleStatus.RestoredFromHistory);
+        resultRegistry.RegisterResult(typeof(DistributedModule), historyResult);
+
+        var responseTypeRegistry = new ModuleTypeRegistry();
+        responseTypeRegistry.Register(typeof(DependsOnDistributedModule));
+        var responseSerializer = new ModuleResultSerializer(responseTypeRegistry);
+        var dependentResult = CreateSuccessResult("dependent done", nameof(DependsOnDistributedModule));
+        var serializedDependentResult = responseSerializer.Serialize(
+            dependentResult,
+            typeof(DependsOnDistributedModule).FullName!,
+            typeof(string).FullName!,
+            workerIndex: 1);
+
+        var calls = new ConcurrentQueue<string>();
+        ModuleAssignment? publishedAssignment = null;
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<SerializedModuleResult, CancellationToken>((result, _) =>
+                calls.Enqueue($"result:{result.ModuleTypeName}"))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.EnqueueModuleAsync(
+                It.IsAny<ModuleAssignment>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<ModuleAssignment, CancellationToken>((assignment, _) =>
+            {
+                publishedAssignment = assignment;
+                calls.Enqueue($"assignment:{assignment.ModuleTypeName}");
+            })
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(instance => instance.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleAssignment?) null);
+        coordinator.Setup(instance => instance.WaitForResultAsync(
+                typeof(DependsOnDistributedModule).FullName!,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serializedDependentResult);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object);
+
+        await executor.ExecuteAsync([dependency, dependent]);
+
+        var recordedCalls = calls.ToArray();
+        await Assert.That(recordedCalls[0])
+            .IsEqualTo($"result:{typeof(DistributedModule).FullName}");
+        await Assert.That(recordedCalls[1])
+            .IsEqualTo($"assignment:{typeof(DependsOnDistributedModule).FullName}");
+        await Assert.That(publishedAssignment).IsNotNull();
+        await Assert.That(publishedAssignment!.DependencyResultReferences!.Single().IsAvailable)
+            .IsTrue();
+    }
+
+    [Test]
     public async Task Cancelled_Distributed_Module_Registers_Failure_Result()
     {
         // Arrange: coordinator throws OperationCanceledException on WaitForResult

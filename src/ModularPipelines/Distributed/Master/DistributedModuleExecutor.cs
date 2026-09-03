@@ -102,6 +102,8 @@ internal class DistributedModuleExecutor(
                 modules,
                 scheduler,
                 _resultRegistry);
+            await PublishPrecompletedResultsAsync(modules, _lifetime.ApplicationStopping)
+                .ConfigureAwait(false);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
@@ -148,6 +150,29 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    private async Task PublishPrecompletedResultsAsync(
+        IReadOnlyList<IModule> modules,
+        CancellationToken cancellationToken)
+    {
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+            var result = _resultRegistry.GetResult(moduleType);
+            if (result?.Status != ModuleStatus.RestoredFromHistory)
+            {
+                continue;
+            }
+
+            var serialized = _serializer.Serialize(
+                result,
+                moduleType.FullName!,
+                ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
+                _options.Value.InstanceIndex);
+            await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 
     private async Task<IReadOnlyList<Task>> PublishReadyModulesAsync(

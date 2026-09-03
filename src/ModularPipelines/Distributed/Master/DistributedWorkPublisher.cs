@@ -127,7 +127,7 @@ internal class DistributedWorkPublisher(
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
-        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken);
+        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);
     }
 
     private static void AddExplicitOperatingSystemRoutes(
