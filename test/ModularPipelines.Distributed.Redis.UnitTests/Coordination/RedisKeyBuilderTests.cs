@@ -9,7 +9,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.WorkQueue).IsEqualTo("modpipe:abc123:work:queue");
+        await Assert.That(builder.WorkQueue).IsEqualTo("modpipe:{abc123}:work:queue");
     }
 
     [Test]
@@ -17,7 +17,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.Results).IsEqualTo("modpipe:abc123:results");
+        await Assert.That(builder.Results).IsEqualTo("modpipe:{abc123}:results");
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.ResultChannel("MyModule")).IsEqualTo("modpipe:abc123:results:MyModule");
+        await Assert.That(builder.ResultChannel("MyModule")).IsEqualTo("modpipe:{abc123}:results:MyModule");
     }
 
     [Test]
@@ -33,18 +33,24 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.Workers).IsEqualTo("modpipe:abc123:workers");
+        await Assert.That(builder.Workers).IsEqualTo("modpipe:{abc123}:workers");
     }
 
     [Test]
-    public async Task WorkerHeartbeat_ReturnsExpectedFormat()
+    public async Task ScriptKeys_ShareRunHashTag()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.WorkerHeartbeatPrefix)
-            .IsEqualTo("modpipe:abc123:workers:");
-        await Assert.That(builder.WorkerHeartbeat(7))
-            .IsEqualTo("modpipe:abc123:workers:7:heartbeat");
+        await Assert.That(builder.WorkQueue).Contains("{abc123}");
+        await Assert.That(builder.Workers).Contains("{abc123}");
+    }
+
+    [Test]
+    public async Task WorkerHeartbeatField_ReturnsExpectedFormat()
+    {
+        var builder = new RedisKeyBuilder("modpipe", "abc123");
+
+        await Assert.That(builder.WorkerHeartbeatField(7)).IsEqualTo("heartbeat:7");
     }
 
     [Test]
@@ -52,7 +58,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.WorkAvailableChannel).IsEqualTo("modpipe:abc123:work:available");
+        await Assert.That(builder.WorkAvailableChannel).IsEqualTo("modpipe:{abc123}:work:available");
     }
 
     [Test]
@@ -60,7 +66,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.CompletionFlag).IsEqualTo("modpipe:abc123:completion");
+        await Assert.That(builder.CompletionFlag).IsEqualTo("modpipe:{abc123}:completion");
     }
 
     [Test]
@@ -68,7 +74,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.CompletionChannel).IsEqualTo("modpipe:abc123:completion:signal");
+        await Assert.That(builder.CompletionChannel).IsEqualTo("modpipe:{abc123}:completion:signal");
     }
 
     [Test]
@@ -76,8 +82,8 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.CancellationFlag).IsEqualTo("modpipe:abc123:cancellation");
-        await Assert.That(builder.CancellationChannel).IsEqualTo("modpipe:abc123:cancellation:signal");
+        await Assert.That(builder.CancellationFlag).IsEqualTo("modpipe:{abc123}:cancellation");
+        await Assert.That(builder.CancellationChannel).IsEqualTo("modpipe:{abc123}:cancellation:signal");
     }
 
     [Test]

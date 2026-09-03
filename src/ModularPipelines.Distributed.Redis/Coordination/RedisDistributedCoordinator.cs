@@ -187,31 +187,38 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         var json = JsonSerializer.Serialize(registration, _jsonOptions);
-        await _database.HashSetAsync(_keys.Workers, registration.WorkerIndex.ToString(), json);
-        await _database.KeyExpireAsync(_keys.Workers, _keyExpiration);
-        await SendHeartbeatAsync(registration.WorkerIndex, cancellationToken);
+        await _database.HashSetAsync(_keys.Workers, registration.WorkerIndex.ToString(), json)
+            .ConfigureAwait(false);
+        await SendHeartbeatAsync(registration.WorkerIndex, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
     {
-        await _database.StringSetAsync(
-            _keys.WorkerHeartbeat(workerIndex),
-            "1",
-            _workerTimeout);
+        await _database.HashSetAsync(
+            _keys.Workers,
+            _keys.WorkerHeartbeatField(workerIndex),
+            DateTimeOffset.UtcNow.ToUnixTimeSeconds()).ConfigureAwait(false);
+        await _database.KeyExpireAsync(_keys.Workers, _keyExpiration).ConfigureAwait(false);
     }
 
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        var entries = await _database.HashGetAllAsync(_keys.Workers);
+        var entries = await _database.HashGetAllAsync(_keys.Workers).ConfigureAwait(false);
+        var oldestLiveHeartbeat = DateTimeOffset.UtcNow.Subtract(_workerTimeout).ToUnixTimeSeconds();
+        var heartbeats = entries
+            .Where(entry => entry.Name.ToString().StartsWith("heartbeat:", StringComparison.Ordinal))
+            .ToDictionary(
+                entry => int.Parse(entry.Name.ToString()["heartbeat:".Length..]),
+                entry => (long) entry.Value);
         var workers = new List<WorkerRegistration>(entries.Length);
-        foreach (var entry in entries)
+        foreach (var entry in entries.Where(entry => int.TryParse(entry.Name.ToString(), out _)))
         {
             var registration = JsonSerializer.Deserialize<WorkerRegistration>(
                 entry.Value.ToString(),
                 _jsonOptions)!;
             if (registration.UnattributedCommandCount.HasValue
-                || await _database.KeyExistsAsync(_keys.WorkerHeartbeat(registration.WorkerIndex))
-                    .ConfigureAwait(false))
+                || (heartbeats.TryGetValue(registration.WorkerIndex, out var heartbeat)
+                    && heartbeat >= oldestLiveHeartbeat))
             {
                 workers.Add(registration);
             }
@@ -274,8 +281,21 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly string ScanAndClaimScript = @"
 local priority_band = 1000000000000
 local items = redis.call('ZREVRANGE', KEYS[1], 0, -1, 'WITHSCORES')
-local workers = redis.call('HVALS', KEYS[2])
 local caps = cjson.decode(ARGV[1])
+local worker_timeout = tonumber(ARGV[2])
+local now = tonumber(redis.call('TIME')[1])
+local worker_entries = redis.call('HGETALL', KEYS[2])
+local live_workers = {}
+
+for i = 1, #worker_entries, 2 do
+    local worker_index = tonumber(worker_entries[i])
+    if worker_index ~= nil then
+        local heartbeat = tonumber(redis.call('HGET', KEYS[2], 'heartbeat:' .. worker_index) or '0')
+        if heartbeat >= now - worker_timeout then
+            table.insert(live_workers, cjson.decode(worker_entries[i + 1]))
+        end
+    end
+end
 
 local function supports(required, available)
     for _, req in ipairs(required) do
@@ -307,10 +327,8 @@ for i = 1, #items, 2 do
     local required = assignment['RequiredCapabilities'] or {}
     if supports(required, caps) then
         local eligible_workers = 0
-        for _, worker_json in ipairs(workers) do
-            local worker = cjson.decode(worker_json)
-            local heartbeat_key = ARGV[2] .. string.format('%d', worker['WorkerIndex']) .. ':heartbeat'
-            if redis.call('EXISTS', heartbeat_key) == 1 and supports(required, worker['Capabilities'] or {}) then
+        for _, worker in ipairs(live_workers) do
+            if supports(required, worker['Capabilities'] or {}) then
                 eligible_workers = eligible_workers + 1
             end
         end
@@ -356,7 +374,7 @@ return best_item";
         var result = await _database.ScriptEvaluateAsync(
             ScanAndClaimScript,
             [(RedisKey) _keys.WorkQueue, (RedisKey) _keys.Workers],
-            [capsJson, _keys.WorkerHeartbeatPrefix]);
+            [capsJson, _workerTimeout.TotalSeconds]);
 
         if (result.IsNull)
         {

@@ -123,10 +123,10 @@ public class RedisArtifactStoreTests
     {
         var keys = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(keys.ArtifactMeta("art1")).IsEqualTo("modpipe:abc123:artifacts:meta:art1");
-        await Assert.That(keys.ArtifactData("art1")).IsEqualTo("modpipe:abc123:artifacts:data:art1");
-        await Assert.That(keys.ArtifactChunk("art1", 0)).IsEqualTo("modpipe:abc123:artifacts:data:art1:chunk:0");
-        await Assert.That(keys.ArtifactChunk("art1", 3)).IsEqualTo("modpipe:abc123:artifacts:data:art1:chunk:3");
-        await Assert.That(keys.ArtifactIndex("My.Module")).IsEqualTo("modpipe:abc123:artifacts:index:My.Module");
+        await Assert.That(keys.ArtifactMeta("art1")).IsEqualTo("modpipe:{abc123}:artifacts:meta:art1");
+        await Assert.That(keys.ArtifactData("art1")).IsEqualTo("modpipe:{abc123}:artifacts:data:art1");
+        await Assert.That(keys.ArtifactChunk("art1", 0)).IsEqualTo("modpipe:{abc123}:artifacts:data:art1:chunk:0");
+        await Assert.That(keys.ArtifactChunk("art1", 3)).IsEqualTo("modpipe:{abc123}:artifacts:data:art1:chunk:3");
+        await Assert.That(keys.ArtifactIndex("My.Module")).IsEqualTo("modpipe:{abc123}:artifacts:index:My.Module");
     }
 }

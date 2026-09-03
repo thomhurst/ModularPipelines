@@ -23,11 +23,12 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     {
         lock (_queueLock)
         {
+            var liveWorkers = GetLiveWorkersForScheduling().ToArray();
             _workQueue.Enqueue(
                 assignment,
                 AssignmentQueuePriority.Create(
                     assignment,
-                    GetLiveWorkersForScheduling(),
+                    liveWorkers,
                     _enqueueSequence++));
         }
 
@@ -167,6 +168,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     private void RefreshQueuePriorities()
     {
         var assignments = new List<(ModuleAssignment Assignment, long Sequence)>(_workQueue.Count);
+        var liveWorkers = GetLiveWorkersForScheduling().ToArray();
         while (_workQueue.TryDequeue(out var assignment, out var priority))
         {
             assignments.Add((assignment, priority.Sequence));
@@ -176,7 +178,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         {
             _workQueue.Enqueue(
                 assignment,
-                AssignmentQueuePriority.Create(assignment, GetLiveWorkersForScheduling(), sequence));
+                AssignmentQueuePriority.Create(assignment, liveWorkers, sequence));
         }
     }
 
@@ -197,13 +199,12 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     {
         public static AssignmentQueuePriority Create(
             ModuleAssignment assignment,
-            IEnumerable<WorkerRegistration> workers,
+            IReadOnlyCollection<WorkerRegistration> workers,
             long sequence)
         {
-            var workerArray = workers.ToArray();
-            var eligibleWorkerCount = workerArray.Length == 0
+            var eligibleWorkerCount = workers.Count == 0
                 ? int.MaxValue
-                : workerArray.Count(worker => CapabilityMatcher.CanExecute(assignment, worker));
+                : workers.Count(worker => CapabilityMatcher.CanExecute(assignment, worker));
 
             return new AssignmentQueuePriority(
                 assignment.Priority,

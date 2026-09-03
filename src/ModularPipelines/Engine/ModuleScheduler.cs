@@ -164,7 +164,7 @@ internal class ModuleScheduler : IModuleScheduler
             try
             {
                 _logger.LogDebug("Module scheduler started");
-                await CalculateCriticalPathWeightsAsync().ConfigureAwait(false);
+                await CalculateCriticalPathWeightsAsync(cancellationToken).ConfigureAwait(false);
                 await RunSchedulerLoopAsync(cancellationToken).ConfigureAwait(false);
                 CompleteScheduler();
                 _logger.LogDebug("Module scheduler completed");
@@ -616,7 +616,7 @@ internal class ModuleScheduler : IModuleScheduler
             string.Join(", ", modulesToQueue.Select(m => m.ModuleType.Name)));
     }
 
-    private async Task CalculateCriticalPathWeightsAsync()
+    private async Task CalculateCriticalPathWeightsAsync(CancellationToken cancellationToken)
     {
         if (_estimatedTimeProvider is null)
         {
@@ -627,7 +627,7 @@ internal class ModuleScheduler : IModuleScheduler
         }
         else
         {
-            await Task.WhenAll(_moduleStates.Values.Select(async state =>
+            var estimationTasks = _moduleStates.Values.Select(async state =>
             {
                 var estimate = await _estimatedTimeProvider
                     .GetModuleEstimatedTimeAsync(state.ModuleType)
@@ -635,7 +635,10 @@ internal class ModuleScheduler : IModuleScheduler
                 state.EstimatedDuration = estimate > TimeSpan.Zero
                     ? estimate
                     : DefaultEstimatedDuration;
-            })).ConfigureAwait(false);
+            });
+            await Task.WhenAll(estimationTasks)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         var calculatedWeights = new Dictionary<ModuleState, TimeSpan>();

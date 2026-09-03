@@ -51,6 +51,23 @@ public class ModuleSchedulerCriticalPathTests
         }
     }
 
+    [Test]
+    public async Task Cancellation_Interrupts_Critical_Path_Estimation()
+    {
+        var provider = new NeverCompletingEstimatedTimeProvider();
+        var scheduler = CreateScheduler(provider);
+        scheduler.InitializeModules([new IndependentModule()]);
+        using var cancellation = new CancellationTokenSource();
+
+        var schedulerTask = scheduler.RunSchedulerAsync(cancellation.Token);
+        await provider.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        cancellation.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5)));
+        scheduler.Dispose();
+    }
+
     private static ModuleScheduler CreateScheduler(ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
     {
         return new ModuleScheduler(
@@ -70,6 +87,25 @@ public class ModuleSchedulerCriticalPathTests
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) =>
             Task.FromResult(estimates[moduleType]);
+
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
+
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+            Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
+
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+            Task.CompletedTask;
+    }
+
+    private sealed class NeverCompletingEstimatedTimeProvider : ISafeModuleEstimatedTimeProvider
+    {
+        public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+        {
+            Started.TrySetResult();
+            return new TaskCompletionSource<TimeSpan>(TaskCreationOptions.RunContinuationsAsynchronously).Task;
+        }
 
         public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
 
