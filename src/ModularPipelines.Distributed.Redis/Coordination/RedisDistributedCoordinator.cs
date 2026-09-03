@@ -12,6 +12,7 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// </summary>
 internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinator
 {
+    private const char QueueMemberSeparator = '|';
     private const double PriorityScoreBand = 1_000_000_000_000;
     private const double MaximumCriticalPathScore = PriorityScoreBand - 1;
 
@@ -47,7 +48,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
         var json = JsonSerializer.Serialize(assignment, _jsonOptions);
-        await _database.SortedSetAddAsync(_keys.WorkQueue, json, GetQueueScore(assignment));
+        var queueMember = $"{Guid.NewGuid():N}{QueueMemberSeparator}{json}";
+        await _database.SortedSetAddAsync(_keys.WorkQueue, queueMember, GetQueueScore(assignment));
         await _database.KeyExpireAsync(_keys.WorkQueue, _keyExpiration);
 
         // Notify waiting workers that work is available
@@ -326,7 +328,11 @@ local best_assigned_at = nil
 for i = 1, #items, 2 do
     local item = items[i]
     local score = tonumber(items[i + 1])
-    local assignment = cjson.decode(item)
+    local separator = string.find(item, '|', 1, true)
+    local prefix = separator == 33 and string.sub(item, 1, 32) or nil
+    local has_unique_prefix = prefix ~= nil and string.match(prefix, '^[0-9a-fA-F]+$') ~= nil
+    local assignment_json = has_unique_prefix and string.sub(item, separator + 1) or item
+    local assignment = cjson.decode(assignment_json)
     local required = assignment['RequiredCapabilities'] or {}
     if supports(required, caps) then
         local eligible_workers = 0
@@ -384,7 +390,14 @@ return best_item";
             return null;
         }
 
-        return JsonSerializer.Deserialize<ModuleAssignment>(result.ToString()!, _jsonOptions);
+        var queueMember = result.ToString()!;
+        var separatorIndex = queueMember.IndexOf(QueueMemberSeparator);
+        var hasUniquePrefix = separatorIndex == 32
+            && Guid.TryParseExact(queueMember.AsSpan(0, separatorIndex), "N", out _);
+        var assignmentJson = hasUniquePrefix
+            ? queueMember[(separatorIndex + 1)..]
+            : queueMember;
+        return JsonSerializer.Deserialize<ModuleAssignment>(assignmentJson, _jsonOptions);
     }
 
     private async Task<long> GetServerTimeMillisecondsAsync()

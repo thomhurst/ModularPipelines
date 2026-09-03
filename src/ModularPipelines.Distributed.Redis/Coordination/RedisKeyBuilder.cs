@@ -1,7 +1,8 @@
 namespace ModularPipelines.Distributed.Redis.Coordination;
 
 /// <summary>
-/// Generates all Redis keys with pattern {prefix}:{runId}:{purpose}.
+/// Generates Redis keys with pattern {prefix}:{{runId}}:{purpose}. The braces form a
+/// Redis Cluster hash tag so every key for one run shares a slot for multi-key scripts.
 /// </summary>
 internal class RedisKeyBuilder
 {

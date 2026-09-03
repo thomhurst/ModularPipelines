@@ -69,8 +69,16 @@ internal class DistributedModuleExecutor(
     private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
     private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
+        ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
+
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(estimatedDurations);
+
         if (modules.Count == 0)
         {
             return modules;
@@ -112,7 +120,7 @@ internal class DistributedModuleExecutor(
             var masterCapabilities = BuildCapabilities(options);
 
             scheduler = _schedulerFactory.Create();
-            scheduler.InitializeModules(modules);
+            scheduler.InitializeModules(modules, estimatedDurations);
             UsedHistoryModuleSchedulerInitializer.Precomplete(
                 modules,
                 scheduler,

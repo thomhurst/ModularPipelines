@@ -68,6 +68,62 @@ public class ModuleSchedulerCriticalPathTests
         scheduler.Dispose();
     }
 
+    [Test]
+    public async Task Planning_Estimates_Are_Reused_By_Critical_Path_Calculation()
+    {
+        var provider = new Mock<ISafeModuleEstimatedTimeProvider>(MockBehavior.Strict);
+        var scheduler = CreateScheduler(provider.Object);
+        scheduler.InitializeModules(
+            [new IndependentModule()],
+            new Dictionary<Type, TimeSpan>
+            {
+                [typeof(IndependentModule)] = TimeSpan.FromMinutes(7),
+            });
+        using var cancellation = new CancellationTokenSource();
+
+        var schedulerTask = scheduler.RunSchedulerAsync(cancellation.Token);
+        var ready = await scheduler.ReadyModules.ReadAsync(cancellation.Token);
+
+        await Assert.That(ready.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(7));
+        provider.Verify(
+            instance => instance.GetModuleEstimatedTimeAsync(It.IsAny<Type>()),
+            Times.Never());
+
+        cancellation.Cancel();
+        scheduler.Dispose();
+        try
+        {
+            await schedulerTask;
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+            // Disposal and cancellation can race after the assertions complete.
+        }
+    }
+
+    [Test]
+    [Timeout(10_000)]
+    public async Task Critical_Path_Calculation_Handles_Deep_Graphs_Iteratively(
+        CancellationToken cancellationToken)
+    {
+        const int moduleCount = 20_000;
+        var states = Enumerable.Range(0, moduleCount)
+            .Select(_ => new ModuleState(new IndependentModule(), typeof(IndependentModule))
+            {
+                EstimatedDuration = TimeSpan.FromTicks(1),
+            })
+            .ToArray();
+        for (var index = 0; index < states.Length - 1; index++)
+        {
+            states[index].DependentModules.Add(states[index + 1]);
+        }
+
+        ModuleScheduler.CalculateCriticalPathWeights(states, cancellationToken);
+
+        await Assert.That(states[0].CriticalPathWeight).IsEqualTo(TimeSpan.FromTicks(moduleCount));
+        await Assert.That(states[^1].CriticalPathWeight).IsEqualTo(TimeSpan.FromTicks(1));
+    }
+
     private static ModuleScheduler CreateScheduler(ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
     {
         return new ModuleScheduler(

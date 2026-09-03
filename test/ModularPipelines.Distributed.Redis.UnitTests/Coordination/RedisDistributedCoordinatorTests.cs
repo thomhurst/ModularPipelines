@@ -74,6 +74,28 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task EnqueueModuleAsync_Preserves_Identical_Assignments()
+    {
+        var members = new List<RedisValue>();
+        _dbMock.Setup(db => db.SortedSetAddAsync(
+                _keys.WorkQueue,
+                It.IsAny<RedisValue>(),
+                It.IsAny<double>(),
+                It.IsAny<SortedSetWhen>(),
+                It.IsAny<CommandFlags>()))
+            .Callback<RedisKey, RedisValue, double, SortedSetWhen, CommandFlags>(
+                (_, member, _, _, _) => members.Add(member));
+        var assignment = CreateAssignment("Test.Module");
+
+        await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+        await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+        await Assert.That(members.Count).IsEqualTo(2);
+        await Assert.That(members[0]).IsNotEqualTo(members[1]);
+        await Assert.That(members.All(member => member.ToString().Contains("Test.Module"))).IsTrue();
+    }
+
+    [Test]
     public async Task QueueScore_Prefers_UserPriority_Then_CriticalPathWeight()
     {
         var highPriority = CreateAssignment("High") with
@@ -128,6 +150,44 @@ public class RedisDistributedCoordinatorTests
             It.Is<RedisValue[]?>(values => values != null
                 && (double) values[1] == TimeSpan.FromSeconds(30).TotalMilliseconds),
             It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task DequeueModuleAsync_Deserializes_Unique_Queue_Member()
+    {
+        var assignment = CreateAssignment("Test.Module");
+        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create((RedisValue) $"{Guid.NewGuid():N}|{json}"));
+
+        var result = await _coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(), CancellationToken.None);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+    }
+
+    [Test]
+    public async Task DequeueModuleAsync_Preserves_Pipe_In_Legacy_Queue_Member()
+    {
+        var assignment = CreateAssignment("Test|Module");
+        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create((RedisValue) json));
+
+        var result = await _coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(), CancellationToken.None);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test|Module");
     }
 
     [Test]
