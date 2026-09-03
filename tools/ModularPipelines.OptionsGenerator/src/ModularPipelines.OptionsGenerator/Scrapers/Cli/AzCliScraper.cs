@@ -384,6 +384,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
+        || AzDescriptionOnlyValuePattern().IsMatch(description)
         || AzDenySettingsModeDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
@@ -443,7 +444,8 @@ public partial class AzCliScraper : CliScraperBase
         // Check for numeric types
         if (lowerHint.Contains("number") || lowerHint.Contains("count") ||
             lowerHint.Contains("port") || lowerHint.Contains("size") ||
-            lowerHint.Contains("timeout") || int.TryParse(valueHint, out _))
+            lowerHint.Contains("timeout") || int.TryParse(valueHint, out _) ||
+            AzNumericValueDescriptionPattern().IsMatch(description))
         {
             return "int?";
         }
@@ -462,6 +464,7 @@ public partial class AzCliScraper : CliScraperBase
         if (HelpDeclaresSpaceSeparatedList(lowerDesc)
             || DescriptionDeclaresRepeatableOption(lowerDesc)
             || lowerDesc.Contains("list of")
+            || AzCollectionValueDescriptionPattern().IsMatch(description)
             || HelpDeclaresOrderedParameterValues(lowerDesc))
         {
             return "IEnumerable<string>?";
@@ -600,6 +603,15 @@ public partial class AzCliScraper : CliScraperBase
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:(?:additional|build|cpu|fully-qualified|main|optional|relative|secret|spark)\s+)*(?:arguments?|class(?:\s+name)?|commands?|configuration|files?|identifier|path|platform|timeout)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzDescriptionOnlyValuePattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:maximum\s+|minimum\s+|total\s+)?(?:number|count|port|size|timeout)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzNumericValueDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:additional files|the array of|files to)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzCollectionValueDescriptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?denysettings\s+mode\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzDenySettingsModeDescriptionPattern();
