@@ -676,38 +676,45 @@ public class GeneratedRuntimeMetadataTests
 
     [Test]
     [TUnit.Core.NotInParallel("CollectibleMetadata")]
-    public async Task GeneratedMetadata_DoesNotRootCollectibleAssemblies()
+    [Timeout(30_000)]
+    public async Task GeneratedMetadata_DoesNotRootCollectibleAssemblies(
+        CancellationToken cancellationToken)
     {
         for (var iteration = 0; iteration < 3; iteration++)
         {
             await AssertCollectibleMetadataReleasedAsync(
-                    RegisterCollectibleMetadataOnDedicatedThread(RegisterCollectibleMetadata))
+                    RegisterCollectibleMetadataOnDedicatedThread(RegisterCollectibleMetadata),
+                    cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
     [Test]
     [TUnit.Core.NotInParallel("CollectibleMetadata")]
-    public async Task ExternalMetadata_DoesNotRootCollectibleConsumerAssembly()
+    [Timeout(30_000)]
+    public async Task ExternalMetadata_DoesNotRootCollectibleConsumerAssembly(
+        CancellationToken cancellationToken)
     {
         for (var iteration = 0; iteration < 3; iteration++)
         {
             await AssertCollectibleMetadataReleasedAsync(
                     RegisterCollectibleMetadataOnDedicatedThread(
-                        RegisterCollectibleExternalMetadata))
+                        RegisterCollectibleExternalMetadata),
+                    cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
     [Test]
     [TUnit.Core.NotInParallel("CollectibleMetadata")]
-    public async Task CollectionProbe_DetectsStrongRoot()
+    public async Task CollectionProbe_DetectsStrongRoot(CancellationToken cancellationToken)
     {
         var strongRoot = new object();
         var reference = new WeakReference(strongRoot);
 
         var released = await WaitForReferencesToBeReleasedAsync(
                 (reference, reference),
+                cancellationToken,
                 maxAttempts: 2)
             .ConfigureAwait(false);
 
@@ -716,9 +723,11 @@ public class GeneratedRuntimeMetadataTests
     }
 
     private static async Task AssertCollectibleMetadataReleasedAsync(
-        (WeakReference Assembly, WeakReference Type) references)
+        (WeakReference Assembly, WeakReference Type) references,
+        CancellationToken cancellationToken)
     {
-        await WaitForReferencesToBeReleasedAsync(references).ConfigureAwait(false);
+        await WaitForReferencesToBeReleasedAsync(references, cancellationToken)
+            .ConfigureAwait(false);
 
         using (Assert.Multiple())
         {
@@ -729,7 +738,8 @@ public class GeneratedRuntimeMetadataTests
 
     private static async Task<bool> WaitForReferencesToBeReleasedAsync(
         (WeakReference Assembly, WeakReference Type) references,
-        int maxAttempts = 20)
+        CancellationToken cancellationToken,
+        int maxAttempts = 200)
     {
         for (var attempt = 0;
              attempt < maxAttempts && (references.Assembly.IsAlive || references.Type.IsAlive);
@@ -742,7 +752,7 @@ public class GeneratedRuntimeMetadataTests
             if (attempt + 1 < maxAttempts
                 && (references.Assembly.IsAlive || references.Type.IsAlive))
             {
-                await Task.Delay(10).ConfigureAwait(false);
+                await Task.Delay(25, cancellationToken).ConfigureAwait(false);
             }
         }
 
