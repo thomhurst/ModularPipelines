@@ -300,7 +300,6 @@ ModularPipelines.Minikube.Options.MinikubeNodeOptions.MinikubeNodeOptions(Modula
 ModularPipelines.Minikube.Options.MinikubeNodeStartOptions
 ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.DeleteOnFailure.get -> bool?
 ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.DeleteOnFailure.set -> void
-ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.MinikubeNodeStartOptions() -> void
 ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.MinikubeNodeStartOptions(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions! original) -> void
 ModularPipelines.Minikube.Options.MinikubeOptions
 ModularPipelines.Minikube.Options.MinikubeOptions.MinikubeOptions() -> void
