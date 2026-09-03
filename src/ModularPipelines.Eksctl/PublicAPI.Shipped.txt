@@ -15,7 +15,6 @@ ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.All = 
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Controllermanager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Scheduler = 6 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
@@ -23,7 +22,6 @@ ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.All = 0
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Controllermanager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Scheduler = 6 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Extensions.EksctlExtensions
@@ -235,10 +233,6 @@ ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeAmi.get -> string
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeAmi.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeAmiFamily.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeAmiFamily.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupName.get -> string?
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupName.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupParallelism.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupParallelism.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeLabels.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeLabels.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodePrivateNetworking.get -> bool?
@@ -251,14 +245,8 @@ ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeRepairMaxUnhealth
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeRepairMaxUnhealthyCount.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeRepairMaxUnhealthyPercentage.get -> int?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeRepairMaxUnhealthyPercentage.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Nodes.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Nodes.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeSecurityGroups.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeSecurityGroups.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMax.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMax.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMin.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMin.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeType.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeType.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeVolumeSize.get -> int?
@@ -267,6 +255,16 @@ ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeVolumeType.get ->
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeVolumeType.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodeZones.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupName.get -> string?
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupName.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupParallelism.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodegroupParallelism.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Nodes.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Nodes.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMax.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMax.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMin.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.NodesMin.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Profile.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Profile.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateClusterOptions.Region.get -> string?
@@ -491,8 +489,6 @@ ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeAmi.get -> stri
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeAmi.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeAmiFamily.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeAmiFamily.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodegroupParallelism.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodegroupParallelism.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeLabels.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeLabels.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodePrivateNetworking.get -> bool?
@@ -505,14 +501,8 @@ ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeRepairMaxUnheal
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeRepairMaxUnhealthyCount.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeRepairMaxUnhealthyPercentage.get -> int?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeRepairMaxUnhealthyPercentage.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Nodes.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Nodes.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeSecurityGroups.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeSecurityGroups.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMax.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMax.set -> void
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMin.get -> int?
-ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMin.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeType.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeType.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeVolumeSize.get -> int?
@@ -521,6 +511,14 @@ ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeVolumeType.get 
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeVolumeType.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodeZones.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodegroupParallelism.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodegroupParallelism.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Nodes.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Nodes.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMax.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMax.set -> void
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMin.get -> int?
+ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.NodesMin.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Profile.get -> string?
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Profile.set -> void
 ModularPipelines.Eksctl.Options.EksctlCreateNodegroupOptions.Region.get -> string?
@@ -2363,7 +2361,6 @@ ModularPipelines.Eksctl.Services.IEksctlUnset
 ModularPipelines.Eksctl.Services.IEksctlUpdate
 ModularPipelines.Eksctl.Services.IEksctlUpgrade
 ModularPipelines.Eksctl.Services.IEksctlUtils
-override abstract ModularPipelines.Eksctl.Options.EksctlOptions.<Clone>$() -> ModularPipelines.Eksctl.Options.EksctlOptions!
 override ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions.<Clone>$() -> ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions!
 override ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions.Equals(object? obj) -> bool
@@ -2879,6 +2876,7 @@ override ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions.Equal
 override ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions.GetHashCode() -> int
 override ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions.ToString() -> string!
+override abstract ModularPipelines.Eksctl.Options.EksctlOptions.<Clone>$() -> ModularPipelines.Eksctl.Options.EksctlOptions!
 override sealed ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions.Equals(ModularPipelines.Eksctl.Options.EksctlOptions? other) -> bool
 override sealed ModularPipelines.Eksctl.Options.EksctlAssociateOptions.Equals(ModularPipelines.Eksctl.Options.EksctlOptions? other) -> bool
 override sealed ModularPipelines.Eksctl.Options.EksctlCreateAccessentryOptions.Equals(ModularPipelines.Eksctl.Options.EksctlOptions? other) -> bool
