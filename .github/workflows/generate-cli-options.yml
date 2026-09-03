@@ -687,7 +687,7 @@ jobs:
               "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
               "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
             ) `
-            -MaximumFileSizeBytes 5242880
+            -MaximumFileSizeBytes 26214400
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines
@@ -701,6 +701,18 @@ jobs:
             "has_changes=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
           }
+
+      - name: Preserve generated Gcloud patch
+        if: matrix.tool == 'gcloud' && steps.changes.outputs.has_changes == 'true'
+        run: git diff --staged --binary > "$RUNNER_TEMP/generated-gcloud.patch"
+
+      - name: Upload generated Gcloud patch
+        if: matrix.tool == 'gcloud' && steps.changes.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: generated-gcloud-patch
+          path: ${{ runner.temp }}/generated-gcloud.patch
+          retention-days: 7
 
       - name: Increase swap space for Gcloud build
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gcloud' && steps.changes.outputs.has_changes == 'true'
