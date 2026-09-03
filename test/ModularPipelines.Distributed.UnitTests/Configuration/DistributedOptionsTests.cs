@@ -10,6 +10,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Validation;
 
 namespace ModularPipelines.Distributed.UnitTests.Configuration;
 
@@ -142,6 +143,20 @@ public class DistributedOptionsTests
 
         await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<WorkerModuleExecutor>();
+    }
+
+    [Test]
+    public async Task Invalid_MaxParallelism_Fails_Pipeline_Validation()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options.MaxParallelism = 0);
+        builder.AddModule<NoOpModule>();
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Distributed.MaxParallelism"))).IsTrue();
     }
 
     [Test]

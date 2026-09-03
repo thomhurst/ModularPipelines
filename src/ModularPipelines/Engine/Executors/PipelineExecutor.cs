@@ -88,20 +88,19 @@ internal class PipelineExecutor : IPipelineExecutor
         IReadOnlyList<IModule> modules,
         IReadOnlyList<IModuleResult> results)
     {
+        var modulesByTypeName = modules.ToLookup(
+            static module => module.GetType().FullName,
+            StringComparer.Ordinal);
+
         foreach (var result in results)
         {
-            if (modules.Any(module =>
-                    module.AsInternal().ResultTask is { IsCompletedSuccessfully: true } resultTask
-                    && ReferenceEquals(resultTask.Result, result)))
+            if (string.IsNullOrWhiteSpace(result.TypeName))
             {
-                continue;
+                throw new InvalidOperationException(
+                    $"Execution backend returned result '{result.Name}' without a fully qualified TypeName.");
             }
 
-            var matchingModules = modules
-                .Where(module => result.TypeName is not null
-                    ? string.Equals(module.GetType().FullName, result.TypeName, StringComparison.Ordinal)
-                    : string.Equals(module.GetType().Name, result.Name, StringComparison.Ordinal))
-                .ToArray();
+            var matchingModules = modulesByTypeName[result.TypeName].ToArray();
             if (matchingModules.Length != 1)
             {
                 throw new InvalidOperationException(
@@ -109,7 +108,19 @@ internal class PipelineExecutor : IPipelineExecutor
                     + $"which matched {matchingModules.Length} planned modules.");
             }
 
-            _executionBackendContext.TryApplyResult(matchingModules[0], result);
+            var matchingModule = matchingModules[0];
+            if (_executionBackendContext.TryApplyResult(matchingModule, result))
+            {
+                continue;
+            }
+
+            var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!resultTask.IsCompletedSuccessfully
+                || !ReferenceEquals(resultTask.Result, result))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend returned a conflicting result for '{result.TypeName}'.");
+            }
         }
 
         if (!_executionBackend.OwnsEntirePlan)

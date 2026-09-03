@@ -1405,7 +1405,7 @@ public class DistributedModuleExecutorTests
 
         // Remote assignment execution is independent of the engine scheduler.
         await Assert.That(capturedState).IsNotNull();
-        await Assert.That(capturedState!.Scheduler).IsNull();
+        await Assert.That(capturedState!.Scheduler).IsTypeOf<WorkerModuleScheduler>();
         await Assert.That(assignmentExecutionScopeWasActive).IsTrue();
 
         // The result was published through the coordinator and collected by the result collector

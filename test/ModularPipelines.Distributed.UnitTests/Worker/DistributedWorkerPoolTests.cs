@@ -95,6 +95,66 @@ public class DistributedWorkerPoolTests
         }
     }
 
+    [Test]
+    [Timeout(5_000)]
+    public async Task Dequeue_Errors_Are_Throttled(CancellationToken cancellationToken)
+    {
+        using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        stop.CancelAfter(TimeSpan.FromMilliseconds(300));
+        var errorCount = 0;
+
+        await DistributedWorkerPool.RunAsync(
+            _ => throw new InvalidOperationException("Coordinator unavailable"),
+            (_, _) => Task.CompletedTask,
+            maxConcurrency: 1,
+            _ => Interlocked.Increment(ref errorCount),
+            stop.Token);
+
+        await Assert.That(errorCount).IsLessThan(10);
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Cancellation_Drains_Pending_Dequeue(CancellationToken cancellationToken)
+    {
+        using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var secondDequeueStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var pendingDequeueObservedCancellation = false;
+        var dequeueCount = 0;
+
+        await DistributedWorkerPool.RunAsync(
+            async token =>
+            {
+                if (Interlocked.Increment(ref dequeueCount) == 1)
+                {
+                    return CreateAssignment("first");
+                }
+
+                secondDequeueStarted.TrySetResult();
+                try
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                    return null;
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    pendingDequeueObservedCancellation = true;
+                    throw;
+                }
+            },
+            async (_, _) =>
+            {
+                await secondDequeueStarted.Task;
+                await stop.CancelAsync();
+            },
+            maxConcurrency: 1,
+            _ => { },
+            stop.Token);
+
+        await Assert.That(pendingDequeueObservedCancellation).IsTrue();
+    }
+
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
         typeof(int).FullName!,

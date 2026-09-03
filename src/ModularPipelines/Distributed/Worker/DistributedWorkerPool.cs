@@ -4,6 +4,8 @@ namespace ModularPipelines.Distributed.Worker;
 
 internal static class DistributedWorkerPool
 {
+    private static readonly TimeSpan DequeueRetryDelay = TimeSpan.FromMilliseconds(100);
+
     public static int GetMaxConcurrency(
         IParallelLimitProvider parallelLimitProvider,
         DistributedOptions options)
@@ -30,9 +32,10 @@ internal static class DistributedWorkerPool
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
 
-        var running = new HashSet<Task>();
+        using var concurrencyGate = new SemaphoreSlim(maxConcurrency, maxConcurrency);
+        var running = new List<Task>();
         var pendingDequeue = DequeueAsync(dequeueAsync, onError, cancellationToken);
-        while (!cancellationToken.IsCancellationRequested)
+        while (true)
         {
             var assignment = await pendingDequeue.ConfigureAwait(false);
             if (assignment is null)
@@ -40,14 +43,18 @@ internal static class DistributedWorkerPool
                 break;
             }
 
-            running.RemoveWhere(task => task.IsCompleted);
-            if (running.Count >= maxConcurrency)
+            await concurrencyGate.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+            running.Add(ExecuteAndReleaseAsync(
+                assignment,
+                executeAsync,
+                onError,
+                concurrencyGate,
+                cancellationToken));
+            if (cancellationToken.IsCancellationRequested)
             {
-                var completed = await Task.WhenAny(running).ConfigureAwait(false);
-                running.Remove(completed);
+                break;
             }
 
-            running.Add(ExecuteAsync(assignment, executeAsync, onError, cancellationToken));
             pendingDequeue = DequeueAsync(dequeueAsync, onError, cancellationToken);
         }
 
@@ -72,6 +79,14 @@ internal static class DistributedWorkerPool
             catch (Exception exception)
             {
                 onError(exception);
+                try
+                {
+                    await Task.Delay(DequeueRetryDelay, cancellationToken).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                {
+                    return null;
+                }
             }
         }
 
@@ -94,6 +109,24 @@ internal static class DistributedWorkerPool
         catch (Exception exception)
         {
             onError(exception);
+        }
+    }
+
+    private static async Task ExecuteAndReleaseAsync(
+        ModuleAssignment assignment,
+        Func<ModuleAssignment, CancellationToken, Task> executeAsync,
+        Action<Exception> onError,
+        SemaphoreSlim concurrencyGate,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await ExecuteAsync(assignment, executeAsync, onError, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            concurrencyGate.Release();
         }
     }
 }

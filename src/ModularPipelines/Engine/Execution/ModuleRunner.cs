@@ -115,21 +115,9 @@ internal class ModuleRunner : IModuleRunner
     }
 
     /// <inheritdoc />
-    public Task ExecuteAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
-    {
-        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: false);
-    }
-
-    /// <inheritdoc />
     public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, CancellationToken cancellationToken)
     {
         return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: true), cancellationToken, skipDependencyWait: true);
-    }
-
-    /// <inheritdoc />
-    public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
-    {
-        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: true);
     }
 
     private async Task ExecuteCore(

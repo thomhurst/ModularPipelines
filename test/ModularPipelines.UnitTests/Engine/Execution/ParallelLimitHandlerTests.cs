@@ -135,13 +135,13 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         var ambientLogger = new Mock<IInternalModuleLogger>();
 
         using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         }
 
         ambientLogger.Verify(
@@ -456,13 +456,13 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(true);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         var ambientLogger = new Mock<IInternalModuleLogger>();
         var ambientWriter = ambientLogger.As<IConsoleWriter>().Object;
 
         using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         }
 
         using (Assert.Multiple())
@@ -508,11 +508,11 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
 
-        await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None));
+            moduleRunner.ExecuteAsync(moduleState, CancellationToken.None));
 
         outputBuffer.Verify(x => x.SetException(It.IsAny<InvalidOperationException>()), Times.Once);
         outputBuffer.Verify(x => x.SetStatus(It.IsAny<ModuleStatus>()), Times.Once);
