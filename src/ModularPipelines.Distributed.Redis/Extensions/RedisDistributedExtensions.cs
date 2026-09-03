@@ -21,6 +21,7 @@ namespace ModularPipelines.Distributed.Redis.Extensions;
 public static class RedisDistributedExtensions
 {
     private const string ModuleCacheOptionsName = "ModularPipelines.RedisModuleCache";
+    private const string RunIdEnvironmentVariable = "MODULARPIPELINES_RUN_ID";
     private static readonly object ModuleCacheConnectionKey = new();
 
     /// <summary>
@@ -179,9 +180,21 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
     {
+        builder.Services.Configure<DistributedOptions>(RequireExplicitRunId);
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
+    }
+
+    private static void RequireExplicitRunId(DistributedOptions options)
+    {
+        if (string.IsNullOrWhiteSpace(options.RunId)
+            && string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(RunIdEnvironmentVariable)))
+        {
+            throw new InvalidOperationException(
+                $"Redis distributed coordination requires one shared {nameof(DistributedOptions.RunId)}. "
+                + $"Configure it explicitly or set {RunIdEnvironmentVariable} for every process.");
+        }
     }
 
     private static PipelineBuilder AddRedisModuleCacheServices(

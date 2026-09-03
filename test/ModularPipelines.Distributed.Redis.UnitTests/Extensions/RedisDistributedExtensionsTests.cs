@@ -30,6 +30,7 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options.RunId = "test-run");
         builder.AddRedisDistributed(
             options =>
             {
@@ -93,7 +94,7 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    public async Task Distributed_Mode_Generates_RunId_When_Unconfigured()
+    public async Task Coordinator_Rejects_Unconfigured_Single_Instance_Run()
     {
         var originals = ExecutionEnvironmentVariables.ToDictionary(
             name => name,
@@ -112,10 +113,15 @@ public class RedisDistributedExtensionsTests
 
             builder.AddRedisDistributedCoordinator(options =>
                 options.ConnectionString = "unused");
-            await using var pipeline = await builder.BuildAsync();
-            var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
-            await Assert.That(Guid.TryParseExact(options.RunId, "N", out _)).IsTrue();
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.BuildAsync());
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.Message).Contains(nameof(DistributedOptions.RunId));
+                await Assert.That(exception.Message).Contains("MODULARPIPELINES_RUN_ID");
+            }
         }
         finally
         {
