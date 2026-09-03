@@ -13,19 +13,13 @@ using ModularPipelines.Minikube.Options;
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Starts an existing stopped node in a cluster.
+/// Stops a node in a cluster.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("node", "start")]
-public record MinikubeNodeStartOptions(
+[CliSubCommand("node", "stop")]
+public record MinikubeNodeStopOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NodeName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// If set, delete the current cluster if start fails and try again. Defaults to false.
-    /// </summary>
-    [CliFlag("--delete-on-failure")]
-    public bool? DeleteOnFailure { get; set; }
-
 }

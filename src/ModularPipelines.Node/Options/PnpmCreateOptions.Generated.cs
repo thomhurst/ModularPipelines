@@ -18,18 +18,14 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
-public record PnpmCreateOptions : PnpmOptions
+public record PnpmCreateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
+) : PnpmOptions
 {
     /// <summary>
     /// A list of package names that are allowed to run postinstall scripts during installation
     /// </summary>
     [CliOption("--allow-build")]
     public string? AllowBuild { get; set; }
-
-    /// <summary>
-    /// The name operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Name { get; set; }
 
 }
