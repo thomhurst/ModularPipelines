@@ -9,4 +9,6 @@ internal sealed class DistributedCacheHitTracker
     public void Record(Type moduleType) => _moduleTypes.TryAdd(moduleType, 0);
 
     public bool Contains(Type moduleType) => _moduleTypes.ContainsKey(moduleType);
+
+    public void Clear() => _moduleTypes.Clear();
 }

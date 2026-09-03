@@ -67,6 +67,8 @@ internal class DistributedModuleExecutor(
 
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
+        _cacheHitTracker.Clear();
+
         if (modules.Count == 0)
         {
             return modules;
@@ -257,7 +259,6 @@ internal class DistributedModuleExecutor(
                 .ConfigureAwait(false);
             if (cachedResult is null)
             {
-                cacheResultRepository.DiscardFingerprint(module);
                 return false;
             }
 
@@ -289,7 +290,6 @@ internal class DistributedModuleExecutor(
         }
         catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
         {
-            cacheResultRepository.DiscardFingerprint(module);
             _logger.LogWarning(
                 exception,
                 "Could not restore module {Module} from cache on the master; dispatching normally",
@@ -643,6 +643,10 @@ internal class DistributedModuleExecutor(
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync();
+        }
+        finally
+        {
+            _cacheResultRepository?.DiscardFingerprint(module);
         }
     }
 

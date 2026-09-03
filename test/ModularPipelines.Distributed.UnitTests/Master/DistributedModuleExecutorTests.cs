@@ -425,6 +425,20 @@ public class DistributedModuleExecutorTests
             ModuleStatus.RestoredFromCache), Times.Once());
     }
 
+    [Test]
+    public async Task ExecuteAsync_Clears_Cache_Hits_From_Previous_Run()
+    {
+        var cacheHitTracker = new DistributedCacheHitTracker();
+        cacheHitTracker.Record(typeof(CachedDistributedModule));
+        var executor = CreateExecutor(
+            CreateMockScheduler(),
+            cacheHitTracker: cacheHitTracker);
+
+        await executor.ExecuteAsync([]);
+
+        await Assert.That(cacheHitTracker.Contains(typeof(CachedDistributedModule))).IsFalse();
+    }
+
     // =================================================================
     // Result Registration Tests
     // =================================================================
