@@ -2,7 +2,13 @@ namespace ModularPipelines.Distributed;
 
 public class DistributedOptions
 {
-    public bool Enabled { get; set; }
+    internal bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets this instance's distributed role. <see cref="DistributedRole.Auto"/> derives
+    /// the role from <see cref="InstanceIndex"/>.
+    /// </summary>
+    public DistributedRole Role { get; set; } = DistributedRole.Auto;
 
     public int InstanceIndex { get; set; }
 
@@ -17,6 +23,16 @@ public class DistributedOptions
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 
     public TimeSpan CapabilityTimeout { get; set; } = TimeSpan.FromMinutes(5);
+
+    /// <summary>
+    /// Gets or sets how often workers report liveness to the coordinator.
+    /// </summary>
+    public TimeSpan WorkerHeartbeatInterval { get; set; } = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// Gets or sets how long a worker remains live without a heartbeat.
+    /// </summary>
+    public TimeSpan WorkerTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
     public bool AutoDetectOsCapability { get; set; } = true;
 

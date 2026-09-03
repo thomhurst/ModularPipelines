@@ -1,4 +1,8 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.SignalR.Configuration;
+using ModularPipelines.Distributed.SignalR.Extensions;
 
 namespace ModularPipelines.Distributed.SignalR.UnitTests;
 
@@ -36,5 +40,28 @@ public class ConfigurationTests
         await Assert.That(options.EnableAutoReconnect).IsFalse();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(10);
         await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(2 * 1024 * 1024);
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsOptions()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["SignalR:MasterUrl"] = "https://master.example",
+                ["SignalR:HubPath"] = "/distributed",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddSignalRDistributedCoordinator(configuration.GetSection("SignalR"));
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.MasterUrl).IsEqualTo("https://master.example");
+            await Assert.That(options.HubPath).IsEqualTo("/distributed");
+        }
     }
 }

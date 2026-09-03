@@ -154,6 +154,32 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task GetRegisteredWorkers_Uses_Heartbeats_For_Liveness_But_Retains_Completed()
+    {
+        var state = new SignalRMasterState
+        {
+            WorkerTimeout = TimeSpan.FromSeconds(1),
+        };
+        var coordinator = CreateCoordinator(state);
+        var recent = new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow);
+        var stale = new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow);
+        var completed = new WorkerRegistration(3, new HashSet<Capability>(), DateTimeOffset.UtcNow)
+        {
+            UnattributedCommandCount = 1,
+        };
+        state.Registrations[recent.WorkerIndex] = recent;
+        state.Registrations[stale.WorkerIndex] = stale;
+        state.Registrations[completed.WorkerIndex] = completed;
+        state.Heartbeats[recent.WorkerIndex] = DateTimeOffset.UtcNow;
+        state.Heartbeats[stale.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
+        state.Heartbeats[completed.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
+
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers).IsEquivalentTo([recent, completed]);
+    }
+
+    [Test]
     public async Task SignalCompletion_Sets_Completed_Flag()
     {
         var state = new SignalRMasterState();
@@ -162,6 +188,60 @@ public class SignalRMasterCoordinatorTests
         await coordinator.SignalCompletionAsync(CancellationToken.None);
 
         await Assert.That(state.IsCompleted).IsTrue();
+    }
+
+    [Test]
+    public async Task BroadcastCancellation_Unblocks_Worker_Observer()
+    {
+        var coordinator = CreateCoordinator();
+        var observer = coordinator.WaitForCancellationAsync(CancellationToken.None);
+
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+
+        await observer.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+
+    [Test]
+    public async Task BroadcastCancellation_Retains_Durable_State_When_Transport_Fails()
+    {
+        var state = new SignalRMasterState();
+        var clientProxy = new Mock<ISingleClientProxy>();
+        clientProxy
+            .Setup(client => client.SendCoreAsync(
+                HubMethodNames.BroadcastCancellation,
+                It.IsAny<object?[]>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Transport failed"));
+        var clients = new Mock<IHubClients>();
+        clients.Setup(client => client.All).Returns(clientProxy.Object);
+        var hubContext = new Mock<IHubContext<DistributedPipelineHub>>();
+        hubContext.Setup(context => context.Clients).Returns(clients.Object);
+        var coordinator = new SignalRMasterCoordinator(
+            hubContext.Object,
+            state,
+            NullLogger<SignalRMasterCoordinator>.Instance);
+
+        await coordinator.BroadcastCancellationAsync(CancellationToken.None);
+
+        await state.CancellationRequested.Task.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+
+    [Test]
+    public async Task Heartbeat_Refreshes_Registered_Worker()
+    {
+        var state = new SignalRMasterState();
+        var coordinator = CreateCoordinator(state);
+        var registration = new WorkerRegistration(
+            1,
+            new HashSet<Capability>(),
+            DateTimeOffset.UtcNow);
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        var original = state.Heartbeats[registration.WorkerIndex];
+
+        await Task.Delay(10);
+        await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
+
+        await Assert.That(state.Heartbeats[registration.WorkerIndex]).IsGreaterThan(original);
     }
 
     [Test]
@@ -217,7 +297,7 @@ public class SignalRMasterCoordinatorTests
             "LinuxModule", "System.String",
             new HashSet<Capability> { "linux" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -320,7 +400,7 @@ public class SignalRMasterCoordinatorTests
             "LinuxModule", "System.String",
             new HashSet<Capability> { "linux" },
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -334,7 +414,7 @@ public class SignalRMasterCoordinatorTests
             moduleTypeName, "System.String",
             new HashSet<Capability>(),
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, 0, false));
+            new ModuleAssignmentConfiguration(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)

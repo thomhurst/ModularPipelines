@@ -17,6 +17,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
@@ -481,8 +482,8 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates configured distributed services. When TotalInstances is greater than 1,
-    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed services and replaces the default
+    /// <see cref="IModuleExecutor"/> with a role-specific implementation.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
@@ -500,45 +501,38 @@ public sealed class PipelineBuilder
             });
         }
 
-        var options = ResolveDistributedOptions(services);
-        if (options is null || !options.Enabled)
+        if (!services.Any(descriptor => descriptor.ServiceType == typeof(DistributedModeRegistration)))
         {
             return;
         }
 
-        // Replace coordinator if factory registered — deferred so workers don't block
-        // during DI build waiting for the master to advertise its URL
-        var hasFactory = services.Any(d => d.ServiceType == typeof(IDistributedCoordinatorFactory));
-        if (hasFactory)
+        services.TryAddSingleton<RoleDetector>();
+
+        // Replace coordinators if a factory is registered. Creation stays deferred so
+        // workers do not block during DI build while waiting for master discovery.
+        if (services.Any(d => d.ServiceType == typeof(IDistributedCoordinatorFactory)))
         {
-            RemoveService<IDistributedCoordinator>(services);
-            services.AddSingleton<IDistributedCoordinator>(sp =>
-            {
-                var factory = sp.GetRequiredService<IDistributedCoordinatorFactory>();
-                return new DeferredCoordinator(factory);
-            });
+            RemoveService<IDistributedMasterCoordinator>(services);
+            RemoveService<IDistributedWorkerCoordinator>(services);
+            services.AddSingleton<DeferredMasterCoordinator>();
+            services.AddSingleton<DeferredWorkerCoordinator>();
+            services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
+            services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                    ? serviceProvider.GetRequiredService<DeferredMasterCoordinator>()
+                    : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
         }
 
-        if (options.TotalInstances <= 1)
-        {
-            return;
-        }
-
-        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
-        var role = roleDetector.DetectRole();
-
-        if (role == DistributedRole.Master)
-        {
-            services.AddSingleton<DistributedWorkPublisher>();
-            services.AddSingleton<DistributedResultCollector>();
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, DistributedModuleExecutor>();
-        }
-        else
-        {
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
-        }
+        services.AddSingleton<DistributedWorkPublisher>();
+        services.AddSingleton<DistributedResultCollector>();
+        services.AddSingleton<DistributedModuleExecutor>();
+        services.AddSingleton<WorkerModuleExecutor>();
+        RemoveService<IModuleExecutor>(services);
+        services.AddSingleton<IModuleExecutor>(serviceProvider =>
+            serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                ? serviceProvider.GetRequiredService<DistributedModuleExecutor>()
+                : serviceProvider.GetRequiredService<WorkerModuleExecutor>());
     }
 
     private static int FindLastServiceIndex<TService>(IServiceCollection services)
@@ -552,50 +546,6 @@ public sealed class PipelineBuilder
         }
 
         return -1;
-    }
-
-    /// <summary>
-    /// Extracts DistributedOptions from the service collection without calling BuildServiceProvider().
-    /// </summary>
-    private static DistributedOptions? ResolveDistributedOptions(IServiceCollection services)
-    {
-        // Look for the IOptions<DistributedOptions> singleton instance registration
-        var optionsDescriptor = services.FirstOrDefault(d =>
-            d.ServiceType == typeof(IOptions<DistributedOptions>) &&
-            d.Lifetime == ServiceLifetime.Singleton &&
-            d.ImplementationInstance is not null);
-
-        if (optionsDescriptor?.ImplementationInstance is IOptions<DistributedOptions> options)
-        {
-            return options.Value;
-        }
-
-        // Check for IConfigureOptions<DistributedOptions> (from Configure<T>() calls)
-        var hasConfigureOptions = services.Any(d =>
-            d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) ||
-            d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>));
-
-        if (hasConfigureOptions)
-        {
-            var opts = new DistributedOptions();
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IConfigureOptions<DistributedOptions>))
-            {
-                ((IConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).Configure(opts);
-            }
-
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IPostConfigureOptions<DistributedOptions>))
-            {
-                ((IPostConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
-            }
-
-            return opts;
-        }
-
-        return null;
     }
 
     private static void RemoveService<T>(IServiceCollection services)
@@ -627,13 +577,13 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Defers <see cref="IDistributedCoordinatorFactory.CreateAsync"/> to first use so that
-    /// workers don't block during DI build waiting for the master to advertise its URL.
+    /// Defers <see cref="IDistributedCoordinatorFactory.CreateMasterAsync"/> to first use.
     /// </summary>
-    private sealed class DeferredCoordinator(IDistributedCoordinatorFactory factory) : IDistributedCoordinator
+    private sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory factory) :
+        IDistributedMasterCoordinator
     {
         private readonly SemaphoreSlim _lock = new(1, 1);
-        private volatile IDistributedCoordinator? _inner;
+        private volatile IDistributedMasterCoordinator? _inner;
 
         public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
 
@@ -649,7 +599,13 @@ public sealed class PipelineBuilder
 
         public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
 
-        private async ValueTask<IDistributedCoordinator> GetAsync(CancellationToken ct)
+        public async Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) => await (await GetAsync(ct)).SendHeartbeatAsync(workerIndex, ct);
+
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+
+        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).BroadcastCancellationAsync(ct);
+
+        private async ValueTask<IDistributedMasterCoordinator> GetAsync(CancellationToken ct)
         {
             if (_inner is not null)
             {
@@ -659,7 +615,46 @@ public sealed class PipelineBuilder
             await _lock.WaitAsync(ct);
             try
             {
-                return _inner ??= await factory.CreateAsync(ct);
+                return _inner ??= await factory.CreateMasterAsync(ct);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Defers <see cref="IDistributedCoordinatorFactory.CreateWorkerAsync"/> to first use so that
+    /// workers do not block during DI build waiting for master discovery.
+    /// </summary>
+    private sealed class DeferredWorkerCoordinator(IDistributedCoordinatorFactory factory) :
+        IDistributedWorkerCoordinator
+    {
+        private readonly SemaphoreSlim _lock = new(1, 1);
+        private volatile IDistributedWorkerCoordinator? _inner;
+
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+
+        public async Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) => await (await GetAsync(ct)).SendHeartbeatAsync(workerIndex, ct);
+
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+
+        private async ValueTask<IDistributedWorkerCoordinator> GetAsync(CancellationToken ct)
+        {
+            if (_inner is not null)
+            {
+                return _inner;
+            }
+
+            await _lock.WaitAsync(ct);
+            try
+            {
+                return _inner ??= await factory.CreateWorkerAsync(ct);
             }
             finally
             {

@@ -374,7 +374,7 @@ internal static class DependencyInjectionSetup
     /// <summary>
     /// Registers distributed execution infrastructure with local defaults.
     /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
-    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
+    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when distributed mode is enabled.
     /// </summary>
     private static void RegisterDistributedServices(IServiceCollection services)
     {
@@ -383,7 +383,11 @@ internal static class DependencyInjectionSetup
         services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton(serviceProvider =>
             serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);
-        services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
+        services.TryAddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
         services.TryAddSingleton<IDistributedArtifactStore, FileSystemDistributedArtifactStore>();
         services.TryAddSingleton<IArtifactContext, ArtifactContextImpl>();
 

@@ -6,5 +6,13 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 public interface IDistributedCoordinatorFactory
 {
-    Task<IDistributedCoordinator> CreateAsync(CancellationToken cancellationToken);
+    /// <summary>
+    /// Creates the coordinator used by the master process.
+    /// </summary>
+    Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates the coordinator used by a worker process.
+    /// </summary>
+    Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken);
 }

@@ -102,8 +102,7 @@ internal class ModuleRunner : IModuleRunner
         _resultHistoryProvider = resultHistoryProvider;
         _pipelineContextProvider = pipelineContextProvider;
         _artifactLifecycleManager = artifactLifecycleManager;
-        _manageArtifactsLocally = !distributedOptions.Value.Enabled
-                                  || distributedOptions.Value.TotalInstances <= 1;
+        _manageArtifactsLocally = !distributedOptions.Value.Enabled;
         var registeredModules = modules.ToArray();
         _registeredModuleTypes = registeredModules.Select(static module => module.GetType()).ToArray();
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
@@ -131,6 +130,7 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
         var limiterCancellationToken = default(CancellationToken);
+        IInternalModuleLogger? readyLogger = null;
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
@@ -138,19 +138,13 @@ internal class ModuleRunner : IModuleRunner
         {
             try
             {
-                if (!skipDependencyWait)
-                {
-                    await _dependencyWaiter.WaitForDependenciesAsync(
-                            moduleState,
-                            scheduler,
-                            scope.ServiceProvider,
-                            cancellationToken)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
-                }
+                await WaitForDependenciesAsync(
+                        moduleState,
+                        scheduler,
+                        scope.ServiceProvider,
+                        cancellationToken,
+                        skipDependencyWait)
+                    .ConfigureAwait(false);
 
                 var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
                         moduleType,
@@ -160,12 +154,16 @@ internal class ModuleRunner : IModuleRunner
 
                 if (moduleState.TryStartReadyEvents())
                 {
-                    await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+                    var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
                     var readyLifecycleContext = CreateLifecycleContext(
                         moduleState,
-                        scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
+                        pipelineContext,
                         scope.ServiceProvider,
                         cancellationToken);
+                    readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
+                    await _pipelineSetupExecutor
+                        .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
+                        .ConfigureAwait(false);
                     await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                 }
 
@@ -188,6 +186,10 @@ internal class ModuleRunner : IModuleRunner
                 // until this point prevents limiter wait time from being reported as execution time.
                 if (!scheduler.MarkModuleStarted(moduleType))
                 {
+                    readyLogger ??= GetAmbientOrScopedModuleLogger(
+                        scope.ServiceProvider,
+                        moduleType) as IInternalModuleLogger;
+                    readyLogger?.PreserveBufferForDeferredExecution();
                     _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
                     return; // Module will be rescheduled by the scheduler
                 }
@@ -218,6 +220,14 @@ internal class ModuleRunner : IModuleRunner
                     scheduler,
                     handledException,
                     cancellationToken);
+                readyLogger ??= GetAmbientOrScopedModuleLogger(
+                    scope.ServiceProvider,
+                    moduleType) as IInternalModuleLogger;
+                FinalizeReadyLoggerAfterFailure(
+                    readyLogger,
+                    moduleState,
+                    moduleType,
+                    handledException);
 
                 if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                 {
@@ -230,6 +240,47 @@ internal class ModuleRunner : IModuleRunner
                 }
             }
         }
+    }
+
+    private async Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        IServiceProvider serviceProvider,
+        CancellationToken cancellationToken,
+        bool skipDependencyWait)
+    {
+        if (skipDependencyWait)
+        {
+            _logger.LogDebug(
+                "Skipping dependency wait for late-started AlwaysRun module: {ModuleName}",
+                moduleState.ModuleType.Name);
+            return;
+        }
+
+        await _dependencyWaiter.WaitForDependenciesAsync(
+                moduleState,
+                scheduler,
+                serviceProvider,
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private void FinalizeReadyLoggerAfterFailure(
+        IInternalModuleLogger? readyLogger,
+        ModuleState moduleState,
+        Type moduleType,
+        Exception exception)
+    {
+        if (readyLogger is null)
+        {
+            return;
+        }
+
+        readyLogger.SetException(exception);
+        readyLogger.SetStatus(
+            moduleState.Result?.Status
+            ?? _resultRegistry.GetResult(moduleType)?.Status
+            ?? ModuleStatus.Failed);
     }
 
     internal static Exception NormalizeLimiterCancellation(
@@ -806,9 +857,7 @@ internal class ModuleRunner : IModuleRunner
         var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
-        var logger = ModuleLogger.CurrentModuleType.Value == moduleType
-            ? ModuleLogger.Values.Value ?? GetModuleLogger(scopedServiceProvider, moduleType)
-            : GetModuleLogger(scopedServiceProvider, moduleType);
+        var logger = GetAmbientOrScopedModuleLogger(scopedServiceProvider, moduleType);
         var moduleContext = new ModuleContext(
             pipelineContext,
             module,
@@ -907,19 +956,21 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks - module is starting execution.
-        await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
+        var lifecycleContext = CreateLifecycleContext(
+            moduleState,
+            pipelineContext,
+            scopedServiceProvider,
+            cancellationToken);
+
+        await _pipelineSetupExecutor
+            .OnModuleStartAsync(moduleState, lifecycleContext.ConsoleWriter)
+            .ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         await _mediator.Publish(
                 new ModuleStartedNotification(moduleState, estimatedDuration),
                 CancellationToken.None)
             .ConfigureAwait(false);
-
-        var lifecycleContext = CreateLifecycleContext(
-            moduleState,
-            pipelineContext,
-            scopedServiceProvider,
-            cancellationToken);
 
         try
         {
@@ -1013,7 +1064,8 @@ internal class ModuleRunner : IModuleRunner
             _moduleAttributeEventService.GetAttributes(moduleState.ModuleType),
             startTime,
             pipelineContext,
-            scopedServiceProvider,
+            GetAmbientOrScopedModuleLogger(scopedServiceProvider, moduleState.ModuleType) as IConsoleWriter
+                ?? pipelineContext.Console,
             cancellationToken)
         {
             ReadyTime = moduleState.ReadyTime ?? startTime,
@@ -1044,7 +1096,9 @@ internal class ModuleRunner : IModuleRunner
         try
         {
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, result, exception).ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState, exception).ConfigureAwait(false);
+            await _pipelineSetupExecutor
+                .OnModuleFailureAsync(moduleState, exception, lifecycleContext.ConsoleWriter)
+                .ConfigureAwait(false);
         }
         finally
         {
@@ -1069,7 +1123,12 @@ internal class ModuleRunner : IModuleRunner
                     ModuleStatus.Skipped,
                     executionContext.SkipResult!)
                 .ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState, executionContext.SkipResult!).ConfigureAwait(false);
+            await _pipelineSetupExecutor
+                .OnModuleSkippedAsync(
+                    moduleState,
+                    executionContext.SkipResult!,
+                    lifecycleContext.ConsoleWriter)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -1081,7 +1140,9 @@ internal class ModuleRunner : IModuleRunner
                 .ConfigureAwait(false);
         }
 
-        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState, result).ConfigureAwait(false);
+        await _pipelineSetupExecutor
+            .OnModuleEndAsync(moduleState, result, lifecycleContext.ConsoleWriter)
+            .ConfigureAwait(false);
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
         if (!_manageArtifactsLocally
@@ -1225,6 +1286,13 @@ internal class ModuleRunner : IModuleRunner
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
         return (IModuleLogger) serviceProvider.GetRequiredService(loggerType);
     }
+
+    private static IModuleLogger GetAmbientOrScopedModuleLogger(
+        IServiceProvider serviceProvider,
+        Type moduleType) =>
+        ModuleLogger.CurrentModuleType.Value == moduleType
+            ? ModuleLogger.Values.Value ?? GetModuleLogger(serviceProvider, moduleType)
+            : GetModuleLogger(serviceProvider, moduleType);
 }
 
 internal sealed class NormalizedWorkerCancellationException(
