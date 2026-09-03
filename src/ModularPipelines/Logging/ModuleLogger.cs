@@ -44,6 +44,7 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
     protected readonly object _disposeLock = new();
     protected Exception? _exception;
     protected ModuleStatus _status = ModuleStatus.Succeeded;
+    protected bool _preserveBufferForDeferredExecution;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
 
@@ -56,7 +57,9 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
 
     public abstract ValueTask DisposeAsync();
 
-    public abstract void LogToConsole(string value);
+    public abstract void WriteLine(string value);
+
+    public abstract void WriteMarkupLine(string value);
 
     public abstract void Write(IRenderable renderable);
 
@@ -69,6 +72,11 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
     {
         _status = status;
     }
+
+    public void PreserveBufferForDeferredExecution()
+    {
+        _preserveBufferForDeferredExecution = true;
+    }
 }
 
 internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWriter, ILogger<T>
@@ -78,6 +86,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
     private readonly IModuleOutputBuffer _buffer;
     private readonly IOutputCoordinator _outputCoordinator;
+    private readonly IAnsiConsole _ansiConsole;
     private readonly object _renderLock = new();
     private readonly StringWriter _renderWriter;
     private readonly IAnsiConsole _renderConsole;
@@ -90,13 +99,15 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         ISecretObfuscator secretObfuscator,
         IFormattedLogValuesObfuscator formattedLogValuesObfuscator,
         IConsoleCoordinator consoleCoordinator,
-        IOutputCoordinator outputCoordinator)
+        IOutputCoordinator outputCoordinator,
+        IAnsiConsole? ansiConsole = null)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
         _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
         _outputCoordinator = outputCoordinator;
+        _ansiConsole = ansiConsole ?? DelegatingAnsiConsole.Instance;
         _renderWriter = new StringWriter();
         _renderConsole = AnsiConsole.Create(new AnsiConsoleSettings
         {
@@ -163,14 +174,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             _isDisposed = true;
-
-            if (_exception != null)
-            {
-                _buffer.SetException(_exception);
-            }
-
-            _buffer.SetStatus(_status);
-            _buffer.MarkComplete();
+            CompleteBuffer();
         }
 
         GC.SuppressFinalize(this);
@@ -188,15 +192,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             _isDisposed = true;
-
-            if (_exception != null)
-            {
-                _buffer.SetException(_exception);
-            }
-
-            _buffer.SetStatus(_status);
-            _buffer.MarkComplete();
-            shouldFlush = true;
+            shouldFlush = CompleteBuffer();
         }
 
         if (shouldFlush)
@@ -223,6 +219,23 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    private bool CompleteBuffer()
+    {
+        if (_preserveBufferForDeferredExecution)
+        {
+            return false;
+        }
+
+        if (_exception != null)
+        {
+            _buffer.SetException(_exception);
+        }
+
+        _buffer.SetStatus(_status);
+        _buffer.MarkComplete();
+        return true;
     }
 
     private void LogFlushTimeout()
@@ -258,23 +271,59 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             typeof(T).Name);
     }
 
-    public override void LogToConsole(string value)
+    public override void WriteLine(string value)
     {
-        var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
-        _buffer.WriteLine(obfuscated);
+        _buffer.WriteRenderable(new Markup(Markup.Escape(value)), value);
+    }
+
+    public override void WriteMarkupLine(string value)
+    {
+        Markup markup;
+        string plainText;
+        try
+        {
+            markup = new Markup(value);
+            plainText = Markup.Remove(value);
+        }
+        catch (InvalidOperationException)
+        {
+            WriteLine(value);
+            return;
+        }
+
+        WriteRenderable(
+            new SecretObfuscatedRenderable(markup, _secretObfuscator),
+            appendNewLine: true,
+            plainText: plainText);
     }
 
     public override void Write(IRenderable renderable)
     {
+        WriteRenderable(renderable, appendNewLine: false);
+    }
+
+    private void WriteRenderable(
+        IRenderable renderable,
+        bool appendNewLine,
+        string? plainText = null)
+    {
+        var obfuscatedRenderable = renderable as SecretObfuscatedRenderable
+                                   ?? new SecretObfuscatedRenderable(
+                                       renderable,
+                                       _secretObfuscator);
+        var renderWidth = _ansiConsole.Profile.Width;
+        var snapshot = obfuscatedRenderable.Snapshot(
+            RenderOptions.Create(_ansiConsole),
+            renderWidth);
         string rendered;
         lock (_renderLock)
         {
+            _renderConsole.Profile.Width = renderWidth;
             _renderWriter.GetStringBuilder().Clear();
-            _renderConsole.Write(renderable);
+            _renderConsole.Write(snapshot);
             rendered = _renderWriter.ToString();
         }
 
-        var obfuscated = _secretObfuscator.Obfuscate(rendered, null) ?? rendered;
-        _buffer.WriteLine(obfuscated);
+        _buffer.WriteRenderable(obfuscatedRenderable, plainText ?? rendered, appendNewLine);
     }
 }

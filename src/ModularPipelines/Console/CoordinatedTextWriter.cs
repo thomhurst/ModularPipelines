@@ -228,6 +228,15 @@ internal class CoordinatedTextWriter : TextWriter
         var buffer = moduleType is not null
             ? _coordinator.GetModuleBuffer(moduleType)
             : _coordinator.GetUnattributedBuffer();
+        if (buffer is IPreObfuscatedModuleOutputBuffer preObfuscatedBuffer)
+        {
+            preObfuscatedBuffer.WritePreObfuscated(
+                message,
+                _isError ? ModuleOutputStream.StandardError : ModuleOutputStream.StandardOutput,
+                appendNewLine);
+            return;
+        }
+
         if (_isError)
         {
             if (appendNewLine)

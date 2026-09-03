@@ -152,8 +152,8 @@ file static class BuildPipelineConfiguration
     {
         var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
         var redisRestToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
-        var instanceIndex = int.TryParse(Environment.GetEnvironmentVariable("INSTANCE_INDEX"), out var idx) ? idx : 0;
-        var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("TOTAL_INSTANCES"), out var total) ? total : 1;
+        var instanceIndex = int.TryParse(Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX"), out var idx) ? idx : 0;
+        var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES"), out var total) ? total : 1;
 
         if (totalInstances <= 1)
         {
@@ -183,7 +183,7 @@ file static class BuildPipelineConfiguration
         builder.AddSignalRDistributedCoordinator(o =>
         {
             o.MaximumReceiveMessageSize = 64 * 1024 * 1024;
-            // Distributed CI must install cloudflared before enabling TOTAL_INSTANCES > 1.
+            // Distributed CI must install cloudflared before enabling multiple instances.
             o.EnableTunnel = true;
         });
         builder.AddRedisSignalRDiscovery(o =>
