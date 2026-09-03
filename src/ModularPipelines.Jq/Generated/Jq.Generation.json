@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "jq",
+  "toolVersion": "jq-1.8.2",
+  "commandTreeSha256": "c84d384f2a25cca2a8fde5eb61b0f81f728e5f778a232211b176ea80143877bc",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}
