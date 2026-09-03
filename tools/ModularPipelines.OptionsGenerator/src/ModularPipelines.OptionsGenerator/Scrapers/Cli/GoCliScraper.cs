@@ -1008,12 +1008,6 @@ public partial class GoCliScraper : CliScraperBase
             }
 
             var continuationIndentation = GetIndentationWidth(nextLine);
-            if (GoOptionLinePattern().IsMatch(nextLine)
-                && continuationIndentation <= declarationIndentation)
-            {
-                break;
-            }
-
             if (continuationIndentation <= declarationIndentation)
             {
                 break;
