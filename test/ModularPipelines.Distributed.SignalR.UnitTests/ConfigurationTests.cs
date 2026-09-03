@@ -62,6 +62,11 @@ public class ConfigurationTests
             {
                 ["SignalR:MasterUrl"] = "https://master.example",
                 ["SignalR:HubPath"] = "/distributed",
+                ["SignalR:ConnectionTimeout"] = "00:00:07.500",
+                ["SignalR:ReconnectGrace"] = "00:00:08.250",
+                ["SignalR:KeepAliveInterval"] = "00:00:01.125",
+                ["SignalR:PeerTimeout"] = "00:00:03.750",
+                ["SignalR:TunnelStartupTimeout"] = "00:00:09.500",
             })
             .Build();
         var builder = Pipeline.CreateBuilder();
@@ -74,6 +79,11 @@ public class ConfigurationTests
         {
             await Assert.That(options.MasterUrl).IsEqualTo("https://master.example");
             await Assert.That(options.HubPath).IsEqualTo("/distributed");
+            await Assert.That(options.ConnectionTimeout).IsEqualTo(TimeSpan.FromMilliseconds(7500));
+            await Assert.That(options.ReconnectGrace).IsEqualTo(TimeSpan.FromMilliseconds(8250));
+            await Assert.That(options.KeepAliveInterval).IsEqualTo(TimeSpan.FromMilliseconds(1125));
+            await Assert.That(options.PeerTimeout).IsEqualTo(TimeSpan.FromMilliseconds(3750));
+            await Assert.That(options.TunnelStartupTimeout).IsEqualTo(TimeSpan.FromMilliseconds(9500));
         }
     }
 }

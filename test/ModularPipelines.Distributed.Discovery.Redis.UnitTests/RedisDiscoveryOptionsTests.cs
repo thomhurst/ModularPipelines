@@ -49,6 +49,9 @@ public class RedisDiscoveryOptionsTests
             {
                 ["Discovery:ConnectionString"] = "redis.example:6380",
                 ["Discovery:KeyPrefix"] = "configured",
+                ["Discovery:Ttl"] = "00:30:00",
+                ["Discovery:DiscoveryTimeout"] = "00:00:07.500",
+                ["Discovery:PollInterval"] = "00:00:00.125",
             })
             .Build();
         var builder = Pipeline.CreateBuilder();
@@ -61,6 +64,9 @@ public class RedisDiscoveryOptionsTests
         {
             await Assert.That(options.ConnectionString).IsEqualTo("redis.example:6380");
             await Assert.That(options.KeyPrefix).IsEqualTo("configured");
+            await Assert.That(options.Ttl).IsEqualTo(TimeSpan.FromMinutes(30));
+            await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMilliseconds(7500));
+            await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(125));
         }
     }
 

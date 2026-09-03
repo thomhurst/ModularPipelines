@@ -92,7 +92,7 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; otherwise configuration fails. |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; configuration fails only when both values are absent. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpiration` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys. Keys are automatically cleaned up after this duration. |
 
