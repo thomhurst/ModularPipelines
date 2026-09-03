@@ -2,7 +2,7 @@
 
 ## ILogger[​](#ilogger "Direct link to ILogger")
 
-When logging in a module, use the `ILogger` exposed by `context.Logger`. Do not inject a category logger such as `ILogger<T>` into a module, and do not write directly through `Console` or another console API.
+When logging in a module, use the `ILogger` exposed by `context.Logger`. Do not inject a category logger such as `ILogger<T>` into a module.
 
 The context logger applies Modular Pipelines' secret masking and groups output with the current module while still using the standard Microsoft.Extensions.Logging API.
 
@@ -14,15 +14,15 @@ If secrets have been defined (See [Secrets](/ModularPipelines/docs/next/how-to/s
 
 ## Grouped Logs[​](#grouped-logs "Direct link to Grouped Logs")
 
-When writing through `context.Logger`, logs are grouped by the current module. Since all modules attempt to run in parallel, if there was no log organisation, then logs would be everywhere and all jumbled up, and hard to navigate. This keeps logs together, clean, and easy to read. This is why it's very important not to write to the console directly, as that'll prevent this from working.
+When writing through `context.Logger`, logs are grouped by the current module. Since modules may run in parallel, grouping keeps each module's structured, rich, and plain console output together and readable.
 
 ## Interfering with Console Progress[​](#interfering-with-console-progress "Direct link to Interfering with Console Progress")
 
-If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules. If you start writing to the console directly, then you'll be writing over the top of this progress dialog and messing up how it renders.
+If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules. Module output is buffered while this display is active so it does not overwrite the progress dialog.
 
 ## Analyzers[​](#analyzers "Direct link to Analyzers")
 
-If you forget the above, Modular Pipelines has analyzers built as part of its framework. It'll detect direct uses of `Console`, or trying to inject in custom `ILogger`s and will result in errors, asking you to fix the issues.
+Modular Pipelines analyzers recommend `context.Console` over direct `Console` calls and prevent injecting category loggers into modules. Direct stdout/stderr remains a supported capture path when console stream semantics are specifically required.
 
 ## How to access ILogger[​](#how-to-access-ilogger "Direct link to How to access ILogger")
 
@@ -34,9 +34,15 @@ If you're in a module, it's part of your `context` object. Call `context.Logger`
 
 If you're in another class, inject `IModuleLoggerAccessor` and use its `Logger` property.
 
-## Module-aware console output[​](#module-aware-console-output "Direct link to Module-aware console output")
+## Choosing an output API[​](#choosing-an-output-api "Direct link to Choosing an output API")
 
-Use `context.Console` when a module needs plain text or Spectre.Console rendering instead of structured logging. Its output remains grouped with the module and secrets are obfuscated before rendering.
+Modular Pipelines keeps all three module output forms in one ordered module group:
+
+* Use `System.Console.Write*` and `System.Console.Error.Write*` for captured plain stdout and stderr with normal console fragment and newline semantics.
+* Use `context.Console` for captured plain text or Spectre.Console rendering.
+* Use `context.Logger` for structured, levelled events delivered to the configured Microsoft.Extensions.Logging providers and filters.
+
+Raw console writes are not converted into `Information` or `Error` log events. They are not sent to non-console logging providers and logging filters do not suppress them. Secrets are masked before console rendering and optional run-report capture, including secrets split across several `Write` calls.
 
 ```
 context.Console.WriteLine("Literal [brackets] stay literal");
@@ -46,7 +52,11 @@ context.Console.WriteMarkupLine("[green]Build succeeded[/]");
 context.Console.Write(new Table().AddColumn("Result").AddRow("Succeeded"));
 ```
 
-Do not use `System.Console` or `AnsiConsole` directly; they bypass module buffering and can interfere with the progress display.
+Attribution follows the .NET `ExecutionContext`, so it survives normal `await` continuations and `Task.Run`. It also applies during module construction, nested submodules, and distributed execution. Concurrent modules retain separate partial-line state for stdout and stderr, so fragments and lines cannot migrate between module groups.
+
+Writes made with `ExecutionContext.SuppressFlow()` cannot be attributed and use the pipeline/unattributed output group. The same is true for fire-and-forget work that writes after its owning module's output scope has ended. If that work continues after the pipeline restores the process console, ordinary process-console behavior applies. Await module-owned work whenever its output must belong to that module.
+
+Capture and grouping remain active when `Console.ShowProgress` is `false`. Rendering of the resulting groups still follows the selected local or CI build-system formatter. Avoid using the global `AnsiConsole` directly; use `context.Console` for rich output so the correct module buffer, ordering, and masking rules apply.
 
 ## Command Logging[​](#command-logging "Direct link to Command Logging")
 
