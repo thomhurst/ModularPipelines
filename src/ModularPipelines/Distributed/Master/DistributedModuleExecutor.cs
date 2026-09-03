@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
@@ -11,9 +12,11 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Distributed.Master;
 
@@ -36,7 +39,10 @@ internal class DistributedModuleExecutor(
     IOptions<DistributedOptions> options,
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
-    ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
+    ILogger<DistributedModuleExecutor> logger,
+    IModuleCacheResultRepository? cacheResultRepository = null,
+    IOptions<PipelineOptions>? pipelineOptions = null,
+    DistributedCacheHitTracker? cacheHitTracker = null) : IModuleExecutor
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
@@ -57,6 +63,9 @@ internal class DistributedModuleExecutor(
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
+    private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
+    private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
+    private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
 
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
@@ -160,20 +169,8 @@ internal class DistributedModuleExecutor(
         {
             await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(pipelineCts.Token))
             {
-                var moduleType = moduleState.Module.GetType();
-                var assignment = await _publisher.CreateAssignmentAsync(
-                        moduleState.Module,
-                        pipelineCts.Token)
-                    .ConfigureAwait(false);
-                if (!scheduler.MarkModuleStarted(moduleType))
-                {
-                    continue;
-                }
-
-                resultTasks.Add(PublishAndCollectDistributedResultAsync(
-                    assignment,
-                    moduleState.Module,
-                    moduleType,
+                resultTasks.Add(RestoreOrExecuteDistributedModuleAsync(
+                    moduleState,
                     scheduler,
                     pipelineCts,
                     requestFailureCancellation));
@@ -185,6 +182,34 @@ internal class DistributedModuleExecutor(
         }
 
         return resultTasks;
+    }
+
+    private async Task RestoreOrExecuteDistributedModuleAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationTokenSource pipelineCts,
+        Action requestFailureCancellation)
+    {
+        pipelineCts.Token.ThrowIfCancellationRequested();
+
+        if (await TryRestoreCachedResultAsync(moduleState, scheduler, pipelineCts.Token)
+                .ConfigureAwait(false))
+        {
+            return;
+        }
+
+        var module = moduleState.Module;
+        var collectTask = await TryStartDistributedExecutionAsync(
+                module,
+                module.GetType(),
+                scheduler,
+                pipelineCts,
+                requestFailureCancellation)
+            .ConfigureAwait(false);
+        if (collectTask is not null)
+        {
+            await collectTask.ConfigureAwait(false);
+        }
     }
 
     private async Task FinalizeExecutionAsync(
@@ -264,6 +289,156 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
         }
+    }
+
+    private async Task<Task?> TryStartDistributedExecutionAsync(
+        IModule module,
+        Type moduleType,
+        IModuleScheduler scheduler,
+        CancellationTokenSource cts,
+        Action requestFailureCancellation)
+    {
+        var cleanupDeferredToResultTask = false;
+        try
+        {
+            var assignment = await _publisher.CreateAssignmentAsync(module, cts.Token)
+                .ConfigureAwait(false);
+            if (!scheduler.MarkModuleStarted(moduleType))
+            {
+                return null;
+            }
+
+            cleanupDeferredToResultTask = true;
+            return PublishAndCollectDistributedResultAsync(
+                assignment,
+                module,
+                moduleType,
+                scheduler,
+                cts,
+                requestFailureCancellation);
+        }
+        catch (OperationCanceledException) when (cts.IsCancellationRequested)
+        {
+            return null;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(
+                exception,
+                "Failed to create a distributed assignment for module {Module}",
+                moduleType.Name);
+            RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed);
+            scheduler.MarkModuleCompleted(moduleType, false, exception);
+            requestFailureCancellation();
+            await cts.CancelAsync().ConfigureAwait(false);
+            return null;
+        }
+        finally
+        {
+            if (!cleanupDeferredToResultTask)
+            {
+                _cacheResultRepository?.DiscardFingerprint(module);
+            }
+        }
+    }
+
+    private async Task<bool> TryRestoreCachedResultAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
+        var cacheResultRepository = _cacheResultRepository;
+        if (cacheResultRepository is null || !CanRestoreCachedResult(moduleState))
+        {
+            return false;
+        }
+
+        IModuleResult cachedResult;
+        try
+        {
+            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+            var candidate = await ModuleCacheResultAccessor.GetResultAsync(
+                    cacheResultRepository,
+                    module,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (candidate is null)
+            {
+                return false;
+            }
+
+            cachedResult = candidate;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(
+                exception,
+                "Could not restore module {Module} from cache on the master; dispatching normally",
+                moduleType.Name);
+            return false;
+        }
+
+        await TryUploadCachedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
+
+        var restoredResult = ModuleResultFactory.WithStatus(
+            cachedResult,
+            ModuleStatus.RestoredFromCache);
+        moduleState.Result = restoredResult;
+        _resultRegistry.RegisterResult(moduleType, restoredResult);
+        ModuleCompletionSourceApplicator.TryApply(module, restoredResult);
+        _cacheHitTracker.Record(restoredResult);
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            success: true,
+            statusOverride: ModuleStatus.RestoredFromCache);
+        _logger.LogInformation(
+            "Restored module {Module} from cache on the master; distributed dispatch avoided",
+            moduleType.Name);
+        return true;
+    }
+
+    private async Task TryUploadCachedArtifactsAsync(
+        Type moduleType,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(
+                exception,
+                "Could not upload artifacts for cached module {Module}; using the cached result without republished artifacts",
+                moduleType.Name);
+        }
+    }
+
+    private bool CanRestoreCachedResult(ModuleState moduleState)
+    {
+        return _pipelineOptions?.Value.DisableModuleCache != true
+               && moduleState.Module.Configuration.CacheEnabled
+               && moduleState.Module.Configuration.SkipCondition is null
+               && !moduleState.SkipResult.ShouldSkip
+               && !moduleState.ModuleType.GetCustomAttributes(true).OfType<IConditionAttribute>().Any();
     }
 
     internal static void CompleteCancelledModules(
@@ -673,6 +848,10 @@ internal class DistributedModuleExecutor(
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync();
+        }
+        finally
+        {
+            _cacheResultRepository?.DiscardFingerprint(module);
         }
     }
 

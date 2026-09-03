@@ -17,11 +17,11 @@ namespace ModularPipelines.Eksctl.Enums;
 public enum EksctlUpdateCapabilityType
 {
     [EnumValue("ACK")]
-    Ack = 0,
+    Ack,
 
     [EnumValue("KRO")]
-    Kro = 1,
+    Kro,
 
     [EnumValue("ARGOCD")]
-    Argocd = 2
+    Argocd
 }

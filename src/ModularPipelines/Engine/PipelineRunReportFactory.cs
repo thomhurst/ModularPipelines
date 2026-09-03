@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed.Master;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -15,7 +16,8 @@ internal sealed class PipelineRunReportFactory(
     ISecretObfuscator secretObfuscator,
     IModuleOutputExcerptProvider? outputExcerptProvider = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
-    ISecretProvider? secretProvider = null)
+    ISecretProvider? secretProvider = null,
+    DistributedCacheHitTracker? distributedCacheHitTracker = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -171,6 +173,7 @@ internal sealed class PipelineRunReportFactory(
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
             Output = CreateOutputExcerpt(moduleType),
             CommandCount = commandExecutionCounter.GetCount(moduleType),
+            CacheHitAtMaster = distributedCacheHitTracker?.Contains(result) == true,
             PreviousDuration = previousDuration,
             DurationDelta = previousDuration.HasValue
                 ? current.Duration - previousDuration.Value
