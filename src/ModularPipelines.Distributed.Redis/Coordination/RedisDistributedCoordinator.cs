@@ -32,7 +32,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _database = database;
         _subscriber = subscriber;
         _keys = keys;
-        _keyExpiration = TimeSpan.FromSeconds(options.KeyExpirationSeconds);
+        _keyExpiration = options.KeyExpiration;
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         _onWaitReady = onWaitReady;
         _jsonOptions = new JsonSerializerOptions

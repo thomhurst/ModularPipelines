@@ -9,5 +9,5 @@ namespace ModularPipelines.Distributed;
 /// node-local resilience shield factories without attempting to serialize delegates.
 /// </remarks>
 public record ModuleAssignmentConfiguration(
-    double? TimeoutSeconds,
+    TimeSpan? Timeout,
     bool AlwaysRun);

@@ -242,7 +242,7 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes
 
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-- **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
+- **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpiration` accordingly if you have very long pipelines.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
 - **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use
   **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix

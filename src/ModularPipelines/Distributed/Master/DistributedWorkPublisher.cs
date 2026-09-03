@@ -68,7 +68,7 @@ internal class DistributedWorkPublisher(
             RequiredCapabilities: requiredCapabilities,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(
-                TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
+                Timeout: config.Timeout,
                 AlwaysRun: config.AlwaysRun
             ),
             DependencyResults: dependencyResults)

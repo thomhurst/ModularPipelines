@@ -88,16 +88,42 @@ builder.AddRedisDistributedCoordinator(o =>
     o.ConnectionString = "redis-host:6379,password=secret";
     o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
     o.KeyPrefix = "modpipe";
-    o.KeyExpirationSeconds = 3600;
+    o.KeyExpiration = TimeSpan.FromHours(1);
 });
 ```
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; otherwise configuration fails. |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; configuration fails only when both values are absent. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
-| `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
+| `KeyExpiration` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys. Keys are automatically cleaned up after this duration. |
+
+All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
+
+```json
+{
+  "Distributed": {
+    "CapabilityTimeout": "00:05:00",
+    "ModuleResultTimeout": "00:45:00"
+  },
+  "Redis": {
+    "KeyExpiration": "01:00:00"
+  },
+  "SignalR": {
+    "ConnectionTimeout": "00:02:00",
+    "ReconnectGrace": "00:00:45",
+    "KeepAliveInterval": "00:00:05",
+    "PeerTimeout": "00:00:15",
+    "TunnelStartupTimeout": "00:00:30"
+  },
+  "RedisDiscovery": {
+    "Ttl": "01:00:00",
+    "DiscoveryTimeout": "00:02:00",
+    "PollInterval": "00:00:00.500"
+  }
+}
+```
 
 ## Run Identifier Resolution
 

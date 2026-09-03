@@ -43,6 +43,16 @@ public class DistributedWorkPublisherTests
             => Task.FromResult(42);
     }
 
+    private sealed class TimedModule : Module<int>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromMilliseconds(1500));
+
+        protected internal override Task<int> ExecuteAsync(
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(42);
+    }
+
     private class FluentConsumerModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -203,6 +213,22 @@ public class DistributedWorkPublisherTests
             EndTime = now.AddMilliseconds(100),
             Status = ModuleStatus.Succeeded,
         };
+    }
+
+    [Test]
+    public async Task CreateAssignment_Preserves_Module_Timeout()
+    {
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(TimedModule));
+        var publisher = new DistributedWorkPublisher(
+            new InMemoryDistributedCoordinator(),
+            typeRegistry,
+            new ModuleResultSerializer(typeRegistry),
+            new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(new TimedModule());
+
+        await Assert.That(assignment.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1500));
     }
 
     [Test]
