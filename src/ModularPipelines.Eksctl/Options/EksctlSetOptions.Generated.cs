@@ -12,9 +12,6 @@ using ModularPipelines.Eksctl.Options;
 
 namespace ModularPipelines.Eksctl.Options;
 
-/// <summary>
-/// eksctl set labels                          Create or overwrite labels for managed nodegroups
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("set")]
