@@ -229,13 +229,8 @@ public class RedisModuleCacheTests
             },
             options => options.ChunkSizeBytes = 456);
 
-        var redisOptions = builder.Services
-            .Where(descriptor => descriptor.ServiceType == typeof(RedisDistributedOptions)
-                                 && !descriptor.IsKeyedService)
-            .Select(descriptor => descriptor.ImplementationInstance)
-            .OfType<RedisDistributedOptions>()
-            .Single();
         using var serviceProvider = builder.Services.BuildServiceProvider();
+        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
         var artifactOptions = serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value;
 
         using (Assert.Multiple())

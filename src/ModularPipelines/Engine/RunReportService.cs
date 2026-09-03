@@ -348,7 +348,6 @@ internal sealed class RunReportService(
     {
         var options = distributedOptions.Value;
         return options.Enabled
-               && options.TotalInstances > 1
                && roleDetector.DetectRole() == DistributedRole.Worker;
     }
 
@@ -356,7 +355,6 @@ internal sealed class RunReportService(
     {
         var options = distributedOptions.Value;
         return options.Enabled
-               && options.TotalInstances > 1
                && roleDetector.DetectRole() == DistributedRole.Master;
     }
 
