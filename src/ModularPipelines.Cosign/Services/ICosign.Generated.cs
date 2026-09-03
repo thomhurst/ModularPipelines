@@ -31,18 +31,6 @@ public partial interface ICosign
     ICosignDownload Download => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Gets the pivtool sub-domain service.
-    /// </summary>
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    ICosignPivTool PivTool => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Gets the pkcs11tool sub-domain service.
-    /// </summary>
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    ICosignPkcs11Tool Pkcs11Tool => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Gets the signingconfig sub-domain service.
     /// </summary>
     ICosignSigningConfig SigningConfig => throw new System.NotSupportedException();
