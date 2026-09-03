@@ -1246,8 +1246,9 @@ public class CodeGeneratorOrchestrator
         {
             File.Move(temporaryPath, path);
         }
-        catch
+        catch (Exception moveException)
         {
+            Exception? recoveryException = null;
             try
             {
                 if (File.Exists(temporaryPath) && !File.Exists(existingPath))
@@ -1255,9 +1256,20 @@ public class CodeGeneratorOrchestrator
                     File.Move(temporaryPath, existingPath);
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // Preserve the original move failure. The old content remains at the temporary path.
+                recoveryException = exception;
+            }
+
+            if (File.Exists(temporaryPath))
+            {
+                var innerException = recoveryException is null
+                    ? moveException
+                    : new AggregateException(moveException, recoveryException);
+                throw new IOException(
+                    $"Failed to apply exact casing for '{path}'. "
+                    + $"The recoverable original remains at '{temporaryPath}'.",
+                    innerException);
             }
 
             throw;
