@@ -34,11 +34,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AddAsync(
-        PnpmAddOptions? options = null,
+        PnpmAddOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -61,11 +61,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CreateAsync(
-        PnpmCreateOptions? options = null,
+        PnpmCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -106,11 +106,11 @@ internal partial class Pnpm : IPnpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> StageApproveAsync(
-        PnpmStageApproveOptions options,
+        PnpmStageApproveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmStageApproveOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
