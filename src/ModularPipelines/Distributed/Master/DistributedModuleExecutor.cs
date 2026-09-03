@@ -13,6 +13,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -37,6 +38,7 @@ internal class DistributedModuleExecutor(
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
+    IParallelLimitProvider parallelLimitProvider,
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger,
@@ -60,6 +62,7 @@ internal class DistributedModuleExecutor(
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
+    private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
@@ -80,6 +83,10 @@ internal class DistributedModuleExecutor(
         {
             return Array.Empty<IModuleResult>();
         }
+
+        var workerMaxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
+            _parallelLimitProvider,
+            _options.Value);
 
         // Register all module types in the type registry for serialization
         foreach (var module in modules)
@@ -133,6 +140,7 @@ internal class DistributedModuleExecutor(
             var masterWorkerTask = RunMasterWorkerLoopAsync(
                 modules,
                 moduleLookup,
+                workerMaxConcurrency,
                 cts.Token,
                 masterWorkerCts.Token);
 
@@ -611,6 +619,7 @@ internal class DistributedModuleExecutor(
     private async Task RunMasterWorkerLoopAsync(
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
+        int maxConcurrency,
         CancellationToken pipelineCancellationToken,
         CancellationToken workerCancellationToken)
     {
@@ -625,24 +634,19 @@ internal class DistributedModuleExecutor(
         _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
-        while (!workerCancellationToken.IsCancellationRequested)
-        {
-            try
+        _logger.LogInformation(
+            "Master worker loop starting {MaxConcurrency} concurrent execution slot(s)",
+            maxConcurrency);
+        await DistributedWorkerPool.RunAsync(
+            token => _workerCoordinator.DequeueModuleAsync(capabilities, token),
+            async (assignment, _) =>
             {
-                var assignment = await _workerCoordinator
-                    .DequeueModuleAsync(capabilities, workerCancellationToken)
-                    .ConfigureAwait(false);
-                if (assignment is null)
-                {
-                    break;
-                }
-
                 if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
                 {
                     _logger.LogInformation(
                         "Master skipping cancelled module {Module}",
                         assignment.ModuleTypeName);
-                    continue;
+                    return;
                 }
 
                 _logger.LogInformation("Master executing module {Module} locally",
@@ -656,16 +660,10 @@ internal class DistributedModuleExecutor(
                     modules,
                     moduleLookup,
                     executionCancellationToken).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                break;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Master worker loop encountered an error");
-            }
-        }
+            },
+            maxConcurrency,
+            exception => _logger.LogError(exception, "Master worker loop encountered an error"),
+            workerCancellationToken).ConfigureAwait(false);
     }
 
     private async Task ExecuteAssignmentAsync(

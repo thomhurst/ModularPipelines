@@ -1475,6 +1475,8 @@ ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.get -> int?
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.set -> void
 ModularPipelines.Distributed.DistributedOptions.Role.get -> ModularPipelines.Distributed.DistributedRole
 ModularPipelines.Distributed.DistributedOptions.Role.set -> void
 ModularPipelines.Distributed.DistributedOptions.RunIdentifier.get -> string?

@@ -40,13 +40,18 @@ public class DistributedModuleExecutorTests
     private static ModuleResultRegistrar NewResultRegistrar(IModuleResultRegistry resultRegistry) =>
         new ModuleResultRegistrar(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);
 
-    private static AlwaysRunHandler NewAlwaysRunHandler(IModuleRunner moduleRunner)
+    private static IParallelLimitProvider NewParallelLimitProvider(int maxParallelism = 2)
     {
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
-        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(maxParallelism);
+        return parallelLimitProvider.Object;
+    }
+
+    private static AlwaysRunHandler NewAlwaysRunHandler(IModuleRunner moduleRunner)
+    {
         return new AlwaysRunHandler(
             moduleRunner,
-            parallelLimitProvider.Object,
+            NewParallelLimitProvider(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLogger<AlwaysRunHandler>.Instance,
             TimeProvider.System);
@@ -438,6 +443,7 @@ public class DistributedModuleExecutorTests
         IModuleCacheResultRepository? cacheResultRepository = null,
         DistributedCacheHitTracker? cacheHitTracker = null,
         PipelineOptions? pipelineOptions = null,
+        IParallelLimitProvider? parallelLimitProvider = null,
         CancellationToken applicationStopping = default)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
@@ -481,6 +487,7 @@ public class DistributedModuleExecutorTests
             NewDependencyRegistry(),
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
+            parallelLimitProvider ?? NewParallelLimitProvider(),
             NewModuleLoggerScopeFactory(moduleLogger),
             artifactManager,
             executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance,
@@ -2358,6 +2365,7 @@ public class DistributedModuleExecutorTests
             coordinator.Object, coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            NewParallelLimitProvider(),
             NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -2407,6 +2415,7 @@ public class DistributedModuleExecutorTests
             noDequeue, noDequeue, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            NewParallelLimitProvider(),
             NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -2500,6 +2509,7 @@ public class DistributedModuleExecutorTests
             coordinator.Object, coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            NewParallelLimitProvider(),
             NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 

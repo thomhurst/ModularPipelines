@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -26,6 +28,7 @@ internal class WorkerModuleExecutor(
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
+    IParallelLimitProvider parallelLimitProvider,
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
@@ -44,6 +47,7 @@ internal class WorkerModuleExecutor(
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
+    private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
@@ -75,6 +79,9 @@ internal class WorkerModuleExecutor(
 
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var capabilities = BuildCapabilities(options);
+        var maxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
+            _parallelLimitProvider,
+            options);
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
         var heartbeatTask = SendHeartbeatsAsync(
             options.InstanceIndex,
@@ -84,20 +91,17 @@ internal class WorkerModuleExecutor(
             executionCts,
             options.WorkerHeartbeatInterval);
 
-        var executedModules = new List<IModule>();
+        var executedModules = new ConcurrentQueue<IModule>();
         try
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                try
+            _logger.LogInformation(
+                "Worker {Index} starting {MaxConcurrency} concurrent execution slot(s)",
+                options.InstanceIndex,
+                maxConcurrency);
+            await DistributedWorkerPool.RunAsync(
+                token => _coordinator.DequeueModuleAsync(capabilities, token),
+                async (assignment, token) =>
                 {
-                    var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
-                    if (assignment is null)
-                    {
-                        // No more work available
-                        break;
-                    }
-
                     _logger.LogInformation("Worker {Index} executing module {Module}",
                         options.InstanceIndex, assignment.ModuleTypeName);
                     await ExecuteAssignmentAsync(
@@ -105,18 +109,14 @@ internal class WorkerModuleExecutor(
                         moduleLookup,
                         executedModules,
                         options.InstanceIndex,
-                        cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    _logger.LogInformation("Worker {Index} shutting down", options.InstanceIndex);
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Worker {Index} encountered an error in execution loop", options.InstanceIndex);
-                }
-            }
+                        token).ConfigureAwait(false);
+                },
+                maxConcurrency,
+                exception => _logger.LogError(
+                    exception,
+                    "Worker {Index} encountered an error in execution loop",
+                    options.InstanceIndex),
+                cancellationToken).ConfigureAwait(false);
         }
         finally
         {
@@ -237,7 +237,7 @@ internal class WorkerModuleExecutor(
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
         Dictionary<string, IModule> moduleLookup,
-        List<IModule> executedModules,
+        ConcurrentQueue<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
     {
@@ -269,7 +269,7 @@ internal class WorkerModuleExecutor(
         try
         {
             await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken).ConfigureAwait(false);
-            executedModules.Add(module);
+            executedModules.Enqueue(module);
         }
         catch (Exception ex)
         {

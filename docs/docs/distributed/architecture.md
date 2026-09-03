@@ -36,7 +36,8 @@ This page describes the internal architecture of distributed mode for contributo
 4. The worker registers its capabilities with the coordinator via
    `RegisterWorkerAsync`. During run-report finalization it calls the method again to
    upsert its final command metrics.
-5. The worker enters its dequeue/execute/publish loop.
+5. The worker starts a bounded execution pool, continuously dequeuing one assignment
+   ahead while up to the configured number of modules execute concurrently.
 
 ### Module Execution (Master Side)
 
@@ -69,7 +70,8 @@ Mark module complete/failed
 Schedule dependents
 ```
 
-The master runs a concurrent worker loop that competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
+The master runs the same bounded worker pool and competes with external workers for
+assignments. All modules go through the work queue — routing is purely capability-based.
 
 ### Module Execution (Worker Side)
 
@@ -90,9 +92,15 @@ Register with coordinator
    └────┘ (loop)
 ```
 
-Workers loop until `DequeueModuleAsync` returns `null`. Coordinators return `null` after
-the master calls `SignalCompletionAsync`, or when that worker's local cancellation token
-is canceled.
+Workers execute up to the pipeline's global `Concurrency.MaxParallelism` setting. Each
+node can lower its own limit with `DistributedOptions.MaxParallelism`; it cannot raise
+the global limit. The pool keeps one dequeue pending while all execution slots are busy,
+avoiding idle time between assignments. Workers stop when `DequeueModuleAsync` returns
+`null`. Coordinators return `null` after the master calls `SignalCompletionAsync`, or
+when that worker's local cancellation token is canceled.
+
+`ExecutionHint` throttles and `[ParallelLimiter]` semaphores remain process-local. They
+bound concurrency within each node, but do not coordinate a shared limit across nodes.
 
 ## Custom Execution Backends
 
