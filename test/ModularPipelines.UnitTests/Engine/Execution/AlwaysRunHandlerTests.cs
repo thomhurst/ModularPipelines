@@ -34,9 +34,8 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
-                scheduler.Object,
                 CancellationToken.None))
-            .Returns(async (ModuleState state, IModuleScheduler _, CancellationToken _) =>
+            .Returns(async (ModuleState state, CancellationToken _) =>
             {
                 lock (executionLock)
                 {
@@ -99,7 +98,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(() =>
             {
@@ -115,7 +113,6 @@ public class AlwaysRunHandlerTests
         moduleRunner.Verify(
             x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None),
             Times.Once());
         await Assert.That(moduleState.State).IsEqualTo(ModuleExecutionState.Completed);
@@ -143,7 +140,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(() =>
             {
@@ -199,7 +195,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(() =>
             {
@@ -245,9 +240,8 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
-                scheduler.Object,
                 CancellationToken.None))
-            .Returns(async (ModuleState state, IModuleScheduler _, CancellationToken _) =>
+            .Returns(async (ModuleState state, CancellationToken _) =>
             {
                 var attempt = Interlocked.Increment(ref attempts);
                 if (attempt == 1)
@@ -294,7 +288,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 prerequisiteState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(async () =>
             {
@@ -306,7 +299,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 dependentState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(() =>
             {
@@ -354,7 +346,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(Task.CompletedTask);
 
@@ -412,7 +403,6 @@ public class AlwaysRunHandlerTests
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None))
             .Callback(() => Interlocked.Increment(ref attempts))
             .Returns(Task.CompletedTask);

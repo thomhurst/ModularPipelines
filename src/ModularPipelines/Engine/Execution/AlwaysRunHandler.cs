@@ -202,7 +202,7 @@ internal class AlwaysRunHandler(
 
             try
             {
-                await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, scheduler, CancellationToken.None).ConfigureAwait(false);
+                await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, CancellationToken.None).ConfigureAwait(false);
 
                 if (CanLateStartAlwaysRunModule(moduleState))
                 {

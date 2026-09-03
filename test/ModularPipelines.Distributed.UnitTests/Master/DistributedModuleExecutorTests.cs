@@ -676,14 +676,13 @@ public class DistributedModuleExecutorTests
         var resultCollector = new DistributedResultCollector(coordinator, serializer);
         var moduleRunner = new Mock<IModuleRunner>();
 
-        // Track what scheduler was passed to ExecuteWithoutDependencyWaitAsync
-        IModuleScheduler? capturedScheduler = null;
+        ModuleState? capturedState = null;
         var assignmentExecutionScopeWasActive = false;
         moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
-                It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, sched, _) =>
+                It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
+            .Callback<ModuleState, CancellationToken>((state, _) =>
             {
-                capturedScheduler = sched;
+                capturedState = state;
                 assignmentExecutionScopeWasActive = DistributedAssignmentExecutionScope.IsActive;
                 // Simulate successful execution by setting the module's CompletionSource
                 var result = CreateSuccessResult(new SimpleResult { Message = "master-executed" }, "DistributedModule");
@@ -700,9 +699,9 @@ public class DistributedModuleExecutorTests
         // Act
         await executor.ExecuteAsync([module]);
 
-        // Assert — the master worker loop used a WorkerModuleScheduler (no-op)
-        await Assert.That(capturedScheduler).IsNotNull();
-        await Assert.That(capturedScheduler).IsTypeOf<WorkerModuleScheduler>();
+        // Remote assignment execution is independent of the engine scheduler.
+        await Assert.That(capturedState).IsNotNull();
+        await Assert.That(capturedState!.Scheduler).IsNull();
         await Assert.That(assignmentExecutionScopeWasActive).IsTrue();
 
         // The result was published through the coordinator and collected by the result collector
@@ -733,9 +732,8 @@ public class DistributedModuleExecutorTests
 
         moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, _, _) =>
+            .Callback<ModuleState, CancellationToken>((_, _) =>
             {
                 ambientLogger = ModuleLogger.Values.Value;
                 var result = CreateSuccessResult(
@@ -808,7 +806,6 @@ public class DistributedModuleExecutorTests
         moduleLogger.Verify(logger => logger.SetException(failure), Times.Once);
         moduleRunner.Verify(runner => runner.ExecuteWithoutDependencyWaitAsync(
             It.IsAny<ModuleState>(),
-            It.IsAny<IModuleScheduler>(),
             It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -832,9 +829,8 @@ public class DistributedModuleExecutorTests
             .ThrowsAsync(new InvalidOperationException("upload failed"));
         moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, _, _) =>
+            .Callback<ModuleState, CancellationToken>((_, _) =>
             {
                 var result = CreateSuccessResult(
                     new SimpleResult { Message = "master-executed" },
@@ -900,9 +896,8 @@ public class DistributedModuleExecutorTests
 
         moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, _, _) =>
+            .Callback<ModuleState, CancellationToken>((state, _) =>
             {
                 capturedState = state;
                 var result = CreateSuccessResult("dependent done", "DependsOnDistributedModule");

@@ -56,10 +56,16 @@ public class PipelineExecutorTests
         IExceptionRethrowService exceptionRethrowService,
         PipelineOptions options)
     {
-        var moduleExecutor = new Mock<IModuleExecutor>();
-        moduleExecutor
-            .Setup(x => x.ExecuteAsync(It.IsAny<IReadOnlyList<IModule>>()))
+        var executionBackend = new Mock<IExecutionBackend>();
+        executionBackend
+            .Setup(x => x.ExecuteAsync(
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IExecutionBackendContext>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
+        var executionBackendContext = Mock.Of<IExecutionBackendContext>();
+        var engineCancellationToken = new ModularPipelines.Engine.EngineCancellationToken(
+            Mock.Of<IPrimaryExceptionContainer>());
 
         var pipelineSetupExecutor = new Mock<IPipelineSetupExecutor>();
         pipelineSetupExecutor
@@ -77,7 +83,9 @@ public class PipelineExecutorTests
 
         return new PipelineExecutor(
             pipelineSetupExecutor.Object,
-            moduleExecutor.Object,
+            executionBackend.Object,
+            executionBackendContext,
+            engineCancellationToken,
             NullLogger<PipelineExecutor>.Instance,
             exceptionRethrowService,
             secondaryExceptions,

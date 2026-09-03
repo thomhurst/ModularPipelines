@@ -29,7 +29,7 @@ internal class WorkerModuleExecutor(
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
-    DistributedConditionRouting? conditionRouting = null) : IModuleExecutor
+    DistributedConditionRouting? conditionRouting = null) : IExecutionBackend
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedCoordinator _coordinator = coordinator;
@@ -49,10 +49,18 @@ internal class WorkerModuleExecutor(
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
     private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IExecutionBackendContext context,
+        CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         var options = _options.Value;
-        var cancellationToken = _lifetime.ApplicationStopping;
+        using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(
+            _lifetime.ApplicationStopping,
+            cancellationToken);
+        cancellationToken = executionCts.Token;
         var availableModules = _registeredModules
             .Concat(modules)
             .Distinct<IModule>(ReferenceEqualityComparer.Instance)
@@ -68,8 +76,6 @@ internal class WorkerModuleExecutor(
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
 
         var executedModules = new List<IModule>();
-        using var workerScheduler = new WorkerModuleScheduler();
-
         while (!cancellationToken.IsCancellationRequested)
         {
             try
@@ -86,7 +92,6 @@ internal class WorkerModuleExecutor(
                 await ExecuteAssignmentAsync(
                     assignment,
                     moduleLookup,
-                    workerScheduler,
                     executedModules,
                     options.InstanceIndex,
                     cancellationToken);
@@ -102,7 +107,18 @@ internal class WorkerModuleExecutor(
             }
         }
 
-        return executedModules;
+        return executedModules
+            .Select(module => _resultRegistry.GetResult(module.GetType()))
+            .OfType<IModuleResult>()
+            .ToArray();
+    }
+
+    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    {
+        return ExecuteAsync(
+            modules,
+            new ExecutionBackendContext(_resultRegistry),
+            CancellationToken.None);
     }
 
     private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
@@ -133,7 +149,6 @@ internal class WorkerModuleExecutor(
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
         Dictionary<string, IModule> moduleLookup,
-        WorkerModuleScheduler workerScheduler,
         List<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
@@ -165,7 +180,7 @@ internal class WorkerModuleExecutor(
 
         try
         {
-            await ExecuteAndPublishAsync(assignment, module, workerScheduler, instanceIndex, cancellationToken);
+            await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken);
             executedModules.Add(module);
         }
         catch (Exception ex)
@@ -179,7 +194,6 @@ internal class WorkerModuleExecutor(
     private async Task ExecuteAndPublishAsync(
         ModuleAssignment assignment,
         IModule module,
-        WorkerModuleScheduler workerScheduler,
         int instanceIndex,
         CancellationToken cancellationToken)
     {
@@ -207,7 +221,7 @@ internal class WorkerModuleExecutor(
                 _typeRegistry.GetRegisteredModuleTypes(),
                 _dependencyRegistry,
                 _metadataRegistry);
-            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, cancellationToken);
 
             var result = await module.AsInternal().ResultTask;
             var artifactReferences = await TryUploadArtifactsAsync(

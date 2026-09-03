@@ -17,8 +17,8 @@ This page describes the internal architecture of distributed mode for contributo
 3. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` first. A valid environment value
    of `0` selects the master even when `DistributedOptions.InstanceIndex` is non-zero;
    any other valid integer selects a worker. When the variable is absent or invalid,
-   `InstanceIndex == 0` selects the master. The master replaces the default
-   `IModuleExecutor` with `DistributedModuleExecutor`. The environment variable affects
+   `InstanceIndex == 0` selects the master. Dependency injection selects the
+   `DistributedModuleExecutor` execution backend. The environment variable affects
    role selection only; it does not change `DistributedOptions.InstanceIndex`.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
    so its `CreateAsync` method runs when the coordinator is first used. A directly
@@ -31,8 +31,8 @@ This page describes the internal architecture of distributed mode for contributo
 1. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` before
    `DistributedOptions.InstanceIndex`. A valid non-zero environment value selects a
    worker, while `0` selects the master even when `InstanceIndex` is non-zero. Without
-   a valid override, every non-zero `InstanceIndex` is a worker. Workers replace the
-   default `IModuleExecutor` with `WorkerModuleExecutor`. Registration and run-report
+   a valid override, every non-zero `InstanceIndex` is a worker. Dependency injection
+   selects the `WorkerModuleExecutor` execution backend. Registration and run-report
    metrics still use `DistributedOptions.InstanceIndex`, so every worker must configure
    a distinct non-zero index even when the environment variable selects its role.
 2. The worker registers all available module types for serialization.
@@ -98,6 +98,25 @@ Register with coordinator
 Workers loop until `DequeueModuleAsync` returns `null`. Coordinators return `null` after
 the master calls `SignalCompletionAsync`, or when that worker's local cancellation token
 is canceled.
+
+## Custom Execution Backends
+
+`IExecutionBackend` is the public orchestration seam. It receives the planned modules,
+an `IExecutionBackendContext`, and the pipeline cancellation token. A backend may execute
+modules in-process, submit them to an external scheduler, or use another orchestration
+model. Before returning, it must supply every planned module result either in its returned
+result list or through `IExecutionBackendContext.TryApplyResult`. Applying a result through
+the context immediately completes the local module awaitable, allowing dependent work to
+observe remotely produced results.
+
+Register a custom backend before building the pipeline:
+
+```csharp
+builder.AddExecutionBackend<MyExecutionBackend>();
+```
+
+Explicit custom registrations take precedence over automatic local, distributed-master,
+and distributed-worker backend selection.
 
 Capability-mismatch handling is transport-specific. The in-memory and Redis coordinators
 scan their lists and leave incompatible assignments in place. The queue-backed SignalR

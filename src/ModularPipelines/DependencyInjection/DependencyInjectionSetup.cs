@@ -15,7 +15,9 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
@@ -258,7 +260,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<ICommandExecutionCounter, CommandExecutionCounter>()
             .AddSingleton<PipelineRunReportFactory>()
             .AddSingleton<IRunReportService, RunReportService>()
-            .AddSingleton<IModuleExecutor, ModuleExecutor>()
+            .AddSingleton<ModuleExecutor>()
+            .AddSingleton<IExecutionBackendContext, ExecutionBackendContext>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
             .AddSingleton<IModuleResultHistoryProvider, ModuleResultHistoryProvider>()
@@ -398,5 +401,21 @@ internal static class DependencyInjectionSetup
 
         // Role detection
         services.TryAddSingleton<RoleDetector>();
+        services.TryAddSingleton<DistributedWorkPublisher>();
+        services.TryAddSingleton<DistributedResultCollector>();
+        services.TryAddSingleton<DistributedModuleExecutor>();
+        services.TryAddSingleton<WorkerModuleExecutor>();
+        services.TryAddSingleton<IExecutionBackend>(serviceProvider =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+            if (!options.Enabled || options.TotalInstances <= 1)
+            {
+                return serviceProvider.GetRequiredService<ModuleExecutor>();
+            }
+
+            return serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                ? serviceProvider.GetRequiredService<DistributedModuleExecutor>()
+                : serviceProvider.GetRequiredService<WorkerModuleExecutor>();
+        });
     }
 }

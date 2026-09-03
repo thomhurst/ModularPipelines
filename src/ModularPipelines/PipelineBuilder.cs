@@ -17,9 +17,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
-using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
@@ -481,8 +479,8 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates configured distributed services. When TotalInstances is greater than 1,
-    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed infrastructure. Execution backend selection is deferred
+    /// to dependency injection so user-provided <see cref="IExecutionBackend"/> registrations win.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
@@ -517,27 +515,6 @@ public sealed class PipelineBuilder
                 var factory = sp.GetRequiredService<IDistributedCoordinatorFactory>();
                 return new DeferredCoordinator(factory);
             });
-        }
-
-        if (options.TotalInstances <= 1)
-        {
-            return;
-        }
-
-        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
-        var role = roleDetector.DetectRole();
-
-        if (role == DistributedRole.Master)
-        {
-            services.AddSingleton<DistributedWorkPublisher>();
-            services.AddSingleton<DistributedResultCollector>();
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, DistributedModuleExecutor>();
-        }
-        else
-        {
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
         }
     }
 
