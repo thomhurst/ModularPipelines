@@ -87,7 +87,8 @@ public class OptionsClassGenerator : ICodeGenerator
             command,
             positionalArguments,
             existingPropertyNames,
-            usesExplicitRequiredConstructor);
+            usesExplicitRequiredConstructor,
+            requiredPropertiesAreNonNullable: usesExplicitRequiredConstructor && !supportsAlternateInputModes);
         GenerateRequiredAlternativeValidation(sb, command, positionalArguments);
         sb.AppendLine("}");
 
@@ -154,7 +155,8 @@ public class OptionsClassGenerator : ICodeGenerator
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         HashSet<string> existingPropertyNames,
-        bool includeRequiredProperties)
+        bool includeRequiredProperties,
+        bool requiredPropertiesAreNonNullable)
     {
         foreach (var option in command.Options.Where(option =>
                      includeRequiredProperties || !option.IsRequired))
@@ -163,7 +165,7 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GenerateProperty(sb, option);
+            GenerateProperty(sb, option, requiredPropertiesAreNonNullable);
             sb.AppendLine();
         }
 
@@ -175,7 +177,7 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GeneratePositionalArgument(sb, positional);
+            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable);
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
@@ -429,7 +431,10 @@ public class OptionsClassGenerator : ICodeGenerator
             _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Count - 1))}, or {propertyNames[^1]}",
         };
 
-    private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
+    private static void GenerateProperty(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        bool requiredPropertiesAreNonNullable)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
@@ -455,10 +460,16 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Property
         var accessor = GetPropertyAccessor(option.IsRequired);
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; {accessor}; }}");
+        var propertyType = option.IsRequired && requiredPropertiesAreNonNullable
+            ? option.PropertyType.TrimEnd('?')
+            : option.PropertyType;
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{propertyType} {option.PropertyName} {{ get; {accessor}; }}");
     }
 
-    private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
+    private static void GeneratePositionalArgument(
+        StringBuilder sb,
+        CliPositionalArgument positional,
+        bool requiredPropertiesAreNonNullable)
     {
         GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
 
@@ -470,7 +481,10 @@ public class OptionsClassGenerator : ICodeGenerator
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
         var accessor = GetPropertyAccessor(positional.IsRequired);
-        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; {accessor}; }}");
+        var propertyType = positional.IsRequired && requiredPropertiesAreNonNullable
+            ? positional.CSharpType.TrimEnd('?')
+            : positional.CSharpType;
+        sb.AppendLine($"    public {propertyType} {positional.PropertyName} {{ get; {accessor}; }}");
     }
 
     private static string GetPropertyAccessor(bool isRequired) =>
