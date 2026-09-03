@@ -612,6 +612,28 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Stage generated Azure output for recovery
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
+            -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -MaximumFileSizeBytes 5242880
+
+      - name: Preserve generated Azure patch
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
+        run: git diff --staged --binary > "$RUNNER_TEMP/generated-az.patch"
+
+      - name: Upload generated Azure patch
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: generated-az-patch
+          path: ${{ runner.temp }}/generated-az.patch
+          retention-days: 7
+
       - name: Synchronize generated public API baselines
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
@@ -680,18 +702,6 @@ jobs:
           fi
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
             -c Release "${BUILD_ARGS[@]}"
-
-      - name: Preserve generated Azure patch
-        if: matrix.tool == 'az' && steps.changes.outputs.has_changes == 'true'
-        run: git diff --staged --binary > "$RUNNER_TEMP/generated-az.patch"
-
-      - name: Upload generated Azure patch
-        if: matrix.tool == 'az' && steps.changes.outputs.has_changes == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: generated-az-patch
-          path: ${{ runner.temp }}/generated-az.patch
-          retention-days: 7
 
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
