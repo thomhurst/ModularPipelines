@@ -7,10 +7,10 @@ using ModularPipelines.Distributed.SignalR.Hub;
 namespace ModularPipelines.Distributed.SignalR.Coordination;
 
 /// <summary>
-/// Master-side <see cref="IDistributedCoordinator"/> backed by SignalR.
+/// Master-side <see cref="IDistributedMasterCoordinator"/> backed by SignalR.
 /// Push model: tries to assign work to idle workers immediately, queues otherwise.
 /// </summary>
-internal class SignalRMasterCoordinator : IDistributedCoordinator
+internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
 {
     private readonly IHubContext<DistributedPipelineHub> _hubContext;
     private readonly SignalRMasterState _state;
@@ -149,12 +149,30 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
     {
         // Workers register through the hub. This is for the interface contract.
         _state.Registrations[registration.WorkerIndex] = registration;
+        _state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+        return Task.CompletedTask;
+    }
+
+    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    {
+        if (_state.Registrations.ContainsKey(workerIndex))
+        {
+            _state.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+        }
+
         return Task.CompletedTask;
     }
 
     public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        IReadOnlyList<WorkerRegistration> workers = _state.Registrations.Values.ToList().AsReadOnly();
+        var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _state.WorkerTimeout;
+        IReadOnlyList<WorkerRegistration> workers =
+        [
+            .. _state.Registrations.Values.Where(worker =>
+                worker.UnattributedCommandCount.HasValue
+                || (_state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                    && heartbeat >= oldestLiveHeartbeat)),
+        ];
         return Task.FromResult(workers);
     }
 
@@ -181,6 +199,25 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
             _logger.LogWarning(ex, "Failed to broadcast completion signal to workers");
         }
     }
+
+    public async Task BroadcastCancellationAsync(CancellationToken cancellationToken)
+    {
+        _state.CancellationRequested.TrySetResult();
+        try
+        {
+            await _hubContext.Clients.All.SendAsync(
+                    HubMethodNames.BroadcastCancellation,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to broadcast cancellation signal to workers");
+        }
+    }
+
+    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        _state.CancellationRequested.Task.WaitAsync(cancellationToken);
 
     private async Task<bool> TryPushToIdleWorker(ModuleAssignment assignment)
     {

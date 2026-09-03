@@ -81,7 +81,7 @@ internal static class DependencyResultApplicator
     public static async Task PublishResolutionFailureAsync(
         ModuleAssignment assignment,
         int workerIndex,
-        IDistributedCoordinator coordinator,
+        IDistributedWorkerCoordinator coordinator,
         ILogger logger,
         CancellationToken cancellationToken)
     {

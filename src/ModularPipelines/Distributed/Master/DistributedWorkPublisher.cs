@@ -10,7 +10,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Distributed.Master;
 
 internal class DistributedWorkPublisher(
-    IDistributedCoordinator coordinator,
+    IDistributedMasterCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
@@ -19,7 +19,7 @@ internal class DistributedWorkPublisher(
     DistributedConditionRouting? conditionRouting = null,
     IModuleConditionHandler? conditionHandler = null)
 {
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;

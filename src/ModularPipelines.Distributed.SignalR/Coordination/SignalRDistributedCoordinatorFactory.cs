@@ -16,7 +16,6 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFactory, IAsyncDisposable
 {
     private readonly SignalRDistributedOptions _options;
-    private readonly DistributedOptions _distributedOptions;
     private readonly ISignalRMasterDiscovery? _discovery;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
@@ -25,47 +24,24 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
 
     public SignalRDistributedCoordinatorFactory(
         SignalRDistributedOptions options,
-        IOptions<DistributedOptions> distributedOptions,
         ILoggerFactory loggerFactory,
         IServiceProvider serviceProvider,
         ISignalRMasterDiscovery? discovery = null)
     {
         _options = options;
-        _distributedOptions = distributedOptions.Value;
         _discovery = discovery;
         _loggerFactory = loggerFactory;
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<IDistributedCoordinator> CreateAsync(CancellationToken cancellationToken)
-    {
-        if (DetectIsMaster())
-        {
-            return await CreateMasterCoordinatorAsync(cancellationToken);
-        }
-        else
-        {
-            return await CreateWorkerCoordinatorAsync(cancellationToken);
-        }
-    }
-
-    private bool DetectIsMaster()
-    {
-        // Check environment variable override first (matches RoleDetector logic)
-        var envInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
-        if (envInstance is not null && int.TryParse(envInstance, out var envIndex))
-        {
-            return envIndex == 0;
-        }
-
-        return _distributedOptions.InstanceIndex == 0;
-    }
-
-    private async Task<IDistributedCoordinator> CreateMasterCoordinatorAsync(CancellationToken cancellationToken)
+    public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
     {
         var masterState = new SignalRMasterState
         {
             ReconnectGracePeriod = _options.ReconnectGrace,
+            WorkerTimeout = _serviceProvider
+                .GetRequiredService<IOptions<DistributedOptions>>()
+                .Value.WorkerTimeout,
         };
 
         // Start the SignalR server
@@ -87,7 +63,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         return coordinator;
     }
 
-    private async Task<IDistributedCoordinator> CreateWorkerCoordinatorAsync(CancellationToken cancellationToken)
+    public async Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken)
     {
         var masterUrl = _options.MasterUrl;
 

@@ -383,7 +383,11 @@ internal static class DependencyInjectionSetup
         services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton(serviceProvider =>
             serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);
-        services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
+        services.TryAddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
         services.TryAddSingleton<IDistributedArtifactStore, FileSystemDistributedArtifactStore>();
         services.TryAddSingleton<IArtifactContext, ArtifactContextImpl>();
 

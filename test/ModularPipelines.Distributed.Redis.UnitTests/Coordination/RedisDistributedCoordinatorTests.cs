@@ -183,6 +183,8 @@ public class RedisDistributedCoordinatorTests
                 new HashEntry("1", JsonSerializer.Serialize(worker1, JsonOptions)),
                 new HashEntry("2", JsonSerializer.Serialize(worker2, JsonOptions)),
             ]);
+        _dbMock.Setup(db => db.KeyExistsAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
 
         var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
