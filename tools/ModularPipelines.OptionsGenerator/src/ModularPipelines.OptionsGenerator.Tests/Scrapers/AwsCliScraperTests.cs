@@ -262,6 +262,33 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Explicit_Boolean_Values_And_Scalar_Prose_Preserve_Aws_Shapes()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsShapeValidationHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var options = commands.Single().Options;
+        var enabled = options.Single(option => option.SwitchName == "--enabled");
+        var path = options.Single(option => option.SwitchName == "--entities-path");
+        using (Assert.Multiple())
+        {
+            await Assert.That(enabled.CSharpType).IsEqualTo("bool?");
+            await Assert.That(enabled.IsFlag).IsFalse();
+            await Assert.That(enabled.AcceptsMultipleValues).IsFalse();
+            await Assert.That(path.CSharpType).IsEqualTo("string?");
+            await Assert.That(path.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Enum_Detection_Rejects_Free_Form_Character_Descriptions()
     {
         var definition = AwsCliScraper.TryDetectEnum(
@@ -292,6 +319,8 @@ public class AwsCliScraperTests
             command.FullCommand == "aws ec2 create-key-pair");
         var setInstanceProtection = commands.Single(command =>
             command.FullCommand == "aws autoscaling set-instance-protection");
+        var sendMessage = commands.Single(command =>
+            command.FullCommand == "aws sqs send-message");
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
         var options = await new OptionsClassGenerator().GenerateAsync(tool);
         var services = await new SubDomainClassGenerator().GenerateAsync(tool);
@@ -307,9 +336,14 @@ public class AwsCliScraperTests
                 StringComparison.Ordinal));
         var autoscalingInterface = services.Single(file =>
             file.RelativePath.EndsWith("IAwsAutoscaling.Generated.cs", StringComparison.Ordinal));
+        var sendMessageOptions = options.Single(file =>
+            file.RelativePath.EndsWith("AwsSqsSendMessageOptions.Generated.cs", StringComparison.Ordinal));
+        var sqsInterface = services.Single(file =>
+            file.RelativePath.EndsWith("IAwsSqs.Generated.cs", StringComparison.Ordinal));
         var terminateContent = terminateOptions.Content.ReplaceLineEndings("\n");
         var createContent = createOptions.Content.ReplaceLineEndings("\n");
         var autoscalingContent = autoscalingOptions.Content.ReplaceLineEndings("\n");
+        var sendMessageContent = sendMessageOptions.Content.ReplaceLineEndings("\n");
 
         using (Assert.Multiple())
         {
@@ -328,6 +362,9 @@ public class AwsCliScraperTests
             await Assert.That(setInstanceProtection.Options.Single(option =>
                 option.SwitchName == "--protected-from-scale-in").NegatedSwitchName)
                 .IsEqualTo("--no-protected-from-scale-in");
+            await Assert.That(sendMessage.Options.Where(option =>
+                    option.SwitchName is "--queue-url" or "--message-body")
+                .All(option => option.IsRequired)).IsTrue();
             await Assert.That(terminateContent)
                 .Contains("public AwsEc2TerminateInstancesOptions(\n        IEnumerable<string> InstanceIds\n    )");
             await Assert.That(terminateContent)
@@ -362,6 +399,12 @@ public class AwsCliScraperTests
                 .Contains("public bool? ProtectedFromScaleIn { get; private init; }");
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
+            await Assert.That(sendMessageContent)
+                .Contains("public record AwsSqsSendMessageOptions(\n"
+                          + "    [property: CliOption(\"--queue-url\")] string QueueUrl,\n"
+                          + "    [property: CliOption(\"--message-body\")] string MessageBody\n)");
+            await Assert.That(sqsInterface.Content)
+                .Contains("SendMessageAsync(AwsSqsSendMessageOptions options,");
         }
     }
 
@@ -887,6 +930,38 @@ public class AwsCliScraperTests
             Task.FromResult(true);
     }
 
+    private sealed class AwsShapeValidationHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o fixture",
+                "fixture help" => "AVAILABLE COMMANDS\n       o apply",
+                "fixture apply help" => """
+                    OPTIONS
+                           --enabled (boolean)
+                            Explicit Boolean value. Possible values: true false
+
+                           --entities-path (string)
+                            A path that contains multiple levels.
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(Result(output));
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
     private sealed class TestAwsCliScraper()
         : AwsCliScraper(
             new AwsFixtureExecutor(string.Empty),
@@ -910,7 +985,7 @@ public class AwsCliScraperTests
         {
             var output = arguments switch
             {
-                "help" => "AVAILABLE SERVICES\n       o autoscaling\n       o ec2",
+                "help" => "AVAILABLE SERVICES\n       o autoscaling\n       o ec2\n       o sqs",
                 "autoscaling help" => "AVAILABLE COMMANDS\n       o set-instance-protection",
                 "autoscaling set-instance-protection help" => """
                     DESCRIPTION
@@ -982,6 +1057,20 @@ public class AwsCliScraperTests
 
                            --generate-cli-skeleton (string)
                             Prints a skeleton.
+                    """,
+                "sqs help" => "AVAILABLE COMMANDS\n       o send-message",
+                "sqs send-message help" => """
+                    SYNOPSIS
+                           aws sqs send-message
+                           --queue-url <value>
+                           --message-body <value>
+
+                    OPTIONS
+                           --queue-url (string)
+                            The queue URL.
+
+                           --message-body (string)
+                            The message body.
                     """,
                 _ => string.Empty,
             };

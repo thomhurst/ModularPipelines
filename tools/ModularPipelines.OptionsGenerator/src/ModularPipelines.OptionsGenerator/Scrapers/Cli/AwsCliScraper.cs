@@ -109,6 +109,14 @@ public partial class AwsCliScraper : CliScraperBase
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
 
     /// <summary>
+    /// AWS publishes an explicit type beside every value-taking option. Trust that type instead
+    /// of treating repeatability language from nested structure documentation as option arity.
+    /// </summary>
+    protected override bool ShouldTreatOptionAsScalar(
+        IReadOnlyList<string> commandParts,
+        string switchName) => true;
+
+    /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -409,9 +417,10 @@ public partial class AwsCliScraper : CliScraperBase
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || IsAwsBooleanType(typeHint))
+            var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || string.IsNullOrEmpty(typeHint))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
-            var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
+            var isArray = typeHint.Contains("list") || typeHint.Contains("...");
             var isNumeric = IsNumericType(typeHint);
             var isStructure = typeHint.Contains("structure");
             var isKeyValue = !isStructure
@@ -420,7 +429,12 @@ public partial class AwsCliScraper : CliScraperBase
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description);
-            var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
+            var csharpType = DetermineCSharpType(
+                isFlag || isBooleanValue,
+                isArray,
+                isKeyValue,
+                isNumeric,
+                enumDef);
 
             options.Add(new CliOptionDefinition
             {
@@ -439,7 +453,7 @@ public partial class AwsCliScraper : CliScraperBase
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag || isBooleanValue)
             });
         }
 
