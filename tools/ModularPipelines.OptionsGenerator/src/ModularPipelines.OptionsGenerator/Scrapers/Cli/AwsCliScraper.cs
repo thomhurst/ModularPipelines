@@ -372,6 +372,7 @@ public partial class AwsCliScraper : CliScraperBase
             var (longForm, negatedLongForm) = GetBooleanSwitchPair(
                 firstLongForm,
                 alternateLongForm);
+            negatedLongForm ??= FindWrappedNegatedSwitch(helpText, longForm);
 
             if (string.IsNullOrEmpty(longForm)
                 || seenOptions.Contains(longForm)
@@ -488,6 +489,21 @@ public partial class AwsCliScraper : CliScraperBase
     private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
         candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
         && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
+
+    private static string? FindWrappedNegatedSwitch(string helpText, string positiveSwitch)
+    {
+        if (!positiveSwitch.StartsWith("--", StringComparison.Ordinal)
+            || positiveSwitch.StartsWith("--no-", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var negatedSwitch = $"--no-{positiveSwitch[2..]}";
+        var wrappedPattern = Regex.Escape(negatedSwitch).Replace("-", @"-\s*");
+        return Regex.IsMatch(helpText, $@"\|\s+""?{wrappedPattern}""?", RegexOptions.IgnoreCase)
+            ? negatedSwitch
+            : null;
+    }
 
     private static HashSet<string> GetRequiredSynopsisOptions(string helpText)
     {

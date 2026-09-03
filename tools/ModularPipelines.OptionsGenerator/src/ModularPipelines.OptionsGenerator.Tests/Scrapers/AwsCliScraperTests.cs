@@ -263,6 +263,33 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    public async Task Wrapped_Paired_Boolean_Switches_Remain_Negatable()
+    {
+        const string helpText = """
+            OPTIONS
+                   "--include-relational-database-availability-zones" | "--no-include-
+              relational-database-availability-zones" (boolean)
+
+                    Whether to include database availability zones.
+            """;
+
+        var command = await new TestAwsCliScraper().Parse(
+            ["aws", "lightsail", "get-regions"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName)
+                .IsEqualTo("--include-relational-database-availability-zones");
+            await Assert.That(option.NegatedSwitchName)
+                .IsEqualTo("--no-include-relational-database-availability-zones");
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.IsFlag).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Explicit_Boolean_Values_And_Scalar_Prose_Preserve_Aws_Shapes()
     {
         var scraper = new AwsCliScraper(
