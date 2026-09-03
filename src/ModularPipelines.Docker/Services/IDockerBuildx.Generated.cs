@@ -91,13 +91,6 @@ public interface IDockerBuildx
     public Task<CommandResult> DialStdioAsync(DockerBuildxDialStdioOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// --builder string     Override the configured builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> DuAsync(DockerBuildxDuOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 

@@ -135,13 +135,7 @@ public class DockerBuildx : IDockerBuildx
         return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxDialStdioOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// --builder string     Override the configured builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> DuAsync(
         DockerBuildxDuOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

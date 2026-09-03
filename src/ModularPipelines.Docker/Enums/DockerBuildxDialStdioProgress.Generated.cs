@@ -17,14 +17,14 @@ namespace ModularPipelines.Docker.Enums;
 public enum DockerBuildxDialStdioProgress
 {
     [EnumValue("auto")]
-    Auto = 0,
+    Auto,
 
     [EnumValue("plain")]
-    Plain = 1,
+    Plain,
 
     [EnumValue("rawjson")]
-    Rawjson = 2,
+    Rawjson,
 
     [EnumValue("tty")]
-    Tty = 3
+    Tty
 }
