@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Options;
-using ModularPipelines.Cosign.Enums;
 
 namespace ModularPipelines.Cosign.Options;
 
@@ -124,7 +123,7 @@ public record CosignAttestBlobOptions : CosignOptions
     /// security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
     /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
-    public CosignAttestBlobSlot? Slot { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// path to the statement file.
