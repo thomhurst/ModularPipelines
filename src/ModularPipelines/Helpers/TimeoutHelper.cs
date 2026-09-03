@@ -223,8 +223,14 @@ internal static class TimeoutHelper
 
         public CancellationSignals(CancellationTokenSource attemptCts)
         {
-            Deadline = new CancellationSignalState<T>(attemptCts, this);
-            ExternalCancellation = new CancellationSignalState<T>(attemptCts, this);
+            Deadline = new CancellationSignalState<T>(
+                attemptCts,
+                this,
+                completedTaskWinsAfterSignal: false);
+            ExternalCancellation = new CancellationSignalState<T>(
+                attemptCts,
+                this,
+                completedTaskWinsAfterSignal: true);
         }
 
         public CancellationSignalState<T> Deadline { get; }
@@ -245,7 +251,8 @@ internal static class TimeoutHelper
 
     internal sealed class CancellationSignalState<T>(
         CancellationTokenSource attemptCts,
-        CancellationSignals<T> cancellationSignals)
+        CancellationSignals<T> cancellationSignals,
+        bool completedTaskWinsAfterSignal)
     {
         private readonly Lock _lock = new();
         private bool _cancellationSignaled;
@@ -264,10 +271,14 @@ internal static class TimeoutHelper
             if (cancellationSignaled)
             {
                 var executionTask = cancellationSignals.ExecutionTask!;
-                // A completed value or fault existed by the time publication caught up
-                // with the signal. A cancelled task still belongs to the signal that
-                // cancelled the attempt token.
-                Signal.TrySetResult(executionTask.IsCompleted && !executionTask.IsCanceled);
+                // A deadline that fired before publication owns the outcome because its
+                // token may have caused a late-published task to complete or fault.
+                // External cancellation retains completion-wins behavior so a factory
+                // can synchronously cancel its caller and still return a completed task.
+                Signal.TrySetResult(
+                    completedTaskWinsAfterSignal
+                    && executionTask.IsCompleted
+                    && !executionTask.IsCanceled);
             }
         }
 
