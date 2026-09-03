@@ -66,6 +66,12 @@ public sealed record ModuleRunReport
     public int CommandCount { get; init; }
 
     /// <summary>
+    /// Gets a value indicating whether the distributed master restored this module from cache
+    /// without dispatching an assignment.
+    /// </summary>
+    public bool CacheHitAtMaster { get; init; }
+
+    /// <summary>
     /// Gets this module's duration in the previous retained run, when available.
     /// </summary>
     public TimeSpan? PreviousDuration { get; init; }

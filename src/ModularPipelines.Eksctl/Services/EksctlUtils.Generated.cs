@@ -392,14 +392,5 @@ public class EksctlUtils : IEksctlUtils
         return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeconfigOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use WriteKubeConfigAsync instead.")]
-    public virtual async Task<CommandResult> WriteKubeconfigAsync(
-        EksctlUtilsWriteKubeconfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await WriteKubeConfigAsync(options, executionOptions, cancellationToken);
-    }
-
     #endregion
 }

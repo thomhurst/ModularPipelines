@@ -2,83 +2,12 @@
 ModularPipelines.Context.ModularPipelines_Cosign_b2f551cc47da7f91ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Cosign_b2f551cc47da7f91ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Cosign_b2f551cc47da7f91ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Cosign.get -> ModularPipelines.Cosign.Services.ICosign!
-ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
-ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
-ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
-ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
-ModularPipelines.Cosign.Enums.CosignAttestBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot
-ModularPipelines.Cosign.Enums.CosignAttestSlot
-ModularPipelines.Cosign.Enums.CosignAttestSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
-ModularPipelines.Cosign.Enums.CosignAttestSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
-ModularPipelines.Cosign.Enums.CosignAttestSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
-ModularPipelines.Cosign.Enums.CosignAttestSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignAttestSlot
-ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
-ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
-ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
-ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
-ModularPipelines.Cosign.Enums.CosignBundleCreateSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput.Json = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput.Text = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
-ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Always = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Never = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy.Once = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Always = 1 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Cached = 2 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
-ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy.Never = 0 -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy
-ModularPipelines.Cosign.Enums.CosignPublicKeySlot
-ModularPipelines.Cosign.Enums.CosignPublicKeySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
-ModularPipelines.Cosign.Enums.CosignPublicKeySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
-ModularPipelines.Cosign.Enums.CosignPublicKeySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
-ModularPipelines.Cosign.Enums.CosignPublicKeySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot
-ModularPipelines.Cosign.Enums.CosignSignBlobSlot
-ModularPipelines.Cosign.Enums.CosignSignBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
-ModularPipelines.Cosign.Enums.CosignSignBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
-ModularPipelines.Cosign.Enums.CosignSignBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
-ModularPipelines.Cosign.Enums.CosignSignBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot
-ModularPipelines.Cosign.Enums.CosignSignSlot
-ModularPipelines.Cosign.Enums.CosignSignSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignSignSlot
-ModularPipelines.Cosign.Enums.CosignSignSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignSignSlot
-ModularPipelines.Cosign.Enums.CosignSignSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignSignSlot
-ModularPipelines.Cosign.Enums.CosignSignSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignSignSlot
 ModularPipelines.Cosign.Enums.CosignVerifyAttestationOutput
 ModularPipelines.Cosign.Enums.CosignVerifyAttestationOutput.Json = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationOutput
 ModularPipelines.Cosign.Enums.CosignVerifyAttestationOutput.Text = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationOutput
-ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
-ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot
 ModularPipelines.Cosign.Enums.CosignVerifyOutput
 ModularPipelines.Cosign.Enums.CosignVerifyOutput.Json = 0 -> ModularPipelines.Cosign.Enums.CosignVerifyOutput
 ModularPipelines.Cosign.Enums.CosignVerifyOutput.Text = 1 -> ModularPipelines.Cosign.Enums.CosignVerifyOutput
-ModularPipelines.Cosign.Enums.CosignVerifySlot
-ModularPipelines.Cosign.Enums.CosignVerifySlot.Authentication = 0 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
-ModularPipelines.Cosign.Enums.CosignVerifySlot.CardAuthentication = 2 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
-ModularPipelines.Cosign.Enums.CosignVerifySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
-ModularPipelines.Cosign.Enums.CosignVerifySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
 ModularPipelines.Cosign.Extensions.CosignExtensions
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Blob.get -> string?
@@ -119,7 +48,6 @@ ModularPipelines.Cosign.Options.CosignAttestBlobOptions.SigningConfig.get -> str
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.SigningConfig.set -> void
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot?
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Statement.get -> string?
 ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Statement.set -> void
@@ -203,7 +131,6 @@ ModularPipelines.Cosign.Options.CosignAttestOptions.SigningConfig.get -> string?
 ModularPipelines.Cosign.Options.CosignAttestOptions.SigningConfig.set -> void
 ModularPipelines.Cosign.Options.CosignAttestOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignAttestOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignAttestOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestSlot?
 ModularPipelines.Cosign.Options.CosignAttestOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignAttestOptions.Statement.get -> string?
 ModularPipelines.Cosign.Options.CosignAttestOptions.Statement.set -> void
@@ -254,23 +181,11 @@ ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Signature.get -> strin
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Signature.set -> void
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot?
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Timeout.set -> void
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Verbose.get -> bool?
 ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.CosignBundleExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.CosignBundleExecuteOptions(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignBundleInspectOptions
 ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Bundle.get -> string!
 ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Bundle.init -> void
@@ -379,17 +294,6 @@ ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Timeout.get -> 
 ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Timeout.set -> void
 ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Verbose.get -> bool?
 ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignDownloadSbomOptions
 ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.AllowHttpRegistry.get -> bool?
 ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.AllowHttpRegistry.set -> void
@@ -569,189 +473,6 @@ ModularPipelines.Cosign.Options.CosignLoginOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignOptions
 ModularPipelines.Cosign.Options.CosignOptions.CosignOptions() -> void
 ModularPipelines.Cosign.Options.CosignOptions.CosignOptions(ModularPipelines.Cosign.Options.CosignOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Output.get -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationOutput?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Output.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPivToolAttestationSlot?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Slot.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.CosignPivToolExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.CosignPivToolExecuteOptions(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.CosignPivToolGenerateKeyOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.CosignPivToolGenerateKeyOptions(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ManagementKey.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ManagementKey.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PinPolicy.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyPinPolicy?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PinPolicy.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.RandomManagementKey.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.RandomManagementKey.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeySlot?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Slot.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.TouchPolicy.get -> ModularPipelines.Cosign.Enums.CosignPivToolGenerateKeyTouchPolicy?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.TouchPolicy.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.CosignPivToolResetOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.CosignPivToolResetOptions(ModularPipelines.Cosign.Options.CosignPivToolResetOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.CosignPivToolSetManagementKeyOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.CosignPivToolSetManagementKeyOptions(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NewKey.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NewKey.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OldKey.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OldKey.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.RandomManagementKey.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.RandomManagementKey.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.CosignPivToolSetPinOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.CosignPivToolSetPinOptions(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NewPin.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NewPin.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OldPin.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OldPin.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.CosignPivToolSetPukOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.CosignPivToolSetPukOptions(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NewPuk.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NewPuk.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OldPuk.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OldPuk.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.CosignPivToolUnblockOptions() -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.CosignPivToolUnblockOptions(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NewPin.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NewPin.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Puk.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Puk.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.CosignPkcs11ToolExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.CosignPkcs11ToolExecuteOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.CosignPkcs11ToolListKeysUrisOptions() -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.CosignPkcs11ToolListKeysUrisOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ModulePath.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ModulePath.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Pin.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Pin.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.SlotId.get -> int?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.SlotId.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.CosignPkcs11ToolListTokensOptions() -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.CosignPkcs11ToolListTokensOptions(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ModulePath.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ModulePath.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.NoInput.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.NoInput.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.CosignPublicKeyOptions() -> void
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.CosignPublicKeyOptions(ModularPipelines.Cosign.Options.CosignPublicKeyOptions! original) -> void
@@ -765,7 +486,6 @@ ModularPipelines.Cosign.Options.CosignPublicKeyOptions.OutputFile.get -> string?
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.OutputFile.set -> void
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot?
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Timeout.set -> void
@@ -845,7 +565,6 @@ ModularPipelines.Cosign.Options.CosignSignBlobOptions.SigningConfig.get -> strin
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.SigningConfig.set -> void
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignSignBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot?
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Timeout.set -> void
@@ -865,56 +584,6 @@ ModularPipelines.Cosign.Options.CosignSignBlobOptions.Verbose.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Yes.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignBlobOptions.Yes.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.BaseConfig.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.BaseConfig.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.CosignSigningConfigCreateOptions() -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.CosignSigningConfigCreateOptions(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Fulcio.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Fulcio.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultFulcio.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultFulcio.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultOidc.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultOidc.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultRekor.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultRekor.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultTsa.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultTsa.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OidcProvider.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OidcProvider.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Out.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Out.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Rekor.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Rekor.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.RekorConfig.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.RekorConfig.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Tsa.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Tsa.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.TsaConfig.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.TsaConfig.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Verbose.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultRekorV2.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultRekorV2.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultServices.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultServices.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.CosignSigningConfigExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.CosignSigningConfigExecuteOptions(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignSignOptions
 ModularPipelines.Cosign.Options.CosignSignOptions.AllowHttpRegistry.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignOptions.AllowHttpRegistry.set -> void
@@ -977,7 +646,6 @@ ModularPipelines.Cosign.Options.CosignSignOptions.SigningConfig.get -> string?
 ModularPipelines.Cosign.Options.CosignSignOptions.SigningConfig.set -> void
 ModularPipelines.Cosign.Options.CosignSignOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignSignOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignSlot?
 ModularPipelines.Cosign.Options.CosignSignOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignSignOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignSignOptions.Timeout.set -> void
@@ -999,6 +667,45 @@ ModularPipelines.Cosign.Options.CosignSignOptions.Verbose.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignSignOptions.Yes.get -> bool?
 ModularPipelines.Cosign.Options.CosignSignOptions.Yes.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.BaseConfig.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.BaseConfig.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.CosignSigningConfigCreateOptions() -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.CosignSigningConfigCreateOptions(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions! original) -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Fulcio.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Fulcio.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Help.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Help.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultFulcio.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultFulcio.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultOidc.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultOidc.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultRekor.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultRekor.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultTsa.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.NoDefaultTsa.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OidcProvider.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OidcProvider.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Out.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Out.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OutputFile.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.OutputFile.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Rekor.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Rekor.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.RekorConfig.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.RekorConfig.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Timeout.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Timeout.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Tsa.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Tsa.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.TsaConfig.get -> string?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.TsaConfig.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Verbose.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Verbose.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultRekorV2.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultRekorV2.set -> void
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultServices.get -> bool?
+ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.WithDefaultServices.set -> void
 ModularPipelines.Cosign.Options.CosignTreeOptions
 ModularPipelines.Cosign.Options.CosignTreeOptions.AllowHttpRegistry.get -> bool?
 ModularPipelines.Cosign.Options.CosignTreeOptions.AllowHttpRegistry.set -> void
@@ -1066,17 +773,6 @@ ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.Verbose.get -> bo
 ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.WithDefaultServices.get -> bool?
 ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.WithDefaultServices.set -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions() -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions! original) -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Help.get -> bool?
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Help.set -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.OutputFile.get -> string?
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.OutputFile.set -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Timeout.get -> string?
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Timeout.set -> void
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.get -> bool?
-ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.AllowCertificateChain.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.AllowCertificateChain.set -> void
@@ -1145,7 +841,6 @@ ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.RegistryUsername.
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.RegistryUsername.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot?
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Timeout.set -> void
@@ -1204,7 +899,6 @@ ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.OutputFile.ge
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.OutputFile.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot?
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Timeout.set -> void
@@ -1258,7 +952,6 @@ ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.OutputFile.get -> string
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.OutputFile.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot?
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Timeout.set -> void
@@ -1336,7 +1029,6 @@ ModularPipelines.Cosign.Options.CosignVerifyOptions.RegistryUsername.get -> stri
 ModularPipelines.Cosign.Options.CosignVerifyOptions.RegistryUsername.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Sk.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Sk.set -> void
-ModularPipelines.Cosign.Options.CosignVerifyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifySlot?
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Slot.set -> void
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Timeout.get -> string?
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Timeout.set -> void
@@ -1348,24 +1040,17 @@ ModularPipelines.Cosign.Options.CosignVerifyOptions.Verbose.get -> bool?
 ModularPipelines.Cosign.Options.CosignVerifyOptions.Verbose.set -> void
 ModularPipelines.Cosign.Services.CosignBundle
 ModularPipelines.Cosign.Services.CosignDownload
-ModularPipelines.Cosign.Services.CosignPivTool
-ModularPipelines.Cosign.Services.CosignPkcs11Tool
 ModularPipelines.Cosign.Services.CosignSigningConfig
 ModularPipelines.Cosign.Services.CosignTrustedRoot
 ModularPipelines.Cosign.Services.ICosign
 ModularPipelines.Cosign.Services.ICosign.Bundle.get -> ModularPipelines.Cosign.Services.ICosignBundle!
 ModularPipelines.Cosign.Services.ICosign.Download.get -> ModularPipelines.Cosign.Services.ICosignDownload!
-ModularPipelines.Cosign.Services.ICosign.PivTool.get -> ModularPipelines.Cosign.Services.ICosignPivTool!
-ModularPipelines.Cosign.Services.ICosign.Pkcs11Tool.get -> ModularPipelines.Cosign.Services.ICosignPkcs11Tool!
 ModularPipelines.Cosign.Services.ICosign.SigningConfig.get -> ModularPipelines.Cosign.Services.ICosignSigningConfig!
 ModularPipelines.Cosign.Services.ICosign.TrustedRoot.get -> ModularPipelines.Cosign.Services.ICosignTrustedRoot!
 ModularPipelines.Cosign.Services.ICosignBundle
 ModularPipelines.Cosign.Services.ICosignDownload
-ModularPipelines.Cosign.Services.ICosignPivTool
-ModularPipelines.Cosign.Services.ICosignPkcs11Tool
 ModularPipelines.Cosign.Services.ICosignSigningConfig
 ModularPipelines.Cosign.Services.ICosignTrustedRoot
-override abstract ModularPipelines.Cosign.Options.CosignOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignOptions!
 override ModularPipelines.Cosign.Options.CosignAttestBlobOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignAttestBlobOptions!
 override ModularPipelines.Cosign.Options.CosignAttestBlobOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Equals(object? obj) -> bool
@@ -1384,12 +1069,6 @@ override ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Equals(object
 override ModularPipelines.Cosign.Options.CosignBundleCreateOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignBundleCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignBundleCreateOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignBundleExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignBundleInspectOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignBundleInspectOptions!
 override ModularPipelines.Cosign.Options.CosignBundleInspectOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Equals(object? obj) -> bool
@@ -1414,12 +1093,6 @@ override ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Equals
 override ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignDownloadSbomOptions!
 override ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.Equals(object? obj) -> bool
@@ -1467,72 +1140,6 @@ override ModularPipelines.Cosign.Options.CosignOptions.Equals(object? obj) -> bo
 override ModularPipelines.Cosign.Options.CosignOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolResetOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolResetOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions!
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignPublicKeyOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignPublicKeyOptions!
 override ModularPipelines.Cosign.Options.CosignPublicKeyOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Equals(object? obj) -> bool
@@ -1551,24 +1158,18 @@ override ModularPipelines.Cosign.Options.CosignSignBlobOptions.Equals(object? ob
 override ModularPipelines.Cosign.Options.CosignSignBlobOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignSignBlobOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignSignBlobOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions!
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignSignOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSignOptions!
 override ModularPipelines.Cosign.Options.CosignSignOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignSignOptions.Equals(object? obj) -> bool
 override ModularPipelines.Cosign.Options.CosignSignOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignSignOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignSignOptions.ToString() -> string!
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions!
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.GetHashCode() -> int
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignTreeOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignTreeOptions!
 override ModularPipelines.Cosign.Options.CosignTreeOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignTreeOptions.Equals(object? obj) -> bool
@@ -1581,12 +1182,6 @@ override ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.Equals(o
 override ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.ToString() -> string!
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions!
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(object? obj) -> bool
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.GetHashCode() -> int
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.ToString() -> string!
 override ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions!
 override ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Equals(object? obj) -> bool
@@ -1611,15 +1206,14 @@ override ModularPipelines.Cosign.Options.CosignVerifyOptions.Equals(object? obj)
 override ModularPipelines.Cosign.Options.CosignVerifyOptions.GetHashCode() -> int
 override ModularPipelines.Cosign.Options.CosignVerifyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Cosign.Options.CosignVerifyOptions.ToString() -> string!
+override abstract ModularPipelines.Cosign.Options.CosignOptions.<Clone>$() -> ModularPipelines.Cosign.Options.CosignOptions!
 override sealed ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignAttestOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignCleanOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignGenerateKeyPairOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
@@ -1628,26 +1222,13 @@ override sealed ModularPipelines.Cosign.Options.CosignInitializeOptions.Equals(M
 override sealed ModularPipelines.Cosign.Options.CosignLoadOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignLoginOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignSaveOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignSignBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignSignOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
+override sealed ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignTreeOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-override sealed ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
 override sealed ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
@@ -1660,8 +1241,6 @@ static ModularPipelines.Cosign.Options.CosignAttestOptions.operator !=(ModularPi
 static ModularPipelines.Cosign.Options.CosignAttestOptions.operator ==(ModularPipelines.Cosign.Options.CosignAttestOptions? left, ModularPipelines.Cosign.Options.CosignAttestOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignBundleCreateOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? left, ModularPipelines.Cosign.Options.CosignBundleCreateOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignBundleCreateOptions.operator ==(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? left, ModularPipelines.Cosign.Options.CosignBundleCreateOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? left, ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? left, ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignBundleInspectOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleInspectOptions? left, ModularPipelines.Cosign.Options.CosignBundleInspectOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignBundleInspectOptions.operator ==(ModularPipelines.Cosign.Options.CosignBundleInspectOptions? left, ModularPipelines.Cosign.Options.CosignBundleInspectOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions.operator !=(ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions? left, ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions? right) -> bool
@@ -1670,8 +1249,6 @@ static ModularPipelines.Cosign.Options.CosignCleanOptions.operator !=(ModularPip
 static ModularPipelines.Cosign.Options.CosignCleanOptions.operator ==(ModularPipelines.Cosign.Options.CosignCleanOptions? left, ModularPipelines.Cosign.Options.CosignCleanOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions? left, ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.operator ==(ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions? left, ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? left, ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? left, ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions? left, ModularPipelines.Cosign.Options.CosignDownloadSbomOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.operator ==(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions? left, ModularPipelines.Cosign.Options.CosignDownloadSbomOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions.operator !=(ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions? left, ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions? right) -> bool
@@ -1688,46 +1265,20 @@ static ModularPipelines.Cosign.Options.CosignLoginOptions.operator !=(ModularPip
 static ModularPipelines.Cosign.Options.CosignLoginOptions.operator ==(ModularPipelines.Cosign.Options.CosignLoginOptions? left, ModularPipelines.Cosign.Options.CosignLoginOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignOptions.operator !=(ModularPipelines.Cosign.Options.CosignOptions? left, ModularPipelines.Cosign.Options.CosignOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignOptions.operator ==(ModularPipelines.Cosign.Options.CosignOptions? left, ModularPipelines.Cosign.Options.CosignOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? left, ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? left, ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolResetOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? left, ModularPipelines.Cosign.Options.CosignPivToolResetOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolResetOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? left, ModularPipelines.Cosign.Options.CosignPivToolResetOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? left, ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.operator !=(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? left, ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.operator ==(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? left, ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.operator !=(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.operator ==(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? left, ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignPublicKeyOptions.operator !=(ModularPipelines.Cosign.Options.CosignPublicKeyOptions? left, ModularPipelines.Cosign.Options.CosignPublicKeyOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignPublicKeyOptions.operator ==(ModularPipelines.Cosign.Options.CosignPublicKeyOptions? left, ModularPipelines.Cosign.Options.CosignPublicKeyOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSaveOptions.operator !=(ModularPipelines.Cosign.Options.CosignSaveOptions? left, ModularPipelines.Cosign.Options.CosignSaveOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSaveOptions.operator ==(ModularPipelines.Cosign.Options.CosignSaveOptions? left, ModularPipelines.Cosign.Options.CosignSaveOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSignBlobOptions.operator !=(ModularPipelines.Cosign.Options.CosignSignBlobOptions? left, ModularPipelines.Cosign.Options.CosignSignBlobOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSignBlobOptions.operator ==(ModularPipelines.Cosign.Options.CosignSignBlobOptions? left, ModularPipelines.Cosign.Options.CosignSignBlobOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.operator !=(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.operator ==(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSignOptions.operator !=(ModularPipelines.Cosign.Options.CosignSignOptions? left, ModularPipelines.Cosign.Options.CosignSignOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignSignOptions.operator ==(ModularPipelines.Cosign.Options.CosignSignOptions? left, ModularPipelines.Cosign.Options.CosignSignOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.operator !=(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? right) -> bool
+static ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.operator ==(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? left, ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignTreeOptions.operator !=(ModularPipelines.Cosign.Options.CosignTreeOptions? left, ModularPipelines.Cosign.Options.CosignTreeOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignTreeOptions.operator ==(ModularPipelines.Cosign.Options.CosignTreeOptions? left, ModularPipelines.Cosign.Options.CosignTreeOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.operator !=(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.operator ==(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.operator !=(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? right) -> bool
-static ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.operator ==(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? left, ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.operator !=(ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions? left, ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.operator ==(ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions? left, ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions? right) -> bool
 static ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.operator !=(ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions? left, ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions? right) -> bool
@@ -1739,12 +1290,10 @@ static ModularPipelines.Cosign.Options.CosignVerifyOptions.operator ==(ModularPi
 virtual ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignAttestBlobOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignAttestOptions.Equals(ModularPipelines.Cosign.Options.CosignAttestOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleCreateOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleExecuteOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleInspectOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions.Equals(ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignCleanOptions.Equals(ModularPipelines.Cosign.Options.CosignCleanOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadSbomOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions.Equals(ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignGenerateKeyPairOptions.Equals(ModularPipelines.Cosign.Options.CosignGenerateKeyPairOptions? other) -> bool
@@ -1753,29 +1302,14 @@ virtual ModularPipelines.Cosign.Options.CosignInitializeOptions.Equals(ModularPi
 virtual ModularPipelines.Cosign.Options.CosignLoadOptions.Equals(ModularPipelines.Cosign.Options.CosignLoadOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignLoginOptions.Equals(ModularPipelines.Cosign.Options.CosignLoginOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignOptions.Equals(ModularPipelines.Cosign.Options.CosignOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolExecuteOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolGenerateKeyOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolResetOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolResetOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetManagementKeyOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetPinOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolSetPukOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions.Equals(ModularPipelines.Cosign.Options.CosignPivToolUnblockOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolExecuteOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolListKeysUrisOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Equals(ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Equals(ModularPipelines.Cosign.Options.CosignPublicKeyOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignSaveOptions.Equals(ModularPipelines.Cosign.Options.CosignSaveOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignSignBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignSignBlobOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignSignOptions.Equals(ModularPipelines.Cosign.Options.CosignSignOptions? other) -> bool
+virtual ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignSigningConfigCreateOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignTreeOptions.Equals(ModularPipelines.Cosign.Options.CosignTreeOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions.Equals(ModularPipelines.Cosign.Options.CosignTrustedRootCreateOptions? other) -> bool
-virtual ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Equals(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Equals(ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Equals(ModularPipelines.Cosign.Options.CosignVerifyBlobOptions? other) -> bool
 virtual ModularPipelines.Cosign.Options.CosignVerifyOptions.Equals(ModularPipelines.Cosign.Options.CosignVerifyOptions? other) -> bool
-ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.get -> string?
-ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.set -> void

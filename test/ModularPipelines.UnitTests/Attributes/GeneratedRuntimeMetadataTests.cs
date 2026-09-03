@@ -94,6 +94,21 @@ internal sealed record GeneratedOverrideCommandDerived : GeneratedOverrideComman
     public override bool? Verbose { get; init; }
 }
 
+internal record GeneratedShadowedCommandBase : CommandLineToolOptions
+{
+    [CliArgument(0, Required = true)]
+    public string Path { get; init; } = string.Empty;
+}
+
+internal sealed record GeneratedShadowedCommandDerived : GeneratedShadowedCommandBase
+{
+    public new string Path
+    {
+        get => base.Path;
+        init => base.Path = value;
+    }
+}
+
 internal sealed class DerivedSecretValueAttribute : SecretValueAttribute;
 
 internal sealed class GeneratedDerivedAttributeSecret
@@ -191,6 +206,21 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task GeneratedMetadata_UsesAttributedBasePropertyWhenDerivedPropertyShadowsIt()
+    {
+        var options = new GeneratedShadowedCommandDerived { Path = "context" };
+
+        var found = GeneratedCommandMetadata.TryGet(
+            typeof(GeneratedShadowedCommandDerived),
+            out var model);
+
+        await Assert.That(found).IsTrue();
+        var argument = model.OfType<ArgumentPart>().Single();
+        await Assert.That(argument.PropertyName).IsEqualTo(nameof(GeneratedShadowedCommandDerived.Path));
+        await Assert.That(argument.Getter(options)).IsEqualTo("context");
+    }
+
+    [Test]
     public async Task CommandModelProvider_UsesReflectionForVisualBasicOptions()
     {
         var options = new VisualBasicCommandOptions();
@@ -200,6 +230,29 @@ public class GeneratedRuntimeMetadataTests
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Attribute.Name).IsEqualTo("--value");
         await Assert.That(option.Getter(options)).IsEqualTo("visual-basic-value");
+    }
+
+    [Test]
+    public async Task ReflectionMetadata_UsesAttributedBasePropertyWhenDerivedPropertyShadowsIt()
+    {
+        var options = new VisualBasicShadowedCommandOptions { Source = "policy.json" };
+
+        var model = new CommandModelProvider().GetCommandModel(options.GetType());
+
+        var argument = model.OfType<ArgumentPart>().Single();
+        await Assert.That(argument.PropertyName).IsEqualTo(nameof(VisualBasicShadowedCommandOptions.Source));
+        await Assert.That(argument.Getter(options)).IsEqualTo("policy.json");
+    }
+
+    [Test]
+    public async Task ReflectionMetadata_DoesNotInspectHiddenBasePropertyAfterDerivedMatch()
+    {
+        var options = new VisualBasicAttributedShadowingCommandOptions { Value = "derived" };
+
+        var model = new CommandModelProvider().GetCommandModel(options.GetType());
+        var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
+
+        await Assert.That(arguments).IsEquivalentTo(["--derived", "derived"]);
     }
 
     [Test]

@@ -17,23 +17,23 @@ namespace ModularPipelines.Eksctl.Enums;
 public enum EksctlUtilsUpdateClusterLoggingEnableTypes
 {
     [EnumValue("all")]
-    All = 0,
+    All,
 
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("api")]
-    Api = 2,
+    Api,
 
     [EnumValue("audit")]
-    Audit = 3,
+    Audit,
 
     [EnumValue("authenticator")]
-    Authenticator = 4,
+    Authenticator,
 
     [EnumValue("controllerManager")]
-    Controllermanager = 5,
+    ControllerManager,
 
     [EnumValue("scheduler")]
-    Scheduler = 6
+    Scheduler
 }
