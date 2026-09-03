@@ -14,32 +14,17 @@ namespace ModularPipelines.Logging;
 /// Base class for module-specific loggers with ambient context support.
 /// </summary>
 /// <remarks>
-/// This class uses AsyncLocal to provide ambient context for the current module's logger and type.
+/// This class uses an ambient output context to provide the current module's logger and type.
 /// This allows FilePath/FolderPath helpers and other utilities to access the logger without explicit parameter passing.
 /// AsyncLocal is thread-safe and flows with async/await contexts, making it ideal for async module execution.
 /// </remarks>
 internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IAsyncDisposable
 {
     /// <summary>
-    /// Ambient context storage for the current module's logger.
-    /// Uses AsyncLocal to ensure proper async context flow while maintaining thread safety.
-    /// </summary>
-    /// <remarks>
-    /// This static field is accessed by ModuleExecutor to set the logger context before module execution
-    /// and by FilePath/FolderPath helpers to retrieve the current logger for operation logging.
-    /// </remarks>
-    internal static readonly AsyncLocal<IModuleLogger?> Values = new();
-
-    /// <summary>
-    /// Ambient context storage for the current module's type.
-    /// Enables fast module type detection without stack trace inspection.
-    /// </summary>
-    internal static readonly AsyncLocal<Type?> CurrentModuleType = new();
-
-    /// <summary>
     /// Gets the current logger from ambient context, or a null logger if none is set.
     /// </summary>
-    internal static ILogger Current => (Values.Value as ILogger) ?? NullLogger.Instance;
+    internal static ILogger Current =>
+        (AmbientModuleOutputContext.Current?.Logger as ILogger) ?? NullLogger.Instance;
 
     protected readonly object _disposeLock = new();
     protected Exception? _exception;

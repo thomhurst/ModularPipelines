@@ -13,7 +13,7 @@ namespace ModularPipelines.Console;
 /// </para>
 /// <para>
 /// <b>Lifecycle:</b>
-/// 1. Install() - Intercepts Console.Out/Error
+/// 1. Install() - Intercepts Console.Out/Error before module construction
 /// 2. BeginProgressAsync() - Starts progress display phase
 /// 3. [Pipeline executes] - All output buffered per-module
 /// 4. ProgressSession disposed - Ends progress phase
@@ -31,7 +31,7 @@ internal interface IConsoleCoordinator : IModuleOutputExcerptProvider, IAsyncDis
 {
     /// <summary>
     /// Installs the coordinator, intercepting Console.Out/Error.
-    /// Must be called before pipeline execution begins.
+    /// Must be called before modules are constructed.
     /// </summary>
     /// <remarks>
     /// After installation:

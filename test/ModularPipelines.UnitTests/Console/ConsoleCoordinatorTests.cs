@@ -28,14 +28,16 @@ public class ConsoleCoordinatorTests
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var coordinator = CreateCoordinator(outputCoordinator.Object);
-        var previousModule = ModuleLogger.CurrentModuleType.Value;
 
         try
         {
             coordinator.Install();
             coordinator.EnableOutputBuffering();
-            ModuleLogger.CurrentModuleType.Value = typeof(ConsoleCoordinatorTests);
-            System.Console.Write("retained fragment");
+            using (new ModuleOutputContextScope(typeof(ConsoleCoordinatorTests)))
+            {
+                System.Console.Write("retained fragment");
+            }
+
             var buffer = coordinator.GetModuleBuffer(typeof(ConsoleCoordinatorTests));
             buffer.MarkComplete();
 
@@ -50,7 +52,6 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            ModuleLogger.CurrentModuleType.Value = previousModule;
             await coordinator.DisposeAsync();
         }
     }
