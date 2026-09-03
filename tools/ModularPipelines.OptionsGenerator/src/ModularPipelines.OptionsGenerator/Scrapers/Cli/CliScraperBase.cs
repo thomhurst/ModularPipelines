@@ -1314,7 +1314,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
-        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?|contains?)\s+"
+        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?)\s+"
         + @"(?:multiple\s+times|more\s+than\s+once|"
         + RepeatableItemCountPattern
         + @"|multiple\s+[\w-]+)"

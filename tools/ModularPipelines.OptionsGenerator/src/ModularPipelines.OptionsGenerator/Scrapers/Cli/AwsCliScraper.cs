@@ -107,15 +107,6 @@ public partial class AwsCliScraper : CliScraperBase
     /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
-
-    /// <summary>
-    /// AWS publishes an explicit type beside every value-taking option. Trust that type instead
-    /// of treating repeatability language from nested structure documentation as option arity.
-    /// </summary>
-    protected override bool ShouldTreatOptionAsScalar(
-        IReadOnlyList<string> commandParts,
-        string switchName) => true;
-
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
@@ -418,7 +409,12 @@ public partial class AwsCliScraper : CliScraperBase
                 : null;
 
             var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
-            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || string.IsNullOrEmpty(typeHint))
+            var requiresExplicitBooleanValue = isBooleanValue
+                                               && string.IsNullOrEmpty(negatedLongForm)
+                                               && HelpDeclaresExplicitBooleanValue(description ?? string.Empty);
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm)
+                          || string.IsNullOrEmpty(typeHint)
+                          || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isArray = typeHint.Contains("list") || typeHint.Contains("...");
             var isNumeric = IsNumericType(typeHint);
