@@ -372,6 +372,26 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Faulted_Execution_Published_After_External_Cancellation_Belongs_To_Cancellation()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.ExternalCancellation;
+        var executionTask = Task.FromException<bool>(new IOException("Cancellation cleanup failed."));
+
+        signalState.SignalCancellation();
+        cancellationSignals.PublishExecutionTask(executionTask);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await signalState.Signal.Task).IsFalse();
+            await Assert.That(attemptCancellation.IsCancellationRequested).IsTrue();
+        }
+
+        await Assert.ThrowsAsync<IOException>(() => executionTask);
+    }
+
+    [Test]
     public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
     {
         using var attemptCancellation = new CancellationTokenSource();
