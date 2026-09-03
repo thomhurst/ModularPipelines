@@ -100,6 +100,71 @@
 *REMOVED*ModularPipelines.Node.INvm.UseAsync(string! version, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Node.INvm.VersionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Node.INvm.WhichAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.AggregateOutput.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.Config.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.FailIfNoMatch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.Help.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.PnpmAddOptions() -> void
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.SaveCatalog.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.SaveProd.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.Stream.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.UseStderr.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.Workspace.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.WorkspaceRoot.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAddOptions.Yes.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.Dev.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreRegistryErrors.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreUnfixable.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.Interactive.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.Json.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmAuditOptions.Prod.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmCreateOptions.PnpmCreateOptions() -> void
+*REMOVED*ModularPipelines.Node.Options.PnpmDlxOptions.PnpmDlxOptions() -> void
+*REMOVED*ModularPipelines.Node.Options.PnpmDlxOptions.ShellMode.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmInitOptions.InitPackageManager.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.Batch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.DryRun.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.FailIfNoMatch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.Force.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.Json.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.ReportSummary.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmPublishOptions.SkipManifestObfuscation.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.AggregateOutput.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.FailIfNoMatch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.Help.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.IfPresent.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.Parallel.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.PnpmRunOptions() -> void
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.ReportSummary.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.ReporterHidePrefix.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.Sequential.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.Stream.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.UseStderr.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.WorkspaceRoot.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmRunOptions.Yes.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmStageOptions.DryRun.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmStageOptions.FailIfNoMatch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmStageOptions.Json.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.AggregateOutput.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.Help.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.Stream.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.UseStderr.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.WorkspaceRoot.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmUnlinkOptions.Yes.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.AggregateOutput.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Dev.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.ExcludePeers.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.FailIfNoMatch.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Help.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Json.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Long.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Parseable.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.PnpmWhyOptions() -> void
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Prod.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Stream.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.UseStderr.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.WorkspaceRoot.get -> string?
+*REMOVED*ModularPipelines.Node.Options.PnpmWhyOptions.Yes.get -> string?
 *REMOVED*ModularPipelines.Node.Services.IPnpm.AddAsync(ModularPipelines.Node.Options.PnpmAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Node.Services.IPnpm.AuditAsync(ModularPipelines.Node.Options.PnpmAuditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Node.Services.IPnpm.CreateAsync(ModularPipelines.Node.Options.PnpmCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -213,15 +278,380 @@ ModularPipelines.Node.INvm.InstallAsync(string! version, System.Threading.Cancel
 ModularPipelines.Node.INvm.UseAsync(string! version, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.INvm.VersionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.INvm.WhichAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Node.Services.IPnpm.AddAsync(ModularPipelines.Node.Options.PnpmAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Options.PnpmAddOptions.AggregateOutput.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Config.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Node.Options.PnpmAddOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Help.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Name.get -> string!
+ModularPipelines.Node.Options.PnpmAddOptions.Name.init -> void
+ModularPipelines.Node.Options.PnpmAddOptions.PnpmAddOptions(string! Name) -> void
+ModularPipelines.Node.Options.PnpmAddOptions.SaveCatalog.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.SaveProd.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Stream.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.UseStderr.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Workspace.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.WorkspaceRoot.get -> bool?
+ModularPipelines.Node.Options.PnpmAddOptions.Yes.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.Dev.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreRegistryErrors.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreUnfixable.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.Interactive.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditOptions.Prod.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.AuditLevel.get -> string?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.AuditLevel.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Dev.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Dev.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Fix.get -> string?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Fix.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Ignore.get -> string?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Ignore.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.IgnoreRegistryErrors.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.IgnoreRegistryErrors.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.IgnoreUnfixable.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.IgnoreUnfixable.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Interactive.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Interactive.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.NoOptional.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.NoOptional.set -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.PnpmAuditSignaturesOptions() -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.PnpmAuditSignaturesOptions(ModularPipelines.Node.Options.PnpmAuditSignaturesOptions! original) -> void
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Prod.get -> bool?
+ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Prod.set -> void
+ModularPipelines.Node.Options.PnpmCreateOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Node.Options.PnpmCreateOptions.Name.get -> string!
+ModularPipelines.Node.Options.PnpmCreateOptions.Name.init -> void
+ModularPipelines.Node.Options.PnpmCreateOptions.PnpmCreateOptions(string! Name) -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Node.Options.PnpmDlxOptions.Args.set -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.Command.get -> string!
+ModularPipelines.Node.Options.PnpmDlxOptions.Command.init -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.Deconstruct(out string! Command) -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.PnpmDlxOptions(string! Command) -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.ShellMode.get -> bool?
+ModularPipelines.Node.Options.PnpmInitOptions.InitPackageManager.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.Batch.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.Force.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.ReportSummary.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.SkipManifestObfuscation.get -> bool?
+ModularPipelines.Node.Options.PnpmPublishOptions.Tarball.get -> string?
+ModularPipelines.Node.Options.PnpmPublishOptions.Tarball.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.AggregateOutput.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Node.Options.PnpmRunOptions.Args.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Command.get -> string!
+ModularPipelines.Node.Options.PnpmRunOptions.Command.init -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Deconstruct(out string! Command) -> void
+ModularPipelines.Node.Options.PnpmRunOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Help.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.IfPresent.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Parallel.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.PnpmRunOptions(string! Command) -> void
+ModularPipelines.Node.Options.PnpmRunOptions.ReportSummary.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.ReporterHidePrefix.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Sequential.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Stream.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.UseStderr.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.WorkspaceRoot.get -> bool?
+ModularPipelines.Node.Options.PnpmRunOptions.Yes.get -> bool?
+ModularPipelines.Node.Options.PnpmStageApproveOptions
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.PnpmStageApproveOptions() -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.PnpmStageApproveOptions(ModularPipelines.Node.Options.PnpmStageApproveOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.StageId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.StageId.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStageApproveOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageApproveOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Deconstruct(out string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.PnpmStageDownloadOptions(ModularPipelines.Node.Options.PnpmStageDownloadOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.PnpmStageDownloadOptions(string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.StageId.get -> string!
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.StageId.init -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageDownloadOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions
+ModularPipelines.Node.Options.PnpmStageListOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageListOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageListOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStageListOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.PackageSpec.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.PackageSpec.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.PnpmStageListOptions() -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.PnpmStageListOptions(ModularPipelines.Node.Options.PnpmStageListOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStageListOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStageListOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageListOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmStageOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStagePublishOptions
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.PnpmStagePublishOptions() -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.PnpmStagePublishOptions(ModularPipelines.Node.Options.PnpmStagePublishOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Tarball.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.Tarball.set -> void
+ModularPipelines.Node.Options.PnpmStagePublishOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStagePublishOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Deconstruct(out string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.PnpmStageRejectOptions(ModularPipelines.Node.Options.PnpmStageRejectOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.PnpmStageRejectOptions(string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.StageId.get -> string!
+ModularPipelines.Node.Options.PnpmStageRejectOptions.StageId.init -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStageRejectOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageRejectOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions
+ModularPipelines.Node.Options.PnpmStageViewOptions.Access.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.ChangedFilesIgnorePattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Deconstruct(out string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.DryRun.get -> bool?
+ModularPipelines.Node.Options.PnpmStageViewOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmStageViewOptions.FailIfNoMatch.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Filter.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Filter.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.FilterProd.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Json.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Otp.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Otp.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.PnpmStageViewOptions(ModularPipelines.Node.Options.PnpmStageViewOptions! original) -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.PnpmStageViewOptions(string! StageId) -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Recursive.get -> bool?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Registry.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.StageId.get -> string!
+ModularPipelines.Node.Options.PnpmStageViewOptions.StageId.init -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.Tag.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.Tag.set -> void
+ModularPipelines.Node.Options.PnpmStageViewOptions.TestPattern.get -> string?
+ModularPipelines.Node.Options.PnpmStageViewOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.AggregateOutput.get -> bool?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Help.get -> bool?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Pkg.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Pkg.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Stream.get -> bool?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.UseStderr.get -> bool?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.WorkspaceRoot.get -> bool?
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Yes.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.AggregateOutput.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Pkg) -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Dev.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.ExcludePeers.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.FailIfNoMatch.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Help.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Json.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Long.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Parseable.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Pkg.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Node.Options.PnpmWhyOptions.Pkg.init -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.PnpmWhyOptions(System.Collections.Generic.IEnumerable<string!>! Pkg) -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Prod.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Stream.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.UseStderr.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.WorkspaceRoot.get -> bool?
+ModularPipelines.Node.Options.PnpmWhyOptions.Yes.get -> bool?
+ModularPipelines.Node.Services.IPnpm.AddAsync(ModularPipelines.Node.Options.PnpmAddOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.Services.IPnpm.AuditAsync(ModularPipelines.Node.Options.PnpmAuditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Node.Services.IPnpm.CreateAsync(ModularPipelines.Node.Options.PnpmCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Node.Services.IPnpm.DlxAsync(ModularPipelines.Node.Options.PnpmDlxOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.AuditSignaturesAsync(ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.CreateAsync(ModularPipelines.Node.Options.PnpmCreateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.DlxAsync(ModularPipelines.Node.Options.PnpmDlxOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.Services.IPnpm.InitAsync(ModularPipelines.Node.Options.PnpmInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.Services.IPnpm.PublishAsync(ModularPipelines.Node.Options.PnpmPublishOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Node.Services.IPnpm.RunAsync(ModularPipelines.Node.Options.PnpmRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.RunAsync(ModularPipelines.Node.Options.PnpmRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageApproveAsync(ModularPipelines.Node.Options.PnpmStageApproveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.Services.IPnpm.StageAsync(ModularPipelines.Node.Options.PnpmStageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageDownloadAsync(ModularPipelines.Node.Options.PnpmStageDownloadOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageListAsync(ModularPipelines.Node.Options.PnpmStageListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StagePublishAsync(ModularPipelines.Node.Options.PnpmStagePublishOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageRejectAsync(ModularPipelines.Node.Options.PnpmStageRejectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageViewAsync(ModularPipelines.Node.Options.PnpmStageViewOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Node.Services.IPnpm.UnlinkAsync(ModularPipelines.Node.Options.PnpmUnlinkOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Node.Services.IPnpm.WhyAsync(ModularPipelines.Node.Options.PnpmWhyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.Node.Extensions.NodeExtensions.Node(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Node.INode!
-static ModularPipelines.Node.Extensions.PnpmExtensions.Pnpm(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Node.Services.IPnpm!
+ModularPipelines.Node.Services.IPnpm.WhyAsync(ModularPipelines.Node.Options.PnpmWhyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmAuditSignaturesOptions!
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStageApproveOptions!
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStageApproveOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStageDownloadOptions!
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStageDownloadOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStageListOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStageListOptions!
+override ModularPipelines.Node.Options.PnpmStageListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStageListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStageListOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStageListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStageListOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStagePublishOptions!
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStagePublishOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStageRejectOptions!
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStageRejectOptions.ToString() -> string!
+override ModularPipelines.Node.Options.PnpmStageViewOptions.<Clone>$() -> ModularPipelines.Node.Options.PnpmStageViewOptions!
+override ModularPipelines.Node.Options.PnpmStageViewOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Node.Options.PnpmStageViewOptions.Equals(object? obj) -> bool
+override ModularPipelines.Node.Options.PnpmStageViewOptions.GetHashCode() -> int
+override ModularPipelines.Node.Options.PnpmStageViewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Node.Options.PnpmStageViewOptions.ToString() -> string!
+override sealed ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStageApproveOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStageDownloadOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStageListOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStagePublishOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStageRejectOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+override sealed ModularPipelines.Node.Options.PnpmStageViewOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
+static ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.operator !=(ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? left, ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.operator ==(ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? left, ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageApproveOptions.operator !=(ModularPipelines.Node.Options.PnpmStageApproveOptions? left, ModularPipelines.Node.Options.PnpmStageApproveOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageApproveOptions.operator ==(ModularPipelines.Node.Options.PnpmStageApproveOptions? left, ModularPipelines.Node.Options.PnpmStageApproveOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageDownloadOptions.operator !=(ModularPipelines.Node.Options.PnpmStageDownloadOptions? left, ModularPipelines.Node.Options.PnpmStageDownloadOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageDownloadOptions.operator ==(ModularPipelines.Node.Options.PnpmStageDownloadOptions? left, ModularPipelines.Node.Options.PnpmStageDownloadOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageListOptions.operator !=(ModularPipelines.Node.Options.PnpmStageListOptions? left, ModularPipelines.Node.Options.PnpmStageListOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageListOptions.operator ==(ModularPipelines.Node.Options.PnpmStageListOptions? left, ModularPipelines.Node.Options.PnpmStageListOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStagePublishOptions.operator !=(ModularPipelines.Node.Options.PnpmStagePublishOptions? left, ModularPipelines.Node.Options.PnpmStagePublishOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStagePublishOptions.operator ==(ModularPipelines.Node.Options.PnpmStagePublishOptions? left, ModularPipelines.Node.Options.PnpmStagePublishOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageRejectOptions.operator !=(ModularPipelines.Node.Options.PnpmStageRejectOptions? left, ModularPipelines.Node.Options.PnpmStageRejectOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageRejectOptions.operator ==(ModularPipelines.Node.Options.PnpmStageRejectOptions? left, ModularPipelines.Node.Options.PnpmStageRejectOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageViewOptions.operator !=(ModularPipelines.Node.Options.PnpmStageViewOptions? left, ModularPipelines.Node.Options.PnpmStageViewOptions? right) -> bool
+static ModularPipelines.Node.Options.PnpmStageViewOptions.operator ==(ModularPipelines.Node.Options.PnpmStageViewOptions? left, ModularPipelines.Node.Options.PnpmStageViewOptions? right) -> bool
+virtual ModularPipelines.Node.Options.PnpmAuditSignaturesOptions.Equals(ModularPipelines.Node.Options.PnpmAuditSignaturesOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStageApproveOptions.Equals(ModularPipelines.Node.Options.PnpmStageApproveOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStageDownloadOptions.Equals(ModularPipelines.Node.Options.PnpmStageDownloadOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStageListOptions.Equals(ModularPipelines.Node.Options.PnpmStageListOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStagePublishOptions.Equals(ModularPipelines.Node.Options.PnpmStagePublishOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStageRejectOptions.Equals(ModularPipelines.Node.Options.PnpmStageRejectOptions? other) -> bool
+virtual ModularPipelines.Node.Options.PnpmStageViewOptions.Equals(ModularPipelines.Node.Options.PnpmStageViewOptions? other) -> bool

@@ -27,7 +27,7 @@ public record PnpmInitOptions : PnpmOptions
     public string? Bare { get; set; }
 
     /// <summary>
-    /// Pin the pnpm version in package.json, through "devEngines.packageManager" and "packageManager", and auto-download pnpm when it is missing
+    /// Pin the latest pnpm version in package.json, through "devEngines.packageManager" and "packageManager", and auto-download pnpm when it is missing
     /// </summary>
     [CliFlag("--init-package-manager")]
     public bool? InitPackageManager { get; set; }
