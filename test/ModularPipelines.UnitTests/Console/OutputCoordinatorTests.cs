@@ -492,29 +492,30 @@ public class OutputCoordinatorTests
     [Test]
     public async Task ImmediateFlush_ProcessorStartsOutsideCallersStack()
     {
-        var buffer = new SynchronouslyBlockingOutputBuffer();
-        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
-        var invocation = Task.Factory.StartNew(
-            () => coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete),
-            CancellationToken.None,
-            TaskCreationOptions.DenyChildAttach,
-            TaskScheduler.Default);
-
-        await buffer.FlushStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
-        var returnedBeforeRelease = false;
-        try
+        for (var iteration = 0; iteration < 25; iteration++)
         {
-            returnedBeforeRelease = ReferenceEquals(
-                await Task.WhenAny(invocation, Task.Delay(TimeSpan.FromSeconds(1))),
-                invocation);
-        }
-        finally
-        {
-            buffer.ReleaseFlush.TrySetResult();
-        }
+            var buffer = new SynchronouslyBlockingOutputBuffer();
+            var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+            var invocation = Task.Factory.StartNew(
+                () => coordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Complete),
+                CancellationToken.None,
+                TaskCreationOptions.DenyChildAttach,
+                TaskScheduler.Default);
 
-        await await invocation;
-        await Assert.That(returnedBeforeRelease).IsTrue();
+            await buffer.FlushStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            Task flush;
+            try
+            {
+                flush = await invocation.WaitAsync(TestHostSettings.DefaultTestTimeout);
+                await Assert.That(flush.IsCompleted).IsFalse();
+            }
+            finally
+            {
+                buffer.ReleaseFlush.TrySetResult();
+            }
+
+            await flush.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        }
     }
 
     [Test]
@@ -926,7 +927,7 @@ public class OutputCoordinatorTests
             CancellationToken cancellationToken = default)
         {
             FlushStarted.TrySetResult();
-            ReleaseFlush.Task.Wait(TimeSpan.FromSeconds(5), cancellationToken);
+            ReleaseFlush.Task.Wait(cancellationToken);
             return Task.CompletedTask;
         }
     }
