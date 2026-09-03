@@ -156,6 +156,7 @@ public class AwsCliScraperTests
         {
             await Assert.That(option.IsKeyValue).IsFalse();
             await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
             await Assert.That(option.EnumDefinition).IsNull();
         }
     }
@@ -279,6 +280,7 @@ public class AwsCliScraperTests
         var enabled = options.Single(option => option.SwitchName == "--enabled");
         var quiet = options.Single(option => option.SwitchName == "--quiet");
         var path = options.Single(option => option.SwitchName == "--entities-path");
+        var recipient = options.Single(option => option.SwitchName == "--recipient");
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
         var generatedOptions = await new OptionsClassGenerator().GenerateAsync(tool);
         var generatedContent = generatedOptions.Single(file =>
@@ -295,6 +297,9 @@ public class AwsCliScraperTests
             await Assert.That(generatedContent).Contains("[CliOption(\"--enabled\")]");
             await Assert.That(path.CSharpType).IsEqualTo("string?");
             await Assert.That(path.AcceptsMultipleValues).IsFalse();
+            await Assert.That(recipient.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(recipient.AcceptsMultipleValues).IsTrue();
+            await Assert.That(recipient.GroupValues).IsTrue();
         }
     }
 
@@ -732,7 +737,7 @@ public class AwsCliScraperTests
                 "deploy create-deployment-config help" => """
                     OPTIONS
                            --traffic-routing-config (structure)
-                            Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary
+                            Contains an array of nested values. Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary
                     """,
                 _ => string.Empty,
             };
@@ -962,6 +967,8 @@ public class AwsCliScraperTests
 
                            --entities-path (string)
                             A path that contains multiple levels.
+
+                           --recipient (string) May be specified multiple times.
                     """,
                 _ => string.Empty,
             };
