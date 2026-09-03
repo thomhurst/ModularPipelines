@@ -18,45 +18,33 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "exec")]
-public record AzContainerappExecOptions : AzOptions
+public record AzContainerappExecOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the container to ssh into.
     /// </summary>
     [CliOption("--container")]
-    public string? ContainerValue { get; set; }
+    public string? Container { get; set; }
 
     /// <summary>
     /// The name of the replica to ssh into. List replicas with 'az containerapp replica list'. A replica may not exist if there is not traffic to your app.
     /// </summary>
     [CliOption("--replica")]
-    public string? ReplicaValue { get; set; }
+    public string? Replica { get; set; }
 
     /// <summary>
     /// The name of the container app revision to ssh into. Defaults to the latest revision.
     /// </summary>
     [CliOption("--revision")]
-    public string? RevisionValue { get; set; }
+    public string? Revision { get; set; }
 
-    [Obsolete("Use ContainerValue instead.")]
-    public bool? Container
-    {
-        get => bool.TryParse(ContainerValue, out var value) ? value : null;
-        set => ContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ReplicaValue instead.")]
-    public bool? Replica
-    {
-        get => bool.TryParse(ReplicaValue, out var value) ? value : null;
-        set => ReplicaValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RevisionValue instead.")]
-    public bool? Revision
-    {
-        get => bool.TryParse(RevisionValue, out var value) ? value : null;
-        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The startup command (bash, zsh, sh, etc.).  Default: sh.
+    /// </summary>
+    [CliFlag("--command")]
+    public bool? Command { get; set; }
 
 }

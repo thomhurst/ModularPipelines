@@ -29,7 +29,13 @@ public record AzKeyvaultRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
 
 }

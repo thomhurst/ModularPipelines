@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "diagnostics", "set")]
-public record AzVmDiagnosticsSetOptions : AzOptions
+public record AzVmDiagnosticsSetOptions(
+    [property: CliOption("--settings")] string Settings
+) : AzOptions
 {
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
@@ -37,5 +39,23 @@ public record AzVmDiagnosticsSetOptions : AzOptions
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string? VmName { get; set; }
 
 }

@@ -29,31 +29,49 @@ public record AzContainerappIngressCorsUpdateOptions : AzOptions
     /// <summary>
     /// A list of allowed header(s) for the container app. Values are space- separated. Empty string to clear existing values.
     /// </summary>
-    [CliFlag("--allowed-headers", ShortForm = "-a")]
-    public bool? AllowedHeaders { get; set; }
+    [CliOption("--allowed-headers", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? AllowedHeaders { get; set; }
 
     /// <summary>
     /// A list of allowed method(s) for the container app. Values are space- separated. Empty string to clear existing values.
     /// </summary>
-    [CliFlag("--allowed-methods", ShortForm = "-m")]
-    public bool? AllowedMethods { get; set; }
+    [CliOption("--allowed-methods", ShortForm = "-m", GroupValues = true)]
+    public IEnumerable<string>? AllowedMethods { get; set; }
 
     /// <summary>
     /// A list of allowed origin(s) for the container app. Values are space- separated. Empty string to clear existing values.
     /// </summary>
-    [CliFlag("--allowed-origins", ShortForm = "-r")]
-    public bool? AllowedOrigins { get; set; }
+    [CliOption("--allowed-origins", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string>? AllowedOrigins { get; set; }
 
     /// <summary>
     /// A list of expose header(s) for the container app. Values are space- separated. Empty string to clear existing values.
     /// </summary>
-    [CliFlag("--expose-headers", ShortForm = "-e")]
-    public bool? ExposeHeaders { get; set; }
+    [CliOption("--expose-headers", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string>? ExposeHeaders { get; set; }
 
     /// <summary>
     /// The maximum age of the allowed origin in seconds. Only postive integer or empty string are allowed. Empty string resets max_age to null.
     /// </summary>
     [CliFlag("--max-age")]
     public bool? MaxAge { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

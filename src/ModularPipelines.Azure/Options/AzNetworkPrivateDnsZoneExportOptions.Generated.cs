@@ -18,19 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "zone", "export")]
-public record AzNetworkPrivateDnsZoneExportOptions : AzOptions
+public record AzNetworkPrivateDnsZoneExportOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Path to the Private DNS zone file to save.
     /// </summary>
     [CliOption("--file-name", ShortForm = "-f")]
-    public string? FileNameValue { get; set; }
-
-    [Obsolete("Use FileNameValue instead.")]
-    public bool? FileName
-    {
-        get => bool.TryParse(FileNameValue, out var value) ? value : null;
-        set => FileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? FileName { get; set; }
 
 }

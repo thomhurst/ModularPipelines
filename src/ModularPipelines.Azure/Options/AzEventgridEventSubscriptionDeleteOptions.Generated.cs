@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "delete")]
-public record AzEventgridEventSubscriptionDeleteOptions : AzOptions
+public record AzEventgridEventSubscriptionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be deleted.

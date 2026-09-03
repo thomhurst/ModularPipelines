@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "definition", "create")]
-public record AzManagedappDefinitionCreateOptions : AzOptions
+public record AzManagedappDefinitionCreateOptions(
+    [property: CliOption("--authorizations", ShortForm = "-a", GroupValues = true)] IEnumerable<string> Authorizations,
+    [property: CliOption("--description")] string Description,
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--lock-level")] string LockLevel,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// JSON formatted string or a path to a file with such content.
@@ -29,8 +36,8 @@ public record AzManagedappDefinitionCreateOptions : AzOptions
     /// <summary>
     /// The managed application deployment mode.  Allowed values:
     /// </summary>
-    [CliFlag("--deployment-mode")]
-    public bool? DeploymentMode { get; set; }
+    [CliOption("--deployment-mode")]
+    public string? DeploymentMode { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -53,7 +60,7 @@ public record AzManagedappDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

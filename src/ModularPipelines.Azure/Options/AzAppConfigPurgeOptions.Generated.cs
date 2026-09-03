@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "purge")]
-public record AzAppConfigPurgeOptions : AzOptions
+public record AzAppConfigPurgeOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Location of the deleted App Configuration store. Can be viewed using command `az appconfig show-deleted`.

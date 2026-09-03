@@ -23,8 +23,8 @@ public record AzStorageRemoveOptions : AzOptions
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// The container name.
@@ -42,7 +42,7 @@ public record AzStorageRemoveOptions : AzOptions
     /// The path to the file within the file share.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// Look into sub-directories recursively.
@@ -56,11 +56,58 @@ public record AzStorageRemoveOptions : AzOptions
     [CliFlag("--share-name", ShortForm = "-s")]
     public bool? ShareName { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
-    {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Exclude these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example: myFolder;myFolder/subDirName/file.pdf.
+    /// </summary>
+    [CliFlag("--exclude-path")]
+    public bool? ExcludePath { get; set; }
+
+    /// <summary>
+    /// Exclude these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
+    /// </summary>
+    [CliFlag("--exclude-pattern")]
+    public bool? ExcludePattern { get; set; }
+
+    /// <summary>
+    /// Include only these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example:myFolder;myFolder/subDirName/file.pdf.
+    /// </summary>
+    [CliFlag("--include-path")]
+    public bool? IncludePath { get; set; }
+
+    /// <summary>
+    /// Include only these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
+    /// </summary>
+    [CliFlag("--include-pattern")]
+    public bool? IncludePattern { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// </summary>
+    [CliFlag("--service-endpoint")]
+    public bool? ServiceEndpoint { get; set; }
 
 }

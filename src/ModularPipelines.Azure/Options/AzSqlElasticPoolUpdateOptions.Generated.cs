@@ -21,10 +21,34 @@ namespace ModularPipelines.Azure.Options;
 public record AzSqlElasticPoolUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The maximum capacity (in DTUs or vcores) any one database can consume.
+    /// </summary>
+    [CliFlag("--db-dtu-max", ShortForm = "--db-max-dtu")]
+    public bool? DbDtuMax { get; set; }
+
+    /// <summary>
+    /// The minumum capacity (in DTUs or vcores) each database is guaranteed.
+    /// </summary>
+    [CliFlag("--db-dtu-min", ShortForm = "--db-min-dtu")]
+    public bool? DbDtuMin { get; set; }
+
+    /// <summary>
+    /// The number of high availability replicas to provision for the database. Only settable for
+    /// </summary>
+    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
+    public bool? HaReplicas { get; set; }
+
+    /// <summary>
     /// Specified maintenance configuration id or name for this resource.
     /// </summary>
     [CliFlag("--maint-config-id", ShortForm = "-m")]
     public bool? MaintConfigId { get; set; }
+
+    /// <summary>
+    /// The max storage size. If no unit is specified, defaults to bytes (B).
+    /// </summary>
+    [CliFlag("--max-size", ShortForm = "--storage")]
+    public bool? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -35,13 +59,61 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     /// <summary>
     /// Type of enclave to be configured for the elastic pool.  Allowed values: Default, VBS.
     /// </summary>
-    [CliFlag("--preferred-enclave-type")]
-    public bool? PreferredEnclaveType { get; set; }
+    [CliOption("--preferred-enclave-type")]
+    public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the elastic pool.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

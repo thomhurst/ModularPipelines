@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "storage", "set-authentication")]
-public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
+public record AzAmsAccountStorageSetAuthenticationOptions(
+    [property: CliOption("--storage-auth")] string StorageAuth
+) : AzOptions
 {
     /// <summary>
     /// The storage account Id.
@@ -37,5 +39,23 @@ public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
     /// </summary>
     [CliFlag("--user-assigned")]
     public bool? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "build-params")]
-public record AzBicepBuildParamsOptions : AzOptions
+public record AzBicepBuildParamsOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// When set, builds the .bicepparam file without restoring external modules.

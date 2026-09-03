@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "script-action", "execute")]
-public record AzHdinsightScriptActionExecuteOptions : AzOptions
+public record AzHdinsightScriptActionExecuteOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--roles", GroupValues = true)] IEnumerable<string> Roles,
+    [property: CliOption("--script-uri")] string ScriptUri
+) : AzOptions
 {
     /// <summary>
     /// If the scripts needs to be persisted.
@@ -30,13 +36,6 @@ public record AzHdinsightScriptActionExecuteOptions : AzOptions
     /// The parameters for the script.
     /// </summary>
     [CliOption("--script-parameters")]
-    public string? ScriptParametersValue { get; set; }
-
-    [Obsolete("Use ScriptParametersValue instead.")]
-    public bool? ScriptParameters
-    {
-        get => bool.TryParse(ScriptParametersValue, out var value) ? value : null;
-        set => ScriptParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ScriptParameters { get; set; }
 
 }

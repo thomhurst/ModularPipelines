@@ -18,8 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "certificate", "add")]
-public record AzSfApplicationCertificateAddOptions : AzOptions
+public record AzSfApplicationCertificateAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// The folder of the new certificate file to be created.
+    /// </summary>
+    [CliFlag("--cert-out-folder", ShortForm = "--certificate-output-folder")]
+    public bool? CertOutFolder { get; set; }
+
+    /// <summary>
+    /// The subject name of the certificate to be created.
+    /// </summary>
+    [CliFlag("--cert-subject-name", ShortForm = "--certificate-subject-name")]
+    public bool? CertSubjectName { get; set; }
+
     /// <summary>
     /// The existing certificate file path for the primary cluster certificate.
     /// </summary>
@@ -48,13 +63,6 @@ public record AzSfApplicationCertificateAddOptions : AzOptions
     /// Key vault resource group name, if not given it will be cluster resource group name.
     /// </summary>
     [CliOption("--vault-rg")]
-    public string? VaultRgValue { get; set; }
-
-    [Obsolete("Use VaultRgValue instead.")]
-    public bool? VaultRg
-    {
-        get => bool.TryParse(VaultRgValue, out var value) ? value : null;
-        set => VaultRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VaultRg { get; set; }
 
 }

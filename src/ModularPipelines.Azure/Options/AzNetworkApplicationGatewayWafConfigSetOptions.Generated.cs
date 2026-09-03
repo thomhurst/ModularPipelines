@@ -18,19 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-config", "set")]
-public record AzNetworkApplicationGatewayWafConfigSetOptions : AzOptions
+public record AzNetworkApplicationGatewayWafConfigSetOptions(
+    [property: CliOption("--enabled")] bool Enabled
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of rule groups to disable. To disable individual rules, use `--disabled-rules`.  Values from: az network application- gateway waf-config list-rule-sets.
     /// </summary>
-    [CliFlag("--disabled-rule-groups")]
-    public bool? DisabledRuleGroups { get; set; }
+    [CliOption("--disabled-rule-groups", GroupValues = true)]
+    public IEnumerable<string>? DisabledRuleGroups { get; set; }
 
     /// <summary>
     /// Space-separated list of rule IDs to disable.  Values from: az network application-gateway waf-config list-rule-sets.
     /// </summary>
-    [CliFlag("--disabled-rules")]
-    public bool? DisabledRules { get; set; }
+    [CliOption("--disabled-rules", GroupValues = true)]
+    public IEnumerable<string>? DisabledRules { get; set; }
 
     /// <summary>
     /// Add an exclusion expression to the WAF check.
@@ -47,8 +49,8 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions : AzOptions
     /// <summary>
     /// Web application firewall mode.  Allowed values: detection, prevention.
     /// </summary>
-    [CliFlag("--firewall-mode")]
-    public bool? FirewallMode { get; set; }
+    [CliOption("--firewall-mode")]
+    public string? FirewallMode { get; set; }
 
     /// <summary>
     /// Max request body size in KB.
@@ -79,5 +81,23 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions : AzOptions
     /// </summary>
     [CliFlag("--rule-set-version")]
     public bool? RuleSetVersion { get; set; }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string? GatewayName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

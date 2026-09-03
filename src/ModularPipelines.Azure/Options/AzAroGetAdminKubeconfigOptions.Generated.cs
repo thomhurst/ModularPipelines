@@ -18,19 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "get-admin-kubeconfig")]
-public record AzAroGetAdminKubeconfigOptions : AzOptions
+public record AzAroGetAdminKubeConfigOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Path to the file where kubeconfig should be saved. Default: kubeconfig in local directory.  Default: kubeconfig.
     /// </summary>
     [CliOption("--file", ShortForm = "-f")]
-    public string? FileValue { get; set; }
-
-    [Obsolete("Use FileValue instead.")]
-    public bool? File
-    {
-        get => bool.TryParse(FileValue, out var value) ? value : null;
-        set => FileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? File { get; set; }
 
 }

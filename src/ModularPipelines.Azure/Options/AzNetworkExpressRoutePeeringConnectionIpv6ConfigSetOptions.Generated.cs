@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "connection", "ipv6-config", "set")]
-public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions : AzOptions
+public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions(
+    [property: CliOption("--circuit-name")] string CircuitName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--peering-name")] string PeeringName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// /125 IP address space to carve out customer addresses for global reach.
@@ -29,7 +34,7 @@ public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions : AzOpt
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

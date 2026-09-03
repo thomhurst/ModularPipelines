@@ -67,6 +67,11 @@ public interface IAzWebapp
     AzWebappSitecontainers Sitecontainers => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az traffic-routing sub-commands.
+    /// </summary>
+    AzWebappTrafficRouting TrafficRouting => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az vnet-integration sub-commands.
     /// </summary>
     AzWebappVnetIntegration VnetIntegration => throw new System.NotSupportedException();
@@ -93,7 +98,7 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzWebappCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAsync(AzWebappCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -133,7 +138,7 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstancesAsync(AzWebappListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListInstancesAsync(AzWebappListInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

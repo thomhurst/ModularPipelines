@@ -18,25 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "project", "update")]
-public record AzCognitiveservicesAccountProjectUpdateOptions : AzOptions
+public record AzCognitiveservicesAccountProjectUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Description of the project.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Display name of the project.
     /// </summary>
     [CliFlag("--display-name")]
     public bool? DisplayName { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

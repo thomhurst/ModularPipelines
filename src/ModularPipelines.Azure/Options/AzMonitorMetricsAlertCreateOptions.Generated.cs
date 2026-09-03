@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "alert", "create")]
-public record AzMonitorMetricsAlertCreateOptions : AzOptions
+public record AzMonitorMetricsAlertCreateOptions(
+    [property: CliOption("--condition")] string Condition,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--scopes", GroupValues = true)] IEnumerable<string> Scopes
+) : AzOptions
 {
     /// <summary>
     /// Add an action group and optional webhook properties to fire when the alert is triggered.
@@ -51,6 +56,12 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     public bool? EvaluationFrequency { get; set; }
 
     /// <summary>
+    /// The region of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
+    /// </summary>
+    [CliFlag("--region", ShortForm = "--target-resource-region")]
+    public bool? Region { get; set; }
+
+    /// <summary>
     /// Severity of the alert from 0 (critical) to 4 (verbose).
     /// </summary>
     [CliFlag("--severity")]
@@ -59,8 +70,14 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The resource type of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
+    /// </summary>
+    [CliOption("--target-resource-type", ShortForm = "--type")]
+    public string? TargetResourceType { get; set; }
 
     /// <summary>
     /// Time over which to aggregate metrics in "##h##m##s" format.

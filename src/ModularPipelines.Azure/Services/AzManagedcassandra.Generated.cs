@@ -18,16 +18,16 @@ namespace ModularPipelines.Azure.Services;
 /// az managedcassandra commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzManagedcassandra : IAzManagedcassandra
+public class AzManagedCassandra : IAzManagedCassandra
 {
     private readonly ICommandContext _command;
-    private AzManagedcassandraCluster? _cluster;
-    private AzManagedcassandraDatacenter? _datacenter;
+    private AzManagedCassandraCluster? _cluster;
+    private AzManagedCassandraDatacenter? _datacenter;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzManagedcassandra"/> class.
+    /// Initializes a new instance of the <see cref="AzManagedCassandra"/> class.
     /// </summary>
-    public AzManagedcassandra(ICommandContext command)
+    public AzManagedCassandra(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class AzManagedcassandra : IAzManagedcassandra
     /// <summary>
     /// az cluster sub-commands.
     /// </summary>
-    public AzManagedcassandraCluster Cluster => _cluster ??= new AzManagedcassandraCluster(_command);
+    public AzManagedCassandraCluster Cluster => _cluster ??= new AzManagedCassandraCluster(_command);
 
     /// <summary>
     /// az datacenter sub-commands.
     /// </summary>
-    public AzManagedcassandraDatacenter Datacenter => _datacenter ??= new AzManagedcassandraDatacenter(_command);
+    public AzManagedCassandraDatacenter Datacenter => _datacenter ??= new AzManagedCassandraDatacenter(_command);
 
     #endregion
 }

@@ -18,12 +18,51 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "ddos-custom-policy", "create")]
-public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
+public record AzNetworkDdosCustomPolicyCreateOptions(
+    [property: CliOption("--ddos-custom-policy-name", ShortForm = "-n")] string DdosCustomPolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The detection mode for the DDoS detection rule.
+    /// </summary>
+    [CliFlag("--detection-mode")]
+    public bool? DetectionMode { get; set; }
+
+    /// <summary>
+    /// The name of the DDoS detection rule.
+    /// </summary>
+    [CliOption("--detection-rule-name")]
+    public string? DetectionRuleName { get; set; }
+
+    /// <summary>
+    /// The customized packets per second threshold.
+    /// </summary>
+    [CliFlag("--packets-per-second")]
+    public bool? PacketsPerSecond { get; set; }
+
+    /// <summary>
+    /// The traffic type (one of Tcp, Udp, TcpSyn) that the detection rule will be applied upon.
+    /// </summary>
+    [CliFlag("--traffic-type")]
+    public bool? TrafficType { get; set; }
+
+    /// <summary>
+    /// Resource location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

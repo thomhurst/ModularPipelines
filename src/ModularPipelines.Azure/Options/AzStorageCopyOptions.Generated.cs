@@ -23,14 +23,14 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// The path/url of copy destination. It can be a local path, an url to azure storage server. If you provide destination parameter here, you do not need to provide arguments in copy destination arguments group and copy destination arguments will be deprecated in future.
     /// </summary>
     [CliOption("--destination", ShortForm = "-d")]
-    public string? DestinationValue { get; set; }
+    public string? Destination { get; set; }
 
     /// <summary>
     /// Look into sub-directories recursively.
@@ -42,20 +42,168 @@ public record AzStorageCopyOptions : AzOptions
     /// The path/url of copy source. It can be a local path, an url to azure storage server or AWS S3 buckets. If you provide source parameter here, you do not need to provide arguments in copy source arguments group and copy source arguments will be deprecated in future.
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
-    [Obsolete("Use DestinationValue instead.")]
-    public bool? Destination
-    {
-        get => bool.TryParse(DestinationValue, out var value) ? value : null;
-        set => DestinationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The type of blob at the destination.  Allowed values:
+    /// </summary>
+    [CliOption("--blob-type")]
+    public string? BlobType { get; set; }
 
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
-    {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Caps the transfer rate, in megabits per second. Moment-by-moment throughput might vary slightly from the cap. If this option is set to zero, or it is omitted, the throughput isn't capped.
+    /// </summary>
+    [CliFlag("--cap-mbps")]
+    public bool? CapMbps { get; set; }
+
+    /// <summary>
+    /// Specify content type of the file.
+    /// </summary>
+    [CliFlag("--content-type")]
+    public bool? ContentType { get; set; }
+
+    /// <summary>
+    /// Exclude these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example: myFolder;myFolder/subDirName/file.pdf.
+    /// </summary>
+    [CliFlag("--exclude-path")]
+    public bool? ExcludePath { get; set; }
+
+    /// <summary>
+    /// Exclude these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
+    /// </summary>
+    [CliFlag("--exclude-pattern")]
+    public bool? ExcludePattern { get; set; }
+
+    /// <summary>
+    /// Follow symbolic links when uploading from local file system.
+    /// </summary>
+    [CliFlag("--follow-symlinks")]
+    public bool? FollowSymlinks { get; set; }
+
+    /// <summary>
+    /// Include only these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example:myFolder;myFolder/subDirName/file.pdf.
+    /// </summary>
+    [CliFlag("--include-path")]
+    public bool? IncludePath { get; set; }
+
+    /// <summary>
+    /// Include only these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
+    /// </summary>
+    [CliFlag("--include-pattern")]
+    public bool? IncludePattern { get; set; }
+
+    /// <summary>
+    /// Preserve access tier during service to service copy. Please refer to https://learn.microsoft.com/azure/stor age/blobs/storage-blob-storage-tiers to ensure destination storage account support setting access tier. In the cases that setting access tier is not supported, please use `--preserve-s2s-access-tier false` to bypass copying access tier. (Default true). Allowed values: false, true.
+    /// </summary>
+    [CliOption("--preserve-s2s-access-tier")]
+    public bool? PreserveS2sAccessTier { get; set; }
+
+    /// <summary>
+    /// Create an MD5 hash of each file, and save the hash as the Content-MD5 property of the destination blob/file.Only available when uploading.
+    /// </summary>
+    [CliFlag("--put-md5")]
+    public bool? PutMd5 { get; set; }
+
+    /// <summary>
+    /// Blob name in blob container of copy destination storage account.
+    /// </summary>
+    [CliFlag("--destination-blob")]
+    public bool? DestinationBlob { get; set; }
+
+    /// <summary>
+    /// Container name of copy destination storage account.
+    /// </summary>
+    [CliFlag("--destination-container")]
+    public bool? DestinationContainer { get; set; }
+
+    /// <summary>
+    /// File path in file share of copy destination storage account.
+    /// </summary>
+    [CliFlag("--destination-file-path")]
+    public bool? DestinationFilePath { get; set; }
+
+    /// <summary>
+    /// File share name of copy destination storage account.
+    /// </summary>
+    [CliFlag("--destination-share")]
+    public bool? DestinationShare { get; set; }
+
+    /// <summary>
+    /// Account key of copy source storage account. Must be used in conjunction with source storage account name.
+    /// </summary>
+    [CliFlag("--source-account-key")]
+    public bool? SourceAccountKey { get; set; }
+
+    /// <summary>
+    /// Account name of copy source storage account.
+    /// </summary>
+    [CliFlag("--source-account-name")]
+    public bool? SourceAccountName { get; set; }
+
+    /// <summary>
+    /// Blob name in blob container of copy source storage account.
+    /// </summary>
+    [CliFlag("--source-blob")]
+    public bool? SourceBlob { get; set; }
+
+    /// <summary>
+    /// Connection string of source storage account.
+    /// </summary>
+    [CliFlag("--source-connection-string", ShortForm = "--src-conn")]
+    public bool? SourceConnectionString { get; set; }
+
+    /// <summary>
+    /// Container name of copy source storage account.
+    /// </summary>
+    [CliFlag("--source-container")]
+    public bool? SourceContainer { get; set; }
+
+    /// <summary>
+    /// File path in file share of copy source storage account.
+    /// </summary>
+    [CliFlag("--source-file-path")]
+    public bool? SourceFilePath { get; set; }
+
+    /// <summary>
+    /// Shared Access Signature (SAS) token of copy source. Must be used in conjunction with source storage account name.
+    /// </summary>
+    [CliFlag("--source-sas")]
+    public bool? SourceSas { get; set; }
+
+    /// <summary>
+    /// File share name of copy source storage account.
+    /// </summary>
+    [CliFlag("--source-share")]
+    public bool? SourceShare { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name of copy destination.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// </summary>
+    [CliFlag("--service-endpoint")]
+    public bool? ServiceEndpoint { get; set; }
 
 }

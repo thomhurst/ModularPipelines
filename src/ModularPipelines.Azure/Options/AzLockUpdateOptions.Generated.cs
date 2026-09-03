@@ -23,20 +23,20 @@ public record AzLockUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The type of lock restriction.  Allowed values: CanNotDelete,
     /// </summary>
-    [CliFlag("--lock-type", ShortForm = "-t")]
-    public bool? LockType { get; set; }
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string? LockType { get; set; }
 
     /// <summary>
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
@@ -57,36 +57,21 @@ public record AzLockUpdateOptions : AzOptions
     public bool? Parent { get; set; }
 
     /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
     /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceTypeValue { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
-    {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceType { get; set; }
 
 }

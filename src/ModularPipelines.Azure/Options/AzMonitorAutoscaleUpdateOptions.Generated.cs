@@ -23,7 +23,7 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// <summary>
     /// The enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -31,5 +31,101 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The numer of instances to use. If used with --min/max- count, the default number of instances to use.
+    /// </summary>
+    [CliFlag("--count")]
+    public bool? Count { get; set; }
+
+    /// <summary>
+    /// The maximum number of instances.
+    /// </summary>
+    [CliFlag("--max-count")]
+    public bool? MaxCount { get; set; }
+
+    /// <summary>
+    /// The minimum number of instances.
+    /// </summary>
+    [CliFlag("--min-count")]
+    public bool? MinCount { get; set; }
+
+    /// <summary>
+    /// Add an action to fire when a scaling event occurs.
+    /// </summary>
+    [CliFlag("--add-action", ShortForm = "-a")]
+    public bool? AddAction { get; set; }
+
+    /// <summary>
+    /// Send email to subscription administrator on scaling. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--email-administrator")]
+    public bool? EmailAdministrator { get; set; }
+
+    /// <summary>
+    /// Send email to subscription co-administrators on scaling. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--email-coadministrators")]
+    public bool? EmailCoadministrators { get; set; }
+
+    /// <summary>
+    /// Remove one or more actions.
+    /// </summary>
+    [CliFlag("--remove-action", ShortForm = "-r")]
+    public bool? RemoveAction { get; set; }
+
+    /// <summary>
+    /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be
+    /// </summary>
+    [CliFlag("--scale-look-ahead-time")]
+    public bool? ScaleLookAheadTime { get; set; }
+
+    /// <summary>
+    /// The predictive autoscale mode.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--scale-mode")]
+    public string? ScaleMode { get; set; }
+
+    /// <summary>
+    /// The autoscale setting name.
+    /// </summary>
+    [CliFlag("--autoscale-name", ShortForm = "-n")]
+    public bool? AutoscaleName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

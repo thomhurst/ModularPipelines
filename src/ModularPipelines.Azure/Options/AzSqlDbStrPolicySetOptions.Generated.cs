@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "str-policy", "set")]
-public record AzSqlDbStrPolicySetOptions : AzOptions
+public record AzSqlDbStrPolicySetOptions(
+    [property: CliOption("--retention-days")] string RetentionDays
+) : AzOptions
 {
     /// <summary>
     /// New backup short term retention policy differential backup interval in hours.Valid differential backup interval for live database can be 12 or 24 hours.
@@ -31,5 +33,29 @@ public record AzSqlDbStrPolicySetOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

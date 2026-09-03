@@ -37,9 +37,24 @@ public interface IAzNetappfiles
     AzNetappfilesPool Pool => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az quota-limit sub-commands.
+    /// </summary>
+    AzNetappfilesQuotaLimit QuotaLimit => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az resource sub-commands.
+    /// </summary>
+    AzNetappfilesResource Resource => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az snapshot sub-commands.
     /// </summary>
     AzNetappfilesSnapshot Snapshot => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    AzNetappfilesUsage Usage => throw new System.NotSupportedException();
 
     /// <summary>
     /// az volume sub-commands.
@@ -52,13 +67,53 @@ public interface IAzNetappfiles
     AzNetappfilesVolumeGroup VolumeGroup => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Check if a file path is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CheckFilePathAvailabilityAsync(AzNetappfilesCheckFilePathAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Check if a resource name is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CheckNameAvailabilityAsync(AzNetappfilesCheckNameAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Check if a quota is available.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CheckQuotaAvailabilityAsync(AzNetappfilesCheckQuotaAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Describe a network sibling set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> QueryNetworkSiblingSetAsync(AzNetappfilesQueryNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Update the network features of a network sibling
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkSiblingSetAsync(AzNetappfilesUpdateNetworkSiblingSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateNetworkSiblingSetAsync(AzNetappfilesUpdateNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

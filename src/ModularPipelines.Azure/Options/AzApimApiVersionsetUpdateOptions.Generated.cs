@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "update")]
-public record AzApimApiVersionsetUpdateOptions : AzOptions
+public record AzApimApiVersionSetUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--version-set-id")] string VersionSetId
+) : AzOptions
 {
     /// <summary>
     /// Description of API Version Set.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Required. Name of API Version Set.
@@ -42,13 +46,13 @@ public record AzApimApiVersionsetUpdateOptions : AzOptions
     /// Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     /// </summary>
     [CliOption("--version-header-name")]
-    public string? VersionHeaderNameValue { get; set; }
+    public string? VersionHeaderName { get; set; }
 
     /// <summary>
     /// Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
     /// </summary>
     [CliOption("--version-query-name")]
-    public string? VersionQueryNameValue { get; set; }
+    public string? VersionQueryName { get; set; }
 
     /// <summary>
     /// Required. An value that determines where the API Version identifer will be located in a HTTP request.
@@ -56,25 +60,28 @@ public record AzApimApiVersionsetUpdateOptions : AzOptions
     [CliFlag("--versioning-scheme")]
     public bool? VersioningScheme { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use VersionHeaderNameValue instead.")]
-    public bool? VersionHeaderName
-    {
-        get => bool.TryParse(VersionHeaderNameValue, out var value) ? value : null;
-        set => VersionHeaderNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
 
-    [Obsolete("Use VersionQueryNameValue instead.")]
-    public bool? VersionQueryName
-    {
-        get => bool.TryParse(VersionQueryNameValue, out var value) ? value : null;
-        set => VersionQueryNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

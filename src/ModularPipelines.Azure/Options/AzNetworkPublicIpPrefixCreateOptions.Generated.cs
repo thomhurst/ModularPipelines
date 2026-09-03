@@ -18,25 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "public-ip", "prefix", "create")]
-public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
+public record AzNetworkPublicIpPrefixCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A custom prefix from which the public prefix derived. If you'd like to cross subscription, please use Resource ID instead.
     /// </summary>
     [CliOption("--custom-ip-prefix-name")]
-    public string? CustomIpPrefixNameValue { get; set; }
+    public string? CustomIpPrefixName { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ip-tags")]
-    public bool? IpTags { get; set; }
+    [CliOption("--ip-tags", GroupValues = true)]
+    public IEnumerable<string>? IpTags { get; set; }
 
     /// <summary>
     /// Length of the prefix (i.e. `XX.XX.XX.XX/&lt;Length&gt;`).
@@ -53,45 +56,37 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Tier of a public IP prefix SKU.  Allowed values: Global,
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// IP address type.  Allowed values: IPv4, IPv6.  Allowed values: IPv4, IPv6.  Default: IPv4.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zone { get; set; }
 
-    [Obsolete("Use CustomIpPrefixNameValue instead.")]
-    public bool? CustomIpPrefixName
-    {
-        get => bool.TryParse(CustomIpPrefixNameValue, out var value) ? value : null;
-        set => CustomIpPrefixNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of a public IP prefix SKU.  Allowed values: Standard, StandardV2.  Default: Standard.
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
 }

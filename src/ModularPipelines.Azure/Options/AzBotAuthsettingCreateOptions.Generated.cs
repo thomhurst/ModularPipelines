@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,19 +19,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "authsetting", "create")]
-public record AzBotAuthsettingCreateOptions : AzOptions
+public record AzBotAuthsettingCreateOptions(
+    [property: CliOption("--client-id")] string ClientId,
+    [property: SecretValue, CliOption("--client-secret")] string ClientSecret,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--provider-scope-string")] string ProviderScopeString,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service", GroupValues = true)] IEnumerable<string> Service,
+    [property: CliOption("--setting-name", ShortForm = "-c")] string SettingName
+) : AzOptions
 {
     /// <summary>
     /// Parameter values for service provider parameters. Usage:
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Parameters { get; set; }
 
 }

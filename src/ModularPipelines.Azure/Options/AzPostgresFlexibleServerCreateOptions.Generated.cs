@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,8 +36,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Type of the Microsoft Entra administrator.  Allowed values: Group, ServicePrincipal, Unknown, User.
     /// </summary>
-    [CliFlag("--admin-type", ShortForm = "-t")]
-    public bool? AdminType { get; set; }
+    [CliOption("--admin-type", ShortForm = "-t")]
+    public string? AdminType { get; set; }
 
     /// <summary>
     /// Allow primary and standby in the same zone when multi-zone capacity is unavailable.
@@ -54,13 +55,13 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-identity")]
-    public string? BackupIdentityValue { get; set; }
+    public string? BackupIdentity { get; set; }
 
     /// <summary>
     /// The resource identifier of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-key")]
-    public string? BackupKeyValue { get; set; }
+    public string? BackupKey { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.  Default: 7.
@@ -83,26 +84,26 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Value of IOPS in (operations/sec) to be allocated for this server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliOption("--iops")]
-    public string? IopsValue { get; set; }
+    public string? Iops { get; set; }
 
     /// <summary>
     /// The resource identifier of the primary keyvault key for data encryption.
     /// </summary>
     [CliOption("--key")]
-    public string? KeyValue { get; set; }
+    public string? Key { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -113,14 +114,14 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--microsoft-entra-auth")]
-    public bool? MicrosoftEntraAuth { get; set; }
+    [CliOption("--microsoft-entra-auth")]
+    public string? MicrosoftEntraAuth { get; set; }
 
     /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The number of nodes for elastic cluster.
@@ -131,8 +132,9 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether password authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--password-auth")]
-    public bool? PasswordAuth { get; set; }
+    [SecretValue]
+    [CliOption("--password-auth")]
+    public string? PasswordAuth { get; set; }
 
     /// <summary>
     /// Performance tier of the server.
@@ -156,13 +158,13 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -173,8 +175,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.  Default: 128.
@@ -185,20 +187,20 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set
     /// </summary>
-    [CliFlag("--storage-type")]
-    public bool? StorageType { get; set; }
+    [CliOption("--storage-type")]
+    public string? StorageType { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
@@ -210,7 +212,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: GeneralPurpose.
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Server major version.
@@ -222,7 +224,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -233,8 +235,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable high availability feature.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--zonal-resiliency")]
-    public bool? ZonalResiliency { get; set; }
+    [CliOption("--zonal-resiliency")]
+    public string? ZonalResiliency { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.
@@ -242,81 +244,16 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use BackupIdentityValue instead.")]
-    public bool? BackupIdentity
-    {
-        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
-        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
 
-    [Obsolete("Use BackupKeyValue instead.")]
-    public bool? BackupKey
-    {
-        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
-        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
-    {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use IopsValue instead.")]
-    public bool? Iops
-    {
-        get => bool.TryParse(IopsValue, out var value) ? value : null;
-        set => IopsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use KeyValue instead.")]
-    public bool? Key
-    {
-        get => bool.TryParse(KeyValue, out var value) ? value : null;
-        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
-    {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
-    {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: dimhinds8.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
 }

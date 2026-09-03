@@ -13,17 +13,55 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Import data into a Redis cache.
+/// Import data into a Redis cache. Deletes all preexisting cache data.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "import")]
-public record AzRedisImportOptions : AzOptions
+public record AzRedisImportOptions(
+    [property: CliOption("--files")] string Files
+) : AzOptions
 {
+    /// <summary>
+    /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values:
+    /// </summary>
+    [CliOption("--auth-method", ShortForm = "--preferred-data-archive-auth-method")]
+    public string? AuthMethod { get; set; }
+
     /// <summary>
     /// Format of the blob (Currently rdb is the only supported format, with other formats expected in the future).
     /// </summary>
     [CliFlag("--file-format")]
     public bool? FileFormat { get; set; }
+
+    /// <summary>
+    /// SubscriptionId of the storage account.
+    /// </summary>
+    [CliFlag("--storage-sub-id", ShortForm = "--storage-subscription-id")]
+    public bool? StorageSubId { get; set; }
+
+    /// <summary>
+    /// Do not prompt for confirmation.
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

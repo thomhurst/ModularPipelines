@@ -25,11 +25,6 @@ public record AzStackGroupCreateOptions(
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
-    public AzStackGroupCreateOptions()
-        : this(default(string)!, default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
     /// </summary>
@@ -58,7 +53,7 @@ public record AzStackGroupCreateOptions(
     /// The description of deployment stack.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -70,13 +65,13 @@ public record AzStackGroupCreateOptions(
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? ParametersValueValues { get; set; }
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
     [CliOption("--query-string", ShortForm = "-q")]
-    public string? QueryStringValue { get; set; }
+    public string? QueryString { get; set; }
 
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
@@ -85,28 +80,28 @@ public record AzStackGroupCreateOptions(
     public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? TagsValues { get; set; }
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
     /// </summary>
     [CliOption("--template-file", ShortForm = "-f")]
-    public string? TemplateFileValue { get; set; }
+    public string? TemplateFile { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
     [CliOption("--template-spec", ShortForm = "-s")]
-    public string? TemplateSpecValue { get; set; }
+    public string? TemplateSpec { get; set; }
 
     /// <summary>
     /// A uri to a remote template file.
     /// </summary>
     [CliOption("--template-uri", ShortForm = "-u")]
-    public string? TemplateUriValue { get; set; }
+    public string? TemplateUri { get; set; }
 
     /// <summary>
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
@@ -119,61 +114,5 @@ public record AzStackGroupCreateOptions(
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValueValues?.FirstOrDefault(), out var value) ? value : null;
-        set => ParametersValueValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use QueryStringValue instead.")]
-    public bool? QueryString
-    {
-        get => bool.TryParse(QueryStringValue, out var value) ? value : null;
-        set => QueryStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateFileValue instead.")]
-    public bool? TemplateFile
-    {
-        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
-        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateSpecValue instead.")]
-    public bool? TemplateSpec
-    {
-        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
-        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateUriValue instead.")]
-    public bool? TemplateUri
-    {
-        get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
-        set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ParametersValueValues instead.")]
-    public string? ParametersValue
-    {
-        get => ParametersValueValues?.FirstOrDefault();
-        set => ParametersValueValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use TagsValues instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => TagsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
 
 }

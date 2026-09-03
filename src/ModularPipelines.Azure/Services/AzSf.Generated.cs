@@ -22,6 +22,7 @@ public class AzSf : IAzSf
 {
     private readonly ICommandContext _command;
     private AzSfApplication? _application;
+    private AzSfApplicationType? _applicationType;
     private AzSfCluster? _cluster;
     private AzSfManagedApplication? _managedApplication;
     private AzSfManagedApplicationType? _managedApplicationType;
@@ -44,6 +45,11 @@ public class AzSf : IAzSf
     /// az application sub-commands.
     /// </summary>
     public AzSfApplication Application => _application ??= new AzSfApplication(_command);
+
+    /// <summary>
+    /// az application-type sub-commands.
+    /// </summary>
+    public AzSfApplicationType ApplicationType => _applicationType ??= new AzSfApplicationType(_command);
 
     /// <summary>
     /// az cluster sub-commands.

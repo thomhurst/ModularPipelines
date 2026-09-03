@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzSqlDbLtrPolicySetOptions : AzOptions
 {
     /// <summary>
+    /// Whether to enable time based immutability on the LTR backups. Possible values are: 'True', 'False', 'Enabled', 'Disabled'.
+    /// </summary>
+    [CliFlag("--make-backups-immutable", ShortForm = "--tb-immutability")]
+    public bool? MakeBackupsImmutable { get; set; }
+
+    /// <summary>
     /// Retention for the monthly backup. If just a number is passed instead of an ISO 8601 string, days will be assumed as the units.There is a minimum of 7 days and a maximum of 10 years.
     /// </summary>
     [CliFlag("--monthly-retention")]
@@ -55,5 +61,29 @@ public record AzSqlDbLtrPolicySetOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

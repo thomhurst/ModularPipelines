@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "hostname", "set")]
-public record AzStaticwebappHostnameSetOptions : AzOptions
+public record AzStaticwebappHostnameSetOptions(
+    [property: CliOption("--hostname")] string Hostname,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -30,19 +33,12 @@ public record AzStaticwebappHostnameSetOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Validation method for the custom domain.  Allowed values: cname- delegation, dns-txt-token.  Default: cname-delegation.
     /// </summary>
-    [CliFlag("--validation-method", ShortForm = "-m")]
-    public bool? ValidationMethod { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--validation-method", ShortForm = "-m")]
+    public string? ValidationMethod { get; set; }
 
 }

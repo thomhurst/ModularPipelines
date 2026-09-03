@@ -21,29 +21,63 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsWaitOptions : AzOptions
 {
     /// <summary>
+    /// The fully qualified Azure Resource manager identifier of the
+    /// </summary>
+    [CliFlag("--cluster", ShortForm = "-c")]
+    public bool? Cluster { get; set; }
+
+    /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The name of the resource group. You can configure the default group using az configure --defaults group=`&lt;name&gt;`. You may provide either 'managed_cluster' or both 'resource_group' and 'name', but not both.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until the condition satisfies a custom JMESPath query.
+    /// </summary>
+    [CliFlag("--custom")]
+    public bool? Custom { get; set; }
+
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
+
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliFlag("--timeout")]
+    public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
 
 }

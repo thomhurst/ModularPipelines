@@ -18,12 +18,80 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "set-definition", "update")]
-public record AzPolicySetDefinitionUpdateOptions : AzOptions
+public record AzPolicySetDefinitionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The management group.
     /// </summary>
     [CliFlag("--management-group")]
     public bool? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The metadata describing groups of policy definition references within the policy set definition.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--definition-groups")]
+    public bool? DefinitionGroups { get; set; }
+
+    /// <summary>
+    /// An array of policy definition references.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--definitions")]
+    public IEnumerable<string>? Definitions { get; set; }
+
+    /// <summary>
+    /// Policy set definition description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy set definition.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy set definition metadata.  Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy set definition parameter definitions.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
+
+    /// <summary>
+    /// The policy set definition version.
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
 }

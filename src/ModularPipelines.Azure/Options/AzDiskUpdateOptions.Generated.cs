@@ -24,38 +24,144 @@ public record AzDiskUpdateOptions : AzOptions
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
     [CliOption("--disk-access")]
-    public string? DiskAccessValue { get; set; }
+    public string? DiskAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
     [CliOption("--disk-encryption-set")]
-    public string? DiskEncryptionSetValue { get; set; }
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Underlying storage SKU.  Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
-    [Obsolete("Use DiskAccessValue instead.")]
-    public bool? DiskAccess
-    {
-        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
-        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Determine on how to handle disks with slow I/O. Allowed values: AutomaticReattach, None.
+    /// </summary>
+    [CliOption("--action-on-disk-delay")]
+    public string? ActionOnDiskDelay { get; set; }
 
-    [Obsolete("Use DiskEncryptionSetValue instead.")]
-    public bool? DiskEncryptionSet
-    {
-        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
-        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Encryption type.  Allowed values:
+    /// </summary>
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--bursting-enabled", ShortForm = "--enable-bursting")]
+    public bool? BurstingEnabled { get; set; }
+
+    /// <summary>
+    /// Specify the auth mode when exporting or uploading to a disk or snapshot.  Allowed values: AzureActiveDirectory, None.
+    /// </summary>
+    [CliOption("--data-access-auth-mode")]
+    public string? DataAccessAuthMode { get; set; }
+
+    /// <summary>
+    /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
+    /// </summary>
+    [CliFlag("--disk-iops-read-only")]
+    public bool? DiskIopsReadOnly { get; set; }
+
+    /// <summary>
+    /// The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
+    /// </summary>
+    [CliFlag("--disk-iops-read-write")]
+    public bool? DiskIopsReadWrite { get; set; }
+
+    /// <summary>
+    /// The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+    /// </summary>
+    [CliFlag("--disk-mbps-read-only")]
+    public bool? DiskMbpsReadOnly { get; set; }
+
+    /// <summary>
+    /// The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+    /// </summary>
+    [CliFlag("--disk-mbps-read-write")]
+    public bool? DiskMbpsReadWrite { get; set; }
+
+    /// <summary>
+    /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
+    /// </summary>
+    [CliFlag("--disk-size-gb", ShortForm = "-z")]
+    public bool? DiskSizeGb { get; set; }
+
+    /// <summary>
+    /// The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
+    /// </summary>
+    [CliFlag("--max-shares")]
+    public bool? MaxShares { get; set; }
+
+    /// <summary>
+    /// Policy for accessing the disk via network. Allowed values: AllowAll, AllowPrivate, DenyAll.
+    /// </summary>
+    [CliOption("--network-access-policy")]
+    public string? NetworkAccessPolicy { get; set; }
+
+    /// <summary>
+    /// The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+    /// </summary>
+    [CliOption("--disk-name", ShortForm = "-n")]
+    public string? DiskName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// CPU architecture supported by an OS disk. Allowed values: Arm64, x64.
+    /// </summary>
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
+
+    /// <summary>
+    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values:
+    /// </summary>
+    [CliOption("--security-option", ShortForm = "--supported-security-option")]
+    public string? SecurityOption { get; set; }
 
 }

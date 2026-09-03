@@ -23,48 +23,22 @@ public record AzAcrConnectedRegistryPermissionsUpdateOptions(
     [property: CliOption("--registry", ShortForm = "-r")] string Registry
 ) : AzOptions
 {
-    public AzAcrConnectedRegistryPermissionsUpdateOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Repository permissions to be added to the targeted connected registry and it's ancestors sync scope maps. Use the format "--add [REPO1 REPO2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
     [CliOption("--add", GroupValues = true)]
-    public IEnumerable<string>? AddValues { get; set; }
+    public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
     /// Repository permissions to be removed from the targeted connected registry and it's succesors sync scope maps. Use the format "--remove [REPO1 REPO2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
-    public IEnumerable<string>? RemoveValues { get; set; }
+    public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use AddValues instead.")]
-    public bool? Add
-    {
-        get => bool.TryParse(AddValues?.FirstOrDefault(), out var value) ? value : null;
-        set => AddValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use RemoveValues instead.")]
-    public bool? Remove
-    {
-        get => bool.TryParse(RemoveValues?.FirstOrDefault(), out var value) ? value : null;
-        set => RemoveValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,13 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "probe", "update")]
-public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayProbeUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Whether to use host header from HTTP settings.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--from-http-settings", ShortForm = "--host-name-from-http-settings")]
+    public bool? FromHttpSettings { get; set; }
+
+    /// <summary>
+    /// Whether to use host header from settings. Pick hostname from settings is currently not supported, now only support false. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--from-settings", ShortForm = "--host-name-from-settings")]
+    public bool? FromSettings { get; set; }
+
     /// <summary>
     /// Name of the host to send the probe.
     /// </summary>
     [CliOption("--host")]
-    public string? HostValue { get; set; }
+    public string? Host { get; set; }
 
     /// <summary>
     /// Time interval in seconds between consecutive probes.
@@ -41,8 +57,8 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of allowed ranges of healthy status codes for the health response.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--match-status-codes")]
-    public bool? MatchStatusCodes { get; set; }
+    [CliOption("--match-status-codes", GroupValues = true)]
+    public IEnumerable<string>? MatchStatusCodes { get; set; }
 
     /// <summary>
     /// Minimum number of servers that are always marked healthy.
@@ -53,7 +69,7 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -71,8 +87,8 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     /// <summary>
     /// Protocol used for the probe.  Allowed values: Http, Https, Tcp, Tls.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Number of failed probes after which the back end server is marked down.
@@ -86,11 +102,34 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use HostValue instead.")]
-    public bool? Host
-    {
-        get => bool.TryParse(HostValue, out var value) ? value : null;
-        set => HostValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-proxy-header")]
+    public bool? EnableProxyHeader { get; set; }
 
 }

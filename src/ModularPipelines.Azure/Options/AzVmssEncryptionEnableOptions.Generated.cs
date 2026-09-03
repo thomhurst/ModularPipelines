@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "encryption", "enable")]
-public record AzVmssEncryptionEnableOptions : AzOptions
+public record AzVmssEncryptionEnableOptions(
+    [property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
+) : AzOptions
 {
     /// <summary>
     /// Resource Id of the user managed identity which can be used for Azure disk encryption.
     /// </summary>
     [CliOption("--encryption-identity")]
-    public string? EncryptionIdentityValue { get; set; }
+    public string? EncryptionIdentity { get; set; }
 
     /// <summary>
     /// Continue by ignoring client side validation errors.
@@ -42,39 +44,36 @@ public record AzVmssEncryptionEnableOptions : AzOptions
     /// Key vault key name or URL used to encrypt the disk encryption key.
     /// </summary>
     [CliOption("--key-encryption-key")]
-    public string? KeyEncryptionKeyValue { get; set; }
+    public string? KeyEncryptionKey { get; set; }
 
     /// <summary>
     /// Name or ID of the key vault containing the key encryption key used to encrypt the disk encryption key. If missing, CLI will use `--disk-encryption-keyvault`.
     /// </summary>
     [CliOption("--key-encryption-keyvault")]
-    public string? KeyEncryptionKeyvaultValue { get; set; }
+    public string? KeyEncryptionKeyvault { get; set; }
 
     /// <summary>
     /// Type of volume that the encryption operation is performed on.  Allowed values: ALL, DATA, OS.
     /// </summary>
-    [CliFlag("--volume-type")]
-    public bool? VolumeType { get; set; }
+    [CliOption("--volume-type")]
+    public string? VolumeType { get; set; }
 
-    [Obsolete("Use EncryptionIdentityValue instead.")]
-    public bool? EncryptionIdentity
-    {
-        get => bool.TryParse(EncryptionIdentityValue, out var value) ? value : null;
-        set => EncryptionIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use KeyEncryptionKeyValue instead.")]
-    public bool? KeyEncryptionKey
-    {
-        get => bool.TryParse(KeyEncryptionKeyValue, out var value) ? value : null;
-        set => KeyEncryptionKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
 
-    [Obsolete("Use KeyEncryptionKeyvaultValue instead.")]
-    public bool? KeyEncryptionKeyvault
-    {
-        get => bool.TryParse(KeyEncryptionKeyvaultValue, out var value) ? value : null;
-        set => KeyEncryptionKeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,19 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "replica", "show")]
-public record AzContainerappReplicaShowOptions : AzOptions
+public record AzContainerappReplicaShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--replica")] string Replica,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>
     [CliOption("--revision")]
-    public string? RevisionValue { get; set; }
-
-    [Obsolete("Use RevisionValue instead.")]
-    public bool? Revision
-    {
-        get => bool.TryParse(RevisionValue, out var value) ? value : null;
-        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Revision { get; set; }
 
 }

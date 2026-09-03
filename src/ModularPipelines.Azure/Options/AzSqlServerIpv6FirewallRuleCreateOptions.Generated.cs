@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "ipv6-firewall-rule", "create")]
-public record AzSqlServerIpv6FirewallRuleCreateOptions : AzOptions
+public record AzSqlServerIpv6FirewallRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// The end IPv6 address of the firewall rule. Must be IPv6 format.

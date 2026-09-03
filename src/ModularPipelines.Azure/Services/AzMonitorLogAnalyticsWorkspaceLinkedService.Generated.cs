@@ -40,11 +40,11 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions? options = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -63,6 +63,36 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
     }
 
     /// <summary>
+    /// Get all the linked services in a
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the properties of a linked
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a linked service.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -75,6 +105,21 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

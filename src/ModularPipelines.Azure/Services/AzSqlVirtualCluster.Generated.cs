@@ -62,5 +62,20 @@ public class AzSqlVirtualCluster
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlVirtualClusterListOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Get the details for a virtual cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlVirtualClusterShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlVirtualClusterShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

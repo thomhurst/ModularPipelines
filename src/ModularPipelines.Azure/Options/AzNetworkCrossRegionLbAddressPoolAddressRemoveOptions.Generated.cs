@@ -18,12 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "address", "remove")]
-public record AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions : AzOptions
+public record AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--pool-name")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

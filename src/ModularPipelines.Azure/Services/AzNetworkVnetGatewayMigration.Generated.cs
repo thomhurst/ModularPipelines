@@ -85,11 +85,11 @@ public class AzNetworkVnetGatewayMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrepareAsync(
-        AzNetworkVnetGatewayMigrationPrepareOptions? options = null,
+        AzNetworkVnetGatewayMigrationPrepareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayMigrationPrepareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

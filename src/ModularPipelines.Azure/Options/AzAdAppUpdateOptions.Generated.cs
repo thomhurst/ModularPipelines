@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "update")]
-public record AzAdAppUpdateOptions : AzOptions
+public record AzAdAppUpdateOptions(
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
     /// <summary>
     /// The display name of the application.
@@ -29,8 +31,8 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated values. Also known as App ID URI, this value is set when an application is used as a resource app. The identifierUris acts as the prefix for the scopes you'll reference in your API's code, and it must be globally unique. You can use the default value provided, which is in the form `api://&lt;application-client-id&gt;`, or specify a more readable
     /// </summary>
-    [CliFlag("--identifier-uris")]
-    public bool? IdentifierUris { get; set; }
+    [CliOption("--identifier-uris", GroupValues = true)]
+    public IEnumerable<string>? IdentifierUris { get; set; }
 
     /// <summary>
     /// Specifies the fallback application type as public client, such as an installed application running on a mobile device. The default value is false which means the fallback application type is confidential client such as a web app. Allowed values: false, true.
@@ -47,7 +49,121 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Specifies the Microsoft accounts that are supported for the current application.  Allowed values: AzureADMultipleOrgs,
     /// </summary>
-    [CliFlag("--sign-in-audience")]
-    public bool? SignInAudience { get; set; }
+    [CliOption("--sign-in-audience")]
+    public string? SignInAudience { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The collection of roles assigned to the application. With app role assignments, these roles can be assigned to users, groups, or service principals associated with other applications. Should be JSON file path or in-line JSON string. See examples for details.
+    /// </summary>
+    [CliFlag("--app-roles")]
+    public bool? AppRoles { get; set; }
+
+    /// <summary>
+    /// Application developers can configure optional claims in their Microsoft Entra applications to specify the claims that are sent to their application by the Microsoft security token service. For more information, see https://learn.microsoft.com/azure/active- directory/develop/active-directory-optional-claims. Should be JSON file path or in-line JSON string. See examples for details.
+    /// </summary>
+    [CliFlag("--optional-claims")]
+    public bool? OptionalClaims { get; set; }
+
+    /// <summary>
+    /// Specifies the resources that the application needs to access. This property also specifies the set of delegated permissions and application roles that it needs for each of those resources. This configuration of access to the required resources drives the consent experience. Should be JSON file path or in-line JSON string. See examples for details.
+    /// </summary>
+    [CliFlag("--required-resource-accesses")]
+    public bool? RequiredResourceAccesses { get; set; }
+
+    /// <summary>
+    /// Specifies the access token version expected by this resource. This changes the version and format of the JWT produced independent of the endpoint or client used to request the access token.
+    /// </summary>
+    [CliFlag("--requested-access-token-version")]
+    public bool? RequestedAccessTokenVersion { get; set; }
+
+    /// <summary>
+    /// Date or datetime after which credentials expire (e.g. '2017-12-31T11:59:59+00:00' or '2017-12-31'). Default value is one year after current time.
+    /// </summary>
+    [CliFlag("--end-date")]
+    public bool? EndDate { get; set; }
+
+    /// <summary>
+    /// Friendly name for the key.
+    /// </summary>
+    [CliFlag("--key-display-name")]
+    public bool? KeyDisplayName { get; set; }
+
+    /// <summary>
+    /// The type of the key credentials associated with the application.  Allowed values: AsymmetricX509Cert, Password, Symmetric.  Default: AsymmetricX509Cert.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string? KeyType { get; set; }
+
+    /// <summary>
+    /// The usage of the key credentials associated with the application.  Allowed values: Sign, Verify.  Default: Verify.
+    /// </summary>
+    [CliOption("--key-usage")]
+    public string? KeyUsage { get; set; }
+
+    /// <summary>
+    /// The value for the key credentials associated with the application.
+    /// </summary>
+    [CliOption("--key-value")]
+    public string? KeyValue { get; set; }
+
+    /// <summary>
+    /// Date or datetime at which credentials become valid (e.g. '2017-01-01T01:00:00+00:00' or '2017-01-01'). Default value is current time.
+    /// </summary>
+    [CliFlag("--start-date")]
+    public bool? StartDate { get; set; }
+
+    /// <summary>
+    /// Space-separated values. Specifies the URLs where user tokens are sent for sign-in, or the redirect URIs where OAuth 2.0 authorization codes and access tokens are sent.
+    /// </summary>
+    [CliOption("--public-client-redirect-uris", GroupValues = true)]
+    public IEnumerable<string>? PublicClientRedirectUris { get; set; }
+
+    /// <summary>
+    /// Specifies whether this web application can request an access token using the OAuth 2.0 implicit flow.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-access-token-issuance")]
+    public bool? EnableAccessTokenIssuance { get; set; }
+
+    /// <summary>
+    /// Specifies whether this web application can request an ID token using the OAuth 2.0 implicit flow.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-id-token-issuance")]
+    public bool? EnableIdTokenIssuance { get; set; }
+
+    /// <summary>
+    /// Home page or landing page of the application.
+    /// </summary>
+    [CliFlag("--web-home-page-url")]
+    public bool? WebHomePageUrl { get; set; }
+
+    /// <summary>
+    /// Space-separated values. Specifies the URLs where user tokens are sent for sign-in, or the redirect URIs where OAuth 2.0 authorization codes and access tokens are sent.
+    /// </summary>
+    [CliOption("--web-redirect-uris", GroupValues = true)]
+    public IEnumerable<string>? WebRedirectUris { get; set; }
 
 }

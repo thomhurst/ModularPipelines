@@ -23,7 +23,25 @@ public record AzVmIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Space-separated identities to remove. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliFlag("--identities")]
-    public bool? Identities { get; set; }
+    [CliOption("--identities", GroupValues = true)]
+    public IEnumerable<string>? Identities { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

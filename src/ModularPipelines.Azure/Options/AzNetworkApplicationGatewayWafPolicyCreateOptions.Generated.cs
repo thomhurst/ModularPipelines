@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "create")]
-public record AzNetworkApplicationGatewayWafPolicyCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -29,19 +32,37 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.  Default:
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
     /// <summary>
     /// Version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The custom rules inside the policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--custom-rules")]
+    public bool? CustomRules { get; set; }
+
+    /// <summary>
+    /// Describes the managedRules structure.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--managed-rules")]
+    public bool? ManagedRules { get; set; }
+
+    /// <summary>
+    /// The PolicySettings for policy.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-settings")]
+    public bool? PolicySettings { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "delete")]
-public record AzNetworkWatcherFlowLogDeleteOptions : AzOptions
+public record AzNetworkWatcherFlowLogDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.  When not specified, the location of the resource group will be used.
@@ -29,7 +31,7 @@ public record AzNetworkWatcherFlowLogDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

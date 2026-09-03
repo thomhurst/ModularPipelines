@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "policy", "update")]
-public record AzStorageContainerPolicyUpdateOptions : AzOptions
+public record AzStorageContainerPolicyUpdateOptions(
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The mode in which to run the command. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Expiration UTC datetime in (Y-m-d'T'H:M:S'Z').
@@ -41,13 +44,37 @@ public record AzStorageContainerPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Allowed values: (a)dd (c)reate (d)elete (e)xecute (f)ilter_by_tags (i)set_immutability_policy (l)ist (m)ove (r)ead (t)ag (w)rite (x)delete_previous_version (y)permanent_delete. Can be combined.
     /// </summary>
-    [CliFlag("--permissions")]
-    public bool? Permissions { get; set; }
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
 
     /// <summary>
     /// Start UTC datetime (Y-m-d'T'H:M:S'Z'). Defaults to time of request.
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
 
 }

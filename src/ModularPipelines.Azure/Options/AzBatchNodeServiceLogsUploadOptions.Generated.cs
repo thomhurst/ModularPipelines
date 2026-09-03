@@ -18,12 +18,57 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "service-logs", "upload")]
-public record AzBatchNodeServiceLogsUploadOptions : AzOptions
+public record AzBatchNodeServiceLogsUploadOptions(
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s). If a user assigned managed identity is not being used, the URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified. Required.
+    /// </summary>
+    [CliOption("--container-url")]
+    public string? ContainerUrl { get; set; }
+
+    /// <summary>
+    /// The end of the time range from which to upload Batch Service log file(s). Any log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. If omitted, the default is to upload all logs available after the startTime. Expected format is an ISO-8601 timestamp.
+    /// </summary>
+    [CliFlag("--end-time")]
+    public bool? EndTime { get; set; }
+
+    /// <summary>
+    /// The start of the time range from which to upload Batch Service log file(s). Any log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. Required. Expected format is an ISO-8601 timestamp.
+    /// </summary>
+    [CliFlag("--start-time")]
+    public bool? StartTime { get; set; }
+
+    /// <summary>
+    /// The ARM resource id of the user assigned identity.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
 
 }

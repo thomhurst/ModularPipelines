@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "encryption", "set")]
-public record AzAmsAccountEncryptionSetOptions : AzOptions
+public record AzAmsAccountEncryptionSetOptions(
+    [property: CliOption("--key-type")] string KeyType
+) : AzOptions
 {
     /// <summary>
     /// The current key used to encrypt the Media Services account, including the key version.
@@ -30,7 +32,7 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     /// The URL of the Key Vault key used to encrypt the account. The key may either be versioned (for example https://vault/keys/mykey/version1) or reference a key without a version (for example https://vault/keys/mykey).
     /// </summary>
     [CliOption("--key-identifier")]
-    public string? KeyIdentifierValue { get; set; }
+    public string? KeyIdentifier { get; set; }
 
     /// <summary>
     /// Set the system managed identity for account encryption.  Allowed values: false, true.
@@ -44,11 +46,22 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     [CliFlag("--user-assigned")]
     public bool? UserAssigned { get; set; }
 
-    [Obsolete("Use KeyIdentifierValue instead.")]
-    public bool? KeyIdentifier
-    {
-        get => bool.TryParse(KeyIdentifierValue, out var value) ? value : null;
-        set => KeyIdentifierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

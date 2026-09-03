@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "restorable-table", "list")]
-public record AzCosmosdbTableRestorableTableListOptions : AzOptions
+public record AzCosmosdbTableRestorableTableListOptions(
+    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// End time of restorable tables event feed.

@@ -23,7 +23,109 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Access protocol to be used by the share.  Allowed values: NFS, SMB.
+    /// </summary>
+    [CliOption("--access-protocol")]
+    public string? AccessProtocol { get; set; }
+
+    /// <summary>
+    /// Azure container mapping for the share.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--azure-container-info")]
+    public bool? AzureContainerInfo { get; set; }
+
+    /// <summary>
+    /// List of IP addresses and corresponding access rights on the share(required for NFS protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--client-access-rights", GroupValues = true)]
+    public IEnumerable<string>? ClientAccessRights { get; set; }
+
+    /// <summary>
+    /// Data policy of the share.  Allowed values: Cloud, Local.
+    /// </summary>
+    [CliOption("--data-policy")]
+    public string? DataPolicy { get; set; }
+
+    /// <summary>
+    /// Description for the share.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Current monitoring status of the share.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--monitoring-status")]
+    public string? MonitoringStatus { get; set; }
+
+    /// <summary>
+    /// Details of the refresh job on this share.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--refresh-details")]
+    public bool? RefreshDetails { get; set; }
+
+    /// <summary>
+    /// Current status of the share.  Allowed values: NeedsAttention, OK,
+    /// </summary>
+    [CliOption("--share-status")]
+    public string? ShareStatus { get; set; }
+
+    /// <summary>
+    /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--user-access-rights")]
+    public bool? UserAccessRights { get; set; }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliFlag("--device-name")]
+    public bool? DeviceName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The share name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

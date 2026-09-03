@@ -33,6 +33,21 @@ public class AzPostgresFlexibleServerVirtualEndpoint
     #region Commands
 
     /// <summary>
+    /// Create a new virtual endpoint for a
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzPostgresFlexibleServerVirtualEndpointCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Delete a virtual endpoint.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,51 @@ public class AzPostgresFlexibleServerVirtualEndpoint
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerVirtualEndpointDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all virtual endpoints for a flexible
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzPostgresFlexibleServerVirtualEndpointListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerVirtualEndpointListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a virtual endpoint.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzPostgresFlexibleServerVirtualEndpointShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerVirtualEndpointShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a virtual endpoint.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzPostgresFlexibleServerVirtualEndpointUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

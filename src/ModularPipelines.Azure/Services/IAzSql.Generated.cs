@@ -57,6 +57,11 @@ public interface IAzSql
     AzSqlMidb Midb => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az recoverable-midb sub-commands.
+    /// </summary>
+    AzSqlRecoverableMidb RecoverableMidb => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az server sub-commands.
     /// </summary>
     AzSqlServer Server => throw new System.NotSupportedException();
@@ -70,5 +75,25 @@ public interface IAzSql
     /// az vm sub-commands.
     /// </summary>
     AzSqlVm Vm => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets all subscription usage metrics in a given location.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListUsagesAsync(AzSqlListUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets a subscription usage metric.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowUsageAsync(AzSqlShowUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

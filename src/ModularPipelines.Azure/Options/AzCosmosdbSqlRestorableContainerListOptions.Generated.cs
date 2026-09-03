@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "restorable-container", "list")]
-public record AzCosmosdbSqlRestorableContainerListOptions : AzOptions
+public record AzCosmosdbSqlRestorableContainerListOptions(
+    [property: CliOption("--database-rid", ShortForm = "-d")] string DatabaseRid,
+    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// End time of restorable Sql container event feed.

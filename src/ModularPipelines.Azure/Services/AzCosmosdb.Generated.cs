@@ -22,11 +22,16 @@ public class AzCosmosdb : IAzCosmosdb
 {
     private readonly ICommandContext _command;
     private AzCosmosdbCassandra? _cassandra;
+    private AzCosmosdbFleet? _fleet;
+    private AzCosmosdbFleetspace? _fleetspace;
     private AzCosmosdbGremlin? _gremlin;
     private AzCosmosdbKeys? _keys;
+    private AzCosmosdbLocations? _locations;
     private AzCosmosdbMongodb? _mongodb;
+    private AzCosmosdbNetworkRule? _networkRule;
     private AzCosmosdbPostgres? _postgres;
     private AzCosmosdbPrivateEndpointConnection? _privateEndpointConnection;
+    private AzCosmosdbPrivateLinkResource? _privateLinkResource;
     private AzCosmosdbRestorableDatabaseAccount? _restorableDatabaseAccount;
     private AzCosmosdbService? _service;
     private AzCosmosdbSql? _sql;
@@ -48,6 +53,16 @@ public class AzCosmosdb : IAzCosmosdb
     public AzCosmosdbCassandra Cassandra => _cassandra ??= new AzCosmosdbCassandra(_command);
 
     /// <summary>
+    /// az fleet sub-commands.
+    /// </summary>
+    public AzCosmosdbFleet Fleet => _fleet ??= new AzCosmosdbFleet(_command);
+
+    /// <summary>
+    /// az fleetspace sub-commands.
+    /// </summary>
+    public AzCosmosdbFleetspace Fleetspace => _fleetspace ??= new AzCosmosdbFleetspace(_command);
+
+    /// <summary>
     /// az gremlin sub-commands.
     /// </summary>
     public AzCosmosdbGremlin Gremlin => _gremlin ??= new AzCosmosdbGremlin(_command);
@@ -58,9 +73,19 @@ public class AzCosmosdb : IAzCosmosdb
     public AzCosmosdbKeys Keys => _keys ??= new AzCosmosdbKeys(_command);
 
     /// <summary>
+    /// az locations sub-commands.
+    /// </summary>
+    public AzCosmosdbLocations Locations => _locations ??= new AzCosmosdbLocations(_command);
+
+    /// <summary>
     /// az mongodb sub-commands.
     /// </summary>
     public AzCosmosdbMongodb Mongodb => _mongodb ??= new AzCosmosdbMongodb(_command);
+
+    /// <summary>
+    /// az network-rule sub-commands.
+    /// </summary>
+    public AzCosmosdbNetworkRule NetworkRule => _networkRule ??= new AzCosmosdbNetworkRule(_command);
 
     /// <summary>
     /// az postgres sub-commands.
@@ -71,6 +96,11 @@ public class AzCosmosdb : IAzCosmosdb
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     public AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzCosmosdbPrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzCosmosdbPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzCosmosdbPrivateLinkResource(_command);
 
     /// <summary>
     /// az restorable-database-account sub-commands.
@@ -97,6 +127,21 @@ public class AzCosmosdb : IAzCosmosdb
     #region Commands
 
     /// <summary>
+    /// Checks if an Azure Cosmos DB account name exists.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameExistsAsync(
+        AzCosmosdbCheckNameExistsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbCheckNameExistsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Creates a new Azure Cosmos DB database account.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -104,11 +149,11 @@ public class AzCosmosdb : IAzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzCosmosdbCreateOptions? options = null,
+        AzCosmosdbCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -127,6 +172,21 @@ public class AzCosmosdb : IAzCosmosdb
     }
 
     /// <summary>
+    /// Changes the failover priority for the Azure Cosmos DB
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> FailoverPriorityChangeAsync(
+        AzCosmosdbFailoverPriorityChangeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List Azure Cosmos DB database accounts.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -142,6 +202,21 @@ public class AzCosmosdb : IAzCosmosdb
     }
 
     /// <summary>
+    /// Offline the specified region for the specified Azure Cosmos DB
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> OfflineRegionAsync(
+        AzCosmosdbOfflineRegionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new Azure Cosmos DB database account by restoring from an
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -149,11 +224,26 @@ public class AzCosmosdb : IAzCosmosdb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzCosmosdbRestoreOptions? options = null,
+        AzCosmosdbRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of an Azure Cosmos DB database account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCosmosdbShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

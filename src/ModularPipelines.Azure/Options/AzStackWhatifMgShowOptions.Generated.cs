@@ -22,11 +22,6 @@ public record AzStackWhatifMgShowOptions(
     [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
 ) : AzOptions
 {
-    public AzStackWhatifMgShowOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>

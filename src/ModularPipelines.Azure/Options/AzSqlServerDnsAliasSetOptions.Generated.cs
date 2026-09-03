@@ -18,32 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "dns-alias", "set")]
-public record AzSqlServerDnsAliasSetOptions : AzOptions
+public record AzSqlServerDnsAliasSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--original-server")] string OriginalServer
+) : AzOptions
 {
     /// <summary>
     /// Name of the original resource group.
     /// </summary>
     [CliOption("--original-resource-group")]
-    public string? OriginalResourceGroupValue { get; set; }
+    public string? OriginalResourceGroup { get; set; }
 
     /// <summary>
     /// ID of the original subscription.
     /// </summary>
     [CliOption("--original-subscription-id")]
-    public string? OriginalSubscriptionIdValue { get; set; }
+    public string? OriginalSubscriptionId { get; set; }
 
-    [Obsolete("Use OriginalResourceGroupValue instead.")]
-    public bool? OriginalResourceGroup
-    {
-        get => bool.TryParse(OriginalResourceGroupValue, out var value) ? value : null;
-        set => OriginalResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use OriginalSubscriptionIdValue instead.")]
-    public bool? OriginalSubscriptionId
-    {
-        get => bool.TryParse(OriginalSubscriptionIdValue, out var value) ? value : null;
-        set => OriginalSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

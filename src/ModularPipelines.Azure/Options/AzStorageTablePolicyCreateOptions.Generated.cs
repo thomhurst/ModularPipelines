@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "table", "policy", "create")]
-public record AzStorageTablePolicyCreateOptions : AzOptions
+public record AzStorageTablePolicyCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
+) : AzOptions
 {
     /// <summary>
     /// Expiration UTC datetime in (Y-m-d'T'H:M:S'Z').
@@ -29,13 +32,43 @@ public record AzStorageTablePolicyCreateOptions : AzOptions
     /// <summary>
     /// Allowed values: (r)ead/query (a)dd (u)pdate (d)elete. Can be combined.
     /// </summary>
-    [CliFlag("--permissions")]
-    public bool? Permissions { get; set; }
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
 
     /// <summary>
     /// Start UTC datetime (Y-m-d'T'H:M:S'Z'). Defaults to time of request.
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--table-endpoint")]
+    public bool? TableEndpoint { get; set; }
 
 }

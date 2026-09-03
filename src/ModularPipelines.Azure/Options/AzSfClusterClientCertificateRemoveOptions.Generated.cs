@@ -18,12 +18,33 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "client-certificate", "remove")]
-public record AzSfClusterClientCertificateRemoveOptions : AzOptions
+public record AzSfClusterClientCertificateRemoveOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Client certificate common name.
+    /// </summary>
+    [CliFlag("--cert-common-name", ShortForm = "--certificate-common-name")]
+    public bool? CertCommonName { get; set; }
+
+    /// <summary>
+    /// Client certificate issuer thumbprint.
+    /// </summary>
+    [CliFlag("--cert-issuer-tp", ShortForm = "--certificate-issuer-thumbprint")]
+    public bool? CertIssuerTp { get; set; }
+
+    /// <summary>
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example:
+    /// </summary>
+    [CliFlag("--client-cert-cn", ShortForm = "--client-certificate-common-names")]
+    public bool? ClientCertCn { get; set; }
+
     /// <summary>
     /// A single or Space-separated list of client certificate thumbprint(s) to be remove.
     /// </summary>
-    [CliFlag("--thumbprints")]
-    public bool? Thumbprints { get; set; }
+    [CliOption("--thumbprints", GroupValues = true)]
+    public IEnumerable<string>? Thumbprints { get; set; }
 
 }

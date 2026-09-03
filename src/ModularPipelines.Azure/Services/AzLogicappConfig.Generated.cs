@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzLogicappConfig
 {
     private readonly ICommandContext _command;
-    private AzLogicappConfigAppsettings? _appsettings;
+    private AzLogicappConfigAppSettings? _appSettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzLogicappConfig"/> class.
@@ -36,7 +36,7 @@ public class AzLogicappConfig
     /// <summary>
     /// az appsettings sub-commands.
     /// </summary>
-    public AzLogicappConfigAppsettings Appsettings => _appsettings ??= new AzLogicappConfigAppsettings(_command);
+    public AzLogicappConfigAppSettings AppSettings => _appSettings ??= new AzLogicappConfigAppSettings(_command);
 
     #endregion
 }

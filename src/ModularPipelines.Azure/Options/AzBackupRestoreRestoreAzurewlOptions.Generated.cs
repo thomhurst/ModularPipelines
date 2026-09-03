@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-azurewl")]
-public record AzBackupRestoreRestoreAzurewlOptions : AzOptions
+public record AzBackupRestoreRestoreAzurewlOptions(
+    [property: CliOption("--recovery-config")] string RecoveryConfig,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Set the maximum time, in days (between 10-30, both inclusive) for which the recovery point stays in hydrated state.  Default: 15.
@@ -29,26 +33,19 @@ public record AzBackupRestoreRestoreAzurewlOptions : AzOptions
     /// <summary>
     /// The type of priority to be maintained while rehydrating a recovery point.  Allowed values: High, Standard.
     /// </summary>
-    [CliFlag("--rehydration-priority")]
-    public bool? RehydrationPriority { get; set; }
+    [CliOption("--rehydration-priority")]
+    public string? RehydrationPriority { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Use this flag to restore from a recoverypoint in secondary region.
     /// </summary>
     [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
-
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
-    {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "create")]
-public record AzNetworkExpressRouteCreateOptions : AzOptions
+public record AzNetworkExpressRouteCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Allow classic operations. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -29,7 +32,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Enable global reach on the circuit.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-global-reach")]
+    [CliOption("--allow-global-reach")]
     public bool? AllowGlobalReach { get; set; }
 
     /// <summary>
@@ -42,7 +45,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// Name or ID of an ExpressRoute port.
     /// </summary>
     [CliOption("--express-route-port")]
-    public string? ExpressRoutePortValue { get; set; }
+    public string? ExpressRoutePort { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -53,58 +56,37 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name of the peering location.  Values from: az network express- route list-service-providers.
     /// </summary>
     [CliOption("--peering-location")]
-    public string? PeeringLocationValue { get; set; }
+    public string? PeeringLocation { get; set; }
 
     /// <summary>
     /// Name of the ExpressRoute Service Provider.  Values from: az network express-route list-service-providers.
     /// </summary>
     [CliOption("--provider")]
-    public string? ProviderValue { get; set; }
+    public string? Provider { get; set; }
 
     /// <summary>
     /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.  Allowed values: MeteredData, UnlimitedData.  Default: MeteredData.
     /// </summary>
-    [CliFlag("--sku-family")]
-    public bool? SkuFamily { get; set; }
+    [CliOption("--sku-family")]
+    public string? SkuFamily { get; set; }
 
     /// <summary>
     /// SKU Tier of ExpressRoute circuit.  Allowed values: Basic, Local, Premium, Standard.  Default: Standard.  Allowed values: Basic, Local, Premium, Standard.  Default: Standard.
     /// </summary>
-    [CliFlag("--sku-tier")]
-    public bool? SkuTier { get; set; }
+    [CliOption("--sku-tier")]
+    public string? SkuTier { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use ExpressRoutePortValue instead.")]
-    public bool? ExpressRoutePort
-    {
-        get => bool.TryParse(ExpressRoutePortValue, out var value) ? value : null;
-        set => ExpressRoutePortValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PeeringLocationValue instead.")]
-    public bool? PeeringLocation
-    {
-        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
-        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ProviderValue instead.")]
-    public bool? Provider
-    {
-        get => bool.TryParse(ProviderValue, out var value) ? value : null;
-        set => ProviderValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

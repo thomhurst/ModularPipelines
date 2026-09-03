@@ -26,4 +26,118 @@ public record AzSqlServerAuditPolicyUpdateOptions : AzOptions
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
+    /// <summary>
+    /// The name of the event hub. If none is specified when providing event_hub_authorization_rule_id, the default event hub will be selected.
+    /// </summary>
+    [CliOption("--eh", ShortForm = "--event-hub")]
+    public string? Eh { get; set; }
+
+    /// <summary>
+    /// The resource Id for the event hub authorization rule.
+    /// </summary>
+    [CliOption("--ehari", ShortForm = "--event-hub-authorization-rule-id")]
+    public string? Ehari { get; set; }
+
+    /// <summary>
+    /// Indicate whether event hub is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--ehts", ShortForm = "--event-hub-target-state")]
+    public string? Ehts { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Indicate whether log analytics is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--lats", ShortForm = "--log-analytics-target-state")]
+    public string? Lats { get; set; }
+
+    /// <summary>
+    /// The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Audit Logs.
+    /// </summary>
+    [CliOption("--lawri", ShortForm = "--log-analytics-workspace-resource-id")]
+    public string? Lawri { get; set; }
+
+    /// <summary>
+    /// List of actions and action groups to audit.These are space seperated values.Example: --actions
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; set; }
+
+    /// <summary>
+    /// The number of days to retain audit logs.
+    /// </summary>
+    [CliFlag("--retention-days")]
+    public bool? RetentionDays { get; set; }
+
+    /// <summary>
+    /// Auditing policy state.  Allowed values:
+    /// </summary>
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Indicate whether blob storage is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--blob-storage-target-state", ShortForm = "--bsts")]
+    public string? BlobStorageTargetState { get; set; }
+
+    /// <summary>
+    /// Name of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// The storage account endpoint.
+    /// </summary>
+    [CliFlag("--storage-endpoint")]
+    public bool? StorageEndpoint { get; set; }
+
+    /// <summary>
+    /// Access key for the storage account.
+    /// </summary>
+    [CliFlag("--storage-key")]
+    public bool? StorageKey { get; set; }
+
 }

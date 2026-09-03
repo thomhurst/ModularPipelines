@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "maintenanceconfiguration", "add")]
-public record AzAksMaintenanceconfigurationAddOptions : AzOptions
+public record AzAksMaintenanceconfigurationAddOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The maintenance configuration json file.
@@ -65,8 +69,8 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// Choose either 'Daily', 'Weekly', 'AbsoluteMonthly' or 'RelativeMonthly' for your maintenance schedule. For default maintenance configuration, only 'Weekly' is supported.  Allowed values: AbsoluteMonthly, Daily, RelativeMonthly, Weekly.
     /// </summary>
-    [CliFlag("--schedule-type")]
-    public bool? ScheduleType { get; set; }
+    [CliOption("--schedule-type")]
+    public string? ScheduleType { get; set; }
 
     /// <summary>
     /// The date the maintenance configuration activates. If not specified, the maintenance window will be active right away. Supported for all configuration types, including default.".
@@ -84,7 +88,7 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. '--utc-offset' applies to this field. For example, '02:00' with '--utc-offset +02:00' means UTC time '00:00'.
     /// </summary>
     [CliOption("--start-time")]
-    public string? StartTimeValue { get; set; }
+    public string? StartTime { get; set; }
 
     /// <summary>
     /// The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. Supported for all configuration types, including default.
@@ -95,20 +99,13 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// Specify on which instance of the allowed days specified in '-- day-of-week' the maintenance occurs. Applicable to relative monthly schedule type only. Not applicable to default maintenance configuration.  Allowed values: First, Fourth,
     /// </summary>
-    [CliFlag("--week-index")]
-    public bool? WeekIndex { get; set; }
+    [CliOption("--week-index")]
+    public string? WeekIndex { get; set; }
 
     /// <summary>
     /// A day in week on which maintenance is allowed (legacy timeInWeek format, default config only). See examples for the maintenanceWindow alternative.
     /// </summary>
     [CliFlag("--weekday")]
     public bool? Weekday { get; set; }
-
-    [Obsolete("Use StartTimeValue instead.")]
-    public bool? StartTime
-    {
-        get => bool.TryParse(StartTimeValue, out var value) ? value : null;
-        set => StartTimeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

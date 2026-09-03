@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "set-primary")]
-public record AzSqlFailoverGroupSetPrimaryOptions : AzOptions
+public record AzSqlFailoverGroupSetPrimaryOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Complete the failover even if doing so may result in data loss. This will allow the failover to proceed even if a primary database is unavailable.
     /// </summary>
     [CliFlag("--allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
+
+    /// <summary>
+    /// Performs a planned failover as the first step, and if it fails for any reason, then initiates a forced failover with potential data loss. This will allow the failover to proceed even if a primary database is unavailable.
+    /// </summary>
+    [CliFlag("--tpbff", ShortForm = "--try-planned-before-forced-failover")]
+    public bool? Tpbff { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

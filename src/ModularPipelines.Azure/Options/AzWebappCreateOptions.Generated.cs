@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "create")]
-public record AzWebappCreateOptions : AzOptions
+public record AzWebappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--plan", ShortForm = "-p")] string Plan,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Accept system or user assigned identity which will be set for acr image pull. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
     /// </summary>
     [CliOption("--acr-identity")]
-    public string? AcrIdentityValue { get; set; }
+    public string? AcrIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable pull image from acr use managed identity.
@@ -41,8 +45,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Disabled by default for new apps. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled,
     /// </summary>
-    [CliFlag("--basic-auth")]
-    public bool? BasicAuth { get; set; }
+    [CliOption("--basic-auth")]
+    public string? BasicAuth { get; set; }
 
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
@@ -89,14 +93,20 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation. Allowed values: NoReuse, ResourceGroupReuse,
     /// </summary>
-    [CliFlag("--domain-name-scope")]
-    public bool? DomainNameScope { get; set; }
+    [CliOption("--domain-name-scope")]
+    public string? DomainNameScope { get; set; }
 
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers. Allowed values: false, true.
     /// </summary>
     [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e")]
     public bool? EndToEndEncryptionEnabled { get; set; }
+
+    /// <summary>
+    /// If true, Linux web app creation failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. This flag only applies to Linux apps.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enriched-errors")]
+    public bool? EnrichedErrors { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
@@ -125,14 +135,14 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Linux only.  Allowed values: COMPOSE, KUBE.
     /// </summary>
-    [CliFlag("--multicontainer-config-type")]
-    public bool? MulticontainerConfigType { get; set; }
+    [CliOption("--multicontainer-config-type")]
+    public string? MulticontainerConfigType { get; set; }
 
     /// <summary>
     /// Enable or disable public access to the web app.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.  Default: Contributor.
@@ -149,8 +159,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Scope that the system assigned identity can access.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
@@ -174,32 +184,18 @@ public record AzWebappCreateOptions : AzOptions
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
-
-    [Obsolete("Use AcrIdentityValue instead.")]
-    public bool? AcrIdentity
-    {
-        get => bool.TryParse(AcrIdentityValue, out var value) ? value : null;
-        set => AcrIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
 
 }

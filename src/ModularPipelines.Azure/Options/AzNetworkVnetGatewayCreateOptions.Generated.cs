@@ -18,49 +18,59 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "create")]
-public record AzNetworkVnetGatewayCreateOptions : AzOptions
+public record AzNetworkVnetGatewayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vnet")] string Vnet
+) : AzOptions
 {
     /// <summary>
     /// Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-remote-vnet-traffic")]
+    [CliOption("--allow-remote-vnet-traffic")]
     public bool? AllowRemoteVnetTraffic { get; set; }
 
     /// <summary>
     /// Configures this gateway to accept traffic from remote Virtual WAN networks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-vwan-traffic")]
+    [CliOption("--allow-vwan-traffic")]
     public bool? AllowVwanTraffic { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The Extended vnet resource id of the local gateway.
     /// </summary>
     [CliOption("--edge-zone-vnet-id")]
-    public string? EdgeZoneVnetIdValue { get; set; }
+    public string? EdgeZoneVnetId { get; set; }
+
+    /// <summary>
+    /// To enable Advanced Connectivity feature for VPN gateway.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-high-bandwidth", ShortForm = "--enable-high-bandwidth-vpn-gateway")]
+    public bool? EnableHighBandwidth { get; set; }
 
     /// <summary>
     /// Whether private IP needs to be enabled on this gateway for connections or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-private-ip")]
+    [CliOption("--enable-private-ip")]
     public bool? EnablePrivateIp { get; set; }
 
     /// <summary>
     /// Name or ID of a local network gateway representing a local network site with default routes.
     /// </summary>
     [CliOption("--gateway-default-site")]
-    public string? GatewayDefaultSiteValue { get; set; }
+    public string? GatewayDefaultSite { get; set; }
 
     /// <summary>
     /// The gateway type.  Allowed values:
     /// </summary>
-    [CliFlag("--gateway-type")]
-    public bool? GatewayType { get; set; }
+    [CliOption("--gateway-type")]
+    public string? GatewayType { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -83,8 +93,14 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Specify a single public IP (name or ID) for an active-standby gateway. Specify two space- separated public IPs for an active-active gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--public-ip-address", ShortForm = "--public-ip-addresses")]
+    public bool? PublicIpAddress { get; set; }
 
     /// <summary>
     /// Indicates if the Express Route Gateway has resiliency model of
@@ -95,14 +111,14 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// <summary>
     /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ,
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// VPN authentication types enabled for the virtual network gateway.
@@ -113,34 +129,109 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     /// <summary>
     /// The generation for the virtual network gateway. vpn_gateway_generation should not be provided if gateway_type is not Vpn.  Allowed values: Generation1,
     /// </summary>
-    [CliFlag("--vpn-gateway-generation")]
-    public bool? VpnGatewayGeneration { get; set; }
+    [CliOption("--vpn-gateway-generation")]
+    public string? VpnGatewayGeneration { get; set; }
 
     /// <summary>
     /// VPN routing type.  Allowed values: PolicyBased, RouteBased.  Default:
     /// </summary>
-    [CliFlag("--vpn-type")]
-    public bool? VpnType { get; set; }
+    [CliOption("--vpn-type")]
+    public string? VpnType { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The AADAudience ID of the
+    /// </summary>
+    [CliFlag("--aad-audience")]
+    public bool? AadAudience { get; set; }
 
-    [Obsolete("Use EdgeZoneVnetIdValue instead.")]
-    public bool? EdgeZoneVnetId
-    {
-        get => bool.TryParse(EdgeZoneVnetIdValue, out var value) ? value : null;
-        set => EdgeZoneVnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The AAD Issuer URI of the
+    /// </summary>
+    [CliFlag("--aad-issuer")]
+    public bool? AadIssuer { get; set; }
 
-    [Obsolete("Use GatewayDefaultSiteValue instead.")]
-    public bool? GatewayDefaultSite
-    {
-        get => bool.TryParse(GatewayDefaultSiteValue, out var value) ? value : null;
-        set => GatewayDefaultSiteValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The AAD Tenant URI of the
+    /// </summary>
+    [CliFlag("--aad-tenant")]
+    public bool? AadTenant { get; set; }
+
+    /// <summary>
+    /// Autonomous System Number to use for the BGP settings.
+    /// </summary>
+    [CliFlag("--asn")]
+    public bool? Asn { get; set; }
+
+    /// <summary>
+    /// IP address to use for BGP peering.
+    /// </summary>
+    [CliFlag("--bgp-peering-address")]
+    public bool? BgpPeeringAddress { get; set; }
+
+    /// <summary>
+    /// Weight (0-100) added to routes learned through BGP peering.
+    /// </summary>
+    [CliFlag("--peer-weight")]
+    public bool? PeerWeight { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity.
+    /// </summary>
+    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// VirtualNetworkGatewayNatRule Resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--nat-rule`.
+    /// </summary>
+    [CliFlag("--nat-rule", ShortForm = "--nat-rules")]
+    public bool? NatRule { get; set; }
+
+    /// <summary>
+    /// Base64 contents of the root certificate file or file path.
+    /// </summary>
+    [CliFlag("--root-cert-data")]
+    public bool? RootCertData { get; set; }
+
+    /// <summary>
+    /// Root certificate name.
+    /// </summary>
+    [CliFlag("--root-cert-name")]
+    public bool? RootCertName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient.
+    /// </summary>
+    [CliOption("--address-prefix", ShortForm = "--address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefix { get; set; }
+
+    /// <summary>
+    /// Protocols to use for connecting. Allowed values: IkeV2, OpenVPN, SSTP.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--client-protocol")]
+    public string? ClientProtocol { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient.
+    /// </summary>
+    [CliOption("--custom-routes", GroupValues = true)]
+    public IEnumerable<string>? CustomRoutes { get; set; }
+
+    /// <summary>
+    /// Radius secret to use for authentication.
+    /// </summary>
+    [CliFlag("--radius-secret")]
+    public bool? RadiusSecret { get; set; }
+
+    /// <summary>
+    /// Radius server address to connect to.
+    /// </summary>
+    [CliFlag("--radius-server")]
+    public bool? RadiusServer { get; set; }
 
 }

@@ -18,51 +18,35 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "gallery-application", "create")]
-public record AzSigGalleryApplicationCreateOptions : AzOptions
+public record AzSigGalleryApplicationCreateOptions(
+    [property: CliOption("--application-name", ShortForm = "-n")] string ApplicationName,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--os-type")] string OsType,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The description of this gallery Application
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
-    public string? LocationValue { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use LocationValue instead.")]
-    public bool? Location
-    {
-        get => bool.TryParse(LocationValue, out var value) ? value : null;
-        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Tags { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "generate-params")]
-public record AzBicepGenerateParamsOptions : AzOptions
+public record AzBicepGenerateParamsOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Set include params. Valid values are ( all | RequiredOnly ).

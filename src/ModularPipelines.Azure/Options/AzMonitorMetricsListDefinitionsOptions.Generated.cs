@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-definitions")]
-public record AzMonitorMetricsListDefinitionsOptions : AzOptions
+public record AzMonitorMetricsListDefinitionsOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// Namespace to query metric definitions for.  Values from: az monitor metrics list-namespaces.
     /// </summary>
     [CliFlag("--namespace")]
     public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
 }

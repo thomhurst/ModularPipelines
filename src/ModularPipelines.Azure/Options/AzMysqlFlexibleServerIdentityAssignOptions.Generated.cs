@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "identity", "assign")]
-public record AzMysqlFlexibleServerIdentityAssignOptions : AzOptions
+public record AzMysqlFlexibleServerIdentityAssignOptions(
+    [property: CliOption("--identity", ShortForm = "-n", GroupValues = true)] IEnumerable<string> Identity,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

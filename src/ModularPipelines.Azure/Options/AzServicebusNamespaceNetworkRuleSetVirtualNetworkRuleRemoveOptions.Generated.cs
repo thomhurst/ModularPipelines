@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "network-rule-set", "virtual-network-rule", "remove")]
-public record AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions : AzOptions
+public record AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// List VirtualNetwork Rules.

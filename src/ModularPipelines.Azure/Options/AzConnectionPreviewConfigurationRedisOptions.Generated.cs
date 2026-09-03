@@ -23,7 +23,25 @@ public record AzConnectionPreviewConfigurationRedisOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
+
+    /// <summary>
+    /// The service principal auth info.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The local user account auth info.
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
 }

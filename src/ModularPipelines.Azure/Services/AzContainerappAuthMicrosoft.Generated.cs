@@ -33,6 +33,21 @@ public class AzContainerappAuthMicrosoft
     #region Commands
 
     /// <summary>
+    /// Show the authentication settings for the Azure Active
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappAuthMicrosoftShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappAuthMicrosoftShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the client id and client secret for the Azure
     /// </summary>
     /// <param name="options">The command options.</param>

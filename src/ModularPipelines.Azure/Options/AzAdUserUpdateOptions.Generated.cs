@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "update")]
-public record AzAdUserUpdateOptions : AzOptions
+public record AzAdUserUpdateOptions(
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
     /// <summary>
     /// Enable the user account.  Allowed values: false, true.

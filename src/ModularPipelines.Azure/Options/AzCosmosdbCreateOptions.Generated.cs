@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "create")]
-public record AzCosmosdbCreateOptions : AzOptions
+public record AzCosmosdbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Assign system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Set custom capabilities on the Cosmos DB database account.
@@ -35,20 +38,20 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Default consistency level of the Cosmos DB database account.  Allowed values:
     /// </summary>
-    [CliFlag("--default-consistency-level")]
-    public bool? DefaultConsistencyLevel { get; set; }
+    [CliOption("--default-consistency-level")]
+    public string? DefaultConsistencyLevel { get; set; }
 
     /// <summary>
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user- assigned identity&gt;`.
     /// </summary>
     [CliOption("--default-identity")]
-    public string? DefaultIdentityValue { get; set; }
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Default Priority Level of Request if not specified.  Allowed values: High, Low.
     /// </summary>
-    [CliFlag("--default-priority-level")]
-    public bool? DefaultPriorityLevel { get; set; }
+    [CliOption("--default-priority-level")]
+    public string? DefaultPriorityLevel { get; set; }
 
     /// <summary>
     /// Disable write operations on metadata resources (databases, containers, throughput) via account keys.  Allowed values: false, true.
@@ -120,13 +123,13 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// The URI of the key vault.
     /// </summary>
     [CliOption("--key-uri")]
-    public string? KeyUriValue { get; set; }
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// The type of Cosmos DB database account to create. Allowed values: GlobalDocumentDB, MongoDB, Parse.
     /// </summary>
-    [CliFlag("--kind")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Add a location to the Cosmos DB database account.
@@ -149,38 +152,38 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Indicate the minimum allowed TLS version. Allowed values: Tls, Tls11, Tls12.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Flag to enable or disable Network Acl Bypass. Allowed values: AzureServices, None.
     /// </summary>
-    [CliFlag("--network-acl-bypass")]
-    public bool? NetworkAclBypass { get; set; }
+    [CliOption("--network-acl-bypass")]
+    public string? NetworkAclBypass { get; set; }
 
     /// <summary>
     /// List of Resource Ids to allow Network Acl Bypass.
     /// </summary>
-    [CliFlag("--network-acl-bypass-resource-ids", ShortForm = "-i")]
-    public bool? NetworkAclBypassResourceIds { get; set; }
+    [CliOption("--network-acl-bypass-resource-ids", ShortForm = "-i", GroupValues = true)]
+    public IEnumerable<string>? NetworkAclBypassResourceIds { get; set; }
 
     /// <summary>
     /// Sets public network access in server to either Enabled, Disabled, or SecuredByPerimeter. Allowed values: DISABLED, ENABLED,
     /// </summary>
-    [CliFlag("--public-network-access", ShortForm = "-p")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access", ShortForm = "-p")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Valid only for MongoDB accounts.  Allowed values: 3.2, 3.6, 4.0, 4.2, 5.0, 6.0, 7.0.
     /// </summary>
-    [CliFlag("--server-version")]
-    public bool? ServerVersion { get; set; }
+    [CliOption("--server-version")]
+    public string? ServerVersion { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// ACL's for virtual network.
@@ -188,18 +191,76 @@ public record AzCosmosdbCreateOptions : AzOptions
     [CliFlag("--virtual-network-rules")]
     public bool? VirtualNetworkRules { get; set; }
 
-    [Obsolete("Use DefaultIdentityValue instead.")]
-    public bool? DefaultIdentity
-    {
-        get => bool.TryParse(DefaultIdentityValue, out var value) ? value : null;
-        set => DefaultIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Schema type for analytical storage.  Allowed values: FullFidelity, WellDefined.
+    /// </summary>
+    [CliOption("--analytical-storage-schema-type", ShortForm = "--as-schema")]
+    public string? AnalyticalStorageSchemaType { get; set; }
 
-    [Obsolete("Use KeyUriValue instead.")]
-    public bool? KeyUri
-    {
-        get => bool.TryParse(KeyUriValue, out var value) ? value : null;
-        set => KeyUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The frequency(in minutes) with which backups are taken (only for accounts with periodic mode backups).
+    /// </summary>
+    [CliFlag("--backup-interval")]
+    public bool? BackupInterval { get; set; }
+
+    /// <summary>
+    /// The type of backup policy of the account to create.  Allowed values: Continuous, Periodic.
+    /// </summary>
+    [CliOption("--backup-policy-type")]
+    public string? BackupPolicyType { get; set; }
+
+    /// <summary>
+    /// The redundancy type of the backup Storage account.  Allowed values: Geo, Local, Zone.
+    /// </summary>
+    [CliOption("--backup-redundancy")]
+    public string? BackupRedundancy { get; set; }
+
+    /// <summary>
+    /// The time(in hours) for which each backup is retained (only for accounts with periodic mode backups).
+    /// </summary>
+    [CliFlag("--backup-retention")]
+    public bool? BackupRetention { get; set; }
+
+    /// <summary>
+    /// The tier of Continuous backup.  Allowed values:
+    /// </summary>
+    [CliOption("--continuous-tier")]
+    public string? ContinuousTier { get; set; }
+
+    /// <summary>
+    /// Add a database and its collection names to restore.
+    /// </summary>
+    [CliFlag("--databases-to-restore")]
+    public bool? DatabasesToRestore { get; set; }
+
+    /// <summary>
+    /// Add a gremlin database and its graph names to restore.
+    /// </summary>
+    [CliFlag("--gremlin-databases-to-restore")]
+    public bool? GremlinDatabasesToRestore { get; set; }
+
+    /// <summary>
+    /// Restore from an existing/deleted account. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--is-restore-request", ShortForm = "-r")]
+    public bool? IsRestoreRequest { get; set; }
+
+    /// <summary>
+    /// The restorable-database-account Id of the source account from which the account has to be restored. Required if --is-restore-request is set to true.
+    /// </summary>
+    [CliFlag("--restore-source")]
+    public bool? RestoreSource { get; set; }
+
+    /// <summary>
+    /// The timestamp to which the account has to be restored to. Required if --is-restore-request is set to true.
+    /// </summary>
+    [CliFlag("--restore-timestamp")]
+    public bool? RestoreTimestamp { get; set; }
+
+    /// <summary>
+    /// Add table names to restore.
+    /// </summary>
+    [CliFlag("--tables-to-restore")]
+    public bool? TablesToRestore { get; set; }
 
 }

@@ -29,14 +29,14 @@ public record AzContainerappConnectionUpdateStorageFileOptions : AzOptions
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the containerapp connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The additional connection string properties used to build connection string.
@@ -60,13 +60,13 @@ public record AzContainerappConnectionUpdateStorageFileOptions : AzOptions
     /// The resource id of the connection. ['--resource-group', '--name', '-- connection'] are required if '--id' is not specified.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the container app. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -77,54 +77,37 @@ public record AzContainerappConnectionUpdateStorageFileOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the container app. Required if '--id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
-    public string? VaultIdValue { get; set; }
+    public string? VaultId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Connect target service by private endpoint. The private endpoint in source virtual network must be created ahead.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--private-endpoint")]
+    public bool? PrivateEndpoint { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VaultIdValue instead.")]
-    public bool? VaultId
-    {
-        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
-        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Connect target service by service endpoint. Source resource must be in the VNet and target SKU must support service endpoint feature.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--service-endpoint")]
+    public bool? ServiceEndpoint { get; set; }
 
 }

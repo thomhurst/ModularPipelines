@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,13 +19,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "create")]
-public record AzSynapseWorkspaceCreateOptions : AzOptions
+public record AzSynapseWorkspaceCreateOptions(
+    [property: CliOption("--file-system")] string FileSystem,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: SecretValue, CliOption("--sql-admin-login-password", ShortForm = "-p")] string SqlAdminLoginPassword,
+    [property: CliOption("--sql-admin-login-user", ShortForm = "-u")] string SqlAdminLoginUser,
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// The approved Azure AD tenants which outbound data traffic allowed to. The Azure AD tenant of the current user will be included by default. Use "" or '' ('""' in PowerShell) to disable all allowed tenant ids.
     /// </summary>
     [CliFlag("--allowed-tenant-ids")]
     public bool? AllowedTenantIds { get; set; }
+
+    /// <summary>
+    /// The customer-managed key used to encrypt all data at rest in the workspace. Key identifier should be in the format of: https://{keyvaultname}.v ault.azure.net/keys/{keyname}.
+    /// </summary>
+    [CliFlag("--cmk", ShortForm = "--key-identifier")]
+    public bool? Cmk { get; set; }
+
+    /// <summary>
+    /// The flag indicates whether enable managed virtual network.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-managed-virtual-network", ShortForm = "--enable-managed-vnet")]
+    public bool? EnableManagedVirtualNetwork { get; set; }
 
     /// <summary>
     /// The workspace customer-managed key display name. All existing keys can be found using "az synapse workspace key list" cmdlet.  Default: default.
@@ -51,22 +71,28 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The flag indicates whether enable data exfiltration.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--prevent-data-exfiltration", ShortForm = "--prevent-exfiltration")]
+    public bool? PreventDataExfiltration { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The list of User-assigned Managed Identity Id for workspace.
     /// </summary>
-    [CliFlag("--uami-id")]
-    public bool? UamiId { get; set; }
+    [CliOption("--uami-id", GroupValues = true)]
+    public IEnumerable<string>? UamiId { get; set; }
 
     /// <summary>
     /// User assigned identity resource Id used in Workspace Encryption.
     /// </summary>
     [CliOption("--uami-id-in-encrypt")]
-    public string? UamiIdInEncryptValue { get; set; }
+    public string? UamiIdInEncrypt { get; set; }
 
     /// <summary>
     /// Whether use System assigned identity in Workspace Encryption. If use uami, please set True.If not, set False.
@@ -74,11 +100,58 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     [CliFlag("--use-sami-in-encrypt")]
     public bool? UseSamiInEncrypt { get; set; }
 
-    [Obsolete("Use UamiIdInEncryptValue instead.")]
-    public bool? UamiIdInEncrypt
-    {
-        get => bool.TryParse(UamiIdInEncryptValue, out var value) ? value : null;
-        set => UamiIdInEncryptValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// GitHub account name used for the repository or Azure devops organization name.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// The branch name where you will collaborate with others and from which you will publish.
+    /// </summary>
+    [CliFlag("--collaboration-branch")]
+    public bool? CollaborationBranch { get; set; }
+
+    /// <summary>
+    /// If using github Enterprise Server, provide sever URL. Do not use this option with GitHub Enterprise Cloud.
+    /// </summary>
+    [CliFlag("--host-name")]
+    public bool? HostName { get; set; }
+
+    /// <summary>
+    /// The last commit ID.
+    /// </summary>
+    [CliFlag("--last-commit-id")]
+    public bool? LastCommitId { get; set; }
+
+    /// <summary>
+    /// The project name to which you are connecting.
+    /// </summary>
+    [CliFlag("--project-name")]
+    public bool? ProjectName { get; set; }
+
+    /// <summary>
+    /// The name of the repository to which you are connecting.
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; set; }
+
+    /// <summary>
+    /// The repository configuration type. Allowed values: AzureDevOpsGit, GitHub.
+    /// </summary>
+    [CliOption("--repository-type")]
+    public string? RepositoryType { get; set; }
+
+    /// <summary>
+    /// The name of the folder to the location of your Azure synapse JSON resources are imported. Default is /.  Default: /.
+    /// </summary>
+    [CliOption("--root-folder")]
+    public string? RootFolder { get; set; }
+
+    /// <summary>
+    /// The tenant id used to connect Azure devops.
+    /// </summary>
+    [CliFlag("--tenant-id")]
+    public bool? TenantId { get; set; }
 
 }

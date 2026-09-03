@@ -23,7 +23,25 @@ public record AzPostgresFlexibleServerMigrationListOptions : AzOptions
     /// <summary>
     /// Indicate whether all the migrations or just the Active migrations are returned. Valid values are: Active and All.  Allowed values: Active, All.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Migration target server name.
+    /// </summary>
+    [CliFlag("--server-name", ShortForm = "-s")]
+    public bool? ServerName { get; set; }
 
 }

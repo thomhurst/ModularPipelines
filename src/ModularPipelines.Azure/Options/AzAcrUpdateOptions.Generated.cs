@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "update")]
-public record AzAcrUpdateOptions : AzOptions
+public record AzAcrUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
@@ -36,25 +38,72 @@ public record AzAcrUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The SKU of the container registry.  Allowed values: Basic,
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Allow trusted Azure Services to access network restricted registries. For more information, please visit https://aka.ms/acr/trusted-services.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--allow-trusted-services")]
+    public bool? AllowTrustedServices { get; set; }
+
+    /// <summary>
+    /// Enable dedicated data endpoint for client firewall configuration.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--data-endpoint-enabled")]
+    public bool? DataEndpointEnabled { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches. Only applicable to Premium SKU.  Allowed values: Allow, Deny.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
+
+    /// <summary>
+    /// Allow public network access for the container registry. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--public-network-enabled")]
+    public bool? PublicNetworkEnabled { get; set; }
+
+    /// <summary>
+    /// Role assignment mode of the registry. For more information on this feature, see https://aka.ms/acr/auth/abac. The Default is rbac.  Allowed values: rbac, rbac-abac.
+    /// </summary>
+    [CliOption("--role-assignment-mode")]
+    public string? RoleAssignmentMode { get; set; }
 
 }

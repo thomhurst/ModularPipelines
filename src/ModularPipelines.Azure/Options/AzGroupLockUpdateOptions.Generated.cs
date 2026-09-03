@@ -23,20 +23,20 @@ public record AzGroupLockUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
     /// </summary>
-    [CliFlag("--lock-type", ShortForm = "-t")]
-    public bool? LockType { get; set; }
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string? LockType { get; set; }
 
     /// <summary>
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Notes about this lock.
@@ -48,20 +48,6 @@ public record AzGroupLockUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

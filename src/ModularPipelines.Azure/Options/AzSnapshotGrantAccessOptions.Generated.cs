@@ -18,12 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "grant-access")]
-public record AzSnapshotGrantAccessOptions : AzOptions
+public record AzSnapshotGrantAccessOptions(
+    [property: CliOption("--duration-in-seconds")] string DurationInSeconds
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Access level.  Allowed values: Read, Write.  Default: Read.
+    /// </summary>
+    [CliOption("--access", ShortForm = "--access-level")]
+    public string? Access { get; set; }
+
+    /// <summary>
+    /// Used to specify the file format when making request for SAS on a VHDX file format snapshot.  Allowed values: VHD, VHDX.
+    /// </summary>
+    [CliOption("--file-format")]
+    public string? FileFormat { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name length is 80 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

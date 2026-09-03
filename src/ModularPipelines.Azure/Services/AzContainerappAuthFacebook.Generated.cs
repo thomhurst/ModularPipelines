@@ -33,6 +33,21 @@ public class AzContainerappAuthFacebook
     #region Commands
 
     /// <summary>
+    /// Show the authentication settings for the Facebook identity
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappAuthFacebookShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappAuthFacebookShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the app id and app secret for the Facebook
     /// </summary>
     /// <param name="options">The command options.</param>

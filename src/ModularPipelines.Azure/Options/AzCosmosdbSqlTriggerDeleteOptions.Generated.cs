@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "trigger", "delete")]
-public record AzCosmosdbSqlTriggerDeleteOptions : AzOptions
+public record AzCosmosdbSqlTriggerDeleteOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

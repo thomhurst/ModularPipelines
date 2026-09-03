@@ -18,12 +18,52 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "shared-private-link-resource", "create")]
-public record AzSearchServiceSharedPrivateLinkResourceCreateOptions : AzOptions
+public record AzSearchServiceSharedPrivateLinkResourceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--search-service-name")] string SearchServiceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The group ID from the provider of resource the shared private link resource is for.
+    /// </summary>
+    [CliFlag("--group-id")]
+    public bool? GroupId { get; set; }
+
+    /// <summary>
+    /// The resource ID of the resource the shared private link resource is for.
+    /// </summary>
+    [CliOption("--private-link-resource-id", ShortForm = "--resource-id")]
+    public string? PrivateLinkResourceId { get; set; }
+
+    /// <summary>
+    /// The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete.  Allowed values: Deleting, Failed, Incomplete,
+    /// </summary>
+    [CliOption("--provisioning-state")]
+    public string? ProvisioningState { get; set; }
+
+    /// <summary>
+    /// The message for requesting approval of the shared private link resource.
+    /// </summary>
+    [CliFlag("--request-message")]
+    public bool? RequestMessage { get; set; }
+
+    /// <summary>
+    /// Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    /// </summary>
+    [CliFlag("--resource-region")]
+    public bool? ResourceRegion { get; set; }
+
+    /// <summary>
+    /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected.
+    /// </summary>
+    [CliFlag("--status")]
+    public bool? Status { get; set; }
 
 }

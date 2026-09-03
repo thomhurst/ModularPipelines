@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "vnet-rule", "create")]
-public record AzMariadbServerVnetRuleCreateOptions : AzOptions
+public record AzMariadbServerVnetRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
@@ -30,13 +35,6 @@ public record AzMariadbServerVnetRuleCreateOptions : AzOptions
     /// The virtual network name.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VnetName { get; set; }
 
 }

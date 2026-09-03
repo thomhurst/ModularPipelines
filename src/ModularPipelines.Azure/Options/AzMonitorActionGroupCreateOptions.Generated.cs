@@ -18,8 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "create")]
-public record AzMonitorActionGroupCreateOptions : AzOptions
+public record AzMonitorActionGroupCreateOptions(
+    [property: CliOption("--action-group-name", ShortForm = "-n")] string ActionGroupName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// The short name of the action group. This will be used in SMS messages.
+    /// </summary>
+    [CliFlag("--group-short-name", ShortForm = "--short-name")]
+    public bool? GroupShortName { get; set; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  When not specified, the location of the resource group will be used.  Default: Global.
     /// </summary>
@@ -29,7 +38,103 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Add receivers to the action group during the creation.
+    /// </summary>
+    [CliFlag("--action", ShortForm = "-a")]
+    public bool? Action { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity.
+    /// </summary>
+    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--arm-role-receivers", GroupValues = true)]
+    public IEnumerable<string>? ArmRoleReceivers { get; set; }
+
+    /// <summary>
+    /// The list of AutomationRunbook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--automation-runbook-receivers", GroupValues = true)]
+    public IEnumerable<string>? AutomationRunbookReceivers { get; set; }
+
+    /// <summary>
+    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--azure-app-push-receivers", GroupValues = true)]
+    public IEnumerable<string>? AzureAppPushReceivers { get; set; }
+
+    /// <summary>
+    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--azure-function-receivers", GroupValues = true)]
+    public IEnumerable<string>? AzureFunctionReceivers { get; set; }
+
+    /// <summary>
+    /// The list of email receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--email-receivers", GroupValues = true)]
+    public IEnumerable<string>? EmailReceivers { get; set; }
+
+    /// <summary>
+    /// Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enabled")]
+    public bool? Enabled { get; set; }
+
+    /// <summary>
+    /// The list of event hub receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--event-hub-receivers", GroupValues = true)]
+    public IEnumerable<string>? EventHubReceivers { get; set; }
+
+    /// <summary>
+    /// The list of incident receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--incident-receivers", GroupValues = true)]
+    public IEnumerable<string>? IncidentReceivers { get; set; }
+
+    /// <summary>
+    /// The list of ITSM receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--itsm-receivers", GroupValues = true)]
+    public IEnumerable<string>? ItsmReceivers { get; set; }
+
+    /// <summary>
+    /// The list of logic app receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--logic-app-receivers", GroupValues = true)]
+    public IEnumerable<string>? LogicAppReceivers { get; set; }
+
+    /// <summary>
+    /// The list of SMS receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--sms-receivers", GroupValues = true)]
+    public IEnumerable<string>? SmsReceivers { get; set; }
+
+    /// <summary>
+    /// The list of voice receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--voice-receivers", GroupValues = true)]
+    public IEnumerable<string>? VoiceReceivers { get; set; }
+
+    /// <summary>
+    /// The list of webhook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--webhook-receivers", GroupValues = true)]
+    public IEnumerable<string>? WebhookReceivers { get; set; }
 
 }

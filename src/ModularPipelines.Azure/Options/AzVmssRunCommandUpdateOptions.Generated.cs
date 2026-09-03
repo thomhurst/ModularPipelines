@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "update")]
-public record AzVmssRunCommandUpdateOptions : AzOptions
+public record AzVmssRunCommandUpdateOptions(
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
@@ -36,7 +38,7 @@ public record AzVmssRunCommandUpdateOptions : AzOptions
     /// Uri (without SAS) to an append blob where the script error stream will be uploaded.
     /// </summary>
     [CliOption("--error-blob-uri")]
-    public string? ErrorBlobUriValue { get; set; }
+    public string? ErrorBlobUri { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -54,19 +56,19 @@ public record AzVmssRunCommandUpdateOptions : AzOptions
     /// Uri (without SAS) to an append blob where the script output will be uploaded.
     /// </summary>
     [CliOption("--output-blob-uri")]
-    public string? OutputBlobUriValue { get; set; }
+    public string? OutputBlobUri { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--protected-parameters")]
-    public string? ProtectedParametersValue { get; set; }
+    public string? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -95,8 +97,8 @@ public record AzVmssRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.
@@ -104,32 +106,28 @@ public record AzVmssRunCommandUpdateOptions : AzOptions
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
 
-    [Obsolete("Use ErrorBlobUriValue instead.")]
-    public bool? ErrorBlobUri
-    {
-        get => bool.TryParse(ErrorBlobUriValue, out var value) ? value : null;
-        set => ErrorBlobUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use OutputBlobUriValue instead.")]
-    public bool? OutputBlobUri
-    {
-        get => bool.TryParse(OutputBlobUriValue, out var value) ? value : null;
-        set => OutputBlobUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The instance ID of the virtual machine.
+    /// </summary>
+    [CliFlag("--instance-id")]
+    public bool? InstanceId { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ProtectedParametersValue instead.")]
-    public bool? ProtectedParameters
-    {
-        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
-        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The name of the VM scale set.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
 }

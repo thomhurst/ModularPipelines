@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "create")]
-public record AzWebappDeploymentSlotCreateOptions : AzOptions
+public record AzWebappDeploymentSlotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
     /// <summary>
     /// Source slot to clone configurations from. Use web app's name to refer to the production slot.
     /// </summary>
     [CliOption("--configuration-source")]
-    public string? ConfigurationSourceValue { get; set; }
+    public string? ConfigurationSource { get; set; }
 
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
@@ -49,12 +53,5 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--container-registry-user", ShortForm = "-u")]
     public bool? ContainerRegistryUser { get; set; }
-
-    [Obsolete("Use ConfigurationSourceValue instead.")]
-    public bool? ConfigurationSource
-    {
-        get => bool.TryParse(ConfigurationSourceValue, out var value) ? value : null;
-        set => ConfigurationSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

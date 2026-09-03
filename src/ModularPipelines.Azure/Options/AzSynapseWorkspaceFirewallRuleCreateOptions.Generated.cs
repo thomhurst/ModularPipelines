@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "firewall-rule", "create")]
-public record AzSynapseWorkspaceFirewallRuleCreateOptions : AzOptions
+public record AzSynapseWorkspaceFirewallRuleCreateOptions(
+    [property: CliOption("--end-ip-address")] string EndIpAddress,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--start-ip-address")] string StartIpAddress,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

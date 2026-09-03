@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "set")]
-public record AzBatchAccountSetOptions : AzOptions
+public record AzBatchAccountSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Full path to the versioned secret. Example https://mykeyvault.v ault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
@@ -35,26 +38,19 @@ public record AzBatchAccountSetOptions : AzOptions
     /// <summary>
     /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values:
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The storage account name or resource ID to be used for auto storage.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
-    {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

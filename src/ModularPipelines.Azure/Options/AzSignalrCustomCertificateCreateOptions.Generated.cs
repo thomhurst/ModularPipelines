@@ -19,20 +19,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "custom-certificate", "create")]
-public record AzSignalrCustomCertificateCreateOptions : AzOptions
+public record AzSignalrCustomCertificateCreateOptions(
+    [property: CliOption("--keyvault-base-uri")] string KeyvaultBaseUri,
+    [property: CliOption("--keyvault-secret-name")] string KeyvaultSecretName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--signalr-name")] string SignalrName
+) : AzOptions
 {
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret-version")]
-    public string? KeyvaultSecretVersionValue { get; set; }
-
-    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
-    public bool? KeyvaultSecretVersion
-    {
-        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
-        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? KeyvaultSecretVersion { get; set; }
 
 }

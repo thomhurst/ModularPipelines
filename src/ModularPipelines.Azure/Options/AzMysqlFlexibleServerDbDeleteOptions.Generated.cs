@@ -26,4 +26,28 @@ public record AzMysqlFlexibleServerDbDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
+    /// <summary>
+    /// The name of the database to be created when provisioning the database server.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
+
 }

@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "create")]
-public record AzAcrTokenCreateOptions : AzOptions
+public record AzAcrTokenCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// UTC time for which the credentials will be valid. In the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2025-12-31T12:59:59Z.
@@ -54,32 +57,18 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the scope map with pre-configured repository permissions. Use "--repository" and/or "--gateway" if you would like CLI to configure one for you.
     /// </summary>
     [CliOption("--scope-map")]
-    public string? ScopeMapValue { get; set; }
+    public string? ScopeMap { get; set; }
 
     /// <summary>
     /// The status of the token.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ScopeMapValue instead.")]
-    public bool? ScopeMap
-    {
-        get => bool.TryParse(ScopeMapValue, out var value) ? value : null;
-        set => ScopeMapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
 }

@@ -18,13 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "create")]
-public record AzNetworkVpnConnectionCreateOptions : AzOptions
+public record AzNetworkVpnConnectionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vnet-gateway1")] string VnetGateway1
+) : AzOptions
 {
+    /// <summary>
+    /// Authentication type for the VPN connection.  Allowed values: Certificate, PSK.
+    /// </summary>
+    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    public string? AuthType { get; set; }
+
     /// <summary>
     /// The authorization key for the VPN connection.
     /// </summary>
     [CliFlag("--authorization-key")]
     public bool? AuthorizationKey { get; set; }
+
+    /// <summary>
+    /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix,
+    /// </summary>
+    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
+    public bool? CertAuth { get; set; }
 
     /// <summary>
     /// Enable BGP for this VPN connection.
@@ -59,8 +75,8 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable policy-based traffic selectors.  Allowed values: false, true.
@@ -73,5 +89,23 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination ExpressRoute to connect to using an 'ExpressRoute' connection.
+    /// </summary>
+    [CliOption("--express-route-circuit2")]
+    public string? ExpressRouteCircuit2 { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination local network gateway to connect to using an 'IPSec' connection.
+    /// </summary>
+    [CliOption("--local-gateway2")]
+    public string? LocalGateway2 { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination virtual network gateway to connect to using a 'Vnet2Vnet' connection.
+    /// </summary>
+    [CliOption("--vnet-gateway2")]
+    public string? VnetGateway2 { get; set; }
 
 }

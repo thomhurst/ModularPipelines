@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az diskaccess commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDiskaccess : IAzDiskaccess
+public class AzDiskAccess : IAzDiskAccess
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzDiskaccess"/> class.
+    /// Initializes a new instance of the <see cref="AzDiskAccess"/> class.
     /// </summary>
-    public AzDiskaccess(ICommandContext command)
+    public AzDiskAccess(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzDiskaccess : IAzDiskaccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzDiskAccessCreateOptions? options = null,
+        AzDiskAccessCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskAccessCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,6 +78,21 @@ public class AzDiskaccess : IAzDiskaccess
     }
 
     /// <summary>
+    /// Get information about a disk access resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzDiskAccessShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskAccessShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a disk access resource.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class AzDiskaccess : IAzDiskaccess
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskAccessUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzDiskAccessWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskAccessWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -40,11 +40,11 @@ public class AzFunctionappPlan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzFunctionappPlanCreateOptions? options = null,
+        AzFunctionappPlanCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappPlanCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,6 +75,21 @@ public class AzFunctionappPlan
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappPlanListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the App Service Plans for a resource group or a set of resource
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzFunctionappPlanShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappPlanShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

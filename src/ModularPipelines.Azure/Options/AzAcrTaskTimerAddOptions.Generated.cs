@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "timer", "add")]
-public record AzAcrTaskTimerAddOptions : AzOptions
+public record AzAcrTaskTimerAddOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--schedule")] string Schedule,
+    [property: CliOption("--timer-name")] string TimerName
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.  Default: True.
@@ -30,13 +35,6 @@ public record AzAcrTaskTimerAddOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

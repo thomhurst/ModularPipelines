@@ -24,13 +24,102 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// Name of the security alert policy.
     /// </summary>
     [CliOption("--security-alert-policy-name", ShortForm = "-s")]
-    public string? SecurityAlertPolicyNameValue { get; set; }
+    public string? SecurityAlertPolicyName { get; set; }
 
-    [Obsolete("Use SecurityAlertPolicyNameValue instead.")]
-    public bool? SecurityAlertPolicyName
-    {
-        get => bool.TryParse(SecurityAlertPolicyNameValue, out var value) ? value : null;
-        set => SecurityAlertPolicyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Whether the alert is sent to the account administrators. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--email-account-admins")]
+    public bool? EmailAccountAdmins { get; set; }
+
+    /// <summary>
+    /// List of email addresses that alerts are sent to.
+    /// </summary>
+    [CliOption("--email-addresses", GroupValues = true)]
+    public IEnumerable<string>? EmailAddresses { get; set; }
+
+    /// <summary>
+    /// List of disabled alerts.
+    /// </summary>
+    [CliOption("--disabled-alerts", GroupValues = true)]
+    public IEnumerable<string>? DisabledAlerts { get; set; }
+
+    /// <summary>
+    /// The number of days to retain threat detection logs.
+    /// </summary>
+    [CliFlag("--retention-days")]
+    public bool? RetentionDays { get; set; }
+
+    /// <summary>
+    /// Threat detection policy state.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The SQL pool name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--workspace-name")]
+    public bool? WorkspaceName { get; set; }
+
+    /// <summary>
+    /// Name of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// The storage account endpoint.
+    /// </summary>
+    [CliFlag("--storage-endpoint")]
+    public bool? StorageEndpoint { get; set; }
+
+    /// <summary>
+    /// Access key for the storage account.
+    /// </summary>
+    [CliFlag("--storage-key")]
+    public bool? StorageKey { get; set; }
 
 }

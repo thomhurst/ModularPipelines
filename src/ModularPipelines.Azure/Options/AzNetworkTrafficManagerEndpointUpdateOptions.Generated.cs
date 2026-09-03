@@ -23,14 +23,14 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     /// <summary>
     /// If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--always-serve")]
-    public bool? AlwaysServe { get; set; }
+    [CliOption("--always-serve")]
+    public string? AlwaysServe { get; set; }
 
     /// <summary>
     /// Space-separated list of custom headers in KEY=VALUE format.
     /// </summary>
-    [CliFlag("--custom-headers")]
-    public bool? CustomHeaders { get; set; }
+    [CliOption("--custom-headers", GroupValues = true)]
+    public IEnumerable<string>? CustomHeaders { get; set; }
 
     /// <summary>
     /// Location of the external or nested endpoints when using the 'Performance' routing method.
@@ -47,14 +47,14 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     /// <summary>
     /// The status of the endpoint. If enabled the endpoint is probed for endpoint health and included in the traffic routing method.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--endpoint-status")]
-    public bool? EndpointStatus { get; set; }
+    [CliOption("--endpoint-status")]
+    public string? EndpointStatus { get; set; }
 
     /// <summary>
     /// Space-separated list of country/region codes mapped to this endpoint when using the 'Geographic' routing method.
     /// </summary>
-    [CliFlag("--geo-mapping")]
-    public bool? GeoMapping { get; set; }
+    [CliOption("--geo-mapping", GroupValues = true)]
+    public IEnumerable<string>? GeoMapping { get; set; }
 
     /// <summary>
     /// The minimum number of endpoints that must be available in the child profile for the parent profile to be considered available. Only applicable to an endpoint of type 'NestedEndpoints'.
@@ -83,8 +83,8 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of subnet CIDR prefixes (10.0.0.0/24) or subnet ranges (10.0.0.0-11.0.0.0).
     /// </summary>
-    [CliFlag("--subnets")]
-    public bool? Subnets { get; set; }
+    [CliOption("--subnets", GroupValues = true)]
+    public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// Fully-qualified DNS name of the endpoint.
@@ -103,5 +103,35 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--weight")]
     public bool? Weight { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Endpoint name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of parent profile.
+    /// </summary>
+    [CliOption("--profile-name")]
+    public string? ProfileName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.
+    /// </summary>
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }
