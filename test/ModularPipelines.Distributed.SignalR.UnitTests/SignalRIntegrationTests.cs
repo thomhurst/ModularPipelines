@@ -1,4 +1,8 @@
 using System.Collections.Concurrent;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -552,6 +556,11 @@ public class SignalRIntegrationTests
                 masterState,
                 NullLoggerFactory.Instance,
                 CancellationToken.None);
+            // Bound graceful shutdown while the result invocation is intentionally pending.
+            var app = (WebApplication) typeof(MasterServerHost)
+                .GetField("_app", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .GetValue(serverHost)!;
+            app.Services.GetRequiredService<IOptions<HostOptions>>().Value.ShutdownTimeout = TimeSpan.FromSeconds(1);
             var serverUrl = serverHost.AdvertisedUrl;
             await using var connection = BuildClient(
                 serverUrl,

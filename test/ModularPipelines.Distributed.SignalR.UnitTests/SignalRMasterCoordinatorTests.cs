@@ -278,9 +278,9 @@ public class SignalRMasterCoordinatorTests
             [],
             DateTimeOffset.UtcNow);
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
-        var original = state.Heartbeats[registration.WorkerIndex];
+        var original = DateTimeOffset.UtcNow.AddMinutes(-1);
+        state.Heartbeats[registration.WorkerIndex] = original;
 
-        await Task.Delay(10);
         await coordinator.SendHeartbeatAsync(
             new WorkerStatus(registration.WorkerIndex),
             CancellationToken.None);

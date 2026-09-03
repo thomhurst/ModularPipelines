@@ -104,22 +104,27 @@ public class DependencyResultPropagationTests
         var resultCache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
 
+        var timer = new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow);
         await DependencyResultApplicator.FetchAndApplyAsync(
             assignment.DependencyResultReferences!,
             resultCache,
             moduleLookup,
             serializer,
             resultRegistry,
-            NullLogger.Instance);
+            NullLogger.Instance, timer);
         await DependencyResultApplicator.FetchAndApplyAsync(
             assignment.DependencyResultReferences!,
             resultCache,
             moduleLookup,
             serializer,
             resultRegistry,
-            NullLogger.Instance);
+            NullLogger.Instance, timer);
 
         // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
+        var telemetry = timer.CreateTelemetry();
+        await Assert.That(telemetry.DependencyResultTransferDuration).IsGreaterThan(TimeSpan.Zero);
+        await Assert.That(telemetry.DependencyResultProcessingDuration).IsGreaterThan(TimeSpan.Zero);
+
         var moduleResult = await ((IInternalModule) depModule).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);

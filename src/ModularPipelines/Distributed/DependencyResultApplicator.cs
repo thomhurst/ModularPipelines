@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -42,7 +43,8 @@ internal static class DependencyResultApplicator
         Dictionary<string, IModule> moduleLookup,
         ModuleResultSerializer serializer,
         IModuleResultRegistry resultRegistry,
-        ILogger logger)
+        ILogger logger,
+        DistributedModuleExecutionTimer? executionTimer = null)
     {
         foreach (var reference in dependencyResultReferences)
         {
@@ -57,9 +59,19 @@ internal static class DependencyResultApplicator
                 continue;
             }
 
-            var serializedResult = await resultCache.GetAsync(reference.ModuleTypeName)
-                .ConfigureAwait(false);
+            var transferStartedAt = Stopwatch.GetTimestamp();
+            SerializedModuleResult serializedResult;
+            try
+            {
+                serializedResult = await resultCache.GetAsync(reference.ModuleTypeName)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                executionTimer?.DependencyResultTransferDuration += Stopwatch.GetElapsedTime(transferStartedAt);
+            }
 
+            var processingStartedAt = Stopwatch.GetTimestamp();
             try
             {
                 var result = serializer.Deserialize(serializedResult);
@@ -77,6 +89,10 @@ internal static class DependencyResultApplicator
             {
                 logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", reference.ModuleTypeName);
             }
+            finally
+            {
+                executionTimer?.DependencyResultProcessingDuration += Stopwatch.GetElapsedTime(processingStartedAt);
+            }
         }
     }
 
@@ -87,7 +103,8 @@ internal static class DependencyResultApplicator
         ModuleAssignment assignment,
         int workerIndex,
         IDistributedWorkerCoordinator coordinator,
-        ILogger logger)
+        ILogger logger,
+        DistributedModuleExecutionTimer? executionTimer = null)
     {
         try
         {
@@ -96,7 +113,10 @@ internal static class DependencyResultApplicator
                 ResultTypeName: assignment.ResultTypeName,
                 WorkerIndex: workerIndex,
                 Payload: "null",
-                CompletedAt: DateTimeOffset.UtcNow);
+                CompletedAt: DateTimeOffset.UtcNow)
+            {
+                ExecutionTelemetry = executionTimer?.CreateTelemetry(),
+            };
             await DistributedFailurePublisher.PublishAsync(coordinator, failureResult).ConfigureAwait(false);
         }
         catch (Exception ex)

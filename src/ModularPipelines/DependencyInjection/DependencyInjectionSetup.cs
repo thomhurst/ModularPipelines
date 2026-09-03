@@ -277,6 +277,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IExecutionLocationContext>(serviceProvider =>
                 serviceProvider.GetRequiredService<DistributedConditionRouting>())
             .AddSingleton<DistributedCacheHitTracker>()
+            .AddSingleton<DistributedTelemetryTracker>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IEnvironmentVariablesContext, EnvironmentVariables>()

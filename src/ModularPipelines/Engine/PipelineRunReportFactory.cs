@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -17,7 +18,9 @@ internal sealed class PipelineRunReportFactory(
     IModuleOutputExcerptProvider? outputExcerptProvider = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
     ISecretProvider? secretProvider = null,
-    DistributedCacheHitTracker? distributedCacheHitTracker = null)
+    DistributedCacheHitTracker? distributedCacheHitTracker = null,
+    DistributedTelemetryTracker? distributedTelemetryTracker = null,
+    IOptions<DistributedOptions>? distributedOptions = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -63,10 +66,10 @@ internal sealed class PipelineRunReportFactory(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
                     ? timeline.ModuleTypeName
                     : timeline.RuntimeModuleTypeName)
-            ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
+            ?? [with(StringComparer.Ordinal)];
         var previousByType = previousReport?.Modules
             .ToUniqueByKeyDictionary(static module => module.ModuleTypeName)
-            ?? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal);
+            ?? [with(StringComparer.Ordinal)];
 
         var modules = summary.Modules
             .Select(module => CreateModuleReport(
@@ -97,6 +100,10 @@ internal sealed class PipelineRunReportFactory(
             Metrics = summary.Metrics,
             Exception = CreateExceptionDetails(pipelineException),
             Modules = modules,
+            Distributed = distributedTelemetryTracker?.CreateReport(
+                summary.Start,
+                summary.End,
+                distributedOptions?.Value.TotalInstances ?? 1),
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
@@ -293,9 +300,7 @@ internal sealed class PipelineRunReportFactory(
 
         if (secretProvider.Version != currentVersion)
         {
-            modules = modules
-                .Select(static module => module with { Output = null })
-                .ToArray();
+            modules = [.. modules.Select(static module => module with { Output = null })];
         }
 
         return report with { Modules = modules };
@@ -304,9 +309,7 @@ internal sealed class PipelineRunReportFactory(
     internal PipelineRunReport RemoveOutputExcerpts(PipelineRunReport report) =>
         report with
         {
-            Modules = report.Modules
-                .Select(static module => module with { Output = null })
-                .ToArray(),
+            Modules = [.. report.Modules.Select(static module => module with { Output = null })],
         };
 
     internal string SerializeWithValidatedOutputExcerpts(PipelineRunReport report) =>
