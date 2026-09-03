@@ -55,20 +55,11 @@ public class KindExport : IKindExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> KubeConfigAsync(
-        KindExportKubeconfigOptions? options = null,
+        KindExportKubeConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportKubeconfigOptions(), executionOptions, cancellationToken);
-    }
-
-    [Obsolete("Use KubeConfigAsync instead.")]
-    public virtual async Task<CommandResult> KubeconfigAsync(
-        KindExportKubeconfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await KubeConfigAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportKubeConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
