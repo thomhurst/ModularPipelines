@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "gh",
+  "toolVersion": "gh version 2.98.0 (2026-08-20) https://github.com/cli/cli/releases/tag/v2.98.0",
+  "commandTreeSha256": "3777cffcf304b41a18323a005d1f5bfd5dd24121249da59c9d985e6b8132d552",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}

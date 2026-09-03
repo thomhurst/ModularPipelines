@@ -52,7 +52,7 @@ public record GhExtensionUpgradeOptions : GhOptions, IValidatableObject
     public string? Name { get; set; }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
         if (!(!string.IsNullOrWhiteSpace(Name) || All == true))
         {
