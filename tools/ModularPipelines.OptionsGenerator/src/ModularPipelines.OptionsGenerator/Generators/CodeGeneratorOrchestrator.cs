@@ -149,6 +149,16 @@ public class CodeGeneratorOrchestrator
             .ToArray();
         var replaceableExistingPaths = previouslyOwnedFullPaths
             .ToHashSet(fileSystemPathComparer);
+        var replaceableManifestPaths = new HashSet<string>(fileSystemPathComparer);
+        if (previousOwnership.Exists)
+        {
+            replaceableManifestPaths.Add(Path.GetFullPath(
+                ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+                    previousOwnership.RelativePath,
+                    outputDirectory,
+                    "previous external ownership manifest")));
+        }
+
         var result = new GenerationResult
         {
             ToolsProcessed = { tool.ToolName },
@@ -181,6 +191,7 @@ public class CodeGeneratorOrchestrator
                     ownershipRelativePath,
                     tool.OwnershipId!,
                     journalOwnedPaths,
+                    replaceableManifestPaths,
                     token);
             });
 
@@ -205,6 +216,7 @@ public class CodeGeneratorOrchestrator
             ownershipRelativePath,
             tool.OwnershipId!,
             manifestOwnedPaths,
+            replaceableManifestPaths,
             cancellationToken);
         result.FilesGenerated.Add(ownershipRelativePath);
         if (!fileSystemPathComparer.Equals(
@@ -443,6 +455,7 @@ public class CodeGeneratorOrchestrator
         string relativePath,
         string ownershipId,
         IReadOnlyCollection<string> ownedPaths,
+        HashSet<string> replaceableManifestPaths,
         CancellationToken cancellationToken)
     {
         var manifestPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
@@ -462,6 +475,26 @@ public class CodeGeneratorOrchestrator
         var temporaryPath = $"{manifestPath}.{Guid.NewGuid():N}.tmp";
         try
         {
+            RejectUnownedExistingPath(
+                manifestPath,
+                outputDirectory,
+                replaceableManifestPaths);
+            var manifestDirectory = Path.GetDirectoryName(manifestPath)!;
+            Directory.CreateDirectory(manifestDirectory);
+            var fileNames = GetFileNames(manifestDirectory, fileNamesByDirectory: null);
+            RejectUnownedCasingVariants(
+                manifestPath,
+                manifestDirectory,
+                fileNames,
+                outputDirectory,
+                replaceableManifestPaths);
+            EnsureExactFileNameCasing(
+                manifestPath,
+                manifestDirectory,
+                fileNames,
+                outputDirectory,
+                replaceableManifestPaths);
+
             await WriteFileAsync(
                 temporaryPath,
                 content,
@@ -473,6 +506,7 @@ public class CodeGeneratorOrchestrator
                 manifestPath,
                 "external ownership manifest");
             File.Move(temporaryPath, manifestPath, overwrite: true);
+            replaceableManifestPaths.Add(Path.GetFullPath(manifestPath));
         }
         finally
         {
@@ -897,6 +931,7 @@ public class CodeGeneratorOrchestrator
                 toolDefinition,
                 generatedFiles,
                 outputDirectory,
+                fileSystemPathComparer,
                 replaceableExistingPaths);
         }
 
@@ -1097,22 +1132,52 @@ public class CodeGeneratorOrchestrator
         CliToolDefinition toolDefinition,
         IReadOnlyCollection<GeneratedFile> generatedFiles,
         string outputDirectory,
+        StringComparer fileSystemPathComparer,
         IReadOnlySet<string>? replaceableExistingPaths)
     {
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
         foreach (var file in generatedFiles)
         {
             var fullPath = ValidateContainedPath(
                 outputDirectory,
                 file.RelativePath,
                 "generated file path");
-            RejectUnownedExistingPath(fullPath, replaceableExistingPaths);
+            ValidateExistingOutputPath(
+                fullPath,
+                outputDirectory,
+                fileNamesByDirectory,
+                replaceableExistingPaths);
         }
 
-        RejectUnownedExistingPath(
+        ValidateExistingOutputPath(
             ValidateContainedPath(
                 outputDirectory,
                 CommandCoverageGuard.GetManifestPath(toolDefinition, outputDirectory),
                 "command coverage manifest"),
+            outputDirectory,
+            fileNamesByDirectory,
+            replaceableExistingPaths);
+    }
+
+    private static void ValidateExistingOutputPath(
+        string fullPath,
+        string ownershipRoot,
+        IDictionary<string, HashSet<string>> fileNamesByDirectory,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        RejectUnownedExistingPath(fullPath, ownershipRoot, replaceableExistingPaths);
+
+        var directory = Path.GetDirectoryName(fullPath);
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        RejectUnownedCasingVariants(
+            fullPath,
+            directory,
+            GetFileNames(directory, fileNamesByDirectory),
+            ownershipRoot,
             replaceableExistingPaths);
     }
 
@@ -1231,10 +1296,7 @@ public class CodeGeneratorOrchestrator
 
         var existingPath = Path.Combine(directory, casingVariant);
         var ownershipRoot = containmentRoot ?? directory;
-        var ownsExistingPath = replaceableExistingPaths is null
-            ? IsExternallyOwnedGeneratedFile(ownershipRoot, existingPath)
-            : replaceableExistingPaths.Contains(Path.GetFullPath(existingPath));
-        if (!ownsExistingPath)
+        if (!IsOwnedExistingPath(existingPath, ownershipRoot, replaceableExistingPaths))
         {
             throw new InvalidDataException(
                 $"Refusing to rename existing path '{existingPath}' because it is not owned by this generation.");
@@ -1293,18 +1355,44 @@ public class CodeGeneratorOrchestrator
             propertyName);
     }
 
+    private static void RejectUnownedCasingVariants(
+        string path,
+        string directory,
+        IEnumerable<string> names,
+        string ownershipRoot,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        var expectedName = Path.GetFileName(path);
+        foreach (var casingVariant in names.Where(name =>
+                     !string.Equals(name, expectedName, StringComparison.Ordinal)
+                     && string.Equals(name, expectedName, StringComparison.OrdinalIgnoreCase)))
+        {
+            RejectUnownedExistingPath(
+                Path.Combine(directory, casingVariant),
+                ownershipRoot,
+                replaceableExistingPaths);
+        }
+    }
+
     private static void RejectUnownedExistingPath(
         string fullPath,
+        string ownershipRoot,
         IReadOnlySet<string>? replaceableExistingPaths)
     {
         if (File.Exists(fullPath)
-            && (replaceableExistingPaths is null
-                || !replaceableExistingPaths.Contains(Path.GetFullPath(fullPath))))
+            && !IsOwnedExistingPath(fullPath, ownershipRoot, replaceableExistingPaths))
         {
             throw new InvalidDataException(
                 $"Refusing to overwrite existing path '{fullPath}' because it is not owned by this external definition.");
         }
     }
+
+    private static bool IsOwnedExistingPath(
+        string fullPath,
+        string ownershipRoot,
+        IReadOnlySet<string>? replaceableExistingPaths) =>
+        replaceableExistingPaths?.Contains(Path.GetFullPath(fullPath))
+        ?? IsExternallyOwnedGeneratedFile(ownershipRoot, fullPath);
 
     private void CleanupReconciledGeneratedFiles(
         string outputDirectory,
