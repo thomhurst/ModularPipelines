@@ -688,13 +688,19 @@ internal class DistributedModuleExecutor(
                 var executionCancellationToken = assignment.Configuration.AlwaysRun
                     ? workerCancellationToken
                     : pipelineCancellationToken;
-                await _assignmentExecutor.ExecuteAsync(
-                        assignment,
-                        moduleLookup,
-                        _options.Value.InstanceIndex,
-                        configureModule: null,
-                        executionCancellationToken)
-                    .ConfigureAwait(false);
+                try
+                {
+                    await _assignmentExecutor.ExecuteAsync(
+                            assignment,
+                            moduleLookup,
+                            _options.Value.InstanceIndex,
+                            configureModule: null,
+                            executionCancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) when (executionCancellationToken.IsCancellationRequested)
+                {
+                }
             },
             maxConcurrency,
             exception => _logger.LogError(exception, "Master worker loop encountered an error"),

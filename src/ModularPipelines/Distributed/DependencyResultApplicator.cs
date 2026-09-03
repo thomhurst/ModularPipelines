@@ -64,8 +64,15 @@ internal static class DependencyResultApplicator
                 var result = serializer.Deserialize(toDeserialize);
                 if (result is not null)
                 {
-                    resultRegistry.RegisterResult(depModule.GetType(), result);
-                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                    lock (depModule)
+                    {
+                        var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                        var internalModule = depModule.AsInternal();
+                        var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
+                            ? internalModule.ResultTask.Result
+                            : result;
+                        resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
+                    }
                 }
             }
             catch (Exception ex)

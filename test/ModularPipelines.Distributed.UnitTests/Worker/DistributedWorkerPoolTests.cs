@@ -155,6 +155,81 @@ public class DistributedWorkerPoolTests
         await Assert.That(pendingDequeueObservedCancellation).IsTrue();
     }
 
+    [Test]
+    [Timeout(5_000)]
+    public async Task Cancellation_Stops_Assignment_Waiting_For_Concurrency(
+        CancellationToken cancellationToken)
+    {
+        using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var assignments = new ConcurrentQueue<ModuleAssignment>(
+        [
+            CreateAssignment("first"),
+            CreateAssignment("second"),
+        ]);
+        var firstStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondDequeued = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseFirst = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var dequeueCount = 0;
+        var executionCount = 0;
+
+        var runTask = DistributedWorkerPool.RunAsync(
+            _ =>
+            {
+                if (Interlocked.Increment(ref dequeueCount) == 2)
+                {
+                    secondDequeued.TrySetResult();
+                }
+
+                return Task.FromResult(assignments.TryDequeue(out var assignment)
+                    ? assignment
+                    : null);
+            },
+            async (_, _) =>
+            {
+                if (Interlocked.Increment(ref executionCount) == 1)
+                {
+                    firstStarted.TrySetResult();
+                    await releaseFirst.Task;
+                }
+            },
+            maxConcurrency: 1,
+            _ => { },
+            stop.Token);
+
+        await firstStarted.Task.WaitAsync(cancellationToken);
+        await secondDequeued.Task.WaitAsync(cancellationToken);
+        await stop.CancelAsync();
+        releaseFirst.TrySetResult();
+        await runTask.WaitAsync(cancellationToken);
+
+        await Assert.That(executionCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Execution_Cancellation_Uses_The_Exception_Token()
+    {
+        using var executionCancellation = new CancellationTokenSource();
+        await executionCancellation.CancelAsync();
+        var assignments = new ConcurrentQueue<ModuleAssignment>(
+            [CreateAssignment("cancelled")]);
+        var errorCount = 0;
+
+        await DistributedWorkerPool.RunAsync(
+            _ => Task.FromResult(assignments.TryDequeue(out var assignment)
+                ? assignment
+                : null),
+            (_, _) => Task.FromException(
+                new OperationCanceledException(executionCancellation.Token)),
+            maxConcurrency: 1,
+            _ => Interlocked.Increment(ref errorCount),
+            CancellationToken.None);
+
+        await Assert.That(errorCount).IsEqualTo(0);
+    }
+
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
         typeof(int).FullName!,

@@ -43,7 +43,15 @@ internal static class DistributedWorkerPool
                 break;
             }
 
-            await concurrencyGate.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+            try
+            {
+                await concurrencyGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
+
             running.Add(ExecuteAndReleaseAsync(
                 assignment,
                 executeAsync,
@@ -103,7 +111,9 @@ internal static class DistributedWorkerPool
         {
             await executeAsync(assignment, cancellationToken).ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException exception)
+            when (cancellationToken.IsCancellationRequested ||
+                  exception.CancellationToken.IsCancellationRequested)
         {
         }
         catch (Exception exception)
