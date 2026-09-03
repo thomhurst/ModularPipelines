@@ -62,6 +62,18 @@ public class DistributedModuleExecutorTests
             throw new InvalidOperationException("A master cache hit must skip execution.");
     }
 
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]
+    private class CachedModuleWithConflictingCapabilities : Module<SimpleResult>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.WithCacheKeyPart("stable-input");
+
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(new SimpleResult());
+    }
+
     private class ShortTimeoutDistributedModule : Module<SimpleResult>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -423,6 +435,49 @@ public class DistributedModuleExecutorTests
             true,
             null,
             ModuleStatus.RestoredFromCache), Times.Once());
+    }
+
+    [Test]
+    public async Task Cache_Hit_State_Application_Failure_Does_Not_Fall_Back_To_Dispatch()
+    {
+        var module = new CachedDistributedModule();
+        var moduleState = new ModuleState(module, typeof(CachedDistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var stateException = new InvalidOperationException("Scheduler state rejected the completion.");
+        scheduler.Setup(c => c.MarkModuleCompleted(
+                typeof(CachedDistributedModule),
+                true,
+                null,
+                ModuleStatus.RestoredFromCache))
+            .Throws(stateException);
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleAssignment?) null);
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var cachedResult = CreateSuccessResult(
+            new SimpleResult { Message = "cached" },
+            nameof(CachedDistributedModule));
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(c => c.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cachedResult);
+        var executor = CreateExecutor(
+            scheduler,
+            coordinator: coordinator.Object,
+            cacheResultRepository: cache.Object);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync([module]));
+
+        await Assert.That(exception).IsSameReferenceAs(stateException);
+        coordinator.Verify(c => c.EnqueueModuleAsync(
+            It.IsAny<ModuleAssignment>(),
+            It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Test]
@@ -1403,6 +1458,47 @@ public class DistributedModuleExecutorTests
                 It.IsAny<Exception?>(),
                 It.IsAny<ModuleStatus?>()),
             Times.Never());
+    }
+
+    [Test]
+    public async Task Cache_Miss_With_Rejected_Start_Discards_Fingerprint()
+    {
+        var module = new CachedDistributedModule();
+        var moduleState = new ModuleState(module, typeof(CachedDistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        scheduler.Setup(s => s.MarkModuleStarted(typeof(CachedDistributedModule))).Returns(false);
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(c => c.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleResult<SimpleResult>?) null);
+
+        var executor = CreateExecutor(scheduler, cacheResultRepository: cache.Object);
+
+        await executor.ExecuteAsync([module]);
+
+        cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
+    }
+
+    [Test]
+    public async Task Cache_Miss_With_Assignment_Creation_Failure_Discards_Fingerprint()
+    {
+        var module = new CachedModuleWithConflictingCapabilities();
+        var moduleState = new ModuleState(module, typeof(CachedModuleWithConflictingCapabilities));
+        var scheduler = CreateMockScheduler(moduleState);
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(c => c.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleResult<SimpleResult>?) null);
+
+        var executor = CreateExecutor(scheduler, cacheResultRepository: cache.Object);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => executor.ExecuteAsync([module]));
+
+        cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
     }
 
     [Test]
