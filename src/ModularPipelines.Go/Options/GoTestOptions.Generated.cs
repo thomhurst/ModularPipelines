@@ -30,7 +30,7 @@ public record GoTestOptions : GoOptions
     /// Compile the test binary to pkg.test in the current directory but do not run it (where pkg is the last element of the package's import path). The file name or target directory can be changed with the -o flag.
     /// </summary>
     [CliFlag("-c")]
-    public bool? C { get; set; }
+    public bool? LowerC { get; set; }
 
     /// <summary>
     /// Run the test binary using xprog. The behavior is the same as in 'go run'. See 'go help run' for details.
@@ -123,7 +123,7 @@ public record GoTestOptions : GoOptions
     public string? Fuzztime { get; set; }
 
     /// <summary>
-    /// Run enough iterations of the fuzz target during each minimization attempt to take t, as specified as a time.Duration (for example,
+    /// Run enough iterations of the fuzz target during each minimization attempt to take t, as specified as a time.Duration (for example, -fuzzminimizetime 30s). The default is 60s. The special syntax Nx means to run the fuzz target N times (for example, -fuzzminimizetime 100x).
     /// </summary>
     [CliOption("-fuzzminimizetime")]
     public string? Fuzzminimizetime { get; set; }
@@ -252,7 +252,7 @@ public record GoTestOptions : GoOptions
     /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
     /// </summary>
     [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? COption { get; set; }
+    public string? UpperC { get; set; }
 
     /// <summary>
     /// force rebuilding of packages that are already up-to-date.
@@ -315,7 +315,7 @@ public record GoTestOptions : GoOptions
     public string? Buildmode { get; set; }
 
     /// <summary>
-    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or -buildvcs=true to error out if version control information is available but cannot be included due to a missing tool or ambiguous directory structure.
     /// </summary>
     [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
     public string? Buildvcs { get; set; }
@@ -369,7 +369,7 @@ public record GoTestOptions : GoOptions
     public bool? Modcacherw { get; set; }
 
     /// <summary>
-    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the
+    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the -modfile flag by trimming the ".mod" extension and appending ".sum".
     /// </summary>
     [CliOption("-modfile")]
     public string? Modfile { get; set; }

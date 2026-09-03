@@ -111,7 +111,7 @@ public record GoInstallOptions : GoOptions
     public string? Buildmode { get; set; }
 
     /// <summary>
-    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or -buildvcs=true to error out if version control information is available but cannot be included due to a missing tool or ambiguous directory structure.
     /// </summary>
     [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
     public string? Buildvcs { get; set; }
@@ -171,7 +171,7 @@ public record GoInstallOptions : GoOptions
     public bool? Modcacherw { get; set; }
 
     /// <summary>
-    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the
+    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the -modfile flag by trimming the ".mod" extension and appending ".sum".
     /// </summary>
     [CliOption("-modfile")]
     public string? Modfile { get; set; }

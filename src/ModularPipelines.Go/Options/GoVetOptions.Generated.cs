@@ -26,8 +26,11 @@ public record GoVetOptions : GoOptions
     [CliOption("-vettool")]
     public string? Vettool { get; set; }
 
+    /// <summary>
+    /// display offending line with this many lines of context (default -1)
+    /// </summary>
     [CliOption("-c")]
-    public string? C { get; set; }
+    public string? LowerC { get; set; }
 
     /// <summary>
     /// Emit build output in JSON suitable for automated processing. See 'go help buildjson' for the encoding details.
@@ -35,9 +38,15 @@ public record GoVetOptions : GoOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
+    /// <summary>
+    /// instead of printing each diagnostic, apply its first fix (if any)
+    /// </summary>
     [CliFlag("-fix")]
     public bool? Fix { get; set; }
 
+    /// <summary>
+    /// instead of applying each fix, print the patch as a unified diff; exit with a non-zero status if the diff is not empty
+    /// </summary>
     [CliFlag("-diff")]
     public bool? Diff { get; set; }
 
@@ -45,7 +54,7 @@ public record GoVetOptions : GoOptions
     /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
     /// </summary>
     [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? COption { get; set; }
+    public string? UpperC { get; set; }
 
     /// <summary>
     /// force rebuilding of packages that are already up-to-date.
@@ -114,7 +123,7 @@ public record GoVetOptions : GoOptions
     public string? Buildmode { get; set; }
 
     /// <summary>
-    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or -buildvcs=true to error out if version control information is available but cannot be included due to a missing tool or ambiguous directory structure.
     /// </summary>
     [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
     public string? Buildvcs { get; set; }
@@ -168,7 +177,7 @@ public record GoVetOptions : GoOptions
     public bool? Modcacherw { get; set; }
 
     /// <summary>
-    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the
+    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the -modfile flag by trimming the ".mod" extension and appending ".sum".
     /// </summary>
     [CliOption("-modfile")]
     public string? Modfile { get; set; }
