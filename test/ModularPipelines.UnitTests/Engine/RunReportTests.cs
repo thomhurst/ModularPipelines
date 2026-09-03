@@ -16,6 +16,7 @@ using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Distributed.Master;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -37,6 +38,30 @@ namespace ModularPipelines.UnitTests.Engine;
 [TUnit.Core.NotInParallel(nameof(RunReportTests))]
 public class RunReportTests
 {
+    [Test]
+    public async Task RunReportRecordsMasterCacheDispatchAvoidance()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var result = CreateResult(module, start, TimeSpan.Zero);
+        var summary = new PipelineSummary(
+            [module],
+            [result],
+            TimeSpan.Zero,
+            start,
+            start);
+        var tracker = new DistributedCacheHitTracker();
+        tracker.Record(result);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                new PassthroughSecretObfuscator(),
+                distributedCacheHitTracker: tracker)
+            .Create(summary, null, "master-cache");
+
+        await Assert.That(report.Modules.Single().CacheHitAtMaster).IsTrue();
+    }
+
     private sealed class CommandModule : Module<string>
     {
         protected internal override async Task<string?> ExecuteAsync(

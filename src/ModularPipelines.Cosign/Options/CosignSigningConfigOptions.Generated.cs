@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -13,32 +12,35 @@ using ModularPipelines.Cosign.Options;
 
 namespace ModularPipelines.Cosign.Options;
 
+/// <summary>
+/// Tool for interacting with a Sigstore protobuf signing config
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-[CliSubCommand("piv-tool", "set-pin")]
-public record CosignPivToolSetPinOptions : CosignOptions
+[CliSubCommand("signing-config")]
+public record CosignSigningConfigOptions : CosignOptions
 {
+    /// <summary>
+    /// help for signing-config
+    /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [SecretValue]
-    [CliOption("--new-pin", Format = OptionFormat.EqualsSeparated)]
-    public string? NewPin { get; set; }
-
-    [SecretValue]
-    [CliOption("--old-pin", Format = OptionFormat.EqualsSeparated)]
-    public string? OldPin { get; set; }
-
-    [CliFlag("--no-input", ShortForm = "-f")]
-    public bool? NoInput { get; set; }
-
+    /// <summary>
+    /// log output to a file
+    /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
 
+    /// <summary>
+    /// timeout for commands (default 3m0s)
+    /// </summary>
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
 
+    /// <summary>
+    /// log debug output
+    /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
 

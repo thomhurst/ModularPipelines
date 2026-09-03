@@ -82,7 +82,7 @@ public class EksctlOptionsTests
             EnableTypes =
             [
                 EksctlUtilsUpdateClusterLoggingEnableTypes.Api,
-                EksctlUtilsUpdateClusterLoggingEnableTypes.Controllermanager,
+                EksctlUtilsUpdateClusterLoggingEnableTypes.ControllerManager,
             ],
         });
 
