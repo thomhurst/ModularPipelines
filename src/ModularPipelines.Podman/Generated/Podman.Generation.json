@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "podman",
+  "toolVersion": "podman version 5.8.4",
+  "commandTreeSha256": "fa3930718b1ecf476ed61035c75543dfacf4d2df669953615aff3c98925335e8",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}
