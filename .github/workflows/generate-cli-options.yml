@@ -691,7 +691,13 @@ jobs:
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines
-          $hasChanges = $LASTEXITCODE -ne 0
+          $diffExitCode = $LASTEXITCODE
+          if ($diffExitCode -gt 1) {
+            throw "git diff failed with exit code $diffExitCode."
+          }
+
+          $hasChanges = $diffExitCode -eq 1
+          $global:LASTEXITCODE = 0
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             $stagedPaths = @(git diff --staged --name-only)
