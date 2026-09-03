@@ -23,6 +23,8 @@ builder.AddDistributedMode(o =>
 
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
 
+    o.MinimumWorkerCount = 0;
+
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
 
     o.AutoDetectOsCapability = true;
@@ -30,16 +32,17 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property                 | Type                        | Default                    | Description                                                                                                                         |
-| ------------------------ | --------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `Role`                   | `DistributedRole`           | `Auto`                     | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                   |
-| `InstanceIndex`          | `int`                       | `0`                        | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                           |
-| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                       |
-| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
-| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                            |
-| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                  |
-| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                             |
-| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                               |
+| Property                 | Type                        | Default                    | Description                                                                                                                                                |
+| ------------------------ | --------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Role`                   | `DistributedRole`           | `Auto`                     | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                          |
+| `InstanceIndex`          | `int`                       | `0`                        | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                  |
+| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                                              |
+| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values.                        |
+| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                                                   |
+| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Registration grace period before an assignment with no capable worker fails with an explicit routing error.                                                |
+| `MinimumWorkerCount`     | `int`                       | `0`                        | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
+| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                                    |
+| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                                                      |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -56,7 +59,9 @@ You can also bind from configuration:
 
     "Capabilities": ["docker"],
 
-    "CapabilityTimeout": "00:05:00"
+    "CapabilityTimeout": "00:05:00",
+
+    "MinimumWorkerCount": 0
 
   }
 

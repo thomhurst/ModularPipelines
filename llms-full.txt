@@ -1401,7 +1401,7 @@ This page describes the internal architecture of distributed mode for contributo
 2. While the pipeline is built, `PipelineBuilder` activates distributed mode whenever `AddDistributedMode` was called. `TotalInstances` describes topology; it is not a second activation switch.
 3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto` role, `InstanceIndex == 0` selects master and any other index selects worker. The master replaces the default `IModuleExecutor` with `DistributedModuleExecutor`.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so its `CreateAsync` method runs when the coordinator is first used. A directly registered `IDistributedCoordinator` is used as-is.
-5. Before scheduling work, the master registers module types for serialization and waits up to `DistributedOptions.CapabilityTimeout` for the configured workers to register.
+5. Before scheduling work, the master registers module types for serialization. Dispatch starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a startup barrier. Capability-restricted assignments wait only until a matching worker registers or `CapabilityTimeout` expires.
 
 ### Worker Startup[​](#worker-startup "Direct link to Worker Startup")
 
@@ -1528,7 +1528,7 @@ The shipped `IDistributedCoordinator` interface defines seven methods across fou
 | Method                      | Direction            | Description                                                                                                                                      |
 | --------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `RegisterWorkerAsync`       | Worker → Coordinator | Upserts a worker's index, capabilities, registration time, and run identifier; workers call it again after execution with final command metrics. |
-| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers during the startup wait and again after execution while the master aggregates final worker metrics.                   |
+| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers for an optional startup barrier, capability-route validation, and post-execution worker metrics.                      |
 
 ### Completion[​](#completion "Direct link to Completion")
 
@@ -1683,9 +1683,9 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 ## Current Liveness Limitations[​](#current-liveness-limitations "Direct link to Current Liveness Limitations")
 
-Worker registration is not a heartbeat. Workers upsert an initial capability record and later upsert final command metrics during run-report finalization. The master reads registrations while waiting for the expected worker count and polls them again after execution to aggregate those final metrics. A custom coordinator must therefore retain registration state for the whole run and support repeated upserts and post-execution reads.
+Worker registration is not a heartbeat. Workers upsert an initial capability record and later upsert final command metrics during run-report finalization. The master reads registrations while validating capability routes and polls them again after execution to aggregate those final metrics. A custom coordinator must therefore retain registration state for the whole run and support repeated upserts and post-execution reads.
 
-The shipped coordinator contract still has no heartbeat, unregister, or worker-health member. After `CapabilityTimeout`, the master proceeds with the workers that registered; the later metrics polling reports completion data but does not provide continuous liveness detection.
+The shipped coordinator contract still has no heartbeat, unregister, or worker-health member. After `CapabilityTimeout`, the master fails any queued assignment that no registered worker or the master can execute. Later metrics polling reports completion data but does not provide continuous liveness detection.
 
 If a worker disappears after claiming an assignment, the master can wait until `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react to connection state internally, but that behavior is not part of the shared coordinator contract. First-class liveness is tracked by [#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
 
@@ -1824,7 +1824,7 @@ The matching logic is straightforward:
 1. If a module has **no** required capabilities, it can run on **any** worker.
 2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
 3. Capability matching is **case-insensitive**.
-4. If no worker with the required capabilities is available, the module waits in the queue until one becomes available (up to `CapabilityTimeout`).
+4. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline[​](#example-mixed-pipeline "Direct link to Example: Mixed Pipeline")
 
@@ -1898,6 +1898,8 @@ builder.AddDistributedMode(o =>
 
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
 
+    o.MinimumWorkerCount = 0;
+
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
 
     o.AutoDetectOsCapability = true;
@@ -1905,16 +1907,17 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property                 | Type                        | Default                    | Description                                                                                                                         |
-| ------------------------ | --------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `Role`                   | `DistributedRole`           | `Auto`                     | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                   |
-| `InstanceIndex`          | `int`                       | `0`                        | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                           |
-| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                       |
-| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
-| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                            |
-| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Maximum time to wait for worker registration before distributing work among the available workers.                                  |
-| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                             |
-| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                               |
+| Property                 | Type                        | Default                    | Description                                                                                                                                                |
+| ------------------------ | --------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Role`                   | `DistributedRole`           | `Auto`                     | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                          |
+| `InstanceIndex`          | `int`                       | `0`                        | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                  |
+| `TotalInstances`         | `int`                       | `1`                        | Total number of instances (master + workers).                                                                                                              |
+| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                       | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values.                        |
+| `RunIdentifier`          | `string?`                   | `null`                     | Identifier shared by every process in this pipeline run.                                                                                                   |
+| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`  | Registration grace period before an assignment with no capable worker fails with an explicit routing error.                                                |
+| `MinimumWorkerCount`     | `int`                       | `0`                        | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
+| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                                    |
+| `AutoDetectOsCapability` | `bool`                      | `true`                     | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                                                      |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -1931,7 +1934,9 @@ You can also bind from configuration:
 
     "Capabilities": ["docker"],
 
-    "CapabilityTimeout": "00:05:00"
+    "CapabilityTimeout": "00:05:00",
+
+    "MinimumWorkerCount": 0
 
   }
 
