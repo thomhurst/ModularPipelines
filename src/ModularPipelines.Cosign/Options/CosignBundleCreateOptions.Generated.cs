@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Options;
-using ModularPipelines.Cosign.Enums;
 
 namespace ModularPipelines.Cosign.Options;
 
@@ -91,7 +90,7 @@ public record CosignBundleCreateOptions : CosignOptions
     /// security key slot to use for generated key (authentication|signature|card-authentication|key-management)
     /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
-    public CosignBundleCreateSlot? Slot { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// log output to a file
