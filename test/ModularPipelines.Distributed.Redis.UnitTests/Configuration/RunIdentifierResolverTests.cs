@@ -63,7 +63,7 @@ public class RunIdentifierResolverTests
     {
         var names = new[]
         {
-            "RUN_IDENTIFIER",
+            "MODULARPIPELINES_RUN_ID",
             "GITHUB_RUN_ID",
             "GITHUB_RUN_ATTEMPT",
         };
@@ -71,7 +71,7 @@ public class RunIdentifierResolverTests
 
         try
         {
-            Environment.SetEnvironmentVariable("RUN_IDENTIFIER", null);
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
             Environment.SetEnvironmentVariable("GITHUB_RUN_ID", "1234");
             Environment.SetEnvironmentVariable("GITHUB_RUN_ATTEMPT", "2");
 

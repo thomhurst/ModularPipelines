@@ -19,10 +19,10 @@ Every pipeline instance runs in one of two roles:
 
 | Role | Determined by | Responsibility |
 |------|--------------|----------------|
-| **Master** | `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
-| **Worker** | `InstanceIndex > 0` | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back. |
+| **Master** | `Role == Master`, or `Role == Auto` and `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
+| **Worker** | `Role == Worker`, or `Role == Auto` and `InstanceIndex > 0` | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back. |
 
-The role is detected automatically from `DistributedOptions.InstanceIndex`. You can also override it with the `MODULAR_PIPELINES_INSTANCE` environment variable.
+`DistributedOptions.Role` defaults to `Auto`, which derives the role from `InstanceIndex`. Set it to `Master` or `Worker` when the process role must be explicit.
 
 ### Coordinator
 

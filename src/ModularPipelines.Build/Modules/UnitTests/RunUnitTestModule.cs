@@ -90,8 +90,8 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
                     // Clear distributed mode env vars to prevent test subprocesses
                     // from inheriting coordinator/artifact store connections
-                    ["INSTANCE_INDEX"] = null,
-                    ["TOTAL_INSTANCES"] = null,
+                    ["MODULARPIPELINES_INSTANCE_INDEX"] = null,
+                    ["MODULARPIPELINES_TOTAL_INSTANCES"] = null,
                     ["UPSTASH_REDIS_REST_URL"] = null,
                     ["UPSTASH_REDIS_REST_TOKEN"] = null,
                     ["R2_ENDPOINT_URL"] = null,
