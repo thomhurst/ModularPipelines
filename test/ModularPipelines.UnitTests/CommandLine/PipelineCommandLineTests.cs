@@ -1,4 +1,3 @@
-using ModularPipelines.Logging;
 using ModularPipelines.Reporting;
 using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +11,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -36,7 +36,12 @@ public class PipelineCommandLineTests
 
         public List<string> Messages { get; } = [];
 
-        public void LogToConsole(string value)
+        public void WriteLine(string value)
+        {
+            Messages.Add(value);
+        }
+
+        public void WriteMarkupLine(string value)
         {
             Messages.Add(value);
         }

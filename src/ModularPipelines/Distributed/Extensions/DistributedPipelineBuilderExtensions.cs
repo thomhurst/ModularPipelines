@@ -52,9 +52,15 @@ public static class DistributedPipelineBuilderExtensions
     public static PipelineBuilder AddDistributedCoordinator<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TCoordinator>(
         this PipelineBuilder builder)
-        where TCoordinator : class, IDistributedCoordinator
+        where TCoordinator : class, IDistributedMasterCoordinator
     {
-        builder.Services.AddSingleton<IDistributedCoordinator, TCoordinator>();
+        builder.Services.RemoveAll<IDistributedMasterCoordinator>();
+        builder.Services.RemoveAll<IDistributedWorkerCoordinator>();
+        builder.Services.AddSingleton<TCoordinator>();
+        builder.Services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<TCoordinator>());
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+            serviceProvider.GetRequiredService<TCoordinator>());
         return builder;
     }
 

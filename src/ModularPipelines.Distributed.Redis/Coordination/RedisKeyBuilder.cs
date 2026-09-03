@@ -22,11 +22,18 @@ internal class RedisKeyBuilder
 
     public string Workers => $"{_prefix}:{_runId}:workers";
 
+    public string WorkerHeartbeat(int workerIndex) =>
+        $"{_prefix}:{_runId}:workers:{workerIndex}:heartbeat";
+
     public string WorkAvailableChannel => $"{_prefix}:{_runId}:work:available";
 
     public string CompletionFlag => $"{_prefix}:{_runId}:completion";
 
     public string CompletionChannel => $"{_prefix}:{_runId}:completion:signal";
+
+    public string CancellationFlag => $"{_prefix}:{_runId}:cancellation";
+
+    public string CancellationChannel => $"{_prefix}:{_runId}:cancellation:signal";
 
     // Artifact keys
     public string ArtifactMeta(string artifactId) => $"{_prefix}:{_runId}:artifacts:meta:{artifactId}";
@@ -46,5 +53,6 @@ internal class RedisKeyBuilder
         Results,
         Workers,
         CompletionFlag,
+        CancellationFlag,
     ];
 }

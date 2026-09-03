@@ -37,6 +37,15 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
+    public async Task WorkerHeartbeat_ReturnsExpectedFormat()
+    {
+        var builder = new RedisKeyBuilder("modpipe", "abc123");
+
+        await Assert.That(builder.WorkerHeartbeat(7))
+            .IsEqualTo("modpipe:abc123:workers:7:heartbeat");
+    }
+
+    [Test]
     public async Task WorkAvailableChannel_ReturnsExpectedFormat()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
@@ -61,6 +70,15 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
+    public async Task CancellationKeys_ReturnExpectedFormat()
+    {
+        var builder = new RedisKeyBuilder("modpipe", "abc123");
+
+        await Assert.That(builder.CancellationFlag).IsEqualTo("modpipe:abc123:cancellation");
+        await Assert.That(builder.CancellationChannel).IsEqualTo("modpipe:abc123:cancellation:signal");
+    }
+
+    [Test]
     public async Task CustomPrefix_UsedInAllKeys()
     {
         var builder = new RedisKeyBuilder("custom", "run-42");
@@ -81,6 +99,7 @@ public class RedisKeyBuilderTests
         await Assert.That(allKeys).Contains(builder.Results);
         await Assert.That(allKeys).Contains(builder.Workers);
         await Assert.That(allKeys).Contains(builder.CompletionFlag);
+        await Assert.That(allKeys).Contains(builder.CancellationFlag);
     }
 
     [Test]
@@ -90,6 +109,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.AllStorageKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(4);
+        await Assert.That(allKeys).Count().IsEqualTo(5);
     }
 }

@@ -80,12 +80,19 @@ internal class ModuleResultSerializer
                 $"Cannot deserialize result for module '{serialized.ModuleTypeName}': type not found in registry.");
         var resultType = typeof(ModuleResult<>).MakeGenericType(resolved.ResultType);
         var result = JsonSerializer.Deserialize(serialized.SerializedJson, resultType, _options) as ModuleResult;
+        int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
+        if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
+        {
+            remoteException.AttachWorkerIndex(serialized.WorkerIndex);
+        }
+
         return result is null
             ? null
             : result with
             {
                 ModuleType = resolved.ModuleType,
                 TypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
+                WorkerIndex = workerIndex,
             };
     }
 }

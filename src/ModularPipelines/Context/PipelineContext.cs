@@ -29,6 +29,9 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public ILogger Logger => _logger ??= _moduleLoggerAccessor.GetLogger();
 
     /// <inheritdoc />
+    public IConsoleWriter Console { get; }
+
+    /// <inheritdoc />
     public IShellContext Shell { get; }
 
     /// <inheritdoc />
@@ -81,6 +84,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         IDependencyCollisionDetector dependencyCollisionDetector,
         IModuleResultRepository moduleResultRepository,
         IInternalModuleLoggerAccessor moduleLoggerAccessor,
+        IConsoleWriter consoleWriter,
         EngineCancellationToken engineCancellationToken,
         IShellContext shell,
         IFilesContext files,
@@ -95,6 +99,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     {
         _moduleLookup = moduleLookup;
         _moduleLoggerAccessor = moduleLoggerAccessor;
+        Console = consoleWriter;
         DependencyCollisionDetector = dependencyCollisionDetector;
         ModuleResultRepository = moduleResultRepository;
         EngineCancellationToken = engineCancellationToken;

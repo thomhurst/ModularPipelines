@@ -50,7 +50,7 @@ public class DistributedResultCollectorTests
         var serialized = serializer.Serialize(
             successResult, typeof(TestModule).FullName!, typeof(TestResult).FullName!, 1);
 
-        var coordinatorMock = new Mock<IDistributedCoordinator>();
+        var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
         coordinatorMock.Setup(c => c.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
 
@@ -66,7 +66,7 @@ public class DistributedResultCollectorTests
     [Test]
     public async Task WaitForResult_Propagates_Cancellation()
     {
-        var coordinatorMock = new Mock<IDistributedCoordinator>();
+        var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
         coordinatorMock.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns<string, CancellationToken>(async (_, ct) =>
             {
@@ -116,7 +116,7 @@ public class DistributedResultCollectorTests
         {
             CommandCount = 4,
         };
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
         var commandExecutionCounter = new CommandExecutionCounter();
@@ -163,7 +163,7 @@ public class DistributedResultCollectorTests
         {
             CommandCount = 2,
         };
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
         var commandExecutionCounter = new CommandExecutionCounter();

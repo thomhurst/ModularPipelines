@@ -277,7 +277,17 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
-    public async Task WaitForAlwaysRunModulesAsync_PreservesAlwaysRunDependencyOrder()
+    [Timeout(30_000)]
+    public async Task WaitForAlwaysRunModulesAsync_PreservesAlwaysRunDependencyOrder(
+        CancellationToken cancellationToken)
+    {
+        for (var iteration = 0; iteration < 25; iteration++)
+        {
+            await AssertAlwaysRunDependencyOrderAsync(cancellationToken);
+        }
+    }
+
+    private static async Task AssertAlwaysRunDependencyOrderAsync(CancellationToken cancellationToken)
     {
         var prerequisite = new FirstAlwaysRunModule();
         var dependent = new SecondAlwaysRunModule();
@@ -322,10 +332,10 @@ public class AlwaysRunHandlerTests
             scheduler.Object,
             [prerequisite, dependent]);
 
-        await prerequisiteStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await prerequisiteStarted.Task.WaitAsync(cancellationToken);
         releasePrerequisite.TrySetResult();
-        await dependentStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
-        await handlerTask;
+        await dependentStarted.Task.WaitAsync(cancellationToken);
+        await handlerTask.WaitAsync(cancellationToken);
 
         await Assert.That(prerequisiteStateWhenDependentStarted)
             .IsEqualTo(ModuleExecutionState.Completed);
