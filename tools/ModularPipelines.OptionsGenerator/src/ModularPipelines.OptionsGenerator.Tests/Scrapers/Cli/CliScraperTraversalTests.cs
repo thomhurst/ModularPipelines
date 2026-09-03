@@ -12,6 +12,141 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class CliScraperTraversalTests
 {
     [Test]
+    public async Task CobraParentDoesNotUseChildDescription()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [command]
+
+            Available Commands:
+              child  Execute a child command
+
+            Flags:
+              --help  Show help
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraParentheticalCommandSectionDoesNotUseChildDescription()
+    {
+        const string helpText = """
+            Usage:
+              kubectl root [command]
+
+            Basic Commands (Beginner):
+              create  Create a resource from a file or stdin
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["kubectl", "root"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraQualifiedExamplesHeaderIsNotUsedAsDescription()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [flags]
+
+            Examples: (see below)
+              fake parent --all
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraDescriptionEndingInCommandsIsPreserved()
+    {
+        const string helpText = """
+            Manage build Commands
+
+            Usage:
+              fake build [flags]
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "build"],
+            helpText);
+
+        await Assert.That(command!.Description).IsEqualTo("Manage build Commands");
+    }
+
+    [Test]
+    public async Task CobraDescriptionAfterMetadataHeaderIsPreserved()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [flags]
+
+            Metadata:
+            Execute or manage parent resources.
+
+            Flags:
+              --help  Show help
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Execute or manage parent resources.");
+    }
+
+    [Test]
+    [Arguments("Aliases:\n  un, del, delete")]
+    [Arguments("Additional help topics:\n  fake parent advanced  Advanced help")]
+    [Arguments("Available Commands: (see below)\nchild  Execute a child command")]
+    public async Task CobraListSectionIsNotUsedAsDescription(string section)
+    {
+        var helpText = $"""
+            Usage:
+              fake parent [flags]
+
+            {section}
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraLabeledDescriptionWithIndentedContinuationIsPreserved()
+    {
+        const string helpText = """
+            Note:
+              Requires administrator privileges.
+
+            Usage:
+              fake parent [flags]
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Requires administrator privileges.");
+    }
+
+    [Test]
     public async Task SharedTraversal_Discovers_ExecutableParent_And_Children_Without_Command_Placeholders()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
