@@ -33,7 +33,7 @@ public class EksctlSet : IEksctlSet
     #region Commands
 
     /// <summary>
-    /// eksctl set labels                          Create or overwrite labels for managed nodegroups
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
