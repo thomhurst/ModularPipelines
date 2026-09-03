@@ -7,6 +7,34 @@ namespace ModularPipelines.Chocolatey.UnitTests;
 public class ChocolateyOptionsTests : TestBase
 {
     [Test]
+    public async Task Default_Action_Commands_Render_Without_Operands()
+    {
+        object[] options =
+        [
+            new ChocoListOptions(),
+            new ChocoFeatureOptions(),
+            new ChocoPinOptions(),
+            new ChocoSourceOptions(),
+        ];
+
+        foreach (var option in options)
+        {
+            await AssertArguments(BuildArguments(option), []);
+        }
+    }
+
+    [Test]
+    public async Task Optional_Structured_Operands_Render_In_Position()
+    {
+        await AssertArguments(
+            BuildArguments(new ChocoListOptions { Filter = "git" }),
+            ["git"]);
+        await AssertArguments(
+            BuildArguments(new ChocoFeatureOptions { List = "enable" }),
+            ["enable"]);
+    }
+
+    [Test]
     public async Task Package_Group_Renders_Each_Package_As_A_Separate_Argument()
     {
         var arguments = BuildArguments(new ChocoInstallOptions("first")
