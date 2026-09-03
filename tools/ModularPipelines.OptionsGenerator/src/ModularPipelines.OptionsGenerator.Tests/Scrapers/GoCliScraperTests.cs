@@ -169,23 +169,22 @@ public class GoCliScraperTests
                         enable data race detection.
                 """,
             ["help doc"] = "usage: go doc [doc flags] [doc]\n\nDoc shows documentation.",
-            ["doc -h"] = """
-                Usage of go doc:
-                    -C dir
-                        change to dir before running command
-                    -c
-                        respect case when matching symbols
-                """,
+            ["doc -h"] = "Usage of go doc:\n  -C dir\n    change to dir before running command\n  -c\tsymbol matching honors case (paths not affected)\n  -u\tshow unexported symbols as well as exported",
         });
 
         var doc = (await ScrapeAsync(scraper)).Single(command => command.FullCommand == "go doc");
         var workingDirectory = doc.Options.Single(option => option.SwitchName == "-C");
+        var caseSensitive = doc.Options.Single(option => option.SwitchName == "-c");
+        var unexported = doc.Options.Single(option => option.SwitchName == "-u");
 
         using (Assert.Multiple())
         {
             await Assert.That(workingDirectory.IsFlag).IsFalse();
             await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
-            await Assert.That(doc.Options.Any(option => option.SwitchName == "-c")).IsTrue();
+            await Assert.That(caseSensitive.IsFlag).IsTrue();
+            await Assert.That(caseSensitive.CSharpType).IsEqualTo("bool?");
+            await Assert.That(unexported.IsFlag).IsTrue();
+            await Assert.That(unexported.CSharpType).IsEqualTo("bool?");
             await Assert.That(doc.Options.Any(option => option.SwitchName == "-race")).IsFalse();
         }
     }

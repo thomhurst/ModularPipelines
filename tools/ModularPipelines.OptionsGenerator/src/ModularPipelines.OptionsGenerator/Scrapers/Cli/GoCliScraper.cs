@@ -765,17 +765,17 @@ public partial class GoCliScraper : CliScraperBase
             return (string.Empty, string.Empty);
         }
 
+        if (LeadingDescriptionPattern().IsMatch(remainder))
+        {
+            return (string.Empty, remainder.Trim());
+        }
+
         var inlineDescription = InlineOptionDescriptionPattern().Match(remainder);
         if (inlineDescription.Success)
         {
             return (
                 inlineDescription.Groups["value"].Value.Trim(),
                 inlineDescription.Groups["description"].Value.Trim());
-        }
-
-        if (LeadingDescriptionPattern().IsMatch(remainder))
-        {
-            return (string.Empty, remainder.Trim());
         }
 
         return (remainder.Trim(), string.Empty);
@@ -1020,7 +1020,7 @@ public partial class GoCliScraper : CliScraperBase
     [GeneratedRegex("""^\s(?<value>(?:'[^']*'|"[^"]*"|\S+))(?:\s{2,}(?<description>.*))?\s*$""")]
     private static partial Regex InlineOptionDescriptionPattern();
 
-    [GeneratedRegex(@"^\s{2,}\S")]
+    [GeneratedRegex(@"^(?:\t|\s{2,})\S")]
     private static partial Regex LeadingDescriptionPattern();
 
     [GeneratedRegex(@"(?<![\w-])-(?<flag>[A-Za-z][\w-]*)(?:(?<separator>=)(?<value>[^\s,]+))?")]
