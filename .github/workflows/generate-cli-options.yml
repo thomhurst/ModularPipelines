@@ -755,7 +755,7 @@ jobs:
               "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
               "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
             ) `
-            -MaximumFileSizeBytes 5242880
+            -MaximumFileSizeBytes 26214400
 
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr

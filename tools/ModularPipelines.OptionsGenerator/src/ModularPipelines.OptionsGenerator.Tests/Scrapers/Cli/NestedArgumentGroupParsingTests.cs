@@ -97,7 +97,7 @@ public partial class NestedArgumentGroupParsingTests
     public async Task SharedParser_Scopes_Named_Flag_Sections()
     {
         const string section = """
-            Container Flags
+            Customer-Managed Encryption Key (CMEK) Flags:
               The following flags apply to a single container.
               --container=CONTAINER
                  Select a container.
@@ -117,11 +117,11 @@ public partial class NestedArgumentGroupParsingTests
         using (Assert.Multiple())
         {
             await Assert.That(container.Documentation)
-                .Contains("Container Flags")
+                .Contains("Customer-Managed Encryption Key (CMEK) Flags:")
                 .And.DoesNotContain("Service Flags");
             await Assert.That(service.Documentation)
                 .Contains("Service Flags")
-                .And.DoesNotContain("Container Flags");
+                .And.DoesNotContain("Customer-Managed Encryption Key (CMEK) Flags:");
         }
     }
 

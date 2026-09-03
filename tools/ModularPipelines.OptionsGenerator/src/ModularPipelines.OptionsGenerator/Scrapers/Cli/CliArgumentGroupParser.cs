@@ -310,6 +310,6 @@ internal static partial class CliArgumentGroupParser
     [GeneratedRegex(@"\b(?:resource|arguments? for)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ResourcePattern();
 
-    [GeneratedRegex(@"^[\p{L}\p{N}][\p{L}\p{N} /&+\-]* Flags:?$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^[\p{L}\p{N}].* Flags:?$", RegexOptions.CultureInvariant)]
     private static partial Regex SectionHeadingPattern();
 }
