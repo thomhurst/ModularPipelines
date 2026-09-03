@@ -42,7 +42,7 @@ public record PnpmStageDownloadOptions(
     public bool? Json { get; set; }
 
     /// <summary>
-    /// One-time password for approve and reject.
+    /// One-time password for approve and reject. One password covers a whole batch of approvals; pnpm asks for a new one when the registry stops accepting it.
     /// </summary>
     [SecretValue]
     [CliOption("--otp")]
