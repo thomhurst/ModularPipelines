@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Extensions;
 
 namespace ModularPipelines.UnitTests.Api;
 

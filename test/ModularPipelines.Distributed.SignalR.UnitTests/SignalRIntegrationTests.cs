@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.SignalR.Configuration;
+using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Hub;
 using ModularPipelines.Distributed.SignalR.Server;
 

@@ -1,2 +1,4 @@
 #nullable enable
-static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+*REMOVED*static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisMasterDiscovery(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisMasterDiscovery(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions!>! configure) -> ModularPipelines.PipelineBuilder!

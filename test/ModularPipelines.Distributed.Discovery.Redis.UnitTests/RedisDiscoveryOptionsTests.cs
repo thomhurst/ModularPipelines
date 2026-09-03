@@ -53,7 +53,7 @@ public class RedisDiscoveryOptionsTests
             .Build();
         var builder = Pipeline.CreateBuilder();
 
-        builder.AddRedisSignalRDiscovery(configuration.GetSection("Discovery"));
+        builder.AddRedisMasterDiscovery(configuration.GetSection("Discovery"));
         using var services = builder.Services.BuildServiceProvider();
         var options = services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
 
@@ -68,7 +68,7 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsIncompleteRestConfiguration()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisSignalRDiscovery(options => options.RestUrl = "https://redis.example");
+        builder.AddRedisMasterDiscovery(options => options.RestUrl = "https://redis.example");
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(
             () => builder.BuildAsync());

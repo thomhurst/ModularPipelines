@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Configuration;
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;

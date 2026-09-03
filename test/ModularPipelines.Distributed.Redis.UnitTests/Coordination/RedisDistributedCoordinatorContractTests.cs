@@ -1,4 +1,4 @@
-using ModularPipelines.Distributed.Redis.Configuration;
+using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.TestHelpers.Distributed;
 using StackExchange.Redis;

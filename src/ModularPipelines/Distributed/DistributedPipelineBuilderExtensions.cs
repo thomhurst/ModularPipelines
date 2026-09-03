@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace ModularPipelines.Distributed.Extensions;
+namespace ModularPipelines.Distributed;
 
 /// <summary>
 /// Extension methods for configuring distributed pipeline mode.

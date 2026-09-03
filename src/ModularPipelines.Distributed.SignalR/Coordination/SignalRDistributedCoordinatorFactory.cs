@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.SignalR.Configuration;
-using ModularPipelines.Distributed.SignalR.Discovery;
 using ModularPipelines.Distributed.SignalR.Hub;
 using ModularPipelines.Distributed.SignalR.Server;
 
@@ -16,7 +14,7 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFactory, IAsyncDisposable
 {
     private readonly SignalRDistributedOptions _options;
-    private readonly ISignalRMasterDiscovery? _discovery;
+    private readonly IMasterDiscovery? _discovery;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
     private MasterServerHost? _serverHost;
@@ -26,7 +24,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         IOptions<SignalRDistributedOptions> options,
         ILoggerFactory loggerFactory,
         IServiceProvider serviceProvider,
-        ISignalRMasterDiscovery? discovery = null)
+        IMasterDiscovery? discovery = null)
     {
         _options = options.Value;
         _discovery = discovery;
@@ -51,7 +49,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         // Advertise the reachable URL (tunnel URL if active, otherwise local)
         if (_discovery is not null)
         {
-            await _discovery.AdvertiseMasterUrlAsync(_serverHost.AdvertisedUrl, cancellationToken);
+            await _discovery.AdvertiseMasterEndpointAsync(_serverHost.AdvertisedUrl, cancellationToken);
         }
 
         // Use the real IHubContext from the WebApplication's DI container
@@ -70,7 +68,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         // Use discovery to find master URL if available
         if (_discovery is not null)
         {
-            masterUrl = await _discovery.DiscoverMasterUrlAsync(cancellationToken);
+            masterUrl = await _discovery.DiscoverMasterEndpointAsync(cancellationToken);
         }
 
         var hubUrl = $"{masterUrl}{_options.HubPath}";

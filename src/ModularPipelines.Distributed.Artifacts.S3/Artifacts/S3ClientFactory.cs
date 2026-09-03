@@ -1,6 +1,6 @@
 using Amazon;
 using Amazon.S3;
-using ModularPipelines.Distributed.Artifacts.S3.Configuration;
+using ModularPipelines.Distributed.Artifacts.S3;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 

@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
@@ -13,7 +12,7 @@ using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.Extensions;
 using StackExchange.Redis;
 
-namespace ModularPipelines.Distributed.Redis.Extensions;
+namespace ModularPipelines.Distributed.Redis;
 
 /// <summary>
 /// Extension methods for registering the Redis distributed coordinator and artifact store.

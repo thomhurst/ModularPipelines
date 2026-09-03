@@ -1,4 +1,4 @@
-namespace ModularPipelines.Distributed.SignalR.Configuration;
+namespace ModularPipelines.Distributed.SignalR;
 
 /// <summary>
 /// Configuration options for the SignalR-based distributed coordinator.

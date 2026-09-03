@@ -1,6 +1,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed.Artifacts.S3;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;

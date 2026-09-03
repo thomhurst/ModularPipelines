@@ -4,49 +4,47 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Distributed.SignalR.Discovery;
+using ModularPipelines.Distributed;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
 /// <summary>
-/// Extension methods for registering Redis-based master URL discovery.
+/// Extension methods for registering Redis-based master endpoint discovery.
 /// </summary>
 public static class RedisDiscoveryExtensions
 {
     /// <summary>
-    /// Registers Redis-based master URL discovery for the SignalR distributed coordinator.
-    /// Must be called after <c>AddSignalRDistributedCoordinator</c>.
+    /// Registers Redis-based master endpoint discovery.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configuration action for Redis discovery options.</param>
     /// <returns>The pipeline builder for chaining.</returns>
-    public static PipelineBuilder AddRedisSignalRDiscovery(
+    public static PipelineBuilder AddRedisMasterDiscovery(
         this PipelineBuilder builder,
         Action<RedisDiscoveryOptions> configure)
     {
         builder.Services.Configure(configure);
-        return AddRedisSignalRDiscoveryServices(builder);
+        return AddRedisMasterDiscoveryServices(builder);
     }
 
     /// <summary>
-    /// Registers Redis-based master URL discovery from configuration.
-    /// Must be called after <c>AddSignalRDistributedCoordinator</c>.
+    /// Registers Redis-based master endpoint discovery from configuration.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section containing Redis discovery options.</param>
     /// <returns>The pipeline builder for chaining.</returns>
     [RequiresUnreferencedCode("Configuration binding requires members of RedisDiscoveryOptions that cannot be statically discovered.")]
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
-    public static PipelineBuilder AddRedisSignalRDiscovery(
+    public static PipelineBuilder AddRedisMasterDiscovery(
         this PipelineBuilder builder,
         IConfigurationSection section)
     {
         builder.Services.Configure<RedisDiscoveryOptions>(section);
-        return AddRedisSignalRDiscoveryServices(builder);
+        return AddRedisMasterDiscoveryServices(builder);
     }
 
-    private static PipelineBuilder AddRedisSignalRDiscoveryServices(PipelineBuilder builder)
+    private static PipelineBuilder AddRedisMasterDiscoveryServices(PipelineBuilder builder)
     {
         builder.Services.AddOptions<RedisDiscoveryOptions>()
             .Validate(
@@ -67,10 +65,10 @@ public static class RedisDiscoveryExtensions
                 ? new RestRedisDiscoveryStore(opts.RestUrl!, opts.RestToken!)
                 : new StackExchangeRedisDiscoveryStore(sp.GetRequiredService<IConnectionMultiplexer>());
         });
-        builder.Services.AddSingleton<ISignalRMasterDiscovery>(sp => new RedisSignalRMasterDiscovery(
+        builder.Services.AddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(
             sp.GetRequiredService<IRedisDiscoveryStore>(),
             sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value,
-            sp.GetRequiredService<ILogger<RedisSignalRMasterDiscovery>>()));
+            sp.GetRequiredService<ILogger<RedisMasterDiscovery>>()));
 
         return builder;
     }
