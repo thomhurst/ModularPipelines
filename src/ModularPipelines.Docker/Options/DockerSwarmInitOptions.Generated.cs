@@ -78,7 +78,7 @@ public record DockerSwarmInitOptions : DockerOptions
     /// Specifications of one or more certificate signing endpoints
     /// </summary>
     [CliOption("--external-ca", Format = OptionFormat.EqualsSeparated)]
-    public string? ExternalCa { get; set; }
+    public IEnumerable<string>? ExternalCa { get; set; }
 
     /// <summary>
     /// Force create a new cluster from current state

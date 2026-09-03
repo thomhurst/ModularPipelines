@@ -135,7 +135,13 @@ public class DockerBuildx : IDockerBuildx
         return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxDialStdioOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Disk usage
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DuAsync(
         DockerBuildxDuOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
