@@ -53,7 +53,7 @@ internal sealed class PipelineCommandHandler(
                 ?? throw new InvalidOperationException("A dependency graph path is required."),
                 cancellationToken)
             .ConfigureAwait(false);
-        consoleWriter.LogToConsole(
+        consoleWriter.WriteLine(
             $"Dependency graph written to {Path.GetFullPath(commandLineOptions.GraphPath)}");
     }
 
@@ -96,7 +96,7 @@ internal sealed class PipelineCommandHandler(
 
     private PipelineSummary ReportSuccessfulValidation()
     {
-        consoleWriter.LogToConsole("[green]Pipeline validation succeeded.[/]");
+        consoleWriter.WriteMarkupLine("[green]Pipeline validation succeeded.[/]");
         return CreateSummary();
     }
 

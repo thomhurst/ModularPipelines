@@ -1778,6 +1778,7 @@ ModularPipelines.IModuleContext.RunSubModuleAsync(string! name, System.Func<Syst
 ModularPipelines.IModuleContext.RunSubModuleAsync<T>(string! name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<T>!>! body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<T>!
 ModularPipelines.IPipelineContext
 ModularPipelines.IPipelineContext.Artifacts.get -> ModularPipelines.Distributed.IArtifactContext!
+ModularPipelines.IPipelineContext.Console.get -> ModularPipelines.Logging.IConsoleWriter!
 ModularPipelines.IPipelineContext.Data.get -> ModularPipelines.Context.IDataContext!
 ModularPipelines.IPipelineContext.Environment.get -> ModularPipelines.Context.IEnvironmentContext!
 ModularPipelines.IPipelineContext.Files.get -> ModularPipelines.Context.IFilesContext!
@@ -1795,8 +1796,9 @@ ModularPipelines.IRunCondition
 ModularPipelines.IRunCondition.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.IRunCondition.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.Logging.IConsoleWriter
-ModularPipelines.Logging.IConsoleWriter.LogToConsole(string! value) -> void
 ModularPipelines.Logging.IConsoleWriter.Write(Spectre.Console.Rendering.IRenderable! renderable) -> void
+ModularPipelines.Logging.IConsoleWriter.WriteLine(string! value) -> void
+ModularPipelines.Logging.IConsoleWriter.WriteMarkupLine(string! value) -> void
 ModularPipelines.Logging.IModuleLoggerAccessor
 ModularPipelines.Logging.IModuleLoggerAccessor.Logger.get -> Microsoft.Extensions.Logging.ILogger!
 ModularPipelines.Logging.ISummaryLogReader
