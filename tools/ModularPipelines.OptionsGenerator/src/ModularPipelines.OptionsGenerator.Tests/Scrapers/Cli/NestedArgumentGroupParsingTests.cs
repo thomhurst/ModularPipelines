@@ -94,6 +94,38 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task SharedParser_Scopes_Named_Flag_Sections()
+    {
+        const string section = """
+            Container Flags
+              The following flags apply to a single container.
+              --container=CONTAINER
+                 Select a container.
+
+            Service Flags
+              The following flags apply to the service.
+              --allow-unauthenticated
+                 Allow public access.
+            """;
+
+        var arguments = TestArgumentGroupScraper.ParseGroups(section)
+            .FlattenArguments()
+            .ToArray();
+        var container = arguments.Single(argument => argument.SwitchName == "--container");
+        var service = arguments.Single(argument => argument.SwitchName == "--allow-unauthenticated");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(container.Documentation)
+                .Contains("Container Flags")
+                .And.DoesNotContain("Service Flags");
+            await Assert.That(service.Documentation)
+                .Contains("Service Flags")
+                .And.DoesNotContain("Container Flags");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Emits_Long_Options_With_Short_Aliases()
     {
         const string helpText = """
@@ -164,6 +196,48 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(maxInstances.EnumDefinition).IsNull();
         await Assert.That(minInstances.Description!).DoesNotContain("--security-level");
         await Assert.That(minInstances.EnumDefinition).IsNull();
+    }
+
+    [Test]
+    public async Task Gcloud_Does_Not_Leak_Named_Flag_Sections()
+    {
+        const string helpText = """
+            NAME
+                gcloud run deploy - deploy a service
+
+            SYNOPSIS
+                gcloud run deploy
+
+            FLAGS
+                 Container Flags
+                   The following flags apply to a single container.
+                   --container=CONTAINER
+                      Select a container.
+
+                 Service Flags
+                   The following flags apply to the service.
+                   --allow-unauthenticated
+                      Allow public access.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "run", "deploy"],
+            helpText);
+        var container = command!.Options.Single(option => option.SwitchName == "--container");
+        var service = command.Options.Single(option => option.SwitchName == "--allow-unauthenticated");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(container.Description)
+                .Contains("Container Flags")
+                .And.DoesNotContain("Service Flags");
+            await Assert.That(service.Description)
+                .Contains("Service Flags")
+                .And.DoesNotContain("Container Flags");
+        }
     }
 
     [Test]
