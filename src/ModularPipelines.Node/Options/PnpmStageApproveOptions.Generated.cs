@@ -19,9 +19,7 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stage", "approve")]
-public record PnpmStageApproveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string StageId
-) : PnpmOptions
+public record PnpmStageApproveOptions : PnpmOptions
 {
     /// <summary>
     /// Tells the registry whether the staged package should be public or restricted.
@@ -42,7 +40,7 @@ public record PnpmStageApproveOptions(
     public bool? Json { get; set; }
 
     /// <summary>
-    /// One-time password for approve and reject.
+    /// One-time password for approve and reject. One password covers a whole batch of approvals; pnpm asks for a new one when the registry stops accepting it.
     /// </summary>
     [SecretValue]
     [CliOption("--otp")]
@@ -95,5 +93,11 @@ public record PnpmStageApproveOptions(
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
+
+    /// <summary>
+    /// The &lt;stage-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? StageId { get; set; }
 
 }
