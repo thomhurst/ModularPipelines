@@ -943,28 +943,26 @@ public class SecretMaskingPatternTests
         coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
         coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
 
-        var previousModule = ModuleLogger.CurrentModuleType.Value;
-        try
-        {
-            using var writer = new CoordinatedTextWriter(
-                coordinator.Object,
-                new StringWriter(),
-                () => true,
-                CreateObfuscator(provider),
-                provider);
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            CreateObfuscator(provider),
+            provider);
 
-            ModuleLogger.CurrentModuleType.Value = typeof(FirstModule);
+        using (new ModuleOutputContextScope(typeof(FirstModule)))
+        {
             writer.WriteLine("private-key-line-1");
-
-            ModuleLogger.CurrentModuleType.Value = typeof(SecondModule);
-            writer.WriteLine("second-module-output");
-
-            ModuleLogger.CurrentModuleType.Value = typeof(FirstModule);
-            writer.WriteLine("private-key-line-2");
         }
-        finally
+
+        using (new ModuleOutputContextScope(typeof(SecondModule)))
         {
-            ModuleLogger.CurrentModuleType.Value = previousModule;
+            writer.WriteLine("second-module-output");
+        }
+
+        using (new ModuleOutputContextScope(typeof(FirstModule)))
+        {
+            writer.WriteLine("private-key-line-2");
         }
 
         firstBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
@@ -2469,15 +2467,9 @@ public class SecretMaskingPatternTests
 
     private static void WriteForModule(CoordinatedTextWriter writer, Type moduleType, string value)
     {
-        var previousModule = ModuleLogger.CurrentModuleType.Value;
-        try
+        using (new ModuleOutputContextScope(moduleType))
         {
-            ModuleLogger.CurrentModuleType.Value = moduleType;
             writer.WriteLine(value);
-        }
-        finally
-        {
-            ModuleLogger.CurrentModuleType.Value = previousModule;
         }
     }
 
