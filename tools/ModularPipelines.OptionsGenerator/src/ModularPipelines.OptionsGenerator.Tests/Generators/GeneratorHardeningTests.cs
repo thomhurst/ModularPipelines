@@ -509,6 +509,12 @@ public class GeneratorHardeningTests
                     PropertyName = "Git",
                     CSharpType = "string?",
                 },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--validate",
+                    PropertyName = "Validate",
+                    CSharpType = "string?",
+                },
             ],
             PositionalArguments =
             [
@@ -545,6 +551,8 @@ public class GeneratorHardeningTests
         using (Assert.Multiple())
         {
             await Assert.That(options).Contains("public record ToolAddOptions : ToolOptions, IValidatableObject");
+            await Assert.That(options).Contains(
+                "IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
             await Assert.That(options).Contains("DepId?.Any() == true");
             await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Path)");
             await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Git)");

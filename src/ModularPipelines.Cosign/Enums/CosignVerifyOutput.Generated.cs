@@ -17,8 +17,8 @@ namespace ModularPipelines.Cosign.Enums;
 public enum CosignVerifyOutput
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("text")]
-    Text = 1
+    Text
 }
