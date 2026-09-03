@@ -1230,7 +1230,9 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             var description = option.Description ?? string.Empty;
             var isBoolean = option.CSharpType is "bool" or "bool?";
-            if (HelpDeclaresExplicitBooleanValue(description) && option.IsFlag)
+            if (HelpDeclaresExplicitBooleanValue(description)
+                && option.IsFlag
+                && option.NegatedSwitchName is null)
             {
                 throw new InvalidOperationException(
                     $"{command.FullCommand} {option.SwitchName} declares explicit true/false values, "

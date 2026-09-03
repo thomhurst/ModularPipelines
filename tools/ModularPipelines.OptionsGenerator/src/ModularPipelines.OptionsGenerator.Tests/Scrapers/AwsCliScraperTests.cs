@@ -1007,7 +1007,7 @@ public class AwsCliScraperTests
                             The Auto Scaling group name.
 
                            "--protected-from-scale-in" | "--no-protected-from-scale-in" (boolean)
-                            Whether instances are protected from scale in.
+                            Whether instances are protected from scale in. Possible values: true false
 
                            --cli-input-json (string)
                             JSON input.
