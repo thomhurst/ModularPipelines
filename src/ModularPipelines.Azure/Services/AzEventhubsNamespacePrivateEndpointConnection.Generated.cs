@@ -48,6 +48,21 @@ public class AzEventhubsNamespacePrivateEndpointConnection
     }
 
     /// <summary>
+    /// Create PrivateEndpointConnections of
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzEventhubsNamespacePrivateEndpointConnectionCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Delete a private endpoint connection
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -60,6 +75,21 @@ public class AzEventhubsNamespacePrivateEndpointConnection
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List the available
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzEventhubsNamespacePrivateEndpointConnectionListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,6 +120,36 @@ public class AzEventhubsNamespacePrivateEndpointConnection
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespacePrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update PrivateEndpointConnections of
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzEventhubsNamespacePrivateEndpointConnectionWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespacePrivateEndpointConnectionWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

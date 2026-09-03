@@ -22,6 +22,7 @@ public class AzEventgridPartnerNamespace
 {
     private readonly ICommandContext _command;
     private AzEventgridPartnerNamespaceChannel? _channel;
+    private AzEventgridPartnerNamespaceKey? _key;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridPartnerNamespace"/> class.
@@ -38,6 +39,11 @@ public class AzEventgridPartnerNamespace
     /// </summary>
     public AzEventgridPartnerNamespaceChannel Channel => _channel ??= new AzEventgridPartnerNamespaceChannel(_command);
 
+    /// <summary>
+    /// az key sub-commands.
+    /// </summary>
+    public AzEventgridPartnerNamespaceKey Key => _key ??= new AzEventgridPartnerNamespaceKey(_command);
+
     #endregion
 
     #region Commands
@@ -50,11 +56,11 @@ public class AzEventgridPartnerNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzEventgridPartnerNamespaceCreateOptions? options = null,
+        AzEventgridPartnerNamespaceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridPartnerNamespaceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,6 +91,21 @@ public class AzEventgridPartnerNamespace
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridPartnerNamespaceListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a partner namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventgridPartnerNamespaceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridPartnerNamespaceShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

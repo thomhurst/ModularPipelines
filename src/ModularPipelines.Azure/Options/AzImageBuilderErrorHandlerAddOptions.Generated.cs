@@ -29,13 +29,31 @@ public record AzImageBuilderErrorHandlerAddOptions : AzOptions
     /// <summary>
     /// If there is a customizer error and this field is set to "cleanup", the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a customizer error and this field is set to "abort", the build VM will be preserved.  Allowed values: abort, cleanup.
     /// </summary>
-    [CliFlag("--on-customizer-error")]
-    public bool? OnCustomizerError { get; set; }
+    [CliOption("--on-customizer-error")]
+    public string? OnCustomizerError { get; set; }
 
     /// <summary>
     /// If there is a validation error and this field is set to "cleanup", the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a validation error and this field is set to "abort", the build VM will be preserved.  Allowed values: abort, cleanup.
     /// </summary>
-    [CliFlag("--on-validation-error")]
-    public bool? OnValidationError { get; set; }
+    [CliOption("--on-validation-error")]
+    public string? OnValidationError { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the image template.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

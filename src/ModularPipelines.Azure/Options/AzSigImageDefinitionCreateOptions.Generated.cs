@@ -18,19 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "create")]
-public record AzSigImageDefinitionCreateOptions : AzOptions
+public record AzSigImageDefinitionCreateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
+    [property: CliOption("--os-type")] string OsType,
+    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku", ShortForm = "-s")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// CPU architecture.  Allowed values: Arm64, x64.
     /// </summary>
-    [CliFlag("--architecture")]
-    public bool? Architecture { get; set; }
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
 
     /// <summary>
     /// The description of the gallery image definition.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Disk types which would not work with the image, e.g.,
@@ -53,14 +61,14 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// A list of gallery image features. E.g. "IsSecureBootSupported=true
     /// </summary>
-    [CliFlag("--features")]
-    public bool? Features { get; set; }
+    [CliOption("--features", GroupValues = true)]
+    public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
     /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -71,8 +79,8 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.  Allowed values: Generalized, Specialized.  Default: Generalized.
     /// </summary>
-    [CliFlag("--os-state")]
-    public bool? OsState { get; set; }
+    [CliOption("--os-state")]
+    public string? OsState { get; set; }
 
     /// <summary>
     /// The privacy statement uri.
@@ -89,14 +97,49 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Plan name.
+    /// </summary>
+    [CliFlag("--plan-name")]
+    public bool? PlanName { get; set; }
+
+    /// <summary>
+    /// Plan product.
+    /// </summary>
+    [CliFlag("--plan-product")]
+    public bool? PlanProduct { get; set; }
+
+    /// <summary>
+    /// Plan publisher.
+    /// </summary>
+    [CliFlag("--plan-publisher")]
+    public bool? PlanPublisher { get; set; }
+
+    /// <summary>
+    /// Maximum cpu cores.
+    /// </summary>
+    [CliFlag("--maximum-cpu-core")]
+    public bool? MaximumCpuCore { get; set; }
+
+    /// <summary>
+    /// Maximum memory in MB.
+    /// </summary>
+    [CliFlag("--maximum-memory")]
+    public bool? MaximumMemory { get; set; }
+
+    /// <summary>
+    /// Minimum cpu cores.
+    /// </summary>
+    [CliFlag("--minimum-cpu-core")]
+    public bool? MinimumCpuCore { get; set; }
+
+    /// <summary>
+    /// Minimum memory in MB.
+    /// </summary>
+    [CliFlag("--minimum-memory")]
+    public bool? MinimumMemory { get; set; }
 
 }

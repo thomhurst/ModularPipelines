@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "service", "delete")]
-public record AzCosmosdbServiceDeleteOptions : AzOptions
+public record AzCosmosdbServiceDeleteOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group-name", ShortForm = "-g")] string ResourceGroupName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

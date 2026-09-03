@@ -21,15 +21,21 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappListRuntimesOptions : AzOptions
 {
     /// <summary>
+    /// Limit the output to just windows or linux runtimes.  Allowed values: linux, windows.
+    /// </summary>
+    [CliOption("--os", ShortForm = "--os-type")]
+    public string? Os { get; set; }
+
+    /// <summary>
     /// Limit the output to a specific runtime family.  Allowed values: dotnet, java, node, php, python.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// Filter by support lifecycle status. Default: supported.  Allowed values: active, all, eol, near, supported.
     /// </summary>
-    [CliFlag("--support")]
-    public bool? Support { get; set; }
+    [CliOption("--support")]
+    public string? Support { get; set; }
 
 }

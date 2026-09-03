@@ -18,19 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "update")]
-public record AzSqlFailoverGroupUpdateOptions : AzOptions
+public record AzSqlFailoverGroupUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// List of databases to add to Failover Group.
     /// </summary>
-    [CliFlag("--add-db")]
-    public bool? AddDb { get; set; }
+    [CliOption("--add-db", GroupValues = true)]
+    public IEnumerable<string>? AddDb { get; set; }
 
     /// <summary>
     /// The failover policy of the Failover Group.  Allowed values: Automatic,
     /// </summary>
-    [CliFlag("--failover-policy")]
-    public bool? FailoverPolicy { get; set; }
+    [CliOption("--failover-policy")]
+    public string? FailoverPolicy { get; set; }
 
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.
@@ -41,38 +43,73 @@ public record AzSqlFailoverGroupUpdateOptions : AzOptions
     /// <summary>
     /// The list of partner server resource id's of the Failover Group.
     /// </summary>
-    [CliFlag("--partner-server-ids")]
-    public bool? PartnerServerIds { get; set; }
+    [CliOption("--partner-server-ids", GroupValues = true)]
+    public IEnumerable<string>? PartnerServerIds { get; set; }
 
     /// <summary>
     /// List of databases to remove from Failover Group.
     /// </summary>
-    [CliFlag("--remove-db")]
-    public bool? RemoveDb { get; set; }
+    [CliOption("--remove-db", GroupValues = true)]
+    public IEnumerable<string>? RemoveDb { get; set; }
 
     /// <summary>
     /// The resource id of the read only endpoint target server.
     /// </summary>
     [CliOption("--ro-endpoint-target")]
-    public string? RoEndpointTargetValue { get; set; }
+    public string? RoEndpointTarget { get; set; }
 
     /// <summary>
     /// The policy of the read only endpoint of the Failover Group.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--ro-failover-policy")]
-    public bool? RoFailoverPolicy { get; set; }
+    [CliOption("--ro-failover-policy")]
+    public string? RoFailoverPolicy { get; set; }
 
     /// <summary>
     /// Databases secondary type on partner server.  Allowed values: Geo,
     /// </summary>
-    [CliFlag("--secondary-type")]
-    public bool? SecondaryType { get; set; }
+    [CliOption("--secondary-type")]
+    public string? SecondaryType { get; set; }
 
-    [Obsolete("Use RoEndpointTargetValue instead.")]
-    public bool? RoEndpointTarget
-    {
-        get => bool.TryParse(RoEndpointTargetValue, out var value) ? value : null;
-        set => RoEndpointTargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

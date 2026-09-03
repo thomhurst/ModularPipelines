@@ -24,65 +24,72 @@ public record AzKeyvaultPrivateEndpointConnectionWaitOptions : AzOptions
     /// Name of the HSM. Required if --id is not specified.(--hsm-name and
     /// </summary>
     [CliOption("--hsm-name")]
-    public string? HsmNameValue { get; set; }
+    public string? HsmName { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the Key Vault/HSM. If specified --vault-name/--hsm-name and --name/-n, this should be omitted.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with the Key Vault/HSM. Required if --id is not specified.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the Key Vault. Required if --id is not specified.
     /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultNameValue { get; set; }
+    public string? VaultName { get; set; }
 
-    [Obsolete("Use HsmNameValue instead.")]
-    public bool? HsmName
-    {
-        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
-        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
+    /// </summary>
+    [CliFlag("--custom")]
+    public bool? Custom { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
 
-    [Obsolete("Use VaultNameValue instead.")]
-    public bool? VaultName
-    {
-        get => bool.TryParse(VaultNameValue, out var value) ? value : null;
-        set => VaultNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliFlag("--timeout")]
+    public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
 
 }

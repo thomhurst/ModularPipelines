@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "delete")]
-public record AzApimApiVersionsetDeleteOptions : AzOptions
+public record AzApimApiVersionSetDeleteOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--version-set-id")] string VersionSetId
+) : AzOptions
 {
     /// <summary>
     /// ETag of the Entity.

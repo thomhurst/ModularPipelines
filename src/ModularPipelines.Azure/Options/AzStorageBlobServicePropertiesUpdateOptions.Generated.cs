@@ -23,7 +23,91 @@ public record AzStorageBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Enables soft-delete.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--delete-retention")]
+    public bool? DeleteRetention { get; set; }
+
+    /// <summary>
+    /// Number of days that soft-deleted blob will be retained. Must be in range [1,365].
+    /// </summary>
+    [CliFlag("--delete-retention-period")]
+    public bool? DeleteRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Represents the path to the error document that should be shown when an error 404 is issued, in other words, when a browser requests a page that does not exist.
+    /// </summary>
+    [CliFlag("--404-document")]
+    public bool? _404Document { get; set; }
+
+    /// <summary>
+    /// Represents the name of the index document. This is commonly "index.html".
+    /// </summary>
+    [CliFlag("--index-document")]
+    public bool? IndexDocument { get; set; }
+
+    /// <summary>
+    /// Enables static-website.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--static-website")]
+    public bool? StaticWebsite { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

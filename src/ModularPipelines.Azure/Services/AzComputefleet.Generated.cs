@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az computefleet commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzComputefleet : IAzComputefleet
+public class AzComputeFleet : IAzComputeFleet
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzComputefleet"/> class.
+    /// Initializes a new instance of the <see cref="AzComputeFleet"/> class.
     /// </summary>
-    public AzComputefleet(ICommandContext command)
+    public AzComputeFleet(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,26 @@ public class AzComputefleet : IAzComputefleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVmsAsync(
-        AzComputeFleetListVmsOptions? options = null,
+        AzComputeFleetListVmsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzComputeFleetListVmsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzComputeFleetWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzComputeFleetWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

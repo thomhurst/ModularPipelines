@@ -21,7 +21,9 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorAccount
 {
     private readonly ICommandContext _command;
+    private AzMonitorAccountIdentity? _identity;
     private AzMonitorAccountIssue? _issue;
+    private AzMonitorAccountMetricsContainer? _metricsContainer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorAccount"/> class.
@@ -34,13 +36,38 @@ public class AzMonitorAccount
     #region Sub-command Groups
 
     /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzMonitorAccountIdentity Identity => _identity ??= new AzMonitorAccountIdentity(_command);
+
+    /// <summary>
     /// az issue sub-commands.
     /// </summary>
     public AzMonitorAccountIssue Issue => _issue ??= new AzMonitorAccountIssue(_command);
 
+    /// <summary>
+    /// az metrics-container sub-commands.
+    /// </summary>
+    public AzMonitorAccountMetricsContainer MetricsContainer => _metricsContainer ??= new AzMonitorAccountMetricsContainer(_command);
+
     #endregion
 
     #region Commands
+
+    /// <summary>
+    /// Create a workspace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzMonitorAccountCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// Delete a workspace.
@@ -70,6 +97,51 @@ public class AzMonitorAccount
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorAccountListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the specific azure monitor workspace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMonitorAccountShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorAccountShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a workspace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzMonitorAccountUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorAccountUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzMonitorAccountWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorAccountWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

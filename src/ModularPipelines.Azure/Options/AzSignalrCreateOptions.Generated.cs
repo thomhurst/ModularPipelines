@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "create")]
-public record AzSignalrCreateOptions : AzOptions
+public record AzSignalrCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
@@ -41,19 +45,25 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// The service mode which signalr service will be working on. Allowed values: Classic, Default, Serverless.  Default:
     /// </summary>
-    [CliFlag("--service-mode")]
-    public bool? ServiceMode { get; set; }
+    [CliOption("--service-mode")]
+    public string? ServiceMode { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
     [CliFlag("--unit-count")]
     public bool? UnitCount { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.  Default: Allow.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
 
 }

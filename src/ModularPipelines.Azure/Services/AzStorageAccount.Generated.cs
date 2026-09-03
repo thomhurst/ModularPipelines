@@ -27,6 +27,7 @@ public class AzStorageAccount
     private AzStorageAccountHnsMigration? _hnsMigration;
     private AzStorageAccountKeys? _keys;
     private AzStorageAccountLocalUser? _localUser;
+    private AzStorageAccountManagementPolicy? _managementPolicy;
     private AzStorageAccountMigration? _migration;
     private AzStorageAccountNetworkRule? _networkRule;
     private AzStorageAccountNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
@@ -73,6 +74,11 @@ public class AzStorageAccount
     public AzStorageAccountLocalUser LocalUser => _localUser ??= new AzStorageAccountLocalUser(_command);
 
     /// <summary>
+    /// az management-policy sub-commands.
+    /// </summary>
+    public AzStorageAccountManagementPolicy ManagementPolicy => _managementPolicy ??= new AzStorageAccountManagementPolicy(_command);
+
+    /// <summary>
     /// az migration sub-commands.
     /// </summary>
     public AzStorageAccountMigration Migration => _migration ??= new AzStorageAccountMigration(_command);
@@ -97,6 +103,21 @@ public class AzStorageAccount
     #region Commands
 
     /// <summary>
+    /// Check that the storage account name is valid and is not already
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameAsync(
+        AzStorageAccountCheckNameOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a storage account.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -104,11 +125,11 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzStorageAccountCreateOptions? options = null,
+        AzStorageAccountCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -142,6 +163,21 @@ public class AzStorageAccount
     }
 
     /// <summary>
+    /// Get the usage of file service in storage account
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> FileServiceUsageAsync(
+        AzStorageAccountFileServiceUsageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountFileServiceUsageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Generate a shared access signature for the storage account.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -149,11 +185,11 @@ public class AzStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateSasAsync(
-        AzStorageAccountGenerateSasOptions? options = null,
+        AzStorageAccountGenerateSasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountGenerateSasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -169,6 +205,21 @@ public class AzStorageAccount
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Revoke all user delegation keys for a storage
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RevokeDelegationKeysAsync(
+        AzStorageAccountRevokeDelegationKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountRevokeDelegationKeysOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -199,6 +250,21 @@ public class AzStorageAccount
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageAccountShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the current count and limit of the storage accounts under
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowUsageAsync(
+        AzStorageAccountShowUsageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

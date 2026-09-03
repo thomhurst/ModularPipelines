@@ -47,5 +47,20 @@ public class AzVmssDisk
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssDiskAttachOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Detach managed data disks from a scale set or its instances.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetachAsync(
+        AzVmssDiskDetachOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
     #endregion
 }

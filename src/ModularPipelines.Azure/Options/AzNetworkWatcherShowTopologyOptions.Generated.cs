@@ -26,4 +26,22 @@ public record AzNetworkWatcherShowTopologyOptions : AzOptions
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
 
+    /// <summary>
+    /// Name of the target resource group to perform topology on.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name or ID of the subnet to target. If name is used, --vnet NAME must also be supplied.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Name or ID of the virtual network to target.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
+
 }

@@ -26,4 +26,28 @@ public record AzSearchServiceQueryKeyDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The query key to be deleted. Query keys are identified by value, not by name.
+    /// </summary>
+    [CliOption("--key", ShortForm = "-n")]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the Azure AI Search service associated with the specified resource group.
+    /// </summary>
+    [CliOption("--search-service-name")]
+    public string? SearchServiceName { get; set; }
+
 }

@@ -60,19 +60,25 @@ public record AzWebappDeployOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Path of the artifact to be deployed. Ex: "myapp.zip" or "/myworkspace/apps/myapp.war".
     /// </summary>
     [CliOption("--src-path")]
-    public string? SrcPathValue { get; set; }
+    public string? SrcPath { get; set; }
 
     /// <summary>
     /// URL of the artifact. The webapp will pull the artifact from this URL.
     /// </summary>
     [CliOption("--src-url")]
-    public string? SrcUrlValue { get; set; }
+    public string? SrcUrl { get; set; }
+
+    /// <summary>
+    /// Linux only. A friendly name used to identify the deployment.
+    /// </summary>
+    [CliFlag("--tag")]
+    public bool? Tag { get; set; }
 
     /// <summary>
     /// Absolute path that the artifact should be deployed to. Defaults to "home/site/wwwroot/" Ex: "/home/site/deployments/tools/", "/home/site/scripts/startup-script.sh".
@@ -95,28 +101,25 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// Used to override the type of artifact being deployed.  Allowed values: ear, jar, lib, startup, static, war, zip.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use SrcPathValue instead.")]
-    public bool? SrcPath
-    {
-        get => bool.TryParse(SrcPathValue, out var value) ? value : null;
-        set => SrcPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the webapp to deploy to.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
-    [Obsolete("Use SrcUrlValue instead.")]
-    public bool? SrcUrl
-    {
-        get => bool.TryParse(SrcUrlValue, out var value) ? value : null;
-        set => SrcUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

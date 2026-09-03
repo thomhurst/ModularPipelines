@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark-job-definition", "update")]
-public record AzSynapseSparkJobDefinitionUpdateOptions : AzOptions
+public record AzSynapseSparkJobDefinitionUpdateOptions(
+    [property: CliOption("--file")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// The folder that this spark job definition is in. If not specified, it will appear at the root level. Eg: folder/subfolder1.

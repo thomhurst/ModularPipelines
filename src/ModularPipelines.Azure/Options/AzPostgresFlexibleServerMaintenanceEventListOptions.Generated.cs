@@ -18,12 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "maintenance-event", "list")]
-public record AzPostgresFlexibleServerMaintenanceEventListOptions : AzOptions
+public record AzPostgresFlexibleServerMaintenanceEventListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
-    /// Filter maintenance events by status.  Allowed values: Past, Upcoming.
+    /// Filter maintenance events by status.  Allowed values: Past,
     /// </summary>
-    [CliFlag("--maintenance-status")]
-    public bool? MaintenanceStatus { get; set; }
+    [CliOption("--maintenance-status")]
+    public string? MaintenanceStatus { get; set; }
 
 }

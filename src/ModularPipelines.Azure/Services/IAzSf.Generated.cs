@@ -27,6 +27,11 @@ public interface IAzSf
     AzSfApplication Application => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az application-type sub-commands.
+    /// </summary>
+    AzSfApplicationType ApplicationType => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az cluster sub-commands.
     /// </summary>
     AzSfCluster Cluster => throw new System.NotSupportedException();

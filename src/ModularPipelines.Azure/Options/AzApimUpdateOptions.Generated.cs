@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "update")]
-public record AzApimUpdateOptions : AzOptions
+public record AzApimUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
@@ -60,7 +63,7 @@ public record AzApimUpdateOptions : AzOptions
     /// The name of your organization for use in the developer portal and e-mail notifications.
     /// </summary>
     [CliOption("--publisher-name")]
-    public string? PublisherNameValue { get; set; }
+    public string? PublisherName { get; set; }
 
     /// <summary>
     /// The number of deployed units of the SKU.
@@ -71,33 +74,43 @@ public record AzApimUpdateOptions : AzOptions
     /// <summary>
     /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The virtual network type.  Allowed values: External, Internal,
     /// </summary>
     [CliOption("--virtual-network", ShortForm = "-v")]
-    public string? VirtualNetworkValue { get; set; }
+    public string? VirtualNetwork { get; set; }
 
-    [Obsolete("Use PublisherNameValue instead.")]
-    public bool? PublisherName
-    {
-        get => bool.TryParse(PublisherNameValue, out var value) ? value : null;
-        set => PublisherNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use VirtualNetworkValue instead.")]
-    public bool? VirtualNetwork
-    {
-        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
-        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

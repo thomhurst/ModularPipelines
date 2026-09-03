@@ -30,7 +30,7 @@ public record AzResourceListOptions : AzOptions
     /// The resource name. (Ex: myC).
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
@@ -38,11 +38,22 @@ public record AzResourceListOptions : AzOptions
     [CliFlag("--tag")]
     public bool? Tag { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Provider namespace (Ex: 'Microsoft.Provider').
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

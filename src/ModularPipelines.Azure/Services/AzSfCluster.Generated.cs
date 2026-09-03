@@ -22,6 +22,8 @@ public class AzSfCluster
 {
     private readonly ICommandContext _command;
     private AzSfClusterClientCertificate? _clientCertificate;
+    private AzSfClusterDurability? _durability;
+    private AzSfClusterNode? _node;
     private AzSfClusterNodeType? _nodeType;
     private AzSfClusterReliability? _reliability;
     private AzSfClusterSetting? _setting;
@@ -41,6 +43,16 @@ public class AzSfCluster
     /// az client-certificate sub-commands.
     /// </summary>
     public AzSfClusterClientCertificate ClientCertificate => _clientCertificate ??= new AzSfClusterClientCertificate(_command);
+
+    /// <summary>
+    /// az durability sub-commands.
+    /// </summary>
+    public AzSfClusterDurability Durability => _durability ??= new AzSfClusterDurability(_command);
+
+    /// <summary>
+    /// az node sub-commands.
+    /// </summary>
+    public AzSfClusterNode Node => _node ??= new AzSfClusterNode(_command);
 
     /// <summary>
     /// az node-type sub-commands.
@@ -74,11 +86,11 @@ public class AzSfCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSfClusterCreateOptions? options = null,
+        AzSfClusterCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSfClusterCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -94,6 +106,21 @@ public class AzSfCluster
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSfClusterListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a Service Fabric cluster resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSfClusterShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

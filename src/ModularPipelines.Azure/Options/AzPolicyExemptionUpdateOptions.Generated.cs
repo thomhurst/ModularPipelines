@@ -18,25 +18,98 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "exemption", "update")]
-public record AzPolicyExemptionUpdateOptions : AzOptions
+public record AzPolicyExemptionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The assignment scope validation.  Allowed values:
+    /// </summary>
+    [CliOption("--assignment-scope-validation", ShortForm = "-v")]
+    public string? AssignmentScopeValidation { get; set; }
+
+    /// <summary>
+    /// Policy exemption description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy exemption.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy exemption category.  Allowed values:
+    /// </summary>
+    [CliOption("--exemption-category", ShortForm = "-e")]
+    public string? ExemptionCategory { get; set; }
+
+    /// <summary>
+    /// The expiration date and time.
+    /// </summary>
+    [CliFlag("--expires-on")]
+    public bool? ExpiresOn { get; set; }
+
+    /// <summary>
+    /// The policy exemption metadata.  Support shorthand- syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment to exempt.
+    /// </summary>
+    [CliFlag("--policy-assignment", ShortForm = "-a")]
+    public bool? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
+    public bool? PolicyDefinitionReferenceIds { get; set; }
+
+    /// <summary>
+    /// The resource selectors list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
 
 }

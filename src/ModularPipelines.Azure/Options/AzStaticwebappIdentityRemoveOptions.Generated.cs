@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "identity", "remove")]
-public record AzStaticwebappIdentityRemoveOptions : AzOptions
+public record AzStaticwebappIdentityRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated identities to assign. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliFlag("--identities")]
-    public bool? Identities { get; set; }
+    [CliOption("--identities", GroupValues = true)]
+    public IEnumerable<string>? Identities { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

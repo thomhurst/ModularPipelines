@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "validate")]
-public record AzAroValidateOptions : AzOptions
+public record AzAroValidateOptions(
+    [property: CliOption("--master-subnet")] string MasterSubnet,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--worker-subnet")] string WorkerSubnet
+) : AzOptions
 {
     /// <summary>
     /// Client ID of cluster service principal.
@@ -36,7 +41,7 @@ public record AzAroValidateOptions : AzOptions
     /// Resource group of cluster.
     /// </summary>
     [CliOption("--cluster-resource-group")]
-    public string? ClusterResourceGroupValue { get; set; }
+    public string? ClusterResourceGroup { get; set; }
 
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
@@ -72,33 +77,30 @@ public record AzAroValidateOptions : AzOptions
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Name of vnet resource group.
     /// </summary>
     [CliOption("--vnet-resource-group")]
-    public string? VnetResourceGroupValue { get; set; }
+    public string? VnetResourceGroup { get; set; }
 
-    [Obsolete("Use ClusterResourceGroupValue instead.")]
-    public bool? ClusterResourceGroup
-    {
-        get => bool.TryParse(ClusterResourceGroupValue, out var value) ? value : null;
-        set => ClusterResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
+    /// </summary>
+    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    public string? AssignClusterIdentity { get; set; }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
+    /// </summary>
+    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
+    public string? AssignPlatformWi { get; set; }
 
-    [Obsolete("Use VnetResourceGroupValue instead.")]
-    public bool? VnetResourceGroup
-    {
-        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
-        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Enable managed identity for this cluster.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-managed-identity", ShortForm = "--enable-mi")]
+    public bool? EnableManagedIdentity { get; set; }
 
 }

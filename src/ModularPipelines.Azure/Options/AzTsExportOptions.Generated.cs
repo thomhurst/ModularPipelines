@@ -18,58 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ts", "export")]
-public record AzTsExportOptions : AzOptions
+public record AzTsExportOptions(
+    [property: CliOption("--output-folder")] string OutputFolder
+) : AzOptions
 {
     /// <summary>
     /// The name of the template spec.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
     [CliOption("--template-spec", ShortForm = "-s")]
-    public string? TemplateSpecValue { get; set; }
+    public string? TemplateSpec { get; set; }
 
     /// <summary>
     /// The template spec version.
     /// </summary>
     [CliOption("--version", ShortForm = "-v")]
-    public string? VersionValue { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateSpecValue instead.")]
-    public bool? TemplateSpec
-    {
-        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
-        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
-    {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Version { get; set; }
 
 }

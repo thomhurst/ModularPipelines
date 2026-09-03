@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "assignment", "create")]
-public record AzCosmosdbSqlRoleAssignmentCreateOptions : AzOptions
+public record AzCosmosdbSqlRoleAssignmentCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--principal-id", ShortForm = "-p")] string PrincipalId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--scope", ShortForm = "-s")] string Scope
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

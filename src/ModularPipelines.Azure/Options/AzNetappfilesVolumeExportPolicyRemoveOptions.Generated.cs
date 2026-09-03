@@ -18,12 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "export-policy", "remove")]
-public record AzNetappfilesVolumeExportPolicyRemoveOptions : AzOptions
+public record AzNetappfilesVolumeExportPolicyRemoveOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-v")] string Name,
+    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-index")] string RuleIndex
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

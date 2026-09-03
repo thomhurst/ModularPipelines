@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "delete")]
-public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions : AzOptions
+public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// IPv4 address or CIDR range.
@@ -30,25 +32,18 @@ public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions : AzOptions
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Network profile to set.  Allowed values: BatchAccount,
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

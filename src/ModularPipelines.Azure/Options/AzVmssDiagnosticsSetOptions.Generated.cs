@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "diagnostics", "set")]
-public record AzVmssDiagnosticsSetOptions : AzOptions
+public record AzVmssDiagnosticsSetOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--settings")] string Settings,
+    [property: CliOption("--vmss-name")] string VmssName
+) : AzOptions
 {
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.

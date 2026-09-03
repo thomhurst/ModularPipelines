@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "autoscale", "enable")]
-public record AzBatchPoolAutoscaleEnableOptions : AzOptions
+public record AzBatchPoolAutoscaleEnableOptions(
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued.
@@ -31,5 +33,23 @@ public record AzBatchPoolAutoscaleEnableOptions : AzOptions
     /// </summary>
     [CliFlag("--auto-scale-formula")]
     public bool? AutoScaleFormula { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

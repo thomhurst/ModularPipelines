@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "update")]
-public record AzAcrRepositoryUpdateOptions : AzOptions
+public record AzAcrRepositoryUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether delete operation is allowed.  Allowed values: false, true.
@@ -30,7 +32,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public string? ImageValue { get; set; }
+    public string? Image { get; set; }
 
     /// <summary>
     /// Indicates whether this item shows in list operation results.  Allowed values: false, true.
@@ -54,7 +56,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// The name of the repository.
     /// </summary>
     [CliOption("--repository")]
-    public string? RepositoryValue { get; set; }
+    public string? Repository { get; set; }
 
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
@@ -73,19 +75,5 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--write-enabled")]
     public bool? WriteEnabled { get; set; }
-
-    [Obsolete("Use ImageValue instead.")]
-    public bool? Image
-    {
-        get => bool.TryParse(ImageValue, out var value) ? value : null;
-        set => ImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RepositoryValue instead.")]
-    public bool? Repository
-    {
-        get => bool.TryParse(RepositoryValue, out var value) ? value : null;
-        set => RepositoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

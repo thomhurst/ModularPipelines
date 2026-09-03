@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-encryption-set", "create")]
-public record AzDiskEncryptionSetCreateOptions : AzOptions
+public record AzDiskEncryptionSetCreateOptions(
+    [property: CliOption("--disk-encryption-set-name", ShortForm = "-n")] string DiskEncryptionSetName,
+    [property: CliOption("--key-url")] string KeyUrl,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
+    public bool? AutoRotation { get; set; }
+
     /// <summary>
     /// The type of key used to encrypt the data of
     /// </summary>
@@ -36,45 +46,36 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// Resource location  When not specified, the location of the resource group will be used.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
-    public string? LocationValue { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the KeyVault containing the key or secret.
     /// </summary>
     [CliOption("--source-vault")]
-    public string? SourceVaultValue { get; set; }
+    public string? SourceVault { get; set; }
 
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use LocationValue instead.")]
-    public bool? Location
-    {
-        get => bool.TryParse(LocationValue, out var value) ? value : null;
-        set => LocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Provide this flag to use system assigned identity.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
 
-    [Obsolete("Use SourceVaultValue instead.")]
-    public bool? SourceVault
-    {
-        get => bool.TryParse(SourceVaultValue, out var value) ? value : null;
-        set => SourceVaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space separated resource IDs to add user- assigned identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
 
 }

@@ -33,22 +33,28 @@ public record AzSqlServerUpdateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
+    /// The federated client id used in cross tenant
+    /// </summary>
+    [CliFlag("--federated-client-id", ShortForm = "--fid")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned,
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
     /// </summary>
     [CliOption("--key-id", ShortForm = "-k")]
-    public string? KeyIdValue { get; set; }
+    public string? KeyId { get; set; }
 
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -57,16 +63,57 @@ public record AzSqlServerUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The ID of the primary user managed identity.
+    /// </summary>
+    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    public string? Pid { get; set; }
+
+    /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
     [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
     public bool? UserAssignedIdentityId { get; set; }
 
-    [Obsolete("Use KeyIdValue instead.")]
-    public bool? KeyId
-    {
-        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
-        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

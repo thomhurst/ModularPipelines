@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "snapshot", "restore")]
-public record AzWebappConfigSnapshotRestoreOptions : AzOptions
+public record AzWebappConfigSnapshotRestoreOptions(
+    [property: CliOption("--time")] string Time
+) : AzOptions
 {
     /// <summary>
     /// Restore the web app files without restoring the settings.
@@ -30,52 +32,42 @@ public record AzWebappConfigSnapshotRestoreOptions : AzOptions
     /// The name of the slot.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Name of the web app to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-name")]
-    public string? SourceNameValue { get; set; }
+    public string? SourceName { get; set; }
 
     /// <summary>
     /// Name of the resource group to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-resource-group")]
-    public string? SourceResourceGroupValue { get; set; }
+    public string? SourceResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the web app slot to retrieve snapshot from.
     /// </summary>
     [CliOption("--source-slot")]
-    public string? SourceSlotValue { get; set; }
+    public string? SourceSlot { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use SourceNameValue instead.")]
-    public bool? SourceName
-    {
-        get => bool.TryParse(SourceNameValue, out var value) ? value : null;
-        set => SourceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
-    [Obsolete("Use SourceResourceGroupValue instead.")]
-    public bool? SourceResourceGroup
-    {
-        get => bool.TryParse(SourceResourceGroupValue, out var value) ? value : null;
-        set => SourceResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceSlotValue instead.")]
-    public bool? SourceSlot
-    {
-        get => bool.TryParse(SourceSlotValue, out var value) ? value : null;
-        set => SourceSlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

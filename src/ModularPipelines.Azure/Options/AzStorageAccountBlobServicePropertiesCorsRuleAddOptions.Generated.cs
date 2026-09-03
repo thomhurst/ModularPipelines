@@ -18,31 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "add")]
-public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions : AzOptions
+public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--allowed-methods", ShortForm = "--methods", GroupValues = true)] IEnumerable<string> AllowedMethods,
+    [property: CliOption("--allowed-origins", ShortForm = "--origins", GroupValues = true)] IEnumerable<string> AllowedOrigins,
+    [property: CliOption("--max-age", ShortForm = "--max-age-in-seconds")] string MaxAge
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of headers allowed to be part of the cross-origin request.
     /// </summary>
-    [CliFlag("--allowed-headers")]
-    public bool? AllowedHeaders { get; set; }
+    [CliOption("--allowed-headers", GroupValues = true)]
+    public IEnumerable<string>? AllowedHeaders { get; set; }
 
     /// <summary>
     /// Space-separated list of response headers to expose to CORS clients.
     /// </summary>
-    [CliFlag("--exposed-headers")]
-    public bool? ExposedHeaders { get; set; }
+    [CliOption("--exposed-headers", GroupValues = true)]
+    public IEnumerable<string>? ExposedHeaders { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "update")]
-public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
+public record AzWebappConfigStorageAccountUpdateOptions(
+    [property: CliOption("--custom-id", ShortForm = "-i")] string CustomId
+) : AzOptions
 {
     /// <summary>
     /// Storage account access key.
@@ -36,13 +38,19 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
     /// </summary>
     [CliOption("--mount-path", ShortForm = "-m")]
-    public string? MountPathValue { get; set; }
+    public string? MountPath { get; set; }
+
+    /// <summary>
+    /// Name of the file share as given in the storage account.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "--sn")]
+    public string? ShareName { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// With slot setting you can decide to make BYOS configuration sticky to a slot, meaning that when that slot is swapped, the storage account stays with that slot.
@@ -53,21 +61,25 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Storage type.  Allowed values: AzureBlob, AzureFiles.
     /// </summary>
-    [CliFlag("--storage-type", ShortForm = "-t")]
-    public bool? StorageType { get; set; }
+    [CliOption("--storage-type", ShortForm = "-t")]
+    public string? StorageType { get; set; }
 
-    [Obsolete("Use MountPathValue instead.")]
-    public bool? MountPath
-    {
-        get => bool.TryParse(MountPathValue, out var value) ? value : null;
-        set => MountPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

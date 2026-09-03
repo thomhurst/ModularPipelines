@@ -21,15 +21,39 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmssReimageOptions : AzOptions
 {
     /// <summary>
+    /// Force update ephemeral OS disk for a virtual machine scale set VM.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--force-update-os-disk-for-ephemeral", ShortForm = "--update-os-disk")]
+    public bool? ForceUpdateOsDiskForEphemeral { get; set; }
+
+    /// <summary>
     /// Space-separated list of VM instance ID. If missing, reimage all instances.
     /// </summary>
-    [CliFlag("--instance-ids")]
-    public bool? InstanceIds { get; set; }
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

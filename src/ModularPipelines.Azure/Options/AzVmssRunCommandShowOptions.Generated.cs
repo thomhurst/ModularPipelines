@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "show")]
-public record AzVmssRunCommandShowOptions : AzOptions
+public record AzVmssRunCommandShowOptions(
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The instance view of a run command.
     /// </summary>
     [CliFlag("--instance-view")]
     public bool? InstanceView { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The instance ID of the virtual machine.
+    /// </summary>
+    [CliFlag("--instance-id")]
+    public bool? InstanceId { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the VM scale set.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
 }

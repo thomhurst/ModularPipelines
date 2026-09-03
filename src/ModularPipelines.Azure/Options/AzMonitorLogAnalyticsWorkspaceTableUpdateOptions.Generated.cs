@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "update")]
-public record AzMonitorLogAnalyticsWorkspaceTableUpdateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceTableUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// A list of table custom columns.Extracts multiple space- separated columns in column_name=column_type format.
     /// </summary>
-    [CliFlag("--columns")]
-    public bool? Columns { get; set; }
+    [CliOption("--columns", GroupValues = true)]
+    public IEnumerable<string>? Columns { get; set; }
 
     /// <summary>
     /// Table description.
@@ -41,8 +45,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableUpdateOptions : AzOptions
     /// <summary>
     /// The table plan.  Allowed values: Analytics, Basic.
     /// </summary>
-    [CliFlag("--plan")]
-    public bool? Plan { get; set; }
+    [CliOption("--plan")]
+    public string? Plan { get; set; }
 
     /// <summary>
     /// The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.

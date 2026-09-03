@@ -21,9 +21,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzSearch : IAzSearch
 {
     private readonly ICommandContext _command;
+    private AzSearchAdminKey? _adminKey;
+    private AzSearchOffering? _offering;
     private AzSearchPrivateEndpointConnection? _privateEndpointConnection;
+    private AzSearchPrivateLinkResource? _privateLinkResource;
+    private AzSearchQueryKey? _queryKey;
     private AzSearchService? _service;
     private AzSearchSharedPrivateLinkResource? _sharedPrivateLinkResource;
+    private AzSearchUsage? _usage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSearch"/> class.
@@ -36,9 +41,29 @@ public class AzSearch : IAzSearch
     #region Sub-command Groups
 
     /// <summary>
+    /// az admin-key sub-commands.
+    /// </summary>
+    public AzSearchAdminKey AdminKey => _adminKey ??= new AzSearchAdminKey(_command);
+
+    /// <summary>
+    /// az offering sub-commands.
+    /// </summary>
+    public AzSearchOffering Offering => _offering ??= new AzSearchOffering(_command);
+
+    /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     public AzSearchPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzSearchPrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzSearchPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzSearchPrivateLinkResource(_command);
+
+    /// <summary>
+    /// az query-key sub-commands.
+    /// </summary>
+    public AzSearchQueryKey QueryKey => _queryKey ??= new AzSearchQueryKey(_command);
 
     /// <summary>
     /// az service sub-commands.
@@ -49,6 +74,11 @@ public class AzSearch : IAzSearch
     /// az shared-private-link-resource sub-commands.
     /// </summary>
     public AzSearchSharedPrivateLinkResource SharedPrivateLinkResource => _sharedPrivateLinkResource ??= new AzSearchSharedPrivateLinkResource(_command);
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    public AzSearchUsage Usage => _usage ??= new AzSearchUsage(_command);
 
     #endregion
 }

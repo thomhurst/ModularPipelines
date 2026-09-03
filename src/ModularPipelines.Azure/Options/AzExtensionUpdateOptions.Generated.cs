@@ -18,12 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "update")]
-public record AzExtensionUpdateOptions : AzOptions
+public record AzExtensionUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Include preview packages for extension installation, if exists. Allowed values: false, true.
     /// </summary>
     [CliOption("--allow-preview")]
     public bool? AllowPreview { get; set; }
+
+    /// <summary>
+    /// Space-separated list of extra URLs of package indexes to use. This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+    /// </summary>
+    [CliOption("--pip-extra-index-urls", GroupValues = true)]
+    public IEnumerable<string>? PipExtraIndexUrls { get; set; }
+
+    /// <summary>
+    /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
+    /// </summary>
+    [CliFlag("--pip-proxy")]
+    public bool? PipProxy { get; set; }
 
 }

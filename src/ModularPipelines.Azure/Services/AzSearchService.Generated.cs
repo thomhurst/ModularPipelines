@@ -21,7 +21,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzSearchService
 {
     private readonly ICommandContext _command;
+    private AzSearchServiceAdminKey? _adminKey;
+    private AzSearchServiceNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
     private AzSearchServicePrivateEndpointConnection? _privateEndpointConnection;
+    private AzSearchServicePrivateLinkResource? _privateLinkResource;
     private AzSearchServiceQueryKey? _queryKey;
     private AzSearchServiceSharedPrivateLinkResource? _sharedPrivateLinkResource;
 
@@ -36,9 +39,24 @@ public class AzSearchService
     #region Sub-command Groups
 
     /// <summary>
+    /// az admin-key sub-commands.
+    /// </summary>
+    public AzSearchServiceAdminKey AdminKey => _adminKey ??= new AzSearchServiceAdminKey(_command);
+
+    /// <summary>
+    /// az network-security-perimeter-configuration sub-commands.
+    /// </summary>
+    public AzSearchServiceNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration => _networkSecurityPerimeterConfiguration ??= new AzSearchServiceNetworkSecurityPerimeterConfiguration(_command);
+
+    /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     public AzSearchServicePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzSearchServicePrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzSearchServicePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzSearchServicePrivateLinkResource(_command);
 
     /// <summary>
     /// az query-key sub-commands.
@@ -55,6 +73,21 @@ public class AzSearchService
     #region Commands
 
     /// <summary>
+    /// Checks whether or not the given search service name
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameAvailabilityAsync(
+        AzSearchServiceCheckNameAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Creates or updates a search service in the given resource group. If
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -62,11 +95,11 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSearchServiceCreateOptions? options = null,
+        AzSearchServiceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServiceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,6 +118,36 @@ public class AzSearchService
     }
 
     /// <summary>
+    /// Gets a list of all Search services in the given resource group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSearchServiceListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the search service with the given name in the given resource group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSearchServiceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServiceShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update an existing search service in the given resource group.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -97,6 +160,21 @@ public class AzSearchService
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServiceUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzSearchServiceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServiceWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

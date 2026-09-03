@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "create")]
-public record AzImageBuilderCreateOptions : AzOptions
+public record AzImageBuilderCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The Maximum duration to wait while building the image template, in minutes. Default is 60.
@@ -41,8 +44,8 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// List of user assigned identities (name or ID, space delimited) of the image template.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity", GroupValues = true)]
+    public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
     /// Local path or URL to an image template file. When using
@@ -84,13 +87,13 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// Name or ID of subnet to deploy the build virtual machine.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The type of validation you want to use on the Image. For example, "Shell" can be shell validation.
@@ -108,20 +111,36 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// Name of VNET to deploy the build virtual machine. You should only specify it when subnet is a name.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space-separated list of shell or powershell scripts to customize the image with. Each script must be a publicly accessible URL. Infers type of script from file extension ('.sh' or'.ps1') or from source type. More more customizer options and flexibility, see: 'az image template customizer add'.
+    /// </summary>
+    [CliOption("--scripts", GroupValues = true)]
+    public IEnumerable<string>? Scripts { get; set; }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The SHA256 checksum of the Red Hat ISO image.
+    /// </summary>
+    [CliFlag("--checksum")]
+    public bool? Checksum { get; set; }
+
+    /// <summary>
+    /// The base image to customize. Must be a valid platform image URN, platform image alias, Red Hat ISO image URI, managed image name/ID, or shared image version ID.  Values from: az vm image list, az vm image show.
+    /// </summary>
+    [CliFlag("--image-source", ShortForm = "-i")]
+    public bool? ImageSource { get; set; }
+
+    /// <summary>
+    /// Managed image output distributor information. Space-separated list of key-value pairs. E.g "image_1=westus2 image_2=westus". Each key is the name or resource ID of the managed image to be created. Each value is the location of the image.
+    /// </summary>
+    [CliOption("--managed-image-destinations", GroupValues = true)]
+    public IEnumerable<string>? ManagedImageDestinations { get; set; }
+
+    /// <summary>
+    /// Shared image gallery (sig) output distributor information. Space-separated list of key-value pairs. E.g "my_gallery_1/image_def_1=eastus,westus my_gallery_2/image_def_2=uksouth,canadaeast,francesouth." Each key is the sig image definition ID or sig gallery name and sig image definition delimited by a "/". Each value is a comma- delimited list of replica locations.
+    /// </summary>
+    [CliOption("--shared-image-destinations", GroupValues = true)]
+    public IEnumerable<string>? SharedImageDestinations { get; set; }
 
 }

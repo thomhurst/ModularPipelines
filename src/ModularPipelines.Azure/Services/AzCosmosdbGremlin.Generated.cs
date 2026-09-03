@@ -23,7 +23,9 @@ public class AzCosmosdbGremlin
     private readonly ICommandContext _command;
     private AzCosmosdbGremlinDatabase? _database;
     private AzCosmosdbGremlinGraph? _graph;
+    private AzCosmosdbGremlinRestorableDatabase? _restorableDatabase;
     private AzCosmosdbGremlinRestorableGraph? _restorableGraph;
+    private AzCosmosdbGremlinRestorableResource? _restorableResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlin"/> class.
@@ -46,9 +48,38 @@ public class AzCosmosdbGremlin
     public AzCosmosdbGremlinGraph Graph => _graph ??= new AzCosmosdbGremlinGraph(_command);
 
     /// <summary>
+    /// az restorable-database sub-commands.
+    /// </summary>
+    public AzCosmosdbGremlinRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbGremlinRestorableDatabase(_command);
+
+    /// <summary>
     /// az restorable-graph sub-commands.
     /// </summary>
     public AzCosmosdbGremlinRestorableGraph RestorableGraph => _restorableGraph ??= new AzCosmosdbGremlinRestorableGraph(_command);
+
+    /// <summary>
+    /// az restorable-resource sub-commands.
+    /// </summary>
+    public AzCosmosdbGremlinRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbGremlinRestorableResource(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RetrieveLatestBackupTimeAsync(
+        AzCosmosdbGremlinRetrieveLatestBackupTimeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     #endregion
 }

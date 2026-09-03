@@ -21,10 +21,14 @@ namespace ModularPipelines.Azure.Services;
 public class AzSqlMi
 {
     private readonly ICommandContext _command;
+    private AzSqlMiAdAdmin? _adAdmin;
+    private AzSqlMiAdOnlyAuth? _adOnlyAuth;
     private AzSqlMiAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlMiDtc? _dtc;
+    private AzSqlMiEndpointCert? _endpointCert;
     private AzSqlMiKey? _key;
     private AzSqlMiLink? _link;
+    private AzSqlMiOp? _op;
     private AzSqlMiPartnerCert? _partnerCert;
     private AzSqlMiServerConfigurationOption? _serverConfigurationOption;
     private AzSqlMiStartStopSchedule? _startStopSchedule;
@@ -41,6 +45,16 @@ public class AzSqlMi
     #region Sub-command Groups
 
     /// <summary>
+    /// az ad-admin sub-commands.
+    /// </summary>
+    public AzSqlMiAdAdmin AdAdmin => _adAdmin ??= new AzSqlMiAdAdmin(_command);
+
+    /// <summary>
+    /// az ad-only-auth sub-commands.
+    /// </summary>
+    public AzSqlMiAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSqlMiAdOnlyAuth(_command);
+
+    /// <summary>
     /// az advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlMiAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlMiAdvancedThreatProtectionSetting(_command);
@@ -51,6 +65,11 @@ public class AzSqlMi
     public AzSqlMiDtc Dtc => _dtc ??= new AzSqlMiDtc(_command);
 
     /// <summary>
+    /// az endpoint-cert sub-commands.
+    /// </summary>
+    public AzSqlMiEndpointCert EndpointCert => _endpointCert ??= new AzSqlMiEndpointCert(_command);
+
+    /// <summary>
     /// az key sub-commands.
     /// </summary>
     public AzSqlMiKey Key => _key ??= new AzSqlMiKey(_command);
@@ -59,6 +78,11 @@ public class AzSqlMi
     /// az link sub-commands.
     /// </summary>
     public AzSqlMiLink Link => _link ??= new AzSqlMiLink(_command);
+
+    /// <summary>
+    /// az op sub-commands.
+    /// </summary>
+    public AzSqlMiOp Op => _op ??= new AzSqlMiOp(_command);
 
     /// <summary>
     /// az partner-cert sub-commands.
@@ -92,11 +116,11 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSqlMiCreateOptions? options = null,
+        AzSqlMiCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

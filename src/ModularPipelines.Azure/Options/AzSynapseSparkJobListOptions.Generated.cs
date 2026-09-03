@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "list")]
-public record AzSynapseSparkJobListOptions : AzOptions
+public record AzSynapseSparkJobListOptions(
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Optional parameter specifying which index the list should begin from.

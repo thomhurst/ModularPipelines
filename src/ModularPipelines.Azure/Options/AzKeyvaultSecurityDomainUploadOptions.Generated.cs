@@ -19,7 +19,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "upload")]
-public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
+public record AzKeyvaultSecurityDomainUploadOptions(
+    [property: CliOption("--sd-file")] string SdFile
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -31,8 +33,8 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
     [SecretValue]
-    [CliFlag("--passwords")]
-    public bool? Passwords { get; set; }
+    [CliOption("--passwords", GroupValues = true)]
+    public IEnumerable<string>? Passwords { get; set; }
 
     /// <summary>
     /// Indicator if blob is already restored.
@@ -49,7 +51,19 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// <summary>
     /// Space-separated file paths to PEM files containing private keys.
     /// </summary>
-    [CliFlag("--sd-wrapping-keys")]
-    public bool? SdWrappingKeys { get; set; }
+    [CliOption("--sd-wrapping-keys", GroupValues = true)]
+    public IEnumerable<string>? SdWrappingKeys { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
 
 }

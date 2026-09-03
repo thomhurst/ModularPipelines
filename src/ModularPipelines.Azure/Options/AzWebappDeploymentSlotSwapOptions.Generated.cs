@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "swap")]
-public record AzWebappDeploymentSlotSwapOptions : AzOptions
+public record AzWebappDeploymentSlotSwapOptions(
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
     /// <summary>
     /// Swap types. use 'preview' to apply target slot's settings on the source slot first; use 'swap' to complete it; use 'reset' to reset the swap. Allowed values: preview, reset, swap.  Default: swap.
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Preserve Virtual Network to the slot during swap, default to 'true'. Allowed values: false, true.
@@ -37,5 +39,23 @@ public record AzWebappDeploymentSlotSwapOptions : AzOptions
     /// </summary>
     [CliFlag("--target-slot")]
     public bool? TargetSlot { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the webapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

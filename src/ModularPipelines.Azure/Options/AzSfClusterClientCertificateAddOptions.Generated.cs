@@ -18,13 +18,46 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "client-certificate", "add")]
-public record AzSfClusterClientCertificateAddOptions : AzOptions
+public record AzSfClusterClientCertificateAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Client certificate thumbprint that only has admin permission.
+    /// </summary>
+    [CliFlag("--admin-client-thumbprints", ShortForm = "--admin-client-tps")]
+    public bool? AdminClientThumbprints { get; set; }
+
+    /// <summary>
+    /// Client certificate common name.
+    /// </summary>
+    [CliFlag("--cert-common-name", ShortForm = "--certificate-common-name")]
+    public bool? CertCommonName { get; set; }
+
+    /// <summary>
+    /// Client certificate issuer thumbprint.
+    /// </summary>
+    [CliFlag("--cert-issuer-tp", ShortForm = "--certificate-issuer-thumbprint")]
+    public bool? CertIssuerTp { get; set; }
+
+    /// <summary>
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example:
+    /// </summary>
+    [CliFlag("--client-cert-cn", ShortForm = "--client-certificate-common-names")]
+    public bool? ClientCertCn { get; set; }
+
     /// <summary>
     /// Client authentication type.
     /// </summary>
     [CliFlag("--is-admin")]
     public bool? IsAdmin { get; set; }
+
+    /// <summary>
+    /// Space-separated list of client certificate thumbprint that has read only permission.
+    /// </summary>
+    [CliOption("--readonly-client-thumbprints", ShortForm = "--readonly-client-tps", GroupValues = true)]
+    public IEnumerable<string>? ReadonlyClientThumbprints { get; set; }
 
     /// <summary>
     /// Client certificate thumbprint.

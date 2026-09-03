@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "create")]
-public record AzStorageContainerRmCreateOptions : AzOptions
+public record AzStorageContainerRmCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Throw an exception if the container already exists.
@@ -29,32 +32,37 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// Specify whether data in the container may be accessed publicly.  Allowed values: blob, container, off.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Enable NFSv3 squash on blob container. Allowed values: AllSquash, NoRootSquash,
     /// </summary>
-    [CliFlag("--root-squash")]
-    public bool? RootSquash { get; set; }
+    [CliOption("--root-squash")]
+    public string? RootSquash { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Default the container to use specified encryption scope for all writes.
+    /// </summary>
+    [CliFlag("--default-encryption-scope", ShortForm = "-d")]
+    public bool? DefaultEncryptionScope { get; set; }
+
+    /// <summary>
+    /// Block override of encryption scope from the container default.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--deny-encryption-scope-override", ShortForm = "--deny-override")]
+    public bool? DenyEncryptionScopeOverride { get; set; }
 
 }

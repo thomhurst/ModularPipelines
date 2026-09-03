@@ -18,13 +18,42 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "create")]
-public record AzSfManagedNodeTypeCreateOptions : AzOptions
+public record AzSfManagedNodeTypeCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--instance-count")] string InstanceCount,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Application End port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-end-port", ShortForm = "--application-end-port")]
+    public bool? AppEndPort { get; set; }
+
+    /// <summary>
+    /// Application start port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-start-port", ShortForm = "--application-start-port")]
+    public bool? AppStartPort { get; set; }
+
     /// <summary>
     /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity
     /// </summary>
     [CliFlag("--capacity")]
     public bool? Capacity { get; set; }
+
+    /// <summary>
+    /// Disk size for each vm in the node type in GBs.  Default: 100.
+    /// </summary>
+    [CliFlag("--data-disk-size", ShortForm = "--disk-size")]
+    public bool? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual-
+    /// </summary>
+    [CliFlag("--data-disk-type", ShortForm = "--disk-type")]
+    public bool? DataDiskType { get; set; }
 
     /// <summary>
     /// Ephemeral end port of a range of ports.
@@ -45,6 +74,12 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     public bool? IsStateless { get; set; }
 
     /// <summary>
+    /// Indicates if scale set associated with the node type can be composed of multiple placement groups.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--multi-place-groups", ShortForm = "--multiple-placement-groups")]
+    public bool? MultiPlaceGroups { get; set; }
+
+    /// <summary>
     /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement- property NodeColor=Green SomeProperty=5.
     /// </summary>
     [CliFlag("--placement-property")]
@@ -59,8 +94,8 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The offer type of the Azure Virtual Machines Marketplace image.  Default: WindowsServer.

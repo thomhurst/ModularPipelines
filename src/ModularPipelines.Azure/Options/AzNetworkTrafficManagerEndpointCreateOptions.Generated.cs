@@ -18,19 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "endpoint", "create")]
-public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
+public record AzNetworkTrafficManagerEndpointCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--profile-name")] string ProfileName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type", ShortForm = "-t")] string Type
+) : AzOptions
 {
     /// <summary>
     /// If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--always-serve")]
-    public bool? AlwaysServe { get; set; }
+    [CliOption("--always-serve")]
+    public string? AlwaysServe { get; set; }
 
     /// <summary>
     /// Space-separated list of custom headers in KEY=VALUE format.
     /// </summary>
-    [CliFlag("--custom-headers")]
-    public bool? CustomHeaders { get; set; }
+    [CliOption("--custom-headers", GroupValues = true)]
+    public IEnumerable<string>? CustomHeaders { get; set; }
 
     /// <summary>
     /// Location of the external or nested endpoints when using the 'Performance' routing method.
@@ -47,14 +52,14 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     /// <summary>
     /// The status of the endpoint. If enabled the endpoint is probed for endpoint health and included in the traffic routing method. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--endpoint-status")]
-    public bool? EndpointStatus { get; set; }
+    [CliOption("--endpoint-status")]
+    public string? EndpointStatus { get; set; }
 
     /// <summary>
     /// Space-separated list of country/region codes mapped to this endpoint when using the 'Geographic' routing method.  Values from: az network traffic-manager endpoint show-geographic- hierarchy.
     /// </summary>
-    [CliFlag("--geo-mapping")]
-    public bool? GeoMapping { get; set; }
+    [CliOption("--geo-mapping", GroupValues = true)]
+    public IEnumerable<string>? GeoMapping { get; set; }
 
     /// <summary>
     /// The minimum number of endpoints that must be available in the child profile for the parent profile to be considered available. Only applicable to an endpoint of type 'NestedEndpoints'.
@@ -83,8 +88,8 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of subnet CIDR prefixes (10.0.0.0/24) or subnet ranges (10.0.0.0-11.0.0.0).
     /// </summary>
-    [CliFlag("--subnets")]
-    public bool? Subnets { get; set; }
+    [CliOption("--subnets", GroupValues = true)]
+    public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
     /// Fully-qualified DNS name of the endpoint.

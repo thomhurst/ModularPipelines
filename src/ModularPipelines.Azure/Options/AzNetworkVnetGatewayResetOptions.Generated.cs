@@ -24,19 +24,30 @@ public record AzNetworkVnetGatewayResetOptions : AzOptions
     /// Virtual network gateway vip address supplied to the begin reset of the active-active feature enabled gateway.  Default: None.
     /// </summary>
     [CliOption("--gateway-vip")]
-    public string? GatewayVipValue { get; set; }
+    public string? GatewayVip { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [Obsolete("Use GatewayVipValue instead.")]
-    public bool? GatewayVip
-    {
-        get => bool.TryParse(GatewayVipValue, out var value) ? value : null;
-        set => GatewayVipValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the VNet gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

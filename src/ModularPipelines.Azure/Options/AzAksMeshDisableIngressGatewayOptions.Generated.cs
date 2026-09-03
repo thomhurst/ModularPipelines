@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "disable-ingress-gateway")]
-public record AzAksMeshDisableIngressGatewayOptions : AzOptions
+public record AzAksMeshDisableIngressGatewayOptions(
+    [property: CliOption("--ingress-gateway-type")] string IngressGatewayType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

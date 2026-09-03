@@ -33,6 +33,21 @@ public class AzSqlMidbAdvancedThreatProtectionSetting
     #region Commands
 
     /// <summary>
+    /// Gets an advanced threat protection
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlMidbAdvancedThreatProtectionSettingShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbAdvancedThreatProtectionSettingShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a SQL Managed Instance database's
     /// </summary>
     /// <param name="options">The command options.</param>

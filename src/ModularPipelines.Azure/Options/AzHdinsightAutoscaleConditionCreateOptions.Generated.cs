@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "create")]
-public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
+public record AzHdinsightAutoscaleConditionCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--days", GroupValues = true)] IEnumerable<string> Days,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--time")] string Time,
+    [property: CliOption("--workernode-count")] string WorkernodeCount
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

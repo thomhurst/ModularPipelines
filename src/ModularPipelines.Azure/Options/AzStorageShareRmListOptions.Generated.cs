@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "list")]
-public record AzStorageShareRmListOptions : AzOptions
+public record AzStorageShareRmListOptions(
+    [property: CliOption("--account-name", ShortForm = "--storage-account")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// Optional. When specified, only share names starting with the filter will be listed.
@@ -29,13 +31,13 @@ public record AzStorageShareRmListOptions : AzOptions
     /// <summary>
     /// Include soft deleted file shares when specified. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-deleted")]
+    [CliOption("--include-deleted")]
     public bool? IncludeDeleted { get; set; }
 
     /// <summary>
     /// Include file share snapshots when specified. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-snapshot")]
+    [CliOption("--include-snapshot")]
     public bool? IncludeSnapshot { get; set; }
 
     /// <summary>
@@ -48,13 +50,18 @@ public record AzStorageShareRmListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

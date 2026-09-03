@@ -18,7 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "rule-set", "add")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAddOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAddOptions(
+    [property: CliOption("--match-operator", ShortForm = "--selector-match-operator")] string MatchOperator,
+    [property: CliOption("--match-variable")] string MatchVariable,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--selector")] string Selector,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
     /// <summary>
     /// The managed rule group for exclusion.
@@ -29,7 +37,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAdd
     /// <summary>
     /// List of rules that will be disabled. If provided, --group-name must be provided too.
     /// </summary>
-    [CliFlag("--rule-ids")]
-    public bool? RuleIds { get; set; }
+    [CliOption("--rule-ids", GroupValues = true)]
+    public IEnumerable<string>? RuleIds { get; set; }
 
 }

@@ -62,5 +62,35 @@ public class AzSynapseWorkspaceManagedIdentity
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Show workspace's sql-access state to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowSqlAccessAsync(
+        AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzSynapseWorkspaceManagedIdentityWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseWorkspaceManagedIdentityWaitOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

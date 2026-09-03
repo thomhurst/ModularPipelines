@@ -33,6 +33,21 @@ public class AzPostgresFlexibleServerParameter
     #region Commands
 
     /// <summary>
+    /// List the parameter values for a flexible server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzPostgresFlexibleServerParameterListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerParameterListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the parameter of a flexible server.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzPostgresFlexibleServerParameter
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerParameterSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the parameter for a flexible server.".
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzPostgresFlexibleServerParameterShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerParameterShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

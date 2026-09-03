@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "ssl-policy", "set")]
-public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
+public record AzNetworkApplicationGatewaySslPolicySetOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// SSL cipher suites to be enabled in the specified order to application gateway. Values from `az network application- gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -29,38 +32,31 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     /// <summary>
     /// Space-separated list of protocols to disable. Values from `az network application-gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--disabled-ssl-protocols")]
-    public bool? DisabledSslProtocols { get; set; }
+    [CliOption("--disabled-ssl-protocols", GroupValues = true)]
+    public IEnumerable<string>? DisabledSslProtocols { get; set; }
 
     /// <summary>
     /// Minimum version of SSL protocol to be supported on application gateway. Values from: `az network application-gateway ssl- policy list-options`.  Allowed values: TLSv1_0, TLSv1_1,
     /// </summary>
-    [CliFlag("--min-protocol-version")]
-    public bool? MinProtocolVersion { get; set; }
+    [CliOption("--min-protocol-version")]
+    public string? MinProtocolVersion { get; set; }
 
     /// <summary>
     /// Name of SSL policy.  Allowed values: AppGwSslPolicy20150501,
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Type of SSL policy.  Allowed values: Custom, CustomV2,
     /// </summary>
-    [CliFlag("--policy-type")]
-    public bool? PolicyType { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--policy-type")]
+    public string? PolicyType { get; set; }
 
 }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az recoverypoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBackupRecoverypoint
+public class AzBackupRecoveryPoint
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzBackupRecoverypoint"/> class.
+    /// Initializes a new instance of the <see cref="AzBackupRecoveryPoint"/> class.
     /// </summary>
-    public AzBackupRecoverypoint(ICommandContext command)
+    public AzBackupRecoveryPoint(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzBackupRecoverypointListOptions? options = null,
+        AzBackupRecoveryPointListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoverypointListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveAsync(
-        AzBackupRecoverypointMoveOptions? options = null,
+        AzBackupRecoveryPointMoveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoverypointMoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowLogChainAsync(
-        AzBackupRecoverypointShowLogChainOptions? options = null,
+        AzBackupRecoveryPointShowLogChainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoverypointShowLogChainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
-        AzBackupRecoverypointShowOptions? options = null,
+        AzBackupRecoveryPointShowOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoverypointShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoveryPointShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

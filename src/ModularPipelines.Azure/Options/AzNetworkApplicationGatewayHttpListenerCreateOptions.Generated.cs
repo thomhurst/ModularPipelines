@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "http-listener", "create")]
-public record AzNetworkApplicationGatewayHttpListenerCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayHttpListenerCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--frontend-port")] string FrontendPort
+) : AzOptions
 {
     /// <summary>
     /// Host name to use for multisite gateways.
@@ -29,13 +34,37 @@ public record AzNetworkApplicationGatewayHttpListenerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of host names that allows special wildcard characters as well.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--host-names")]
-    public bool? HostNames { get; set; }
+    [CliOption("--host-names", GroupValues = true)]
+    public IEnumerable<string>? HostNames { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name or ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// Name or ID of the SSL certificate to use.
+    /// </summary>
+    [CliOption("--ssl-cert")]
+    public string? SslCert { get; set; }
+
+    /// <summary>
+    /// Name or ID of a SSL profile resource.
+    /// </summary>
+    [CliOption("--ssl-profile-id")]
+    public string? SslProfileId { get; set; }
+
+    /// <summary>
+    /// Name or ID of a web application firewall policy resource.
+    /// </summary>
+    [CliOption("--waf-policy")]
+    public string? WafPolicy { get; set; }
 
 }

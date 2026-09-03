@@ -18,19 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "copy")]
-public record AzMonitorAutoscaleRuleCopyOptions : AzOptions
+public record AzMonitorAutoscaleRuleCopyOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--dest-schedule")] string DestSchedule,
+    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the profile to copy rules from.  Default: default.
     /// </summary>
     [CliOption("--source-schedule")]
-    public string? SourceScheduleValue { get; set; }
-
-    [Obsolete("Use SourceScheduleValue instead.")]
-    public bool? SourceSchedule
-    {
-        get => bool.TryParse(SourceScheduleValue, out var value) ? value : null;
-        set => SourceScheduleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? SourceSchedule { get; set; }
 
 }

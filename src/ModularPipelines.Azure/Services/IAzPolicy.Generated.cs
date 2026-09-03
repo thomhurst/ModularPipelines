@@ -42,6 +42,11 @@ public interface IAzPolicy
     AzPolicyEnrollment Enrollment => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az event sub-commands.
+    /// </summary>
+    AzPolicyEvent Event => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az exemption sub-commands.
     /// </summary>
     AzPolicyExemption Exemption => throw new System.NotSupportedException();

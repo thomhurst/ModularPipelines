@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "update")]
-public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
+public record AzStorageAccountOrPolicyUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// The destination storage account name or resource Id. Apply
     /// </summary>
     [CliOption("--destination-account", ShortForm = "-d")]
-    public string? DestinationAccountValue { get; set; }
+    public string? DestinationAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
@@ -42,7 +44,7 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
     /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyIdValue { get; set; }
+    public string? PolicyId { get; set; }
 
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
@@ -54,13 +56,13 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The source storage account name or resource Id. Required when no
     /// </summary>
     [CliOption("--source-account", ShortForm = "-s")]
-    public string? SourceAccountValue { get; set; }
+    public string? SourceAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
@@ -68,32 +70,28 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
 
-    [Obsolete("Use DestinationAccountValue instead.")]
-    public bool? DestinationAccount
-    {
-        get => bool.TryParse(DestinationAccountValue, out var value) ? value : null;
-        set => DestinationAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use PolicyIdValue instead.")]
-    public bool? PolicyId
-    {
-        get => bool.TryParse(PolicyIdValue, out var value) ? value : null;
-        set => PolicyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
 
-    [Obsolete("Use SourceAccountValue instead.")]
-    public bool? SourceAccount
-    {
-        get => bool.TryParse(SourceAccountValue, out var value) ? value : null;
-        set => SourceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

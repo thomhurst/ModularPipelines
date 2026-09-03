@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "create")]
-public record AzAmsAccountCreateOptions : AzOptions
+public record AzAmsAccountCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Set this flag to disable public network access for resources under the Media Services account. If not set public network access will be enabled.
@@ -35,7 +39,31 @@ public record AzAmsAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity on the media services account. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities on the media services account.
+    /// </summary>
+    [CliFlag("--mi-user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// The behavior for IP access control in Key Delivery. Allowed values: Allow,Deny.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
+
+    /// <summary>
+    /// The IP allow list for access control in Key Delivery. If the default action is set to Allow, the IP allow list must be empty.
+    /// </summary>
+    [CliFlag("--ip-allow-list")]
+    public bool? IpAllowList { get; set; }
 
 }

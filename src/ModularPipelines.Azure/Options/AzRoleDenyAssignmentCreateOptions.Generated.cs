@@ -23,8 +23,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of actions to deny, e.g. "Microsoft.Authorization/roleAssignments/write". Note: read actions (*/read) are not permitted for user-assigned deny assignments.
     /// </summary>
-    [CliFlag("--actions")]
-    public bool? Actions { get; set; }
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// A GUID for the deny assignment. If omitted, a new GUID is generated.
@@ -36,19 +36,19 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// Description of the deny assignment.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated list of principal object IDs to exclude from the deny. Required when no --principal-object-id is specified (Everyone mode). Optional when --principal-object-id is specified.
     /// </summary>
-    [CliFlag("--exclude-principal-ids")]
-    public bool? ExcludePrincipalIds { get; set; }
+    [CliOption("--exclude-principal-ids", GroupValues = true)]
+    public IEnumerable<string>? ExcludePrincipalIds { get; set; }
 
     /// <summary>
     /// Space-separated list of principal types corresponding to --exclude- principal-ids. Accepted values: User, Group, ServicePrincipal.
     /// </summary>
-    [CliFlag("--exclude-principal-types")]
-    public bool? ExcludePrincipalTypes { get; set; }
+    [CliOption("--exclude-principal-types", GroupValues = true)]
+    public IEnumerable<string>? ExcludePrincipalTypes { get; set; }
 
     /// <summary>
     /// The display name of the deny assignment.
@@ -59,8 +59,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of actions to exclude from the deny.
     /// </summary>
-    [CliFlag("--not-actions")]
-    public bool? NotActions { get; set; }
+    [CliOption("--not-actions", GroupValues = true)]
+    public IEnumerable<string>? NotActions { get; set; }
 
     /// <summary>
     /// The object ID of a specific User or ServicePrincipal to deny. If omitted, the deny assignment applies to Everyone (all principals) and --exclude-principal-ids is required. Group principals are not permitted.
@@ -72,26 +72,12 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// The type of the principal specified by --principal-object-id. Required when --principal-object-id is provided. Accepted values: User, ServicePrincipal.  Allowed values: ServicePrincipal, User.
     /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalTypeValue { get; set; }
+    public string? PrincipalType { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscription s/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PrincipalTypeValue instead.")]
-    public bool? PrincipalType
-    {
-        get => bool.TryParse(PrincipalTypeValue, out var value) ? value : null;
-        set => PrincipalTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

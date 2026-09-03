@@ -18,25 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backend", "create")]
-public record AzApimBackendCreateOptions : AzOptions
+public record AzApimBackendCreateOptions(
+    [property: CliOption("--protocol")] string Protocol,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--url")] string Url,
+    [property: CliOption("--backend-id")] string BackendId
+) : AzOptions
 {
     /// <summary>
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
     [CliFlag("--if-match")]
     public bool? IfMatch { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

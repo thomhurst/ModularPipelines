@@ -33,6 +33,21 @@ public class AzRelayWcfrelayAuthorizationRuleKeys
     #region Commands
 
     /// <summary>
+    /// List the keys and connection strings of
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzRelayWcfrelayAuthorizationRuleKeysListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Regenerate keys of Authorization Rule for
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AzRelayWcfrelayAuthorizationRuleKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RenewAsync(
-        AzRelayWcfrelayAuthorizationRuleKeysRenewOptions? options = null,
+        AzRelayWcfrelayAuthorizationRuleKeysRenewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRelayWcfrelayAuthorizationRuleKeysRenewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

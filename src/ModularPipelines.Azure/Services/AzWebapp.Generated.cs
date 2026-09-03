@@ -30,6 +30,7 @@ public class AzWebapp : IAzWebapp
     private AzWebappIdentity? _identity;
     private AzWebappLog? _log;
     private AzWebappSitecontainers? _sitecontainers;
+    private AzWebappTrafficRouting? _trafficRouting;
     private AzWebappVnetIntegration? _vnetIntegration;
     private AzWebappWebjob? _webjob;
 
@@ -89,6 +90,11 @@ public class AzWebapp : IAzWebapp
     public AzWebappSitecontainers Sitecontainers => _sitecontainers ??= new AzWebappSitecontainers(_command);
 
     /// <summary>
+    /// az traffic-routing sub-commands.
+    /// </summary>
+    public AzWebappTrafficRouting TrafficRouting => _trafficRouting ??= new AzWebappTrafficRouting(_command);
+
+    /// <summary>
     /// az vnet-integration sub-commands.
     /// </summary>
     public AzWebappVnetIntegration VnetIntegration => _vnetIntegration ??= new AzWebappVnetIntegration(_command);
@@ -125,11 +131,11 @@ public class AzWebapp : IAzWebapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzWebappCreateOptions? options = null,
+        AzWebappCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -185,11 +191,11 @@ public class AzWebapp : IAzWebapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInstancesAsync(
-        AzWebappListInstancesOptions? options = null,
+        AzWebappListInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappListInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

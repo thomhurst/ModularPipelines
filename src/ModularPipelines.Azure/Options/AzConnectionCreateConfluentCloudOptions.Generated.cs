@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,19 +19,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "confluent-cloud")]
-public record AzConnectionCreateConfluentCloudOptions : AzOptions
+public record AzConnectionCreateConfluentCloudOptions(
+    [property: CliOption("--bootstrap-server")] string BootstrapServer,
+    [property: CliOption("--kafka-key")] string KafkaKey,
+    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--schema-key")] string SchemaKey,
+    [property: CliOption("--schema-registry")] string SchemaRegistry,
+    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
+) : AzOptions
 {
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -49,12 +58,5 @@ public record AzConnectionCreateConfluentCloudOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
-
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -22,10 +22,14 @@ public class AzEventhubsNamespace
 {
     private readonly ICommandContext _command;
     private AzEventhubsNamespaceApplicationGroup? _applicationGroup;
+    private AzEventhubsNamespaceAuthorizationRule? _authorizationRule;
     private AzEventhubsNamespaceEncryption? _encryption;
     private AzEventhubsNamespaceIdentity? _identity;
     private AzEventhubsNamespaceNetworkRuleSet? _networkRuleSet;
+    private AzEventhubsNamespaceNspConfiguration? _nspConfiguration;
     private AzEventhubsNamespacePrivateEndpointConnection? _privateEndpointConnection;
+    private AzEventhubsNamespacePrivateLinkResource? _privateLinkResource;
+    private AzEventhubsNamespaceReplica? _replica;
     private AzEventhubsNamespaceSchemaRegistry? _schemaRegistry;
 
     /// <summary>
@@ -44,6 +48,11 @@ public class AzEventhubsNamespace
     public AzEventhubsNamespaceApplicationGroup ApplicationGroup => _applicationGroup ??= new AzEventhubsNamespaceApplicationGroup(_command);
 
     /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzEventhubsNamespaceAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzEventhubsNamespaceAuthorizationRule(_command);
+
+    /// <summary>
     /// az encryption sub-commands.
     /// </summary>
     public AzEventhubsNamespaceEncryption Encryption => _encryption ??= new AzEventhubsNamespaceEncryption(_command);
@@ -59,9 +68,24 @@ public class AzEventhubsNamespace
     public AzEventhubsNamespaceNetworkRuleSet NetworkRuleSet => _networkRuleSet ??= new AzEventhubsNamespaceNetworkRuleSet(_command);
 
     /// <summary>
+    /// az nsp-configuration sub-commands.
+    /// </summary>
+    public AzEventhubsNamespaceNspConfiguration NspConfiguration => _nspConfiguration ??= new AzEventhubsNamespaceNspConfiguration(_command);
+
+    /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     public AzEventhubsNamespacePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzEventhubsNamespacePrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzEventhubsNamespacePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzEventhubsNamespacePrivateLinkResource(_command);
+
+    /// <summary>
+    /// az replica sub-commands.
+    /// </summary>
+    public AzEventhubsNamespaceReplica Replica => _replica ??= new AzEventhubsNamespaceReplica(_command);
 
     /// <summary>
     /// az schema-registry sub-commands.
@@ -80,11 +104,11 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzEventhubsNamespaceCreateOptions? options = null,
+        AzEventhubsNamespaceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,6 +124,21 @@ public class AzEventhubsNamespace
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Check the give Namespace name availability.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExistsAsync(
+        AzEventhubsNamespaceExistsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -133,6 +172,21 @@ public class AzEventhubsNamespace
     }
 
     /// <summary>
+    /// Get the description of the specified namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventhubsNamespaceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a namespace. Once created, this namespace's resource
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -145,6 +199,21 @@ public class AzEventhubsNamespace
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzEventhubsNamespaceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsNamespaceWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

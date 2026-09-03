@@ -96,6 +96,11 @@ public partial interface IAz
     IAzBot Bot => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the cache sub-domain service.
+    /// </summary>
+    IAzCache Cache => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the capacity sub-domain service.
     /// </summary>
     IAzCapacity Capacity => throw new System.NotSupportedException();
@@ -113,7 +118,12 @@ public partial interface IAz
     /// <summary>
     /// Gets the computefleet sub-domain service.
     /// </summary>
-    IAzComputefleet Computefleet => throw new System.NotSupportedException();
+    IAzComputeFleet ComputeFleet => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the computerecommender sub-domain service.
+    /// </summary>
+    IAzComputeRecommender ComputeRecommender => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the connection sub-domain service.
@@ -136,6 +146,11 @@ public partial interface IAz
     IAzCosmosdb Cosmosdb => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the databoundary sub-domain service.
+    /// </summary>
+    IAzDataBoundary DataBoundary => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the databoxedge sub-domain service.
     /// </summary>
     IAzDataboxedge Databoxedge => throw new System.NotSupportedException();
@@ -148,7 +163,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the deploymentscripts sub-domain service.
     /// </summary>
-    IAzDeploymentscripts Deploymentscripts => throw new System.NotSupportedException();
+    IAzDeploymentScripts DeploymentScripts => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the disk sub-domain service.
@@ -158,7 +173,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the diskaccess sub-domain service.
     /// </summary>
-    IAzDiskaccess Diskaccess => throw new System.NotSupportedException();
+    IAzDiskAccess DiskAccess => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the diskencryptionset sub-domain service.
@@ -243,7 +258,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the managedcassandra sub-domain service.
     /// </summary>
-    IAzManagedcassandra Managedcassandra => throw new System.NotSupportedException();
+    IAzManagedCassandra ManagedCassandra => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the managedservices sub-domain service.
@@ -298,7 +313,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the privatelink sub-domain service.
     /// </summary>
-    IAzPrivatelink Privatelink => throw new System.NotSupportedException();
+    IAzPrivateLink PrivateLink => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the provider sub-domain service.
@@ -378,7 +393,7 @@ public partial interface IAz
     /// <summary>
     /// Gets the sshkey sub-domain service.
     /// </summary>
-    IAzSshkey Sshkey => throw new System.NotSupportedException();
+    IAzSshKey SshKey => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the stack sub-domain service.

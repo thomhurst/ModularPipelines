@@ -18,13 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "create")]
-public record AzAroCreateOptions : AzOptions
+public record AzAroCreateOptions(
+    [property: CliOption("--master-subnet")] string MasterSubnet,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--worker-subnet")] string WorkerSubnet
+) : AzOptions
 {
     /// <summary>
     /// API server visibility. [Default: Public].  Allowed values: Private,
     /// </summary>
-    [CliFlag("--apiserver-visibility")]
-    public bool? ApiServerVisibility { get; set; }
+    [CliOption("--apiserver-visibility")]
+    public string? ApiServerVisibility { get; set; }
 
     /// <summary>
     /// Client ID of cluster service principal.
@@ -42,7 +47,7 @@ public record AzAroCreateOptions : AzOptions
     /// Resource group of cluster.
     /// </summary>
     [CliOption("--cluster-resource-group")]
-    public string? ClusterResourceGroupValue { get; set; }
+    public string? ClusterResourceGroup { get; set; }
 
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
@@ -63,16 +68,34 @@ public record AzAroCreateOptions : AzOptions
     public bool? EnablePreconfiguredNsg { get; set; }
 
     /// <summary>
+    /// Use FIPS validated cryptography modules. [Default: false].  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--fips", ShortForm = "--fips-validated-modules")]
+    public bool? Fips { get; set; }
+
+    /// <summary>
     /// Ingress visibility. [Default: Public].  Allowed values: Private,
     /// </summary>
-    [CliFlag("--ingress-visibility")]
-    public bool? IngressVisibility { get; set; }
+    [CliOption("--ingress-visibility")]
+    public string? IngressVisibility { get; set; }
+
+    /// <summary>
+    /// The desired number of IPv4 outbound IPs created and managed by Azure for the cluster public load balancer.
+    /// </summary>
+    [CliFlag("--lb-ip-count", ShortForm = "--load-balancer-managed-outbound-ip-count")]
+    public bool? LbIpCount { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
+
+    /// <summary>
+    /// Encryption at host flag for master VMs. [Default: false].  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--master-enc-host", ShortForm = "--master-encryption-at-host")]
+    public bool? MasterEncHost { get; set; }
 
     /// <summary>
     /// Size of master VMs. [Default:
@@ -126,13 +149,13 @@ public record AzAroCreateOptions : AzOptions
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Name of vnet resource group.
     /// </summary>
     [CliOption("--vnet-resource-group")]
-    public string? VnetResourceGroupValue { get; set; }
+    public string? VnetResourceGroup { get; set; }
 
     /// <summary>
     /// Count of worker VMs. [Default: 3].
@@ -141,43 +164,39 @@ public record AzAroCreateOptions : AzOptions
     public bool? WorkerCount { get; set; }
 
     /// <summary>
+    /// Encryption at host flag for worker VMs. [Default: false].  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--worker-enc-host", ShortForm = "--worker-encryption-at-host")]
+    public bool? WorkerEncHost { get; set; }
+
+    /// <summary>
     /// Disk size in GB of worker VMs. [Default: 128].
     /// </summary>
     [CliFlag("--worker-vm-disk-size-gb")]
     public bool? WorkerVmDiskSizeGb { get; set; }
 
     /// <summary>
-    /// Size of worker VMs.  Default:
+    /// Size of worker VMs. [Default:
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }
 
-    [Obsolete("Use ClusterResourceGroupValue instead.")]
-    public bool? ClusterResourceGroup
-    {
-        get => bool.TryParse(ClusterResourceGroupValue, out var value) ? value : null;
-        set => ClusterResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
+    /// </summary>
+    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    public string? AssignClusterIdentity { get; set; }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
+    /// </summary>
+    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
+    public string? AssignPlatformWi { get; set; }
 
-    [Obsolete("Use VnetResourceGroupValue instead.")]
-    public bool? VnetResourceGroup
-    {
-        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
-        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ApiServerVisibility instead.")]
-    public bool? ApiserverVisibility
-    {
-        get => ApiServerVisibility;
-        set => ApiServerVisibility = value;
-    }
+    /// <summary>
+    /// Enable managed identity for this cluster.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-managed-identity", ShortForm = "--enable-mi")]
+    public bool? EnableManagedIdentity { get; set; }
 
 }

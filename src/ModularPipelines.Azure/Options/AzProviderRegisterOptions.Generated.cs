@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "register")]
-public record AzProviderRegisterOptions : AzOptions
+public record AzProviderRegisterOptions(
+    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
+) : AzOptions
 {
     /// <summary>
     /// A value indicating whether authorization is consented or not.
     /// </summary>
     [CliOption("--consent-to-permissions", ShortForm = "-c")]
-    public string? ConsentToPermissionsValue { get; set; }
+    public string? ConsentToPermissions { get; set; }
 
     /// <summary>
     /// The management group id to register.
@@ -37,12 +39,5 @@ public record AzProviderRegisterOptions : AzOptions
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
-
-    [Obsolete("Use ConsentToPermissionsValue instead.")]
-    public bool? ConsentToPermissions
-    {
-        get => bool.TryParse(ConsentToPermissionsValue, out var value) ? value : null;
-        set => ConsentToPermissionsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

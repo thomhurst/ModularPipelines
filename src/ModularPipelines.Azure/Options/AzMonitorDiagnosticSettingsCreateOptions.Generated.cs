@@ -18,19 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "create")]
-public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
+public record AzMonitorDiagnosticSettingsCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// Name or ID an event hub. If none is specified, the default event hub will be selected.
     /// </summary>
     [CliOption("--event-hub")]
-    public string? EventHubValue { get; set; }
+    public string? EventHub { get; set; }
 
     /// <summary>
     /// Name or ID of the event hub authorization rule.
     /// </summary>
     [CliOption("--event-hub-rule")]
-    public string? EventHubRuleValue { get; set; }
+    public string? EventHubRule { get; set; }
 
     /// <summary>
     /// Indicate that the export to LA must be done to a resource specific table, a.k.a. dedicated or fixed schema table, as opposed to the default dynamic schema table called AzureDiagnostics. This argument is effective only when the argument --workspace is also given. Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -48,59 +51,48 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
     /// </summary>
     [CliOption("--marketplace-partner-id")]
-    public string? MarketplacePartnerIdValue { get; set; }
+    public string? MarketplacePartnerId { get; set; }
 
     /// <summary>
     /// The list of metric settings.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--metrics")]
-    public bool? Metrics { get; set; }
+    [CliOption("--metrics", GroupValues = true)]
+    public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// Name or ID of the storage account to send diagnostic logs to.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Name or ID of the Log Analytics workspace to send diagnostic logs to.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
-    [Obsolete("Use EventHubValue instead.")]
-    public bool? EventHub
-    {
-        get => bool.TryParse(EventHubValue, out var value) ? value : null;
-        set => EventHubValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use EventHubRuleValue instead.")]
-    public bool? EventHubRule
-    {
-        get => bool.TryParse(EventHubRuleValue, out var value) ? value : null;
-        set => EventHubRuleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
 
-    [Obsolete("Use MarketplacePartnerIdValue instead.")]
-    public bool? MarketplacePartnerId
-    {
-        get => bool.TryParse(MarketplacePartnerIdValue, out var value) ? value : null;
-        set => MarketplacePartnerIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
-    {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
-    {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
 }

@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
-public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
+    [property: CliOption("--end-search-time")] string EndSearchTime,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--search-query")] string SearchQuery,
+    [property: CliOption("--start-search-time")] string StartSearchTime,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Limit the search job to return up to specified number of rows.

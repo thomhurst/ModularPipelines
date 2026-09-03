@@ -18,12 +18,81 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "create")]
-public record AzSigCreateOptions : AzOptions
+public record AzSigCreateOptions(
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Community gallery publisher eula.
+    /// </summary>
+    [CliFlag("--eula")]
+    public bool? Eula { get; set; }
+
+    /// <summary>
+    /// Community gallery public name prefix.
+    /// </summary>
+    [CliFlag("--public-name-prefix")]
+    public bool? PublicNamePrefix { get; set; }
+
+    /// <summary>
+    /// Community gallery publisher contact email.
+    /// </summary>
+    [CliFlag("--publisher-contact", ShortForm = "--publisher-email")]
+    public bool? PublisherContact { get; set; }
+
+    /// <summary>
+    /// Community gallery publisher uri.
+    /// </summary>
+    [CliFlag("--publisher-uri")]
+    public bool? PublisherUri { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity.
+    /// </summary>
+    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// The description of the gallery.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups,
+    /// </summary>
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
+
+    /// <summary>
+    /// Enable soft-deletion for resources in this gallery, allowing them to be recovered within retention time. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--soft-delete")]
+    public bool? SoftDelete { get; set; }
 
 }

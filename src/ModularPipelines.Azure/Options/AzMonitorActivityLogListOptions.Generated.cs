@@ -29,7 +29,61 @@ public record AzMonitorActivityLogListOptions : AzOptions
     /// <summary>
     /// Space-separated list of properties to return.  Allowed values: authorization, caller, category, claims, correlationId, description, eventDataId, eventName, eventTimestamp, httpRequest, id, level, operationId, operationName, properties, resourceGroupName, resourceId, resourceProviderName, resourceType, status, subStatus, submissionTimestamp, subscriptionId, tenantId.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select", GroupValues = true)]
+    public IEnumerable<string>? Select { get; set; }
+
+    /// <summary>
+    /// Caller to query for, such as an e-mail address or service principal ID.
+    /// </summary>
+    [CliFlag("--caller")]
+    public bool? Caller { get; set; }
+
+    /// <summary>
+    /// Correlation ID to query.
+    /// </summary>
+    [CliFlag("--correlation-id")]
+    public bool? CorrelationId { get; set; }
+
+    /// <summary>
+    /// Resource provider namespace.
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// ARM ID of a resource.
+    /// </summary>
+    [CliFlag("--resource-id")]
+    public bool? ResourceId { get; set; }
+
+    /// <summary>
+    /// Status to query for (ex: Failed).
+    /// </summary>
+    [CliFlag("--status")]
+    public bool? Status { get; set; }
+
+    /// <summary>
+    /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--end-time")]
+    public bool? EndTime { get; set; }
+
+    /// <summary>
+    /// Time offset of the query range, in ##d##h format.  Default: 6h.
+    /// </summary>
+    [CliFlag("--offset")]
+    public bool? Offset { get; set; }
+
+    /// <summary>
+    /// Start time of the query. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--start-time")]
+    public bool? StartTime { get; set; }
 
 }

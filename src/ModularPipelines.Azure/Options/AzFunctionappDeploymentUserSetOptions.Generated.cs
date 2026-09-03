@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "user", "set")]
-public record AzFunctionappDeploymentUserSetOptions : AzOptions
+public record AzFunctionappDeploymentUserSetOptions(
+    [property: CliOption("--user-name")] string UserName
+) : AzOptions
 {
     /// <summary>
     /// Password, will prompt if not specified.

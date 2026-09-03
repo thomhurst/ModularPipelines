@@ -23,7 +23,127 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The name of the company.
+    /// </summary>
+    [CliOption("--company-name")]
+    public string? CompanyName { get; set; }
+
+    /// <summary>
+    /// The contact person name.
+    /// </summary>
+    [CliFlag("--contact-person")]
+    public bool? ContactPerson { get; set; }
+
+    /// <summary>
+    /// The email list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--email-list")]
+    public bool? EmailList { get; set; }
+
+    /// <summary>
+    /// The phone number.
+    /// </summary>
+    [CliFlag("--phone")]
+    public bool? Phone { get; set; }
+
+    /// <summary>
+    /// Comments related to this status change.
+    /// </summary>
+    [CliFlag("--comments")]
+    public bool? Comments { get; set; }
+
+    /// <summary>
+    /// Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.
+    /// </summary>
+    [CliOption("--status")]
+    public string? Status { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The order details of a device.
+    /// </summary>
+    [CliFlag("--device-name", ShortForm = "-d")]
+    public bool? DeviceName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The address line1.
+    /// </summary>
+    [CliFlag("--address-line1")]
+    public bool? AddressLine1 { get; set; }
+
+    /// <summary>
+    /// The address line2.
+    /// </summary>
+    [CliFlag("--address-line2")]
+    public bool? AddressLine2 { get; set; }
+
+    /// <summary>
+    /// The address line3.
+    /// </summary>
+    [CliFlag("--address-line3")]
+    public bool? AddressLine3 { get; set; }
+
+    /// <summary>
+    /// The city name.
+    /// </summary>
+    [CliFlag("--city")]
+    public bool? City { get; set; }
+
+    /// <summary>
+    /// The country name.
+    /// </summary>
+    [CliFlag("--country")]
+    public bool? Country { get; set; }
+
+    /// <summary>
+    /// The postal code.
+    /// </summary>
+    [CliFlag("--postal-code")]
+    public bool? PostalCode { get; set; }
+
+    /// <summary>
+    /// The state name.
+    /// </summary>
+    [CliFlag("--state")]
+    public bool? State { get; set; }
 
 }

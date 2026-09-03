@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageAccountFailoverOptions : AzOptions
 {
     /// <summary>
+    /// Specify the failover type. Possible values are: Unplanned, Planned. If not specified, the default failover type is Unplanned.  Allowed values:
+    /// </summary>
+    [CliOption("--failover-type", ShortForm = "--type")]
+    public string? FailoverType { get; set; }
+
+    /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
@@ -31,5 +37,23 @@ public record AzStorageAccountFailoverOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

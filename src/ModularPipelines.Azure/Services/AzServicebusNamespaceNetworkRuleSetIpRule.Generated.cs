@@ -40,11 +40,11 @@ public class AzServicebusNamespaceNetworkRuleSetIpRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddAsync(
-        AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions? options = null,
+        AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AzServicebusNamespaceNetworkRuleSetIpRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAsync(
-        AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions? options = null,
+        AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

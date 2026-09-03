@@ -18,25 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "create")]
-public record AzEventgridDomainCreateOptions : AzOptions
+public record AzEventgridDomainCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// List of inbound IP rules.
     /// </summary>
-    [CliFlag("--inbound-ip-rules")]
-    public bool? InboundIpRules { get; set; }
+    [CliOption("--inbound-ip-rules", GroupValues = true)]
+    public IEnumerable<string>? InboundIpRules { get; set; }
 
     /// <summary>
     /// When input-schema is specified as customeventschema, this parameter can be used to specify input mappings based on default values. You can use this parameter when your custom schema does not include a field that corresponds to one of the three fields supported by this parameter. Specify space separated mappings in 'key=value' format. Allowed key names are 'subject', 'eventtype', 'dataversion'. The corresponding value names should specify the default values to be used for the mapping and they will be used only when the published event doesn't have a valid mapping for a particular field.
     /// </summary>
     [CliOption("--input-mapping-default-values")]
-    public string? InputMappingDefaultValuesValue { get; set; }
+    public string? InputMappingDefaultValues { get; set; }
 
     /// <summary>
     /// When input-schema is specified as customeventschema, this parameter is used to specify input mappings based on field names. Specify space separated mappings in 'key=value' format. Allowed key names are 'id', 'topic', 'eventtime', 'subject', 'eventtype', 'dataversion'. The corresponding value names should specify the names of the fields in the custom input schema. If a mapping for either 'id' or 'eventtime' is not provided, Event Grid will auto-generate a default value for these two fields.
     /// </summary>
     [CliOption("--input-mapping-fields")]
-    public string? InputMappingFieldsValue { get; set; }
+    public string? InputMappingFields { get; set; }
 
     /// <summary>
     /// Schema in which incoming events will be published to this topic/domain. If you specify customeventschema as the value for this parameter, you must also provide values for at least one of --input_mapping_default_values /
@@ -59,27 +62,13 @@ public record AzEventgridDomainCreateOptions : AzOptions
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use InputMappingDefaultValuesValue instead.")]
-    public bool? InputMappingDefaultValues
-    {
-        get => bool.TryParse(InputMappingDefaultValuesValue, out var value) ? value : null;
-        set => InputMappingDefaultValuesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use InputMappingFieldsValue instead.")]
-    public bool? InputMappingFields
-    {
-        get => bool.TryParse(InputMappingFieldsValue, out var value) ? value : null;
-        set => InputMappingFieldsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

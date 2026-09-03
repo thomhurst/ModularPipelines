@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql-script", "export")]
-public record AzSynapseSqlScriptExportOptions : AzOptions
+public record AzSynapseSqlScriptExportOptions(
+    [property: CliOption("--output-folder")] string OutputFolder,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// The SQL script name.

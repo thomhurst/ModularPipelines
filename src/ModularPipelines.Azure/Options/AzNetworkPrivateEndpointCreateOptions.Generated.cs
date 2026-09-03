@@ -18,13 +18,25 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "create")]
-public record AzNetworkPrivateEndpointCreateOptions : AzOptions
+public record AzNetworkPrivateEndpointCreateOptions(
+    [property: CliOption("--connection-name")] string ConnectionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--private-connection-resource-id")] string PrivateConnectionResourceId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
+
+    /// <summary>
+    /// The ID of the group obtained from the remote resource that this private endpoint should connect to. You can use "az network private-link-resource list" to obtain the supported group ids. You must provide this except for
+    /// </summary>
+    [CliOption("--group-id", ShortForm = "--group-ids")]
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -35,7 +47,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     /// <summary>
     /// Use manual request to establish the connection. Configure it as 'true' when you don't have access to the subscription of private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--manual-request")]
+    [CliOption("--manual-request")]
     public bool? ManualRequest { get; set; }
 
     /// <summary>
@@ -47,7 +59,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -59,27 +71,61 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value]...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The virtual network (VNet) associated with the subnet (Omit if supplying a subnet id).
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The private endpoint application security groups.
+    /// </summary>
+    [CliFlag("--asg", ShortForm = "--asgs")]
+    public bool? Asg { get; set; }
 
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Application gateway IP configurations of virtual network resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--app-gateway-ip-configs", ShortForm = "--application-gateway-ip-configurations")]
+    public bool? AppGatewayIpConfigs { get; set; }
+
+    /// <summary>
+    /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--default-outbound-access", ShortForm = "--outbound-access")]
+    public bool? DefaultOutboundAccess { get; set; }
+
+    /// <summary>
+    /// Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4.  Allowed values:
+    /// </summary>
+    [CliOption("--ip-version-type")]
+    public string? IpVersionType { get; set; }
+
+    /// <summary>
+    /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ipam-pool-prefix-allocations", ShortForm = "--ipam-prefix-allocs", GroupValues = true)]
+    public IEnumerable<string>? IpamPoolPrefixAllocations { get; set; }
+
+    /// <summary>
+    /// Reference to an existing service gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--service-gateway")]
+    public bool? ServiceGateway { get; set; }
+
+    /// <summary>
+    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values:
+    /// </summary>
+    [CliOption("--sharing-scope")]
+    public string? SharingScope { get; set; }
+
+    /// <summary>
+    /// The private endpoint ip configurations.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--ip-config`.
+    /// </summary>
+    [CliFlag("--ip-config", ShortForm = "--ip-configs")]
+    public bool? IpConfig { get; set; }
 
 }

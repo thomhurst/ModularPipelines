@@ -23,13 +23,31 @@ public record AzSigShowOptions : AzOptions
     /// <summary>
     /// The select expression to apply on the operation.  Allowed values:
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select")]
+    public string? Select { get; set; }
 
     /// <summary>
     /// The expand query option to query shared gallery groups.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--sharing-groups")]
+    [CliOption("--sharing-groups")]
     public bool? SharingGroups { get; set; }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

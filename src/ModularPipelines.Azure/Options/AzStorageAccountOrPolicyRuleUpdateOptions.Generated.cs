@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "update")]
-public record AzStorageAccountOrPolicyRuleUpdateOptions : AzOptions
+public record AzStorageAccountOrPolicyRuleUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--policy-id")] string PolicyId,
+    [property: CliOption("--rule-id", ShortForm = "-r")] string RuleId
+) : AzOptions
 {
     /// <summary>
     /// The destination storage container name.
@@ -30,26 +34,24 @@ public record AzStorageAccountOrPolicyRuleUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The source storage container name.
     /// </summary>
     [CliOption("--source-container", ShortForm = "-s")]
-    public string? SourceContainerValue { get; set; }
+    public string? SourceContainer { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
+    /// </summary>
+    [CliFlag("--min-creation-time", ShortForm = "-t")]
+    public bool? MinCreationTime { get; set; }
 
-    [Obsolete("Use SourceContainerValue instead.")]
-    public bool? SourceContainer
-    {
-        get => bool.TryParse(SourceContainerValue, out var value) ? value : null;
-        set => SourceContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
+    /// </summary>
+    [CliFlag("--prefix", ShortForm = "--prefix-match")]
+    public bool? Prefix { get; set; }
 
 }

@@ -19,16 +19,16 @@ namespace ModularPipelines.Azure.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IAzManagedcassandra
+public interface IAzManagedCassandra
 {
     /// <summary>
     /// az cluster sub-commands.
     /// </summary>
-    AzManagedcassandraCluster Cluster => throw new System.NotSupportedException();
+    AzManagedCassandraCluster Cluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// az datacenter sub-commands.
     /// </summary>
-    AzManagedcassandraDatacenter Datacenter => throw new System.NotSupportedException();
+    AzManagedCassandraDatacenter Datacenter => throw new System.NotSupportedException();
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "update", "confluent-cloud")]
-public record AzConnectionUpdateConfluentCloudOptions : AzOptions
+public record AzConnectionUpdateConfluentCloudOptions(
+    [property: CliOption("--connection")] string Connection
+) : AzOptions
 {
     /// <summary>
     /// Kafka bootstrap server url.
@@ -29,8 +31,8 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -66,7 +68,7 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Schema registry API-Key (key).
@@ -85,12 +87,5 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// </summary>
     [CliFlag("--schema-secret")]
     public bool? SchemaSecret { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

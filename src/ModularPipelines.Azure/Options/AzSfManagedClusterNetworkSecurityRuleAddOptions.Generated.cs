@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "network-security-rule", "add")]
-public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
+public record AzSfManagedClusterNetworkSecurityRuleAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Allows or denies network traffic.  Allowed values: allow, deny.
     /// </summary>
-    [CliFlag("--access")]
-    public bool? Access { get; set; }
+    [CliOption("--access")]
+    public string? Access { get; set; }
 
     /// <summary>
     /// Network security rule description.
@@ -59,8 +62,8 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// Network security rule direction.  Allowed values: inbound, outbound.
     /// </summary>
-    [CliFlag("--direction")]
-    public bool? Direction { get; set; }
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Network security rule name.
@@ -77,8 +80,8 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// Network protocol.  Allowed values: ah, any, esp, http, https, icmp, tcp, udp.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from.
@@ -96,19 +99,12 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
     /// </summary>
     [CliOption("--source-port-range")]
-    public string? SourcePortRangeValue { get; set; }
+    public string? SourcePortRange { get; set; }
 
     /// <summary>
     /// A single or space separated list of source port ranges.
     /// </summary>
     [CliFlag("--source-port-ranges")]
     public bool? SourcePortRanges { get; set; }
-
-    [Obsolete("Use SourcePortRangeValue instead.")]
-    public bool? SourcePortRange
-    {
-        get => bool.TryParse(SourcePortRangeValue, out var value) ? value : null;
-        set => SourcePortRangeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

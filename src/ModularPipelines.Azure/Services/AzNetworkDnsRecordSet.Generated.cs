@@ -93,4 +93,23 @@ public class AzNetworkDnsRecordSet
     public AzNetworkDnsRecordSetTxt Txt => _txt ??= new AzNetworkDnsRecordSetTxt(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// List all record sets within a DNS zone.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkDnsRecordSetListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

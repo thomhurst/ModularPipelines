@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "create")]
-public record AzSnapshotCreateOptions : AzOptions
+public record AzSnapshotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// CPU architecture.
@@ -42,19 +45,25 @@ public record AzSnapshotCreateOptions : AzOptions
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
     [CliOption("--disk-access")]
-    public string? DiskAccessValue { get; set; }
+    public string? DiskAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
     [CliOption("--disk-encryption-set")]
-    public string? DiskEncryptionSetValue { get; set; }
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
+
+    /// <summary>
+    /// This is the ARM id of the source elastic san volume snapshot.
+    /// </summary>
+    [CliFlag("--elastic-san-id", ShortForm = "--elastic-san-resource-id")]
+    public bool? ElasticSanId { get; set; }
 
     /// <summary>
     /// Encryption type.
@@ -75,6 +84,12 @@ public record AzSnapshotCreateOptions : AzOptions
     public bool? HyperVGeneration { get; set; }
 
     /// <summary>
+    /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be
+    /// </summary>
+    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
+    public bool? IaDuration { get; set; }
+
+    /// <summary>
     /// Whether a snapshot is incremental.
     /// </summary>
     [CliFlag("--incremental")]
@@ -89,8 +104,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Policy for accessing the disk via network.  Allowed values: AllowAll,
     /// </summary>
-    [CliFlag("--network-access-policy")]
-    public bool? NetworkAccessPolicy { get; set; }
+    [CliOption("--network-access-policy")]
+    public string? NetworkAccessPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -107,14 +122,14 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Allowed values:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
     /// </summary>
     [CliOption("--source")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// Used when source blob is in a different subscription.
@@ -125,35 +140,7 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use DiskAccessValue instead.")]
-    public bool? DiskAccess
-    {
-        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
-        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DiskEncryptionSetValue instead.")]
-    public bool? DiskEncryptionSet
-    {
-        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
-        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
-    {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

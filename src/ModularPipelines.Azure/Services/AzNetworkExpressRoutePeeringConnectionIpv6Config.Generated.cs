@@ -40,11 +40,11 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAsync(
-        AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions? options = null,
+        AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,26 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions? options = null,
+        AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

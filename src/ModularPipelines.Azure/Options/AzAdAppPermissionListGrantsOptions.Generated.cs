@@ -30,19 +30,12 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     /// Identifier uri, application id, or object id.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Show resource's display name.  Allowed values: false, true.
     /// </summary>
     [CliOption("--show-resource-name", ShortForm = "-r")]
     public bool? ShowResourceName { get; set; }
-
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -22,12 +22,16 @@ public class AzSqlDb
 {
     private readonly ICommandContext _command;
     private AzSqlDbAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
+    private AzSqlDbAuditPolicy? _auditPolicy;
     private AzSqlDbClassification? _classification;
     private AzSqlDbGeoBackup? _geoBackup;
+    private AzSqlDbLedgerDigestUploads? _ledgerDigestUploads;
     private AzSqlDbLtrBackup? _ltrBackup;
     private AzSqlDbLtrPolicy? _ltrPolicy;
+    private AzSqlDbOp? _op;
     private AzSqlDbReplica? _replica;
     private AzSqlDbStrPolicy? _strPolicy;
+    private AzSqlDbTde? _tde;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlDb"/> class.
@@ -45,6 +49,11 @@ public class AzSqlDb
     public AzSqlDbAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlDbAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
+    /// az audit-policy sub-commands.
+    /// </summary>
+    public AzSqlDbAuditPolicy AuditPolicy => _auditPolicy ??= new AzSqlDbAuditPolicy(_command);
+
+    /// <summary>
     /// az classification sub-commands.
     /// </summary>
     public AzSqlDbClassification Classification => _classification ??= new AzSqlDbClassification(_command);
@@ -53,6 +62,11 @@ public class AzSqlDb
     /// az geo-backup sub-commands.
     /// </summary>
     public AzSqlDbGeoBackup GeoBackup => _geoBackup ??= new AzSqlDbGeoBackup(_command);
+
+    /// <summary>
+    /// az ledger-digest-uploads sub-commands.
+    /// </summary>
+    public AzSqlDbLedgerDigestUploads LedgerDigestUploads => _ledgerDigestUploads ??= new AzSqlDbLedgerDigestUploads(_command);
 
     /// <summary>
     /// az ltr-backup sub-commands.
@@ -65,6 +79,11 @@ public class AzSqlDb
     public AzSqlDbLtrPolicy LtrPolicy => _ltrPolicy ??= new AzSqlDbLtrPolicy(_command);
 
     /// <summary>
+    /// az op sub-commands.
+    /// </summary>
+    public AzSqlDbOp Op => _op ??= new AzSqlDbOp(_command);
+
+    /// <summary>
     /// az replica sub-commands.
     /// </summary>
     public AzSqlDbReplica Replica => _replica ??= new AzSqlDbReplica(_command);
@@ -73,6 +92,11 @@ public class AzSqlDb
     /// az str-policy sub-commands.
     /// </summary>
     public AzSqlDbStrPolicy StrPolicy => _strPolicy ??= new AzSqlDbStrPolicy(_command);
+
+    /// <summary>
+    /// az tde sub-commands.
+    /// </summary>
+    public AzSqlDbTde Tde => _tde ??= new AzSqlDbTde(_command);
 
     #endregion
 
@@ -86,11 +110,11 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyAsync(
-        AzSqlDbCopyOptions? options = null,
+        AzSqlDbCopyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbCopyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,11 +125,11 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSqlDbCreateOptions? options = null,
+        AzSqlDbCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -131,11 +155,11 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportAsync(
-        AzSqlDbExportOptions? options = null,
+        AzSqlDbExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -146,11 +170,26 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportAsync(
-        AzSqlDbImportOptions? options = null,
+        AzSqlDbImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a list of restorable dropped databases.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeletedAsync(
+        AzSqlDbListDeletedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbListDeletedOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -161,11 +200,11 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEditionsAsync(
-        AzSqlDbListEditionsOptions? options = null,
+        AzSqlDbListEditionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbListEditionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -184,6 +223,36 @@ public class AzSqlDb
     }
 
     /// <summary>
+    /// Gets database usages.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzSqlDbListUsagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbListUsagesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Rename a database.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RenameAsync(
+        AzSqlDbRenameOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new database by restoring from a backup.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -191,11 +260,26 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzSqlDbRestoreOptions? options = null,
+        AzSqlDbRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Generates a connection string to a database.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowConnectionStringAsync(
+        AzSqlDbShowConnectionStringOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -206,11 +290,11 @@ public class AzSqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowDeletedAsync(
-        AzSqlDbShowDeletedOptions? options = null,
+        AzSqlDbShowDeletedOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlDbShowDeletedOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

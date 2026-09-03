@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az deploymentscripts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzDeploymentscripts : IAzDeploymentscripts
+public class AzDeploymentScripts : IAzDeploymentScripts
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzDeploymentscripts"/> class.
+    /// Initializes a new instance of the <see cref="AzDeploymentScripts"/> class.
     /// </summary>
-    public AzDeploymentscripts(ICommandContext command)
+    public AzDeploymentScripts(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzDeploymentscripts : IAzDeploymentscripts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzDeploymentScriptsDeleteOptions? options = null,
+        AzDeploymentScriptsDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDeploymentScriptsDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -60,6 +60,36 @@ public class AzDeploymentscripts : IAzDeploymentscripts
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDeploymentScriptsListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show deployment script logs.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowLogAsync(
+        AzDeploymentScriptsShowLogOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Retrieve a deployment script.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzDeploymentScriptsShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

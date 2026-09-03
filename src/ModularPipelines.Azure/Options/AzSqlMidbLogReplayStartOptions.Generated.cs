@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "log-replay", "start")]
-public record AzSqlMidbLogReplayStartOptions : AzOptions
+public record AzSqlMidbLogReplayStartOptions(
+    [property: CliOption("--ss", ShortForm = "--storage-sas")] string Ss,
+    [property: CliOption("--storage-uri", ShortForm = "--su")] string StorageUri
+) : AzOptions
 {
     /// <summary>
     /// The flag that in usage with last_backup_name automatically completes log replay servise.
@@ -27,9 +30,45 @@ public record AzSqlMidbLogReplayStartOptions : AzOptions
     public bool? AutoComplete { get; set; }
 
     /// <summary>
+    /// The name of the last backup to restore.
+    /// </summary>
+    [CliOption("--last-backup-name", ShortForm = "--last-bn")]
+    public string? LastBackupName { get; set; }
+
+    /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The storage container identity to use.  Allowed values:
+    /// </summary>
+    [CliOption("--si", ShortForm = "--storage-identity")]
+    public string? Si { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

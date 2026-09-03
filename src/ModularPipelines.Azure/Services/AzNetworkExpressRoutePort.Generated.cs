@@ -24,6 +24,7 @@ public class AzNetworkExpressRoutePort
     private AzNetworkExpressRoutePortAuthorization? _authorization;
     private AzNetworkExpressRoutePortIdentity? _identity;
     private AzNetworkExpressRoutePortLink? _link;
+    private AzNetworkExpressRoutePortLocation? _location;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoutePort"/> class.
@@ -50,6 +51,11 @@ public class AzNetworkExpressRoutePort
     /// </summary>
     public AzNetworkExpressRoutePortLink Link => _link ??= new AzNetworkExpressRoutePortLink(_command);
 
+    /// <summary>
+    /// az location sub-commands.
+    /// </summary>
+    public AzNetworkExpressRoutePortLocation Location => _location ??= new AzNetworkExpressRoutePortLocation(_command);
+
     #endregion
 
     #region Commands
@@ -62,11 +68,11 @@ public class AzNetworkExpressRoutePort
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkExpressRoutePortCreateOptions? options = null,
+        AzNetworkExpressRoutePortCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePortCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -92,11 +98,11 @@ public class AzNetworkExpressRoutePort
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateLoaAsync(
-        AzNetworkExpressRoutePortGenerateLoaOptions? options = null,
+        AzNetworkExpressRoutePortGenerateLoaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePortGenerateLoaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -115,6 +121,21 @@ public class AzNetworkExpressRoutePort
     }
 
     /// <summary>
+    /// Get the details of an ExpressRoute port.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkExpressRoutePortShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePortShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update settings of an ExpressRoute port.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -127,6 +148,21 @@ public class AzNetworkExpressRoutePort
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePortUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkExpressRoutePortWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePortWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

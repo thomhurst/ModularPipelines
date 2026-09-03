@@ -18,12 +18,34 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "inbound-security-rule", "create")]
-public record AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions : AzOptions
+public record AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--nva-name")] string NvaName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource ID.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Rule Type. This should be either AutoExpire or Permanent. Auto Expire Rule only creates NSG rules. Permanent Rule creates NSG rule and SLB LB Rule.  Allowed values: AutoExpire, Permanent.
+    /// </summary>
+    [CliOption("--rule-type")]
+    public string? RuleType { get; set; }
+
+    /// <summary>
+    /// List of allowed rules.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; set; }
 
 }

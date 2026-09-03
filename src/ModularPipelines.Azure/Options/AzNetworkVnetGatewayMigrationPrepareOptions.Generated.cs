@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "migration", "prepare")]
-public record AzNetworkVnetGatewayMigrationPrepareOptions : AzOptions
+public record AzNetworkVnetGatewayMigrationPrepareOptions(
+    [property: CliOption("--migration-type")] string MigrationType
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource url that needs to be passed in to migration.
+    /// </summary>
+    [CliOption("--resource-url")]
+    public string? ResourceUrl { get; set; }
+
+    /// <summary>
+    /// The name of the gateway.
+    /// </summary>
+    [CliOption("--gateway-name", ShortForm = "-n")]
+    public string? GatewayName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

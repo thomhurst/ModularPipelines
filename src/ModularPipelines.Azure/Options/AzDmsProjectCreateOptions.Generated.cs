@@ -18,12 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "create")]
-public record AzDmsProjectCreateOptions : AzOptions
+public record AzDmsProjectCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName,
+    [property: CliOption("--source-platform")] string SourcePlatform,
+    [property: CliOption("--target-platform")] string TargetPlatform
+) : AzOptions
 {
     /// <summary>
     /// A space-delimited list of tags in "tag1[=value1]" format.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

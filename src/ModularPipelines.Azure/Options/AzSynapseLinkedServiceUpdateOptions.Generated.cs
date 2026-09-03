@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "linked-service", "update")]
-public record AzSynapseLinkedServiceUpdateOptions : AzOptions
+public record AzSynapseLinkedServiceUpdateOptions(
+    [property: CliOption("--file")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

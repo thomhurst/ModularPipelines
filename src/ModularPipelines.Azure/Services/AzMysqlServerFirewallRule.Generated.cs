@@ -33,6 +33,21 @@ public class AzMysqlServerFirewallRule
     #region Commands
 
     /// <summary>
+    /// Create a new firewall rule for a server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzMysqlServerFirewallRuleCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Delete a firewall rule.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,36 @@ public class AzMysqlServerFirewallRule
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerFirewallRuleDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all firewall rules for a server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzMysqlServerFirewallRuleListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerFirewallRuleListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a firewall rule.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMysqlServerFirewallRuleShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerFirewallRuleShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

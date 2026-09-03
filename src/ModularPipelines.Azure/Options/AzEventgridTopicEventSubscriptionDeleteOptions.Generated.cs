@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "event-subscription", "delete")]
-public record AzEventgridTopicEventSubscriptionDeleteOptions : AzOptions
+public record AzEventgridTopicEventSubscriptionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--topic-name")] string TopicName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

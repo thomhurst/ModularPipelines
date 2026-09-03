@@ -33,6 +33,21 @@ public class AzMariadbServerConfiguration
     #region Commands
 
     /// <summary>
+    /// List the configuration values for a server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzMariadbServerConfigurationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMariadbServerConfigurationListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the configuration of a server.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzMariadbServerConfiguration
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMariadbServerConfigurationSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the configuration for a server.".
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMariadbServerConfigurationShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMariadbServerConfigurationShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -23,8 +23,8 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of custom host names for the streaming endpoint. Use "" to clear existing list.
     /// </summary>
-    [CliFlag("--custom-host-names")]
-    public bool? CustomHostNames { get; set; }
+    [CliOption("--custom-host-names", GroupValues = true)]
+    public IEnumerable<string>? CustomHostNames { get; set; }
 
     /// <summary>
     /// The streaming endpoint description.
@@ -47,7 +47,91 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. If no IP addresses are specified any IP address will be allowed.
+    /// </summary>
+    [CliOption("--ips", GroupValues = true)]
+    public IEnumerable<string>? Ips { get; set; }
+
+    /// <summary>
+    /// The CDN profile name.
+    /// </summary>
+    [CliFlag("--cdn-profile")]
+    public bool? CdnProfile { get; set; }
+
+    /// <summary>
+    /// The CDN provider name. Allowed values: StandardVerizon, PremiumVerizon,
+    /// </summary>
+    [CliOption("--cdn-provider")]
+    public string? CdnProvider { get; set; }
+
+    /// <summary>
+    /// Use this flag to disable CDN for the streaming endpoint.
+    /// </summary>
+    [CliFlag("--disable-cdn")]
+    public bool? DisableCdn { get; set; }
+
+    /// <summary>
+    /// The XML representing the clientaccesspolicy data used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/rest/api/media/operations/ crosssiteaccesspolicies.
+    /// </summary>
+    [CliFlag("--client-access-policy")]
+    public bool? ClientAccessPolicy { get; set; }
+
+    /// <summary>
+    /// The XML representing the crossdomain data used by Silverlight. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/ rest/api/media/operations/crosssiteaccesspolicies.
+    /// </summary>
+    [CliFlag("--cross-domain-policy")]
+    public bool? CrossDomainPolicy { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the streaming endpoint.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

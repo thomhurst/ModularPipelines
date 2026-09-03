@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "lint")]
-public record AzBicepLintOptions : AzOptions
+public record AzBicepLintOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Set diagnostics format.  Allowed values: default, sarif.
     /// </summary>
-    [CliFlag("--diagnostics-format")]
-    public bool? DiagnosticsFormat { get; set; }
+    [CliOption("--diagnostics-format")]
+    public string? DiagnosticsFormat { get; set; }
 
     /// <summary>
     /// When set, generates the parameters file without restoring external modules.

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "list")]
-public record AzAcrConnectedRegistryListOptions : AzOptions
+public record AzAcrConnectedRegistryListOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// Used to remove all children from the list.
@@ -30,26 +32,12 @@ public record AzAcrConnectedRegistryListOptions : AzOptions
     /// The name of the parent connected registry.
     /// </summary>
     [CliOption("--parent", ShortForm = "-p")]
-    public string? ParentValue { get; set; }
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ParentValue instead.")]
-    public bool? Parent
-    {
-        get => bool.TryParse(ParentValue, out var value) ? value : null;
-        set => ParentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -21,9 +21,147 @@ namespace ModularPipelines.Azure.Options;
 public record AzMonitorActionGroupUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The short name of the action group. This will be used in SMS messages.
+    /// </summary>
+    [CliFlag("--group-short-name", ShortForm = "--short-name")]
+    public bool? GroupShortName { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Add receivers to the action group.
+    /// </summary>
+    [CliFlag("--add-action", ShortForm = "-a")]
+    public bool? AddAction { get; set; }
+
+    /// <summary>
+    /// Remove receivers from the action group. Accept space-separated list of receiver names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--remove-action", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string>? RemoveAction { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--arm-role-receivers", GroupValues = true)]
+    public IEnumerable<string>? ArmRoleReceivers { get; set; }
+
+    /// <summary>
+    /// The list of AutomationRunbook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--automation-runbook-receivers", GroupValues = true)]
+    public IEnumerable<string>? AutomationRunbookReceivers { get; set; }
+
+    /// <summary>
+    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--azure-app-push-receivers", GroupValues = true)]
+    public IEnumerable<string>? AzureAppPushReceivers { get; set; }
+
+    /// <summary>
+    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--azure-function-receivers", GroupValues = true)]
+    public IEnumerable<string>? AzureFunctionReceivers { get; set; }
+
+    /// <summary>
+    /// The list of email receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--email-receivers", GroupValues = true)]
+    public IEnumerable<string>? EmailReceivers { get; set; }
+
+    /// <summary>
+    /// Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enabled")]
+    public bool? Enabled { get; set; }
+
+    /// <summary>
+    /// The list of event hub receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--event-hub-receivers", GroupValues = true)]
+    public IEnumerable<string>? EventHubReceivers { get; set; }
+
+    /// <summary>
+    /// The list of incident receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--incident-receivers", GroupValues = true)]
+    public IEnumerable<string>? IncidentReceivers { get; set; }
+
+    /// <summary>
+    /// The list of ITSM receivers that are part of this action group. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--itsm-receivers", GroupValues = true)]
+    public IEnumerable<string>? ItsmReceivers { get; set; }
+
+    /// <summary>
+    /// The list of logic app receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--logic-app-receivers", GroupValues = true)]
+    public IEnumerable<string>? LogicAppReceivers { get; set; }
+
+    /// <summary>
+    /// The list of SMS receivers that are part of this action group. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--sms-receivers", GroupValues = true)]
+    public IEnumerable<string>? SmsReceivers { get; set; }
+
+    /// <summary>
+    /// The list of voice receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--voice-receivers", GroupValues = true)]
+    public IEnumerable<string>? VoiceReceivers { get; set; }
+
+    /// <summary>
+    /// The list of webhook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--webhook-receivers", GroupValues = true)]
+    public IEnumerable<string>? WebhookReceivers { get; set; }
+
+    /// <summary>
+    /// The name of the action group.
+    /// </summary>
+    [CliOption("--action-group-name", ShortForm = "-n")]
+    public string? ActionGroupName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

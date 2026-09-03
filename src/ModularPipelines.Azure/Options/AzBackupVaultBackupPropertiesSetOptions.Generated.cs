@@ -23,32 +23,32 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     /// <summary>
     /// Set backup storage properties for a Recovery Services vault. Allowed values: GeoRedundant, LocallyRedundant,
     /// </summary>
-    [CliFlag("--backup-storage-redundancy")]
-    public bool? BackupStorageRedundancy { get; set; }
+    [CliOption("--backup-storage-redundancy")]
+    public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values:
     /// </summary>
-    [CliFlag("--classic-alerts")]
-    public bool? ClassicAlerts { get; set; }
+    [CliOption("--classic-alerts")]
+    public string? ClassicAlerts { get; set; }
 
     /// <summary>
     /// Set cross-region-restore feature state for a Recovery Services Vault. Default: False.  Allowed values: False,
     /// </summary>
-    [CliFlag("--cross-region-restore-flag")]
-    public bool? CrossRegionRestoreFlag { get; set; }
+    [CliOption("--cross-region-restore-flag")]
+    public string? CrossRegionRestoreFlag { get; set; }
 
     /// <summary>
     /// Use this field to set the security features for hybrid backups in a Recovery Services Vault.  Allowed values:
     /// </summary>
-    [CliFlag("--hybrid-backup-security-features")]
-    public bool? HybridBackupSecurityFeatures { get; set; }
+    [CliOption("--hybrid-backup-security-features")]
+    public string? HybridBackupSecurityFeatures { get; set; }
 
     /// <summary>
     /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure.  Allowed values: Disable, Enable.
     /// </summary>
-    [CliFlag("--job-failure-alerts")]
-    public bool? JobFailureAlerts { get; set; }
+    [CliOption("--job-failure-alerts")]
+    public string? JobFailureAlerts { get; set; }
 
     /// <summary>
     /// Set soft-delete retention duration time in days for a
@@ -59,20 +59,31 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     /// <summary>
     /// Set soft-delete feature state for a Recovery Services Vault. Allowed values: AlwaysOn, Disable, Enable.
     /// </summary>
-    [CliFlag("--soft-delete-feature-state")]
-    public bool? SoftDeleteFeatureState { get; set; }
+    [CliOption("--soft-delete-feature-state")]
+    public string? SoftDeleteFeatureState { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
-    {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

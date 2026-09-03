@@ -23,14 +23,20 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// IP address allocation method.  Allowed values:
     /// </summary>
-    [CliFlag("--allocation-method")]
-    public bool? AllocationMethod { get; set; }
+    [CliOption("--allocation-method")]
+    public string? AllocationMethod { get; set; }
+
+    /// <summary>
+    /// The DDoS protection mode of the public IP.  Allowed values: Disabled, Enabled, VirtualNetworkInherited.
+    /// </summary>
+    [CliOption("--ddos-protection-mode", ShortForm = "--protection-mode")]
+    public string? DdosProtectionMode { get; set; }
 
     /// <summary>
     /// Name or ID of a DDoS protection plan associated with the public IP. Can only be set if `--protection-mode` is Enabled.
     /// </summary>
     [CliOption("--ddos-protection-plan")]
-    public string? DdosProtectionPlanValue { get; set; }
+    public string? DdosProtectionPlan { get; set; }
 
     /// <summary>
     /// Globally unique DNS entry.
@@ -41,8 +47,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse,
     /// </summary>
-    [CliFlag("--dns-name-scope")]
-    public bool? DnsNameScope { get; set; }
+    [CliOption("--dns-name-scope")]
+    public string? DnsNameScope { get; set; }
 
     /// <summary>
     /// Idle timeout in minutes.
@@ -53,20 +59,20 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of IP tags in `TYPE=VAL` format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ip-tags")]
-    public bool? IpTags { get; set; }
+    [CliOption("--ip-tags", GroupValues = true)]
+    public IEnumerable<string>? IpTags { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of a public IP prefix.
     /// </summary>
     [CliOption("--public-ip-prefix")]
-    public string? PublicIpPrefixValue { get; set; }
+    public string? PublicIpPrefix { get; set; }
 
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
@@ -78,39 +84,66 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// Name of a public IP address SKU.  Allowed values:
     /// </summary>
     [CliOption("--sku")]
-    public string? SkuValue { get; set; }
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// IP address type.  Allowed values: IPv4, IPv6.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
-    [Obsolete("Use DdosProtectionPlanValue instead.")]
-    public bool? DdosProtectionPlan
-    {
-        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
-        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The DDoS custom policy associated with the public IP. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--ddos-custom-policy")]
+    public bool? DdosCustomPolicy { get; set; }
 
-    [Obsolete("Use PublicIpPrefixValue instead.")]
-    public bool? PublicIpPrefix
-    {
-        get => bool.TryParse(PublicIpPrefixValue, out var value) ? value : null;
-        set => PublicIpPrefixValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use SkuValue instead.")]
-    public bool? Sku
-    {
-        get => bool.TryParse(SkuValue, out var value) ? value : null;
-        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the public IP address.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

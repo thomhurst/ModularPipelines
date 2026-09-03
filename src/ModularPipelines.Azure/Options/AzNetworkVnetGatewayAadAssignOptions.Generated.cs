@@ -18,12 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "aad", "assign")]
-public record AzNetworkVnetGatewayAadAssignOptions : AzOptions
+public record AzNetworkVnetGatewayAadAssignOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--audience")] string Audience,
+    [property: CliOption("--issuer")] string Issuer,
+    [property: CliOption("--tenant")] string Tenant
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

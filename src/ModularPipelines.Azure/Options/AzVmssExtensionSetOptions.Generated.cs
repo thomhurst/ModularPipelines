@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "set")]
-public record AzVmssExtensionSetOptions : AzOptions
+public record AzVmssExtensionSetOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher")] string Publisher,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vmss-name")] string VmssName
+) : AzOptions
 {
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
@@ -30,7 +35,7 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// Name of extension instance, which can be customized. Default: name of the extension.
     /// </summary>
     [CliOption("--extension-instance-name")]
-    public string? ExtensionInstanceNameValue { get; set; }
+    public string? ExtensionInstanceName { get; set; }
 
     /// <summary>
     /// Force to update even if the extension configuration has not changed.
@@ -59,8 +64,8 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// <summary>
     /// Space-separated list of extension names after which this extension should be provisioned. These extensions must already be set on the vm.
     /// </summary>
-    [CliFlag("--provision-after-extensions")]
-    public bool? ProvisionAfterExtensions { get; set; }
+    [CliOption("--provision-after-extensions", GroupValues = true)]
+    public IEnumerable<string>? ProvisionAfterExtensions { get; set; }
 
     /// <summary>
     /// Extension settings in JSON format. A JSON file path is also accepted.
@@ -73,12 +78,5 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }
-
-    [Obsolete("Use ExtensionInstanceNameValue instead.")]
-    public bool? ExtensionInstanceName
-    {
-        get => bool.TryParse(ExtensionInstanceNameValue, out var value) ? value : null;
-        set => ExtensionInstanceNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

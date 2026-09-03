@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusGeorecoveryAlias
 {
     private readonly ICommandContext _command;
+    private AzServicebusGeorecoveryAliasAuthorizationRule? _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusGeorecoveryAlias"/> class.
@@ -30,7 +31,106 @@ public class AzServicebusGeorecoveryAlias
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzServicebusGeorecoveryAliasAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusGeorecoveryAliasAuthorizationRule(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// This operation disables the Disaster Recovery and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BreakPairAsync(
+        AzServicebusGeorecoveryAliasBreakPairOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusGeorecoveryAliasBreakPairOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Create a new Alias(Disaster Recovery configuration).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzServicebusGeorecoveryAliasCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete an Alias(Disaster Recovery configuration).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzServicebusGeorecoveryAliasDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusGeorecoveryAliasDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Check the give namespace name availability.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExistsAsync(
+        AzServicebusGeorecoveryAliasExistsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Invokes GEO DR failover and reconfigure the alias to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> FailOverAsync(
+        AzServicebusGeorecoveryAliasFailOverOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusGeorecoveryAliasFailOverOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all Alias(Disaster Recovery configurations).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzServicebusGeorecoveryAliasListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// Sets Service Bus Geo-Disaster Recovery Configuration Alias
@@ -40,11 +140,26 @@ public class AzServicebusGeorecoveryAlias
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        AzServicebusGeorecoveryAliasSetOptions? options = null,
+        AzServicebusGeorecoveryAliasSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusGeorecoveryAliasSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get Alias(Disaster Recovery configuration) for primary or
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzServicebusGeorecoveryAliasShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusGeorecoveryAliasShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

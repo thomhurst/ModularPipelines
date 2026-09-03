@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "export")]
-public record AzGroupExportOptions : AzOptions
+public record AzGroupExportOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The format of the exported template.  Allowed values: arm, bicep, json.  Default: json.
     /// </summary>
-    [CliFlag("--export-format")]
-    public bool? ExportFormat { get; set; }
+    [CliOption("--export-format")]
+    public string? ExportFormat { get; set; }
 
     /// <summary>
     /// Export template with comments.
@@ -41,8 +43,8 @@ public record AzGroupExportOptions : AzOptions
     /// <summary>
     /// Space-separated resource ids to filter the export by. To export all resources, do not specify this argument or supply "*".
     /// </summary>
-    [CliFlag("--resource-ids")]
-    public bool? ResourceIds { get; set; }
+    [CliOption("--resource-ids", GroupValues = true)]
+    public IEnumerable<string>? ResourceIds { get; set; }
 
     /// <summary>
     /// Export template parameter and skip all parameterization.

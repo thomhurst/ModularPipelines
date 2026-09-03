@@ -18,8 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "create")]
-public record AzEventgridEventSubscriptionCreateOptions : AzOptions
+public record AzEventgridEventSubscriptionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    /// <summary>
+    /// The Azure Active Directory Tenant Id to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
+    /// </summary>
+    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
+    public bool? AadTenantId { get; set; }
+
     /// <summary>
     /// The Azure Active Directory Application Id or Uri to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
     /// </summary>
@@ -30,13 +38,13 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     /// The Azure resource ID of an Azure Storage blob container destination where
     /// </summary>
     [CliOption("--deadletter-endpoint")]
-    public string? DeadletterEndpointValue { get; set; }
+    public string? DeadletterEndpoint { get; set; }
 
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination with identity where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>
     [CliOption("--deadletter-identity-endpoint")]
-    public string? DeadletterIdentityEndpointValue { get; set; }
+    public string? DeadletterIdentityEndpoint { get; set; }
 
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument.
@@ -59,8 +67,8 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// The schema in which events should be delivered for this event subscription. By default, events will be delivered in the same schema in which they are published (based on the corresponding topic's input schema).  Allowed values: cloudeventschemav1_0, custominputschema, eventgridschema.
     /// </summary>
-    [CliFlag("--event-delivery-schema")]
-    public bool? EventDeliverySchema { get; set; }
+    [CliOption("--event-delivery-schema")]
+    public string? EventDeliverySchema { get; set; }
 
     /// <summary>
     /// Event time to live (in minutes). Must be a number between 1 and 1440.  Default: 1440.
@@ -77,8 +85,8 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// Maximum number of delivery attempts. Must be a number between 1 and 30.
@@ -99,23 +107,51 @@ public record AzEventgridEventSubscriptionCreateOptions : AzOptions
     public bool? PreferredBatchSizeInKilobytes { get; set; }
 
     /// <summary>
+    /// Storage queue message time to live in seconds.
+    /// </summary>
+    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
+    public bool? Qttl { get; set; }
+
+    /// <summary>
     /// Fully qualified identifier of the Azure resource to which the event subscription needs to be created.
     /// </summary>
     [CliFlag("--source-resource-id")]
     public bool? SourceResourceId { get; set; }
 
-    [Obsolete("Use DeadletterEndpointValue instead.")]
-    public bool? DeadletterEndpoint
-    {
-        get => bool.TryParse(DeadletterEndpointValue, out var value) ? value : null;
-        set => DeadletterEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// An advanced filter enables filtering of events based on a specific event property.
+    /// </summary>
+    [CliFlag("--advanced-filter")]
+    public bool? AdvancedFilter { get; set; }
 
-    [Obsolete("Use DeadletterIdentityEndpointValue instead.")]
-    public bool? DeadletterIdentityEndpoint
-    {
-        get => bool.TryParse(DeadletterIdentityEndpointValue, out var value) ? value : null;
-        set => DeadletterIdentityEndpointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
+
+    /// <summary>
+    /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and
+    /// </summary>
+    [CliOption("--included-event-types", GroupValues = true)]
+    public IEnumerable<string>? IncludedEventTypes { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-begins-with")]
+    public bool? SubjectBeginsWith { get; set; }
+
+    /// <summary>
+    /// Specify to indicate whether the subject fields should be compared in a case sensitive manner. True if flag present. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--subject-case-sensitive")]
+    public bool? SubjectCaseSensitive { get; set; }
+
+    /// <summary>
+    /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
+    /// </summary>
+    [CliFlag("--subject-ends-with")]
+    public bool? SubjectEndsWith { get; set; }
 
 }

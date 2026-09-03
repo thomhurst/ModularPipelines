@@ -18,12 +18,114 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "rule", "create")]
-public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions
+public record AzServicebusTopicSubscriptionRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subscription-name")] string SubscriptionName,
+    [property: CliOption("--topic-name")] string TopicName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    /// </summary>
+    [CliFlag("--action-compatibility-level")]
+    public bool? ActionCompatibilityLevel { get; set; }
+
+    /// <summary>
+    /// Action SQL expression.
+    /// </summary>
+    [CliFlag("--action-sql-expression")]
+    public bool? ActionSqlExpression { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-action-preprocessing")]
+    public bool? EnableActionPreprocessing { get; set; }
+
+    /// <summary>
+    /// Rule Filter types.  Allowed values:
+    /// </summary>
+    [CliOption("--filter-type")]
+    public string? FilterType { get; set; }
+
+    /// <summary>
+    /// Content type of message.
+    /// </summary>
+    [CliFlag("--content-type")]
+    public bool? ContentType { get; set; }
+
+    /// <summary>
+    /// Dictionary object for custom filters.
+    /// </summary>
+    [CliFlag("--correlation-filter", ShortForm = "--correlation-filter-property")]
+    public bool? CorrelationFilter { get; set; }
+
+    /// <summary>
+    /// Identifier of correlation.
+    /// </summary>
+    [CliOption("--correlation-id")]
+    public string? CorrelationId { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-correlation-preprocessing")]
+    public bool? EnableCorrelationPreprocessing { get; set; }
+
+    /// <summary>
+    /// Application specific label.
+    /// </summary>
+    [CliFlag("--label")]
+    public bool? Label { get; set; }
+
+    /// <summary>
+    /// Identifier of message.
+    /// </summary>
+    [CliOption("--message-id")]
+    public string? MessageId { get; set; }
+
+    /// <summary>
+    /// Address of the queue to reply to.
+    /// </summary>
+    [CliFlag("--reply-to")]
+    public bool? ReplyTo { get; set; }
+
+    /// <summary>
+    /// Session identifier to reply to.
+    /// </summary>
+    [CliFlag("--reply-to-session-id")]
+    public bool? ReplyToSessionId { get; set; }
+
+    /// <summary>
+    /// Session identifier.
+    /// </summary>
+    [CliFlag("--session-id")]
+    public bool? SessionId { get; set; }
+
+    /// <summary>
+    /// Address to send to.
+    /// </summary>
+    [CliFlag("--to")]
+    public bool? To { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-sql-preprocessing")]
+    public bool? EnableSqlPreprocessing { get; set; }
+
+    /// <summary>
+    /// SQL expression. e.g. myproperty=test.
+    /// </summary>
+    [CliFlag("--filter-sql-expression")]
+    public bool? FilterSqlExpression { get; set; }
 
 }

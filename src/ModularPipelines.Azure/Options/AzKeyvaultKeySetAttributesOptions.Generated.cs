@@ -47,8 +47,8 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
     /// </summary>
-    [CliFlag("--ops")]
-    public bool? Ops { get; set; }
+    [CliOption("--ops", GroupValues = true)]
+    public IEnumerable<string>? Ops { get; set; }
 
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
@@ -59,7 +59,37 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the key. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// The key version. If omitted, uses the latest version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

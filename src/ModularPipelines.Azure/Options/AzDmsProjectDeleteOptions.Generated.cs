@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "delete")]
-public record AzDmsProjectDeleteOptions : AzOptions
+public record AzDmsProjectDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Cancel any running tasks before deleting the project.

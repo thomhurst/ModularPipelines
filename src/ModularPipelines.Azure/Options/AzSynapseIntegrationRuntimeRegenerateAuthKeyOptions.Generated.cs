@@ -24,13 +24,30 @@ public record AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions
     /// The name of the authentication key to regenerate.  Allowed values: authKey1, authKey2.  Default: default.
     /// </summary>
     [CliOption("--key-name")]
-    public string? KeyNameValue { get; set; }
+    public string? KeyName { get; set; }
 
-    [Obsolete("Use KeyNameValue instead.")]
-    public bool? KeyName
-    {
-        get => bool.TryParse(KeyNameValue, out var value) ? value : null;
-        set => KeyNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The integration runtime name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--workspace-name")]
+    public bool? WorkspaceName { get; set; }
 
 }

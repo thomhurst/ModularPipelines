@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "topic", "event-subscription", "list")]
-public record AzEventgridDomainTopicEventSubscriptionListOptions : AzOptions
+public record AzEventgridDomainTopicEventSubscriptionListOptions(
+    [property: CliOption("--domain-name")] string DomainName,
+    [property: CliOption("--domain-topic-name")] string DomainTopicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.

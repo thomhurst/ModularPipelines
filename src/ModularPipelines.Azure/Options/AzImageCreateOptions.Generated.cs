@@ -18,31 +18,35 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "create")]
-public record AzImageCreateOptions : AzOptions
+public record AzImageCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source")] string Source
+) : AzOptions
 {
     /// <summary>
     /// Storage caching type for the image's data disk.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>
-    [CliFlag("--data-disk-caching")]
-    public bool? DataDiskCaching { get; set; }
+    [CliOption("--data-disk-caching")]
+    public string? DataDiskCaching { get; set; }
 
     /// <summary>
     /// Space-separated list of data disk sources, including unmanaged blob URI, managed disk ID or name, or snapshot ID or name.
     /// </summary>
-    [CliFlag("--data-disk-sources")]
-    public bool? DataDiskSources { get; set; }
+    [CliOption("--data-disk-sources", GroupValues = true)]
+    public IEnumerable<string>? DataDiskSources { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The hypervisor generation of the Virtual Machine created from the image.  Allowed values: V1, V2.  Default: V1.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -53,38 +57,31 @@ public record AzImageCreateOptions : AzOptions
     /// <summary>
     /// Storage caching type for the image's OS disk.  Allowed values:
     /// </summary>
-    [CliFlag("--os-disk-caching")]
-    public bool? OsDiskCaching { get; set; }
+    [CliOption("--os-disk-caching")]
+    public string? OsDiskCaching { get; set; }
 
     /// <summary>
     /// Allowed values: Linux, Windows.
     /// </summary>
-    [CliFlag("--os-type")]
-    public bool? OsType { get; set; }
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
     /// <summary>
     /// The SKU of the storage account with which to create the VM image. Unused if source VM is specified.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS,
     /// </summary>
-    [CliFlag("--storage-sku")]
-    public bool? StorageSku { get; set; }
+    [CliOption("--storage-sku")]
+    public string? StorageSku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-resilient")]
     public bool? ZoneResilient { get; set; }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

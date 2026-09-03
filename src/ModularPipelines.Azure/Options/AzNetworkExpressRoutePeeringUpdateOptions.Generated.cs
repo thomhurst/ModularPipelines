@@ -23,7 +23,7 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -54,13 +54,90 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// Identifier used to identify the customer.
     /// </summary>
     [CliOption("--vlan-id")]
-    public string? VlanIdValue { get; set; }
+    public string? VlanId { get; set; }
 
-    [Obsolete("Use VlanIdValue instead.")]
-    public bool? VlanId
-    {
-        get => bool.TryParse(VlanIdValue, out var value) ? value : null;
-        set => VlanIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Space-separated list of prefixes to be advertised through the BGP peering.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--advertised-public-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AdvertisedPublicPrefixes { get; set; }
+
+    /// <summary>
+    /// Autonomous system number of the customer.
+    /// </summary>
+    [CliFlag("--customer-asn")]
+    public bool? CustomerAsn { get; set; }
+
+    /// <summary>
+    /// The IP version to update Microsoft Peering settings for. Allowed values: IPv4, IPv6. Default: IPv4.  Default: IPv4.
+    /// </summary>
+    [CliOption("--ip-version")]
+    public string? IpVersion { get; set; }
+
+    /// <summary>
+    /// Integer representing the legacy mode of the peering.
+    /// </summary>
+    [CliFlag("--legacy-mode")]
+    public bool? LegacyMode { get; set; }
+
+    /// <summary>
+    /// Name or ID of a route filter to apply to the peering settings.
+    /// </summary>
+    [CliOption("--route-filter")]
+    public string? RouteFilter { get; set; }
+
+    /// <summary>
+    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC,
+    /// </summary>
+    [CliOption("--routing-registry-name")]
+    public string? RoutingRegistryName { get; set; }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliFlag("--circuit-name")]
+    public bool? CircuitName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the peering.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,19 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "create")]
-public record AzFunctionappCreateOptions : AzOptions
+public record AzFunctionappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account", ShortForm = "-s")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--always-ready-instances")]
-    public bool? AlwaysReadyInstances { get; set; }
+    [CliOption("--always-ready-instances", GroupValues = true)]
+    public IEnumerable<string>? AlwaysReadyInstances { get; set; }
 
     /// <summary>
     /// Name of the existing App Insights project to be added to the function app. Must be in the same resource group.
     /// </summary>
     [CliOption("--app-insights")]
-    public string? AppInsightsValue { get; set; }
+    public string? AppInsights { get; set; }
 
     /// <summary>
     /// Instrumentation key of App Insights to be added.
@@ -41,14 +45,26 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Accept system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity. Check out help for more examples.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
+
+    /// <summary>
+    /// Use this option if you want to configure networking later for an app using network- restricted storage.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--cnl", ShortForm = "--configure-networking-later")]
+    public bool? Cnl { get; set; }
 
     /// <summary>
     /// Geographic location where function app will be hosted. Use `az functionapp list-consumption- locations` to view available locations.
     /// </summary>
     [CliFlag("--consumption-plan-location", ShortForm = "-c")]
     public bool? ConsumptionPlanLocation { get; set; }
+
+    /// <summary>
+    /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
+    public bool? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
@@ -63,10 +79,22 @@ public record AzFunctionappCreateOptions : AzOptions
     public bool? DaprAppPort { get; set; }
 
     /// <summary>
+    /// Max size of request body http and grpc servers in MB to handle uploading of large files.
+    /// </summary>
+    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
+    public bool? DaprHttpMaxRequestSize { get; set; }
+
+    /// <summary>
+    /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
+    /// </summary>
+    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
+    public bool? DaprHttpReadBufferSize { get; set; }
+
+    /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
     /// </summary>
-    [CliFlag("--dapr-log-level")]
-    public bool? DaprLogLevel { get; set; }
+    [CliOption("--dapr-log-level")]
+    public string? DaprLogLevel { get; set; }
 
     /// <summary>
     /// Enable local git.
@@ -87,6 +115,30 @@ public record AzFunctionappCreateOptions : AzOptions
     public bool? DeploymentSourceUrl { get; set; }
 
     /// <summary>
+    /// The deployment storage account authentication type.  Allowed values:
+    /// </summary>
+    [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
+    public string? DeploymentStorageAuthType { get; set; }
+
+    /// <summary>
+    /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed- identity authentication type, this parameter is not applicable and should be left empty.
+    /// </summary>
+    [CliOption("--deployment-storage-auth-value", ShortForm = "--dsav")]
+    public string? DeploymentStorageAuthValue { get; set; }
+
+    /// <summary>
+    /// The deployment storage account container name.
+    /// </summary>
+    [CliFlag("--deployment-storage-container-name", ShortForm = "--dscn")]
+    public bool? DeploymentStorageContainerName { get; set; }
+
+    /// <summary>
+    /// The deployment storage account name.
+    /// </summary>
+    [CliFlag("--deployment-storage-name", ShortForm = "--dsn")]
+    public bool? DeploymentStorageName { get; set; }
+
+    /// <summary>
     /// Disable creating application insights resource during functionapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
     [CliOption("--disable-app-insights")]
@@ -95,8 +147,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse,
     /// </summary>
-    [CliFlag("--domain-name-scope")]
-    public bool? DomainNameScope { get; set; }
+    [CliOption("--domain-name-scope")]
+    public string? DomainNameScope { get; set; }
 
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
@@ -143,14 +195,14 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Set the OS type for the app to be created. Allowed values: Linux, Windows.
     /// </summary>
-    [CliFlag("--os-type")]
-    public bool? OsType { get; set; }
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
     /// <summary>
     /// Name or resource id of the functionapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
     /// </summary>
     [CliOption("--plan", ShortForm = "-p")]
-    public string? PlanValue { get; set; }
+    public string? Plan { get; set; }
 
     /// <summary>
     /// The container registry server password. Required for private registries.
@@ -185,65 +237,37 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Scope that the system assigned identity can access.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Name of an existing log analytics workspace to be used for the application insights component.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Applies to Flex Consumption SKU only.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
-
-    [Obsolete("Use AppInsightsValue instead.")]
-    public bool? AppInsights
-    {
-        get => bool.TryParse(AppInsightsValue, out var value) ? value : null;
-        set => AppInsightsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PlanValue instead.")]
-    public bool? Plan
-    {
-        get => bool.TryParse(PlanValue, out var value) ? value : null;
-        set => PlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
-    {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

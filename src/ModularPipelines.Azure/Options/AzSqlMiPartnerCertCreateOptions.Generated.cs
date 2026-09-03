@@ -18,12 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "partner-cert", "create")]
-public record AzSqlMiPartnerCertCreateOptions : AzOptions
+public record AzSqlMiPartnerCertCreateOptions(
+    [property: CliOption("--certificate-name", ShortForm = "-n")] string CertificateName,
+    [property: CliOption("--instance-name", ShortForm = "--mi")] string InstanceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The certificate public blob.
+    /// </summary>
+    [CliFlag("--public-blob")]
+    public bool? PublicBlob { get; set; }
 
 }

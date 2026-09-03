@@ -18,12 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "download")]
-public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
+public record AzKeyvaultSecurityDomainDownloadOptions(
+    [property: CliOption("--sd-quorum")] string SdQuorum,
+    [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys,
+    [property: CliOption("--security-domain-file")] string SecurityDomainFile
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
 
 }

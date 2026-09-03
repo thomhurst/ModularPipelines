@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzDataboxedge : IAzDataboxedge
 {
     private readonly ICommandContext _command;
+    private AzDataboxedgeAlert? _alert;
     private AzDataboxedgeBandwidthSchedule? _bandwidthSchedule;
     private AzDataboxedgeDevice? _device;
     private AzDataboxedgeOrder? _order;
@@ -36,6 +37,11 @@ public class AzDataboxedge : IAzDataboxedge
     #region Sub-command Groups
 
     /// <summary>
+    /// az alert sub-commands.
+    /// </summary>
+    public AzDataboxedgeAlert Alert => _alert ??= new AzDataboxedgeAlert(_command);
+
+    /// <summary>
     /// az bandwidth-schedule sub-commands.
     /// </summary>
     public AzDataboxedgeBandwidthSchedule BandwidthSchedule => _bandwidthSchedule ??= new AzDataboxedgeBandwidthSchedule(_command);
@@ -49,6 +55,55 @@ public class AzDataboxedge : IAzDataboxedge
     /// az order sub-commands.
     /// </summary>
     public AzDataboxedgeOrder Order => _order ??= new AzDataboxedgeOrder(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// List all the nodes currently configured under this Data Box Edge
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNodeAsync(
+        AzDataboxedgeListNodeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all the available Skus and information related to them.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkuAsync(
+        AzDataboxedgeListSkuOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeListSkuOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a specified job on a Data Box Edge/Data Box Gateway
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowJobAsync(
+        AzDataboxedgeShowJobOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDataboxedgeShowJobOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

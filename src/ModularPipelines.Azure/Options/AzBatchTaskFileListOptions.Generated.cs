@@ -18,12 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "list")]
-public record AzBatchTaskFileListOptions : AzOptions
+public record AzBatchTaskFileListOptions(
+    [property: CliOption("--job-id")] string JobId,
+    [property: CliOption("--task-id")] string TaskId
+) : AzOptions
 {
     /// <summary>
     /// Whether to list children of the Task directory. This parameter can be used in combination with the filter parameter to list specific type of files.  Allowed values: false, true.
     /// </summary>
     [CliOption("--recursive")]
     public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata- filters-in-batch.
+    /// </summary>
+    [CliFlag("--filter")]
+    public bool? Filter { get; set; }
 
 }

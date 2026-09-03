@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "ad-admin", "create")]
-public record AzMysqlFlexibleServerAdAdminCreateOptions : AzOptions
+public record AzMysqlFlexibleServerAdAdminCreateOptions(
+    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
+    [property: CliOption("--identity")] string Identity,
+    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

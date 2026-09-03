@@ -23,11 +23,6 @@ public record AzAppservicePlanManagedInstanceInstanceConnectOptions(
     [property: CliOption("--instance-name")] string InstanceName
 ) : AzOptions
 {
-    public AzAppservicePlanManagedInstanceInstanceConnectOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Resource group name of the Azure Bastion host (defaults to the plan resource group).
     /// </summary>

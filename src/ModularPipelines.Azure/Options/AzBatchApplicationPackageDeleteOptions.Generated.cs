@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "package", "delete")]
-public record AzBatchApplicationPackageDeleteOptions : AzOptions
+public record AzBatchApplicationPackageDeleteOptions(
+    [property: CliOption("--application-name")] string ApplicationName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--version-name")] string VersionName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

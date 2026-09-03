@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzCosmosdbPostgresCluster
 {
     private readonly ICommandContext _command;
+    private AzCosmosdbPostgresClusterServer? _server;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbPostgresCluster"/> class.
@@ -29,6 +30,15 @@ public class AzCosmosdbPostgresCluster
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az server sub-commands.
+    /// </summary>
+    public AzCosmosdbPostgresClusterServer Server => _server ??= new AzCosmosdbPostgresClusterServer(_command);
+
+    #endregion
 
     #region Commands
 
@@ -40,11 +50,11 @@ public class AzCosmosdbPostgresCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzCosmosdbPostgresClusterCreateOptions? options = null,
+        AzCosmosdbPostgresClusterCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresClusterCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -108,6 +118,21 @@ public class AzCosmosdbPostgresCluster
     }
 
     /// <summary>
+    /// Get information about a cluster such as compute and storage
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCosmosdbPostgresClusterShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresClusterShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Starts stopped compute on all cluster nodes.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -150,6 +175,21 @@ public class AzCosmosdbPostgresCluster
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresClusterUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzCosmosdbPostgresClusterWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresClusterWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

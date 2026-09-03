@@ -129,7 +129,7 @@ public interface IAzNetwork
     /// <summary>
     /// az routeserver sub-commands.
     /// </summary>
-    AzNetworkRouteserver Routeserver => throw new System.NotSupportedException();
+    AzNetworkRouteServer RouteServer => throw new System.NotSupportedException();
 
     /// <summary>
     /// az route-table sub-commands.
@@ -184,6 +184,26 @@ public interface IAzNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListServiceAliasesAsync(AzNetworkListServiceAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// List all service tags which are below to different resources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListServiceTagsAsync(AzNetworkListServiceTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// List the number of network resources in a region that are used against
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListUsagesAsync(AzNetworkListUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

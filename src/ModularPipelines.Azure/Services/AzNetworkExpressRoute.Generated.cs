@@ -68,11 +68,11 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkExpressRouteCreateOptions? options = null,
+        AzNetworkExpressRouteCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -98,11 +98,11 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinkFailoverAllTestsDetailAsync(
-        AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions? options = null,
+        AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,11 +113,26 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinkFailoverSingleTestDetailAsync(
-        AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions? options = null,
+        AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the statistics of an ExpressRoute circuit.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetStatsAsync(
+        AzNetworkExpressRouteGetStatsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteGetStatsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -151,6 +166,36 @@ public class AzNetworkExpressRoute
     }
 
     /// <summary>
+    /// List available ExpressRoute service providers.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServiceProvidersAsync(
+        AzNetworkExpressRouteListServiceProvidersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteListServiceProvidersOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of an ExpressRoute circuit.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkExpressRouteShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// This operation starts failover simulation on
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -158,11 +203,11 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartLinkFailoverTestAsync(
-        AzNetworkExpressRouteStartLinkFailoverTestOptions? options = null,
+        AzNetworkExpressRouteStartLinkFailoverTestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteStartLinkFailoverTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -173,11 +218,11 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopLinkFailoverTestAsync(
-        AzNetworkExpressRouteStopLinkFailoverTestOptions? options = null,
+        AzNetworkExpressRouteStopLinkFailoverTestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteStopLinkFailoverTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -193,6 +238,21 @@ public class AzNetworkExpressRoute
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkExpressRouteWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -48,6 +48,21 @@ public class AzPolicyState
     }
 
     /// <summary>
+    /// Summarize policy compliance states.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SummarizeAsync(
+        AzPolicyStateSummarizeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPolicyStateSummarizeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Trigger a policy compliance evaluation for a scope.
     /// </summary>
     /// <param name="options">The command options.</param>

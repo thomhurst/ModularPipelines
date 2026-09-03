@@ -47,5 +47,20 @@ public class AzContainerappIngressTraffic
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappIngressTrafficSetOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Show traffic-splitting configuration for a container app.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappIngressTrafficShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappIngressTrafficShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "create")]
-public record AzCognitiveservicesAccountCreateOptions : AzOptions
+public record AzCognitiveservicesAccountCreateOptions(
+    [property: CliOption("--kind")] string Kind,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku", ShortForm = "--sku-name")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Api properties in JSON format or a=b c=d format. Some cognitive services (i.e. QnA Maker) require extra api properties to create the account.
@@ -53,13 +59,19 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for terms confirmation.
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// AIServices kind only. Enables project management. Default true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--allow-project-management", ShortForm = "--manage-projects")]
+    public bool? AllowProjectManagement { get; set; }
 
 }

@@ -24,13 +24,13 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     /// The name of the policy enrollment.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the resource.
@@ -38,18 +38,46 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     [CliFlag("--scope")]
     public bool? Scope { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default,
+    /// </summary>
+    [CliOption("--assignment-scope-validation", ShortForm = "-v")]
+    public string? AssignmentScopeValidation { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The description of the policy enrollment.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy enrollment.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment to enroll.
+    /// </summary>
+    [CliFlag("--policy-assignment", ShortForm = "-a")]
+    public bool? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
+    public bool? PolicyDefinitionReferenceIds { get; set; }
+
+    /// <summary>
+    /// The resource selector list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
 
 }

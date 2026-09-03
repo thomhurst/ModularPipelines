@@ -47,5 +47,20 @@ public class AzVmssIdentity
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssIdentityAssignOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Display VM scaleset's managed identity info.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzVmssIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssIdentityShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

@@ -18,12 +18,62 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "definition", "create")]
-public record AzPolicyDefinitionCreateOptions : AzOptions
+public record AzPolicyDefinitionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The management group.
     /// </summary>
     [CliFlag("--management-group")]
     public bool? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// Policy definition description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy definition.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The details of the source of external evaluation results required by the policy during enforcement evaluation.
+    /// </summary>
+    [CliFlag("--external-evaluation-enforcement-settings", ShortForm = "--external-settings")]
+    public bool? ExternalEvaluationEnforcementSettings { get; set; }
+
+    /// <summary>
+    /// The policy definition metadata.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy definition mode.
+    /// </summary>
+    [CliFlag("--mode", ShortForm = "-m")]
+    public bool? Mode { get; set; }
+
+    /// <summary>
+    /// The policy rule parameter definitions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
+
+    /// <summary>
+    /// The policy rule.  Support shorthand-syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--rule", ShortForm = "--rules")]
+    public bool? Rule { get; set; }
+
+    /// <summary>
+    /// The policy definition version.
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
 }

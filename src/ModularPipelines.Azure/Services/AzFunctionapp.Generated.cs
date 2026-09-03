@@ -32,7 +32,9 @@ public class AzFunctionapp : IAzFunctionapp
     private AzFunctionappKeys? _keys;
     private AzFunctionappLog? _log;
     private AzFunctionappPlan? _plan;
+    private AzFunctionappRuntime? _runtime;
     private AzFunctionappScale? _scale;
+    private AzFunctionappUpdateStrategy? _updateStrategy;
     private AzFunctionappVnetIntegration? _vnetIntegration;
 
     /// <summary>
@@ -101,9 +103,19 @@ public class AzFunctionapp : IAzFunctionapp
     public AzFunctionappPlan Plan => _plan ??= new AzFunctionappPlan(_command);
 
     /// <summary>
+    /// az runtime sub-commands.
+    /// </summary>
+    public AzFunctionappRuntime Runtime => _runtime ??= new AzFunctionappRuntime(_command);
+
+    /// <summary>
     /// az scale sub-commands.
     /// </summary>
     public AzFunctionappScale Scale => _scale ??= new AzFunctionappScale(_command);
+
+    /// <summary>
+    /// az update-strategy sub-commands.
+    /// </summary>
+    public AzFunctionappUpdateStrategy UpdateStrategy => _updateStrategy ??= new AzFunctionappUpdateStrategy(_command);
 
     /// <summary>
     /// az vnet-integration sub-commands.
@@ -122,11 +134,11 @@ public class AzFunctionapp : IAzFunctionapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzFunctionappCreateOptions? options = null,
+        AzFunctionappCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -160,6 +172,21 @@ public class AzFunctionapp : IAzFunctionapp
     }
 
     /// <summary>
+    /// List available built-in stacks which can be used
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListFlexconsumptionRuntimesAsync(
+        AzFunctionappListFlexconsumptionRuntimesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List function apps.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -172,6 +199,21 @@ public class AzFunctionapp : IAzFunctionapp
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List available built-in stacks which can be used for function
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRuntimesAsync(
+        AzFunctionappListRuntimesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappListRuntimesOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

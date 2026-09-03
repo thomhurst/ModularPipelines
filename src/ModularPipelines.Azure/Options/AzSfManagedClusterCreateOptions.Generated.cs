@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,7 +19,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "create")]
-public record AzSfManagedClusterCreateOptions : AzOptions
+public record AzSfManagedClusterCreateOptions(
+    [property: SecretValue, CliOption("--admin-password")] string AdminPassword,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Admin user used for the virtual
@@ -27,10 +32,64 @@ public record AzSfManagedClusterCreateOptions : AzOptions
     public bool? AdminUserName { get; set; }
 
     /// <summary>
+    /// Client certificate common name.
+    /// </summary>
+    [CliFlag("--cert-common-name", ShortForm = "--client-cert-common-name")]
+    public bool? CertCommonName { get; set; }
+
+    /// <summary>
+    /// Client authentication type.
+    /// </summary>
+    [CliFlag("--cert-is-admin", ShortForm = "--client-cert-is-admin")]
+    public bool? CertIsAdmin { get; set; }
+
+    /// <summary>
+    /// Space-separated list of issuer thumbprints.
+    /// </summary>
+    [CliOption("--cert-issuer-thumbprint", ShortForm = "--client-cert-issuer-thumbprint", GroupValues = true)]
+    public IEnumerable<string>? CertIssuerThumbprint { get; set; }
+
+    /// <summary>
+    /// Client certificate thumbprint.
+    /// </summary>
+    [CliFlag("--cert-thumbprint", ShortForm = "--client-cert-thumbprint")]
+    public bool? CertThumbprint { get; set; }
+
+    /// <summary>
+    /// Port used for client connections to the
+    /// </summary>
+    [CliFlag("--client-connection-port", ShortForm = "--client-port")]
+    public bool? ClientConnectionPort { get; set; }
+
+    /// <summary>
+    /// Cluster service fabric code version. Only use if upgrade mode is Manual.
+    /// </summary>
+    [CliFlag("--cluster-code-version", ShortForm = "--code-version")]
+    public bool? ClusterCodeVersion { get; set; }
+
+    /// <summary>
+    /// The upgrade mode of the cluster when new
+    /// </summary>
+    [CliFlag("--cluster-upgrade-cadence", ShortForm = "--upgrade-cadence")]
+    public bool? ClusterUpgradeCadence { get; set; }
+
+    /// <summary>
+    /// The upgrade mode of the cluster when new
+    /// </summary>
+    [CliFlag("--cluster-upgrade-mode", ShortForm = "--upgrade-mode")]
+    public bool? ClusterUpgradeMode { get; set; }
+
+    /// <summary>
     /// Cluster's dns name.
     /// </summary>
     [CliFlag("--dns-name")]
     public bool? DnsName { get; set; }
+
+    /// <summary>
+    /// Port used for http connections to the
+    /// </summary>
+    [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
+    public bool? GatewayConnectionPort { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -47,7 +106,7 @@ public record AzSfManagedClusterCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

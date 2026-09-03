@@ -18,19 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "nic", "add")]
-public record AzVmNicAddOptions : AzOptions
+public record AzVmNicAddOptions(
+    [property: CliOption("--nics")] string Nics,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
     /// <summary>
     /// Name or ID of the primary NIC. If missing, the first NIC in the list will be the primary.
     /// </summary>
     [CliOption("--primary-nic")]
-    public string? PrimaryNicValue { get; set; }
-
-    [Obsolete("Use PrimaryNicValue instead.")]
-    public bool? PrimaryNic
-    {
-        get => bool.TryParse(PrimaryNicValue, out var value) ? value : null;
-        set => PrimaryNicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? PrimaryNic { get; set; }
 
 }

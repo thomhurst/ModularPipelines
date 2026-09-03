@@ -26,4 +26,19 @@ public interface IAzCognitiveservices
     /// </summary>
     AzCognitiveservicesAccount Account => throw new System.NotSupportedException();
 
+    /// <summary>
+    /// az commitment-tier sub-commands.
+    /// </summary>
+    AzCognitiveservicesCommitmentTier CommitmentTier => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az model sub-commands.
+    /// </summary>
+    AzCognitiveservicesModel Model => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    AzCognitiveservicesUsage Usage => throw new System.NotSupportedException();
+
 }

@@ -18,12 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "delete")]
-public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions : AzOptions
+public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-name")] string RuleName,
+    [property: CliOption("--rule-set-name")] string RuleSetName,
+    [property: CliOption("--variable")] string Variable
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

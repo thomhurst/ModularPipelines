@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "create")]
-public record AzManagedservicesDefinitionCreateOptions : AzOptions
+public record AzManagedservicesDefinitionCreateOptions(
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--principal-id")] string PrincipalId,
+    [property: CliOption("--role-definition-id")] string RoleDefinitionId,
+    [property: CliOption("--tenant-id")] string TenantId
+) : AzOptions
 {
     /// <summary>
     /// Guid of the registration definition.
@@ -30,12 +35,12 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// Description of the registration definition.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -61,12 +66,5 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--plan-version")]
     public bool? PlanVersion { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

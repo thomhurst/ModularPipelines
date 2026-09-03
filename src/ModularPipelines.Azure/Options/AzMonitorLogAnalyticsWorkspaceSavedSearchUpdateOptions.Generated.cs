@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "update")]
-public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// The category of the saved search. This helps the user to find a saved search faster.
@@ -33,22 +37,27 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     public bool? DisplayName { get; set; }
 
     /// <summary>
+    /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for
+    /// </summary>
+    [CliFlag("--fa", ShortForm = "--func-alias")]
+    public bool? Fa { get; set; }
+
+    /// <summary>
+    /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
+    /// </summary>
+    [CliFlag("--fp", ShortForm = "--func-param")]
+    public bool? Fp { get; set; }
+
+    /// <summary>
     /// The query expression for the saved search.
     /// </summary>
     [CliOption("--saved-query", ShortForm = "-q")]
-    public string? SavedQueryValue { get; set; }
+    public string? SavedQuery { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use SavedQueryValue instead.")]
-    public bool? SavedQuery
-    {
-        get => bool.TryParse(SavedQueryValue, out var value) ? value : null;
-        set => SavedQueryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

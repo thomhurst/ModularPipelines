@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "validate")]
-public record AzStaticwebappBackendsValidateOptions : AzOptions
+public record AzStaticwebappBackendsValidateOptions(
+    [property: CliOption("--backend-resource-id")] string BackendResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Region of the backend resource.
@@ -30,13 +34,6 @@ public record AzStaticwebappBackendsValidateOptions : AzOptions
     /// Name of the environment of static site.  Default: default.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
-
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
-    {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? EnvironmentName { get; set; }
 
 }

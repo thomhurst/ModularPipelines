@@ -23,7 +23,109 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "--type")]
+    public string? IdentityType { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupN ame}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{iden tityName}'.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--user-assigned", GroupValues = true)]
+    public IEnumerable<string>? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The name of the key associated with the Log Analytics cluster.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; set; }
+
+    /// <summary>
+    /// Selected key minimum required size.
+    /// </summary>
+    [CliFlag("--key-rsa-size")]
+    public bool? KeyRsaSize { get; set; }
+
+    /// <summary>
+    /// The Key Vault uri which holds they key associated with the Log
+    /// </summary>
+    [CliOption("--key-vault-uri")]
+    public string? KeyVaultUri { get; set; }
+
+    /// <summary>
+    /// The version of the key associated with the Log Analytics cluster.
+    /// </summary>
+    [CliFlag("--key-version")]
+    public bool? KeyVersion { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The cluster's billing type.  Allowed values: Cluster, Workspaces.
+    /// </summary>
+    [CliOption("--billing-type")]
+    public string? BillingType { get; set; }
+
+    /// <summary>
+    /// Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--replication-enabled")]
+    public bool? ReplicationEnabled { get; set; }
+
+    /// <summary>
+    /// Name of the Log Analytics Cluster.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-n")]
+    public string? ClusterName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The capacity of the SKU. It can be decreased only after 31 days. Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
+    /// </summary>
+    [CliOption("--sku-capacity")]
+    public string? SkuCapacity { get; set; }
 
 }

@@ -50,11 +50,11 @@ public class AzDiskEncryptionSet : IAzDiskEncryptionSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzDiskEncryptionSetCreateOptions? options = null,
+        AzDiskEncryptionSetCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -73,6 +73,21 @@ public class AzDiskEncryptionSet : IAzDiskEncryptionSet
     }
 
     /// <summary>
+    /// List all resources that are encrypted with
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAssociatedResourcesAsync(
+        AzDiskEncryptionSetListAssociatedResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List disk encryption sets.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -88,6 +103,21 @@ public class AzDiskEncryptionSet : IAzDiskEncryptionSet
     }
 
     /// <summary>
+    /// Get information about a disk encryption set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzDiskEncryptionSetShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a disk encryption set.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -100,6 +130,21 @@ public class AzDiskEncryptionSet : IAzDiskEncryptionSet
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzDiskEncryptionSetWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "assignment", "create")]
-public record AzKeyvaultRoleAssignmentCreateOptions : AzOptions
+public record AzKeyvaultRoleAssignmentCreateOptions(
+    [property: CliOption("--role")] string Role,
+    [property: CliOption("--scope")] string Scope
+) : AzOptions
 {
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
@@ -35,20 +38,25 @@ public record AzKeyvaultRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The principal type of assignee.  Allowed values: Application, DirectoryObjectOrGroup, DirectoryRoleTemplate, Everyone, ForeignGroup, Group, MSI, ServicePrincipal, Unknown, User.
     /// </summary>
-    [CliFlag("--assignee-principal-type", ShortForm = "-t")]
-    public bool? AssigneePrincipalType { get; set; }
+    [CliOption("--assignee-principal-type", ShortForm = "-t")]
+    public string? AssigneePrincipalType { get; set; }
 
     /// <summary>
     /// Name of the role assignment.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
 
 }

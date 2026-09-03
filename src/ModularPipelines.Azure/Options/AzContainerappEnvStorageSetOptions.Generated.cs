@@ -18,7 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "set")]
-public record AzContainerappEnvStorageSetOptions : AzOptions
+public record AzContainerappEnvStorageSetOptions(
+    [property: CliOption("--access-mode")] string AccessMode,
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--azure-file-account-key", ShortForm = "-k")] string AzureFileAccountKey,
+    [property: CliOption("--azure-file-share-name", ShortForm = "-f")] string AzureFileShareName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-name")] string StorageName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
