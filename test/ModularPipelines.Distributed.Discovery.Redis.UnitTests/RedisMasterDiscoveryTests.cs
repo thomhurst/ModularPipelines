@@ -5,7 +5,7 @@ using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
-public class RedisSignalRMasterDiscoveryTests
+public class RedisMasterDiscoveryTests
 {
     [Test]
     public async Task AdvertiseMasterUrl_Writes_To_Redis()
@@ -30,11 +30,11 @@ public class RedisSignalRMasterDiscoveryTests
             TtlSeconds = 600,
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act — should not throw
-        await discovery.AdvertiseMasterUrlAsync("http://master:5099", CancellationToken.None);
+        await discovery.AdvertiseMasterEndpointAsync("http://master:5099", CancellationToken.None);
     }
 
     [Test]
@@ -54,11 +54,11 @@ public class RedisSignalRMasterDiscoveryTests
             RunIdentifier = "test-run",
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
-        var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
+        var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
 
         // Assert
         await Assert.That(result).IsEqualTo("http://master:5099");
@@ -87,11 +87,11 @@ public class RedisSignalRMasterDiscoveryTests
             PollIntervalMs = 50,
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
-        var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
+        var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
 
         // Assert
         await Assert.That(result).IsEqualTo("http://master:5099");
@@ -117,14 +117,14 @@ public class RedisSignalRMasterDiscoveryTests
             PollIntervalMs = 100,
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act & Assert
         var threw = false;
         try
         {
-            await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
+            await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
         }
         catch (Exception ex) when (ex is TimeoutException or OperationCanceledException)
         {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.Capabilities;
+using ModularPipelines.Distributed;
 
 namespace ModularPipelines.Distributed.SignalR.Hub;
 

@@ -71,7 +71,7 @@ Satellite registrations use the same options pattern and accept configuration se
 ```csharp
 builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
 builder.AddSignalRDistributedCoordinator(builder.Configuration.GetSection("SignalR"));
-builder.AddRedisSignalRDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
+builder.AddRedisMasterDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
 builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 ```
 

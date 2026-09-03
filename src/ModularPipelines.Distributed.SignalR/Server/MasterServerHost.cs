@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.SignalR.Configuration;
+using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Hub;
 
 namespace ModularPipelines.Distributed.SignalR.Server;
@@ -105,6 +105,8 @@ internal class MasterServerHost : IAsyncDisposable
     private class ForwardingLoggerProvider(ILoggerFactory factory) : ILoggerProvider
     {
         public ILogger CreateLogger(string categoryName) => factory.CreateLogger(categoryName);
-        public void Dispose() { }
+        public void Dispose()
+        {
+        }
     }
 }

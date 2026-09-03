@@ -5,11 +5,9 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
-using ModularPipelines.Distributed.Artifacts.S3.Configuration;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Extensions;
 
-namespace ModularPipelines.Distributed.Artifacts.S3.Extensions;
+namespace ModularPipelines.Distributed.Artifacts.S3;
 
 /// <summary>
 /// Extension methods for registering the S3-compatible distributed artifact store.
