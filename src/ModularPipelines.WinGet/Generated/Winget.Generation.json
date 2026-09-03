@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "winget",
+  "toolVersion": "v1.29.290",
+  "commandTreeSha256": "be6725b4f2522a990030007897738ac016f66f7f5ce700a730ea0a50070fb1bb",
+  "generatorSourceSha256": "d9158a695acc19054e4501e243f73451e38058e36153726384f7e577db59b384"
+}
