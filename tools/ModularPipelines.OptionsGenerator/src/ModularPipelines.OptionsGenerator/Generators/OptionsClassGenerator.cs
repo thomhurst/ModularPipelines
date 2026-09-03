@@ -211,7 +211,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         sb.AppendLine("    /// <inheritdoc />");
-        sb.AppendLine("    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)");
+        sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
         foreach (var group in command.RequiredAlternativeGroups)
         {
