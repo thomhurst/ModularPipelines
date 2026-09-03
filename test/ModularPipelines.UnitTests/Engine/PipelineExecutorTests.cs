@@ -51,15 +51,55 @@ public class PipelineExecutorTests
         secondaryExceptions.Verify(x => x.ThrowExceptions(), Times.Once);
     }
 
+    [Test]
+    public async Task Partial_Backend_Does_Not_Require_Results_For_The_Entire_Plan()
+    {
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            ownsEntirePlan: false);
+
+        await executor.ExecuteAsync(
+            [new UnexecutedModule()],
+            new OrganizedModules([], []));
+    }
+
+    [Test]
+    public async Task Plan_Owning_Backend_Requires_Results_For_The_Entire_Plan()
+    {
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            ownsEntirePlan: true);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync(
+                [new UnexecutedModule()],
+                new OrganizedModules([], [])));
+
+        await Assert.That(exception!.Message)
+            .Contains("Execution backend completed without results for");
+    }
+
     private static PipelineExecutor CreateExecutor(
         ISecondaryExceptionContainer secondaryExceptions,
         IExceptionRethrowService exceptionRethrowService,
-        PipelineOptions options)
+        PipelineOptions options,
+        bool ownsEntirePlan = true)
     {
-        var moduleExecutor = new Mock<IModuleExecutor>();
-        moduleExecutor
-            .Setup(x => x.ExecuteAsync(It.IsAny<IReadOnlyList<IModule>>()))
+        var executionBackend = new Mock<IExecutionBackend>();
+        executionBackend.SetupGet(x => x.OwnsEntirePlan).Returns(ownsEntirePlan);
+        executionBackend
+            .Setup(x => x.ExecuteAsync(
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IExecutionBackendContext>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
+        var executionBackendContext = Mock.Of<IExecutionBackendContext>();
+        var engineCancellationToken = new ModularPipelines.Engine.EngineCancellationToken(
+            Mock.Of<IPrimaryExceptionContainer>());
 
         var pipelineSetupExecutor = new Mock<IPipelineSetupExecutor>();
         pipelineSetupExecutor
@@ -77,11 +117,21 @@ public class PipelineExecutorTests
 
         return new PipelineExecutor(
             pipelineSetupExecutor.Object,
-            moduleExecutor.Object,
+            executionBackend.Object,
+            executionBackendContext,
+            engineCancellationToken,
             NullLogger<PipelineExecutor>.Instance,
             exceptionRethrowService,
             secondaryExceptions,
             summaryFactory.Object,
             Microsoft.Extensions.Options.Options.Create(options));
+    }
+
+    private sealed class UnexecutedModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("This module must remain unexecuted.");
     }
 }
