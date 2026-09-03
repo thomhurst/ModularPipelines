@@ -685,6 +685,7 @@ public class GeneratorUtilsTests
     [Arguments("AccessToken")]
     [Arguments("RefreshToken")]
     [Arguments("BearerToken")]
+    [Arguments("TokenId")]
     public async Task IsSecretOption_Returns_True_For_Token_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -695,6 +696,7 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
+    [Arguments("CredentialId")]
     [Arguments("Creds")]
     [Arguments("RegistryCreds")]
     [Arguments("DestCreds")]
@@ -721,6 +723,7 @@ public class GeneratorUtilsTests
 
     [Test]
     [Arguments("ApiKey")]
+    [Arguments("ApiKeyIdentifier")]
     [Arguments("MyApiKey")]
     [Arguments("ApiKeyValue")]
     public async Task IsSecretOption_Returns_True_For_ApiKey_Variants(string propertyName)
@@ -791,9 +794,8 @@ public class GeneratorUtilsTests
     [Arguments("SecretName")]
     [Arguments("TokenName")]
     [Arguments("KeyId")]
-    [Arguments("CredentialId")]
-    [Arguments("ApiKeyIdentifier")]
-    public async Task IsSecretOption_Returns_False_For_Secret_Identifiers(string propertyName)
+    [Arguments("ResourceIdentifier")]
+    public async Task IsSecretOption_Returns_False_For_Non_Secret_Identifiers(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
 
