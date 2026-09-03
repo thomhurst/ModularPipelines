@@ -1,16 +1,17 @@
-using System.Text.Json.Serialization;
-using ModularPipelines.Distributed.Serialization;
-
 namespace ModularPipelines.Distributed;
 
 public record ModuleAssignment(
     string ModuleTypeName,
     string ResultTypeName,
-    [property: JsonConverter(typeof(ReadOnlySetJsonConverter))]
-    IReadOnlySet<Capability> RequiredCapabilities,
+    IReadOnlyList<Capability> RequiredCapabilities,
     DateTimeOffset AssignedAt,
-    ModuleAssignmentConfiguration Configuration,
+    ModuleAssignmentOptions Configuration,
     IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
 {
+    /// <summary>
+    /// Gets when the assignment was enqueued for a worker.
+    /// </summary>
+    public DateTimeOffset EnqueuedAt { get; init; }
+
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 }

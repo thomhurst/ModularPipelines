@@ -84,7 +84,7 @@ public class SignalRMasterCoordinatorTests
         var disconnectedWorker = new WorkerState
         {
             ConnectionId = "disconnected-worker",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
         var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
         pending.TryMakeAvailableForRedispatch();
@@ -92,7 +92,7 @@ public class SignalRMasterCoordinatorTests
         var worker = new WorkerState
         {
             ConnectionId = "reconnected-worker",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
 
         var restored = state.TryRestoreReconnect(
@@ -131,7 +131,7 @@ public class SignalRMasterCoordinatorTests
         var state = new SignalRMasterState();
         var coordinator = CreateCoordinator(state);
 
-        var registration = new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow);
+        var registration = new WorkerRegistration(1, ["linux"], DateTimeOffset.UtcNow);
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
 
         await Assert.That(state.Registrations.Count).IsEqualTo(1);
@@ -145,9 +145,9 @@ public class SignalRMasterCoordinatorTests
         var coordinator = CreateCoordinator(state);
 
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow), CancellationToken.None);
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow), CancellationToken.None);
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow), CancellationToken.None);
+            new WorkerRegistration(2, [], DateTimeOffset.UtcNow), CancellationToken.None);
 
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
         await Assert.That(workers.Count).IsEqualTo(2);
@@ -161,15 +161,17 @@ public class SignalRMasterCoordinatorTests
             WorkerTimeout = TimeSpan.FromSeconds(1),
         };
         var coordinator = CreateCoordinator(state);
-        var recent = new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow);
-        var stale = new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow);
-        var completed = new WorkerRegistration(3, new HashSet<Capability>(), DateTimeOffset.UtcNow)
+        var recent = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
+        var stale = new WorkerRegistration(2, [], DateTimeOffset.UtcNow);
+        var completed = new WorkerRegistration(3, [], DateTimeOffset.UtcNow);
+        var completedStatus = new WorkerStatus(3)
         {
             UnattributedCommandCount = 1,
         };
         state.Registrations[recent.WorkerIndex] = recent;
         state.Registrations[stale.WorkerIndex] = stale;
         state.Registrations[completed.WorkerIndex] = completed;
+        state.WorkerStatuses[completed.WorkerIndex] = completedStatus;
         state.Heartbeats[recent.WorkerIndex] = DateTimeOffset.UtcNow;
         state.Heartbeats[stale.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
         state.Heartbeats[completed.WorkerIndex] = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(2);
@@ -233,13 +235,15 @@ public class SignalRMasterCoordinatorTests
         var coordinator = CreateCoordinator(state);
         var registration = new WorkerRegistration(
             1,
-            new HashSet<Capability>(),
+            [],
             DateTimeOffset.UtcNow);
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
         var original = state.Heartbeats[registration.WorkerIndex];
 
         await Task.Delay(10);
-        await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
+        await coordinator.SendHeartbeatAsync(
+            new WorkerStatus(registration.WorkerIndex),
+            CancellationToken.None);
 
         await Assert.That(state.Heartbeats[registration.WorkerIndex]).IsGreaterThan(original);
     }
@@ -279,7 +283,7 @@ public class SignalRMasterCoordinatorTests
         state.Workers["conn-1"] = new WorkerState
         {
             ConnectionId = "conn-1",
-            Registration = new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, ["linux"], DateTimeOffset.UtcNow),
         };
 
         var hubContext = new Mock<IHubContext<DistributedPipelineHub>>();
@@ -295,9 +299,9 @@ public class SignalRMasterCoordinatorTests
         // Enqueue a module requiring "linux"
         var assignment = new ModuleAssignment(
             "LinuxModule", "System.String",
-            new HashSet<Capability> { "linux" },
+            ["linux"],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -322,7 +326,7 @@ public class SignalRMasterCoordinatorTests
         var disconnectedWorker = new WorkerState
         {
             ConnectionId = "disconnected-worker",
-            Registration = new WorkerRegistration(1, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
         };
         var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
         pending.TryMakeAvailableForRedispatch();
@@ -330,7 +334,7 @@ public class SignalRMasterCoordinatorTests
         var retryWorker = new WorkerState
         {
             ConnectionId = "retry-worker",
-            Registration = new WorkerRegistration(2, FrozenSet<Capability>.Empty, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(2, [], DateTimeOffset.UtcNow),
         };
         state.Workers[retryWorker.ConnectionId] = retryWorker;
 
@@ -390,7 +394,7 @@ public class SignalRMasterCoordinatorTests
         state.Workers["conn-1"] = new WorkerState
         {
             ConnectionId = "conn-1",
-            Registration = new WorkerRegistration(1, new HashSet<Capability> { "windows" }, DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, ["windows"], DateTimeOffset.UtcNow),
         };
 
         var coordinator = CreateCoordinator(state);
@@ -398,9 +402,9 @@ public class SignalRMasterCoordinatorTests
         // Enqueue a module requiring "linux" — no match
         var assignment = new ModuleAssignment(
             "LinuxModule", "System.String",
-            new HashSet<Capability> { "linux" },
+            ["linux"],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -412,9 +416,9 @@ public class SignalRMasterCoordinatorTests
     {
         return new ModuleAssignment(
             moduleTypeName, "System.String",
-            new HashSet<Capability>(),
+            [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfiguration(null, false));
+            new ModuleAssignmentOptions(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)

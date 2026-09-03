@@ -26,7 +26,7 @@ public class WorkerModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.SendHeartbeatAsync(
-                It.IsAny<int>(),
+                It.IsAny<WorkerStatus>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.DequeueModuleAsync(

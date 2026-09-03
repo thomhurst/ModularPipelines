@@ -8,6 +8,6 @@ namespace ModularPipelines.Distributed;
 /// <see cref="Options.PipelineOptions.DefaultRetryCount"/>. This preserves declarative retries and
 /// node-local resilience shield factories without attempting to serialize delegates.
 /// </remarks>
-public record ModuleAssignmentConfiguration(
+public record ModuleAssignmentOptions(
     double? TimeoutSeconds,
     bool AlwaysRun);

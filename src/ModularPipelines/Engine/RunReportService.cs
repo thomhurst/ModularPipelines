@@ -361,20 +361,11 @@ internal sealed class RunReportService(
     private async Task PublishWorkerMetricsAsync(CancellationToken cancellationToken)
     {
         var options = distributedOptions.Value;
-        var capabilities = new HashSet<Capability>(options.Capabilities);
-        if (options.AutoDetectOsCapability)
-        {
-            capabilities.UnionWith(OsCapabilityDetector.Detect());
-        }
-
         await RunTimedPhaseAsync(
                 async token =>
                 {
-                    await distributedCoordinator.RegisterWorkerAsync(
-                            new WorkerRegistration(
-                                options.InstanceIndex,
-                                capabilities,
-                                DateTimeOffset.UtcNow)
+                    await distributedCoordinator.SendHeartbeatAsync(
+                            new WorkerStatus(options.InstanceIndex)
                             {
                                 RunIdentifier = options.RunIdentifier,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
@@ -462,8 +453,8 @@ internal sealed class RunReportService(
                 logger.LogWarning("Timed out waiting for distributed worker command metrics");
             }
 
-            var workerRegistrations = waitResult.Registrations;
-            var completedWorkers = workerRegistrations
+            var workerStatuses = waitResult.Statuses;
+            var completedWorkers = workerStatuses
                 .Where(worker => worker.UnattributedCommandCount.HasValue)
                 .ToArray();
             foreach (var worker in completedWorkers)
@@ -491,7 +482,7 @@ internal sealed class RunReportService(
 
     private void ReconcileWorkerModuleCommandCounts(
         PipelineSummary summary,
-        IReadOnlyCollection<WorkerRegistration> completedWorkers)
+        IReadOnlyCollection<WorkerStatus> completedWorkers)
     {
         var remoteCounts = commandExecutionCounter.GetRemoteModuleCounts();
         var finalModuleIdentifiersByWorker = completedWorkers
@@ -592,20 +583,21 @@ internal sealed class RunReportService(
                              && IsCurrentExecution(worker, executionIdentifier))
             .Select(worker => worker.WorkerIndex)
             .ToHashSet();
-        var workerRegistrations = GetLatestWorkerRegistrations(
-            initialWorkers,
-            expectedWorkerIndexes,
-            executionIdentifier);
+        var workerStatuses = await GetWorkerStatusesAsync(
+                expectedWorkerIndexes,
+                executionIdentifier,
+                cancellationToken)
+            .ConfigureAwait(false);
 
         while (!cancellationToken.IsCancellationRequested)
         {
             if (expectedWorkerIndexes.All(workerIndex =>
-                    workerRegistrations.Any(worker =>
+                    workerStatuses.Any(worker =>
                         worker.WorkerIndex == workerIndex
                         && worker.UnattributedCommandCount.HasValue)))
             {
                 return new WorkerMetricsWaitResult(
-                    workerRegistrations,
+                    workerStatuses,
                     expectedWorkerIndexes.Count,
                     Completed: true);
             }
@@ -619,40 +611,36 @@ internal sealed class RunReportService(
                 break;
             }
 
-            IReadOnlyList<WorkerRegistration> workers;
             try
             {
-                workers = await GetMasterCoordinator()
-                    .GetRegisteredWorkersAsync(cancellationToken)
-                    .WaitAsync(cancellationToken)
+                workerStatuses = await GetWorkerStatusesAsync(
+                        expectedWorkerIndexes,
+                        executionIdentifier,
+                        cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 break;
             }
-
-            workerRegistrations = GetLatestWorkerRegistrations(
-                workers,
-                expectedWorkerIndexes,
-                executionIdentifier);
         }
 
         return new WorkerMetricsWaitResult(
-            workerRegistrations,
+            workerStatuses,
             expectedWorkerIndexes.Count,
             Completed: false);
     }
 
-    private static WorkerRegistration[] GetLatestWorkerRegistrations(
-        IEnumerable<WorkerRegistration> workers,
+    private async Task<WorkerStatus[]> GetWorkerStatusesAsync(
         HashSet<int> expectedWorkerIndexes,
-        string? executionIdentifier) =>
-        [.. workers
-            .Where(worker => expectedWorkerIndexes.Contains(worker.WorkerIndex)
-                             && IsCurrentExecution(worker, executionIdentifier))
-            .GroupBy(worker => worker.WorkerIndex)
-            .Select(group => group.MaxBy(worker => worker.RegisteredAt)!)];
+        string? executionIdentifier,
+        CancellationToken cancellationToken) =>
+        [.. (await GetMasterCoordinator()
+                .GetWorkerStatusesAsync(cancellationToken)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false))
+            .Where(status => expectedWorkerIndexes.Contains(status.WorkerIndex)
+                             && IsCurrentExecution(status.RunIdentifier, executionIdentifier))];
 
     private IDistributedMasterCoordinator GetMasterCoordinator() =>
         masterCoordinator
@@ -662,9 +650,14 @@ internal sealed class RunReportService(
     private static bool IsCurrentExecution(
         WorkerRegistration worker,
         string? executionIdentifier) =>
+        IsCurrentExecution(worker.RunIdentifier, executionIdentifier);
+
+    private static bool IsCurrentExecution(
+        string? runIdentifier,
+        string? executionIdentifier) =>
         string.IsNullOrWhiteSpace(executionIdentifier)
         || string.Equals(
-            worker.RunIdentifier,
+            runIdentifier,
             executionIdentifier,
             StringComparison.Ordinal);
 
@@ -695,7 +688,7 @@ internal sealed class RunReportService(
     }
 
     private sealed record WorkerMetricsWaitResult(
-        WorkerRegistration[] Registrations,
+        WorkerStatus[] Statuses,
         int ParticipantCount,
         bool Completed);
 }

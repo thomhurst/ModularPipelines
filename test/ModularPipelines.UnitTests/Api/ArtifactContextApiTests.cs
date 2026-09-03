@@ -79,7 +79,7 @@ public class ArtifactContextApiTests
             await Assert.That(assembly.GetType("ModularPipelines.Distributed.ModuleAssignmentConfig"))
                 .IsNull();
             await Assert.That(assembly.GetType(
-                    "ModularPipelines.Distributed.ModuleAssignmentConfiguration"))
+                    "ModularPipelines.Distributed.ModuleAssignmentOptions"))
                 .IsNotNull();
             await Assert.That(typedDownload.GetGenericArguments()).HasSingleItem();
         }

@@ -12,7 +12,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 4;
+    public const int CurrentSchemaVersion = 5;
 
     /// <summary>
     /// Gets the schema version used by this report.
@@ -84,6 +84,11 @@ public sealed record PipelineRunReport
     /// Gets module run details.
     /// </summary>
     public IReadOnlyList<ModuleRunReport> Modules { get; init; } = [];
+
+    /// <summary>
+    /// Gets distributed execution efficiency details, when distributed work ran.
+    /// </summary>
+    public DistributedRunReport? Distributed { get; init; }
 
     /// <summary>
     /// Gets the total number of commands attempted during the run.
