@@ -1047,14 +1047,14 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting();
+        var conditionRouting = new DistributedConditionRouting(new DistributedOptions());
         var module = new MixedGroupedOperatingSystemModule();
         var conditionHandler = new Mock<IModuleConditionHandler>();
         conditionHandler
-            .Setup(handler => handler.PrepareDistributedRoutingAsync(
+            .Setup(handler => handler.PrepareExecutionRoutingAsync(
                 module,
                 It.IsAny<CancellationToken>()))
-            .Callback(() => conditionRouting.MarkLocallySatisfied(
+            .Callback(() => conditionRouting.MarkConditionGroupSatisfied(
                 module,
                 typeof(GroupedOperatingSystemAttribute<>)))
             .Returns(Task.CompletedTask);
@@ -1063,7 +1063,7 @@ public class DistributedModuleExecutorTests
             typeRegistry,
             serializer,
             resultRegistry,
-            conditionRouting: conditionRouting,
+            executionLocationContext: conditionRouting,
             conditionHandler: conditionHandler.Object);
 
         var assignment = await publisher.CreateAssignmentAsync(
@@ -1072,7 +1072,7 @@ public class DistributedModuleExecutorTests
 
         await Assert.That(assignment.RequiredCapabilities)
             .DoesNotContain(OperatingSystemConditions.Linux);
-        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             module,
             CancellationToken.None));
     }
