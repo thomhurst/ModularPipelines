@@ -63,14 +63,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         var liveFlushInterval = _options.Value.Console.ModuleOutputFlushInterval;
         ValidateLiveFlushInterval(liveFlushInterval);
 
-        // Install console coordination before starting progress
-        _consoleCoordinator.Install();
-
-        // CRITICAL: Enable output buffering BEFORE starting the progress display task.
-        // This prevents a race condition where modules could start executing and logging
-        // before the progress display has fully initialized and set the buffering flags.
-        // Without this, early module output would be written directly to console instead
-        // of being deferred until the progress display ends.
+        // Output interception and buffering begin before module construction. Reaffirm the
+        // buffering state here before the progress display task starts.
         _consoleCoordinator.EnableOutputBuffering();
 
         var printProgressExecutor = await _printProgressExecutor.InitializeAsync().ConfigureAwait(false);

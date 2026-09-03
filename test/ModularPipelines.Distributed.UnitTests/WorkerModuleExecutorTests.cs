@@ -8,6 +8,7 @@ using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using MsOptions = Microsoft.Extensions.Options.Options;
@@ -20,10 +21,16 @@ public class WorkerModuleExecutorTests
     {
         public int AttemptCount { get; private set; }
 
+        public Type? AmbientModuleType { get; private set; }
+
+        public IModuleLogger? AmbientLogger { get; private set; }
+
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
+            AmbientModuleType = AmbientModuleOutputContext.Current?.ModuleType;
+            AmbientLogger = AmbientModuleOutputContext.Current?.Logger;
             if (++AttemptCount < 3)
             {
                 throw new InvalidOperationException("Retry this attempt.");
@@ -114,6 +121,8 @@ public class WorkerModuleExecutorTests
         using (Assert.Multiple())
         {
             await Assert.That(module.AttemptCount).IsEqualTo(3);
+            await Assert.That(module.AmbientModuleType).IsEqualTo(typeof(TModule));
+            await Assert.That(module.AmbientLogger).IsNotNull();
             await Assert.That(result?.ExceptionOrDefault).IsNull();
             await Assert.That(result?.ValueOrDefault).IsEqualTo(3);
         }

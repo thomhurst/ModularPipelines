@@ -42,11 +42,11 @@ var kind = context.Tools.Kind;
 | `kind delete cluster` | `KindDeleteClusterOptions` |
 | `kind delete clusters` | `KindDeleteClustersOptions` |
 | `kind export` | `KindExportOptions` |
-| `kind export kubeconfig` | `KindExportKubeconfigOptions` |
+| `kind export kubeconfig` | `KindExportKubeConfigOptions` |
 | `kind export logs` | `KindExportLogsOptions` |
 | `kind get` | `KindGetOptions` |
 | `kind get clusters` | `KindGetClustersOptions` |
-| `kind get kubeconfig` | `KindGetKubeconfigOptions` |
+| `kind get kubeconfig` | `KindGetKubeConfigOptions` |
 | `kind get nodes` | `KindGetNodesOptions` |
 | `kind load` | `KindLoadOptions` |
 | `kind load docker-image` | `KindLoadDockerImageOptions` |

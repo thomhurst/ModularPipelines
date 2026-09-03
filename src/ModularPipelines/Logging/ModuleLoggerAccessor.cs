@@ -73,14 +73,16 @@ internal class ModuleLoggerAccessor : IInternalModuleLoggerAccessor
                 return _moduleLogger;
             }
 
-            // Fast path: check if logger is already set in AsyncLocal
-            if (ModuleLogger.Values.Value != null)
+            var outputContext = AmbientModuleOutputContext.Current;
+
+            // Fast path: check if a logger is already set in the ambient output context.
+            if (outputContext?.Logger != null)
             {
-                return _moduleLogger = ModuleLogger.Values.Value;
+                return _moduleLogger = outputContext.Logger;
             }
 
-            // Fast path: check if module type is set in AsyncLocal (avoids stack trace inspection)
-            var moduleType = ModuleLogger.CurrentModuleType.Value;
+            // Fast path: check if module type is set in ambient context (avoids stack inspection).
+            var moduleType = outputContext?.ModuleType;
             if (moduleType != null)
             {
                 return _moduleLogger = GetLogger(moduleType);
