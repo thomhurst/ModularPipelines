@@ -304,6 +304,7 @@ internal class DistributedModuleExecutor(
             string.Join(", ", capabilities));
 
         using var workerScheduler = new WorkerModuleScheduler();
+        var dependencyResultCache = new DependencyResultCache(_workerCoordinator, cancellationToken);
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -318,7 +319,13 @@ internal class DistributedModuleExecutor(
                 _logger.LogInformation("Master executing module {Module} locally",
                     assignment.ModuleTypeName);
 
-                await ExecuteAssignmentAsync(assignment, modules, moduleLookup, workerScheduler, cancellationToken);
+                await ExecuteAssignmentAsync(
+                    assignment,
+                    modules,
+                    moduleLookup,
+                    dependencyResultCache,
+                    workerScheduler,
+                    cancellationToken);
             }
             catch (OperationCanceledException)
             {
@@ -335,6 +342,7 @@ internal class DistributedModuleExecutor(
         ModuleAssignment assignment,
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
+        DependencyResultCache dependencyResultCache,
         WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
@@ -353,19 +361,19 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        // Apply dependency results so that GetModule<T>() works
-        if (assignment.DependencyResults is { Count: > 0 })
-        {
-            DependencyResultApplicator.Apply(
-                assignment.DependencyResults,
-                moduleLookup,
-                _serializer,
-                _resultRegistry,
-                _logger);
-        }
-
         try
         {
+            if (assignment.DependencyResultReferences is { Count: > 0 })
+            {
+                await DependencyResultApplicator.FetchAndApplyAsync(
+                    assignment.DependencyResultReferences,
+                    dependencyResultCache,
+                    moduleLookup,
+                    _serializer,
+                    _resultRegistry,
+                    _logger).ConfigureAwait(false);
+            }
+
             await ExecuteAndPublishAsync(assignment, module, workerScheduler, cancellationToken);
         }
         catch (Exception ex)

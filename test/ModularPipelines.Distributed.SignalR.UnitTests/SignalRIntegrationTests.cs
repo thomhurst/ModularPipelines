@@ -334,11 +334,8 @@ public class SignalRIntegrationTests
     }
 
     [Test]
-    public async Task MultiWorker_ResultBroadcast_OtherWorkersReceiveDependencyResults()
+    public async Task Worker_Fetches_Dependency_Result_After_It_Is_Published()
     {
-        // When worker 1 publishes a result, worker 2 should receive it
-        // as a dependency result (for CompletionSource pre-population)
-
         var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };
         var masterState = new SignalRMasterState();
         var serverHost = new MasterServerHost();
@@ -350,15 +347,6 @@ public class SignalRIntegrationTests
 
             var worker1 = BuildClient(serverUrl, options.HubPath);
             var worker2 = BuildClient(serverUrl, options.HubPath);
-
-            // Track dependency results received by worker 2
-            SerializedModuleResult? receivedByWorker2 = null;
-            var resultReceived = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            worker2.On<SerializedModuleResult>(HubMethodNames.ReceiveDependencyResult, result =>
-            {
-                receivedByWorker2 = result;
-                resultReceived.TrySetResult();
-            });
 
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync());
 
@@ -373,18 +361,19 @@ public class SignalRIntegrationTests
             masterState.ResultWaiters["BuildModule"] = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
-            // Worker 1 publishes a result
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var resultTask = worker2.InvokeAsync<SerializedModuleResult>(
+                HubMethodNames.WaitForResult,
+                "BuildModule",
+                cts.Token);
+
             var result = new SerializedModuleResult(
                 "BuildModule", "System.String", 1, "{\"Output\":\"build.zip\"}", DateTimeOffset.UtcNow);
             await worker1.InvokeAsync(HubMethodNames.PublishResult, result);
 
-            // Worker 2 should receive the dependency result
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            await resultReceived.Task.WaitAsync(cts.Token);
-
-            await Assert.That(receivedByWorker2).IsNotNull();
-            await Assert.That(receivedByWorker2!.ModuleTypeName).IsEqualTo("BuildModule");
-            await Assert.That(receivedByWorker2.SerializedJson).IsEqualTo("{\"Output\":\"build.zip\"}");
+            var fetchedResult = await resultTask;
+            await Assert.That(fetchedResult.ModuleTypeName).IsEqualTo("BuildModule");
+            await Assert.That(fetchedResult.SerializedJson).IsEqualTo("{\"Output\":\"build.zip\"}");
 
             // Master should also have the result
             var masterResult = await masterState.ResultWaiters["BuildModule"].Task;

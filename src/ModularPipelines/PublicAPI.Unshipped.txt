@@ -376,6 +376,8 @@ ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines
 *REMOVED*ModularPipelines.Distributed.IDistributedCoordinator.DequeueModuleAsync(System.Collections.Generic.IReadOnlySet<string!>! workerCapabilities, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ModuleAssignment?>!
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.Configuration.get -> ModularPipelines.Distributed.ModuleAssignmentConfig!
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.Deconstruct(out string! ModuleTypeName, out string! ResultTypeName, out System.Collections.Generic.IReadOnlySet<string!>! RequiredCapabilities, out string? MatrixTarget, out System.DateTimeOffset AssignedAt, out ModularPipelines.Distributed.ModuleAssignmentConfig! Configuration, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults) -> void
+*REMOVED*ModularPipelines.Distributed.ModuleAssignment.DependencyResults.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>?
+*REMOVED*ModularPipelines.Distributed.ModuleAssignment.DependencyResults.init -> void
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.MatrixTarget.get -> string?
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.MatrixTarget.init -> void
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.ModuleAssignment(string! ModuleTypeName, string! ResultTypeName, System.Collections.Generic.IReadOnlySet<string!>! RequiredCapabilities, string? MatrixTarget, System.DateTimeOffset AssignedAt, ModularPipelines.Distributed.ModuleAssignmentConfig! Configuration, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults = null) -> void
@@ -1468,6 +1470,14 @@ ModularPipelines.Distributed.Capability.Capability(string! name) -> void
 ModularPipelines.Distributed.Capability.Equals(ModularPipelines.Distributed.Capability other) -> bool
 ModularPipelines.Distributed.Capability.Name.get -> string!
 ModularPipelines.Distributed.Capability.Names
+ModularPipelines.Distributed.DependencyResultReference
+ModularPipelines.Distributed.DependencyResultReference.Deconstruct(out string! ModuleTypeName, out bool IsAvailable) -> void
+ModularPipelines.Distributed.DependencyResultReference.DependencyResultReference(ModularPipelines.Distributed.DependencyResultReference! original) -> void
+ModularPipelines.Distributed.DependencyResultReference.DependencyResultReference(string! ModuleTypeName, bool IsAvailable) -> void
+ModularPipelines.Distributed.DependencyResultReference.IsAvailable.get -> bool
+ModularPipelines.Distributed.DependencyResultReference.IsAvailable.init -> void
+ModularPipelines.Distributed.DependencyResultReference.ModuleTypeName.get -> string!
+ModularPipelines.Distributed.DependencyResultReference.ModuleTypeName.init -> void
 ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
@@ -1486,13 +1496,14 @@ ModularPipelines.Distributed.IDistributedMasterCoordinator.BroadcastCancellation
 ModularPipelines.Distributed.IDistributedMasterCoordinator.EnqueueModuleAsync(ModularPipelines.Distributed.ModuleAssignment! assignment, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedMasterCoordinator.GetRegisteredWorkersAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.WorkerRegistration!>!>!
 ModularPipelines.Distributed.IDistributedMasterCoordinator.SignalCompletionAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
-ModularPipelines.Distributed.IDistributedMasterCoordinator.WaitForResultAsync(string! moduleTypeName, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.SerializedModuleResult!>!
+*REMOVED*ModularPipelines.Distributed.IDistributedMasterCoordinator.WaitForResultAsync(string! moduleTypeName, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.SerializedModuleResult!>!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.DequeueModuleAsync(System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! workerCapabilities, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ModuleAssignment?>!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.PublishResultAsync(ModularPipelines.Distributed.SerializedModuleResult! result, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.RegisterWorkerAsync(ModularPipelines.Distributed.WorkerRegistration! registration, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.SendHeartbeatAsync(int workerIndex, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.WaitForCancellationAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Distributed.IDistributedWorkerCoordinator.WaitForResultAsync(string! moduleTypeName, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.SerializedModuleResult!>!
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync(string! producerModuleTypeName, string! artifactName, string! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync<TProducerModule>(string! artifactName, string! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Distributed.IArtifactContext.PublishDirectoryAsync(string! artifactName, string! directoryPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ArtifactReference!>!
@@ -1500,8 +1511,12 @@ ModularPipelines.Distributed.IArtifactContext.PublishFileAsync(string! artifactN
 ModularPipelines.Distributed.ModuleAssignment.Configuration.get -> ModularPipelines.Distributed.ModuleAssignmentConfiguration!
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.Deconstruct(out string! ModuleTypeName, out string! ResultTypeName, out System.Collections.Generic.IReadOnlySet<string!>! RequiredCapabilities, out System.DateTimeOffset AssignedAt, out ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults) -> void
 *REMOVED*ModularPipelines.Distributed.ModuleAssignment.ModuleAssignment(string! ModuleTypeName, string! ResultTypeName, System.Collections.Generic.IReadOnlySet<string!>! RequiredCapabilities, System.DateTimeOffset AssignedAt, ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults = null) -> void
-ModularPipelines.Distributed.ModuleAssignment.Deconstruct(out string! ModuleTypeName, out string! ResultTypeName, out System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, out System.DateTimeOffset AssignedAt, out ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults) -> void
-ModularPipelines.Distributed.ModuleAssignment.ModuleAssignment(string! ModuleTypeName, string! ResultTypeName, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, System.DateTimeOffset AssignedAt, ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults = null) -> void
+*REMOVED*ModularPipelines.Distributed.ModuleAssignment.Deconstruct(out string! ModuleTypeName, out string! ResultTypeName, out System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, out System.DateTimeOffset AssignedAt, out ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults) -> void
+*REMOVED*ModularPipelines.Distributed.ModuleAssignment.ModuleAssignment(string! ModuleTypeName, string! ResultTypeName, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, System.DateTimeOffset AssignedAt, ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.SerializedModuleResult!>? DependencyResults = null) -> void
+ModularPipelines.Distributed.ModuleAssignment.Deconstruct(out string! ModuleTypeName, out string! ResultTypeName, out System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, out System.DateTimeOffset AssignedAt, out ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, out System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.DependencyResultReference!>? DependencyResultReferences) -> void
+ModularPipelines.Distributed.ModuleAssignment.DependencyResultReferences.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.DependencyResultReference!>?
+ModularPipelines.Distributed.ModuleAssignment.DependencyResultReferences.init -> void
+ModularPipelines.Distributed.ModuleAssignment.ModuleAssignment(string! ModuleTypeName, string! ResultTypeName, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! RequiredCapabilities, System.DateTimeOffset AssignedAt, ModularPipelines.Distributed.ModuleAssignmentConfiguration! Configuration, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.DependencyResultReference!>? DependencyResultReferences = null) -> void
 ModularPipelines.Distributed.ModuleAssignment.RequiredCapabilities.get -> System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.init -> void
@@ -2404,6 +2419,9 @@ override ModularPipelines.DependsOnModulesWithTagAttribute.ShouldDependOn(System
 override ModularPipelines.Distributed.Capability.Equals(object? obj) -> bool
 override ModularPipelines.Distributed.Capability.GetHashCode() -> int
 override ModularPipelines.Distributed.Capability.ToString() -> string!
+override ModularPipelines.Distributed.DependencyResultReference.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.DependencyResultReference.GetHashCode() -> int
+override ModularPipelines.Distributed.DependencyResultReference.ToString() -> string!
 override ModularPipelines.Distributed.ModuleAssignmentConfiguration.Equals(object? obj) -> bool
 override ModularPipelines.Distributed.ModuleAssignmentConfiguration.GetHashCode() -> int
 override ModularPipelines.Distributed.ModuleAssignmentConfiguration.ToString() -> string!
@@ -2618,6 +2636,8 @@ static ModularPipelines.Distributed.Capability.MacOS.get -> ModularPipelines.Dis
 static ModularPipelines.Distributed.Capability.operator !=(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
 static ModularPipelines.Distributed.Capability.operator ==(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
 static ModularPipelines.Distributed.Capability.Windows.get -> ModularPipelines.Distributed.Capability
+static ModularPipelines.Distributed.DependencyResultReference.operator !=(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
+static ModularPipelines.Distributed.DependencyResultReference.operator ==(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStore<TStore>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStoreFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator !=(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool
@@ -2755,6 +2775,10 @@ virtual ModularPipelines.CommandResult.<Clone>$() -> ModularPipelines.CommandRes
 virtual ModularPipelines.CommandResult.EqualityContract.get -> System.Type!
 virtual ModularPipelines.CommandResult.Equals(ModularPipelines.CommandResult? other) -> bool
 virtual ModularPipelines.CommandResult.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.Distributed.DependencyResultReference.<Clone>$() -> ModularPipelines.Distributed.DependencyResultReference!
+virtual ModularPipelines.Distributed.DependencyResultReference.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Distributed.DependencyResultReference.Equals(ModularPipelines.Distributed.DependencyResultReference? other) -> bool
+virtual ModularPipelines.Distributed.DependencyResultReference.PrintMembers(System.Text.StringBuilder! builder) -> bool
 virtual ModularPipelines.Distributed.ModuleAssignmentConfiguration.<Clone>$() -> ModularPipelines.Distributed.ModuleAssignmentConfiguration!
 virtual ModularPipelines.Distributed.ModuleAssignmentConfiguration.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Distributed.ModuleAssignmentConfiguration.Equals(ModularPipelines.Distributed.ModuleAssignmentConfiguration? other) -> bool

@@ -33,7 +33,6 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
 
         // Register callbacks for master -> worker methods
         _connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment, OnReceiveAssignment);
-        _connection.On<SerializedModuleResult>(HubMethodNames.ReceiveDependencyResult, OnReceiveDependencyResult);
         _connection.On(HubMethodNames.SignalCompletion, OnSignalCompletion);
         _connection.On(
             HubMethodNames.BroadcastCancellation,
@@ -45,12 +44,6 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         // reconnected worker is orphaned and sits idle.
         _connection.Reconnected += OnReconnectedAsync;
     }
-
-    /// <summary>
-    /// Event raised when a dependency result is received from the master.
-    /// The worker executor can subscribe to pre-populate CompletionSources.
-    /// </summary>
-    public event Action<SerializedModuleResult>? DependencyResultReceived;
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
@@ -97,6 +90,14 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             Interlocked.CompareExchange(ref _inFlightAssignment, null, assignment);
         }
     }
+
+    public Task<SerializedModuleResult> WaitForResultAsync(
+        string moduleTypeName,
+        CancellationToken cancellationToken) =>
+        _connection.InvokeAsync<SerializedModuleResult>(
+            HubMethodNames.WaitForResult,
+            moduleTypeName,
+            cancellationToken);
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
@@ -153,12 +154,6 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         _logger.LogDebug("Received assignment: {Module}", assignment.ModuleTypeName);
         Volatile.Write(ref _inFlightAssignment, assignment);
         _assignmentChannel.Writer.TryWrite(assignment);
-    }
-
-    private void OnReceiveDependencyResult(SerializedModuleResult result)
-    {
-        _logger.LogDebug("Received dependency result: {Module}", result.ModuleTypeName);
-        DependencyResultReceived?.Invoke(result);
     }
 
     private void OnSignalCompletion()

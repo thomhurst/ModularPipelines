@@ -315,7 +315,6 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry,
             conditionHandler: conditionHandler);
         resultCollector ??= new DistributedResultCollector(coordinator, serializer);
@@ -948,7 +947,7 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(LinuxOnlyModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var module = new LinuxOnlyModule();
 
@@ -967,7 +966,7 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(UnixModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new UnixModule());
         var requiredCapability = assignment.RequiredCapabilities.Single();
@@ -991,7 +990,7 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(GroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new GroupedOperatingSystemModule());
         var requiredCapability = assignment.RequiredCapabilities.Single();
@@ -1015,7 +1014,7 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new MixedGroupedOperatingSystemModule());
 
@@ -1031,7 +1030,7 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(MixedWorkerGroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new MixedWorkerGroupedOperatingSystemModule());
 
@@ -1061,7 +1060,6 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry,
             conditionRouting: conditionRouting,
             conditionHandler: conditionHandler.Object);
@@ -1579,7 +1577,7 @@ public class DistributedModuleExecutorTests
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, resultRegistry);
         var moduleRunner = new Mock<IModuleRunner>();
 
         var executor = new DistributedModuleExecutor(
@@ -1629,7 +1627,7 @@ public class DistributedModuleExecutorTests
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
         var moduleRunner = new Mock<IModuleRunner>();
-        var publisher = new DistributedWorkPublisher(noDequeue, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(noDequeue, typeRegistry, resultRegistry);
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
@@ -1722,7 +1720,7 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         var moduleRunner = new Mock<IModuleRunner>();
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, resultRegistry);
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
