@@ -2,7 +2,13 @@ namespace ModularPipelines.Distributed;
 
 public class DistributedOptions
 {
-    public bool Enabled { get; set; }
+    internal bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets this instance's distributed role. <see cref="DistributedRole.Auto"/> derives
+    /// the role from <see cref="InstanceIndex"/>.
+    /// </summary>
+    public DistributedRole Role { get; set; } = DistributedRole.Auto;
 
     public int InstanceIndex { get; set; }
 
@@ -10,7 +16,7 @@ public class DistributedOptions
 
     /// <summary>
     /// Gets or sets the identifier shared by every process in this pipeline run.
-    /// <c>AddDistributedMode</c> resolves an empty value from <c>RUN_IDENTIFIER</c>, or generates
+    /// <c>AddDistributedMode</c> resolves an empty value from <c>MODULARPIPELINES_RUN_ID</c>, or generates
     /// an identifier for a single-instance run.
     /// </summary>
     public string RunId { get; set; } = string.Empty;

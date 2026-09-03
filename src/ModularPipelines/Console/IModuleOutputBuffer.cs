@@ -4,6 +4,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Console;
 
@@ -41,6 +42,26 @@ internal interface IModuleOutputBuffer
     /// Adds plain string output without a trailing line terminator.
     /// </summary>
     void Write(string message) => WriteLine(message);
+
+    /// <summary>
+    /// Adds a rich renderable and its plain-text report representation to the buffer.
+    /// </summary>
+    void WriteRenderable(IRenderable renderable, string plainText) => WriteLine(plainText);
+
+    /// <summary>
+    /// Adds a rich renderable and controls whether a line terminator follows it.
+    /// </summary>
+    void WriteRenderable(IRenderable renderable, string plainText, bool appendNewLine)
+    {
+        if (appendNewLine)
+        {
+            WriteRenderable(renderable, plainText);
+        }
+        else
+        {
+            Write(plainText);
+        }
+    }
 
     /// <summary>
     /// Adds a standard-error line to the buffer.
@@ -149,4 +170,18 @@ internal interface IModuleOutputBuffer
         OutputFlushKind flushKind,
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Accepts output already processed by the console interception obfuscator.
+/// </summary>
+internal interface IPreObfuscatedModuleOutputBuffer
+{
+    /// <summary>
+    /// Buffers processed output without losing its masking provenance.
+    /// </summary>
+    void WritePreObfuscated(
+        string message,
+        ModuleOutputStream stream,
+        bool appendNewLine);
 }

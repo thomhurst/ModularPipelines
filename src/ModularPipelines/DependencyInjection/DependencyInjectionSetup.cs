@@ -374,7 +374,7 @@ internal static class DependencyInjectionSetup
     /// <summary>
     /// Registers distributed execution infrastructure with local defaults.
     /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
-    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
+    /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when distributed mode is enabled.
     /// </summary>
     private static void RegisterDistributedServices(IServiceCollection services)
     {

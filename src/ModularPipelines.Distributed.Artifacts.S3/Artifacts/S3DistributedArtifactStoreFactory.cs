@@ -16,12 +16,12 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
     private readonly DistributedOptions _distributedOptions;
 
     public S3DistributedArtifactStoreFactory(
-        S3ArtifactOptions s3Options,
-        ArtifactOptions artifactOptions,
+        IOptions<S3ArtifactOptions> s3Options,
+        IOptions<ArtifactOptions> artifactOptions,
         IOptions<DistributedOptions> distributedOptions)
     {
-        _s3Options = s3Options;
-        _artifactOptions = artifactOptions;
+        _s3Options = s3Options.Value;
+        _artifactOptions = artifactOptions.Value;
         _distributedOptions = distributedOptions.Value;
     }
 

@@ -17,13 +17,13 @@ internal sealed class RedisDistributedArtifactStoreFactory : IDistributedArtifac
     private readonly IConnectionMultiplexer _connection;
 
     public RedisDistributedArtifactStoreFactory(
-        RedisDistributedOptions redisOptions,
-        ArtifactOptions artifactOptions,
+        IOptions<RedisDistributedOptions> redisOptions,
+        IOptions<ArtifactOptions> artifactOptions,
         IOptions<DistributedOptions> distributedOptions,
         IConnectionMultiplexer connection)
     {
-        _redisOptions = redisOptions;
-        _artifactOptions = artifactOptions;
+        _redisOptions = redisOptions.Value;
+        _artifactOptions = artifactOptions.Value;
         _distributedOptions = distributedOptions.Value;
         _connection = connection;
     }

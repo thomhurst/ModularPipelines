@@ -22,15 +22,16 @@ using ModularPipelines.Distributed.Extensions;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddDistributedMode();
 builder.AddRedisDistributed(
     redis => redis.ConnectionString = "localhost:6379",
     artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
-Set `RUN_IDENTIFIER` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
+Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
+All Redis registration methods also accept an `IConfigurationSection` and use the .NET options pattern.
 
 ## Module caching
 

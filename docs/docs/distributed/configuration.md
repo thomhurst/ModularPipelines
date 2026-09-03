@@ -16,8 +16,9 @@ builder.AddDistributedMode(o =>
 {
     o.InstanceIndex = 0;
     o.TotalInstances = 4;
+    o.Role = DistributedRole.Master;
     o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunId = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")!;
+    o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
@@ -26,10 +27,11 @@ builder.AddDistributedMode(o =>
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `InstanceIndex` | `int` | `0` | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable. |
+| `Role` | `DistributedRole` | `Auto` | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`. |
+| `InstanceIndex` | `int` | `0` | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
-| `RunId` | `string` | `RUN_IDENTIFIER` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
+| `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for worker registration before distributing work among the available workers. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |
@@ -54,7 +56,25 @@ You can also bind from configuration:
 builder.AddDistributedMode(builder.Configuration.GetSection("Distributed"));
 ```
 
+Or call `builder.AddDistributedMode()` to bind the standard environment variables:
+
+| Environment variable | Option |
+|----------------------|--------|
+| `MODULARPIPELINES_INSTANCE_INDEX` | `InstanceIndex` |
+| `MODULARPIPELINES_TOTAL_INSTANCES` | `TotalInstances` |
+| `MODULARPIPELINES_RUN_ID` | `RunId` |
+| `MODULARPIPELINES_ROLE` | `Role` (`Auto`, `Master`, or `Worker`) |
+
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
+
+Satellite registrations use the same options pattern and accept configuration sections:
+
+```csharp
+builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
+builder.AddSignalRDistributedCoordinator(builder.Configuration.GetSection("SignalR"));
+builder.AddRedisSignalRDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
+builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
+```
 
 ## RedisDistributedOptions
 
@@ -82,13 +102,13 @@ Distributed coordination requires an invocation-scoped identifier. It is resolve
 | Priority | Source | Environment |
 |----------|--------|-------------|
 | 1 | `DistributedOptions.RunId` | Explicit configuration |
-| 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
+| 2 | `MODULARPIPELINES_RUN_ID` env var | Any CI or local orchestration |
 | 3 | Generated GUID | Single-process/default fallback |
 
 Use an invocation-specific value rather than a stable commit identifier so rerunning the same commit
-receives a fresh Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER`
+receives a fresh Redis namespace. Local multi-process runs should export one unique `MODULARPIPELINES_RUN_ID`
 value before starting the master and workers. CI workflows must likewise generate or derive one
-invocation-specific value and export it as `RUN_IDENTIFIER` for every master and worker.
+invocation-specific value and export it as `MODULARPIPELINES_RUN_ID` for every master and worker.
 
 ## Redis Key Schema
 

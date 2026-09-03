@@ -33,8 +33,9 @@ builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
 
 The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or
 `macos` capability used by a registered module or its operating-system run conditions, and the
-requested additional workers. It wires `INSTANCE_INDEX`, `TOTAL_INSTANCES`, `REDIS_URL`, and a
-unique `RUN_IDENTIFIER` automatically. Set the repository secret
+requested additional workers. It wires `MODULARPIPELINES_INSTANCE_INDEX`,
+`MODULARPIPELINES_TOTAL_INSTANCES`, `REDIS_URL`, and a unique
+`MODULARPIPELINES_RUN_ID` automatically. Set the repository secret
 named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at
 `.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
 capability requirements change.
@@ -102,10 +103,10 @@ jobs:
 
       - name: Run Pipeline
         env:
-          INSTANCE_INDEX: ${{ matrix.instance }}
-          TOTAL_INSTANCES: 4
+          MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}
+          MODULARPIPELINES_TOTAL_INSTANCES: 4
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}
+          MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}
         run: dotnet run --project 'src/MyPipeline' -c Release
 ```
 
@@ -144,17 +145,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = Pipeline.CreateBuilder(args);
 
-var instanceIndex = int.Parse(
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-var totalInstances = int.Parse(
-    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-builder.AddDistributedMode(o =>
-{
-    o.InstanceIndex = instanceIndex;
-    o.TotalInstances = totalInstances;
-    o.RunId = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")!;
-});
+builder.AddDistributedMode();
 
 builder.AddRedisDistributedCoordinator(o =>
 {
@@ -265,18 +256,18 @@ combining the build and stage attempt keeps full stage retries isolated:
 
 ```yaml
 variables:
-  RUN_IDENTIFIER: "$(Build.BuildId)-$(System.StageAttempt)"
+  MODULARPIPELINES_RUN_ID: "$(Build.BuildId)-$(System.StageAttempt)"
 
 strategy:
   matrix:
     master:
-      INSTANCE_INDEX: 0
+      MODULARPIPELINES_INSTANCE_INDEX: 0
       vmImage: "ubuntu-latest"
     worker-linux:
-      INSTANCE_INDEX: 1
+      MODULARPIPELINES_INSTANCE_INDEX: 1
       vmImage: "ubuntu-latest"
     worker-windows:
-      INSTANCE_INDEX: 2
+      MODULARPIPELINES_INSTANCE_INDEX: 2
       vmImage: "windows-latest"
 ```
 
@@ -289,11 +280,11 @@ than retrying only part of the matrix when coordination state must be discarded:
 pipeline:
   parallel:
     matrix:
-      - INSTANCE_INDEX: [0, 1, 2]
+      - MODULARPIPELINES_INSTANCE_INDEX: [0, 1, 2]
   script:
     - dotnet run --project src/MyPipeline -c Release
   variables:
-    TOTAL_INSTANCES: 3
+    MODULARPIPELINES_TOTAL_INSTANCES: 3
     REDIS_URL: $REDIS_URL
-    RUN_IDENTIFIER: $CI_PIPELINE_ID
+    MODULARPIPELINES_RUN_ID: $CI_PIPELINE_ID
 ```

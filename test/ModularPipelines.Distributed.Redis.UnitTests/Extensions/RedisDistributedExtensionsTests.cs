@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
@@ -19,7 +20,7 @@ public class RedisDistributedExtensionsTests
     [
         "GITHUB_RUN_ID",
         "GITHUB_RUN_ATTEMPT",
-        "RUN_IDENTIFIER",
+        "MODULARPIPELINES_RUN_ID",
         "BUILD_BUILDID",
         "CI_PIPELINE_ID",
     ];
@@ -58,7 +59,7 @@ public class RedisDistributedExtensionsTests
             options.ConnectionString = "artifact-only");
 
         await using var pipeline = await builder.BuildAsync();
-        var redisOptions = pipeline.Services.GetRequiredService<RedisDistributedOptions>();
+        var redisOptions = pipeline.Services.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
         var distributedOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
         using (Assert.Multiple())
@@ -150,7 +151,7 @@ public class RedisDistributedExtensionsTests
             using (Assert.Multiple())
             {
                 await Assert.That(exception!.Message).Contains(nameof(DistributedOptions.RunId));
-                await Assert.That(exception.Message).Contains("RUN_IDENTIFIER");
+                await Assert.That(exception.Message).Contains("MODULARPIPELINES_RUN_ID");
             }
         }
         finally
@@ -159,6 +160,32 @@ public class RedisDistributedExtensionsTests
             {
                 Environment.SetEnvironmentVariable(name, value);
             }
+        }
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsRedisOptions()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Redis:ConnectionString"] = "redis.example:6380",
+                ["Distributed:RunId"] = "configured-run",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(configuration.GetSection("Distributed"));
+
+        builder.AddRedisDistributedCoordinator(configuration.GetSection("Redis"));
+        await using var pipeline = await builder.BuildAsync();
+        var redisOptions = pipeline.Services.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
+        var distributedOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(redisOptions.ConnectionString).IsEqualTo("redis.example:6380");
+            await Assert.That(distributedOptions.RunId).IsEqualTo("configured-run");
         }
     }
 

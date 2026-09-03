@@ -1,1 +1,2 @@
 #nullable enable
+static ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!

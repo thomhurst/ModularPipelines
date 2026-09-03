@@ -35,18 +35,8 @@ using ModularPipelines.Distributed.Redis.Extensions;
 
 var builder = Pipeline.CreateBuilder(args);
 
-// Parse instance info from arguments or environment
-var instanceIndex = int.Parse(
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-var totalInstances = int.Parse(
-    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-// Enable distributed mode
-builder.AddDistributedMode(o =>
-{
-    o.InstanceIndex = instanceIndex;
-    o.TotalInstances = totalInstances;
-});
+// Enable distributed mode from the standard MODULARPIPELINES_* environment variables
+builder.AddDistributedMode();
 
 // Register the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
@@ -77,12 +67,12 @@ uuidgen
 
 **Terminal 1 (Master):**
 ```bash
-RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=0 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 **Terminal 2 (Worker):**
 ```bash
-RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=1 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
@@ -96,18 +86,15 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
 1. Explicit `DistributedOptions.RunId` configuration
-2. The `RUN_IDENTIFIER` environment variable
+2. The `MODULARPIPELINES_RUN_ID` environment variable
 3. A generated GUID when neither is configured and `TotalInstances` is `1`
 
 Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
 Multi-process runs fail fast when no shared identifier is configured. For local or CI runs, export
-one invocation-specific `RUN_IDENTIFIER` value before starting every process:
+one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every process:
 
 ```csharp
-builder.AddDistributedMode(o =>
-{
-    o.RunId = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")!;
-});
+builder.AddDistributedMode();
 
 builder.AddRedisDistributedCoordinator(o =>
 {
@@ -131,15 +118,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = Pipeline.CreateBuilder(args);
 
-var instanceIndex = int.Parse(
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-builder.AddDistributedMode(o =>
-{
-    o.InstanceIndex = instanceIndex;
-    o.TotalInstances = int.Parse(
-        Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-});
+builder.AddDistributedMode();
 
 builder.AddRedisDistributedCoordinator(o =>
 {

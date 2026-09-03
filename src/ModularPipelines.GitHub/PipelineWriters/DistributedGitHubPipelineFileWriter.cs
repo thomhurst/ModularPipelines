@@ -52,10 +52,10 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             _options.EnvironmentVariables ?? new Dictionary<string, string>(),
             StringComparer.Ordinal)
         {
-            ["INSTANCE_INDEX"] = "${{ matrix.instance }}",
-            ["TOTAL_INSTANCES"] = matrix.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            ["MODULARPIPELINES_INSTANCE_INDEX"] = "${{ matrix.instance }}",
+            ["MODULARPIPELINES_TOTAL_INSTANCES"] = matrix.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
             ["REDIS_URL"] = $"${{{{ secrets.{_options.RedisSecretName} }}}}",
-            ["RUN_IDENTIFIER"] = "${{ needs.initialize.outputs.run-identifier }}",
+            ["MODULARPIPELINES_RUN_ID"] = "${{ needs.initialize.outputs.run-identifier }}",
         };
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new

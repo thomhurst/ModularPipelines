@@ -2,7 +2,7 @@ namespace ModularPipelines.Distributed.Configuration;
 
 internal static class RunIdResolver
 {
-    internal const string EnvironmentVariable = "RUN_IDENTIFIER";
+    internal const string EnvironmentVariable = "MODULARPIPELINES_RUN_ID";
 
     public static string Resolve(string? configuredValue, int totalInstances)
     {
