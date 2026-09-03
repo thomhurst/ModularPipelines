@@ -173,7 +173,7 @@ internal sealed class PipelineRunReportFactory(
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
             Output = CreateOutputExcerpt(moduleType),
             CommandCount = commandExecutionCounter.GetCount(moduleType),
-            CacheHitAtMaster = distributedCacheHitTracker?.Contains(moduleType) == true,
+            CacheHitAtMaster = distributedCacheHitTracker?.Contains(result) == true,
             PreviousDuration = previousDuration,
             DurationDelta = previousDuration.HasValue
                 ? current.Duration - previousDuration.Value

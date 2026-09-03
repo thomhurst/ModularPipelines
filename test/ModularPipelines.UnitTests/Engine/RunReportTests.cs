@@ -43,14 +43,15 @@ public class RunReportTests
     {
         var module = new SuccessfulModule();
         var start = DateTimeOffset.UtcNow;
+        var result = CreateResult(module, start, TimeSpan.Zero);
         var summary = new PipelineSummary(
             [module],
-            [CreateResult(module, start, TimeSpan.Zero)],
+            [result],
             TimeSpan.Zero,
             start,
             start);
         var tracker = new DistributedCacheHitTracker();
-        tracker.Record(typeof(SuccessfulModule));
+        tracker.Record(result);
 
         var report = new PipelineRunReportFactory(
                 Mock.Of<ICommandExecutionCounter>(),

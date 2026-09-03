@@ -66,8 +66,6 @@ internal class DistributedModuleExecutor(
 
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
-        _cacheHitTracker.Clear();
-
         if (modules.Count == 0)
         {
             return modules;
@@ -125,26 +123,11 @@ internal class DistributedModuleExecutor(
             {
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
-                    var moduleType = moduleState.Module.GetType();
-                    if (await TryRestoreCachedResultAsync(moduleState, scheduler, cts.Token)
-                            .ConfigureAwait(false))
-                    {
-                        continue;
-                    }
-
-                    var collectTask = await TryStartDistributedExecutionAsync(
-                            moduleState.Module,
-                            moduleType,
+                    resultTasks.Add(RestoreOrExecuteDistributedModuleAsync(
+                            moduleState,
                             scheduler,
                             cts,
-                            requestFailureCancellation)
-                        .ConfigureAwait(false);
-                    if (collectTask is null)
-                    {
-                        continue;
-                    }
-
-                    resultTasks.Add(collectTask);
+                            requestFailureCancellation));
                 }
             }
             catch (OperationCanceledException)
@@ -200,6 +183,32 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    private async Task RestoreOrExecuteDistributedModuleAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationTokenSource cts,
+        Action requestFailureCancellation)
+    {
+        if (await TryRestoreCachedResultAsync(moduleState, scheduler, cts.Token)
+                .ConfigureAwait(false))
+        {
+            return;
+        }
+
+        var module = moduleState.Module;
+        var collectTask = await TryStartDistributedExecutionAsync(
+                module,
+                module.GetType(),
+                scheduler,
+                cts,
+                requestFailureCancellation)
+            .ConfigureAwait(false);
+        if (collectTask is not null)
+        {
+            await collectTask.ConfigureAwait(false);
+        }
     }
 
     private async Task SignalWorkerShutdownAsync(bool broadcastCancellation)
@@ -294,11 +303,6 @@ internal class DistributedModuleExecutor(
             }
 
             cachedResult = candidate;
-            if (_artifactLifecycleManager is not null)
-            {
-                await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken)
-                    .ConfigureAwait(false);
-            }
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -313,13 +317,15 @@ internal class DistributedModuleExecutor(
             return false;
         }
 
+        await TryUploadCachedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
+
         var restoredResult = ModuleResultFactory.WithStatus(
             cachedResult,
             ModuleStatus.RestoredFromCache);
         moduleState.Result = restoredResult;
         _resultRegistry.RegisterResult(moduleType, restoredResult);
         ModuleCompletionSourceApplicator.TryApply(module, restoredResult);
-        _cacheHitTracker.Record(moduleType);
+        _cacheHitTracker.Record(restoredResult);
         scheduler.MarkModuleCompleted(
             moduleType,
             success: true,
@@ -328,6 +334,33 @@ internal class DistributedModuleExecutor(
             "Restored module {Module} from cache on the master; distributed dispatch avoided",
             moduleType.Name);
         return true;
+    }
+
+    private async Task TryUploadCachedArtifactsAsync(
+        Type moduleType,
+        CancellationToken cancellationToken)
+    {
+        if (_artifactLifecycleManager is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(
+                exception,
+                "Could not upload artifacts for cached module {Module}; using the cached result without republished artifacts",
+                moduleType.Name);
+        }
     }
 
     private bool CanRestoreCachedResult(ModuleState moduleState)

@@ -62,6 +62,29 @@ public class DistributedModuleExecutorTests
             throw new InvalidOperationException("A master cache hit must skip execution.");
     }
 
+    private sealed class AnotherCachedDistributedModule : Module<SimpleResult>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.WithCacheKeyPart("another-stable-input");
+
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("A master cache hit must skip execution.");
+    }
+
+    [ProducesArtifact("cached-output", "cached-output.txt")]
+    private sealed class CachedArtifactModule : Module<SimpleResult>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.WithCacheKeyPart("cached-artifact-input");
+
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("A master cache hit must skip execution.");
+    }
+
     [RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]
     private class CachedModuleWithConflictingCapabilities : Module<SimpleResult>
     {
@@ -422,7 +445,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(moduleState.Result).IsSameReferenceAs(result);
         await Assert.That(resultRegistry.GetResult(typeof(CachedDistributedModule)))
             .IsSameReferenceAs(result);
-        await Assert.That(cacheHitTracker.Contains(typeof(CachedDistributedModule))).IsTrue();
+        await Assert.That(cacheHitTracker.Contains(result)).IsTrue();
         coordinator.Verify(c => c.EnqueueModuleAsync(
             It.IsAny<ModuleAssignment>(),
             It.IsAny<CancellationToken>()), Times.Never());
@@ -481,17 +504,132 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task ExecuteAsync_Clears_Cache_Hits_From_Previous_Run()
+    public async Task Cache_Hit_Tracking_Is_Isolated_By_Result_Instance()
     {
         var cacheHitTracker = new DistributedCacheHitTracker();
-        cacheHitTracker.Record(typeof(CachedDistributedModule));
+        var previousResult = CreateSuccessResult(
+            new SimpleResult { Message = "previous" },
+            nameof(CachedDistributedModule));
+        var currentResult = CreateSuccessResult(
+            new SimpleResult { Message = "current" },
+            nameof(CachedDistributedModule));
+
+        cacheHitTracker.Record(previousResult);
+
+        await Assert.That(cacheHitTracker.Contains(previousResult)).IsTrue();
+        await Assert.That(cacheHitTracker.Contains(currentResult)).IsFalse();
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Cache_Lookups_For_Ready_Modules_Run_Concurrently(
+        CancellationToken cancellationToken)
+    {
+        var first = new CachedDistributedModule();
+        var second = new AnotherCachedDistributedModule();
+        var scheduler = CreateMockScheduler(
+            new ModuleState(first, typeof(CachedDistributedModule)),
+            new ModuleState(second, typeof(AnotherCachedDistributedModule)));
+        var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(repository => repository.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<Module<SimpleResult>, IPipelineContext, CancellationToken>(
+                async (module, _, token) =>
+                {
+                    if (ReferenceEquals(module, first))
+                    {
+                        firstStarted.TrySetResult();
+                        await releaseFirst.Task.WaitAsync(token);
+                    }
+                    else
+                    {
+                        secondStarted.TrySetResult();
+                    }
+
+                    return CreateSuccessResult(
+                        new SimpleResult { Message = "cached" },
+                        module.GetType().Name);
+                });
         var executor = CreateExecutor(
-            CreateMockScheduler(),
-            cacheHitTracker: cacheHitTracker);
+            scheduler,
+            cacheResultRepository: cache.Object,
+            applicationStopping: cancellationToken);
 
-        await executor.ExecuteAsync([]);
+        var execution = executor.ExecuteAsync([first, second]);
+        await firstStarted.Task.WaitAsync(cancellationToken);
+        await secondStarted.Task.WaitAsync(cancellationToken);
+        releaseFirst.TrySetResult();
+        await execution;
 
-        await Assert.That(cacheHitTracker.Contains(typeof(CachedDistributedModule))).IsFalse();
+        scheduler.Verify(instance => instance.MarkModuleCompleted(
+            It.IsAny<Type>(),
+            true,
+            null,
+            ModuleStatus.RestoredFromCache), Times.Exactly(2));
+    }
+
+    [Test]
+    public async Task Cached_Result_Survives_Artifact_Upload_Failure()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), $"distributed-cached-artifact-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
+        await File.WriteAllTextAsync(Path.Combine(workingDirectory, "cached-output.txt"), "cached output");
+        var module = new CachedArtifactModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(CachedArtifactModule)));
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleAssignment?) null);
+        coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(instance => instance.UploadAsync(
+                It.IsAny<ArtifactDescriptor>(),
+                It.IsAny<Stream>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("upload failed"));
+        var artifactManager = new ArtifactLifecycleManager(
+            store.Object,
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            NullLogger<ArtifactLifecycleManager>.Instance,
+            workingDirectory);
+        var cachedResult = CreateSuccessResult(
+            new SimpleResult { Message = "cached" },
+            nameof(CachedArtifactModule));
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(repository => repository.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cachedResult);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            artifactManager: artifactManager,
+            cacheResultRepository: cache.Object);
+
+        try
+        {
+            await executor.ExecuteAsync([module]);
+
+            await Assert.That(resultRegistry.GetResult(typeof(CachedArtifactModule))?.Status)
+                .IsEqualTo(ModuleStatus.RestoredFromCache);
+            coordinator.Verify(instance => instance.EnqueueModuleAsync(
+                It.IsAny<ModuleAssignment>(),
+                It.IsAny<CancellationToken>()), Times.Never());
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+        }
     }
 
     // =================================================================
