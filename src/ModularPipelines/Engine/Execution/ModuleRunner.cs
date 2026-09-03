@@ -112,22 +112,33 @@ internal class ModuleRunner : IModuleRunner
     /// <inheritdoc />
     public Task ExecuteAsync(ModuleState moduleState, CancellationToken cancellationToken)
     {
-        return ExecuteCore(moduleState, cancellationToken, skipDependencyWait: false);
+        return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: false), cancellationToken, skipDependencyWait: false);
+    }
+
+    /// <inheritdoc />
+    public Task ExecuteAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    {
+        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: false);
     }
 
     /// <inheritdoc />
     public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, CancellationToken cancellationToken)
     {
-        return ExecuteCore(moduleState, cancellationToken, skipDependencyWait: true);
+        return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: true), cancellationToken, skipDependencyWait: true);
+    }
+
+    /// <inheritdoc />
+    public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    {
+        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: true);
     }
 
     private async Task ExecuteCore(
         ModuleState moduleState,
+        IModuleScheduler? scheduler,
         CancellationToken cancellationToken,
         bool skipDependencyWait)
     {
-        var scheduler = GetScheduler(moduleState, skipDependencyWait);
-
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
