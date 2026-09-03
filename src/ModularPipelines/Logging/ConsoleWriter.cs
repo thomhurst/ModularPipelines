@@ -91,7 +91,7 @@ internal class ConsoleWriter : IConsoleWriter
     private static bool TryGetModuleConsoleWriter(
         [NotNullWhen(true)] out IConsoleWriter? consoleWriter)
     {
-        consoleWriter = ModuleLogger.Values.Value as IConsoleWriter;
+        consoleWriter = AmbientModuleOutputContext.Current?.Logger as IConsoleWriter;
         return consoleWriter is not null;
     }
 }

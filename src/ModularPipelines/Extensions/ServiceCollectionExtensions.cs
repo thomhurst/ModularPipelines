@@ -138,17 +138,9 @@ internal static class ServiceCollectionExtensions
         Func<IServiceProvider, TModule> moduleFactory)
         where TModule : class, IModule
     {
-        // Set AsyncLocal context before invoking user's factory
-        var previousType = Logging.ModuleLogger.CurrentModuleType.Value;
-        Logging.ModuleLogger.CurrentModuleType.Value = typeof(TModule);
-
-        try
+        using (new Logging.ModuleOutputContextScope(typeof(TModule)))
         {
             return moduleFactory(serviceProvider);
-        }
-        finally
-        {
-            Logging.ModuleLogger.CurrentModuleType.Value = previousType;
         }
     }
 

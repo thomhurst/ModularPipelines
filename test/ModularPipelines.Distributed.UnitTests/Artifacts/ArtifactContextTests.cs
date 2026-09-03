@@ -118,14 +118,14 @@ public class ArtifactContextTests
             });
         var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-context-source-");
-        var previousModuleType = ModuleLogger.CurrentModuleType.Value;
 
         try
         {
             await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "output.txt"), "content");
-            ModuleLogger.CurrentModuleType.Value = typeof(ProducerModule);
-
-            await context.PublishDirectoryAsync("output", sourceDirectory.FullName, CancellationToken.None);
+            using (new ModuleOutputContextScope(typeof(ProducerModule)))
+            {
+                await context.PublishDirectoryAsync("output", sourceDirectory.FullName, CancellationToken.None);
+            }
 
             using var archiveStream = new MemoryStream(uploadedContent!);
             using var archive = new System.IO.Compression.ZipArchive(archiveStream, System.IO.Compression.ZipArchiveMode.Read);
@@ -135,7 +135,6 @@ public class ArtifactContextTests
         }
         finally
         {
-            ModuleLogger.CurrentModuleType.Value = previousModuleType;
             sourceDirectory.Delete(recursive: true);
         }
     }
