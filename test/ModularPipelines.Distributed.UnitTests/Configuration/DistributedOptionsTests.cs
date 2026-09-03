@@ -12,6 +12,7 @@ public class DistributedOptionsTests
         using (Assert.Multiple())
         {
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
+            await Assert.That(options.MinimumWorkerCount).IsEqualTo(0);
             await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
         }
     }
@@ -25,6 +26,7 @@ public class DistributedOptionsTests
                 ["Distributed:Capabilities:0"] = "docker",
                 ["Distributed:Capabilities:1"] = "gpu",
                 ["Distributed:CapabilityTimeout"] = "00:00:30",
+                ["Distributed:MinimumWorkerCount"] = "2",
             })
             .Build();
         var options = new DistributedOptions();
@@ -36,6 +38,7 @@ public class DistributedOptionsTests
             await Assert.That(options.Capabilities)
                 .IsEquivalentTo([Capability.Docker, Capability.Gpu]);
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+            await Assert.That(options.MinimumWorkerCount).IsEqualTo(2);
         }
     }
 }

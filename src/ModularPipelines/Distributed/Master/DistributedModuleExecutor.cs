@@ -36,6 +36,8 @@ internal class DistributedModuleExecutor(
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
 {
+    private static readonly TimeSpan WorkerRegistrationPollInterval = TimeSpan.FromMilliseconds(250);
+
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
@@ -91,7 +93,11 @@ internal class DistributedModuleExecutor(
         {
             // Wait for workers to register before distributing work. Keep this inside the
             // shutdown scope so cancellation or coordinator failure still notifies workers.
-            await WaitForWorkersAsync(_lifetime.ApplicationStopping).ConfigureAwait(false);
+            var options = _options.Value;
+            var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
+            await WaitForMinimumWorkersAsync(registrationDeadline, _lifetime.ApplicationStopping)
+                .ConfigureAwait(false);
+            var masterCapabilities = BuildCapabilities(options);
 
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
@@ -108,29 +114,30 @@ internal class DistributedModuleExecutor(
 
             // Start the master worker loop — the master participates as a worker,
             // dequeuing and executing modules from the same queue as external workers.
-            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, moduleLookup, cts.Token);
+            var masterWorkerTask = RunMasterWorkerLoopAsync(
+                modules,
+                moduleLookup,
+                masterCapabilities,
+                cts.Token);
 
             try
             {
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
-                    var assignment = await _publisher.CreateAssignmentAsync(
-                            moduleState.Module,
-                            cts.Token)
-                        .ConfigureAwait(false);
                     if (!scheduler.MarkModuleStarted(moduleType))
                     {
                         continue;
                     }
 
-                    var collectTask = PublishAndCollectDistributedResultAsync(
-                        assignment,
+                    var collectTask = CreatePublishAndCollectDistributedResultAsync(
                         moduleState.Module,
                         moduleType,
                         scheduler,
                         cts,
-                        requestFailureCancellation);
+                        requestFailureCancellation,
+                        masterCapabilities,
+                        registrationDeadline);
                     resultTasks.Add(collectTask);
                 }
             }
@@ -244,62 +251,66 @@ internal class DistributedModuleExecutor(
             executionContext);
     }
 
-    private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
+    private async Task WaitForMinimumWorkersAsync(
+        DateTimeOffset registrationDeadline,
+        CancellationToken cancellationToken)
     {
         var expectedWorkers = _options.Value.TotalInstances - 1;
-        if (expectedWorkers <= 0)
+        var minimumWorkers = _options.Value.MinimumWorkerCount;
+        if (minimumWorkers < 0 || minimumWorkers > expectedWorkers)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(DistributedOptions.MinimumWorkerCount)} must be between zero and " +
+                $"{expectedWorkers} for the configured total instance count.");
+        }
+
+        if (minimumWorkers == 0)
         {
             return;
         }
 
-        var timeout = _options.Value.CapabilityTimeout;
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(timeout);
-
-        _logger.LogInformation("Waiting for {Expected} worker(s) to register (timeout: {Timeout})...",
-            expectedWorkers, timeout);
+        _logger.LogInformation(
+            "Waiting for at least {Minimum} of {Expected} worker(s) to register (timeout: {Timeout})...",
+            minimumWorkers,
+            expectedWorkers,
+            _options.Value.CapabilityTimeout);
 
         var lastCount = 0;
-        while (!timeoutCts.IsCancellationRequested)
+        while (DateTimeOffset.UtcNow < registrationDeadline)
         {
-            try
+            var workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
+                .ConfigureAwait(false);
+            if (workers.Count != lastCount)
             {
-                var workers = await _masterCoordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
-                if (workers.Count != lastCount)
-                {
-                    lastCount = workers.Count;
-                    _logger.LogInformation("{Count}/{Expected} worker(s) registered", workers.Count, expectedWorkers);
-                }
-
-                if (workers.Count >= expectedWorkers)
-                {
-                    _logger.LogInformation("All {Expected} worker(s) registered — starting work distribution", expectedWorkers);
-                    return;
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(2), timeoutCts.Token);
+                lastCount = workers.Count;
+                _logger.LogInformation("{Count}/{Expected} worker(s) registered", workers.Count, expectedWorkers);
             }
-            catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+
+            if (workers.Count >= minimumWorkers)
             {
-                // Timeout expired, but pipeline not cancelled — proceed with available workers
-                _logger.LogWarning(
-                    "Worker registration timeout ({Timeout} expired). {Count}/{Expected} worker(s) registered — proceeding with available workers",
-                    timeout, lastCount, expectedWorkers);
+                _logger.LogInformation(
+                    "Minimum worker count reached — starting work distribution with {Count} worker(s)",
+                    workers.Count);
                 return;
             }
+
+            await DelayUntilNextWorkerCheckAsync(registrationDeadline, cancellationToken)
+                .ConfigureAwait(false);
         }
+
+        _logger.LogWarning(
+            "Worker registration timeout ({Timeout} expired). {Count}/{Minimum} required worker(s) registered — proceeding with available workers",
+            _options.Value.CapabilityTimeout,
+            lastCount,
+            minimumWorkers);
     }
 
-    private async Task RunMasterWorkerLoopAsync(IReadOnlyList<IModule> modules, Dictionary<string, IModule> moduleLookup, CancellationToken cancellationToken)
+    private async Task RunMasterWorkerLoopAsync(
+        IReadOnlyList<IModule> modules,
+        Dictionary<string, IModule> moduleLookup,
+        IReadOnlySet<Capability> capabilities,
+        CancellationToken cancellationToken)
     {
-        // Build master's capabilities (same logic as WorkerModuleExecutor)
-        var options = _options.Value;
-        var capabilities = new HashSet<Capability>(options.Capabilities);
-        if (options.AutoDetectOsCapability)
-        {
-            capabilities.UnionWith(OsCapabilityDetector.Detect());
-        }
-
         _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
@@ -489,21 +500,30 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task PublishAndCollectDistributedResultAsync(
-        ModuleAssignment assignment,
+    private async Task CreatePublishAndCollectDistributedResultAsync(
         IModule module,
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource cts,
-        Action requestFailureCancellation)
+        Action requestFailureCancellation,
+        IReadOnlySet<Capability> masterCapabilities,
+        DateTimeOffset registrationDeadline)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
         var lifecycleToken = timeoutCts?.Token ?? cts.Token;
 
         try
         {
+            var assignment = await _publisher.CreateAssignmentAsync(module, lifecycleToken)
+                .ConfigureAwait(false);
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
             await _publisher.PublishAsync(assignment, lifecycleToken);
+            await EnsureAssignmentHasExecutionRouteAsync(
+                    assignment,
+                    masterCapabilities,
+                    registrationDeadline,
+                    cts.Token)
+                .ConfigureAwait(false);
             await CollectResultAsync(
                 module,
                 moduleType,
@@ -539,6 +559,73 @@ internal class DistributedModuleExecutor(
             requestFailureCancellation();
             await cts.CancelAsync();
         }
+    }
+
+    private async Task EnsureAssignmentHasExecutionRouteAsync(
+        ModuleAssignment assignment,
+        IReadOnlySet<Capability> masterCapabilities,
+        DateTimeOffset registrationDeadline,
+        CancellationToken cancellationToken)
+    {
+        if (CapabilityMatcher.CanExecute(assignment, masterCapabilities))
+        {
+            return;
+        }
+
+        var expectedWorkers = Math.Max(0, _options.Value.TotalInstances - 1);
+        IReadOnlyList<WorkerRegistration> workers;
+        do
+        {
+            workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
+                .ConfigureAwait(false);
+            if (workers.Any(worker => CapabilityMatcher.CanExecute(assignment, worker)))
+            {
+                return;
+            }
+
+            if (workers.Count >= expectedWorkers || DateTimeOffset.UtcNow >= registrationDeadline)
+            {
+                break;
+            }
+
+            await DelayUntilNextWorkerCheckAsync(registrationDeadline, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        while (true);
+
+        throw new DistributedRoutingException(
+            assignment.ModuleTypeName,
+            assignment.RequiredCapabilities,
+            workers.Count);
+    }
+
+    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
+    {
+        var capabilities = new HashSet<Capability>(options.Capabilities);
+        if (options.AutoDetectOsCapability)
+        {
+            capabilities.UnionWith(OsCapabilityDetector.Detect());
+        }
+
+        return capabilities;
+    }
+
+    private static async Task DelayUntilNextWorkerCheckAsync(
+        DateTimeOffset registrationDeadline,
+        CancellationToken cancellationToken)
+    {
+        var remaining = registrationDeadline - DateTimeOffset.UtcNow;
+        if (remaining <= TimeSpan.Zero)
+        {
+            return;
+        }
+
+        await Task.Delay(
+                remaining < WorkerRegistrationPollInterval
+                    ? remaining
+                    : WorkerRegistrationPollInterval,
+                cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private CancellationTokenSource? CreateResultTimeoutSource(TimeSpan? moduleTimeout, CancellationToken cancellationToken)
@@ -607,3 +694,12 @@ internal class DistributedModuleExecutor(
         }
     }
 }
+
+internal sealed class DistributedRoutingException(
+    string moduleTypeName,
+    IReadOnlySet<Capability> requiredCapabilities,
+    int registeredWorkerCount)
+    : InvalidOperationException(
+        $"No execution route is available for distributed module {moduleTypeName}. " +
+        $"Required capabilities: [{string.Join(", ", requiredCapabilities)}]. " +
+        $"Registered external workers: {registeredWorkerCount}.");
