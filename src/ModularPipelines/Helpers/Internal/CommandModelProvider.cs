@@ -48,11 +48,18 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
         foreach (var property in GetHierarchyProperties(type))
         {
-            var commandAttribute = GetCommandAttribute(type, property);
-            if (commandAttribute is null || !seenPropertyNames.Add(property.Name))
+            if (seenPropertyNames.Contains(property.Name))
             {
                 continue;
             }
+
+            var commandAttribute = GetCommandAttribute(type, property);
+            if (commandAttribute is null)
+            {
+                continue;
+            }
+
+            seenPropertyNames.Add(property.Name);
 
             if (commandAttribute is CliArgumentAttribute argument)
             {

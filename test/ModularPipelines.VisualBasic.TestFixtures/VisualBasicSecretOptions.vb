@@ -32,4 +32,25 @@ Namespace ModularPipelines.VisualBasic.TestFixtures
             End Set
         End Property
     End Class
+
+    Public Class VisualBasicConflictingCommandBase
+        Inherits CommandLineToolOptions
+
+        <CliArgument(0), CliOption("--base")>
+        Public Property Value As String = String.Empty
+    End Class
+
+    Public NotInheritable Class VisualBasicAttributedShadowingCommandOptions
+        Inherits VisualBasicConflictingCommandBase
+
+        <CliOption("--derived")>
+        Public Shadows Property Value As String
+            Get
+                Return MyBase.Value
+            End Get
+            Set(value As String)
+                MyBase.Value = value
+            End Set
+        End Property
+    End Class
 End Namespace

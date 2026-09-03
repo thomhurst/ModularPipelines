@@ -245,6 +245,17 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task ReflectionMetadata_DoesNotInspectHiddenBasePropertyAfterDerivedMatch()
+    {
+        var options = new VisualBasicAttributedShadowingCommandOptions { Value = "derived" };
+
+        var model = new CommandModelProvider().GetCommandModel(options.GetType());
+        var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
+
+        await Assert.That(arguments).IsEquivalentTo(["--derived", "derived"]);
+    }
+
+    [Test]
     public async Task SecretMetadata_RegistersDirectGetter()
     {
         var options = new GeneratedMetadataOptions { Token = "generated-secret" };
