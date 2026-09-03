@@ -49,6 +49,25 @@ public class CobraCliScraperTests
         await Assert.That(command!.Description).IsEqualTo("Disk usage");
     }
 
+    [Test]
+    public async Task Usage_Continuations_Are_Not_Command_Descriptions()
+    {
+        const string helpText = """
+            Usage:
+              fake report usage
+
+            Disk usage
+
+            Options:
+              --verbose   Show more details
+            """;
+        var command = await new TestCobraCliScraper().Parse(
+            ["fake", "report", "usage"],
+            helpText);
+
+        await Assert.That(command!.Description).IsEqualTo("Disk usage");
+    }
+
     private sealed class TestCobraCliScraper : CobraCliScraper
     {
         public TestCobraCliScraper()

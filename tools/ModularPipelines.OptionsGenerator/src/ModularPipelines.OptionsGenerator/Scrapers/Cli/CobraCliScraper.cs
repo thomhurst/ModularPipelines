@@ -245,6 +245,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText)
     {
         var lines = helpText.Split('\n');
+        var insideUsageSection = false;
 
         // Skip empty lines and look for the first non-usage, non-section line
         foreach (var line in lines)
@@ -252,6 +253,18 @@ public abstract partial class CobraCliScraper : CliScraperBase
             var trimmed = line.Trim();
 
             if (string.IsNullOrEmpty(trimmed))
+            {
+                insideUsageSection = false;
+                continue;
+            }
+
+            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            {
+                insideUsageSection = true;
+                continue;
+            }
+
+            if (insideUsageSection)
             {
                 continue;
             }
@@ -262,8 +275,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             }
 
             // Skip section headers
-            if (trimmed.EndsWith(':') ||
-                trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            if (trimmed.EndsWith(':'))
             {
                 continue;
             }
