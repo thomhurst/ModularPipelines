@@ -6,12 +6,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Distributed.Master;
 
 internal class DistributedResultCollector(
-    IDistributedCoordinator coordinator,
+    IDistributedMasterCoordinator coordinator,
     ModuleResultSerializer serializer,
     ICommandExecutionCounter? commandExecutionCounter = null,
     IOptions<DistributedOptions>? distributedOptions = null)
 {
-    private readonly IDistributedCoordinator _coordinator = coordinator;
+    private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly ICommandExecutionCounter? _commandExecutionCounter = commandExecutionCounter;
     private readonly IOptions<DistributedOptions>? _distributedOptions = distributedOptions;

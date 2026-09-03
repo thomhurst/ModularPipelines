@@ -6,14 +6,16 @@ using ModularPipelines.Distributed.SignalR.Hub;
 namespace ModularPipelines.Distributed.SignalR.Coordination;
 
 /// <summary>
-/// Worker-side <see cref="IDistributedCoordinator"/> backed by a SignalR <see cref="HubConnection"/> to the master.
+/// Worker-side <see cref="IDistributedWorkerCoordinator"/> backed by a SignalR <see cref="HubConnection"/> to the master.
 /// Receives work assignments via <c>ReceiveAssignment</c> callback and publishes results via hub invocations.
 /// </summary>
-internal class SignalRWorkerCoordinator : IDistributedCoordinator
+internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
     private readonly Channel<ModuleAssignment> _assignmentChannel;
+    private readonly TaskCompletionSource _cancellationRequested = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
 
     private WorkerRegistration? _lastRegistration;
     private ModuleAssignment? _inFlightAssignment;
@@ -33,6 +35,9 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
         _connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment, OnReceiveAssignment);
         _connection.On<SerializedModuleResult>(HubMethodNames.ReceiveDependencyResult, OnReceiveDependencyResult);
         _connection.On(HubMethodNames.SignalCompletion, OnSignalCompletion);
+        _connection.On(
+            HubMethodNames.BroadcastCancellation,
+            () => _cancellationRequested.TrySetResult());
 
         // Automatic reconnect gives us a new connection id, and the master drops the old
         // connection (re-queuing its in-flight work). Re-register under the new connection
@@ -46,12 +51,6 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
     /// The worker executor can subscribe to pre-populate CompletionSources.
     /// </summary>
     public event Action<SerializedModuleResult>? DependencyResultReceived;
-
-    public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
-    {
-        // Workers don't enqueue — only the master does.
-        throw new NotSupportedException("Workers do not enqueue work. The master pushes assignments via hub callbacks.");
-    }
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
     {
@@ -99,12 +98,6 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
         }
     }
 
-    public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
-    {
-        // Workers don't wait for results — only the master does.
-        throw new NotSupportedException("Workers do not wait for results. The master waits via its coordinator.");
-    }
-
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         _lastRegistration = registration;
@@ -115,6 +108,12 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
             cancellationToken);
         _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
     }
+
+    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken) =>
+        _connection.InvokeAsync(HubMethodNames.Heartbeat, workerIndex, cancellationToken);
+
+    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        _cancellationRequested.Task.WaitAsync(cancellationToken);
 
     private async Task OnReconnectedAsync(string? connectionId)
     {
@@ -147,19 +146,6 @@ internal class SignalRWorkerCoordinator : IDistributedCoordinator
         {
             _logger.LogWarning(ex, "Failed to re-register worker {Index} after reconnect", registration.WorkerIndex);
         }
-    }
-
-    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
-    {
-        // Workers don't query registrations — only the master does.
-        throw new NotSupportedException("Workers do not query registered workers.");
-    }
-
-    public Task SignalCompletionAsync(CancellationToken cancellationToken)
-    {
-        // Workers don't signal completion — only the master does.
-        // Workers receive the signal via OnSignalCompletion callback.
-        return Task.CompletedTask;
     }
 
     private void OnReceiveAssignment(ModuleAssignment assignment)

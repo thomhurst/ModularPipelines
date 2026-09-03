@@ -15,12 +15,18 @@ public class DistributedCoordinatorRegistrationTests
         var coordinator = new InMemoryDistributedCoordinator();
         var builder = CreateDistributedBuilder()
             .AddDistributedCoordinatorFactory<TestCoordinatorFactory>();
-        builder.Services.AddSingleton<IDistributedCoordinator>(coordinator);
+        builder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<IDistributedCoordinator>())
-            .IsSameReferenceAs(coordinator);
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipeline.Services.GetRequiredService<IDistributedMasterCoordinator>())
+                .IsSameReferenceAs(coordinator);
+            await Assert.That(pipeline.Services.GetRequiredService<IDistributedWorkerCoordinator>())
+                .IsSameReferenceAs(coordinator);
+        }
     }
 
     [Test]
@@ -28,18 +34,19 @@ public class DistributedCoordinatorRegistrationTests
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var builder = CreateDistributedBuilder();
-        builder.Services.AddSingleton<IDistributedCoordinator>(coordinator);
+        builder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
         builder.AddDistributedCoordinatorFactory<TestCoordinatorFactory>();
 
         await using var pipeline = await builder.BuildAsync();
         var factory = pipeline.Services.GetRequiredService<IDistributedCoordinatorFactory>();
-        var resolvedCoordinator = pipeline.Services.GetRequiredService<IDistributedCoordinator>();
+        var resolvedCoordinator = pipeline.Services.GetRequiredService<IDistributedMasterCoordinator>();
         _ = await resolvedCoordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
         using (Assert.Multiple())
         {
             await Assert.That(resolvedCoordinator).IsNotSameReferenceAs(coordinator);
-            await Assert.That(((TestCoordinatorFactory) factory).CreateCount).IsEqualTo(1);
+            await Assert.That(((TestCoordinatorFactory) factory).CreateMasterCount).IsEqualTo(1);
         }
     }
 
@@ -54,13 +61,16 @@ public class DistributedCoordinatorRegistrationTests
 
     public sealed class TestCoordinatorFactory : IDistributedCoordinatorFactory
     {
-        public int CreateCount { get; private set; }
+        public int CreateMasterCount { get; private set; }
 
-        public Task<IDistributedCoordinator> CreateAsync(CancellationToken cancellationToken)
+        public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
         {
-            CreateCount++;
-            return Task.FromResult<IDistributedCoordinator>(new InMemoryDistributedCoordinator());
+            CreateMasterCount++;
+            return Task.FromResult<IDistributedMasterCoordinator>(new InMemoryDistributedCoordinator());
         }
+
+        public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
+            Task.FromResult<IDistributedWorkerCoordinator>(new InMemoryDistributedCoordinator());
     }
 
     private sealed class TestModule : Module<string>
