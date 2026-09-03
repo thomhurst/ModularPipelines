@@ -33,7 +33,7 @@ builder.AddDistributedMode(o =>
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
-| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. |
+| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |

@@ -9,13 +9,29 @@ namespace ModularPipelines.Distributed.Artifacts.S3.UnitTests.Extensions;
 [TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class S3DistributedExtensionsTests
 {
+    private static readonly string[] ExecutionEnvironmentVariables =
+    [
+        "GITHUB_RUN_ID",
+        "GITHUB_RUN_ATTEMPT",
+        "MODULARPIPELINES_RUN_ID",
+        "BUILD_BUILDID",
+        "CI_PIPELINE_ID",
+    ];
+
     [Test]
     public async Task ArtifactStore_Rejects_Unconfigured_RunId()
     {
-        var original = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        var originals = ExecutionEnvironmentVariables.ToDictionary(
+            name => name,
+            Environment.GetEnvironmentVariable);
+
         try
         {
-            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            foreach (var name in ExecutionEnvironmentVariables)
+            {
+                Environment.SetEnvironmentVariable(name, null);
+            }
+
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
             builder.AddS3DistributedArtifactStore(options =>
@@ -28,7 +44,10 @@ public class S3DistributedExtensionsTests
         }
         finally
         {
-            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", original);
+            foreach (var (name, value) in originals)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
         }
     }
 

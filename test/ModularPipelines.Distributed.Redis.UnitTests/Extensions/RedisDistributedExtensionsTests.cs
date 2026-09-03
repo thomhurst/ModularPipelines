@@ -78,10 +78,17 @@ public class RedisDistributedExtensionsTests
     [Test]
     public async Task ArtifactStore_Rejects_Unconfigured_RunId()
     {
-        var original = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        var originals = ExecutionEnvironmentVariables.ToDictionary(
+            name => name,
+            Environment.GetEnvironmentVariable);
+
         try
         {
-            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            foreach (var name in ExecutionEnvironmentVariables)
+            {
+                Environment.SetEnvironmentVariable(name, null);
+            }
+
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
             builder.AddRedisDistributedArtifactStore(options =>
@@ -94,7 +101,10 @@ public class RedisDistributedExtensionsTests
         }
         finally
         {
-            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", original);
+            foreach (var (name, value) in originals)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
         }
     }
 
