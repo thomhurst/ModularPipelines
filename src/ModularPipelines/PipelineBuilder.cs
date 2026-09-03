@@ -504,10 +504,11 @@ public sealed class PipelineBuilder
             return;
         }
 
-        // Replace coordinator if factory registered — deferred so workers don't block
-        // during DI build waiting for the master to advertise its URL
-        var hasFactory = services.Any(d => d.ServiceType == typeof(IDistributedCoordinatorFactory));
-        if (hasFactory)
+        // Replace the coordinator when the factory is the latest registration — deferred so
+        // workers don't block during DI build waiting for the master to advertise its URL.
+        var coordinatorFactoryIndex = FindLastServiceIndex<IDistributedCoordinatorFactory>(services);
+        var coordinatorIndex = FindLastServiceIndex<IDistributedCoordinator>(services);
+        if (coordinatorFactoryIndex > coordinatorIndex)
         {
             RemoveService<IDistributedCoordinator>(services);
             services.AddSingleton<IDistributedCoordinator>(sp =>
