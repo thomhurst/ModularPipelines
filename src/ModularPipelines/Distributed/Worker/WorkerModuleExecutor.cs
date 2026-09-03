@@ -291,7 +291,7 @@ internal class WorkerModuleExecutor(
             .GetRequiredService<IInternalModuleLoggerAccessor>()
             .GetLogger(moduleType) as IInternalModuleLogger
             ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
-        await using var loggerScope = new ModuleLoggerScope(moduleLogger, moduleType);
+        using var outputScope = new ModuleOutputContextScope(moduleType, moduleLogger);
 
         try
         {

@@ -13,6 +13,8 @@ namespace ModularPipelines;
 /// <para>
 /// The context is set automatically before module construction and during module execution.
 /// It uses AsyncLocal storage, so it flows correctly across async/await boundaries.
+/// Suppressing <see cref="System.Threading.ExecutionContext"/> flow prevents attribution,
+/// and a flowed context becomes inactive when its owning module scope ends.
 /// </para>
 /// </remarks>
 /// <example>
@@ -42,7 +44,7 @@ public static class AmbientModuleContext
     /// It returns null when code is executing outside of any module context,
     /// such as during pipeline initialization or in pipeline event handlers.
     /// </remarks>
-    public static Type? CurrentModuleType => ModuleLogger.CurrentModuleType.Value;
+    public static Type? CurrentModuleType => AmbientModuleOutputContext.Current?.ModuleType;
 
     /// <summary>
     /// Gets the name of the currently executing module, or null if not within a module context.

@@ -10,7 +10,8 @@ namespace ModularPipelines.Logging;
 /// <para>
 /// Use <see cref="IConsoleWriter"/> when you need rich console formatting such as
 /// colors, tables, progress bars, or other Spectre.Console features. Output from
-/// this interface goes directly to the console and is not captured by logging providers.
+/// this interface is captured in the current module's ordered output group and is not
+/// delivered to logging providers.
 /// </para>
 /// <para>
 /// For structured logging with log levels that flows to configured log sinks

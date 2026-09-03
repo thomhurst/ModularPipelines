@@ -18,7 +18,7 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export", "kubeconfig")]
-public record KindExportKubeconfigOptions : KindOptions
+public record KindExportKubeConfigOptions : KindOptions
 {
     /// <summary>
     /// help for kubeconfig
@@ -55,12 +55,5 @@ public record KindExportKubeconfigOptions : KindOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
-
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
 
 }
