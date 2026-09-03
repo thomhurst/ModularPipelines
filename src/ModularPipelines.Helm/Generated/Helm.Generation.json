@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "helm",
+  "toolVersion": "version.BuildInfo{Version:\"v3.21.4\", GitCommit:\"813176c51bb5c181dbbd7901298ddcc104cd3417\", GitTreeState:\"clean\", GoVersion:\"go1.26.5\"}",
+  "commandTreeSha256": "4899ed49663bc26b485e79579fc4dd8dc6db81e8115ef7343e12699488811782",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}

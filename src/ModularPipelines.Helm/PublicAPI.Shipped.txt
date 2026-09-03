@@ -734,10 +734,10 @@ ModularPipelines.Helm.Options.HelmInstallOptions.Labels.get -> System.Collection
 ModularPipelines.Helm.Options.HelmInstallOptions.Labels.set -> void
 ModularPipelines.Helm.Options.HelmInstallOptions.Name.get -> string?
 ModularPipelines.Helm.Options.HelmInstallOptions.Name.set -> void
-ModularPipelines.Helm.Options.HelmInstallOptions.Namespace.get -> string?
-ModularPipelines.Helm.Options.HelmInstallOptions.Namespace.set -> void
 ModularPipelines.Helm.Options.HelmInstallOptions.NameTemplate.get -> string?
 ModularPipelines.Helm.Options.HelmInstallOptions.NameTemplate.set -> void
+ModularPipelines.Helm.Options.HelmInstallOptions.Namespace.get -> string?
+ModularPipelines.Helm.Options.HelmInstallOptions.Namespace.set -> void
 ModularPipelines.Helm.Options.HelmInstallOptions.NoHooks.get -> bool?
 ModularPipelines.Helm.Options.HelmInstallOptions.NoHooks.set -> void
 ModularPipelines.Helm.Options.HelmInstallOptions.Output.get -> ModularPipelines.Helm.Enums.HelmInstallOutput?
@@ -2414,10 +2414,10 @@ ModularPipelines.Helm.Options.HelmTemplateOptions.Labels.get -> System.Collectio
 ModularPipelines.Helm.Options.HelmTemplateOptions.Labels.set -> void
 ModularPipelines.Helm.Options.HelmTemplateOptions.Name.get -> string?
 ModularPipelines.Helm.Options.HelmTemplateOptions.Name.set -> void
-ModularPipelines.Helm.Options.HelmTemplateOptions.Namespace.get -> string?
-ModularPipelines.Helm.Options.HelmTemplateOptions.Namespace.set -> void
 ModularPipelines.Helm.Options.HelmTemplateOptions.NameTemplate.get -> string?
 ModularPipelines.Helm.Options.HelmTemplateOptions.NameTemplate.set -> void
+ModularPipelines.Helm.Options.HelmTemplateOptions.Namespace.get -> string?
+ModularPipelines.Helm.Options.HelmTemplateOptions.Namespace.set -> void
 ModularPipelines.Helm.Options.HelmTemplateOptions.NoHooks.get -> bool?
 ModularPipelines.Helm.Options.HelmTemplateOptions.NoHooks.set -> void
 ModularPipelines.Helm.Options.HelmTemplateOptions.OutputDir.get -> string?
@@ -2786,7 +2786,6 @@ ModularPipelines.Helm.Services.IHelmRegistry
 ModularPipelines.Helm.Services.IHelmRepo
 ModularPipelines.Helm.Services.IHelmSearch
 ModularPipelines.Helm.Services.IHelmShow
-override abstract ModularPipelines.Helm.Options.HelmOptions.<Clone>$() -> ModularPipelines.Helm.Options.HelmOptions!
 override ModularPipelines.Helm.Options.HelmCreateOptions.<Clone>$() -> ModularPipelines.Helm.Options.HelmCreateOptions!
 override ModularPipelines.Helm.Options.HelmCreateOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Helm.Options.HelmCreateOptions.Equals(object? obj) -> bool
@@ -3092,6 +3091,7 @@ override ModularPipelines.Helm.Options.HelmVerifyOptions.Equals(object? obj) -> 
 override ModularPipelines.Helm.Options.HelmVerifyOptions.GetHashCode() -> int
 override ModularPipelines.Helm.Options.HelmVerifyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Helm.Options.HelmVerifyOptions.ToString() -> string!
+override abstract ModularPipelines.Helm.Options.HelmOptions.<Clone>$() -> ModularPipelines.Helm.Options.HelmOptions!
 override sealed ModularPipelines.Helm.Options.HelmCreateOptions.Equals(ModularPipelines.Helm.Options.HelmOptions? other) -> bool
 override sealed ModularPipelines.Helm.Options.HelmDependencyBuildOptions.Equals(ModularPipelines.Helm.Options.HelmOptions? other) -> bool
 override sealed ModularPipelines.Helm.Options.HelmDependencyListOptions.Equals(ModularPipelines.Helm.Options.HelmOptions? other) -> bool
