@@ -104,10 +104,12 @@ is canceled.
 `IExecutionBackend` is the public orchestration seam. It receives the planned modules,
 an `IExecutionBackendContext`, and the pipeline cancellation token. A backend may execute
 modules in-process, submit them to an external scheduler, or use another orchestration
-model. Before returning, it must supply every planned module result either in its returned
-result list or through `IExecutionBackendContext.TryApplyResult`. Applying a result through
-the context immediately completes the local module awaitable, allowing dependent work to
-observe remotely produced results.
+model. Set `OwnsEntirePlan` to `true` when the backend is responsible for completing every
+planned module; before returning, such a backend must supply every result either in its
+returned result list or through `IExecutionBackendContext.TryApplyResult`. A partial backend
+sets `OwnsEntirePlan` to `false` and supplies only the results owned by that process. Applying
+a result through the context immediately completes the local module awaitable, allowing
+dependent work to observe remotely produced results.
 
 Register a custom backend before building the pipeline:
 

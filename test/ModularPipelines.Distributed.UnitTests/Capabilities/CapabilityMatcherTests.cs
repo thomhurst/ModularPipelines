@@ -12,7 +12,7 @@ public class CapabilityMatcherTests
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
@@ -32,7 +32,7 @@ public class CapabilityMatcherTests
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability> { "docker", "linux" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
@@ -52,7 +52,7 @@ public class CapabilityMatcherTests
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
@@ -72,7 +72,7 @@ public class CapabilityMatcherTests
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability> { "Docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
