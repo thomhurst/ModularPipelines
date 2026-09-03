@@ -12,27 +12,35 @@ using ModularPipelines.Cosign.Options;
 
 namespace ModularPipelines.Cosign.Options;
 
+/// <summary>
+/// Provides utilities for downloading artifacts and attached artifacts in a registry
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-[CliSubCommand("pkcs11-tool", "list-tokens")]
-public record CosignPkcs11ToolListTokensOptions : CosignOptions
+[CliSubCommand("download")]
+public record CosignDownloadOptions : CosignOptions
 {
+    /// <summary>
+    /// help for download
+    /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [CliOption("--module-path", Format = OptionFormat.EqualsSeparated)]
-    public string? ModulePath { get; set; }
-
-    [CliFlag("--no-input", ShortForm = "-f")]
-    public bool? NoInput { get; set; }
-
+    /// <summary>
+    /// log output to a file
+    /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
 
+    /// <summary>
+    /// timeout for commands (default 3m0s)
+    /// </summary>
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
 
+    /// <summary>
+    /// log debug output
+    /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
 
