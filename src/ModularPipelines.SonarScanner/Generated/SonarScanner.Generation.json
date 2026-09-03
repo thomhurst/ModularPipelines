@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "sonar-scanner",
+  "toolVersion": "SonarScanner CLI 8.0.1.6346",
+  "commandTreeSha256": "944baa3accf9323dfebdf2c80745c343a30dd6bbb1b9ea867489959c12c680be",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}
