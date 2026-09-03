@@ -256,17 +256,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
-            if (CommandsSectionPattern().IsMatch(trimmed) ||
-                FlagsSectionPattern().IsMatch(trimmed) ||
-                trimmed.Equals("Options:", StringComparison.OrdinalIgnoreCase) ||
-                trimmed.Equals("Examples:", StringComparison.OrdinalIgnoreCase))
+            if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
             {
                 return null;
             }
 
             // Skip section headers
             if (trimmed.EndsWith(':') ||
-                trimmed.StartsWith("Usage:"))
+                trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -997,6 +994,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
         @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Za-z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS):?[ \t]*$",
         RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
+
+    /// <summary>
+    /// Matches command, flag, option, and example section headers that terminate a Cobra description.
+    /// Supports grouped headers such as "Basic Commands (Beginner):" and qualified headers such as
+    /// "Examples: (see below)" without matching ordinary prose that merely ends in "Commands".
+    /// </summary>
+    [GeneratedRegex(
+        @"^(?:(?:Commands|Flags|Options|Examples)[ \t]*:.*|(?:[A-Za-z][\w /-]*[ \t]+)?(?:Commands|Flags|Options|Examples)(?:[ \t]*\([^)]*\))?[ \t]*:|(?:Commands|Flags|Options|Examples))[ \t]*$",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex DescriptionSectionHeaderPattern();
 
     /// <summary>
     /// Matches section headers like "Flags:", "Usage:", etc.

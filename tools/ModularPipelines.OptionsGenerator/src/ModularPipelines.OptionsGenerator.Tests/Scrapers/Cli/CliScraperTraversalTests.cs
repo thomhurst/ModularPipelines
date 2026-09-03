@@ -33,6 +33,59 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task CobraParentheticalCommandSectionDoesNotUseChildDescription()
+    {
+        const string helpText = """
+            Usage:
+              kubectl root [command]
+
+            Basic Commands (Beginner):
+              create  Create a resource from a file or stdin
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["kubectl", "root"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraQualifiedExamplesHeaderIsNotUsedAsDescription()
+    {
+        const string helpText = """
+            Usage:
+              fake parent [flags]
+
+            Examples: (see below)
+              fake parent --all
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraDescriptionEndingInCommandsIsPreserved()
+    {
+        const string helpText = """
+            Manage build Commands
+
+            Usage:
+              fake build [flags]
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "build"],
+            helpText);
+
+        await Assert.That(command!.Description).IsEqualTo("Manage build Commands");
+    }
+
+    [Test]
     public async Task CobraDescriptionAfterMetadataHeaderIsPreserved()
     {
         const string helpText = """
