@@ -68,6 +68,47 @@ public class DockerCliScraperTests
     }
 
     [Test]
+    public async Task SwarmInit_Recognizes_ExternalCa_As_Repeatable()
+    {
+        const string helpText = """
+            Initialize a swarm
+
+            Usage: docker swarm init [OPTIONS]
+
+            Options:
+              --external-ca external-ca   Specifications of one or more certificate signing endpoints
+            """;
+        var command = await new TestDockerCliScraper().Parse(
+            ["docker", "swarm", "init"],
+            helpText);
+
+        var option = command!.Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    public async Task Short_Command_Description_Is_Preserved()
+    {
+        const string helpText = """
+            Usage: docker buildx du
+
+            Disk usage
+
+            Options:
+              --verbose   Show more details
+            """;
+        var command = await new TestDockerCliScraper().Parse(
+            ["docker", "buildx", "du"],
+            helpText);
+
+        await Assert.That(command!.Description).IsEqualTo("Disk usage");
+    }
+
+    [Test]
     public async Task Switch_Normalization_Rejects_Distinct_Options_With_One_Canonical_Name()
     {
         const string helpText = """

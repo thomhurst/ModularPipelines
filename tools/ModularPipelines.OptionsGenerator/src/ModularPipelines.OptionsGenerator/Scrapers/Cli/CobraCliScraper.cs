@@ -278,10 +278,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             }
 
             // Found a description line
-            if (trimmed.Length > 10)
-            {
-                return trimmed;
-            }
+            return trimmed;
         }
 
         return null;
