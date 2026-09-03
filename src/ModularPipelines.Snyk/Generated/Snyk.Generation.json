@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "snyk",
+  "toolVersion": "1.1306.1",
+  "commandTreeSha256": "32de8a747296e31736bf613027b19e2b477465ca0d4198f0a4631966ff7f20ac",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}
