@@ -48,8 +48,8 @@ public class DistributedPipelineWriterTests : TestBase
             + "- instance: 2|os: windows-latest|"
             + "- instance: 3|os: macos-latest|"
             + "- instance: 4|os: ubuntu-latest");
-        await Assert.That(yaml).Contains("INSTANCE_INDEX: ${{ matrix.instance }}");
-        await Assert.That(yaml).Contains("TOTAL_INSTANCES: 5");
+        await Assert.That(yaml).Contains("MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}");
+        await Assert.That(yaml).Contains("MODULARPIPELINES_TOTAL_INSTANCES: 5");
         await Assert.That(yaml).Contains("REDIS_URL: ${{ secrets.REDIS_URL }}");
         await Assert.That(yaml).Contains("needs: initialize");
         await Assert.That(yaml).Contains(
@@ -57,7 +57,7 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains(
             "run: echo \"value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" >> \"$GITHUB_OUTPUT\"");
         await Assert.That(yaml).Contains(
-            "RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}");
+            "MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}");
         await Assert.That(yaml).Contains("name: Validate retry scope");
         await Assert.That(yaml).Contains(
             "if [ \"${{ needs.initialize.outputs.run-identifier }}\" != \"${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" ]; then");

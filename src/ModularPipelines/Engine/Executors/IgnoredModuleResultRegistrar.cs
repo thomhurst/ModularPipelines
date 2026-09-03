@@ -514,7 +514,6 @@ internal class IgnoredModuleResultRegistrar(
     {
         var options = _distributedOptions.Value;
         return options.Enabled
-               && options.TotalInstances > 1
                && _roleDetector.DetectRole() == DistributedRole.Worker;
     }
 

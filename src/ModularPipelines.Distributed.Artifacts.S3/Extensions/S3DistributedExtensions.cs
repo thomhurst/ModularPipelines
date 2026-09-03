@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
@@ -14,6 +16,8 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Extensions;
 /// </summary>
 public static class S3DistributedExtensions
 {
+    private const string ModuleCacheOptionsName = "ModularPipelines.S3ModuleCache";
+
     /// <summary>
     /// Enables a shareable S3-backed module cache without enabling distributed execution.
     /// </summary>
@@ -26,12 +30,22 @@ public static class S3DistributedExtensions
         Action<S3ArtifactOptions> configureS3,
         Action<ModuleCacheOptions>? configureCache = null)
     {
-        var options = new S3ArtifactOptions();
-        configureS3(options);
-        builder.Services.AddSingleton(serviceProvider => new S3ModuleCache(
-            options,
-            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
-        return builder.AddModuleCache<S3ModuleCache>(configureCache);
+        builder.Services.Configure(ModuleCacheOptionsName, configureS3);
+        return AddS3ModuleCacheServices(builder, configureCache);
+    }
+
+    /// <summary>
+    /// Enables a shareable S3-backed module cache from configuration without enabling distributed execution.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of S3ArtifactOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddS3ModuleCache(
+        this PipelineBuilder builder,
+        IConfigurationSection section,
+        Action<ModuleCacheOptions>? configureCache = null)
+    {
+        builder.Services.Configure<S3ArtifactOptions>(ModuleCacheOptionsName, section);
+        return AddS3ModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -43,10 +57,20 @@ public static class S3DistributedExtensions
         this PipelineBuilder builder,
         Action<S3ArtifactOptions> configure)
     {
-        var s3Options = new S3ArtifactOptions();
-        configure(s3Options);
+        builder.Services.Configure(configure);
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+    }
 
-        builder.Services.AddSingleton(s3Options);
+    /// <summary>
+    /// Registers the S3-compatible distributed artifact store factory from configuration.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of S3ArtifactOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddS3DistributedArtifactStore(
+        this PipelineBuilder builder,
+        IConfigurationSection section)
+    {
+        builder.Services.Configure<S3ArtifactOptions>(section);
         return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 
@@ -58,11 +82,34 @@ public static class S3DistributedExtensions
         Action<S3ArtifactOptions> configureS3,
         Action<ArtifactOptions> configureArtifacts)
     {
-        var s3Options = new S3ArtifactOptions();
-        configureS3(s3Options);
-
-        builder.Services.AddSingleton(s3Options);
+        builder.Services.Configure(configureS3);
         builder.Services.Configure(configureArtifacts);
         return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+    }
+
+    /// <summary>
+    /// Registers the S3-compatible distributed artifact store factory from configuration with custom artifact options.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of S3ArtifactOptions and ArtifactOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddS3DistributedArtifactStore(
+        this PipelineBuilder builder,
+        IConfigurationSection s3Section,
+        IConfigurationSection artifactSection)
+    {
+        builder.Services.Configure<S3ArtifactOptions>(s3Section);
+        builder.Services.Configure<ArtifactOptions>(artifactSection);
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+    }
+
+    private static PipelineBuilder AddS3ModuleCacheServices(
+        PipelineBuilder builder,
+        Action<ModuleCacheOptions>? configureCache)
+    {
+        builder.Services.AddSingleton(serviceProvider => new S3ModuleCache(
+            serviceProvider.GetRequiredService<IOptionsMonitor<S3ArtifactOptions>>()
+                .Get(ModuleCacheOptionsName),
+            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
+        return builder.AddModuleCache<S3ModuleCache>(configureCache);
     }
 }
