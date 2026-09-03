@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines;
 using ModularPipelines.Distributed.Artifacts;
@@ -48,6 +49,17 @@ public class DistributedModuleExecutorTests
         protected internal override Task<SimpleResult> ExecuteAsync(
             ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
+    }
+
+    private class CachedDistributedModule : Module<SimpleResult>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.WithCacheKeyPart("stable-input");
+
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("A master cache hit must skip execution.");
     }
 
     private class ShortTimeoutDistributedModule : Module<SimpleResult>
@@ -296,7 +308,10 @@ public class DistributedModuleExecutorTests
         CancellationToken applicationStopping = default,
         IInternalModuleLogger? moduleLogger = null,
         ILogger<DistributedModuleExecutor>? executorLogger = null,
-        IModuleConditionHandler? conditionHandler = null)
+        IModuleConditionHandler? conditionHandler = null,
+        IModuleCacheResultRepository? cacheResultRepository = null,
+        DistributedCacheHitTracker? cacheHitTracker = null,
+        PipelineOptions? pipelineOptions = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -339,7 +354,10 @@ public class DistributedModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
             NewModuleLoggerScopeFactory(moduleLogger),
             artifactManager,
-            executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance);
+            executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance,
+            cacheResultRepository,
+            Microsoft.Extensions.Options.Options.Create(pipelineOptions ?? new PipelineOptions()),
+            cacheHitTracker);
     }
 
     private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
@@ -349,7 +367,62 @@ public class DistributedModuleExecutorTests
         loggerProvider.Setup(provider => provider.GetLogger(It.IsAny<Type>())).Returns(moduleLogger);
         var services = new ServiceCollection();
         services.AddScoped(_ => loggerProvider.Object);
+        services.AddScoped(_ => Mock.Of<IPipelineContext>());
         return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+    }
+
+    [Test]
+    public async Task Master_Cache_Hit_Completes_Module_Without_Dispatch()
+    {
+        var module = new CachedDistributedModule();
+        var moduleState = new ModuleState(module, typeof(CachedDistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleAssignment?) null);
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var cachedResult = CreateSuccessResult(
+            new SimpleResult { Message = "cached" },
+            nameof(CachedDistributedModule));
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(c => c.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cachedResult);
+        var resultRegistry = new ModuleResultRegistry();
+        var cacheHitTracker = new DistributedCacheHitTracker();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            cacheResultRepository: cache.Object,
+            cacheHitTracker: cacheHitTracker);
+
+        await executor.ExecuteAsync([module]);
+
+        var result = await ((IInternalModule) module).ResultTask;
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+        await Assert.That(result.ValueOrDefault).IsSameReferenceAs(cachedResult.ValueOrDefault);
+        await Assert.That(moduleState.Result).IsSameReferenceAs(result);
+        await Assert.That(resultRegistry.GetResult(typeof(CachedDistributedModule)))
+            .IsSameReferenceAs(result);
+        await Assert.That(cacheHitTracker.Contains(typeof(CachedDistributedModule))).IsTrue();
+        coordinator.Verify(c => c.EnqueueModuleAsync(
+            It.IsAny<ModuleAssignment>(),
+            It.IsAny<CancellationToken>()), Times.Never());
+        coordinator.Verify(c => c.WaitForResultAsync(
+            It.IsAny<string>(),
+            It.IsAny<CancellationToken>()), Times.Never());
+        scheduler.Verify(c => c.MarkModuleStarted(typeof(CachedDistributedModule)), Times.Never());
+        scheduler.Verify(c => c.MarkModuleCompleted(
+            typeof(CachedDistributedModule),
+            true,
+            null,
+            ModuleStatus.RestoredFromCache), Times.Once());
     }
 
     // =================================================================
