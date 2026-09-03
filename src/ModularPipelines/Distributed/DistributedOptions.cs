@@ -2,7 +2,13 @@ namespace ModularPipelines.Distributed;
 
 public class DistributedOptions
 {
-    public bool Enabled { get; set; }
+    internal bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets this instance's distributed role. <see cref="DistributedRole.Auto"/> derives
+    /// the role from <see cref="InstanceIndex"/>.
+    /// </summary>
+    public DistributedRole Role { get; set; } = DistributedRole.Auto;
 
     public int InstanceIndex { get; set; }
 

@@ -21,6 +21,12 @@ internal static class RunIdentifierResolver
             return configured;
         }
 
+        var standardRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        if (!string.IsNullOrWhiteSpace(standardRunId))
+        {
+            return standardRunId;
+        }
+
         foreach (var environmentVariable in CiEnvironmentVariables)
         {
             var value = Environment.GetEnvironmentVariable(environmentVariable);

@@ -111,9 +111,11 @@ internal class DistributedModuleExecutor(
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
-            cts.Token.Register(() => CompleteCancelledModules(scheduler, _resultRegistrar, cts.Token));
+            var executionToken = cts.Token;
+            using var cancellationRegistration = executionToken.Register(
+                () => CompleteCancelledModules(scheduler, _resultRegistrar, executionToken));
 
-            var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
+            var schedulerTask = scheduler.RunSchedulerAsync(executionToken);
 
             // Start the master worker loop — the master participates as a worker,
             // dequeuing and executing modules from the same queue as external workers.
@@ -121,7 +123,7 @@ internal class DistributedModuleExecutor(
                 modules,
                 moduleLookup,
                 masterCapabilities,
-                cts.Token,
+                executionToken,
                 masterWorkerCts.Token);
 
             var resultTasks = await PublishReadyModulesAsync(
@@ -657,7 +659,7 @@ internal class DistributedModuleExecutor(
         try
         {
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-            await _publisher.PublishAsync(assignment, lifecycleToken);
+            await _publisher.PublishAsync(assignment, lifecycleToken).ConfigureAwait(false);
             await EnsureAssignmentHasExecutionRouteAsync(
                     assignment,
                     masterCapabilities,
@@ -670,7 +672,7 @@ internal class DistributedModuleExecutor(
                 scheduler,
                 cts,
                 requestFailureCancellation,
-                lifecycleToken);
+                lifecycleToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (
             timeoutCts?.IsCancellationRequested == true
@@ -686,7 +688,7 @@ internal class DistributedModuleExecutor(
                 ModuleStatus.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
             requestFailureCancellation();
-            await cts.CancelAsync();
+            await cts.CancelAsync().ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
         {
@@ -699,7 +701,7 @@ internal class DistributedModuleExecutor(
             RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
-            await cts.CancelAsync();
+            await cts.CancelAsync().ConfigureAwait(false);
         }
     }
 
