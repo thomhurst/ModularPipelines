@@ -35,7 +35,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private readonly ModuleLookup _moduleLookup;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly ConcurrentDictionary<IModule, string> _fingerprints =
+    private readonly ConcurrentDictionary<IModule, ComputedFingerprint> _fingerprints =
         new(ReferenceEqualityComparer.Instance);
 
     public ModuleCacheResultRepository(
@@ -102,13 +102,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 return;
             }
 
-            if (!_fingerprints.TryGetValue(module, out var fingerprint))
+            if (!_fingerprints.TryGetValue(module, out var computedFingerprint))
             {
                 _logger.LogDebug(
                     "Skipping module cache save for {Module} because no pre-execution fingerprint was captured",
                     module.GetType().Name);
                 return;
             }
+
+            var fingerprint = computedFingerprint.Value;
 
             var serializedResult = Path.GetTempFileName();
             try
@@ -186,10 +188,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             return null;
         }
 
-        var computedFingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
-            .ConfigureAwait(false);
+        if (!_fingerprints.TryGetValue(module, out var computedFingerprint))
+        {
+            computedFingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
+                .ConfigureAwait(false);
+            _fingerprints[module] = computedFingerprint;
+        }
+
         var fingerprint = computedFingerprint.Value;
-        _fingerprints[module] = fingerprint;
         await using var cachedStream = await _store.OpenReadAsync(fingerprint, cancellationToken)
             .ConfigureAwait(false);
         if (cachedStream is null)
