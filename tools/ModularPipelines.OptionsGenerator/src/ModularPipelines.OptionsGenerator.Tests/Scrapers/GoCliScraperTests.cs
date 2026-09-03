@@ -323,6 +323,32 @@ public class GoCliScraperTests
     }
 
     [Test]
+    public async Task Treats_Equivalent_Tab_Indentation_As_An_Option_Boundary()
+    {
+        var helpText = string.Join('\n',
+        [
+            "usage: go doc [doc flags]",
+            string.Empty,
+            "\t-ex",
+            "\t\tInclude executable examples.",
+            "  \t-http",
+            "\t\tServe HTML docs over HTTP.",
+            "\t-short",
+            "\t\tShow one-line representations.",
+        ]);
+        var command = await CreateScraper(new Dictionary<string, string>())
+            .Parse(["go", "doc"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["-ex", "-http", "-short"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-ex").Description)
+                .DoesNotContain("-http");
+        }
+    }
+
+    [Test]
     public async Task Parses_Tool_Shared_Build_Flag_Declaration()
     {
         const string helpText = """

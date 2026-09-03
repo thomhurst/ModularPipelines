@@ -985,7 +985,7 @@ public partial class GoCliScraper : CliScraperBase
     private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
     {
         var descriptionParts = new List<string>();
-        var declarationIndentation = lines[currentIndex].Length - lines[currentIndex].TrimStart().Length;
+        var declarationIndentation = GetIndentationWidth(lines[currentIndex]);
         if (!string.IsNullOrEmpty(description))
         {
             descriptionParts.Add(description);
@@ -1007,7 +1007,7 @@ public partial class GoCliScraper : CliScraperBase
                 break;
             }
 
-            var continuationIndentation = nextLine.Length - nextLine.TrimStart().Length;
+            var continuationIndentation = GetIndentationWidth(nextLine);
             if (GoOptionLinePattern().IsMatch(nextLine)
                 && continuationIndentation <= declarationIndentation)
             {
@@ -1025,6 +1025,28 @@ public partial class GoCliScraper : CliScraperBase
 
         description = string.Join(" ", descriptionParts);
         return nextIndex - 1;
+    }
+
+    private static int GetIndentationWidth(string line)
+    {
+        var width = 0;
+        foreach (var character in line)
+        {
+            if (character == ' ')
+            {
+                width++;
+            }
+            else if (character == '\t')
+            {
+                width += 8 - (width % 8);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return width;
     }
 
     /// <summary>
