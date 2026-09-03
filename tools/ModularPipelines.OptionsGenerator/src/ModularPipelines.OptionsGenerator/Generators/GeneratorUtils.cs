@@ -931,7 +931,8 @@ public static partial class GeneratorUtils
     }
 
     private static bool IsSecretIdentifier(string propertyName) =>
-        IdentifierPropertySuffixes.Any(suffix =>
+        !propertyName.EndsWith("AccessKeyId", StringComparison.OrdinalIgnoreCase)
+        && IdentifierPropertySuffixes.Any(suffix =>
             propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase));
 
     private static bool DescriptionIdentifiesSecretValue(string? description) =>

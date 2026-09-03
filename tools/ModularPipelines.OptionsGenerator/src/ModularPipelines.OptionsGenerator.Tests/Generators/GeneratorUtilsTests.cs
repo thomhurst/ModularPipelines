@@ -743,6 +743,8 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("AccessKey")]
     [Arguments("AwsAccessKey")]
+    [Arguments("AccessKeyId")]
+    [Arguments("AwsAccessKeyId")]
     public async Task IsSecretOption_Returns_True_For_AccessKey_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
