@@ -10,9 +10,40 @@ namespace ModularPipelines.Distributed.Extensions;
 /// </summary>
 public static class DistributedPipelineBuilderExtensions
 {
+    private const string InstanceIndexEnvironmentVariable = "MODULARPIPELINES_INSTANCE_INDEX";
+    private const string TotalInstancesEnvironmentVariable = "MODULARPIPELINES_TOTAL_INSTANCES";
+    private const string RunIdEnvironmentVariable = "MODULARPIPELINES_RUN_ID";
+    private const string RoleEnvironmentVariable = "MODULARPIPELINES_ROLE";
+
     /// <summary>
-    /// Enables distributed execution mode. When <see cref="DistributedOptions.TotalInstances"/> is greater than 1,
-    /// the pipeline switches to master/worker mode. Otherwise, execution remains in-process.
+    /// Enables distributed execution mode and reads settings from the standard
+    /// <c>MODULARPIPELINES_*</c> environment variables.
+    /// </summary>
+    /// <returns>The pipeline builder.</returns>
+    [RequiresUnreferencedCode(
+        "Distributed type-erased result serialization is unsupported in trimmed applications.")]
+    [RequiresDynamicCode(
+        "Distributed type-erased result serialization is unsupported in Native AOT.")]
+    public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder)
+    {
+        return builder.AddDistributedMode(options =>
+        {
+            options.InstanceIndex = GetEnvironmentInt32(
+                InstanceIndexEnvironmentVariable,
+                options.InstanceIndex,
+                minimum: 0);
+            options.TotalInstances = GetEnvironmentInt32(
+                TotalInstancesEnvironmentVariable,
+                options.TotalInstances,
+                minimum: 1);
+            options.RunIdentifier = Environment.GetEnvironmentVariable(RunIdEnvironmentVariable)
+                                    ?? options.RunIdentifier;
+            options.Role = GetEnvironmentRole(options.Role);
+        });
+    }
+
+    /// <summary>
+    /// Enables distributed execution mode.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
     [RequiresUnreferencedCode(
@@ -21,6 +52,7 @@ public static class DistributedPipelineBuilderExtensions
         "Distributed type-erased result serialization is unsupported in Native AOT.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
+        builder.Services.TryAddSingleton<DistributedModeRegistration>();
         builder.Services.Configure<DistributedOptions>(o =>
         {
             configure(o);
@@ -38,11 +70,46 @@ public static class DistributedPipelineBuilderExtensions
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, IConfigurationSection section)
     {
+        builder.Services.TryAddSingleton<DistributedModeRegistration>();
         builder.Services.Configure<DistributedOptions>(section);
 
         // Also ensure Enabled is set
         builder.Services.PostConfigure<DistributedOptions>(o => o.Enabled = true);
         return builder;
+    }
+
+    private static int GetEnvironmentInt32(string name, int defaultValue, int minimum)
+    {
+        var value = Environment.GetEnvironmentVariable(name);
+        if (value is null)
+        {
+            return defaultValue;
+        }
+
+        if (!int.TryParse(value, out var parsed) || parsed < minimum)
+        {
+            throw new InvalidOperationException(
+                $"Environment variable {name} must be an integer greater than or equal to {minimum}.");
+        }
+
+        return parsed;
+    }
+
+    private static DistributedRole GetEnvironmentRole(DistributedRole defaultValue)
+    {
+        var value = Environment.GetEnvironmentVariable(RoleEnvironmentVariable);
+        if (value is null)
+        {
+            return defaultValue;
+        }
+
+        if (!Enum.TryParse<DistributedRole>(value, ignoreCase: true, out var role))
+        {
+            throw new InvalidOperationException(
+                $"Environment variable {RoleEnvironmentVariable} must be Auto, Master, or Worker.");
+        }
+
+        return role;
     }
 
     /// <summary>
@@ -103,4 +170,8 @@ public static class DistributedPipelineBuilderExtensions
         builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
         return builder;
     }
+}
+
+internal sealed class DistributedModeRegistration
+{
 }

@@ -1,3 +1,4 @@
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -8,13 +9,13 @@ internal interface IPipelineSetupExecutor
 
     Task OnPipelineEndAsync(PipelineSummary pipelineSummary);
 
-    Task OnModuleReadyAsync(ModuleState moduleState);
+    Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter);
 
-    Task OnModuleStartAsync(ModuleState moduleState);
+    Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter);
 
-    Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result);
+    Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result, IConsoleWriter consoleWriter);
 
-    Task OnModuleFailureAsync(ModuleState moduleState, Exception exception);
+    Task OnModuleFailureAsync(ModuleState moduleState, Exception exception, IConsoleWriter consoleWriter);
 
-    Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason);
+    Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason, IConsoleWriter consoleWriter);
 }

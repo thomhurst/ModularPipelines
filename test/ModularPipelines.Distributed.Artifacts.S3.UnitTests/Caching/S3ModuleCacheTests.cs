@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
@@ -135,11 +136,8 @@ public class S3ModuleCacheTests
             options.KeyPrefix = "cache";
         });
 
-        var artifactOptions = builder.Services
-            .Where(descriptor => descriptor.ServiceType == typeof(S3ArtifactOptions))
-            .Select(descriptor => descriptor.ImplementationInstance)
-            .OfType<S3ArtifactOptions>()
-            .Single();
+        using var serviceProvider = builder.Services.BuildServiceProvider();
+        var artifactOptions = serviceProvider.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -148,6 +146,29 @@ public class S3ModuleCacheTests
             await Assert.That(builder.Services.Count(descriptor =>
                     descriptor.ServiceType == typeof(S3ModuleCache)))
                 .IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsS3Options()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["S3:BucketName"] = "configured-bucket",
+                ["S3:KeyPrefix"] = "configured-prefix",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddS3DistributedArtifactStore(configuration.GetSection("S3"));
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.BucketName).IsEqualTo("configured-bucket");
+            await Assert.That(options.KeyPrefix).IsEqualTo("configured-prefix");
         }
     }
 

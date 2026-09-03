@@ -4,7 +4,7 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Configuration;
 
 /// <summary>
 /// Resolves the run identifier for artifact key isolation.
-/// Priority: explicit config > GITHUB_SHA > BUILD_SOURCEVERSION > CI_COMMIT_SHA > git rev-parse HEAD > GUID fallback.
+/// Priority: explicit config > standard run ID > CI commit ID > git rev-parse HEAD > GUID fallback.
 /// </summary>
 internal static class RunIdentifierResolver
 {
@@ -20,6 +20,12 @@ internal static class RunIdentifierResolver
         if (!string.IsNullOrWhiteSpace(explicitValue))
         {
             return explicitValue;
+        }
+
+        var standardRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+        if (!string.IsNullOrWhiteSpace(standardRunId))
+        {
+            return standardRunId;
         }
 
         foreach (var envVar in CiEnvironmentVariables)
