@@ -38,13 +38,7 @@ public interface IKindExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    #pragma warning disable CS0618
-    public Task<CommandResult> KubeConfigAsync(KindExportKubeconfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => KubeconfigAsync(options, executionOptions, cancellationToken);
-    #pragma warning restore CS0618
-
-    [Obsolete("Use KubeConfigAsync instead.")]
-    public Task<CommandResult> KubeconfigAsync(KindExportKubeconfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> KubeConfigAsync(KindExportKubeConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
