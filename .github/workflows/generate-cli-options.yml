@@ -58,6 +58,13 @@ jobs:
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
+      - name: Test public API baseline synchronization
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiSnapshotFromSarif.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-WriteRemovedPublicApiSnapshotFromSarif.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-SyncPublicApiBaselines.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -649,6 +656,24 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
+      - name: Synchronize generated public API baselines
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
+            @('/m:1', '-p:UseSharedCompilation=false')
+          } else {
+            @()
+          }
+          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
+            -PackageDirectory $packageDirectory `
+            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -TemporaryDirectory $env:RUNNER_TEMP `
+            -ExtraBuildArguments $buildArguments
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -658,6 +683,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -685,6 +714,8 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: |
           BUILD_ARGS=()
           # Gcloud generates enough source for parallel MSBuild nodes to exhaust the hosted runner.
@@ -702,6 +733,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
@@ -971,6 +1006,18 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
+      - name: Synchronize generated public API baselines
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
+            -PackageDirectory $packageDirectory `
+            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -TemporaryDirectory $env:RUNNER_TEMP
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -980,6 +1027,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -997,6 +1048,8 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        env:
+          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: >-
           dotnet build
           "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
@@ -1010,6 +1063,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
