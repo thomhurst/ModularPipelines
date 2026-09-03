@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Execution;
@@ -41,7 +42,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             readyTime,
             result: null,
             context.PipelineContext,
-            _metadataRegistry);
+            _metadataRegistry,
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
@@ -61,7 +63,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.StartTime,
             result: null,
             context.PipelineContext,
-            _metadataRegistry);
+            _metadataRegistry,
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
@@ -81,7 +84,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.StartTime,
             result,
             context.PipelineContext,
-            _metadataRegistry);
+            _metadataRegistry,
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
     }
@@ -104,7 +108,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.StartTime,
             result,
             context.PipelineContext,
-            _metadataRegistry);
+            _metadataRegistry,
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
     }
@@ -124,7 +129,8 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             context.StartTime,
             result: null,
             context.PipelineContext,
-            _metadataRegistry);
+            _metadataRegistry,
+            context.ConsoleWriter);
 
         await _eventHandlerInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
     }

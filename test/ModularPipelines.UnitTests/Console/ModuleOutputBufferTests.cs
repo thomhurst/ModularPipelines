@@ -9,13 +9,66 @@ using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Enums;
+using ModularPipelines.Logging;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Moq;
+using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.UnitTests.Console;
 
 public class ModuleOutputBufferTests
 {
+    [Test]
+    public async Task DirectConsole_UsesConfiguredRenderableDimensions()
+    {
+        using var profileWriter = new StringWriter();
+        var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        configuredConsole.Profile.Width = 24;
+        configuredConsole.Profile.Height = 12;
+        using var outputWriter = new StringWriter();
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableConsole: configuredConsole);
+
+        var directConsole = buffer.GetDirectConsole(outputWriter);
+
+        await Assert.That(directConsole.Profile.Width).IsEqualTo(24);
+        await Assert.That(directConsole.Profile.Height).IsEqualTo(12);
+    }
+
+    [Test]
+    public async Task DirectConsole_RefreshesConfiguredRenderableDimensions()
+    {
+        using var profileWriter = new StringWriter();
+        var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        configuredConsole.Profile.Width = 24;
+        configuredConsole.Profile.Height = 12;
+        using var outputWriter = new StringWriter();
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableConsole: configuredConsole);
+
+        var directConsole = buffer.GetDirectConsole(outputWriter);
+        configuredConsole.Profile.Width = 48;
+        configuredConsole.Profile.Height = 20;
+        var refreshedConsole = buffer.GetDirectConsole(outputWriter);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(refreshedConsole).IsSameReferenceAs(directConsole);
+            await Assert.That(refreshedConsole.Profile.Width).IsEqualTo(48);
+            await Assert.That(refreshedConsole.Profile.Height).IsEqualTo(20);
+        }
+    }
+
     [Test]
     public async Task OutputExcerptSurvivesConsoleFlush()
     {
@@ -44,6 +97,606 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("ordinary output");
 
         await Assert.That(buffer.GetOutputExcerpt()).IsNull();
+    }
+
+    [Test]
+    public async Task Flush_RemasksRenderableWithSecretsRegisteredAfterBuffering()
+    {
+        const string secret = "late-registered-secret";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        buffer.WriteRenderable(new Text(secret), secret, appendNewLine: false);
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("**********");
+        await Assert.That(writer.ToString()).DoesNotContain(secret);
+    }
+
+    [Test]
+    public async Task Flush_MasksSecretSplitAcrossRenderableAndString()
+    {
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.WriteRenderable(new Text("to"), "to", appendNewLine: false);
+        buffer.WriteLine("ken");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task Flush_MasksSecretSplitAcrossLineTerminators()
+    {
+        var secret = $"to{Environment.NewLine}ken";
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer(secret);
+        buffer.WriteLine("to");
+        buffer.WriteLine("ken");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Flush_PreservesPreObfuscatedPrefixWhileMaskingMixedBoundarySecret()
+    {
+        const string secret = "secret";
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(0);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(0, [secret]));
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(obfuscator => obfuscator.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => (input ?? string.Empty)
+                .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                .Replace(secret, "masked", StringComparison.Ordinal));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider.Object);
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(buffer);
+        using var coordinatedWriter = new CoordinatedTextWriter(
+            coordinator.Object,
+            writer,
+            () => true,
+            secretObfuscator.Object,
+            secretProvider.Object);
+        coordinatedWriter.Write("secret se");
+        coordinatedWriter.Flush();
+        buffer.WriteRenderable(new Text("cret"), "cret", appendNewLine: true);
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Flush_ModuleLoggerWriteLineAppliesCustomObfuscatorOnce()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => input switch
+            {
+                "secret" => "masked",
+                "masked" => "masked-twice",
+                _ => input ?? string.Empty,
+            });
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: Mock.Of<ISecretProvider>());
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.WriteLine("secret");
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+        }
+    }
+
+    [Test]
+    public async Task Flush_RemasksLateInterceptedSecretWithoutReobfuscatingSafeText()
+    {
+        const string secret = "secret";
+        var redactSecret = false;
+        var secretProvider = new TrackingSecretProvider();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => redactSecret
+                ? (input ?? string.Empty)
+                    .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                    .Replace(secret, "masked", StringComparison.Ordinal)
+                : input ?? string.Empty);
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider);
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(buffer);
+        using var coordinatedWriter = new CoordinatedTextWriter(
+            coordinator.Object,
+            writer,
+            () => true,
+            secretObfuscator.Object,
+            secretProvider);
+        coordinatedWriter.Write("masked secret");
+        coordinatedWriter.Flush();
+
+        secretProvider.RegisteredSecrets = [secret];
+        redactSecret = true;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("masked masked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Flush_AdjacentRichWritesApplyCustomObfuscatorOnce()
+    {
+        const string secret = "secret";
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? input, object? _) => (input ?? string.Empty)
+                .Replace("masked", "masked-twice", StringComparison.Ordinal)
+                .Replace(secret, "masked", StringComparison.Ordinal));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: Mock.Of<ISecretProvider>());
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        logger.Write(new Text(secret));
+        logger.Write(new Text(secret));
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("maskedmasked");
+            await Assert.That(writer.ToString()).DoesNotContain("masked-twice");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task IncrementalFlush_RetainsSecretPrefixUntilRenderableLineCompletes()
+    {
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.WriteRenderable(new Text("to"), "to", appendNewLine: false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteRenderable(new Text("ken"), "ken", appendNewLine: true);
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task IncrementalFlush_RetainsStringPrefixUntilRenderableLineCompletes()
+    {
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer("token");
+        buffer.Write("to");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteRenderable(new Text("ken"), "ken", appendNewLine: true);
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("**********");
+            await Assert.That(writer.ToString()).DoesNotContain("token");
+        }
+    }
+
+    [Test]
+    public async Task IncrementalFlush_RetainsMultilinePrefixAcrossGroupSeparator()
+    {
+        var secret = $"to{Environment.NewLine}{Environment.NewLine}ken";
+        var (buffer, writer, loggerControl, _) = CreateSecretMaskingBuffer(secret);
+        buffer.WriteLine("to");
+
+        await buffer.FlushToAsync(
+            writer,
+            new AppVeyorFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        await Assert.That(writer.ToString()).DoesNotContain("to");
+
+        buffer.WriteLine("ken");
+        await buffer.FlushToAsync(
+            writer,
+            new AppVeyorFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).DoesNotContain(secret);
+    }
+
+    [Test]
+    public async Task Flush_CustomObfuscatorRemasksLateSecretUnderEmissionGuard()
+    {
+        const string secret = "late-custom-secret";
+        var redactSecret = false;
+        var guardedObfuscations = new List<bool>();
+        var secretProvider = new TrackingSecretProvider();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) =>
+            {
+                if (redactSecret)
+                {
+                    guardedObfuscations.Add(secretProvider.IsExecuting);
+                }
+
+                return redactSecret
+                    ? value?.Replace(secret, "***", StringComparison.Ordinal) ?? string.Empty
+                    : value ?? string.Empty;
+            });
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator.Object,
+            renderableSecretProvider: secretProvider);
+        buffer.WriteRenderable(new Text(secret), secret, appendNewLine: false);
+
+        redactSecret = true;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("***");
+            await Assert.That(writer.ToString()).DoesNotContain(secret);
+            await Assert.That(secretProvider.ExecutionCount).IsGreaterThan(0);
+            await Assert.That(guardedObfuscations).IsNotEmpty();
+            await Assert.That(guardedObfuscations.All(static guarded => guarded)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Flush_MasksLateMarkupSecretBeforeNarrowLayout()
+    {
+        const string secret = "alpha-bravo-charlie";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        using var profileWriter = new StringWriter();
+        var narrowConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(profileWriter),
+        });
+        narrowConsole.Profile.Width = 8;
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            outputExcerptMaximumBytes: 1024,
+            outputExcerptSecretObfuscator: secretObfuscator,
+            outputExcerptSecretProvider: secretProvider.Object,
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object,
+            renderableConsole: narrowConsole);
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>(),
+            narrowConsole);
+        logger.WriteMarkupLine($"[green]{secret}[/]");
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        var excerpt = buffer.GetOutputExcerpt();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("********");
+            await Assert.That(output).DoesNotContain("alpha");
+            await Assert.That(excerpt).IsNotNull();
+            await Assert.That(excerpt!.StdoutTail).DoesNotContain("alpha");
+        }
+    }
+
+    [Test]
+    public async Task Flush_MasksLeafSourcesBeforeOverflow()
+    {
+        var secret = string.Concat(Enumerable.Repeat("late-registered-secret-", 8));
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        buffer.WriteRenderable(
+            new SecretObfuscatedRenderable(
+                new Text(secret) { Overflow = Overflow.Ellipsis },
+                secretObfuscator),
+            secret,
+            appendNewLine: true);
+        buffer.WriteRenderable(
+            new SecretObfuscatedRenderable(
+                new Markup($"[green]{secret}[/]") { Overflow = Overflow.Ellipsis },
+                secretObfuscator),
+            secret,
+            appendNewLine: false);
+
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("**********");
+        await Assert.That(output).DoesNotContain(secret[..20]);
+    }
+
+    [Test]
+    public async Task Flush_SnapshotsUnhandledRenderableAtWriteTime()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var renderable = new MutableRenderable("first");
+
+        logger.Write(renderable);
+        renderable.Value = "second";
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("first");
+            await Assert.That(writer.ToString()).DoesNotContain("second");
+            await Assert.That(renderable.RenderCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Flush_RelayoutsCompositeWhenLateSecretMaskExpands()
+    {
+        const string secret = "tiny";
+        long version = 0;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableSecretObfuscator: secretObfuscator,
+            renderableSecretProvider: secretProvider.Object);
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleOutputBufferTests)))
+            .Returns(buffer);
+        var logger = new ModuleLogger<ModuleOutputBufferTests>(
+            Mock.Of<ILogger<ModuleOutputBufferTests>>(),
+            secretObfuscator,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.Write(new Table
+        {
+            Title = new TableTitle(secret),
+            Caption = new TableTitle(secret),
+        }.AddColumn("Value").AddRow(secret));
+        logger.WriteMarkupLine($"[green]{secret}[/]");
+        secrets = [secret];
+        version++;
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("│ ********** │");
+        await Assert.That(output).DoesNotContain(secret);
     }
 
     [Test]
@@ -1403,6 +2056,31 @@ public class ModuleOutputBufferTests
             .IsEqualTo(1);
     }
 
+    private static (
+        ModuleOutputBuffer Buffer,
+        StringWriter Writer,
+        SynchronousLoggerControl LoggerControl,
+        SecretObfuscator SecretObfuscator) CreateSecretMaskingBuffer(string secret)
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(0);
+        secretProvider
+            .Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var writer = new StringWriter();
+        return (
+            new ModuleOutputBuffer(
+                typeof(ModuleOutputBufferTests),
+                renderableSecretObfuscator: secretObfuscator,
+                renderableSecretProvider: secretProvider.Object),
+            writer,
+            new SynchronousLoggerControl(writer),
+            secretObfuscator);
+    }
+
     private static ModuleOutputBuffer CreateBufferWithStructuredLog(
         TimeSpan? renderGateTimeout = null,
         string message = "structured log",
@@ -1434,6 +2112,45 @@ public class ModuleOutputBufferTests
     private sealed class PassthroughSecretObfuscator : ISecretObfuscator
     {
         public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
+    }
+
+    private sealed class TrackingSecretProvider : ISecretProvider, ISecretEmissionGuard
+    {
+        private int _executionDepth;
+
+        public int ExecutionCount { get; private set; }
+
+        public bool IsExecuting => _executionDepth > 0;
+
+        public IReadOnlyList<string> RegisteredSecrets { get; set; } = [];
+
+        public long Version => 0;
+
+        public IEnumerable<string> Secrets => RegisteredSecrets;
+
+        public SecretSnapshot GetSnapshot() => new(0, RegisteredSecrets);
+
+        public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
+        {
+            action();
+            return true;
+        }
+
+        public IEnumerable<string> GetSecretsInObject(object? value) => [];
+
+        public void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
+        {
+            ExecutionCount++;
+            _executionDepth++;
+            try
+            {
+                processOutput(state);
+            }
+            finally
+            {
+                _executionDepth--;
+            }
+        }
     }
 
     private sealed class RedactingSecretObfuscator : ISecretObfuscator
@@ -1538,6 +2255,22 @@ public class ModuleOutputBufferTests
             var message = formatter(state, exception);
             Entries.Add(message);
             writer.WriteLine(message);
+        }
+    }
+
+    private sealed class MutableRenderable(string value) : IRenderable
+    {
+        public string Value { get; set; } = value;
+
+        public int RenderCount { get; private set; }
+
+        public Measurement Measure(RenderOptions options, int maxWidth) =>
+            new(Math.Min(Value.Length, maxWidth), Math.Min(Value.Length, maxWidth));
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
+        {
+            RenderCount++;
+            yield return new Segment(Value);
         }
     }
 

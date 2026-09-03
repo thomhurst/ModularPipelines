@@ -72,7 +72,7 @@ public class SecretObfuscatorCachingTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task DoesNotRescanMaskReplacement(bool caseInsensitive)
+    public async Task UnsafeMaskReplacementUsesSafeFallback(bool caseInsensitive)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.Setup(x => x.GetSnapshot())
@@ -84,7 +84,7 @@ public class SecretObfuscatorCachingTests
 
         var result = obfuscator.Obfuscate(caseInsensitive ? "SECRET" : "secret", null);
 
-        await Assert.That(result).IsEqualTo("***");
+        await Assert.That(result).IsEqualTo("[MASKED]");
     }
 
     [Test]

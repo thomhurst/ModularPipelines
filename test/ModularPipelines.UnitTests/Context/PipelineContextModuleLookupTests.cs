@@ -92,18 +92,30 @@ public class PipelineContextModuleLookupTests
             .IsEquivalentTo([typeof(ConcreteBaseLookupModule), typeof(DerivedConcreteLookupModule)]);
     }
 
+    [Test]
+    public async Task Console_ReturnsInjectedWriterWithoutResolvingPipelineLogger()
+    {
+        var consoleWriter = Mock.Of<IConsoleWriter>();
+        using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
+        var context = CreateContext(CreateModuleLookup([]), engineCancellationToken, consoleWriter);
+
+        await Assert.That(context.Console).IsSameReferenceAs(consoleWriter);
+    }
+
     private static ModuleLookup CreateModuleLookup(IReadOnlyList<IModule> modules) =>
         new(modules);
 
     private static PipelineContext CreateContext(
         ModuleLookup moduleLookup,
-        EngineCancellationToken engineCancellationToken)
+        EngineCancellationToken engineCancellationToken,
+        IConsoleWriter? consoleWriter = null)
     {
         return new PipelineContext(
             moduleLookup,
             Mock.Of<IDependencyCollisionDetector>(),
             Mock.Of<IModuleResultRepository>(),
             Mock.Of<IInternalModuleLoggerAccessor>(),
+            consoleWriter ?? Mock.Of<IConsoleWriter>(),
             engineCancellationToken,
             Mock.Of<IShellContext>(),
             Mock.Of<IFilesContext>(),

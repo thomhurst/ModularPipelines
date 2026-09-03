@@ -35,6 +35,12 @@ public interface IPipelineContext
     ILogger Logger { get; }
 
     /// <summary>
+    /// Gets the module-aware console writer. Output is buffered with the current module
+    /// and secrets are obfuscated before rendering.
+    /// </summary>
+    IConsoleWriter Console { get; }
+
+    /// <summary>
     /// Gets the command execution capabilities.
     /// </summary>
     IShellContext Shell { get; }
