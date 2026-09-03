@@ -20,6 +20,7 @@ builder.AddDistributedMode(o =>
     o.Capabilities = [Capability.Docker, Capability.Gpu];
     o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
+    o.MinimumWorkerCount = 0;
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
 });
@@ -33,7 +34,8 @@ builder.AddDistributedMode(o =>
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
 | `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. |
-| `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for worker registration before distributing work among the available workers. |
+| `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
+| `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |
 
@@ -48,7 +50,8 @@ You can also bind from configuration:
     "TotalInstances": 4,
     "RunId": "unique-invocation-id",
     "Capabilities": ["docker"],
-    "CapabilityTimeout": "00:05:00"
+    "CapabilityTimeout": "00:05:00",
+    "MinimumWorkerCount": 0
   }
 }
 ```
