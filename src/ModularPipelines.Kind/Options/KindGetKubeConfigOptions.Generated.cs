@@ -18,7 +18,7 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "kubeconfig")]
-public record KindGetKubeconfigOptions : KindOptions
+public record KindGetKubeConfigOptions : KindOptions
 {
     /// <summary>
     /// help for kubeconfig

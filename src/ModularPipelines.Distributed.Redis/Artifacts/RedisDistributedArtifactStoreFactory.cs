@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Coordination;
 using StackExchange.Redis;
@@ -15,12 +16,12 @@ internal sealed class RedisDistributedArtifactStoreFactory : IDistributedArtifac
     private readonly IConnectionMultiplexer _connection;
 
     public RedisDistributedArtifactStoreFactory(
-        RedisDistributedOptions redisOptions,
-        ArtifactOptions artifactOptions,
+        IOptions<RedisDistributedOptions> redisOptions,
+        IOptions<ArtifactOptions> artifactOptions,
         IConnectionMultiplexer connection)
     {
-        _redisOptions = redisOptions;
-        _artifactOptions = artifactOptions;
+        _redisOptions = redisOptions.Value;
+        _artifactOptions = artifactOptions.Value;
         _connection = connection;
     }
 
