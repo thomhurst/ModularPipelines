@@ -26,7 +26,7 @@ internal static class PipelineCommandLineHelp
 
     public static PipelineSummary Show(IConsoleWriter consoleWriter)
     {
-        consoleWriter.LogToConsole(Spectre.Console.Markup.Escape(Usage));
+        consoleWriter.WriteLine(Usage);
         var now = DateTimeOffset.UtcNow;
         return new PipelineSummary([], [], TimeSpan.Zero, now, now);
     }

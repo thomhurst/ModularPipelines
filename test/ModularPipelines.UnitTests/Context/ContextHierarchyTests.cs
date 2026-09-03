@@ -39,6 +39,12 @@ public class ContextHierarchyTests
         await Assert.That(loggerProperty!.PropertyType).IsEqualTo(typeof(ILogger))
             .Because("Logger should expose the standard ILogger contract");
 
+        var consoleProperty = contextType.GetProperty("Console");
+        await Assert.That(consoleProperty).IsNotNull()
+            .Because("IPipelineContext should have Console property");
+        await Assert.That(consoleProperty!.PropertyType).IsEqualTo(typeof(IConsoleWriter))
+            .Because("Console should be of type IConsoleWriter");
+
         var shellProperty = contextType.GetProperty("Shell");
         await Assert.That(shellProperty).IsNotNull()
             .Because("IPipelineContext should have Shell property");

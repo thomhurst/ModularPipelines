@@ -4,7 +4,7 @@ using Spectre.Console.Rendering;
 namespace ModularPipelines.Logging;
 
 /// <summary>
-/// Provides direct console output with Spectre.Console markup support.
+/// Provides module-aware plain text, Spectre.Console markup, and rich console output.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -19,18 +19,24 @@ namespace ModularPipelines.Logging;
 /// <para><b>Example usage:</b></para>
 /// <code>
 /// // Rich console output with markup
-/// consoleWriter.LogToConsole("[green]Build succeeded![/]");
-/// consoleWriter.LogToConsole("[red]Error:[/] Something went wrong");
+/// consoleWriter.WriteLine("Build succeeded!");
+/// consoleWriter.WriteMarkupLine("[red]Error:[/] Something went wrong");
 /// </code>
 /// </remarks>
 /// <seealso cref="ILogger"/>
 public interface IConsoleWriter
 {
     /// <summary>
-    /// Writes a value to the console.
+    /// Writes a plain-text line to the console.
     /// </summary>
     /// <param name="value">The value to write.</param>
-    void LogToConsole(string value);
+    void WriteLine(string value);
+
+    /// <summary>
+    /// Writes a line containing Spectre.Console markup to the console.
+    /// </summary>
+    /// <param name="value">The markup value to write.</param>
+    void WriteMarkupLine(string value);
 
     /// <summary>
     /// Writes a Spectre.Console renderable to the console.

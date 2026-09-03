@@ -23,12 +23,12 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
     private HubConnection? _hubConnection;
 
     public SignalRDistributedCoordinatorFactory(
-        SignalRDistributedOptions options,
+        IOptions<SignalRDistributedOptions> options,
         ILoggerFactory loggerFactory,
         IServiceProvider serviceProvider,
         ISignalRMasterDiscovery? discovery = null)
     {
-        _options = options;
+        _options = options.Value;
         _discovery = discovery;
         _loggerFactory = loggerFactory;
         _serviceProvider = serviceProvider;

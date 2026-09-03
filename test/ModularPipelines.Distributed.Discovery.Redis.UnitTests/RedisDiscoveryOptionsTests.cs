@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Discovery.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
@@ -36,5 +39,41 @@ public class RedisDiscoveryOptionsTests
         await Assert.That(options.Ttl).IsEqualTo(TimeSpan.FromHours(2));
         await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMinutes(1));
         await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(250));
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsOptions()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Discovery:ConnectionString"] = "redis.example:6380",
+                ["Discovery:KeyPrefix"] = "configured",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddRedisSignalRDiscovery(configuration.GetSection("Discovery"));
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.ConnectionString).IsEqualTo("redis.example:6380");
+            await Assert.That(options.KeyPrefix).IsEqualTo("configured");
+        }
+    }
+
+    [Test]
+    public async Task HostBuildRejectsIncompleteRestConfiguration()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisSignalRDiscovery(options => options.RestUrl = "https://redis.example");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures)
+            .Contains("RestUrl and RestToken must be configured together.");
     }
 }

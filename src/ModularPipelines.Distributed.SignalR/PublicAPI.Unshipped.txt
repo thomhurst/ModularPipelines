@@ -19,3 +19,4 @@ ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.Rec
 ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGrace.set -> void
 ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeout.set -> void
+static ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
