@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
@@ -19,7 +20,7 @@ public class RedisDistributedExtensionsTests
     [
         "GITHUB_RUN_ID",
         "GITHUB_RUN_ATTEMPT",
-        "RUN_IDENTIFIER",
+        "MODULARPIPELINES_RUN_ID",
         "BUILD_BUILDID",
         "CI_PIPELINE_ID",
     ];
@@ -58,7 +59,7 @@ public class RedisDistributedExtensionsTests
             options.ConnectionString = "artifact-only");
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
-        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -85,7 +86,7 @@ public class RedisDistributedExtensionsTests
         var distributedOptions = serviceProvider
             .GetRequiredService<IOptions<DistributedOptions>>()
             .Value;
-        var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -111,9 +112,14 @@ public class RedisDistributedExtensionsTests
             var builder = Pipeline.CreateBuilder();
             builder.AddDistributedMode(_ => { });
 
+            builder.AddRedisDistributedCoordinator(options =>
+                options.ConnectionString = "unused");
+            using var serviceProvider = builder.Services.BuildServiceProvider();
+
             var exception = Assert.Throws<InvalidOperationException>(() =>
-                builder.AddRedisDistributedCoordinator(options =>
-                    options.ConnectionString = "unused"));
+                _ = serviceProvider
+                    .GetRequiredService<IOptions<RedisDistributedOptions>>()
+                    .Value);
 
             await Assert.That(exception.Message).Contains("unique RunIdentifier");
         }
@@ -123,6 +129,30 @@ public class RedisDistributedExtensionsTests
             {
                 Environment.SetEnvironmentVariable(name, value);
             }
+        }
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsRedisOptions()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Redis:ConnectionString"] = "redis.example:6380",
+                ["Redis:RunIdentifier"] = "configured-run",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+        builder.AddDistributedMode(_ => { });
+
+        builder.AddRedisDistributedCoordinator(configuration.GetSection("Redis"));
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.ConnectionString).IsEqualTo("redis.example:6380");
+            await Assert.That(options.RunIdentifier).IsEqualTo("configured-run");
         }
     }
 

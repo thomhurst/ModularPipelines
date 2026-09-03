@@ -481,8 +481,8 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates configured distributed services. When TotalInstances is greater than 1,
-    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed services and replaces the default
+    /// <see cref="IModuleExecutor"/> with a role-specific implementation.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
@@ -506,9 +506,7 @@ public sealed class PipelineBuilder
             return;
         }
 
-        var role = options.TotalInstances <= 1
-            ? DistributedRole.Master
-            : new RoleDetector(Microsoft.Extensions.Options.Options.Create(options)).DetectRole();
+        var role = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options)).DetectRole();
 
         // Replace coordinators if a factory is registered. Creation stays deferred so
         // workers do not block during DI build while waiting for master discovery.
@@ -530,11 +528,6 @@ public sealed class PipelineBuilder
                     new DeferredWorkerCoordinator(
                         serviceProvider.GetRequiredService<IDistributedCoordinatorFactory>()));
             }
-        }
-
-        if (options.TotalInstances <= 1)
-        {
-            return;
         }
 
         if (role == DistributedRole.Master)

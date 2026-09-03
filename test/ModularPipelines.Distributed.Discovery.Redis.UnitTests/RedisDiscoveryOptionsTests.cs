@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Discovery.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
@@ -36,5 +39,28 @@ public class RedisDiscoveryOptionsTests
         await Assert.That(options.TtlSeconds).IsEqualTo(7200);
         await Assert.That(options.DiscoveryTimeoutSeconds).IsEqualTo(60);
         await Assert.That(options.PollIntervalMs).IsEqualTo(250);
+    }
+
+    [Test]
+    public async Task ConfigurationSectionBindsOptions()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Discovery:ConnectionString"] = "redis.example:6380",
+                ["Discovery:KeyPrefix"] = "configured",
+            })
+            .Build();
+        var builder = Pipeline.CreateBuilder();
+
+        builder.AddRedisSignalRDiscovery(configuration.GetSection("Discovery"));
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.ConnectionString).IsEqualTo("redis.example:6380");
+            await Assert.That(options.KeyPrefix).IsEqualTo("configured");
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -18,6 +20,7 @@ namespace ModularPipelines.Distributed.Redis.Extensions;
 /// </summary>
 public static class RedisDistributedExtensions
 {
+    private const string ModuleCacheOptionsName = "ModularPipelines.RedisModuleCache";
     private static readonly object ModuleCacheConnectionKey = new();
 
     /// <summary>
@@ -34,21 +37,33 @@ public static class RedisDistributedExtensions
         Action<ArtifactOptions>? configureArtifacts = null,
         Action<ModuleCacheOptions>? configureCache = null)
     {
-        var redisOptions = new RedisDistributedOptions();
-        configureRedis(redisOptions);
-        var artifactOptions = new ArtifactOptions();
-        configureArtifacts?.Invoke(artifactOptions);
+        builder.Services.Configure(ModuleCacheOptionsName, configureRedis);
+        if (configureArtifacts is not null)
+        {
+            builder.Services.Configure(ModuleCacheOptionsName, configureArtifacts);
+        }
 
-        builder.Services.TryAddKeyedSingleton<IConnectionMultiplexer>(
-            ModuleCacheConnectionKey,
-            (_, _) => ConnectionMultiplexer.Connect(redisOptions.ConnectionString));
-        builder.Services.TryAddSingleton(serviceProvider => new RedisModuleCache(
-            serviceProvider.GetRequiredKeyedService<IConnectionMultiplexer>(ModuleCacheConnectionKey),
-            redisOptions,
-            artifactOptions,
-            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
+        return AddRedisModuleCacheServices(builder, configureCache);
+    }
 
-        return builder.AddModuleCache<RedisModuleCache>(configureCache);
+    /// <summary>
+    /// Enables a shareable Redis-backed module cache from configuration without enabling distributed execution.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of RedisDistributedOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddRedisModuleCache(
+        this PipelineBuilder builder,
+        IConfigurationSection redisSection,
+        Action<ArtifactOptions>? configureArtifacts = null,
+        Action<ModuleCacheOptions>? configureCache = null)
+    {
+        builder.Services.Configure<RedisDistributedOptions>(ModuleCacheOptionsName, redisSection);
+        if (configureArtifacts is not null)
+        {
+            builder.Services.Configure(ModuleCacheOptionsName, configureArtifacts);
+        }
+
+        return AddRedisModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -60,17 +75,22 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configure)
     {
-        var options = ConfigureRedis(builder, configure);
-        options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
-            ?? throw new InvalidOperationException(
-                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
-                + "Configure RunIdentifier explicitly or provide a supported CI run identifier.");
+        ConfigureRedis(builder, configure);
+        return AddRedisDistributedCoordinatorServices(builder);
+    }
 
-        builder.Services.PostConfigure<DistributedOptions>(distributedOptions =>
-            distributedOptions.RunIdentifier ??= options.RunIdentifier);
-        builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
-
-        return builder;
+    /// <summary>
+    /// Registers the Redis-based distributed coordinator factory from configuration.
+    /// Must be called after <c>AddDistributedMode</c>.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of RedisDistributedOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddRedisDistributedCoordinator(
+        this PipelineBuilder builder,
+        IConfigurationSection section)
+    {
+        ConfigureRedis(builder, section);
+        return AddRedisDistributedCoordinatorServices(builder);
     }
 
     /// <summary>
@@ -92,6 +112,21 @@ public static class RedisDistributedExtensions
     }
 
     /// <summary>
+    /// Registers the Redis-based distributed artifact store factory from configuration.
+    /// Must be called after <c>AddDistributedMode</c>.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of RedisDistributedOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddRedisDistributedArtifactStore(
+        this PipelineBuilder builder,
+        IConfigurationSection redisSection,
+        Action<ArtifactOptions>? configureArtifacts = null)
+    {
+        ConfigureRedis(builder, redisSection);
+        return AddRedisDistributedArtifactStoreFactory(builder, configureArtifacts);
+    }
+
+    /// <summary>
     /// Registers both Redis-based coordinator and artifact store.
     /// Convenience method for using Redis for both orchestration and artifacts.
     /// </summary>
@@ -105,28 +140,76 @@ public static class RedisDistributedExtensions
         return AddRedisDistributedArtifactStoreFactory(builder, configureArtifacts);
     }
 
-    private static RedisDistributedOptions ConfigureRedis(
+    /// <summary>
+    /// Registers both Redis-based coordinator and artifact store from configuration.
+    /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of RedisDistributedOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddRedisDistributed(
+        this PipelineBuilder builder,
+        IConfigurationSection redisSection,
+        Action<ArtifactOptions>? configureArtifacts = null)
+    {
+        builder.AddRedisDistributedCoordinator(redisSection);
+        return AddRedisDistributedArtifactStoreFactory(builder, configureArtifacts);
+    }
+
+    private static void ConfigureRedis(
         PipelineBuilder builder,
         Action<RedisDistributedOptions> configure)
     {
-        var registeredOptions = builder.Services
-            .LastOrDefault(descriptor => descriptor.ServiceType == typeof(RedisDistributedOptions))
-            ?.ImplementationInstance;
+        builder.Services.Configure(configure);
+        AddRedisConnection(builder);
+    }
 
-        if (registeredOptions is not RedisDistributedOptions options)
-        {
-            options = new RedisDistributedOptions();
-            builder.Services.AddSingleton(options);
-        }
+    private static void ConfigureRedis(PipelineBuilder builder, IConfigurationSection section)
+    {
+        builder.Services.Configure<RedisDistributedOptions>(section);
+        AddRedisConnection(builder);
+    }
 
-        configure(options);
+    private static void AddRedisConnection(PipelineBuilder builder)
+    {
         builder.Services.TryAddSingleton<IConnectionMultiplexer>(serviceProvider =>
         {
-            var redisOptions = serviceProvider.GetRequiredService<RedisDistributedOptions>();
+            var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
             return ConnectionMultiplexer.Connect(redisOptions.ConnectionString);
         });
+    }
 
-        return options;
+    private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
+    {
+        builder.Services.PostConfigure<RedisDistributedOptions>(options =>
+            options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
+                ?? throw new InvalidOperationException(
+                    "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
+                    + "Configure RunIdentifier explicitly or set MODULARPIPELINES_RUN_ID."));
+        builder.Services.AddOptions<DistributedOptions>()
+            .PostConfigure<IOptions<RedisDistributedOptions>>((distributedOptions, redisOptions) =>
+                distributedOptions.RunIdentifier ??= redisOptions.Value.RunIdentifier);
+        builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
+
+        return builder;
+    }
+
+    private static PipelineBuilder AddRedisModuleCacheServices(
+        PipelineBuilder builder,
+        Action<ModuleCacheOptions>? configureCache)
+    {
+        builder.Services.TryAddKeyedSingleton<IConnectionMultiplexer>(
+            ModuleCacheConnectionKey,
+            (serviceProvider, _) => ConnectionMultiplexer.Connect(
+                serviceProvider.GetRequiredService<IOptionsMonitor<RedisDistributedOptions>>()
+                    .Get(ModuleCacheOptionsName).ConnectionString));
+        builder.Services.TryAddSingleton(serviceProvider => new RedisModuleCache(
+            serviceProvider.GetRequiredKeyedService<IConnectionMultiplexer>(ModuleCacheConnectionKey),
+            serviceProvider.GetRequiredService<IOptionsMonitor<RedisDistributedOptions>>()
+                .Get(ModuleCacheOptionsName),
+            serviceProvider.GetRequiredService<IOptionsMonitor<ArtifactOptions>>()
+                .Get(ModuleCacheOptionsName),
+            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
+
+        return builder.AddModuleCache<RedisModuleCache>(configureCache);
     }
 
     private static PipelineBuilder AddRedisDistributedArtifactStoreFactory(
