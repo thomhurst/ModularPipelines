@@ -12,6 +12,9 @@ using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
+/// <summary>
+/// Disk usage
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "du")]
