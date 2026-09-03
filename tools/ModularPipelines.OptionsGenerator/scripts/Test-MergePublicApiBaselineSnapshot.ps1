@@ -16,14 +16,17 @@ New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 function Assert-Lines([string] $Path, [string[]] $Expected) {
     $actual = @(Get-Content -LiteralPath $Path)
-    if (-not [System.Linq.Enumerable]::SequenceEqual(
-            [string[]] $actual,
-            [string[]] $Expected,
-            [System.StringComparer]::Ordinal)) {
+    $expectedLines = @($Expected)
+    $matches = $actual.Count -eq $expectedLines.Count
+    for ($index = 0; $matches -and $index -lt $actual.Count; $index++) {
+        $matches = $actual[$index] -ceq $expectedLines[$index]
+    }
+
+    if (-not $matches) {
         throw @"
 Unexpected contents in $Path.
 Expected:
-$($Expected -join [Environment]::NewLine)
+$($expectedLines -join [Environment]::NewLine)
 Actual:
 $($actual -join [Environment]::NewLine)
 "@
@@ -108,7 +111,26 @@ try {
         throw 'Repeated baseline synchronization was not idempotent.'
     }
 
-    Write-Output 'OK public API additions, removals, signature changes, and idempotency passed.'
+    foreach ($path in @(
+            $originalShipped,
+            $originalUnshipped,
+            $currentSnapshot,
+            $confirmedRemovals)) {
+        [System.IO.File]::WriteAllText($path, '')
+    }
+
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
+        -ShippedOutputPath $shippedOutput `
+        -UnshippedOutputPath $unshippedOutput
+
+    Assert-Lines $shippedOutput @()
+    Assert-Lines $unshippedOutput @()
+
+    Write-Output 'OK public API additions, removals, signature changes, empty inputs, and idempotency passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {
