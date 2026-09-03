@@ -130,8 +130,7 @@ internal class DistributedModuleExecutor(
                     scheduler,
                     cts,
                     requestFailureCancellation,
-                    masterCapabilities,
-                    registrationDeadline)
+                    masterCapabilities)
                 .ConfigureAwait(false);
             await IgnoreCancellationAsync(Task.WhenAll(resultTasks)).ConfigureAwait(false);
             await FinalizeExecutionAsync(
@@ -142,8 +141,7 @@ internal class DistributedModuleExecutor(
                     masterWorkerTask,
                     schedulerTask,
                     requestFailureCancellation,
-                    masterCapabilities,
-                    registrationDeadline)
+                    masterCapabilities)
                 .ConfigureAwait(false);
         }
         catch
@@ -167,8 +165,7 @@ internal class DistributedModuleExecutor(
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
         Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline)
+        IReadOnlySet<Capability> masterCapabilities)
     {
         var resultTasks = new List<Task>();
         try
@@ -187,8 +184,7 @@ internal class DistributedModuleExecutor(
                     scheduler,
                     pipelineCts,
                     requestFailureCancellation,
-                    masterCapabilities,
-                    registrationDeadline));
+                    masterCapabilities));
             }
         }
         catch (OperationCanceledException)
@@ -207,8 +203,7 @@ internal class DistributedModuleExecutor(
         Task masterWorkerTask,
         Task schedulerTask,
         Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline)
+        IReadOnlySet<Capability> masterCapabilities)
     {
         Exception? alwaysRunException = null;
         try
@@ -219,8 +214,7 @@ internal class DistributedModuleExecutor(
                     pipelineCts,
                     masterWorkerCts,
                     requestFailureCancellation,
-                    masterCapabilities,
-                    registrationDeadline)
+                    masterCapabilities)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -316,8 +310,7 @@ internal class DistributedModuleExecutor(
         CancellationTokenSource pipelineCts,
         CancellationTokenSource masterWorkerCts,
         Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline)
+        IReadOnlySet<Capability> masterCapabilities)
     {
         try
         {
@@ -331,8 +324,7 @@ internal class DistributedModuleExecutor(
                             scheduler,
                             pipelineCts,
                             requestFailureCancellation,
-                            masterCapabilities,
-                            registrationDeadline))
+                            masterCapabilities))
                     .ConfigureAwait(false);
             }
         }
@@ -350,8 +342,7 @@ internal class DistributedModuleExecutor(
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
         Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline)
+        IReadOnlySet<Capability> masterCapabilities)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -366,8 +357,7 @@ internal class DistributedModuleExecutor(
                 scheduler,
                 pipelineCts,
                 requestFailureCancellation,
-                masterCapabilities,
-                registrationDeadline)
+                masterCapabilities)
             .ConfigureAwait(false);
     }
 
@@ -645,8 +635,7 @@ internal class DistributedModuleExecutor(
         IModuleScheduler scheduler,
         CancellationTokenSource cts,
         Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline)
+        IReadOnlySet<Capability> masterCapabilities)
     {
         var pipelineToken = module.Configuration.AlwaysRun
             ? _lifetime.ApplicationStopping
@@ -663,7 +652,6 @@ internal class DistributedModuleExecutor(
             await EnsureAssignmentHasExecutionRouteAsync(
                     assignment,
                     masterCapabilities,
-                    registrationDeadline,
                     pipelineToken)
                 .ConfigureAwait(false);
             await CollectResultAsync(
@@ -708,7 +696,6 @@ internal class DistributedModuleExecutor(
     private async Task EnsureAssignmentHasExecutionRouteAsync(
         ModuleAssignment assignment,
         IReadOnlySet<Capability> masterCapabilities,
-        DateTimeOffset registrationDeadline,
         CancellationToken cancellationToken)
     {
         if (CapabilityMatcher.CanExecute(assignment, masterCapabilities))
@@ -716,6 +703,7 @@ internal class DistributedModuleExecutor(
             return;
         }
 
+        var registrationDeadline = DateTimeOffset.UtcNow + _options.Value.CapabilityTimeout;
         var expectedWorkers = Math.Max(0, _options.Value.TotalInstances - 1);
         IReadOnlyList<WorkerRegistration> workers;
         do
