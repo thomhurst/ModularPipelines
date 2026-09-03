@@ -108,6 +108,26 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("Aliases:\n  un, del, delete")]
+    [Arguments("Additional help topics:\n  fake parent advanced  Advanced help")]
+    [Arguments("Available Commands: (see below)\n  child  Execute a child command")]
+    public async Task CobraListSectionIsNotUsedAsDescription(string section)
+    {
+        var helpText = $"""
+            Usage:
+              fake parent [flags]
+
+            {section}
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
     public async Task SharedTraversal_Discovers_ExecutableParent_And_Children_Without_Command_Placeholders()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

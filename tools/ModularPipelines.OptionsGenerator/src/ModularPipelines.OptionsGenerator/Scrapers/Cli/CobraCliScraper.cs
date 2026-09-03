@@ -247,8 +247,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var lines = helpText.Split('\n');
 
         // Skip empty lines and look for the first non-usage, non-section line
-        foreach (var line in lines)
+        for (var index = 0; index < lines.Length; index++)
         {
+            var line = lines[index];
             var trimmed = line.Trim();
 
             if (string.IsNullOrEmpty(trimmed))
@@ -256,7 +257,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
-            if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
+            if (IsDescriptionSectionBoundary(lines, index))
             {
                 return null;
             }
@@ -285,6 +286,43 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         return null;
+    }
+
+    private static bool IsDescriptionSectionBoundary(string[] lines, int index)
+    {
+        var line = lines[index].TrimEnd('\r');
+        var trimmed = line.Trim();
+
+        if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
+        {
+            return true;
+        }
+
+        // Cobra extensions can add arbitrary list sections such as "Aliases:" or
+        // "Additional help topics:". A top-level label followed by indented content
+        // is structural; a label followed by top-level prose (for example Metadata:)
+        // is not. Usage remains skippable because some tools print prose after it.
+        if (line.Length != line.TrimStart().Length ||
+            trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase) ||
+            trimmed.IndexOf(':') <= 0 ||
+            !char.IsLetter(trimmed[0]))
+        {
+            return false;
+        }
+
+        for (var nextIndex = index + 1; nextIndex < lines.Length; nextIndex++)
+        {
+            var nextLine = lines[nextIndex].TrimEnd('\r');
+
+            if (string.IsNullOrWhiteSpace(nextLine))
+            {
+                continue;
+            }
+
+            return char.IsWhiteSpace(nextLine[0]);
+        }
+
+        return false;
     }
 
     /// <summary>
