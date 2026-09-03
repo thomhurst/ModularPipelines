@@ -15,6 +15,8 @@ function New-GeneratedIntegrationValidationResult {
     param(
         [Parameter(Mandatory)][bool]$IsGeneratedIntegration,
         [Parameter(Mandatory)][string]$Reason,
+        [string]$Tool = '',
+        [string]$NamespacePrefix = '',
         [string]$Package = '',
         [string]$Solution = '',
         [string]$TestProject = ''
@@ -22,6 +24,8 @@ function New-GeneratedIntegrationValidationResult {
 
     [pscustomobject]@{
         IsGeneratedIntegration = $IsGeneratedIntegration
+        Tool = $Tool
+        NamespacePrefix = $NamespacePrefix
         Package = $Package
         Solution = $Solution
         TestProject = $TestProject
@@ -33,6 +37,7 @@ function Test-GeneratedIntegrationPath {
     param(
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string]$PackagePrefix,
+        [Parameter(Mandatory)][string]$NamespacePrefix,
         [Parameter(Mandatory)][string]$DocumentationPath,
         [Parameter(Mandatory)][string]$RepositoryRoot
     )
@@ -47,7 +52,12 @@ function Test-GeneratedIntegrationPath {
 
     $packagePath = $Path.Substring($PackagePrefix.Length)
     if ($packagePath.Equals('PublicAPI.Unshipped.txt', [StringComparison]::OrdinalIgnoreCase) -or
-        $packagePath -match '^Generated/[^/]+\.CommandCoverage\.json$') {
+        $packagePath.Equals(
+            "Generated/$NamespacePrefix.CommandCoverage.json",
+            [StringComparison]::OrdinalIgnoreCase) -or
+        $packagePath.Equals(
+            "Generated/$NamespacePrefix.Generation.json",
+            [StringComparison]::OrdinalIgnoreCase)) {
         return $true
     }
 
@@ -66,7 +76,7 @@ function Test-GeneratedIntegrationPath {
         $header.Contains('ModularPipelines.OptionsGenerator', [StringComparison]::Ordinal)
 }
 
-function Test-ToolPackageMatch {
+function Resolve-ToolPackageManifest {
     param(
         [Parameter(Mandatory)][string]$Tool,
         [Parameter(Mandatory)][string]$Package,
@@ -82,11 +92,11 @@ function Test-ToolPackageMatch {
         $metadata = Get-Content -LiteralPath $manifest.FullName -Raw | ConvertFrom-Json
         if ($metadata.toolName -and
             $metadata.toolName.Equals($Tool, [StringComparison]::OrdinalIgnoreCase)) {
-            return $true
+            return $manifest
         }
     }
 
-    return $false
+    return $null
 }
 
 function Resolve-GeneratedIntegrationValidation {
@@ -147,14 +157,19 @@ function Resolve-GeneratedIntegrationValidation {
     }
 
     $package = $packages[0]
-    if (-not (Test-ToolPackageMatch `
-            -Tool $tool `
-            -Package $package `
-            -RepositoryRoot $RepositoryRoot)) {
+    $coverageManifest = Resolve-ToolPackageManifest `
+        -Tool $tool `
+        -Package $package `
+        -RepositoryRoot $RepositoryRoot
+    if (-not $coverageManifest) {
         return New-GeneratedIntegrationValidationResult `
             -IsGeneratedIntegration $false `
             -Reason "Tool '$tool' does not generate package '$package'."
     }
+    $coverageSuffix = '.CommandCoverage.json'
+    $namespacePrefix = $coverageManifest.Name.Substring(
+        0,
+        $coverageManifest.Name.Length - $coverageSuffix.Length)
 
     $packagePrefix = "src/$package/"
     $documentationPath = "docs/docs/mp-packages/cli/$tool.md"
@@ -162,6 +177,7 @@ function Resolve-GeneratedIntegrationValidation {
         -not (Test-GeneratedIntegrationPath `
                 -Path $_ `
                 -PackagePrefix $packagePrefix `
+                -NamespacePrefix $namespacePrefix `
                 -DocumentationPath $documentationPath `
                 -RepositoryRoot $RepositoryRoot)
     })
@@ -185,6 +201,8 @@ function Resolve-GeneratedIntegrationValidation {
 
     return New-GeneratedIntegrationValidationResult `
         -IsGeneratedIntegration $true `
+        -Tool $tool `
+        -NamespacePrefix $namespacePrefix `
         -Package $package `
         -Solution $solution `
         -TestProject $testProject `
@@ -204,6 +222,8 @@ if ($MyInvocation.InvocationName -ne '.') {
     if ($GitHubOutput) {
         "is_generated_integration=$($result.IsGeneratedIntegration.ToString().ToLowerInvariant())" |
             Out-File -FilePath $GitHubOutput -Append
+        "tool=$($result.Tool)" | Out-File -FilePath $GitHubOutput -Append
+        "namespace_prefix=$($result.NamespacePrefix)" | Out-File -FilePath $GitHubOutput -Append
         "package=$($result.Package)" | Out-File -FilePath $GitHubOutput -Append
         "solution=$($result.Solution)" | Out-File -FilePath $GitHubOutput -Append
         "test_project=$($result.TestProject)" | Out-File -FilePath $GitHubOutput -Append

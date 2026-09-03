@@ -21,8 +21,10 @@ This page describes the internal architecture of distributed mode for contributo
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
    so its `CreateAsync` method runs when the coordinator is first used. A directly
    registered `IDistributedCoordinator` is used as-is.
-5. Before scheduling work, the master registers module types for serialization and waits
-   up to `DistributedOptions.CapabilityTimeout` for the configured workers to register.
+5. Before scheduling work, the master registers module types for serialization. Dispatch
+   starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a
+   startup barrier. Capability-restricted assignments wait only until a matching worker
+   registers or `CapabilityTimeout` expires.
 
 ### Worker Startup
 
@@ -143,7 +145,7 @@ The shipped `IDistributedCoordinator` interface defines seven methods across fou
 | Method | Direction | Description |
 |--------|-----------|-------------|
 | `RegisterWorkerAsync` | Worker → Coordinator | Upserts a worker's index, capabilities, registration time, and run identifier; workers call it again after execution with final command metrics. |
-| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers during the startup wait and again after execution while the master aggregates final worker metrics. |
+| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers for an optional startup barrier, capability-route validation, and post-execution worker metrics. |
 
 ### Completion
 
@@ -253,13 +255,14 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 Worker registration is not a heartbeat. Workers upsert an initial capability record and later
 upsert final command metrics during run-report finalization. The master reads registrations
-while waiting for the expected worker count and polls them again after execution to aggregate
-those final metrics. A custom coordinator must therefore retain registration state for the
-whole run and support repeated upserts and post-execution reads.
+while validating capability routes and polls them again after execution to aggregate those
+final metrics. A custom coordinator must therefore retain registration state for the whole
+run and support repeated upserts and post-execution reads.
 
 The shipped coordinator contract still has no heartbeat, unregister, or worker-health member.
-After `CapabilityTimeout`, the master proceeds with the workers that registered; the later
-metrics polling reports completion data but does not provide continuous liveness detection.
+After `CapabilityTimeout`, the master fails any queued assignment that no registered worker
+or the master can execute. Later metrics polling reports completion data but does not provide
+continuous liveness detection.
 
 If a worker disappears after claiming an assignment, the master can wait until
 `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react
