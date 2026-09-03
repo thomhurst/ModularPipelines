@@ -13,60 +13,84 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Trigger a resource discovery scan for an Insights account.
+/// [EXPERIMENTAL] Set up AWS OIDC integration for Pulumi ESC
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("insights", "account", "scan")]
-public record PulumiInsightsAccountScanOptions : PulumiOptions
+[CliSubCommand("env", "setup", "aws")]
+public record PulumiEnvSetupAwsOptions : PulumiOptions
 {
     /// <summary>
-    /// Agent pool ID to use for the scan (defaults to the account's default pool)
+    /// an AWS account to set up (repeatable; prompted for when omitted)
     /// </summary>
-    [CliOption("--agent-pool", Format = OptionFormat.EqualsSeparated)]
-    public string? AgentPool { get; set; }
+    [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Account { get; set; }
 
     /// <summary>
-    /// Number of resources processed per batch (server default when 0)
+    /// the session duration for the assumed role (default "1h")
     /// </summary>
-    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
-    public int? BatchSize { get; set; }
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
 
     /// <summary>
-    /// help for scan
+    /// help for aws
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Parallelism for list operations during the scan (server default when 0)
-    /// </summary>
-    [CliOption("--list-concurrency", Format = OptionFormat.EqualsSeparated)]
-    public int? ListConcurrency { get; set; }
-
-    /// <summary>
-    /// Organization that owns the Insights account (defaults to the current default org)
+    /// the Pulumi organization to configure OIDC for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
     public string? Org { get; set; }
 
     /// <summary>
-    /// Output format. Supported values are: default and json (default "default")
+    /// the policy attached to the OIDC role: AdministratorAccess (required for Deployments), ReadOnlyAccess (required for Insights), or any other policy ARN; prompted for when omitted
     /// </summary>
-    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
 
     /// <summary>
-    /// Parallelism for read operations during the scan (server default when 0)
+    /// the ESC project that per-account environments are created in (default "aws-login")
     /// </summary>
-    [CliOption("--read-concurrency", Format = OptionFormat.EqualsSeparated)]
-    public int? ReadConcurrency { get; set; }
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
 
     /// <summary>
-    /// Per-read timeout as a Go duration (e.g. '30s', '5m'); server default when empty
+    /// the AWS session name recorded for the assumed role (default "pulumi-environments-session")
     /// </summary>
-    [CliOption("--read-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? ReadTimeout { get; set; }
+    [CliOption("--session-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionName { get; set; }
+
+    /// <summary>
+    /// force AWS SSO browser sign-in instead of using existing credentials, so several accounts can be configured at once (the SSO start URL and region are inferred from your AWS config)
+    /// </summary>
+    [CliFlag("--sso")]
+    public bool? Sso { get; set; }
+
+    /// <summary>
+    /// the region the AWS SSO instance is hosted in (inferred from your AWS config when omitted)
+    /// </summary>
+    [CliOption("--sso-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SsoRegion { get; set; }
+
+    /// <summary>
+    /// the SSO role to assume when setting up each account (prompted for when ambiguous)
+    /// </summary>
+    [CliOption("--sso-role", Format = OptionFormat.EqualsSeparated)]
+    public string? SsoRole { get; set; }
+
+    /// <summary>
+    /// the AWS SSO start URL; forces the browser sign-in (inferred from your AWS config when omitted)
+    /// </summary>
+    [CliOption("--sso-start-url", Format = OptionFormat.EqualsSeparated)]
+    public string? SsoStartUrl { get; set; }
+
+    /// <summary>
+    /// skip all confirmation prompts
+    /// </summary>
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -91,6 +115,12 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     /// </summary>
     [CliFlag("--emoji", ShortForm = "-e")]
     public bool? Emoji { get; set; }
+
+    /// <summary>
+    /// The name of the environment to operate on.
+    /// </summary>
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
+    public string? Env { get; set; }
 
     /// <summary>
     /// Show fully-qualified stack names
@@ -145,11 +175,5 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
-
-    /// <summary>
-    /// The &lt;account&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Account { get; set; }
 
 }
