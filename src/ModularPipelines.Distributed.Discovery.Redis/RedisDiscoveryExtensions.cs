@@ -52,7 +52,8 @@ public static class RedisDiscoveryExtensions
             .Validate(
                 options => string.IsNullOrWhiteSpace(options.RestUrl)
                            == string.IsNullOrWhiteSpace(options.RestToken),
-                "RestUrl and RestToken must be configured together.");
+                "RestUrl and RestToken must be configured together.")
+            .ValidateOnStart();
 
         builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
         {

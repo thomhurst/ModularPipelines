@@ -63,4 +63,17 @@ public class RedisDiscoveryOptionsTests
             await Assert.That(options.KeyPrefix).IsEqualTo("configured");
         }
     }
+
+    [Test]
+    public async Task HostBuildRejectsIncompleteRestConfiguration()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisSignalRDiscovery(options => options.RestUrl = "https://redis.example");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures)
+            .Contains("RestUrl and RestToken must be configured together.");
+    }
 }
