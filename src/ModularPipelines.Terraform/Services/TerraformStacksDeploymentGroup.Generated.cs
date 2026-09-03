@@ -33,7 +33,7 @@ public class TerraformStacksDeploymentGroup
     #region Commands
 
     /// <summary>
-    /// list                List all deployment groups in the given configuration.
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

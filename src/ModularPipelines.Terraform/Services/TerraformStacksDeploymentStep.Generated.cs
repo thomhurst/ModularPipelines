@@ -33,7 +33,7 @@ public class TerraformStacksDeploymentStep
     #region Commands
 
     /// <summary>
-    /// show                            Show details of a deployment step in the current configuration.
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
