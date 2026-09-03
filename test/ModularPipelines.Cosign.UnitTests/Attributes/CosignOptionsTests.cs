@@ -1,6 +1,5 @@
 using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
-using ModularPipelines.Cosign.Enums;
 using ModularPipelines.Cosign.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -9,12 +8,11 @@ namespace ModularPipelines.Cosign.UnitTests.Attributes;
 public class CosignOptionsTests
 {
     [Test]
-    public async Task Sign_Renders_Images_Repeated_Annotations_Enum_And_Flags()
+    public async Task Sign_Renders_Images_Repeated_Annotations_And_Flags()
     {
         var arguments = BuildArguments(new CosignSignOptions(["registry.example/app:v1", "registry.example/app:v2"])
         {
             Annotations = ["team=platform", "environment=production"],
-            Slot = CosignSignSlot.CardAuthentication,
             Upload = true,
         });
 
@@ -24,7 +22,6 @@ public class CosignOptionsTests
             "registry.example/app:v2",
             "--annotations=team=platform",
             "--annotations=environment=production",
-            "--slot=card-authentication",
             "--upload=true",
         ]);
     }
@@ -86,13 +83,8 @@ public class CosignOptionsTests
     {
         var registryToken = typeof(CosignSignOptions).GetProperty(nameof(CosignSignOptions.RegistryToken));
         var password = typeof(CosignLoginOptions).GetProperty(nameof(CosignLoginOptions.Password));
-#pragma warning disable CS0618 // Verify retained compatibility options still mask secrets.
-        var oldManagementKey = typeof(CosignPivToolSetManagementKeyOptions)
-            .GetProperty(nameof(CosignPivToolSetManagementKeyOptions.OldKey));
-#pragma warning restore CS0618
 
         await Assert.That(registryToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
-        await Assert.That(oldManagementKey!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 }

@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Options;
-using ModularPipelines.Cosign.Enums;
 
 namespace ModularPipelines.Cosign.Options;
 
@@ -145,7 +144,7 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
     /// security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
     /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
-    public CosignVerifyBlobAttestationSlot? Slot { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Path to a Sigstore TrustedRoot JSON file
@@ -185,12 +184,5 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
 
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Blob { get; set; }
-
-    [Obsolete("Use DigestAlg instead.")]
-    public string? Digestalg
-    {
-        get => DigestAlg;
-        set => DigestAlg = value;
-    }
 
 }
