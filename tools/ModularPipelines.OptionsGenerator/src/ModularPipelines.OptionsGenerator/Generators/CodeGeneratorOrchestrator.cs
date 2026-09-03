@@ -921,6 +921,7 @@ public class CodeGeneratorOrchestrator
         }
 
         var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
 
         foreach (var file in generatedFiles)
         {
@@ -930,7 +931,8 @@ public class CodeGeneratorOrchestrator
                 file.Content,
                 cancellationToken,
                 enforceOutputContainment ? outputDirectory : null,
-                "generated file path");
+                "generated file path",
+                fileNamesByDirectory);
             writtenFullPaths.Add(Path.GetFullPath(fullPath));
             result.FilesGenerated.Add(file.RelativePath);
             emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
@@ -1154,7 +1156,8 @@ public class CodeGeneratorOrchestrator
         string content,
         CancellationToken cancellationToken,
         string? containmentRoot = null,
-        string propertyName = "generated path")
+        string propertyName = "generated path",
+        IDictionary<string, HashSet<string>>? fileNamesByDirectory = null)
     {
         if (containmentRoot is not null)
         {
@@ -1165,7 +1168,8 @@ public class CodeGeneratorOrchestrator
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
-            EnsureExactFileNameCasing(path, directory);
+            var fileNames = GetFileNames(directory, fileNamesByDirectory);
+            EnsureExactFileNameCasing(path, directory, fileNames);
         }
 
         if (containmentRoot is not null)
@@ -1174,15 +1178,36 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+
+        if (!string.IsNullOrEmpty(directory))
+        {
+            GetFileNames(directory, fileNamesByDirectory).Add(Path.GetFileName(path));
+        }
     }
 
-    private static void EnsureExactFileNameCasing(string path, string directory)
+    private static HashSet<string> GetFileNames(
+        string directory,
+        IDictionary<string, HashSet<string>>? fileNamesByDirectory)
     {
-        var expectedName = Path.GetFileName(path);
+        if (fileNamesByDirectory?.TryGetValue(directory, out var cachedNames) == true)
+        {
+            return cachedNames;
+        }
+
         var names = Directory.EnumerateFiles(directory)
             .Select(Path.GetFileName)
             .OfType<string>()
-            .ToArray();
+            .ToHashSet(StringComparer.Ordinal);
+        fileNamesByDirectory?.Add(directory, names);
+        return names;
+    }
+
+    private static void EnsureExactFileNameCasing(
+        string path,
+        string directory,
+        ISet<string> names)
+    {
+        var expectedName = Path.GetFileName(path);
         if (names.Contains(expectedName, StringComparer.Ordinal))
         {
             return;
@@ -1197,8 +1222,24 @@ public class CodeGeneratorOrchestrator
 
         var existingPath = Path.Combine(directory, casingVariant);
         var temporaryPath = Path.Combine(directory, $".{Guid.NewGuid():N}.casing.tmp");
-        File.Move(existingPath, temporaryPath);
-        File.Move(temporaryPath, path);
+        try
+        {
+            File.Move(existingPath, temporaryPath);
+            File.Move(temporaryPath, path);
+            names.Remove(casingVariant);
+            names.Add(expectedName);
+        }
+        finally
+        {
+            try
+            {
+                File.Delete(temporaryPath);
+            }
+            catch (Exception)
+            {
+                // The casing update already failed; do not mask its exception.
+            }
+        }
     }
 
     private static string ValidateContainedPath(
