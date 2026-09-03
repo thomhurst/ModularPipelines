@@ -20,7 +20,8 @@ internal class ArtifactLifecycleManager
     private readonly ILogger<ArtifactLifecycleManager> _logger;
     private readonly string _workingDirectory;
 
-    private ILogger Logger => (ILogger?) ModuleLogger.Values.Value ?? _logger;
+    private ILogger Logger =>
+        (ILogger?) AmbientModuleOutputContext.Current?.Logger ?? _logger;
 
     /// <summary>
     /// Tracks completed and in-flight restores keyed by "{producerType}:{artifactName}:{normalizedRestorePath}".

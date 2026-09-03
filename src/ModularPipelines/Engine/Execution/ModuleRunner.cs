@@ -872,8 +872,8 @@ internal class ModuleRunner : IModuleRunner
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
         executionContext.ModuleActivity = activity;
 
-        // Set up logging and module type context using scope wrapper for proper cleanup
-        await using var loggerScope = new ModuleLoggerScope(logger, moduleType);
+        // Keep logging and raw console attribution in one scoped ambient context.
+        using var outputScope = new ModuleOutputContextScope(moduleType, logger);
 
         try
         {
@@ -1291,8 +1291,9 @@ internal class ModuleRunner : IModuleRunner
     private static IModuleLogger GetAmbientOrScopedModuleLogger(
         IServiceProvider serviceProvider,
         Type moduleType) =>
-        ModuleLogger.CurrentModuleType.Value == moduleType
-            ? ModuleLogger.Values.Value ?? GetModuleLogger(serviceProvider, moduleType)
+        AmbientModuleOutputContext.Current is { } outputContext
+        && outputContext.ModuleType == moduleType
+            ? outputContext.Logger ?? GetModuleLogger(serviceProvider, moduleType)
             : GetModuleLogger(serviceProvider, moduleType);
 }
 
