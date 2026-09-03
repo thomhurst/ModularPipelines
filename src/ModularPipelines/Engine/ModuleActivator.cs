@@ -79,10 +79,7 @@ internal sealed class ModuleActivator : IModuleActivator
         bool initializeConfiguration)
         where TModule : IModule
     {
-        var previousType = ModuleLogger.CurrentModuleType.Value;
-        ModuleLogger.CurrentModuleType.Value = moduleType;
-
-        try
+        using (new ModuleOutputContextScope(moduleType))
         {
             var module = activate(serviceProvider);
             if (initializeConfiguration)
@@ -91,10 +88,6 @@ internal sealed class ModuleActivator : IModuleActivator
             }
 
             return module;
-        }
-        finally
-        {
-            ModuleLogger.CurrentModuleType.Value = previousType;
         }
     }
 }
