@@ -921,8 +921,6 @@ ModularPipelines.Flux.Options.FluxBootstrapOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.Cluster.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.ClusterDomain.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.ClusterDomain.set -> void
-ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.CommitMessageAppendix.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.CommitMessageAppendix.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.Components.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -1156,8 +1154,6 @@ ModularPipelines.Flux.Options.FluxBuildOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxBuildOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxBuildOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.DisableCompression.get -> bool?
@@ -1493,8 +1489,6 @@ ModularPipelines.Flux.Options.FluxCreateImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxCreateImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxCreateImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.DisableCompression.get -> bool?
@@ -1856,8 +1850,6 @@ ModularPipelines.Flux.Options.FluxCreateOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxCreateOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxCreateOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.DisableCompression.get -> bool?
@@ -2325,8 +2317,6 @@ ModularPipelines.Flux.Options.FluxCreateSecretOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxCreateSecretOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxCreateSecretOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.DisableCompression.get -> bool?
@@ -3012,8 +3002,6 @@ ModularPipelines.Flux.Options.FluxCreateSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxCreateSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxCreateSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.DisableCompression.get -> bool?
@@ -3256,8 +3244,6 @@ ModularPipelines.Flux.Options.FluxDebugOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxDebugOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxDebugOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.DisableCompression.get -> bool?
@@ -3474,8 +3460,6 @@ ModularPipelines.Flux.Options.FluxDeleteImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxDeleteImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxDeleteImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.DisableCompression.get -> bool?
@@ -3749,8 +3733,6 @@ ModularPipelines.Flux.Options.FluxDeleteOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxDeleteOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxDeleteOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.DisableCompression.get -> bool?
@@ -4134,8 +4116,6 @@ ModularPipelines.Flux.Options.FluxDeleteSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.DisableCompression.get -> bool?
@@ -4319,8 +4299,6 @@ ModularPipelines.Flux.Options.FluxDiffOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxDiffOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxDiffOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.DisableCompression.get -> bool?
@@ -4651,8 +4629,6 @@ ModularPipelines.Flux.Options.FluxExportArtifactOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxExportArtifactOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxExportArtifactOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.DisableCompression.get -> bool?
@@ -4761,8 +4737,6 @@ ModularPipelines.Flux.Options.FluxExportImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxExportImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxExportImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.DisableCompression.get -> bool?
@@ -5036,8 +5010,6 @@ ModularPipelines.Flux.Options.FluxExportOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxExportOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxExportOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.DisableCompression.get -> bool?
@@ -5488,8 +5460,6 @@ ModularPipelines.Flux.Options.FluxExportSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxExportSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxExportSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.DisableCompression.get -> bool?
@@ -5789,8 +5759,6 @@ ModularPipelines.Flux.Options.FluxGetArtifactsOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.DisableCompression.get -> bool?
@@ -5976,8 +5944,6 @@ ModularPipelines.Flux.Options.FluxGetImagesOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxGetImagesOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxGetImagesOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.DisableCompression.get -> bool?
@@ -6285,8 +6251,6 @@ ModularPipelines.Flux.Options.FluxGetOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxGetOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxGetOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.DisableCompression.get -> bool?
@@ -6836,8 +6800,6 @@ ModularPipelines.Flux.Options.FluxGetSourcesOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxGetSourcesOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxGetSourcesOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.DisableCompression.get -> bool?
@@ -7035,8 +6997,6 @@ ModularPipelines.Flux.Options.FluxListOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxListOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxListOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.DisableCompression.get -> bool?
@@ -7326,8 +7286,6 @@ ModularPipelines.Flux.Options.FluxPluginOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxPluginOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxPluginOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.DisableCompression.get -> bool?
@@ -7598,8 +7556,6 @@ ModularPipelines.Flux.Options.FluxPullOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxPullOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxPullOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.DisableCompression.get -> bool?
@@ -7726,8 +7682,6 @@ ModularPipelines.Flux.Options.FluxPushOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxPushOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxPushOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.DisableCompression.get -> bool?
@@ -7838,8 +7792,6 @@ ModularPipelines.Flux.Options.FluxReconcileImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxReconcileImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxReconcileImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.DisableCompression.get -> bool?
@@ -8105,8 +8057,6 @@ ModularPipelines.Flux.Options.FluxReconcileOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxReconcileOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxReconcileOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.DisableCompression.get -> bool?
@@ -8478,8 +8428,6 @@ ModularPipelines.Flux.Options.FluxReconcileSourceOptions.ClientKey.get -> string
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.DisableCompression.get -> bool?
@@ -8704,8 +8652,6 @@ ModularPipelines.Flux.Options.FluxResumeImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxResumeImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxResumeImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.DisableCompression.get -> bool?
@@ -8989,8 +8935,6 @@ ModularPipelines.Flux.Options.FluxResumeOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxResumeOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxResumeOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.DisableCompression.get -> bool?
@@ -9388,8 +9332,6 @@ ModularPipelines.Flux.Options.FluxResumeSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxResumeSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxResumeSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.DisableCompression.get -> bool?
@@ -9663,8 +9605,6 @@ ModularPipelines.Flux.Options.FluxSuspendImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxSuspendImageOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxSuspendImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.DisableCompression.get -> bool?
@@ -9938,8 +9878,6 @@ ModularPipelines.Flux.Options.FluxSuspendOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxSuspendOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxSuspendOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.DisableCompression.get -> bool?
@@ -10323,8 +10261,6 @@ ModularPipelines.Flux.Options.FluxSuspendSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.DisableCompression.get -> bool?
@@ -10433,8 +10369,6 @@ ModularPipelines.Flux.Options.FluxTagOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxTagOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxTagOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.DisableCompression.get -> bool?
@@ -10601,8 +10535,6 @@ ModularPipelines.Flux.Options.FluxTreeArtifactOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.DisableCompression.get -> bool?
@@ -10711,8 +10643,6 @@ ModularPipelines.Flux.Options.FluxTreeOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxTreeOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxTreeOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.DisableCompression.get -> bool?
@@ -10764,8 +10694,6 @@ ModularPipelines.Flux.Options.FluxTriggerOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.Cluster.set -> void
-ModularPipelines.Flux.Options.FluxTriggerOptions.Command.get -> string?
-ModularPipelines.Flux.Options.FluxTriggerOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.DisableCompression.get -> bool?
