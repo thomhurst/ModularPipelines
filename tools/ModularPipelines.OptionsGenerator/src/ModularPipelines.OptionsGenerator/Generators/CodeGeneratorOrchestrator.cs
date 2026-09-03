@@ -1231,9 +1231,10 @@ public class CodeGeneratorOrchestrator
 
         var existingPath = Path.Combine(directory, casingVariant);
         var ownershipRoot = containmentRoot ?? directory;
-        if (!IsExternallyOwnedGeneratedFile(ownershipRoot, existingPath)
-            && (replaceableExistingPaths is null
-                || !replaceableExistingPaths.Contains(Path.GetFullPath(existingPath))))
+        var ownsExistingPath = replaceableExistingPaths is null
+            ? IsExternallyOwnedGeneratedFile(ownershipRoot, existingPath)
+            : replaceableExistingPaths.Contains(Path.GetFullPath(existingPath));
+        if (!ownsExistingPath)
         {
             throw new InvalidDataException(
                 $"Refusing to rename existing path '{existingPath}' because it is not owned by this generation.");
