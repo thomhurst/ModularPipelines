@@ -90,13 +90,6 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         foreach (var result in results)
         {
-            if (modules.Any(module =>
-                    module.AsInternal().ResultTask is { IsCompletedSuccessfully: true } resultTask
-                    && ReferenceEquals(resultTask.Result, result)))
-            {
-                continue;
-            }
-
             var matchingModules = modules
                 .Where(module => result.TypeName is not null
                     ? string.Equals(module.GetType().FullName, result.TypeName, StringComparison.Ordinal)
@@ -109,7 +102,19 @@ internal class PipelineExecutor : IPipelineExecutor
                     + $"which matched {matchingModules.Length} planned modules.");
             }
 
-            _executionBackendContext.TryApplyResult(matchingModules[0], result);
+            var matchingModule = matchingModules[0];
+            if (_executionBackendContext.TryApplyResult(matchingModule, result))
+            {
+                continue;
+            }
+
+            var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!resultTask.IsCompletedSuccessfully
+                || !ReferenceEquals(resultTask.Result, result))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend returned a conflicting result for module '{matchingModule.GetType().FullName}'.");
+            }
         }
 
         if (!_executionBackend.OwnsEntirePlan)
