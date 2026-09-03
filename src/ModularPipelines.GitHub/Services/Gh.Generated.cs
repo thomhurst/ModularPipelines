@@ -205,15 +205,6 @@ internal partial class Gh : IGh
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> StackAsync(
-        GhStackOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GhStackOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> StatusAsync(
         GhStatusOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

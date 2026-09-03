@@ -37,18 +37,18 @@ public class ModuleLoggerAccessorTests
             .AddScoped(typeof(ModuleLogger<>));
         await using var serviceProvider = services.BuildServiceProvider();
         var scope = serviceProvider.CreateAsyncScope();
-        var previousLogger = ModuleLogger.Values.Value;
 
         try
         {
             var logger = scope.ServiceProvider.GetRequiredService<ModuleLogger<TestModule>>();
             var accessor = scope.ServiceProvider.GetRequiredService<ModuleLoggerAccessor>();
-            ModuleLogger.Values.Value = logger;
-            _ = accessor.Logger;
+            using (new ModuleOutputContextScope(typeof(TestModule), logger))
+            {
+                _ = accessor.Logger;
+            }
         }
         finally
         {
-            ModuleLogger.Values.Value = previousLogger;
             await scope.DisposeAsync();
         }
 
