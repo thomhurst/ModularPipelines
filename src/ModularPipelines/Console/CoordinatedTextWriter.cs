@@ -18,7 +18,7 @@ namespace ModularPipelines.Console;
 /// After progress ends, writes pass through directly.
 /// </para>
 /// <para>
-/// <b>Module Detection:</b> Uses <see cref="ModuleLogger.CurrentModuleType"/> (AsyncLocal)
+/// <b>Module Detection:</b> Uses the ambient module output context
 /// to detect which module (if any) is currently executing. This allows Console.WriteLine
 /// calls inside modules to be attributed to the correct module's output buffer.
 /// </para>
@@ -347,7 +347,7 @@ internal class CoordinatedTextWriter : TextWriter
 
     private LineBufferState GetLineBufferState()
     {
-        var moduleType = ModuleLogger.CurrentModuleType.Value;
+        var moduleType = AmbientModuleOutputContext.Current?.ModuleType;
         var customObfuscationScope = _customObfuscationScope.Value;
         var outputWriteScope = GetOutputWriteBufferScope();
         var primaryScope = (object?) outputWriteScope ?? customObfuscationScope;
