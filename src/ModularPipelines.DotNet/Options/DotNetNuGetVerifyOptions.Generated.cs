@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "verify")]
-public record DotNetNuGetVerifyOptions : DotNetOptions
+public record DotNetNuGetVerifyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackagePaths
+) : DotNetOptions
 {
     /// <summary>
     /// Specifies that all verifications possible should be performed to the package(s).
@@ -29,8 +31,8 @@ public record DotNetNuGetVerifyOptions : DotNetOptions
     /// <summary>
     /// Verify that the signer certificate matches with one of the specified SHA256 fingerprints. A certificate SHA256 fingerprint is a SHA256 hash of the certificate used to identify the certificate. Multiple inputs should be separated by space.
     /// </summary>
-    [CliFlag("--certificate-fingerprint")]
-    public bool? CertificateFingerprint { get; set; }
+    [CliOption("--certificate-fingerprint")]
+    public IEnumerable<string>? CertificateFingerprint { get; set; }
 
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
@@ -49,11 +51,5 @@ public record DotNetNuGetVerifyOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// Specify the path to the package
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PackagePaths { get; set; }
 
 }

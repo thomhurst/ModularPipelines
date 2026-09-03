@@ -107,15 +107,6 @@ internal partial class DotNet : IDotNet
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatAsync(
-        DotNetFormatOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> MsbuildAsync(
         DotNetMsbuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

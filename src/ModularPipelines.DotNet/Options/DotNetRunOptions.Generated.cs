@@ -147,11 +147,4 @@ public record DotNetRunOptions : DotNetOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ApplicationArguments { get; set; }
 
-    [Obsolete("Use ApplicationArguments instead.")]
-    public string? Applicationarguments
-    {
-        get => ApplicationArguments?.FirstOrDefault();
-        set => ApplicationArguments = value is null ? null : [value];
-    }
-
 }

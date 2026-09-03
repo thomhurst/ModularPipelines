@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "install")]
-public record DotNetToolInstallOptions : DotNetOptions
+public record DotNetToolInstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageId
+) : DotNetOptions
 {
     /// <summary>
     /// Install the tool for the current user. [default: False]
@@ -127,11 +129,5 @@ public record DotNetToolInstallOptions : DotNetOptions
     /// </summary>
     [CliFlag("--allow-roll-forward")]
     public bool? AllowRollForward { get; set; }
-
-    /// <summary>
-    /// Package reference in the form of a package identifier like 'dotnetsay' or package identifier and version separated by '@' like 'dotnetsay@2.1.7'.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PackageId { get; set; }
 
 }
