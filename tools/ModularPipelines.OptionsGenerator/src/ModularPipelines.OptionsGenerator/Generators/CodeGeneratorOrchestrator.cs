@@ -1165,6 +1165,7 @@ public class CodeGeneratorOrchestrator
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
+            EnsureExactFileNameCasing(path, directory);
         }
 
         if (containmentRoot is not null)
@@ -1173,6 +1174,31 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+    }
+
+    private static void EnsureExactFileNameCasing(string path, string directory)
+    {
+        var expectedName = Path.GetFileName(path);
+        var names = Directory.EnumerateFiles(directory)
+            .Select(Path.GetFileName)
+            .OfType<string>()
+            .ToArray();
+        if (names.Contains(expectedName, StringComparer.Ordinal))
+        {
+            return;
+        }
+
+        var casingVariant = names.FirstOrDefault(name =>
+            string.Equals(name, expectedName, StringComparison.OrdinalIgnoreCase));
+        if (casingVariant is null)
+        {
+            return;
+        }
+
+        var existingPath = Path.Combine(directory, casingVariant);
+        var temporaryPath = Path.Combine(directory, $".{Guid.NewGuid():N}.casing.tmp");
+        File.Move(existingPath, temporaryPath);
+        File.Move(temporaryPath, path);
     }
 
     private static string ValidateContainedPath(
