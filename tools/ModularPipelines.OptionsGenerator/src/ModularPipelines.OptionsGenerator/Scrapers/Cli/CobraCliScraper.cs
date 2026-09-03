@@ -256,13 +256,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
+            if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
+            {
+                return null;
+            }
+
             // Skip section headers
             if (trimmed.EndsWith(':') ||
-                trimmed.StartsWith("Usage:") ||
-                trimmed.StartsWith("Examples:") ||
-                trimmed.StartsWith("Available Commands:") ||
-                trimmed.StartsWith("Flags:") ||
-                trimmed.StartsWith("Global Flags:"))
+                trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -285,7 +286,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
         return null;
     }
-
     /// <summary>
     /// Parses options from Cobra-style help text.
     /// Handles both standard Cobra format (Docker, Helm) and kubectl's variant.
@@ -993,6 +993,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
         @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Za-z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS):?[ \t]*$",
         RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
+
+    /// <summary>
+    /// Matches known Cobra list-section headers that terminate a description.
+    /// Supports prefixed and qualified headers without matching arbitrary labels such as "Note:".
+    /// </summary>
+    [GeneratedRegex(
+        @"^(?:(?:Commands|Flags|Options|Examples)|(?:[A-Za-z][\w /-]*[ \t]+)?(?:Commands|Flags|Options|Examples|Aliases|Arguments|Subcommands|Help[ \t]+Topics|See[ \t]+Also)(?:[ \t]*\([^)]*\))?[ \t]*:.*)[ \t]*$",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex DescriptionSectionHeaderPattern();
 
     /// <summary>
     /// Matches section headers like "Flags:", "Usage:", etc.
