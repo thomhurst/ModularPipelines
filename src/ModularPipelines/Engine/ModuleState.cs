@@ -50,10 +50,11 @@ internal class ModuleState
     private int _readyEventsStarted;
     private SkipDecision _skipResult = SkipDecision.DoNotSkip;
 
-    public ModuleState(IModule module, Type moduleType)
+    public ModuleState(IModule module, Type moduleType, IModuleScheduler? scheduler = null)
     {
         Module = module;
         ModuleType = moduleType;
+        Scheduler = scheduler;
         CompletionSource = new TaskCompletionSource<IModule>(TaskCreationOptions.RunContinuationsAsynchronously);
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
@@ -69,6 +70,20 @@ internal class ModuleState
     /// Gets the concrete type of the module.
     /// </summary>
     public Type ModuleType { get; }
+
+    /// <summary>
+    /// Gets the engine-owned scheduler for locally planned execution.
+    /// Remote worker states intentionally have no scheduler.
+    /// </summary>
+    public IModuleScheduler? Scheduler { get; private set; }
+
+    /// <summary>
+    /// Associates a state supplied by a scheduler implementation with that scheduler.
+    /// </summary>
+    public void AttachScheduler(IModuleScheduler scheduler)
+    {
+        Scheduler ??= scheduler;
+    }
 
     /// <summary>
     /// Gets completion source to signal when module execution finishes.

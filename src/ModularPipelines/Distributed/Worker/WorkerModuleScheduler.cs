@@ -6,13 +6,17 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Distributed.Worker;
 
 /// <summary>
-/// Minimal <see cref="IModuleScheduler"/> implementation for the worker execution path.
-/// The distributed coordinator handles scheduling; this satisfies the
-/// <see cref="ModularPipelines.Engine.Execution.IModuleRunner"/> contract.
+/// Scheduler adapter for assignments already scheduled by a distributed coordinator.
 /// </summary>
 internal sealed class WorkerModuleScheduler : IModuleScheduler
 {
     private static readonly Channel<ModuleState> EmptyChannel = Channel.CreateUnbounded<ModuleState>();
+
+    private WorkerModuleScheduler()
+    {
+    }
+
+    public static WorkerModuleScheduler Instance { get; } = new();
 
     public ChannelReader<ModuleState> ReadyModules => EmptyChannel.Reader;
 
@@ -24,7 +28,11 @@ internal sealed class WorkerModuleScheduler : IModuleScheduler
 
     public bool MarkModuleStarted(Type moduleType) => true;
 
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, ModuleStatus? statusOverride = null)
+    public void MarkModuleCompleted(
+        Type moduleType,
+        bool success,
+        Exception? exception = null,
+        ModuleStatus? statusOverride = null)
     {
     }
 
@@ -32,10 +40,7 @@ internal sealed class WorkerModuleScheduler : IModuleScheduler
 
     public ModuleState? GetModuleState(Type moduleType) => null;
 
-    public IReadOnlyList<IModule> CancelPendingModules()
-    {
-        return [];
-    }
+    public IReadOnlyList<IModule> CancelPendingModules() => [];
 
     public void Dispose()
     {

@@ -17,7 +17,7 @@ This page describes the internal architecture of distributed mode for contributo
    second activation switch.
 3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto`
    role, `InstanceIndex == 0` selects master and any other index selects worker. The
-   master replaces the default `IModuleExecutor` with `DistributedModuleExecutor`.
+   master selects `DistributedModuleExecutor` as the execution backend.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
    so its `CreateAsync` method runs when the coordinator is first used. A directly
    registered `IDistributedCoordinator` is used as-is.
@@ -29,8 +29,8 @@ This page describes the internal architecture of distributed mode for contributo
 ### Worker Startup
 
 1. `RoleDetector` selects `Worker` explicitly, or derives it from a non-zero
-   `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers replace the default
-   `IModuleExecutor` with `WorkerModuleExecutor`. Registration and run-report metrics use
+   `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers select
+   `WorkerModuleExecutor` as the execution backend. Registration and run-report metrics use
    `DistributedOptions.InstanceIndex`, so every worker must configure a distinct index.
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default,
@@ -38,7 +38,8 @@ This page describes the internal architecture of distributed mode for contributo
 4. The worker registers its capabilities with the coordinator via
    `RegisterWorkerAsync`. During run-report finalization it calls the method again to
    upsert its final command metrics.
-5. The worker enters its dequeue/execute/publish loop.
+5. The worker starts a bounded execution pool, continuously dequeuing one assignment
+   ahead while up to the configured number of modules execute concurrently.
 
 ### Module Execution (Master Side)
 
@@ -71,7 +72,8 @@ Mark module complete/failed
 Schedule dependents
 ```
 
-The master runs a concurrent worker loop that competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
+The master runs the same bounded worker pool and competes with external workers for
+assignments. All modules go through the work queue — routing is purely capability-based.
 
 ### Module Execution (Worker Side)
 
@@ -92,9 +94,36 @@ Register with coordinator
    └────┘ (loop)
 ```
 
-Workers loop until `DequeueModuleAsync` returns `null`. Coordinators return `null` after
-the master calls `SignalCompletionAsync`, or when that worker's local cancellation token
-is canceled.
+Workers execute up to the pipeline's global `Concurrency.MaxParallelism` setting. Each
+node can lower its own limit with `DistributedOptions.MaxParallelism`; it cannot raise
+the global limit. The pool keeps one dequeue pending while all execution slots are busy,
+avoiding idle time between assignments. Workers stop when `DequeueModuleAsync` returns
+`null`. Coordinators return `null` after the master calls `SignalCompletionAsync`, or
+when that worker's local cancellation token is canceled.
+
+`ExecutionHint` throttles and `[ParallelLimiter]` semaphores remain process-local. They
+bound concurrency within each node, but do not coordinate a shared limit across nodes.
+
+## Custom Execution Backends
+
+`IExecutionBackend` is the public orchestration seam. It receives the planned modules,
+an `IExecutionBackendContext`, and the pipeline cancellation token. A backend may execute
+modules in-process, submit them to an external scheduler, or use another orchestration
+model. Set `OwnsEntirePlan` to `true` when the backend is responsible for completing every
+planned module; before returning, such a backend must supply every result either in its
+returned result list or through `IExecutionBackendContext.TryApplyResult`. A partial backend
+sets `OwnsEntirePlan` to `false` and supplies only the results owned by that process. Applying
+a result through the context immediately completes the local module awaitable, allowing
+dependent work to observe remotely produced results.
+
+Register a custom backend before building the pipeline:
+
+```csharp
+builder.AddExecutionBackend<MyExecutionBackend>();
+```
+
+Explicit custom registrations take precedence over automatic local, distributed-master,
+and distributed-worker backend selection.
 
 Capability-mismatch handling is transport-specific. The in-memory and Redis coordinators
 scan their lists and leave incompatible assignments in place. The queue-backed SignalR

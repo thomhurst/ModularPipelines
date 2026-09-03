@@ -1475,6 +1475,8 @@ ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.get -> int?
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.set -> void
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.get -> int
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.set -> void
 ModularPipelines.Distributed.DistributedOptions.Role.get -> ModularPipelines.Distributed.DistributedRole
@@ -1777,6 +1779,11 @@ ModularPipelines.IConditionAttribute.ConditionNames.get -> string!
 ModularPipelines.IConditionAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.IConditionAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.IConditionAttribute.Logic.get -> ModularPipelines.ConditionLogic
+ModularPipelines.IExecutionBackend
+ModularPipelines.IExecutionBackend.ExecuteAsync(System.Collections.Generic.IReadOnlyList<ModularPipelines.Modules.IModule!>! modules, ModularPipelines.IExecutionBackendContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!>!
+ModularPipelines.IExecutionBackend.OwnsEntirePlan.get -> bool
+ModularPipelines.IExecutionBackendContext
+ModularPipelines.IExecutionBackendContext.TryApplyResult(ModularPipelines.Modules.IModule! module, ModularPipelines.Models.IModuleResult! result) -> bool
 ModularPipelines.IGroupedConditionAttribute
 ModularPipelines.IGroupedConditionAttribute.ConditionGroupType.get -> System.Type!
 ModularPipelines.IModuleContext
@@ -2720,6 +2727,7 @@ static ModularPipelines.Options.PowerShellScriptOptions.operator !=(ModularPipel
 static ModularPipelines.Options.PowerShellScriptOptions.operator ==(ModularPipelines.Options.PowerShellScriptOptions? left, ModularPipelines.Options.PowerShellScriptOptions? right) -> bool
 static ModularPipelines.Pipeline.CreateBuilder(ModularPipelines.PipelineBuilderSettings! settings, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Pipeline.CreateBuilder(string![]? args = null, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderExtensions.AddExecutionBackend<TBackend>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddModuleEventHandler<THandler>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddPipelineEventHandler<THandler>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddValidator<TValidator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using Moq;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
@@ -109,6 +110,66 @@ public class DependencyResultPropagationTests
         await Assert.That(moduleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Concurrent_Dependency_Results_Keep_Module_And_Registry_Aligned(
+        CancellationToken cancellationToken)
+    {
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var module = new DependencyModule();
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup([module]);
+        var firstRegisterStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        IModuleResult? registeredResult = null;
+        var registerCount = 0;
+        var resultRegistry = new Mock<IModuleResultRegistry>();
+        resultRegistry
+            .Setup(registry => registry.RegisterResult(
+                typeof(DependencyModule),
+                It.IsAny<IModuleResult>()))
+            .Callback<Type, IModuleResult>((_, result) =>
+            {
+                if (Interlocked.Increment(ref registerCount) == 1)
+                {
+                    firstRegisterStarted.TrySetResult();
+                    module.AsInternal().ResultTask.GetAwaiter().GetResult();
+                }
+
+                registeredResult = result;
+            });
+
+        SerializedModuleResult Serialize(string value) => serializer.Serialize(
+            CreateSuccessResult(new DepResult { Value = value }, nameof(DependencyModule)),
+            typeof(DependencyModule).FullName!,
+            typeof(DepResult).FullName!,
+            workerIndex: -1);
+
+        var firstApply = Task.Run(
+            () => DependencyResultApplicator.Apply(
+                [Serialize("first")],
+                moduleLookup,
+                serializer,
+                resultRegistry.Object,
+                NullLogger.Instance),
+            cancellationToken);
+        await firstRegisterStarted.Task.WaitAsync(cancellationToken);
+        var secondApply = Task.Run(
+            () => DependencyResultApplicator.Apply(
+                [Serialize("second")],
+                moduleLookup,
+                serializer,
+                resultRegistry.Object,
+                NullLogger.Instance),
+            cancellationToken);
+
+        await Task.WhenAll(firstApply, secondApply).WaitAsync(cancellationToken);
+
+        await Assert.That(registeredResult)
+            .IsSameReferenceAs(await module.AsInternal().ResultTask);
     }
 
     [Test]

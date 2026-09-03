@@ -109,20 +109,20 @@ internal class ModuleRunner : IModuleRunner
     }
 
     /// <inheritdoc />
-    public Task ExecuteAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    public Task ExecuteAsync(ModuleState moduleState, CancellationToken cancellationToken)
     {
-        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: false);
+        return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: false), cancellationToken, skipDependencyWait: false);
     }
 
     /// <inheritdoc />
-    public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    public Task ExecuteWithoutDependencyWaitAsync(ModuleState moduleState, CancellationToken cancellationToken)
     {
-        return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: true);
+        return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: true), cancellationToken, skipDependencyWait: true);
     }
 
     private async Task ExecuteCore(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         CancellationToken cancellationToken,
         bool skipDependencyWait)
     {
@@ -138,13 +138,19 @@ internal class ModuleRunner : IModuleRunner
         {
             try
             {
-                await WaitForDependenciesAsync(
-                        moduleState,
-                        scheduler,
-                        scope.ServiceProvider,
-                        cancellationToken,
-                        skipDependencyWait)
-                    .ConfigureAwait(false);
+                if (!skipDependencyWait)
+                {
+                    await _dependencyWaiter.WaitForDependenciesAsync(
+                            moduleState,
+                            scheduler!,
+                            scope.ServiceProvider,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
+                }
 
                 var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
                         moduleType,
@@ -184,7 +190,7 @@ internal class ModuleRunner : IModuleRunner
 
                 // Check constraints again after acquiring execution slots. Keeping the module queued
                 // until this point prevents limiter wait time from being reported as execution time.
-                if (!scheduler.MarkModuleStarted(moduleType))
+                if (!TryMarkModuleStarted(scheduler, moduleType))
                 {
                     readyLogger ??= GetAmbientOrScopedModuleLogger(
                         scope.ServiceProvider,
@@ -207,7 +213,7 @@ internal class ModuleRunner : IModuleRunner
                         cancellationToken)
                     .ConfigureAwait(false);
 
-                scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.Status);
+                scheduler?.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.Status);
             }
             catch (Exception ex)
             {
@@ -242,27 +248,19 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private async Task WaitForDependenciesAsync(
-        ModuleState moduleState,
-        IModuleScheduler scheduler,
-        IServiceProvider serviceProvider,
-        CancellationToken cancellationToken,
-        bool skipDependencyWait)
+    private static IModuleScheduler? GetScheduler(ModuleState moduleState, bool skipDependencyWait)
     {
-        if (skipDependencyWait)
+        if (!skipDependencyWait && moduleState.Scheduler is null)
         {
-            _logger.LogDebug(
-                "Skipping dependency wait for late-started AlwaysRun module: {ModuleName}",
-                moduleState.ModuleType.Name);
-            return;
+            throw new InvalidOperationException("Locally planned module execution requires an engine scheduler.");
         }
 
-        await _dependencyWaiter.WaitForDependenciesAsync(
-                moduleState,
-                scheduler,
-                serviceProvider,
-                cancellationToken)
-            .ConfigureAwait(false);
+        return moduleState.Scheduler;
+    }
+
+    private static bool TryMarkModuleStarted(IModuleScheduler? scheduler, Type moduleType)
+    {
+        return scheduler?.MarkModuleStarted(moduleType) ?? true;
     }
 
     private void FinalizeReadyLoggerAfterFailure(
@@ -331,7 +329,7 @@ internal class ModuleRunner : IModuleRunner
 
     private void HandleExecutionFailure(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         Exception exception,
         CancellationToken workerCancellationToken)
     {
@@ -362,7 +360,7 @@ internal class ModuleRunner : IModuleRunner
             isDependencyFailure,
             isPipelineCancellation,
             registeredResult?.Status);
-        scheduler.MarkModuleCompleted(
+        scheduler?.MarkModuleCompleted(
             moduleType,
             false,
             completionException,
@@ -440,7 +438,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task UploadProducedArtifactsAsync(
         Type moduleType,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
         if (!_manageArtifactsLocally
@@ -450,7 +448,7 @@ internal class ModuleRunner : IModuleRunner
         }
 
         var demandPlan = await GetArtifactDemandPlanAsync(
-                scheduler,
+                scheduler ?? throw new InvalidOperationException("Local artifact management requires an engine scheduler."),
                 cancellationToken)
             .ConfigureAwait(false);
         if (!demandPlan.RequiredArtifactsByProducer.TryGetValue(moduleType, out var requiredArtifactNames)
@@ -546,16 +544,16 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task<bool> HasRunnableArtifactConsumerAsync(
         Type producerType,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_localArtifactConsumers.ContainsKey(producerType))
+        if (!_manageArtifactsLocally || !_localArtifactConsumers.ContainsKey(producerType))
         {
             return false;
         }
 
         var demandPlan = await GetArtifactDemandPlanAsync(
-                scheduler,
+                scheduler ?? throw new InvalidOperationException("Local artifact management requires an engine scheduler."),
                 cancellationToken)
             .ConfigureAwait(false);
         return demandPlan.RequiredProducerTypes.Contains(producerType);
@@ -846,7 +844,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task ExecuteModuleWithPipeline(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         IServiceProvider scopedServiceProvider,
         ModuleExecutionContext executionContext,
         CancellationToken cancellationToken)
@@ -945,7 +943,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task ExecuteModuleLifecycle(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         IServiceProvider scopedServiceProvider,
         IPipelineContext pipelineContext,
         ModuleExecutionContext executionContext,
@@ -1007,7 +1005,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task ExecuteModuleBodyAsync(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         ModuleLifecycleContext lifecycleContext,
@@ -1108,7 +1106,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task FinalizeModuleAsync(
         ModuleState moduleState,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         ModuleExecutionContext executionContext,
         ModuleLifecycleContext lifecycleContext,
         IModuleResult result,
@@ -1230,7 +1228,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task<IModuleResult> ExecuteTypedModule(
         IModule module,
-        IModuleScheduler scheduler,
+        IModuleScheduler? scheduler,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Func<IModuleResult, CancellationToken, Task> finalizeExecutionAsync,

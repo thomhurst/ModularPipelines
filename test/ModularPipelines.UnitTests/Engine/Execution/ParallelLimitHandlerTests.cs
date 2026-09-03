@@ -98,11 +98,10 @@ public class ParallelLimitHandlerTests
         scheduler
             .Setup(x => x.MarkModuleStarted(typeof(ReadyTestModule)))
             .Returns(false);
-        var moduleState = new ModuleState(new ReadyTestModule(), typeof(ReadyTestModule));
+        var moduleState = new ModuleState(new ReadyTestModule(), typeof(ReadyTestModule), scheduler.Object);
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
-            scheduler.Object,
             CancellationToken.None);
         await limitWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
 
@@ -119,7 +118,7 @@ public class ParallelLimitHandlerTests
             .GetModuleBuffer(typeof(ReadyTestModule));
         await Assert.That(outputBuffer.IsComplete).IsFalse();
 
-        await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
 
         handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
         await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
@@ -136,13 +135,13 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         var ambientLogger = new Mock<IInternalModuleLogger>();
 
         using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         }
 
         ambientLogger.Verify(
@@ -179,13 +178,13 @@ public class ParallelLimitHandlerTests
             .Returns(false);
         var moduleState = new ModuleState(
             new AlwaysRunTestModule(),
-            typeof(AlwaysRunTestModule));
+            typeof(AlwaysRunTestModule),
+            scheduler.Object);
         using var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Cancel();
 
         await moduleRunner.ExecuteWithoutDependencyWaitAsync(
             moduleState,
-            scheduler.Object,
             cancellationTokenSource.Token);
 
         using (Assert.Multiple())
@@ -214,14 +213,13 @@ public class ParallelLimitHandlerTests
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var scheduler = new Mock<IModuleScheduler>();
         var module = new TestModule();
-        var moduleState = new ModuleState(module, typeof(TestModule));
+        var moduleState = new ModuleState(module, typeof(TestModule), scheduler.Object);
         var originalException = new InvalidOperationException("Original pipeline failure");
         resultRegistrar.RegisterTerminatedResult(module, typeof(TestModule), originalException);
 
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             moduleRunner.ExecuteAsync(
                 moduleState,
-                scheduler.Object,
                 CancellationToken.None));
 
         var registeredResult = resultRegistry.GetResult(typeof(TestModule));
@@ -259,12 +257,11 @@ public class ParallelLimitHandlerTests
         var engineCancellationToken = host.Services.GetRequiredService<ModularPipelines.Engine.EngineCancellationToken>();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var scheduler = new Mock<IModuleScheduler>();
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         using var workerCancellationTokenSource = new CancellationTokenSource();
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
-            scheduler.Object,
             workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         engineCancellationToken.Cancel();
@@ -312,12 +309,12 @@ public class ParallelLimitHandlerTests
         var scheduler = new Mock<IModuleScheduler>();
         var moduleState = new ModuleState(
             new AlwaysRunTestModule(),
-            typeof(AlwaysRunTestModule));
+            typeof(AlwaysRunTestModule),
+            scheduler.Object);
         using var workerCancellationTokenSource = new CancellationTokenSource();
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
-            scheduler.Object,
             workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         engineCancellationToken.CancelWithReason("User cancellation");
@@ -353,13 +350,12 @@ public class ParallelLimitHandlerTests
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var scheduler = new Mock<IModuleScheduler>();
         var module = new TestModule();
-        var moduleState = new ModuleState(module, typeof(TestModule));
+        var moduleState = new ModuleState(module, typeof(TestModule), scheduler.Object);
         using var workerCancellationTokenSource = new CancellationTokenSource();
         var originalException = new InvalidOperationException("Primary module failure");
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
-            scheduler.Object,
             workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         engineCancellationToken.CancelWithException(originalException);
@@ -418,10 +414,11 @@ public class ParallelLimitHandlerTests
         var scheduler = new Mock<IModuleScheduler>();
         var moduleState = new ModuleState(
             new ThrowingReadyTestModule(),
-            typeof(ThrowingReadyTestModule));
+            typeof(ThrowingReadyTestModule),
+            scheduler.Object);
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None));
+            moduleRunner.ExecuteAsync(moduleState, CancellationToken.None));
 
         using (Assert.Multiple())
         {
@@ -459,13 +456,13 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(true);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         var ambientLogger = new Mock<IInternalModuleLogger>();
         var ambientWriter = ambientLogger.As<IConsoleWriter>().Object;
 
         using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
-            await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+            await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         }
 
         using (Assert.Multiple())
@@ -511,11 +508,11 @@ public class ParallelLimitHandlerTests
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleStarted(typeof(TestModule))).Returns(false);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
 
-        await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+        await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None));
+            moduleRunner.ExecuteAsync(moduleState, CancellationToken.None));
 
         outputBuffer.Verify(x => x.SetException(It.IsAny<InvalidOperationException>()), Times.Once);
         outputBuffer.Verify(x => x.SetStatus(It.IsAny<ModuleStatus>()), Times.Once);
@@ -548,12 +545,11 @@ public class ParallelLimitHandlerTests
         await using var host = await builder.BuildAsync();
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule), scheduler.Object);
         using var workerCancellationTokenSource = new CancellationTokenSource();
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
-            scheduler.Object,
             workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         workerCancellationTokenSource.Cancel();

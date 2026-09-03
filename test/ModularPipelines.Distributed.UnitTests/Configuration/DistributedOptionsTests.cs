@@ -10,6 +10,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Validation;
 
 namespace ModularPipelines.Distributed.UnitTests.Configuration;
 
@@ -116,7 +117,7 @@ public class DistributedOptionsTests
     }
 
     [Test]
-    public async Task Registration_Activates_Distributed_Executor_With_One_Instance()
+    public async Task Registration_Activates_Distributed_Backend_With_One_Instance()
     {
         var builder = TestPipelineBuilder.Create();
         builder.AddDistributedMode(options => options.TotalInstances = 1);
@@ -124,12 +125,12 @@ public class DistributedOptionsTests
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<IModuleExecutor>())
+        await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<DistributedModuleExecutor>();
     }
 
     [Test]
-    public async Task DependencyBasedPostConfigure_Selects_Worker_Executor()
+    public async Task DependencyBasedPostConfigure_Selects_Worker_Backend()
     {
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(new RoleSelection(DistributedRole.Worker));
@@ -140,8 +141,22 @@ public class DistributedOptionsTests
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<IModuleExecutor>())
+        await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<WorkerModuleExecutor>();
+    }
+
+    [Test]
+    public async Task Invalid_MaxParallelism_Fails_Pipeline_Validation()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options.MaxParallelism = 0);
+        builder.AddModule<NoOpModule>();
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Distributed.MaxParallelism"))).IsTrue();
     }
 
     [Test]
@@ -149,6 +164,7 @@ public class DistributedOptionsTests
     {
         var previousInstanceIndex = Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX");
         var previousTotalInstances = Environment.GetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES");
+        var previousMaxParallelism = Environment.GetEnvironmentVariable("MODULARPIPELINES_MAX_PARALLELISM");
         var previousRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
         var previousRole = Environment.GetEnvironmentVariable("MODULARPIPELINES_ROLE");
 
@@ -156,6 +172,7 @@ public class DistributedOptionsTests
         {
             Environment.SetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX", "3");
             Environment.SetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES", "5");
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_MAX_PARALLELISM", "3");
             Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", "test-run");
             Environment.SetEnvironmentVariable("MODULARPIPELINES_ROLE", "worker");
             var builder = TestPipelineBuilder.Create();
@@ -168,6 +185,7 @@ public class DistributedOptionsTests
             {
                 await Assert.That(options.InstanceIndex).IsEqualTo(3);
                 await Assert.That(options.TotalInstances).IsEqualTo(5);
+                await Assert.That(options.MaxParallelism).IsEqualTo(3);
                 await Assert.That(options.RunIdentifier).IsEqualTo("test-run");
                 await Assert.That(options.Role).IsEqualTo(DistributedRole.Worker);
                 await Assert.That(options.Enabled).IsTrue();
@@ -177,6 +195,7 @@ public class DistributedOptionsTests
         {
             Environment.SetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX", previousInstanceIndex);
             Environment.SetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES", previousTotalInstances);
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_MAX_PARALLELISM", previousMaxParallelism);
             Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", previousRunId);
             Environment.SetEnvironmentVariable("MODULARPIPELINES_ROLE", previousRole);
         }

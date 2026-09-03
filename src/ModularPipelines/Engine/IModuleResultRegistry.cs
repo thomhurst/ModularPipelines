@@ -143,6 +143,14 @@ internal interface IModuleResultRegistry
     /// <param name="moduleType">The module type.</param>
     /// <param name="result">The module result.</param>
     void RegisterResult(Type moduleType, IModuleResult result);
+
+    /// <summary>
+    /// Registers a module result only when no result has already been registered.
+    /// </summary>
+    /// <param name="moduleType">The module type.</param>
+    /// <param name="result">The module result.</param>
+    /// <returns><see langword="true"/> when the result was registered.</returns>
+    bool TryRegisterResult(Type moduleType, IModuleResult result);
 }
 
 /// <summary>
@@ -312,6 +320,20 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
         // Now signal completion - awaiters are guaranteed to see the result
         tcs.TrySetResult(result);
+    }
+
+    /// <inheritdoc />
+    public bool TryRegisterResult(Type moduleType, IModuleResult result)
+    {
+        var tcs = _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
+        if (!_results.TryAdd(moduleType, result))
+        {
+            return false;
+        }
+
+        Thread.MemoryBarrier();
+        tcs.TrySetResult(result);
+        return true;
     }
 
     private static TaskCompletionSource<object?> CreateCompletionSource(Type moduleType) =>
