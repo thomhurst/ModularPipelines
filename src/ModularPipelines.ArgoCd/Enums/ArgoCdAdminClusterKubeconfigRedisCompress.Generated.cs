@@ -14,11 +14,11 @@ namespace ModularPipelines.ArgoCd.Enums;
 /// Allowed values for the --rediscompress option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdAdminClusterKubeconfigRedisCompress
+public enum ArgoCdAdminClusterKubeConfigRedisCompress
 {
     [EnumValue("gzip")]
-    Gzip = 0,
+    Gzip,
 
     [EnumValue("none")]
-    None = 1
+    None
 }

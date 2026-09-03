@@ -14,11 +14,11 @@ namespace ModularPipelines.ArgoCd.Enums;
 /// Allowed values for the --logformat option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdAdminClusterKubeconfigLogformat
+public enum ArgoCdAdminClusterKubeConfigLogformat
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("text")]
-    Text = 1
+    Text
 }

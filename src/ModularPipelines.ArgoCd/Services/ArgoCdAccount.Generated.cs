@@ -62,13 +62,7 @@ public class ArgoCdAccount : IArgoCdAccount
         return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAccountBcryptOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// # Can I sync any app?
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> CanIAsync(
         ArgoCdAccountCanIOptions options,
         CommandExecutionOptions? executionOptions = null,
