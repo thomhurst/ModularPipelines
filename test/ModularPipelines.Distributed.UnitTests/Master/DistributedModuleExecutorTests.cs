@@ -18,6 +18,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -36,6 +37,18 @@ public class DistributedModuleExecutorTests
 
     private static ModuleResultRegistrar NewResultRegistrar(IModuleResultRegistry resultRegistry) =>
         new ModuleResultRegistrar(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);
+
+    private static AlwaysRunHandler NewAlwaysRunHandler(IModuleRunner moduleRunner)
+    {
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+        return new AlwaysRunHandler(
+            moduleRunner,
+            parallelLimitProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            NullLogger<AlwaysRunHandler>.Instance,
+            TimeProvider.System);
+    }
 
     // --- Test module types ---
 
@@ -156,6 +169,17 @@ public class DistributedModuleExecutorTests
             CancellationToken cancellationToken) => Task.FromResult(42);
     }
 
+    private sealed class ShortTimeoutAlwaysRunDistributedModule : Module<int>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun()
+            .WithTimeout(TimeSpan.FromMilliseconds(100));
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(42);
+    }
+
     [ProducesArtifact("distributed-output", "missing-output.txt")]
     private class ArtifactLoggingModule : Module<SimpleResult>
     {
@@ -190,6 +214,7 @@ public class DistributedModuleExecutorTests
         bool dequeueAfterRelease = false) : IDistributedMasterCoordinator
     {
         private readonly ConcurrentDictionary<string, TaskCompletionSource> _resultWaits = new();
+        private readonly ConcurrentDictionary<string, TaskCompletionSource> _publishedResults = new();
         private readonly TaskCompletionSource _assignmentDequeued =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _dequeueCount;
@@ -237,8 +262,18 @@ public class DistributedModuleExecutorTests
             return assignment;
         }
 
-        public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
-            => inner.PublishResultAsync(result, cancellationToken);
+        public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
+        {
+            await inner.PublishResultAsync(result, cancellationToken);
+            _publishedResults.GetOrAdd(
+                result.ModuleTypeName,
+                _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult();
+        }
+
+        public Task WaitForResultPublishedAsync(Type moduleType) =>
+            _publishedResults.GetOrAdd(
+                moduleType.FullName!,
+                _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).Task;
 
         public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
         {
@@ -768,7 +803,8 @@ public class DistributedModuleExecutorTests
         alwaysRunHandler
             .Setup(x => x.WaitForAlwaysRunModulesAsync(
                 scheduler.Object,
-                It.Is<IReadOnlyList<IModule>>(modules => modules.Contains(alwaysRunModule))))
+                It.Is<IReadOnlyList<IModule>>(modules => modules.Contains(alwaysRunModule)),
+                It.IsAny<Func<ModuleState, Task>>()))
             .Callback(() => alwaysRunStarted.TrySetResult())
             .Returns(releaseAlwaysRun.Task);
         var resultCollector = new DistributedResultCollector(noDequeue, serializer);
@@ -799,6 +835,159 @@ public class DistributedModuleExecutorTests
         await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
         await noDequeue.CompletionSignaled.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await Assert.That(resultRegistry.GetResult(typeof(AlwaysRunDistributedModule))?.ExceptionOrDefault).IsNull();
+        alwaysRunHandler.VerifyAll();
+    }
+
+    [Test]
+    public async Task FailFast_Classifies_Subsequent_AlwaysRun_Timeout()
+    {
+        var failedModule = new DistributedModule();
+        var alwaysRunModule = new ShortTimeoutAlwaysRunDistributedModule();
+        var scheduler = CreateMockScheduler(
+            new ModuleState(failedModule, typeof(DistributedModule)),
+            new ModuleState(alwaysRunModule, typeof(ShortTimeoutAlwaysRunDistributedModule)));
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(ShortTimeoutAlwaysRunDistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
+        var serializedFailure = serializer.Serialize(
+            failureResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 1);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new ResultTrackingCoordinator(coordinator);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            alwaysRunHandler: Mock.Of<IAlwaysRunHandler>(),
+            resultRegistry: resultRegistry,
+            coordinator: noDequeue,
+            resultCollector: new DistributedResultCollector(noDequeue, serializer));
+
+        var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
+        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WaitForResultStartedAsync(typeof(ShortTimeoutAlwaysRunDistributedModule))
+            .WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+
+        var result = resultRegistry.GetResult(typeof(ShortTimeoutAlwaysRunDistributedModule));
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Status).IsEqualTo(ModuleStatus.TimedOut);
+        await Assert.That(result.ExceptionOrDefault).IsTypeOf<TimeoutException>();
+    }
+
+    [Test]
+    public async Task FailFast_LateStarts_AlwaysRun_Through_Distributed_Path()
+    {
+        var failedModule = new DistributedModule();
+        var failedState = new ModuleState(failedModule, typeof(DistributedModule));
+        var alwaysRunModule = new AlwaysRunDistributedModule();
+        var alwaysRunState = new ModuleState(alwaysRunModule, typeof(AlwaysRunDistributedModule));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var trackingCoordinator = new ResultTrackingCoordinator(coordinator, dequeueAfterRelease: true);
+        var scheduler = CreateMockScheduler(failedState);
+        scheduler.Setup(x => x.GetModuleState(typeof(AlwaysRunDistributedModule))).Returns(alwaysRunState);
+        scheduler.Setup(x => x.GetModuleCompletionTask(typeof(AlwaysRunDistributedModule)))
+            .Returns(alwaysRunState.CompletionSource.Task);
+        scheduler.Setup(x => x.MarkModuleStarted(typeof(AlwaysRunDistributedModule)))
+            .Callback(() => alwaysRunState.State = ModuleExecutionState.Executing)
+            .Returns(true);
+        scheduler.Setup(x => x.CancelPendingModules())
+            .Callback(trackingCoordinator.ReleaseWorkerQuery)
+            .Returns([]);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(AlwaysRunDistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
+        var serializedFailure = serializer.Serialize(
+            failureResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 1);
+        var moduleRunner = new Mock<IModuleRunner>();
+        moduleRunner.Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                It.Is<ModuleState>(state => ReferenceEquals(state.Module, alwaysRunModule)),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Callback(() =>
+            {
+                ModuleCompletionSourceApplicator.TryApply(
+                    alwaysRunModule,
+                    CreateSuccessResult(42, nameof(AlwaysRunDistributedModule)));
+                alwaysRunState.State = ModuleExecutionState.Completed;
+                alwaysRunState.CompletionSource.TrySetResult(alwaysRunModule);
+            })
+            .Returns(Task.CompletedTask);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            resultRegistry,
+            trackingCoordinator,
+            new DistributedResultCollector(trackingCoordinator, serializer),
+            alwaysRunHandler: NewAlwaysRunHandler(moduleRunner.Object));
+
+        var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
+        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule))
+            .WaitAsync(TimeSpan.FromSeconds(2));
+        var failedAssignment = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(),
+            CancellationToken.None);
+        await Assert.That(failedAssignment?.ModuleTypeName).IsEqualTo(typeof(DistributedModule).FullName);
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+
+        await trackingCoordinator.WaitForResultPublishedAsync(typeof(AlwaysRunDistributedModule))
+            .WaitAsync(TimeSpan.FromSeconds(2));
+        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+        await Assert.That(resultRegistry.GetResult(typeof(AlwaysRunDistributedModule))?.Status)
+            .IsEqualTo(ModuleStatus.Succeeded);
+        moduleRunner.VerifyAll();
+    }
+
+    [Test]
+    public async Task AlwaysRun_Handler_Failure_Is_Rethrown_After_Worker_Shutdown()
+    {
+        var failure = new InvalidOperationException("AlwaysRun failed");
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var trackingCoordinator = new ResultTrackingCoordinator(coordinator);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var failureResult = CreateTypedFailureResult(module, new Exception("pipeline failed"));
+        var serializedFailure = serializer.Serialize(
+            failureResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            workerIndex: 1);
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler.Setup(x => x.WaitForAlwaysRunModulesAsync(
+                scheduler.Object,
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<Func<ModuleState, Task>>()))
+            .ThrowsAsync(failure);
+        var executor = CreateExecutor(
+            scheduler,
+            coordinator: trackingCoordinator,
+            resultCollector: new DistributedResultCollector(trackingCoordinator, serializer),
+            alwaysRunHandler: alwaysRunHandler.Object);
+
+        var executionTask = executor.ExecuteAsync([module]);
+        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule))
+            .WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        var exception = await Assert.That(async () => await executionTask)
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await trackingCoordinator.CompletionSignaled.Task.WaitAsync(TimeSpan.FromSeconds(2));
         alwaysRunHandler.VerifyAll();
     }
 
@@ -837,7 +1026,8 @@ public class DistributedModuleExecutorTests
         alwaysRunHandler
             .Setup(x => x.WaitForAlwaysRunModulesAsync(
                 scheduler.Object,
-                It.IsAny<IReadOnlyList<IModule>>()))
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<Func<ModuleState, Task>>()))
             .Returns(noDequeue.WaitForAssignmentDequeuedAsync());
         var executor = CreateExecutor(
             scheduler,

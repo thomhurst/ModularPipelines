@@ -1,3 +1,4 @@
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -155,8 +156,22 @@ internal class DistributedModuleExecutor(
                 // Expected when a module failure cancels the pipeline
             }
 
-            await CompleteAlwaysRunModulesAsync(scheduler, modules, cts, masterWorkerCts)
-                .ConfigureAwait(false);
+            Exception? alwaysRunException = null;
+            try
+            {
+                await CompleteAlwaysRunModulesAsync(
+                        scheduler,
+                        modules,
+                        cts,
+                        masterWorkerCts,
+                        requestFailureCancellation)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                requestFailureCancellation();
+                alwaysRunException = exception;
+            }
 
             // All results collected — stop the scheduler after successful execution.
             if (!cts.IsCancellationRequested)
@@ -180,6 +195,11 @@ internal class DistributedModuleExecutor(
             catch (OperationCanceledException)
             {
                 // Expected
+            }
+
+            if (alwaysRunException is not null)
+            {
+                ExceptionDispatchInfo.Capture(alwaysRunException).Throw();
             }
         }
         catch
@@ -258,13 +278,22 @@ internal class DistributedModuleExecutor(
         IModuleScheduler scheduler,
         IReadOnlyList<IModule> modules,
         CancellationTokenSource pipelineCts,
-        CancellationTokenSource masterWorkerCts)
+        CancellationTokenSource masterWorkerCts,
+        Action requestFailureCancellation)
     {
         try
         {
             if (pipelineCts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
             {
-                await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(
+                        scheduler,
+                        modules,
+                        moduleState => PublishAndCollectLateAlwaysRunModuleAsync(
+                            moduleState,
+                            scheduler,
+                            pipelineCts,
+                            requestFailureCancellation))
+                    .ConfigureAwait(false);
             }
         }
         finally
@@ -274,6 +303,33 @@ internal class DistributedModuleExecutor(
                 await masterWorkerCts.CancelAsync().ConfigureAwait(false);
             }
         }
+    }
+
+    private async Task PublishAndCollectLateAlwaysRunModuleAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationTokenSource pipelineCts,
+        Action requestFailureCancellation)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
+        var assignment = await _publisher.CreateAssignmentAsync(
+                module,
+                _lifetime.ApplicationStopping)
+            .ConfigureAwait(false);
+        if (!scheduler.MarkModuleStarted(moduleType))
+        {
+            return;
+        }
+
+        await PublishAndCollectDistributedResultAsync(
+                assignment,
+                module,
+                moduleType,
+                scheduler,
+                pipelineCts,
+                requestFailureCancellation)
+            .ConfigureAwait(false);
     }
 
     private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
@@ -569,7 +625,9 @@ internal class DistributedModuleExecutor(
                 requestFailureCancellation,
                 lifecycleToken);
         }
-        catch (OperationCanceledException) when (!cts.IsCancellationRequested)
+        catch (OperationCanceledException) when (
+            timeoutCts?.IsCancellationRequested == true
+            && !pipelineToken.IsCancellationRequested)
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
