@@ -1,1 +1,4 @@
 #nullable enable
+static ModularPipelines.Distributed.Artifacts.S3.Extensions.S3DistributedExtensions.AddS3DistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Artifacts.S3.Extensions.S3DistributedExtensions.AddS3DistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! s3Section, Microsoft.Extensions.Configuration.IConfigurationSection! artifactSection) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Artifacts.S3.Extensions.S3DistributedExtensions.AddS3ModuleCache(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section, System.Action<ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!

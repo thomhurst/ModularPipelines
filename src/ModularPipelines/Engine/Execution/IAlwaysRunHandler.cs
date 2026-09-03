@@ -13,4 +13,16 @@ internal interface IAlwaysRunHandler
     /// <param name="scheduler">The scheduler managing module execution.</param>
     /// <param name="modules">All modules in the pipeline.</param>
     Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules);
+
+    /// <summary>
+    /// Waits for all AlwaysRun modules to complete, using the supplied callback to start
+    /// pending modules through an executor-specific path.
+    /// </summary>
+    /// <param name="scheduler">The scheduler managing module execution.</param>
+    /// <param name="modules">All modules in the pipeline.</param>
+    /// <param name="startPendingModuleAsync">Starts a pending or queued module.</param>
+    Task WaitForAlwaysRunModulesAsync(
+        IModuleScheduler scheduler,
+        IReadOnlyList<IModule> modules,
+        Func<ModuleState, Task> startPendingModuleAsync);
 }

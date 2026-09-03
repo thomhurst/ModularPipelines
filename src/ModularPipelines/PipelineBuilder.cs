@@ -17,6 +17,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
@@ -481,8 +482,8 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates configured distributed services. When TotalInstances is greater than 1,
-    /// replaces the default <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed services and replaces the default
+    /// <see cref="IModuleExecutor"/> with a role-specific implementation.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
@@ -500,15 +501,12 @@ public sealed class PipelineBuilder
             });
         }
 
-        var options = ResolveDistributedOptions(services);
-        if (options is null || !options.Enabled)
+        if (!services.Any(descriptor => descriptor.ServiceType == typeof(DistributedModeRegistration)))
         {
             return;
         }
 
-        var role = options.TotalInstances <= 1
-            ? DistributedRole.Master
-            : new RoleDetector(Microsoft.Extensions.Options.Options.Create(options)).DetectRole();
+        services.TryAddSingleton<RoleDetector>();
 
         // Replace coordinators if a factory is registered. Creation stays deferred so
         // workers do not block during DI build while waiting for master discovery.
@@ -516,39 +514,25 @@ public sealed class PipelineBuilder
         {
             RemoveService<IDistributedMasterCoordinator>(services);
             RemoveService<IDistributedWorkerCoordinator>(services);
-            if (role == DistributedRole.Master)
-            {
-                services.AddSingleton<DeferredMasterCoordinator>();
-                services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
-                    serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
-                services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-                    serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
-            }
-            else
-            {
-                services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-                    new DeferredWorkerCoordinator(
-                        serviceProvider.GetRequiredService<IDistributedCoordinatorFactory>()));
-            }
+            services.AddSingleton<DeferredMasterCoordinator>();
+            services.AddSingleton<DeferredWorkerCoordinator>();
+            services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
+            services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                    ? serviceProvider.GetRequiredService<DeferredMasterCoordinator>()
+                    : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
         }
 
-        if (options.TotalInstances <= 1)
-        {
-            return;
-        }
-
-        if (role == DistributedRole.Master)
-        {
-            services.AddSingleton<DistributedWorkPublisher>();
-            services.AddSingleton<DistributedResultCollector>();
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, DistributedModuleExecutor>();
-        }
-        else
-        {
-            RemoveService<IModuleExecutor>(services);
-            services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
-        }
+        services.AddSingleton<DistributedWorkPublisher>();
+        services.AddSingleton<DistributedResultCollector>();
+        services.AddSingleton<DistributedModuleExecutor>();
+        services.AddSingleton<WorkerModuleExecutor>();
+        RemoveService<IModuleExecutor>(services);
+        services.AddSingleton<IModuleExecutor>(serviceProvider =>
+            serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                ? serviceProvider.GetRequiredService<DistributedModuleExecutor>()
+                : serviceProvider.GetRequiredService<WorkerModuleExecutor>());
     }
 
     private static int FindLastServiceIndex<TService>(IServiceCollection services)
@@ -562,50 +546,6 @@ public sealed class PipelineBuilder
         }
 
         return -1;
-    }
-
-    /// <summary>
-    /// Extracts DistributedOptions from the service collection without calling BuildServiceProvider().
-    /// </summary>
-    private static DistributedOptions? ResolveDistributedOptions(IServiceCollection services)
-    {
-        // Look for the IOptions<DistributedOptions> singleton instance registration
-        var optionsDescriptor = services.FirstOrDefault(d =>
-            d.ServiceType == typeof(IOptions<DistributedOptions>) &&
-            d.Lifetime == ServiceLifetime.Singleton &&
-            d.ImplementationInstance is not null);
-
-        if (optionsDescriptor?.ImplementationInstance is IOptions<DistributedOptions> options)
-        {
-            return options.Value;
-        }
-
-        // Check for IConfigureOptions<DistributedOptions> (from Configure<T>() calls)
-        var hasConfigureOptions = services.Any(d =>
-            d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) ||
-            d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>));
-
-        if (hasConfigureOptions)
-        {
-            var opts = new DistributedOptions();
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IConfigureOptions<DistributedOptions>))
-            {
-                ((IConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).Configure(opts);
-            }
-
-            foreach (var descriptor in services.Where(d =>
-                d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>) &&
-                d.ImplementationInstance is IPostConfigureOptions<DistributedOptions>))
-            {
-                ((IPostConfigureOptions<DistributedOptions>) descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
-            }
-
-            return opts;
-        }
-
-        return null;
     }
 
     private static void RemoveService<T>(IServiceCollection services)
