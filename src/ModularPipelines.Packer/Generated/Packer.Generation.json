@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "packer",
+  "toolVersion": "Packer v1.16.0",
+  "commandTreeSha256": "be2df7c68caac570b0c20475b96703fc7102b079dafc1108b0b0e8f5b676a78e",
+  "generatorSourceSha256": "790fb523b6a7daabd22829cf263c4397feefa6fa9100318c8f198410659c4a9d"
+}
