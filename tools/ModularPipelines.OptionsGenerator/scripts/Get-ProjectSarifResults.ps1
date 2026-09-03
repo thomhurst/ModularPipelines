@@ -46,11 +46,20 @@ function Test-IsPackagePath([string] $ArtifactUri) {
         -not $relativePath.StartsWith("..$([IO.Path]::AltDirectorySeparatorChar)", $pathComparison)
 }
 
+function Get-ArtifactUri([object] $Location) {
+    $artifactUri = [string] $Location.physicalLocation.artifactLocation.uri
+    if (-not [string]::IsNullOrWhiteSpace($artifactUri)) {
+        return $artifactUri
+    }
+
+    return [string] $Location.resultFile.uri
+}
+
 $sarif = Get-Content -LiteralPath $ErrorLogPath -Raw | ConvertFrom-Json
 $results = @($sarif.runs | ForEach-Object { @($_.results) })
 foreach ($result in $results | Where-Object { $_.ruleId -eq $RuleId }) {
     $belongsToPackage = @($result.locations) | Where-Object {
-        Test-IsPackagePath ([string] $_.physicalLocation.artifactLocation.uri)
+        Test-IsPackagePath (Get-ArtifactUri $_)
     } | Select-Object -First 1
 
     if ($null -ne $belongsToPackage) {
