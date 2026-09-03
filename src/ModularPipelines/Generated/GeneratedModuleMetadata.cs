@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Caching;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
@@ -212,6 +213,12 @@ internal interface IGeneratedModuleRuntime
 
     void SetCompletionSource(IModule module, IModuleResult result);
 
+    Task<IModuleResult?> GetCachedResultAsync(
+        IModuleCacheResultRepository repository,
+        IModule module,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken);
+
     Task<IModuleResult> ExecuteAsync(
         IModuleExecutionPipeline pipeline,
         IModule module,
@@ -260,6 +267,19 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
     public void SetCompletionSource(IModule module, IModuleResult result)
     {
         ((Module<TResult>) module).CompletionSource.TrySetResult((ModuleResult<TResult>) result);
+    }
+
+    public async Task<IModuleResult?> GetCachedResultAsync(
+        IModuleCacheResultRepository repository,
+        IModule module,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        return await repository.GetResultAsync(
+                (Module<TResult>) module,
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<IModuleResult> ExecuteAsync(

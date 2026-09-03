@@ -45,9 +45,22 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
-        foreach (var property in GetOptionProperties(type))
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var property in GetHierarchyProperties(type))
         {
+            if (seenPropertyNames.Contains(property.Name))
+            {
+                continue;
+            }
+
             var commandAttribute = GetCommandAttribute(type, property);
+            if (commandAttribute is null)
+            {
+                continue;
+            }
+
+            seenPropertyNames.Add(property.Name);
+
             if (commandAttribute is CliArgumentAttribute argument)
             {
                 parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
@@ -138,6 +151,18 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     internal static IEnumerable<PropertyInfo> GetOptionProperties(Type optionsType)
     {
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var property in GetHierarchyProperties(optionsType))
+        {
+            if (seenPropertyNames.Add(property.Name))
+            {
+                yield return property;
+            }
+        }
+    }
+
+    [RequiresUnreferencedCode("Reflection fallback requires option property metadata.")]
+    private static IEnumerable<PropertyInfo> GetHierarchyProperties(Type optionsType)
+    {
         for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
         {
             foreach (var property in currentType.GetProperties(
@@ -146,7 +171,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                          | BindingFlags.Instance
                          | BindingFlags.DeclaredOnly))
             {
-                if (property.GetMethod is not null && seenPropertyNames.Add(property.Name))
+                if (property.GetMethod is not null)
                 {
                     yield return property;
                 }
