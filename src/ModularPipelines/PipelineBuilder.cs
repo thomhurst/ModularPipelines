@@ -378,7 +378,7 @@ public sealed class PipelineBuilder
                     Console.NoopSpectreConsoleLoggerControl>());
             }
 
-            // Activate distributed mode if configured (replaces executor based on role)
+            // Activate distributed infrastructure. Execution backend selection is deferred to DI.
             ActivateDistributedModeIfConfigured(services);
 
             services
@@ -482,8 +482,8 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
-    /// Activates configured distributed services and replaces the default
-    /// <see cref="IModuleExecutor"/> with a role-specific implementation.
+    /// Activates configured distributed infrastructure. Execution backend selection is deferred
+    /// to dependency injection so user-provided <see cref="IExecutionBackend"/> registrations win.
     /// </summary>
     private static void ActivateDistributedModeIfConfigured(IServiceCollection services)
     {
@@ -508,31 +508,28 @@ public sealed class PipelineBuilder
 
         services.TryAddSingleton<RoleDetector>();
 
-        // Replace coordinators if a factory is registered. Creation stays deferred so
-        // workers do not block during DI build while waiting for master discovery.
-        if (services.Any(d => d.ServiceType == typeof(IDistributedCoordinatorFactory)))
+        // Replace coordinators when the factory is the latest relevant registration. Creation
+        // stays deferred so workers do not block during DI build while waiting for discovery.
+        var coordinatorFactoryIndex = FindLastServiceIndex<IDistributedCoordinatorFactory>(services);
+        var masterCoordinatorIndex = FindLastServiceIndex<IDistributedMasterCoordinator>(services);
+        var workerCoordinatorIndex = FindLastServiceIndex<IDistributedWorkerCoordinator>(services);
+        if (coordinatorFactoryIndex > masterCoordinatorIndex)
         {
             RemoveService<IDistributedMasterCoordinator>(services);
-            RemoveService<IDistributedWorkerCoordinator>(services);
             services.AddSingleton<DeferredMasterCoordinator>();
-            services.AddSingleton<DeferredWorkerCoordinator>();
             services.AddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
                 serviceProvider.GetRequiredService<DeferredMasterCoordinator>());
-            services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-                serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
-                    ? serviceProvider.GetRequiredService<DeferredMasterCoordinator>()
-                    : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
         }
 
-        services.AddSingleton<DistributedWorkPublisher>();
-        services.AddSingleton<DistributedResultCollector>();
-        services.AddSingleton<DistributedModuleExecutor>();
-        services.AddSingleton<WorkerModuleExecutor>();
-        RemoveService<IModuleExecutor>(services);
-        services.AddSingleton<IModuleExecutor>(serviceProvider =>
-            serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
-                ? serviceProvider.GetRequiredService<DistributedModuleExecutor>()
-                : serviceProvider.GetRequiredService<WorkerModuleExecutor>());
+        if (coordinatorFactoryIndex > workerCoordinatorIndex)
+        {
+            RemoveService<IDistributedWorkerCoordinator>(services);
+            services.AddSingleton<DeferredWorkerCoordinator>();
+            services.AddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
+                serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
+                    ? serviceProvider.GetRequiredService<IDistributedMasterCoordinator>()
+                    : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
+        }
     }
 
     private static int FindLastServiceIndex<TService>(IServiceCollection services)

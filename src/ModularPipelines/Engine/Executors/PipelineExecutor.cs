@@ -12,7 +12,9 @@ namespace ModularPipelines.Engine.Executors;
 internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IModuleExecutor _moduleExecutor;
+    private readonly IExecutionBackend _executionBackend;
+    private readonly IExecutionBackendContext _executionBackendContext;
+    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
@@ -21,7 +23,9 @@ internal class PipelineExecutor : IPipelineExecutor
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleExecutor moduleExecutor,
+        IExecutionBackend executionBackend,
+        IExecutionBackendContext executionBackendContext,
+        EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
         IExceptionRethrowService exceptionRethrowService,
         ISecondaryExceptionContainer secondaryExceptionContainer,
@@ -29,7 +33,9 @@ internal class PipelineExecutor : IPipelineExecutor
         IOptions<PipelineOptions> options)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
-        _moduleExecutor = moduleExecutor;
+        _executionBackend = executionBackend;
+        _executionBackendContext = executionBackendContext;
+        _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _exceptionRethrowService = exceptionRethrowService;
         _secondaryExceptionContainer = secondaryExceptionContainer;
@@ -46,8 +52,12 @@ internal class PipelineExecutor : IPipelineExecutor
         PipelineSummary pipelineSummary;
         try
         {
-            // ModuleExecutor handles waiting for AlwaysRun modules internally
-            await _moduleExecutor.ExecuteAsync(runnableModules).ConfigureAwait(false);
+            var results = await _executionBackend.ExecuteAsync(
+                    runnableModules,
+                    _executionBackendContext,
+                    _engineCancellationToken.Token)
+                .ConfigureAwait(false);
+            ApplyBackendResults(runnableModules, results);
         }
         finally
         {
@@ -72,5 +82,62 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return pipelineSummary;
+    }
+
+    private void ApplyBackendResults(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results)
+    {
+        foreach (var result in results)
+        {
+            if (string.IsNullOrWhiteSpace(result.TypeName))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend result '{result.Name}' must provide a fully qualified TypeName.");
+            }
+
+            var matchingModules = modules
+                .Where(module => string.Equals(
+                    module.GetType().FullName,
+                    result.TypeName,
+                    StringComparison.Ordinal))
+                .ToArray();
+            if (matchingModules.Length != 1)
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend returned result '{result.Name}' with type '{result.TypeName}', "
+                    + $"which matched {matchingModules.Length} planned modules.");
+            }
+
+            var matchingModule = matchingModules[0];
+            if (_executionBackendContext.TryApplyResult(matchingModule, result))
+            {
+                continue;
+            }
+
+            var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!resultTask.IsCompletedSuccessfully
+                || !ReferenceEquals(resultTask.Result, result))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend returned a conflicting result for module '{matchingModule.GetType().FullName}'.");
+            }
+        }
+
+        if (!_executionBackend.OwnsEntirePlan)
+        {
+            return;
+        }
+
+        var incompleteModules = modules
+            .Where(module => !module.AsInternal().ResultTask.IsCompleted)
+            .Select(module => module.GetType().FullName ?? module.GetType().Name)
+            .ToArray();
+        if (incompleteModules.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Execution backend completed without results for: "
+                + string.Join(", ", incompleteModules));
+        }
     }
 }

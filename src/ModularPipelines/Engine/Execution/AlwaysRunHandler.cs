@@ -32,7 +32,6 @@ internal class AlwaysRunHandler(
             modules,
             moduleState => _moduleRunner.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
-                scheduler,
                 CancellationToken.None));
 
     /// <inheritdoc />

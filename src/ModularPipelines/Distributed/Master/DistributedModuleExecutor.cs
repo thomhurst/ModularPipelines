@@ -42,7 +42,7 @@ internal class DistributedModuleExecutor(
     ILogger<DistributedModuleExecutor> logger,
     IModuleCacheResultRepository? cacheResultRepository = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
-    DistributedCacheHitTracker? cacheHitTracker = null) : IModuleExecutor
+    DistributedCacheHitTracker? cacheHitTracker = null) : IExecutionBackend
 {
     private static readonly TimeSpan WorkerRegistrationPollInterval = TimeSpan.FromMilliseconds(250);
 
@@ -69,11 +69,19 @@ internal class DistributedModuleExecutor(
     private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
     private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public bool OwnsEntirePlan => true;
+
+    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IExecutionBackendContext context,
+        CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(context);
+
         if (modules.Count == 0)
         {
-            return modules;
+            return Array.Empty<IModuleResult>();
         }
 
         // Register all module types in the type registry for serialization
@@ -97,6 +105,9 @@ internal class DistributedModuleExecutor(
             _metadataRegistry,
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
+        using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(
+            _lifetime.ApplicationStopping,
+            cancellationToken);
         IModuleScheduler? scheduler = null;
         var failureCancellationRequested = 0;
         Action requestFailureCancellation = () =>
@@ -107,7 +118,7 @@ internal class DistributedModuleExecutor(
             // shutdown scope so cancellation or coordinator failure still notifies workers.
             var options = _options.Value;
             var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
-            await WaitForMinimumWorkersAsync(registrationDeadline, _lifetime.ApplicationStopping)
+            await WaitForMinimumWorkersAsync(registrationDeadline, executionCts.Token)
                 .ConfigureAwait(false);
             var masterCapabilities = BuildCapabilities(options);
 
@@ -118,8 +129,9 @@ internal class DistributedModuleExecutor(
                 scheduler,
                 _resultRegistry);
 
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
-            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
+            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(
+                _lifetime.ApplicationStopping);
             var executionToken = cts.Token;
             using var cancellationRegistration = executionToken.Register(
                 () => CompleteCancelledModules(scheduler, _resultRegistrar, executionToken));
@@ -138,6 +150,7 @@ internal class DistributedModuleExecutor(
             var resultTasks = await PublishReadyModulesAsync(
                     scheduler,
                     cts,
+                    context,
                     requestFailureCancellation,
                     masterCapabilities)
                 .ConfigureAwait(false);
@@ -149,6 +162,7 @@ internal class DistributedModuleExecutor(
                     masterWorkerCts,
                     masterWorkerTask,
                     schedulerTask,
+                    context,
                     requestFailureCancellation,
                     masterCapabilities)
                 .ConfigureAwait(false);
@@ -167,12 +181,21 @@ internal class DistributedModuleExecutor(
             scheduler?.Dispose();
         }
 
-        return modules;
+        return _resultRegistry.GetCompletedResults(modules);
+    }
+
+    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    {
+        return ExecuteAsync(
+            modules,
+            new ExecutionBackendContext(_resultRegistry),
+            CancellationToken.None);
     }
 
     private async Task<IReadOnlyList<Task>> PublishReadyModulesAsync(
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -185,6 +208,7 @@ internal class DistributedModuleExecutor(
                     moduleState,
                     scheduler,
                     pipelineCts,
+                    context,
                     requestFailureCancellation,
                     masterCapabilities));
             }
@@ -201,12 +225,13 @@ internal class DistributedModuleExecutor(
         ModuleState moduleState,
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
         pipelineCts.Token.ThrowIfCancellationRequested();
 
-        if (await TryRestoreCachedResultAsync(moduleState, scheduler, pipelineCts.Token)
+        if (await TryRestoreCachedResultAsync(moduleState, scheduler, context, pipelineCts.Token)
                 .ConfigureAwait(false))
         {
             return;
@@ -218,6 +243,7 @@ internal class DistributedModuleExecutor(
                 module.GetType(),
                 scheduler,
                 pipelineCts,
+                context,
                 requestFailureCancellation,
                 masterCapabilities)
             .ConfigureAwait(false);
@@ -234,6 +260,7 @@ internal class DistributedModuleExecutor(
         CancellationTokenSource masterWorkerCts,
         Task masterWorkerTask,
         Task schedulerTask,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -245,6 +272,7 @@ internal class DistributedModuleExecutor(
                     modules,
                     pipelineCts,
                     masterWorkerCts,
+                    context,
                     requestFailureCancellation,
                     masterCapabilities)
                 .ConfigureAwait(false);
@@ -313,6 +341,7 @@ internal class DistributedModuleExecutor(
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource cts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -333,6 +362,7 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 scheduler,
                 cts,
+                context,
                 requestFailureCancellation,
                 masterCapabilities);
         }
@@ -346,7 +376,7 @@ internal class DistributedModuleExecutor(
                 exception,
                 "Failed to create a distributed assignment for module {Module}",
                 moduleType.Name);
-            RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed);
+            RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed, context);
             scheduler.MarkModuleCompleted(moduleType, false, exception);
             requestFailureCancellation();
             await cts.CancelAsync().ConfigureAwait(false);
@@ -364,6 +394,7 @@ internal class DistributedModuleExecutor(
     private async Task<bool> TryRestoreCachedResultAsync(
         ModuleState moduleState,
         IModuleScheduler scheduler,
+        IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         var module = moduleState.Module;
@@ -411,8 +442,7 @@ internal class DistributedModuleExecutor(
             cachedResult,
             ModuleStatus.RestoredFromCache);
         moduleState.Result = restoredResult;
-        _resultRegistry.RegisterResult(moduleType, restoredResult);
-        ModuleCompletionSourceApplicator.TryApply(module, restoredResult);
+        context.TryApplyResult(module, restoredResult);
         _cacheHitTracker.Record(restoredResult);
         scheduler.MarkModuleCompleted(
             moduleType,
@@ -493,6 +523,7 @@ internal class DistributedModuleExecutor(
         IReadOnlyList<IModule> modules,
         CancellationTokenSource pipelineCts,
         CancellationTokenSource masterWorkerCts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -507,6 +538,7 @@ internal class DistributedModuleExecutor(
                             moduleState,
                             scheduler,
                             pipelineCts,
+                            context,
                             requestFailureCancellation,
                             masterCapabilities))
                     .ConfigureAwait(false);
@@ -525,6 +557,7 @@ internal class DistributedModuleExecutor(
         ModuleState moduleState,
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -545,6 +578,7 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 scheduler,
                 pipelineCts,
+                context,
                 requestFailureCancellation,
                 masterCapabilities)
             .ConfigureAwait(false);
@@ -614,17 +648,29 @@ internal class DistributedModuleExecutor(
         _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
-        using var workerScheduler = new WorkerModuleScheduler();
-
+        using var dequeueCancellationCts = CancellationTokenSource.CreateLinkedTokenSource(
+            pipelineCancellationToken,
+            workerCancellationToken);
         while (!workerCancellationToken.IsCancellationRequested)
         {
+            var observePipelineCancellation = !pipelineCancellationToken.IsCancellationRequested;
+            var dequeueCancellationToken = observePipelineCancellation
+                ? dequeueCancellationCts.Token
+                : workerCancellationToken;
             try
             {
                 var assignment = await _workerCoordinator
-                    .DequeueModuleAsync(capabilities, workerCancellationToken)
+                    .DequeueModuleAsync(capabilities, dequeueCancellationToken)
                     .ConfigureAwait(false);
                 if (assignment is null)
                 {
+                    if (observePipelineCancellation
+                        && pipelineCancellationToken.IsCancellationRequested
+                        && !workerCancellationToken.IsCancellationRequested)
+                    {
+                        continue;
+                    }
+
                     break;
                 }
 
@@ -646,8 +692,14 @@ internal class DistributedModuleExecutor(
                     assignment,
                     modules,
                     moduleLookup,
-                    workerScheduler,
                     executionCancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (observePipelineCancellation
+                                                       && pipelineCancellationToken.IsCancellationRequested
+                                                       && !workerCancellationToken.IsCancellationRequested)
+            {
+                // Pipeline cancellation interrupts the current dequeue. Retry with the
+                // worker lifetime so late AlwaysRun assignments can still be serviced.
             }
             catch (OperationCanceledException)
             {
@@ -664,7 +716,6 @@ internal class DistributedModuleExecutor(
         ModuleAssignment assignment,
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
-        WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
         var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
@@ -695,7 +746,7 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            await ExecuteAndPublishAsync(assignment, module, workerScheduler, cancellationToken);
+            await ExecuteAndPublishAsync(assignment, module, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -707,7 +758,6 @@ internal class DistributedModuleExecutor(
     private async Task ExecuteAndPublishAsync(
         ModuleAssignment assignment,
         IModule module,
-        WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
         var moduleType = module.GetType();
@@ -735,7 +785,6 @@ internal class DistributedModuleExecutor(
             {
                 await _moduleRunner.ExecuteWithoutDependencyWaitAsync(
                     moduleState,
-                    workerScheduler,
                     cancellationToken).ConfigureAwait(false);
             }
 
@@ -824,6 +873,7 @@ internal class DistributedModuleExecutor(
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource cts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
@@ -847,6 +897,7 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 scheduler,
                 cts,
+                context,
                 requestFailureCancellation,
                 lifecycleToken).ConfigureAwait(false);
         }
@@ -861,7 +912,8 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 new TimeoutException(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
-                ModuleStatus.TimedOut);
+                ModuleStatus.TimedOut,
+                context);
             scheduler.MarkModuleCompleted(moduleType, false);
             requestFailureCancellation();
             await cts.CancelAsync().ConfigureAwait(false);
@@ -874,7 +926,7 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
+            RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed, context);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync().ConfigureAwait(false);
@@ -975,6 +1027,7 @@ internal class DistributedModuleExecutor(
         Type moduleType,
         IModuleScheduler scheduler,
         CancellationTokenSource pipelineCts,
+        IExecutionBackendContext context,
         Action requestFailureCancellation,
         CancellationToken cancellationToken)
     {
@@ -983,8 +1036,7 @@ internal class DistributedModuleExecutor(
 
         if (result is not null)
         {
-            ModuleCompletionSourceApplicator.TryApply(module, result);
-            _resultRegistry.RegisterResult(moduleType, result);
+            context.TryApplyResult(module, result);
         }
 
         scheduler.MarkModuleCompleted(moduleType, success);
@@ -1000,7 +1052,8 @@ internal class DistributedModuleExecutor(
         IModule module,
         Type moduleType,
         Exception exception,
-        ModuleStatus status)
+        ModuleStatus status,
+        IExecutionBackendContext context)
     {
         try
         {
@@ -1009,8 +1062,7 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 exception,
                 status);
-            ModuleCompletionSourceApplicator.TryApply(module, failureResult);
-            _resultRegistry.RegisterResult(moduleType, failureResult);
+            context.TryApplyResult(module, failureResult);
         }
         catch (Exception ex)
         {

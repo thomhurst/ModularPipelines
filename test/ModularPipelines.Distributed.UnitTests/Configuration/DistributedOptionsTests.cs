@@ -116,7 +116,7 @@ public class DistributedOptionsTests
     }
 
     [Test]
-    public async Task Registration_Activates_Distributed_Executor_With_One_Instance()
+    public async Task Registration_Activates_Distributed_Backend_With_One_Instance()
     {
         var builder = TestPipelineBuilder.Create();
         builder.AddDistributedMode(options => options.TotalInstances = 1);
@@ -124,12 +124,12 @@ public class DistributedOptionsTests
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<IModuleExecutor>())
+        await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<DistributedModuleExecutor>();
     }
 
     [Test]
-    public async Task DependencyBasedPostConfigure_Selects_Worker_Executor()
+    public async Task DependencyBasedPostConfigure_Selects_Worker_Backend()
     {
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(new RoleSelection(DistributedRole.Worker));
@@ -140,7 +140,7 @@ public class DistributedOptionsTests
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<IModuleExecutor>())
+        await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<WorkerModuleExecutor>();
     }
 

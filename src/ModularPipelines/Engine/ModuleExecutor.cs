@@ -9,6 +9,7 @@ using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -25,7 +26,7 @@ namespace ModularPipelines.Engine;
 /// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion.
 /// - <see cref="IModuleResultRegistrar"/>: Registers module results.
 /// </remarks>
-internal class ModuleExecutor : IModuleExecutor
+internal class ModuleExecutor : IExecutionBackend
 {
     private readonly IModuleSchedulerFactory _schedulerFactory;
     private readonly IModuleRunner _moduleRunner;
@@ -40,6 +41,8 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleExecutor> _logger;
+
+    public bool OwnsEntirePlan => true;
 
     public ModuleExecutor(
         IModuleSchedulerFactory schedulerFactory,
@@ -74,14 +77,18 @@ internal class ModuleExecutor : IModuleExecutor
     /// <summary>
     /// Executes a collection of modules using eager parallel scheduling.
     /// </summary>
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IExecutionBackendContext context,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(context);
 
         if (modules.Count == 0)
         {
             _logger.LogDebug("No modules to execute");
-            return modules;
+            return Array.Empty<IModuleResult>();
         }
 
         IModuleScheduler? scheduler = null;
@@ -89,7 +96,8 @@ internal class ModuleExecutor : IModuleExecutor
         try
         {
             scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
-            return await ExecuteWithSchedulerAsync(modules, scheduler).ConfigureAwait(false);
+            await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
+            return _resultRegistry.GetCompletedResults(modules);
         }
         catch (Exception outerEx)
         {
@@ -125,6 +133,14 @@ internal class ModuleExecutor : IModuleExecutor
         {
             scheduler?.Dispose();
         }
+    }
+
+    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    {
+        return ExecuteAsync(
+            modules,
+            new ExecutionBackendContext(_resultRegistry),
+            CancellationToken.None);
     }
 
     internal static IReadOnlyList<Exception> FlattenDistinctExceptions(
@@ -172,10 +188,14 @@ internal class ModuleExecutor : IModuleExecutor
         return scheduler;
     }
 
-    private async Task<IEnumerable<IModule>> ExecuteWithSchedulerAsync(
+    private async Task ExecuteWithSchedulerAsync(
         IReadOnlyList<IModule> modules,
-        IModuleScheduler scheduler)
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken)
     {
+        // ModuleRunner already observes the engine cancellation token. Linking it to the
+        // worker-pool token would abort scheduling before cancellation results and AlwaysRun
+        // modules can finish their normal pipeline lifecycle.
         using var cancellationTokenSource = new CancellationTokenSource();
 
         RegisterCancellationCallback(cancellationTokenSource, scheduler);
@@ -231,7 +251,6 @@ internal class ModuleExecutor : IModuleExecutor
         ThrowWorkerExceptionsIfPresent(firstFailure?.Exception);
 
         _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
-        return modules;
     }
 
     private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
@@ -268,7 +287,7 @@ internal class ModuleExecutor : IModuleExecutor
                 {
                     try
                     {
-                        await _moduleRunner.ExecuteAsync(moduleState, scheduler, ct).ConfigureAwait(false);
+                        await _moduleRunner.ExecuteAsync(moduleState, ct).ConfigureAwait(false);
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                     {
