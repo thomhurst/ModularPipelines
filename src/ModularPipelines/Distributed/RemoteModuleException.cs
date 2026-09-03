@@ -57,9 +57,6 @@ public sealed class RemoteModuleException : Exception
         ? $"Remote worker {workerIndex} threw {OriginalExceptionType}: {OriginalMessage}"
         : $"Remote execution threw {OriginalExceptionType}: {OriginalMessage}";
 
-    /// <inheritdoc />
-    public override string? StackTrace => base.StackTrace;
-
     internal void AttachWorkerIndex(int workerIndex)
     {
         if (workerIndex >= 0)

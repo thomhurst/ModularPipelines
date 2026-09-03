@@ -107,6 +107,7 @@ public class ModuleResultSerializerTests
                 .IsEqualTo(typeof(WorkerException).FullName);
             await Assert.That(remoteException.OriginalMessage).IsEqualTo("worker failed");
             await Assert.That(remoteException.WorkerIndex).IsEqualTo(7);
+            await Assert.That(((ModuleResult) deserialized).WorkerIndex).IsEqualTo(7);
             await Assert.That(remoteException.RemoteStackTrace)
                 .Contains(nameof(CaptureWorkerException));
             await Assert.That(remoteException.StackTrace)
@@ -147,6 +148,7 @@ public class ModuleResultSerializerTests
             .IsEqualTo("worker failed");
         await Assert.That(deserialized.ExceptionOrDefault.StackTrace)
             .Contains(nameof(CaptureSystemException));
+        await Assert.That(((ModuleResult) deserialized).WorkerIndex).IsEqualTo(7);
     }
 
     [Test]

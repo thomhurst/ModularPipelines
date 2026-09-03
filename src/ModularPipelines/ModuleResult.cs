@@ -58,6 +58,12 @@ public abstract record ModuleResult : IModuleResult
     [JsonInclude]
     public string? TypeName { get; init; }
 
+    /// <summary>
+    /// Gets the distributed worker index that produced this result, when known.
+    /// </summary>
+    [JsonIgnore]
+    public int? WorkerIndex { get; internal init; }
+
     // === Safe accessors (no exceptions) ===
 
     /// <inheritdoc />
@@ -384,6 +390,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = failure.EndTime,
             Status = failure.Status,
             ModuleType = failure.ModuleType,
+            WorkerIndex = failure.WorkerIndex,
         };
 
     /// <summary>
@@ -400,6 +407,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = skipped.EndTime,
             Status = skipped.Status,
             ModuleType = skipped.ModuleType,
+            WorkerIndex = skipped.WorkerIndex,
         };
 
     // === Internal factory methods ===
